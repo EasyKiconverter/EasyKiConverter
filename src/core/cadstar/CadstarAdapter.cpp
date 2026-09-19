@@ -292,7 +292,6 @@ IR::SymbolComponentIR CadstarAdapter::toSymbol(const Parser::CadstarLibrary& lib
 CadstarConversionResult CadstarAdapter::toIR(const Parser::CadstarLibrary& library,
                                              Parser::ParseDiagnostics* diagnostics) {
     CadstarConversionResult result;
-    result.parts = library.parts;
     for (const Parser::CadstarPackage& packageModel : library.packages)
         result.footprints.append(toFootprint(library, packageModel, diagnostics));
     for (const Parser::CadstarComponent& component : library.components)

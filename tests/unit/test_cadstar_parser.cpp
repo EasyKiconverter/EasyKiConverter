@@ -45,7 +45,6 @@ private slots:
         QCOMPARE(result.footprints.size(), 1);
         QCOMPARE(result.symbols.size(), 1);
         QCOMPARE(result.components.size(), 1);
-        QCOMPARE(result.parts.size(), 1);
         QCOMPARE(result.components.first().name, QStringLiteral("R"));
         QCOMPARE(result.components.first().package, QStringLiteral("PKG"));
         QCOMPARE(result.footprints.first().pads.first().size, QSizeF(1.016, 1.016));

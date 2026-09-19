@@ -17,7 +17,6 @@ struct CadstarConversionResult {
     QList<IR::FootprintComponentIR> footprints;
     QList<IR::SymbolComponentIR> symbols;
     QList<IR::ComponentIR> components;
-    QList<Parser::CadstarPart> parts;
 };
 
 /**
@@ -29,7 +28,7 @@ public:
      * @brief 转换整个 Cadstar 库并校验器件关联。
      * @param library Cadstar 解析模型。
      * @param diagnostics 可选转换诊断接收器。
-     * @return 封装、符号和 Part 关联结果。
+     * @return 封装、符号和有效的顶层组件结果。
      */
     static CadstarConversionResult toIR(const Parser::CadstarLibrary& library,
                                         Parser::ParseDiagnostics* diagnostics = nullptr);
