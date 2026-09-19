@@ -26,6 +26,7 @@ Parsers must not call target writers directly or silently discard format-specifi
 
 - `TextTokenizer`, preserving line, column, quote, and parenthesis locations.
 - `IndentedSectionParser`, which builds a Section Tree for dot-indented formats such as Xpedition HKP.
+- `DelimitedSectionParser`, which builds a section tree for Cadstar-style `END*` terminators.
 - `SExpressionParser`, supporting nested lists, quoted atoms, and malformed parentheses diagnostics.
 - `StrictNumberParser`, rejecting invalid and non-finite numbers with field-level diagnostics.
 - `UnitConverter`, converting mm, mil, and inch values to the millimetres used by the IR.
@@ -59,17 +60,17 @@ Patterns such as `parseFloat(value) || 0` disguise corrupt input as a valid zero
 
 - EasyEDA/LCSC API data: existing EasyEDA importers and model-to-IR conversion are available.
 - Altium SchLib/PcbLib: OLE/CFB readers and SchLib/PcbLib exporters exist; a reader is not by itself a complete source-format importer to IR.
-- Xpedition: IR-to-symbol and Pads/Cell HKP ZIP exporters exist. This change adds reusable HKP structural parsing infrastructure, but not a complete HKP-to-IR importer.
+- Xpedition: IR-to-symbol and Pads/Cell HKP ZIP exporters exist. Pad, Hole, Padstack, Cell, Pin, Outline, and PDB associations now parse into a format-specific model, but a complete HKP-to-IR importer is not implemented.
 
 ### In progress
 
-- Xpedition ASCII/HKP: parse Padstack, Cell, PDB, and symbol structures first, then implement device, symbol, and footprint associations.
+- Xpedition ASCII/HKP: continue with symbol graphics, multi-file merging, and mapping the format-specific model to IR.
 - Multi-file merging: use global name tables, stable suffixes, and explicit missing-association diagnostics.
 - Real-sample tests: each format should cover empty, malformed, invalid-number, unknown-primitive, and duplicate-name inputs.
 
 ### Planned
 
-- Cadstar ASCII libraries: reuse the Section Tree and add `END*` termination and multi-part association rules.
+- Cadstar ASCII libraries: an `END*` section-tree foundation exists; complete Pad, Package, Component, and Part association to IR is not implemented.
 - P-CAD ASCII/S-expressions: reuse the S-expression parser, then map a format-specific model to IR.
 - TinyCAD XML, gEDA, and Fabmaster: first validate their public exchange formats against the current IR.
 

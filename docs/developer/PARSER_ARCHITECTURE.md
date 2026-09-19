@@ -26,6 +26,7 @@ flowchart LR
 
 - `TextTokenizer`：保留行列、引号和括号位置的词法单元。
 - `IndentedSectionParser`：解析 Xpedition HKP 等点缩进文本为 Section Tree。
+- `DelimitedSectionParser`：解析 Cadstar 等使用 `END*` 终止符的分段文本。
 - `SExpressionParser`：解析嵌套列表、引号原子和括号错误。
 - `StrictNumberParser`：拒绝非法数字和非有限浮点数，并写入字段级诊断。
 - `UnitConverter`：将 mm、mil、inch 转换为 IR 使用的毫米单位。
@@ -59,17 +60,17 @@ stateDiagram-v2
 
 - EasyEDA/LCSC API 数据：已有 EasyEDA 专用导入器和模型到 IR 的转换路径。
 - Altium SchLib/PcbLib：已有 OLE/CFB 读取器以及 SchLib/PcbLib 导出器，读取器不等同于完整源格式到 IR 的 Importer。
-- Xpedition：已有 IR 到符号文本和 Pads/Cell HKP ZIP 的导出器；本轮增加了可复用 HKP 分层文本解析基础，但尚未完成 HKP 到 IR 的完整导入。
+- Xpedition：已有 IR 到符号文本和 Pads/Cell HKP ZIP 的导出器；本轮已能将 Pad、Hole、Padstack、Cell、Pin、Outline 和 PDB 器件关联解析为格式专用模型，但尚未完成 HKP 到 IR 的完整导入。
 
 ### 进行中的工作
 
-- Xpedition ASCII/HKP：先解析 Padstack、Cell、PDB 和符号文本的结构，再实现器件、符号和封装关联。
+- Xpedition ASCII/HKP：继续补充符号图元、多文件合并和格式专用模型到 IR 的映射。
 - 多文件合并：采用全局名称表、稳定后缀和明确的缺失关联诊断。
 - 真实样本驱动测试：每个格式至少覆盖空文件、损坏文件、非法数字、未知图元和重复名称。
 
 ### 计划支持
 
-- Cadstar ASCII 库：复用 Section Tree，补充 `END*` 终止符和多部件关联规则。
+- Cadstar ASCII 库：已具备 `END*` 分段树基础，尚未实现 Pad、Package、Component 和 Part 到 IR 的完整关联。
 - P-CAD ASCII/S-expression：复用 S-expression 解析器，先建立格式专用模型，再映射到 IR。
 - TinyCAD XML、gEDA 和 Fabmaster：需先确认其公开交换格式与当前 IR 的表达能力。
 
