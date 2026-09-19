@@ -1,6 +1,7 @@
 #include "core/parser/GeometryTransforms.h"
 #include "core/parser/ParseDiagnostics.h"
 #include "core/parser/TextParsers.h"
+#include "core/parser/XpeditionHkpReader.h"
 
 #include <QTest>
 
@@ -87,6 +88,25 @@ private slots:
         const QPointF transformed = CoordinateTransform::apply(QPointF(1.0, 0.0), QPointF(0.0, 0.0), 90.0);
         QVERIFY(qAbs(transformed.x()) < 1e-9);
         QVERIFY(qAbs(transformed.y() - 1.0) < 1e-9);
+    }
+
+    // 验证 Xpedition HKP 文件头和分层节点能够进入格式专用读取模型。
+    void readsXpeditionHkpHeader() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(".FILETYPE CELL_LIBRARY\n.UNITS mm\n.PACKAGE_CELL \"QFN\"\n..PIN \"1\"\n"),
+            QStringLiteral("sample.cel.hkp"));
+        QVERIFY(document.isRecognized());
+        QCOMPARE(document.type, XpeditionHkpType::CellLibrary);
+        QCOMPARE(document.unit, LengthUnit::Millimeter);
+        QCOMPARE(document.sections.size(), 3);
+        QVERIFY(!document.diagnostics.hasErrors());
+    }
+
+    // 验证空 HKP 文件以错误诊断结束，而不是被当作空库成功导入。
+    void rejectsEmptyXpeditionHkp() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(QString(), QStringLiteral("empty.hkp"));
+        QVERIFY(!document.isRecognized());
+        QVERIFY(document.diagnostics.hasErrors());
     }
 };
 
