@@ -32,9 +32,13 @@ Parsers must not call target writers directly or silently discard format-specifi
 - `UnitConverter`, converting mm, mil, and inch values to the millimetres used by the IR.
 - `CoordinateTransform`, applying origin, rotation, and mirror operations consistently.
 - `FormatDetector`, using conservative extension and content-header detection.
+- `ArchiveInspector`, inspecting ZIP central directories for traversal, symlink, encryption, and archive-bomb limits without extracting files.
+- `EncodingDetector`, detecting BOM and UTF-8 and providing a diagnosable, limited Latin-1 fallback for otherwise unclassified text.
 - `ParseDiagnostics`, supporting info, warn, error, and skip at file, component, symbol, footprint, and field scope.
 
 These components handle syntax, source locations, and common geometry semantics. They do not guess format-specific business fields.
+
+Archive inspection runs before extraction. Callers must verify `ArchiveInspectionResult::safe` before passing an archive to a format reader. Encoding fallback is not a lossless guarantee; parsers should use diagnostics when deciding whether conversion may continue.
 
 ## Diagnostics and degradation rules
 

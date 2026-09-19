@@ -15,6 +15,10 @@ add_library(EasyKiConverterParser STATIC
     CadstarModel.cpp
     PcadModel.h
     PcadModel.cpp
+    ArchiveInspector.h
+    ArchiveInspector.cpp
+    EncodingDetector.h
+    EncodingDetector.cpp
     TextParsers.h
     TextParsers.cpp
 )

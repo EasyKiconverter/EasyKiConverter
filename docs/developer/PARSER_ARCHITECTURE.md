@@ -32,9 +32,13 @@ flowchart LR
 - `UnitConverter`：将 mm、mil、inch 转换为 IR 使用的毫米单位。
 - `CoordinateTransform`：统一处理原点、旋转和镜像。
 - `FormatDetector`：根据扩展名和内容头部给出保守的格式判断。
+- `ArchiveInspector`：只读取 ZIP 中央目录，检查路径穿越、符号链接、加密条目和压缩炸弹边界；不负责解压。
+- `EncodingDetector`：识别 BOM 和 UTF-8，并对无法确认编码的文本提供可诊断的有限 Latin-1 回退。
 - `ParseDiagnostics`：支持 info、warn、error、skip，以及文件、器件、符号、封装和字段范围。
 
 这些组件只负责语法、位置和通用几何语义，不负责猜测具体格式的业务字段。
+
+归档检查位于实际解压之前，调用方必须先确认 `ArchiveInspectionResult::safe`，再交给具体归档读取器处理。编码回退不是无损保证；解析器应根据诊断决定是否继续转换。
 
 ## 诊断和降级规则
 

@@ -52,6 +52,17 @@ target_include_directories(test_pcad_parser PRIVATE
 )
 add_test(NAME test_pcad_parser COMMAND test_pcad_parser)
 
+add_executable(test_parser_security test_parser_security.cpp)
+target_link_libraries(test_parser_security PRIVATE
+    Qt6::Test
+    EasyKiConverterParser
+)
+target_include_directories(test_parser_security PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_parser_security COMMAND test_parser_security)
+
 add_executable(test_models test_models.cpp)
 target_link_libraries(test_models PRIVATE
     Qt6::Test
@@ -611,6 +622,7 @@ set(EASYKICONVERTER_UNIT_TESTS
     test_kicad_exporter_golden
     test_xpedition_exporter
     test_pcad_parser
+    test_parser_security
     test_kicad_library_table_manager
     test_exporter_3d_model
     test_easyeda_importer_fixtures
