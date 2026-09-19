@@ -22,6 +22,8 @@ private slots:
         QVERIFY(board.isRecognized());
         QVERIFY(!board.diagnostics.hasErrors());
         QCOMPARE(board.unit, LengthUnit::Millimeter);
+        QCOMPARE(board.layers.size(), 1);
+        QCOMPARE(board.layers.first().name, QStringLiteral("TOP_COPPER"));
         QCOMPARE(board.padStyles.size(), 2);
         QCOMPARE(board.patterns.size(), 1);
         QCOMPARE(board.patterns.first().pads.size(), 2);
@@ -65,6 +67,18 @@ private slots:
 
         const PcadBoard malformed = PcadParser::parse(QStringLiteral("(ACCEL_ASCII"), QStringLiteral("malformed.pcb"));
         QVERIFY(malformed.diagnostics.hasErrors());
+    }
+
+    // 验证空 Pattern 名称、重复 Pattern 和缺失放置引用均产生结构级诊断。
+    void reportsPcadDefinitionErrors() {
+        const PcadBoard board =
+            PcadParser::parse(QStringLiteral("(ACCEL_ASCII \"B\" (UNITS MM) (LIBRARY "
+                                             "(PATTERNDEF \"P\" (PAD (PADSTYLEREF \"S\"))) "
+                                             "(PATTERNDEF \"P\" (PAD (PADNUM 1)))"
+                                             ") (PCBDESIGN (MULTILAYER (PATTERN (REFDESREF \"U1\")))))"),
+                              QStringLiteral("definition-errors.pcb"));
+        QVERIFY(board.diagnostics.hasErrors());
+        QVERIFY(board.diagnostics.items().size() >= 4);
     }
 };
 

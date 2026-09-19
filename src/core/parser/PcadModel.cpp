@@ -1,6 +1,7 @@
 #include "PcadModel.h"
 
 #include <QRegularExpression>
+#include <QSet>
 
 namespace EasyKiConverter::Parser {
 namespace {
@@ -142,6 +143,15 @@ PcadPatternPad parsePatternPad(const Node& node, ParseDiagnostics* diagnostics, 
         pad.rotation = StrictNumberParser::parseDouble(
                            firstScalar(rotation), diagnostics, QStringLiteral("PATTERN.PAD.ROTATION"), rotation.line) /
                        10.0;
+    if (pad.number.isEmpty())
+        diagnostics->add(
+            ParseSeverity::Error, ParseScope::Footprint, QStringLiteral("P-CAD Pattern 焊盘缺少编号"), {}, node.line);
+    if (pad.padStyleName.isEmpty())
+        diagnostics->add(ParseSeverity::Error,
+                         ParseScope::Footprint,
+                         QStringLiteral("P-CAD Pattern 焊盘缺少 Pad Style 引用"),
+                         pad.number,
+                         node.line);
     return pad;
 }
 
@@ -213,6 +223,9 @@ PcadGraphic parseGraphic(const Node& node, ParseDiagnostics* diagnostics, Length
 PcadPattern parsePattern(const Node& node, ParseDiagnostics* diagnostics, LengthUnit defaultUnit) {
     PcadPattern pattern;
     pattern.name = firstScalar(node);
+    if (pattern.name.isEmpty())
+        diagnostics->add(
+            ParseSeverity::Error, ParseScope::Footprint, QStringLiteral("P-CAD Pattern 缺少名称"), {}, node.line);
     for (const Node& child : node.children) {
         if (child.children.isEmpty())
             continue;
@@ -248,6 +261,18 @@ PcadPlacement parsePlacement(const Node& node, ParseDiagnostics* diagnostics, Le
             10.0;
     const Node flipped = firstList(node, QStringLiteral("ISFLIPPED"));
     placement.flipped = firstScalar(flipped).compare(QStringLiteral("TRUE"), Qt::CaseInsensitive) == 0;
+    if (placement.patternName.isEmpty())
+        diagnostics->add(ParseSeverity::Error,
+                         ParseScope::Component,
+                         QStringLiteral("P-CAD 器件放置缺少 Pattern 引用"),
+                         placement.reference,
+                         node.line);
+    if (placement.reference.isEmpty())
+        diagnostics->add(ParseSeverity::Warning,
+                         ParseScope::Component,
+                         QStringLiteral("P-CAD 器件放置缺少参考标识"),
+                         placement.patternName,
+                         node.line);
     return placement;
 }
 
@@ -280,6 +305,21 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
             const QString kind = nameOf(child);
             if (kind == QStringLiteral("UNITS")) {
                 board.unit = UnitConverter::parseUnit(firstScalar(child), &board.diagnostics);
+            } else if (kind == QStringLiteral("LAYER") || kind == QStringLiteral("LAYERDEF")) {
+                const QStringList values = scalarValues(child);
+                PcadLayer layer;
+                if (!values.isEmpty())
+                    layer.number = static_cast<int>(StrictNumberParser::parseInteger(
+                        values.first(), &board.diagnostics, QStringLiteral("LAYER.NUMBER"), child.line));
+                if (values.size() > 1)
+                    layer.name = values.at(1);
+                if (values.isEmpty())
+                    board.diagnostics.add(ParseSeverity::Error,
+                                          ParseScope::Field,
+                                          QStringLiteral("P-CAD 层定义缺少编号"),
+                                          {},
+                                          child.line);
+                board.layers.append(layer);
             } else if (kind == QStringLiteral("LIBRARY")) {
                 for (const Node& definition : child.children) {
                     if (definition.children.isEmpty())
@@ -322,6 +362,18 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
                                       ParseScope::Footprint,
                                       QStringLiteral("P-CAD Pad Style 名称重复"),
                                       style.name);
+                break;
+            }
+        }
+    }
+    for (int index = 0; index < board.patterns.size(); ++index) {
+        const PcadPattern& pattern = board.patterns.at(index);
+        for (int otherIndex = index + 1; otherIndex < board.patterns.size(); ++otherIndex) {
+            if (pattern.name == board.patterns.at(otherIndex).name && !pattern.name.isEmpty()) {
+                board.diagnostics.add(ParseSeverity::Error,
+                                      ParseScope::Footprint,
+                                      QStringLiteral("P-CAD Pattern 名称重复"),
+                                      pattern.name);
                 break;
             }
         }
