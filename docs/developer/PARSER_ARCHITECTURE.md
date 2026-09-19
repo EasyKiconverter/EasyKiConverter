@@ -35,6 +35,7 @@ flowchart LR
 - `ArchiveInspector`：只读取 ZIP 中央目录，检查路径穿越、符号链接、加密条目和压缩炸弹边界；不负责解压。
 - `EncodingDetector`：识别 BOM 和 UTF-8，并对无法确认编码的文本提供可诊断的有限 Latin-1 回退。
 - `ImporterRegistry`：按注册顺序选择格式导入器，不直接持有格式专用模型。
+- 内置导入器注册：连接当前已有的 Xpedition HKP、Xpedition Symbol、Cadstar ASCII 和 P-CAD ASCII PCB 探测器；未实现格式不会被伪装成可用导入器。
 - `ConversionReport`：统一记录转换状态、部分进度、取消标记和跨文件诊断。
 - `ParseDiagnostics`：支持 info、warn、error、skip，以及文件、器件、符号、封装和字段范围。
 

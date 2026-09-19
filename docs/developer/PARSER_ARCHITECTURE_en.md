@@ -35,6 +35,7 @@ Parsers must not call target writers directly or silently discard format-specifi
 - `ArchiveInspector`, inspecting ZIP central directories for traversal, symlink, encryption, and archive-bomb limits without extracting files.
 - `EncodingDetector`, detecting BOM and UTF-8 and providing a diagnosable, limited Latin-1 fallback for otherwise unclassified text.
 - `ImporterRegistry`, selecting a format importer in registration order without owning format-specific models.
+- Built-in importer registration connects the implemented Xpedition HKP, Xpedition Symbol, Cadstar ASCII, and P-CAD ASCII PCB detectors; unsupported formats are not advertised as usable importers.
 - `ConversionReport`, unifying conversion status, partial progress, cancellation, and cross-file diagnostics.
 - `ParseDiagnostics`, supporting info, warn, error, and skip at file, component, symbol, footprint, and field scope.
 

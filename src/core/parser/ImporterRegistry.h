@@ -33,6 +33,13 @@ public:
     /** @brief 注册一个唯一 ID 的导入器描述。 */
     bool registerImporter(const ImporterDescriptor& descriptor);
 
+    /**
+     * @brief 注册当前已实现解析器的内置描述。
+     * @details 方法可重复调用；只会补充缺失的内置 ID，不会覆盖调用方注册的描述。
+     * @return 所有内置描述均注册成功或已存在时返回 true。
+     */
+    bool registerBuiltInImporters();
+
     /** @brief 清空当前注册的导入器。 */
     void clear();
 

@@ -27,6 +27,24 @@ private slots:
         QVERIFY(registry.detect(QStringLiteral("board.txt"), {}) == nullptr);
     }
 
+    // 验证内置导入器覆盖当前已有解析器，且重复初始化不会注册重复项。
+    void registersBuiltInImporters() {
+        ImporterRegistry registry;
+        QVERIFY(registry.registerBuiltInImporters());
+        QCOMPARE(registry.importers().size(), 4);
+        QVERIFY(registry.registerBuiltInImporters());
+        QCOMPARE(registry.importers().size(), 4);
+
+        const ImporterDescriptor* pcad =
+            registry.detect(QStringLiteral("board.pcb"), QByteArrayLiteral("(ACCEL_ASCII \"board\""));
+        QVERIFY(pcad != nullptr);
+        QCOMPARE(pcad->id, QStringLiteral("pcad-ascii-pcb"));
+        const ImporterDescriptor* hkp =
+            registry.detect(QStringLiteral("device.pdb.hkp"), QByteArrayLiteral(".FILETYPE ASCII_PDB\n"));
+        QVERIFY(hkp != nullptr);
+        QCOMPARE(hkp->id, QStringLiteral("xpedition-hkp"));
+    }
+
     // 验证报告可以合并解析诊断、记录进度，并保留取消后的部分成功状态。
     void reportsPartialProgressAndCancellation() {
         ConversionReport report;
