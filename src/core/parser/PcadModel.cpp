@@ -248,6 +248,28 @@ PcadPattern parsePattern(const Node& node, ParseDiagnostics* diagnostics, Length
     return pattern;
 }
 
+/** @brief 报告 P-CAD 库中重复的命名定义，阻止后续引用产生隐式优先级。 */
+template <typename Definition>
+void reportDuplicateDefinition(const QList<Definition>& definitions,
+                               const QString& name,
+                               ParseDiagnostics* diagnostics,
+                               const QString& type,
+                               int line) {
+    if (name.isEmpty() || !diagnostics)
+        return;
+    int matches = 0;
+    for (const Definition& definition : definitions) {
+        if (definition.name == name)
+            ++matches;
+    }
+    if (matches > 1)
+        diagnostics->add(ParseSeverity::Error,
+                         ParseScope::File,
+                         QStringLiteral("P-CAD %1名称重复，引用将被视为歧义").arg(type),
+                         name,
+                         line);
+}
+
 /** @brief 解析板级 Pattern 放置、旋转和镜像状态。 */
 PcadPlacement parsePlacement(const Node& node, ParseDiagnostics* diagnostics, LengthUnit defaultUnit) {
     PcadPlacement placement;
@@ -330,11 +352,22 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
                     if (!definition.isList())
                         continue;
                     const QString definitionName = nameOf(definition);
-                    if (definitionName == QStringLiteral("PADSTYLEDEF"))
+                    if (definitionName == QStringLiteral("PADSTYLEDEF")) {
                         board.padStyles.append(parsePadStyle(definition, &board.diagnostics, board.unit));
-                    else if (definitionName == QStringLiteral("PATTERNDEF") ||
-                             definitionName == QStringLiteral("PATTERNDEFEXTENDED"))
+                        reportDuplicateDefinition(board.padStyles,
+                                                  board.padStyles.last().name,
+                                                  &board.diagnostics,
+                                                  QStringLiteral("Pad Style"),
+                                                  definition.line);
+                    } else if (definitionName == QStringLiteral("PATTERNDEF") ||
+                               definitionName == QStringLiteral("PATTERNDEFEXTENDED")) {
                         board.patterns.append(parsePattern(definition, &board.diagnostics, board.unit));
+                        reportDuplicateDefinition(board.patterns,
+                                                  board.patterns.last().name,
+                                                  &board.diagnostics,
+                                                  QStringLiteral("Pattern"),
+                                                  definition.line);
+                    }
                 }
             } else if (kind == QStringLiteral("PCBDESIGN")) {
                 for (const Node& design : child.children) {

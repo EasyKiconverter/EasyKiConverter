@@ -21,13 +21,35 @@ IR::LayerType layer(int number, Parser::ParseDiagnostics* diagnostics) {
     return IR::LayerType::UserDefined;
 }
 
-/** @brief 按名称查找 Pad Style，找不到时由调用方生成关联诊断。 */
-const Parser::PcadPadStyle* findStyle(const Parser::PcadBoard& board, const QString& name) {
+/** @brief 按名称查找唯一 Pad Style，重复定义时返回空指针并记录错误。 */
+const Parser::PcadPadStyle* findStyle(const Parser::PcadBoard& board,
+                                      const QString& name,
+                                      Parser::ParseDiagnostics* diagnostics) {
+    const Parser::PcadPadStyle* result = nullptr;
     for (const Parser::PcadPadStyle& style : board.padStyles) {
-        if (style.name == name)
-            return &style;
+        if (style.name != name)
+            continue;
+        if (result != nullptr) {
+            if (diagnostics)
+                diagnostics->add(Parser::ParseSeverity::Error,
+                                 Parser::ParseScope::Footprint,
+                                 QStringLiteral("P-CAD Pad Style 引用存在歧义"),
+                                 name);
+            return nullptr;
+        }
+        result = &style;
     }
-    return nullptr;
+    return result;
+}
+
+/** @brief 统计名称匹配的 Pattern 数量，避免放置静默绑定到首个定义。 */
+int patternMatches(const Parser::PcadBoard& board, const QString& name) {
+    int matches = 0;
+    for (const Parser::PcadPattern& pattern : board.patterns) {
+        if (pattern.name == name)
+            ++matches;
+    }
+    return matches;
 }
 
 /** @brief 将 P-CAD 封装图元映射到现有 Footprint IR 图元。 */
@@ -115,13 +137,14 @@ PcadConversionResult PcadAdapter::toIR(const Parser::PcadBoard& board, Parser::P
     result.boardGraphics = board.graphics;
     for (const Parser::PcadPlacement& placement : board.placements) {
         bool found = false;
-        for (const Parser::PcadPattern& pattern : board.patterns) {
-            if (pattern.name == placement.patternName) {
-                found = true;
-                break;
-            }
-        }
-        if (!found && diagnostics)
+        const int matches = patternMatches(board, placement.patternName);
+        found = matches == 1;
+        if (matches > 1 && diagnostics)
+            diagnostics->add(Parser::ParseSeverity::Error,
+                             Parser::ParseScope::Component,
+                             QStringLiteral("P-CAD 器件引用的 Pattern 存在歧义"),
+                             placement.patternName);
+        if (!found && matches == 0 && diagnostics)
             diagnostics->add(Parser::ParseSeverity::Error,
                              Parser::ParseScope::Component,
                              QStringLiteral("P-CAD 器件引用了不存在的 Pattern"),
@@ -137,7 +160,7 @@ IR::FootprintComponentIR PcadAdapter::toFootprint(const Parser::PcadBoard& board
     IR::FootprintComponentIR result;
     result.name = pattern.name;
     for (const Parser::PcadPatternPad& source : pattern.pads) {
-        const Parser::PcadPadStyle* style = findStyle(board, source.padStyleName);
+        const Parser::PcadPadStyle* style = findStyle(board, source.padStyleName, diagnostics);
         if (!style) {
             if (diagnostics)
                 diagnostics->add(Parser::ParseSeverity::Error,

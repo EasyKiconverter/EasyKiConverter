@@ -124,6 +124,25 @@ private slots:
         QVERIFY(board.diagnostics.hasErrors());
         QVERIFY(board.diagnostics.items().size() >= 4);
     }
+
+    // 验证重复 Pad Style 和 Pattern 不会被引用逻辑静默绑定到首个定义。
+    void rejectsAmbiguousPcadReferences() {
+        const PcadBoard board = PcadParser::parse(
+            QStringLiteral("(ACCEL_ASCII \"B\" (UNITS MM) (LIBRARY "
+                           "(PADSTYLEDEF \"P\" (PADSHAPE ROUND (SHAPEWIDTH 1) (SHAPEHEIGHT 1))) "
+                           "(PADSTYLEDEF \"P\" (PADSHAPE RECT (SHAPEWIDTH 2) (SHAPEHEIGHT 2))) "
+                           "(PATTERNDEF \"K\" (PAD (PADNUM 1) (PADSTYLEREF \"P\") (PT 0 0))) "
+                           "(PATTERNDEF \"K\" (PAD (PADNUM 2) (PADSTYLEREF \"P\") (PT 1 1)))) "
+                           "(PCBDESIGN (MULTILAYER (PATTERN (PATTERNREF \"K\") (REFDESREF \"U1\")))))"),
+            QStringLiteral("ambiguous.pcb"));
+        QVERIFY(board.diagnostics.hasErrors());
+
+        ParseDiagnostics diagnostics;
+        const PcadConversionResult result = PcadAdapter::toIR(board, &diagnostics);
+        QVERIFY(diagnostics.hasErrors());
+        QCOMPARE(result.placements.size(), 1);
+        QVERIFY(diagnostics.items().size() >= 3);
+    }
 };
 
 QTEST_GUILESS_MAIN(TestPcadParser)
