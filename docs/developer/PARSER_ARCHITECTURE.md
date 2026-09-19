@@ -37,6 +37,7 @@ flowchart LR
 - `ImporterRegistry`：按注册顺序选择格式导入器，不直接持有格式专用模型。
 - 内置导入器注册：连接当前已有的 Xpedition HKP、Xpedition Symbol、Cadstar ASCII 和 P-CAD ASCII PCB 探测器；未实现格式不会被伪装成可用导入器。
 - `ConversionReport`：统一记录转换状态、部分进度、取消标记和跨文件诊断。
+- `BoardIR`：统一承载板级线段、圆弧、圆形、文本、区域和轮廓，避免板级导入器把来源格式图元泄漏到适配器结果。
 - `ParseDiagnostics`：支持 info、warn、error、skip，以及文件、器件、符号、封装和字段范围。
 
 这些组件只负责语法、位置和通用几何语义，不负责猜测具体格式的业务字段。
@@ -75,7 +76,7 @@ HKP 的 Pad、孔几何不依赖子节点顺序；XY 坐标支持括号、逗号
 - Cadstar ASCII 库：已支持 Pad、Package、Component、Part、焊盘编号范围、异形焊盘、槽孔、基本图形、单位换算和到 Footprint/Symbol IR 的适配；有效的 Part 关联还会聚合为统一 ComponentIR，缺失或歧义关联不会生成伪造器件。
 - Cadstar 多文件模型：可合并多个已解析库，保留源文件诊断并对跨文件重名关联报错。
 - P-CAD ASCII PCB：已支持 `ACCEL_ASCII` 检测、Pad Style、Pattern、Pattern 图形、文本几何、器件放置、层号、单位换算、Y 轴转换和 Pattern 到 Footprint IR 的适配；重复 Pad Style 或 Pattern 会被标记为歧义，引用不会静默绑定到首个定义。
-- P-CAD 板级放置：器件参考标识、封装引用、位置、旋转和镜像已映射到通用 `FootprintPlacementIR`，不会把放置语义留在 P-CAD 专用模型中。
+- P-CAD 板级放置和图形：器件参考标识、封装引用、位置、旋转和镜像已映射到通用 `FootprintPlacementIR`，线段、圆弧、圆形、文本和多边形已映射到 `BoardIR`，不会把板级语义留在 P-CAD 专用模型中。
 
 ### 进行中的工作
 

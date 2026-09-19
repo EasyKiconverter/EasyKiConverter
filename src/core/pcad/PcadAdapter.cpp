@@ -118,6 +118,70 @@ void appendGraphic(const Parser::PcadGraphic& source,
     }
 }
 
+/** @brief 将 P-CAD 板级图元转换为通用板级 IR。 */
+void appendBoardGraphic(const Parser::PcadGraphic& source, IR::BoardIR& result, Parser::ParseDiagnostics* diagnostics) {
+    const IR::LayerType graphicLayer = layer(source.layerNumber, diagnostics);
+    // 按图元语义写入通用 IR，避免把来源格式的枚举和节点结构带出适配层。
+    switch (source.type) {
+        case Parser::PcadGraphicType::Line: {
+            if (source.points.size() < 2)
+                break;
+            IR::FootprintTrackIR track;
+            track.points = source.points;
+            track.width = source.width;
+            track.layer = graphicLayer;
+            result.tracks.append(track);
+            break;
+        }
+        case Parser::PcadGraphicType::Arc: {
+            IR::FootprintArcIR arc;
+            arc.center = source.center;
+            arc.radius = source.radius;
+            arc.startAngle = source.startAngle;
+            arc.endAngle = source.startAngle + source.sweepAngle;
+            arc.width = source.width;
+            arc.layer = graphicLayer;
+            result.arcs.append(arc);
+            break;
+        }
+        case Parser::PcadGraphicType::Circle: {
+            IR::FootprintCircleIR circle;
+            circle.center = source.center;
+            circle.radius = source.radius;
+            circle.strokeWidth = source.width;
+            circle.layer = graphicLayer;
+            result.circles.append(circle);
+            break;
+        }
+        case Parser::PcadGraphicType::Polygon: {
+            if (source.points.size() < 3)
+                break;
+            IR::FootprintRegionIR region;
+            region.vertices = source.points;
+            region.layer = graphicLayer;
+            result.regions.append(region);
+            break;
+        }
+        case Parser::PcadGraphicType::Text: {
+            IR::FootprintTextIR text;
+            text.text = source.text;
+            text.position = source.center;
+            text.fontSize = source.textHeight;
+            text.rotation = source.rotation;
+            text.strokeWidth = source.width;
+            text.layer = graphicLayer;
+            result.texts.append(text);
+            break;
+        }
+        case Parser::PcadGraphicType::Unknown:
+            if (diagnostics)
+                diagnostics->add(Parser::ParseSeverity::Skipped,
+                                 Parser::ParseScope::Footprint,
+                                 QStringLiteral("跳过未支持的 P-CAD 板级图元"));
+            break;
+    }
+}
+
 }  // namespace
 
 /** @brief 转换 P-CAD 全部 Pattern 并校验板级 Pattern 引用。 */
@@ -134,7 +198,8 @@ PcadConversionResult PcadAdapter::toIR(const Parser::PcadBoard& board, Parser::P
         placement.mirrored = sourcePlacement.flipped;
         result.placements.append(placement);
     }
-    result.boardGraphics = board.graphics;
+    for (const Parser::PcadGraphic& graphic : board.graphics)
+        appendBoardGraphic(graphic, result.board, diagnostics);
     for (const Parser::PcadPlacement& placement : board.placements) {
         bool found = false;
         const int matches = patternMatches(board, placement.patternName);

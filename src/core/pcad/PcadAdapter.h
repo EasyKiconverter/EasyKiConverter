@@ -5,7 +5,7 @@
  * @brief P-CAD 格式专用模型到统一 IR 的适配器。
  */
 
-#include "core/ir/FootprintIR.h"
+#include "core/ir/BoardIR.h"
 #include "core/parser/PcadModel.h"
 
 namespace EasyKiConverter {
@@ -14,7 +14,7 @@ namespace EasyKiConverter {
 struct PcadConversionResult {
     QList<IR::FootprintComponentIR> footprints;
     QList<IR::FootprintPlacementIR> placements;
-    QList<Parser::PcadGraphic> boardGraphics;
+    IR::BoardIR board;
 };
 
 /**
@@ -27,7 +27,7 @@ public:
      * @brief 转换整个 P-CAD PCB 模型并校验引用。
      * @param board P-CAD 格式专用模型。
      * @param diagnostics 可选转换诊断接收器。
-     * @return 封装 IR、板级放置和未归属图形。
+     * @return 封装 IR、板级放置和通用板级图形。
      */
     static PcadConversionResult toIR(const Parser::PcadBoard& board, Parser::ParseDiagnostics* diagnostics = nullptr);
 

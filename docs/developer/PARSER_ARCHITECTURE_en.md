@@ -37,6 +37,7 @@ Parsers must not call target writers directly or silently discard format-specifi
 - `ImporterRegistry`, selecting a format importer in registration order without owning format-specific models.
 - Built-in importer registration connects the implemented Xpedition HKP, Xpedition Symbol, Cadstar ASCII, and P-CAD ASCII PCB detectors; unsupported formats are not advertised as usable importers.
 - `ConversionReport`, unifying conversion status, partial progress, cancellation, and cross-file diagnostics.
+- `BoardIR`, carrying board-level tracks, arcs, circles, text, regions, and outlines without leaking source-format graphic nodes through an adapter result.
 - `ParseDiagnostics`, supporting info, warn, error, and skip at file, component, symbol, footprint, and field scope.
 
 These components handle syntax, source locations, and common geometry semantics. They do not guess format-specific business fields.
@@ -75,7 +76,7 @@ HKP Pad and hole geometry is discovered independently of child-node order. XY co
 - Cadstar ASCII libraries: Pad, Package, Component, Part, pin-number ranges, custom pads, slots, basic graphics, unit conversion, and Footprint/Symbol IR adapters are implemented; valid Part associations are also aggregated into ComponentIR, while missing or ambiguous associations do not produce fabricated components.
 - Cadstar multi-file models: multiple parsed libraries can be merged while preserving source diagnostics and rejecting ambiguous cross-file references.
 - P-CAD ASCII PCBs: `ACCEL_ASCII` detection, Pad Styles, Patterns, Pattern graphics, text geometry, component placements, layer numbers, unit conversion, Y-axis conversion, and Pattern-to-Footprint IR adaptation are implemented; duplicate Pad Styles or Patterns are reported as ambiguous instead of silently binding references to the first definition.
-- P-CAD board placements: reference designators, footprint references, positions, rotations, and mirroring map to the common `FootprintPlacementIR` instead of remaining only in the P-CAD model.
+- P-CAD board placements and graphics: reference designators, footprint references, positions, rotations, and mirroring map to `FootprintPlacementIR`; lines, arcs, circles, text, and polygons map to `BoardIR` instead of remaining only in the P-CAD model.
 
 ### In progress
 

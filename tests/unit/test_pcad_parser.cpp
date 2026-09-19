@@ -72,6 +72,25 @@ private slots:
         QVERIFY(!diagnostics.hasErrors());
     }
 
+    // 验证板级图元转换为通用 BoardIR，而不是把 P-CAD 专用模型泄漏到适配结果。
+    void adaptsPcadBoardGraphicsToIr() {
+        const PcadBoard board =
+            PcadParser::parse(QStringLiteral("(ACCEL_ASCII \"B\" (UNITS MM) (LIBRARY) (PCBDESIGN (LAYERCONTENTS "
+                                             "(LINE (PT 0 0) (PT 5 0) (WIDTH 0.2) (LAYERNUMREF 1)) "
+                                             "(CIRCLE (PT 2 2) (RADIUS 1) (LAYERNUMREF 2)) "
+                                             "(TEXT \"NOTE\" (PT 1 1) (HEIGHT 1) (ROTATION 900)))) )"),
+                              QStringLiteral("board-graphics.pcb"));
+        QVERIFY(!board.diagnostics.hasErrors());
+        ParseDiagnostics diagnostics;
+        const PcadConversionResult result = PcadAdapter::toIR(board, &diagnostics);
+        QCOMPARE(result.board.tracks.size(), 1);
+        QCOMPARE(result.board.circles.size(), 1);
+        QCOMPARE(result.board.texts.size(), 1);
+        QCOMPARE(result.board.texts.first().text, QStringLiteral("NOTE"));
+        QVERIFY(result.board.isEmpty() == false);
+        QVERIFY(!diagnostics.hasErrors());
+    }
+
     // 验证 P-CAD 文本的坐标、字号和旋转不会在格式模型到 IR 时丢失。
     void adaptsPcadTextGeometryToIr() {
         const PcadBoard board =
