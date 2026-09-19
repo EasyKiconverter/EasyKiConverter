@@ -172,6 +172,21 @@ private slots:
         QCOMPARE(document.model.parts.first().properties.value(QStringLiteral("Type")), QStringLiteral("Resistor"));
     }
 
+    // 验证 PDB 的标签、符号引脚名称和 Slot 引脚编号按层级保留。
+    void parsesXpeditionPartDetails() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(".FILETYPE ASCII_PDB\n.Number \"U1\"\n..Label \"DUAL\"\n"
+                           "..Symbol \"Logic:dual\"\n...PinName \"A\"\n...PinName \"B\"\n"
+                           "..Slots\n...SlotID 1\n....PinNumber \"1\"\n....PinNumber \"2\"\n"),
+            QStringLiteral("details.pdb.hkp"));
+        QCOMPARE(document.model.parts.size(), 1);
+        const XpeditionPartDefinition& part = document.model.parts.first();
+        QCOMPARE(part.label, QStringLiteral("DUAL"));
+        QCOMPARE(part.symbolPinNames, QStringList({QStringLiteral("A"), QStringLiteral("B")}));
+        QCOMPARE(part.slotPinNumbers.size(), 1);
+        QCOMPARE(part.slotPinNumbers.first(), QStringList({QStringLiteral("1"), QStringLiteral("2")}));
+    }
+
     // 验证非法坐标和缺失关联会产生可观察诊断，而不是静默生成零坐标。
     void reportsXpeditionAssociationErrors() {
         const XpeditionHkpDocument document = XpeditionHkpReader::parse(

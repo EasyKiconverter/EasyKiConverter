@@ -395,6 +395,33 @@ void parseCell(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& mode
     model.cellNameVariants[valueOf(node)].append(cell.name);
 }
 
+/** @brief 递归收集 PDB 符号或 Slot 节点中的指定字段值。 */
+void collectSectionValues(const SectionNode& node, const QString& keyword, QStringList& values) {
+    for (const SectionNode& childNode : node.children) {
+        if (upper(childNode.keyword) == upper(keyword))
+            values.append(valueOf(childNode));
+        collectSectionValues(childNode, keyword, values);
+    }
+}
+
+/** @brief 收集 PDB Slots 下按 SlotID 分组的引脚编号。 */
+void collectSlotPinNumbers(const SectionNode& slotsNode, QList<QStringList>& outputSlots) {
+    for (const SectionNode& childNode : slotsNode.children) {
+        if (upper(childNode.keyword) != QStringLiteral("SLOTID"))
+            continue;
+        QStringList pinNumbers;
+        collectSectionValues(childNode, QStringLiteral("PINNUMBER"), pinNumbers);
+        if (!pinNumbers.isEmpty())
+            outputSlots.append(pinNumbers);
+    }
+    if (!outputSlots.isEmpty())
+        return;
+    QStringList directPinNumbers;
+    collectSectionValues(slotsNode, QStringLiteral("PINNUMBER"), directPinNumbers);
+    if (!directPinNumbers.isEmpty())
+        outputSlots.append(directPinNumbers);
+}
+
 // 解析 PDB 器件的属性、符号和上下表面封装关联。
 void parsePart(const SectionNode& node, XpeditionHkpModel& model, ParseDiagnostics* diagnostics) {
     XpeditionPartDefinition part;
@@ -406,6 +433,8 @@ void parsePart(const SectionNode& node, XpeditionHkpModel& model, ParseDiagnosti
         const QString value = valueOf(item);
         if (keyword == QStringLiteral("NAME"))
             part.name = value;
+        else if (keyword == QStringLiteral("LABEL"))
+            part.label = value;
         else if (keyword == QStringLiteral("DESC"))
             part.description = value;
         else if (keyword == QStringLiteral("REFPREFIX"))
@@ -416,6 +445,8 @@ void parsePart(const SectionNode& node, XpeditionHkpModel& model, ParseDiagnosti
             part.bottomCell = value;
         else if (keyword == QStringLiteral("SYMBOL"))
             part.symbol = value;
+        else if (keyword == QStringLiteral("SLOTS"))
+            collectSlotPinNumbers(item, part.slotPinNumbers);
         // 解析 PDB 的键值属性，并拒绝缺少名称或值的记录。
         else if (keyword == QStringLiteral("PROP")) {
             const QStringList values = item.value.split(QRegularExpression(QStringLiteral("\\s*,\\s*")));
@@ -428,6 +459,8 @@ void parsePart(const SectionNode& node, XpeditionHkpModel& model, ParseDiagnosti
                                  part.number,
                                  item.line);
         }
+        if (keyword == QStringLiteral("SYMBOL"))
+            collectSectionValues(item, QStringLiteral("PINNAME"), part.symbolPinNames);
     }
     if (part.topCell.isEmpty() && part.bottomCell.isEmpty() && diagnostics)
         diagnostics->add(ParseSeverity::Warning,

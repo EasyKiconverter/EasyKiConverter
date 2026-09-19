@@ -84,12 +84,15 @@ struct XpeditionCellDefinition {
 struct XpeditionPartDefinition {
     QString number;
     QString name;
+    QString label;
     QString description;
     QString referencePrefix;
     QString topCell;
     QString bottomCell;
     QString symbol;
     QMap<QString, QString> properties;
+    QStringList symbolPinNames;
+    QList<QStringList> slotPinNumbers;
     int line = 0;
 };
 
