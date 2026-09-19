@@ -19,6 +19,10 @@ add_library(EasyKiConverterParser STATIC
     ArchiveInspector.cpp
     EncodingDetector.h
     EncodingDetector.cpp
+    ConversionReport.h
+    ConversionReport.cpp
+    ImporterRegistry.h
+    ImporterRegistry.cpp
     TextParsers.h
     TextParsers.cpp
 )

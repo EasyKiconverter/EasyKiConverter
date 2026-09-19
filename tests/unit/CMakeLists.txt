@@ -63,6 +63,17 @@ target_include_directories(test_parser_security PRIVATE
 )
 add_test(NAME test_parser_security COMMAND test_parser_security)
 
+add_executable(test_importer_registry test_importer_registry.cpp)
+target_link_libraries(test_importer_registry PRIVATE
+    Qt6::Test
+    EasyKiConverterParser
+)
+target_include_directories(test_importer_registry PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_importer_registry COMMAND test_importer_registry)
+
 add_executable(test_models test_models.cpp)
 target_link_libraries(test_models PRIVATE
     Qt6::Test
