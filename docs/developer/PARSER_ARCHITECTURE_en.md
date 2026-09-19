@@ -1,0 +1,91 @@
+# Format Parsing Architecture and Scope
+
+This document describes EasyKiConverter's current parsing infrastructure and the boundaries for future Xpedition, Cadstar, P-CAD, gEDA, and TinyCAD importers. It does not claim that formats listed as planned are already importable.
+
+## Current parsing pipeline
+
+Current EasyEDA data is handled by format-specific importers and then converted to the shared IR. Altium currently has library readers and exporters, while Xpedition currently provides IR-to-ASCII/ZIP exporters. New text parsers must preserve this flow:
+
+```mermaid
+flowchart LR
+    Source[Source library] --> Detect[FormatDetector]
+    Detect --> Parser[Format parser]
+    Parser --> Model[Format-specific model]
+    Model --> IR[Shared IR]
+    IR --> Exporter[Target exporter]
+    Parser --> Diagnostics[ParseDiagnostics]
+    Model --> Diagnostics
+    IR --> Diagnostics
+```
+
+Parsers must not call target writers directly or silently discard format-specific data.
+
+## Implemented shared infrastructure
+
+`src/core/parser/` currently provides:
+
+- `TextTokenizer`, preserving line, column, quote, and parenthesis locations.
+- `IndentedSectionParser`, which builds a Section Tree for dot-indented formats such as Xpedition HKP.
+- `SExpressionParser`, supporting nested lists, quoted atoms, and malformed parentheses diagnostics.
+- `StrictNumberParser`, rejecting invalid and non-finite numbers with field-level diagnostics.
+- `UnitConverter`, converting mm, mil, and inch values to the millimetres used by the IR.
+- `CoordinateTransform`, applying origin, rotation, and mirror operations consistently.
+- `FormatDetector`, using conservative extension and content-header detection.
+- `ParseDiagnostics`, supporting info, warn, error, and skip at file, component, symbol, footprint, and field scope.
+
+These components handle syntax, source locations, and common geometry semantics. They do not guess format-specific business fields.
+
+## Diagnostics and degradation rules
+
+```mermaid
+stateDiagram-v2
+    [*] --> Reading
+    Reading --> Parsed: Valid syntax
+    Reading --> Warning: Recoverable field issue
+    Reading --> Failed: Broken structure or missing required field
+    Warning --> Parsed: Preserve data and continue
+    Parsed --> Skipped: Empty object or missing association
+    Parsed --> Converted: Map to IR
+    Converted --> [*]
+    Skipped --> [*]
+    Failed --> [*]
+```
+
+Patterns such as `parseFloat(value) || 0` disguise corrupt input as a valid zero and are forbidden in new parsers. Invalid numbers must retain the field, line, and original text in diagnostics. Unknown graphics must report why they were skipped, and their source data should be preserved or represented by an IR extension when needed.
+
+## Format status
+
+### Currently implemented
+
+- EasyEDA/LCSC API data: existing EasyEDA importers and model-to-IR conversion are available.
+- Altium SchLib/PcbLib: OLE/CFB readers and SchLib/PcbLib exporters exist; a reader is not by itself a complete source-format importer to IR.
+- Xpedition: IR-to-symbol and Pads/Cell HKP ZIP exporters exist. This change adds reusable HKP structural parsing infrastructure, but not a complete HKP-to-IR importer.
+
+### In progress
+
+- Xpedition ASCII/HKP: parse Padstack, Cell, PDB, and symbol structures first, then implement device, symbol, and footprint associations.
+- Multi-file merging: use global name tables, stable suffixes, and explicit missing-association diagnostics.
+- Real-sample tests: each format should cover empty, malformed, invalid-number, unknown-primitive, and duplicate-name inputs.
+
+### Planned
+
+- Cadstar ASCII libraries: reuse the Section Tree and add `END*` termination and multi-part association rules.
+- P-CAD ASCII/S-expressions: reuse the S-expression parser, then map a format-specific model to IR.
+- TinyCAD XML, gEDA, and Fabmaster: first validate their public exchange formats against the current IR.
+
+### Exchange-only or unsupported formats
+
+Private, encrypted, SDK-dependent, or external-tool-dependent formats will not be advertised as native support. If only an exchange format is readable, the documentation and import result must say so explicitly.
+
+## IR compatibility rules
+
+This change does not modify the IR. The shared parser layer already represents structure trees, diagnostics, units, and coordinate transforms. When a real format-to-IR mapping exposes a gap, use this order:
+
+1. Extend the IR with stable semantic fields when appropriate.
+2. Preserve fields that do not yet belong in the public IR together with their source information.
+3. Emit object-level diagnostics for unavoidable degradation.
+4. Never discard data silently.
+
+## Verification requirements
+
+Parser tests use repository fixtures and mocks only. They must not access the network or depend on a locally installed EDA application. Each new format should add normal, empty, malformed, missing-field, invalid-number, unknown-primitive, multi-part, duplicate-name, missing-association, unit, rotation, and mirror samples.
