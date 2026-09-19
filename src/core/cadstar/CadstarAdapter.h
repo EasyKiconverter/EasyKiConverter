@@ -5,6 +5,7 @@
  * @brief Cadstar 格式专用模型到统一 IR 的适配器。
  */
 
+#include "core/ir/ComponentIR.h"
 #include "core/ir/FootprintIR.h"
 #include "core/ir/SymbolIR.h"
 #include "core/parser/CadstarModel.h"
@@ -15,6 +16,7 @@ namespace EasyKiConverter {
 struct CadstarConversionResult {
     QList<IR::FootprintComponentIR> footprints;
     QList<IR::SymbolComponentIR> symbols;
+    QList<IR::ComponentIR> components;
     QList<Parser::CadstarPart> parts;
 };
 

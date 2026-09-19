@@ -327,6 +327,36 @@ CadstarConversionResult CadstarAdapter::toIR(const Parser::CadstarLibrary& libra
                              Parser::ParseScope::Footprint,
                              QStringLiteral("Cadstar Part 缺少封装关联：%1").arg(part.packageName),
                              part.name);
+
+        if (componentAmbiguous || packageAmbiguous || !componentFound || !packageFound)
+            continue;
+
+        const Parser::CadstarComponent* sourceComponent = nullptr;
+        const Parser::CadstarPackage* sourcePackage = nullptr;
+        for (const Parser::CadstarComponent& component : library.components) {
+            if (component.name == part.componentName) {
+                sourceComponent = &component;
+                break;
+            }
+        }
+        for (const Parser::CadstarPackage& packageModel : library.packages) {
+            if (packageModel.name == part.packageName) {
+                sourcePackage = &packageModel;
+                break;
+            }
+        }
+        if (sourceComponent == nullptr || sourcePackage == nullptr)
+            continue;
+
+        IR::ComponentIR component;
+        component.name = part.name;
+        component.description = part.description;
+        component.package = part.packageName;
+        component.symbol = toSymbol(library, *sourceComponent, diagnostics);
+        component.footprint = toFootprint(library, *sourcePackage, diagnostics);
+        for (auto iterator = part.properties.cbegin(); iterator != part.properties.cend(); ++iterator)
+            component.sourceMetadata.insert(iterator.key(), iterator.value());
+        result.components.append(component);
     }
     return result;
 }
