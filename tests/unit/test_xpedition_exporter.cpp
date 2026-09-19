@@ -2,6 +2,7 @@
 #include "core/ir/SymbolIR.h"
 #include "core/xpedition/ExporterXpeditionFootprint.h"
 #include "core/xpedition/ExporterXpeditionSymbol.h"
+#include "core/xpedition/XpeditionHkpAdapter.h"
 #include "core/xpedition/XpeditionSymbolAdapter.h"
 
 #include <QFile>
@@ -14,6 +15,45 @@ class TestXpeditionExporter : public QObject {
     Q_OBJECT
 
 private slots:
+
+    // 验证 HKP Cell、Padstack 和 PDB 符号关联可以聚合为统一 ComponentIR。
+    void hkpAdapterAggregatesComponentIr() {
+        Parser::XpeditionHkpModel model;
+        model.pads.append({QStringLiteral("P1"), Parser::XpeditionPadShape::Round, QSizeF(1.0, 1.0), {}, {}, 1});
+        model.padstacks.append({QStringLiteral("PS1"), {}, QStringLiteral("P1"), {}, {}, {}, {}, {}, {}, 2});
+        Parser::XpeditionCellDefinition cell;
+        cell.name = QStringLiteral("CELL1");
+        cell.pins.append({QStringLiteral("1"), QPointF(2.0, 3.0), QStringLiteral("PS1"), 90.0, false, 3});
+        model.cells.append(cell);
+        model.cellNameVariants[cell.name].append(cell.name);
+        model.padNameVariants[QStringLiteral("P1")].append(QStringLiteral("P1"));
+        model.padstackNameVariants[QStringLiteral("PS1")].append(QStringLiteral("PS1"));
+
+        Parser::XpeditionPartDefinition part;
+        part.number = QStringLiteral("R100");
+        part.name = QStringLiteral("RES_100");
+        part.referencePrefix = QStringLiteral("R");
+        part.topCell = QStringLiteral("CELL1");
+        part.symbol = QStringLiteral("RES_SYMBOL");
+        part.properties.insert(QStringLiteral("VALUE"), QStringLiteral("10K"));
+        model.parts.append(part);
+
+        IR::SymbolComponentIR symbol;
+        symbol.name = QStringLiteral("RES_SYMBOL");
+        symbol.partCount = 1;
+        QMap<QString, IR::SymbolComponentIR> symbols;
+        symbols.insert(symbol.name, symbol);
+        Parser::ParseDiagnostics diagnostics;
+        const XpeditionHkpConversionResult result = XpeditionHkpAdapter::toIR(model, symbols, &diagnostics);
+        QCOMPARE(result.footprints.size(), 1);
+        QCOMPARE(result.components.size(), 1);
+        QCOMPARE(result.components.first().name, QStringLiteral("RES_100"));
+        QCOMPARE(result.components.first().package, QStringLiteral("CELL1"));
+        QCOMPARE(result.components.first().footprint.pads.first().number, QStringLiteral("1"));
+        QCOMPARE(result.components.first().sourceMetadata.value(QStringLiteral("VALUE")).toString(),
+                 QStringLiteral("10K"));
+        QVERIFY(!diagnostics.hasErrors());
+    }
 
     // 验证 Xpedition 符号格式模型可以通过 Adapter 转换为统一 IR。
     void symbolParserAdapterProducesIr() {

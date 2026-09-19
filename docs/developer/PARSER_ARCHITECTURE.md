@@ -71,7 +71,7 @@ HKP 的 Pad、孔几何不依赖子节点顺序；XY 坐标支持括号、逗号
 
 - EasyEDA/LCSC API 数据：已有 EasyEDA 专用导入器和模型到 IR 的转换路径。
 - Altium SchLib/PcbLib：已有 OLE/CFB 读取器以及 SchLib/PcbLib 导出器，读取器不等同于完整源格式到 IR 的 Importer。
-- Xpedition：已有 IR 到符号文本和 Pads/Cell HKP ZIP 的导出器；Pad、Hole、Padstack、Cell、Pin、Outline 和 PDB 器件关联可解析为格式专用模型，V54 符号文本也已能解析引脚、图形、文本和多部件元数据，并通过 Adapter 映射到现有 Symbol IR。
+- Xpedition：已有 IR 到符号文本和 Pads/Cell HKP ZIP 的导出器；Pad、Hole、Padstack、Cell、Pin、Outline 和 PDB 器件关联可解析为格式专用模型，V54 符号文本也已能解析引脚、图形、文本和多部件元数据，并通过 Adapter 映射到现有 Symbol IR。HKP Adapter 可在调用方提供符号索引后，将 Cell、Padstack 和 PDB 关联聚合为 ComponentIR，缺失或歧义关联不会生成伪造组件。
 - Cadstar ASCII 库：已支持 Pad、Package、Component、Part、焊盘编号范围、异形焊盘、槽孔、基本图形、单位换算和到 Footprint/Symbol IR 的适配；有效的 Part 关联还会聚合为统一 ComponentIR，缺失或歧义关联不会生成伪造器件。
 - Cadstar 多文件模型：可合并多个已解析库，保留源文件诊断并对跨文件重名关联报错。
 - P-CAD ASCII PCB：已支持 `ACCEL_ASCII` 检测、Pad Style、Pattern、Pattern 图形、文本几何、器件放置、层号、单位换算、Y 轴转换和 Pattern 到 Footprint IR 的适配；重复 Pad Style 或 Pattern 会被标记为歧义，引用不会静默绑定到首个定义。

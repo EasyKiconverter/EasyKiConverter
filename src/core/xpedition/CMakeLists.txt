@@ -1,6 +1,8 @@
 # Xpedition ASCII 库导出模块
 
 add_library(EasyKiConverterXpedition STATIC
+    XpeditionHkpAdapter.h
+    XpeditionHkpAdapter.cpp
     XpeditionZipWriter.h
     XpeditionZipWriter.cpp
     ExporterXpeditionSymbol.h
