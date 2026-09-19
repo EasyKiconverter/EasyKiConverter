@@ -32,7 +32,7 @@ flowchart LR
 - `UnitConverter`：将 mm、mil、inch 转换为 IR 使用的毫米单位。
 - `CoordinateTransform`：统一处理原点、旋转和镜像。
 - `FormatDetector`：根据扩展名和内容头部给出保守的格式判断。
-- `ArchiveInspector`：只读取 ZIP 中央目录，检查路径穿越、符号链接、加密条目和压缩炸弹边界；不负责解压。
+- `ArchiveInspector`：校验 ZIP 中央目录与本地文件头的一致性，并检查路径穿越、符号链接、加密条目和压缩炸弹边界；不负责解压。
 - `EncodingDetector`：识别 BOM 和 UTF-8，并对无法确认编码的文本提供可诊断的有限 Latin-1 回退。
 - `ImporterRegistry`：按注册顺序选择格式导入器，不直接持有格式专用模型。
 - 内置导入器注册：连接当前已有的 Xpedition HKP、Xpedition Symbol、Cadstar ASCII 和 P-CAD ASCII PCB 探测器；未实现格式不会被伪装成可用导入器。

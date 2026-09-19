@@ -117,6 +117,17 @@ private slots:
         QVERIFY(!ArchiveInspector::inspect(makeZip({{QByteArrayLiteral("ratio"), 1, 100}}), limits).safe);
     }
 
+    // 验证中央目录不能伪造不存在的本地文件头或越界压缩数据范围。
+    void rejectsInvalidLocalZipStructure() {
+        QByteArray invalidHeader = makeZip({{QByteArrayLiteral("broken"), 1, 1}});
+        invalidHeader[0] = 'x';
+        QVERIFY(!ArchiveInspector::inspect(invalidHeader).safe);
+
+        QByteArray invalidData = makeZip({{QByteArrayLiteral("broken-data"), 1, 1}});
+        invalidData.chop(1);
+        QVERIFY(!ArchiveInspector::inspect(invalidData).safe);
+    }
+
     // 验证 UTF-8、UTF-16 BOM 和非法字节的诊断行为。
     void detectsAndDecodesTextEncodings() {
         QCOMPARE(EncodingDetector::detect(QByteArray::fromHex("EFBBBF") + QByteArrayLiteral("hello")).encoding,

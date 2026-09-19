@@ -7,6 +7,7 @@ namespace {
 
 constexpr quint32 kEndOfCentralDirectory = 0x06054B50;
 constexpr quint32 kCentralDirectoryEntry = 0x02014B50;
+constexpr quint32 kLocalFileEntry = 0x04034B50;
 constexpr quint16 kDeflate = 8;
 constexpr quint16 kEncryptedFlag = 0x0001;
 constexpr qsizetype kEndOfCentralDirectoryMinSize = 22;
@@ -114,12 +115,41 @@ ArchiveInspectionResult ArchiveInspector::inspect(const QByteArray& data,
         const quint16 extraLength = read16(data, cursor + 30);
         const quint16 commentLength = read16(data, cursor + 32);
         const quint32 externalAttributes = read32(data, cursor + 38);
+        const quint32 localHeaderOffset = read32(data, cursor + 42);
         const qsizetype recordSize = 46 + nameLength + extraLength + commentLength;
         if (recordSize > centralDirectoryEnd - cursor) {
             result.diagnostics.add(ParseSeverity::Error, ParseScope::File, QStringLiteral("ZIP 条目长度超出中央目录"));
             return result;
         }
         const QString path = QString::fromUtf8(data.constData() + cursor + 46, nameLength);
+        if (localHeaderOffset > static_cast<quint32>(data.size()) ||
+            !hasBytes(data, static_cast<qsizetype>(localHeaderOffset), 30) ||
+            read32(data, static_cast<qsizetype>(localHeaderOffset)) != kLocalFileEntry) {
+            result.diagnostics.add(
+                ParseSeverity::Error, ParseScope::File, QStringLiteral("ZIP 条目本地文件头无效"), path);
+            return result;
+        }
+        const qsizetype localOffset = static_cast<qsizetype>(localHeaderOffset);
+        const quint16 localNameLength = read16(data, localOffset + 26);
+        const quint16 localExtraLength = read16(data, localOffset + 28);
+        const qsizetype localRecordSize = 30 + localNameLength + localExtraLength;
+        if (!hasBytes(data, localOffset, localRecordSize)) {
+            result.diagnostics.add(
+                ParseSeverity::Error, ParseScope::File, QStringLiteral("ZIP 条目本地文件头范围无效"), path);
+            return result;
+        }
+        const QString localPath = QString::fromUtf8(data.constData() + localOffset + 30, localNameLength);
+        if (localPath != path) {
+            result.diagnostics.add(
+                ParseSeverity::Error, ParseScope::File, QStringLiteral("ZIP 条目名称与本地文件头不一致"), path);
+            return result;
+        }
+        const qsizetype dataOffset = localOffset + localRecordSize;
+        if (!hasBytes(data, dataOffset, compressedSize)) {
+            result.diagnostics.add(
+                ParseSeverity::Error, ParseScope::File, QStringLiteral("ZIP 条目压缩数据范围无效"), path);
+            return result;
+        }
         const bool directory = path.endsWith(QChar('/'));
         if (isUnsafePath(path) || isUnixSymlink(externalAttributes)) {
             result.diagnostics.add(ParseSeverity::Error, ParseScope::File, QStringLiteral("ZIP 条目路径不安全"), path);
