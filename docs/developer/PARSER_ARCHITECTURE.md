@@ -25,7 +25,7 @@ flowchart LR
 `src/core/parser/` 当前提供：
 
 - `TextTokenizer`：保留行列、引号和括号位置的词法单元。
-- `IndentedSectionParser`：解析 Xpedition HKP 等点缩进文本为 Section Tree。
+- `IndentedSectionParser`：解析 Xpedition HKP 等点缩进文本为 Section Tree，并将 XY 节点的无层级坐标续行合并到原节点。
 - `DelimitedSectionParser`：解析 Cadstar 等使用 `END*` 终止符的分段文本。
 - `SExpressionParser`：解析嵌套列表、引号原子和括号错误。
 - `StrictNumberParser`：拒绝非法数字和非有限浮点数，并写入字段级诊断。
@@ -54,6 +54,8 @@ stateDiagram-v2
 
 使用 `parseFloat(value) || 0` 一类逻辑会把损坏数据伪装成有效零值，因此禁止在新解析器中使用。非法数值必须记录字段、行号和原始文本；未知图元必须记录跳过原因，必要时保留原始字段或扩展 IR。
 
+HKP 的 Pad、孔几何不依赖子节点顺序；重复定义会保留稳定后缀并建立原始名称候选表。引用原始名称存在多个候选时报告错误并停止关联，禁止静默绑定到第一个定义。
+
 ## 格式状态
 
 ### 当前已实现
@@ -72,6 +74,7 @@ stateDiagram-v2
 
 - Cadstar ASCII 库：已具备 `END*` 分段树基础，尚未实现 Pad、Package、Component 和 Part 到 IR 的完整关联。
 - P-CAD ASCII/S-expression：复用 S-expression 解析器，先建立格式专用模型，再映射到 IR。
+- P-CAD 格式检测：使用 `.pcb` 扩展名或 `ACCEL_ASCII` 文件头识别，普通 `.lib` 文件不会被误判为 P-CAD。
 - TinyCAD XML、gEDA 和 Fabmaster：需先确认其公开交换格式与当前 IR 的表达能力。
 
 ### 仅支持交换格式或暂不支持

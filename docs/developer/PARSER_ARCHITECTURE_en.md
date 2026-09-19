@@ -25,7 +25,7 @@ Parsers must not call target writers directly or silently discard format-specifi
 `src/core/parser/` currently provides:
 
 - `TextTokenizer`, preserving line, column, quote, and parenthesis locations.
-- `IndentedSectionParser`, which builds a Section Tree for dot-indented formats such as Xpedition HKP.
+- `IndentedSectionParser`, which builds a Section Tree for dot-indented formats such as Xpedition HKP and joins unindented coordinate continuation lines to the preceding XY node.
 - `DelimitedSectionParser`, which builds a section tree for Cadstar-style `END*` terminators.
 - `SExpressionParser`, supporting nested lists, quoted atoms, and malformed parentheses diagnostics.
 - `StrictNumberParser`, rejecting invalid and non-finite numbers with field-level diagnostics.
@@ -54,6 +54,8 @@ stateDiagram-v2
 
 Patterns such as `parseFloat(value) || 0` disguise corrupt input as a valid zero and are forbidden in new parsers. Invalid numbers must retain the field, line, and original text in diagnostics. Unknown graphics must report why they were skipped, and their source data should be preserved or represented by an IR extension when needed.
 
+HKP Pad and hole geometry is discovered independently of child-node order. Duplicate definitions retain stable suffixes and an original-name candidate index. If an original reference has multiple candidates, parsing reports an error instead of silently binding to the first definition.
+
 ## Format status
 
 ### Currently implemented
@@ -72,6 +74,7 @@ Patterns such as `parseFloat(value) || 0` disguise corrupt input as a valid zero
 
 - Cadstar ASCII libraries: an `END*` section-tree foundation exists; complete Pad, Package, Component, and Part association to IR is not implemented.
 - P-CAD ASCII/S-expressions: reuse the S-expression parser, then map a format-specific model to IR.
+- P-CAD detection uses the `.pcb` extension or the `ACCEL_ASCII` header; ordinary `.lib` files are not classified as P-CAD.
 - TinyCAD XML, gEDA, and Fabmaster: first validate their public exchange formats against the current IR.
 
 ### Exchange-only or unsupported formats

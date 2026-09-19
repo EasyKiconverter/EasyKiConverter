@@ -104,11 +104,32 @@ struct XpeditionHkpModel {
     QList<XpeditionCellDefinition> cells;
     QList<XpeditionPartDefinition> parts;
 
+    /** @brief 原始 Pad 名称到解析后候选名称的映射。 */
+    QMap<QString, QStringList> padNameVariants;
+    /** @brief 原始孔名称到解析后候选名称的映射。 */
+    QMap<QString, QStringList> holeNameVariants;
+    /** @brief 原始 Padstack 名称到解析后候选名称的映射。 */
+    QMap<QString, QStringList> padstackNameVariants;
+    /** @brief 原始 Cell 名称到解析后候选名称的映射。 */
+    QMap<QString, QStringList> cellNameVariants;
+
     /** @brief 按名称查找 Padstack。 */
     const XpeditionPadstackDefinition* findPadstack(const QString& name) const;
 
     /** @brief 按名称查找 Cell。 */
     const XpeditionCellDefinition* findCell(const QString& name) const;
+
+    /** @brief 判断 Padstack 原始名称是否对应多个定义。 */
+    bool isPadstackAmbiguous(const QString& name) const;
+
+    /** @brief 判断 Cell 原始名称是否对应多个定义。 */
+    bool isCellAmbiguous(const QString& name) const;
+
+    /** @brief 判断 Pad 原始名称是否对应多个定义。 */
+    bool isPadAmbiguous(const QString& name) const;
+
+    /** @brief 判断孔原始名称是否对应多个定义。 */
+    bool isHoleAmbiguous(const QString& name) const;
 };
 
 /**

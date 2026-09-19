@@ -127,6 +127,11 @@ QList<SectionNode> IndentedSectionParser::parse(const QString& content, ParseDia
         while (markerCount < rawLine.size() && rawLine.at(markerCount) == QChar('.'))
             ++markerCount;
         if (markerCount == 0) {
+            if (rawLine.startsWith(QChar('(')) && !stack.isEmpty() &&
+                stack.last().node->keyword.toUpper() == QStringLiteral("XY")) {
+                stack.last().node->value += QChar(' ') + rawLine;
+                continue;
+            }
             if (diagnostics)
                 diagnostics->add(ParseSeverity::Warning,
                                  ParseScope::File,
@@ -326,10 +331,9 @@ DetectedFormat FormatDetector::detect(const QString& fileName, const QByteArray&
         return DetectedFormat::XpeditionHkp;
     if (head.startsWith("V ") || head.startsWith("V\t"))
         return DetectedFormat::XpeditionSymbol;
-    if (lowerName.endsWith(QStringLiteral(".lib")) && head.contains(".LIB"))
+    if (lowerName.endsWith(QStringLiteral(".pcb")) || head.contains("ACCEL_ASCII"))
         return DetectedFormat::PcadSExpression;
-    if (head.contains("CADSTAR") || lowerName.endsWith(QStringLiteral(".cpa")) ||
-        lowerName.endsWith(QStringLiteral(".cpa")))
+    if (head.contains("CADSTAR") || lowerName.endsWith(QStringLiteral(".cpa")))
         return DetectedFormat::CadstarAscii;
     if (head.startsWith("PCB["))
         return DetectedFormat::GedaLegacy;

@@ -67,6 +67,9 @@ private slots:
         QCOMPARE(FormatDetector::detect(QStringLiteral("symbol.1"), QByteArray("V 50\n")),
                  DetectedFormat::XpeditionSymbol);
         QCOMPARE(FormatDetector::detect(QStringLiteral("design.dsn"), QByteArray()), DetectedFormat::TinyCadXml);
+        QCOMPARE(FormatDetector::detect(QStringLiteral("design.pcb"), QByteArray("ACCEL_ASCII\n")),
+                 DetectedFormat::PcadSExpression);
+        QCOMPARE(FormatDetector::detect(QStringLiteral("legacy.lib"), QByteArray(".LIB\n")), DetectedFormat::Unknown);
         QCOMPARE(FormatDetector::detect(QStringLiteral("unknown.bin"), QByteArray("binary")), DetectedFormat::Unknown);
     }
 
@@ -196,6 +199,29 @@ private slots:
         QCOMPARE(document.model.pads.first().shape, XpeditionPadShape::Unknown);
     }
 
+    // 验证 HKP 的无层级坐标续行会合并到同一个 XY 节点并保留全部多边形点。
+    void parsesXpeditionContinuationPoints() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(".UNITS mm\n.PAD \"POLYGON\"\n..POLYGON\n...XY (0, 0)\n    (1, 0)\n    (1, 1)\n"),
+            QStringLiteral("continuation.psk.hkp"));
+        QCOMPARE(document.model.pads.size(), 1);
+        QCOMPARE(document.model.pads.first().polygon.size(), 3);
+        QCOMPARE(document.model.pads.first().polygon.at(2), QPointF(1.0, 1.0));
+        QVERIFY(!document.diagnostics.hasErrors());
+    }
+
+    // 验证 Pad 和孔的几何节点顺序变化不会阻止解析器找到受支持的图元。
+    void parsesXpeditionGeometryAfterUnknownNode() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(".UNITS mm\n.PAD \"P\"\n..UNSUPPORTED\n..RECTANGLE\n...WIDTH 1\n...HEIGHT 2\n"
+                           ".HOLE \"H\"\n..UNSUPPORTED\n..ROUND\n...DIAMETER 0.5\n"),
+            QStringLiteral("geometry-order.psk.hkp"));
+        QCOMPARE(document.model.pads.first().shape, XpeditionPadShape::Rectangle);
+        QCOMPARE(document.model.holes.first().shape, XpeditionPadShape::Round);
+        QCOMPARE(document.model.pads.first().size, QSizeF(1.0, 2.0));
+        QVERIFY(!document.diagnostics.hasErrors());
+    }
+
     // 验证重复名称会保留数据并生成稳定的重名诊断。
     void disambiguatesXpeditionDuplicateNames() {
         const XpeditionHkpDocument document = XpeditionHkpReader::parse(
@@ -204,6 +230,23 @@ private slots:
         QCOMPARE(document.model.pads.size(), 2);
         QCOMPARE(document.model.pads.at(1).name, QStringLiteral("P_2"));
         QVERIFY(!document.diagnostics.isEmpty());
+    }
+
+    // 验证重复 Pad 和 Cell 的原始引用会报告歧义，而不会静默绑定到首个定义。
+    void reportsAmbiguousXpeditionReferences() {
+        const XpeditionHkpDocument document =
+            XpeditionHkpReader::parse(QStringLiteral(".UNITS mm\n"
+                                                     ".PAD \"P\"\n..ROUND\n...DIAMETER 1\n"
+                                                     ".PAD \"P\"\n..ROUND\n...DIAMETER 2\n"
+                                                     ".PADSTACK \"S\"\n..TECHNOLOGY\n...TOP_PAD \"P\"\n"
+                                                     ".PACKAGE_CELL \"C\"\n..PIN \"1\"\n...PADSTACK \"S\"\n"
+                                                     ".PACKAGE_CELL \"C\"\n..PIN \"2\"\n...PADSTACK \"S\"\n"
+                                                     ".NUMBER \"U1\"\n..TOPCELL \"C\"\n"),
+                                      QStringLiteral("ambiguous.cel.hkp"));
+        QVERIFY(document.model.isPadAmbiguous(QStringLiteral("P")));
+        QVERIFY(document.model.isCellAmbiguous(QStringLiteral("C")));
+        QVERIFY(document.model.findCell(QStringLiteral("C")) == nullptr);
+        QVERIFY(document.diagnostics.hasErrors());
     }
 
     // 验证 Cadstar 的 END* 分段和单行叶节点可以建立可遍历的树。

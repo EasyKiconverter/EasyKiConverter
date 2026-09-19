@@ -99,6 +99,29 @@ bool parseBool(const QString& value, ParseDiagnostics* diagnostics, const QStrin
     return false;
 }
 
+// 从一个 XY 节点中解析首个或续行追加的全部坐标。
+QList<QPointF> parsePoints(const QString& text,
+                           LengthUnit unit,
+                           ParseDiagnostics* diagnostics,
+                           const QString& field,
+                           int line) {
+    QList<QPointF> points;
+    static const QRegularExpression pattern(QStringLiteral(R"(\(\s*([^,\s]+)\s*,\s*([^\)\s]+)\s*\))"));
+    QRegularExpressionMatchIterator iterator = pattern.globalMatch(text);
+    while (iterator.hasNext()) {
+        const QRegularExpressionMatch match = iterator.next();
+        points.append(
+            QPointF(scale(StrictNumberParser::parseDouble(match.captured(1), diagnostics, field, line), unit),
+                    scale(StrictNumberParser::parseDouble(match.captured(2), diagnostics, field, line), unit)));
+    }
+    if (points.isEmpty()) {
+        QPointF point;
+        if (parsePair(text, unit, diagnostics, field, line, point))
+            points.append(point);
+    }
+    return points;
+}
+
 // 记录重名，同时让调用方生成稳定的后缀名称。
 void duplicateWarning(ParseDiagnostics* diagnostics, ParseScope scope, const QString& name, int line) {
     if (diagnostics)
@@ -161,28 +184,30 @@ void parsePad(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& model
         ParseScope::Footprint,
         node.line);
     pad.line = node.line;
-    if (!node.children.isEmpty()) {
-        pad.shape = shapeOf(node.children.first().keyword);
-        if (pad.shape == XpeditionPadShape::Unknown && diagnostics)
-            diagnostics->add(ParseSeverity::Skipped,
-                             ParseScope::Footprint,
-                             QStringLiteral("不支持的 Pad 图元：%1").arg(node.children.first().keyword),
-                             pad.name,
-                             node.children.first().line);
-        parseSize(node.children.first(), unit, diagnostics, pad.size);
-        if (const SectionNode* offset = child(node.children.first(), QStringLiteral("OFFSET")))
-            parsePair(valueOf(*offset), unit, diagnostics, QStringLiteral("OFFSET"), offset->line, pad.offset);
-        for (const SectionNode* xy : childrenOf(node.children.first(), QStringLiteral("XY"))) {
-            QPointF point;
-            if (parsePair(valueOf(*xy), unit, diagnostics, QStringLiteral("XY"), xy->line, point))
-                pad.polygon.append(point);
+    const SectionNode* geometry = nullptr;
+    for (const SectionNode& childNode : node.children) {
+        const XpeditionPadShape candidate = shapeOf(childNode.keyword);
+        if (candidate != XpeditionPadShape::Unknown && geometry == nullptr) {
+            geometry = &childNode;
+            pad.shape = candidate;
         }
+    }
+    if (geometry != nullptr) {
+        parseSize(*geometry, unit, diagnostics, pad.size);
+        if (const SectionNode* offset = child(*geometry, QStringLiteral("OFFSET")))
+            parsePair(valueOf(*offset), unit, diagnostics, QStringLiteral("OFFSET"), offset->line, pad.offset);
+        for (const SectionNode* xy : childrenOf(*geometry, QStringLiteral("XY")))
+            pad.polygon.append(parsePoints(valueOf(*xy), unit, diagnostics, QStringLiteral("XY"), xy->line));
     } else {
         if (diagnostics)
-            diagnostics->add(
-                ParseSeverity::Warning, ParseScope::Footprint, QStringLiteral("Pad 没有几何定义"), pad.name, node.line);
+            diagnostics->add(ParseSeverity::Skipped,
+                             ParseScope::Footprint,
+                             QStringLiteral("Pad 没有可识别的几何定义"),
+                             pad.name,
+                             node.line);
     }
     model.pads.append(pad);
+    model.padNameVariants[rawName].append(pad.name);
 }
 
 // 解析孔形状、尺寸和镀层选项。
@@ -200,19 +225,26 @@ void parseHole(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& mode
         ParseScope::Footprint,
         node.line);
     hole.line = node.line;
-    if (!node.children.isEmpty()) {
-        hole.shape = shapeOf(node.children.first().keyword);
-        if (hole.shape == XpeditionPadShape::Unknown && diagnostics)
-            diagnostics->add(ParseSeverity::Skipped,
-                             ParseScope::Footprint,
-                             QStringLiteral("不支持的孔图元：%1").arg(node.children.first().keyword),
-                             hole.name,
-                             node.children.first().line);
-        parseSize(node.children.first(), unit, diagnostics, hole.size);
+    const SectionNode* geometry = nullptr;
+    for (const SectionNode& childNode : node.children) {
+        const XpeditionPadShape candidate = shapeOf(childNode.keyword);
+        if (candidate != XpeditionPadShape::Unknown && geometry == nullptr) {
+            geometry = &childNode;
+            hole.shape = candidate;
+        }
     }
+    if (geometry != nullptr)
+        parseSize(*geometry, unit, diagnostics, hole.size);
+    else if (diagnostics)
+        diagnostics->add(ParseSeverity::Skipped,
+                         ParseScope::Footprint,
+                         QStringLiteral("孔没有可识别的几何定义"),
+                         hole.name,
+                         node.line);
     if (const SectionNode* options = child(node, QStringLiteral("HOLE_OPTIONS")))
         hole.plated = upper(valueOf(*options)).contains(QStringLiteral("PLATED"));
     model.holes.append(hole);
+    model.holeNameVariants[valueOf(node)].append(hole.name);
 }
 
 // 解析 Padstack 的技术类型、层焊盘和孔关联。
@@ -260,6 +292,7 @@ void parsePadstack(const SectionNode& node, XpeditionHkpModel& model, ParseDiagn
             padstack.holeName = value;
     }
     model.padstacks.append(padstack);
+    model.padstackNameVariants[valueOf(node)].append(padstack.name);
 }
 
 // 解析封装 Cell 的引脚、轮廓和安装属性。
@@ -306,11 +339,8 @@ void parseCell(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& mode
             outline.layer = item.keyword;
             outline.line = item.line;
             for (const SectionNode& shape : item.children) {
-                for (const SectionNode* xy : childrenOf(shape, QStringLiteral("XY"))) {
-                    QPointF point;
-                    if (parsePair(valueOf(*xy), unit, diagnostics, QStringLiteral("XY"), xy->line, point))
-                        outline.points.append(point);
-                }
+                for (const SectionNode* xy : childrenOf(shape, QStringLiteral("XY")))
+                    outline.points.append(parsePoints(valueOf(*xy), unit, diagnostics, QStringLiteral("XY"), xy->line));
             }
             if (!outline.points.isEmpty())
                 cell.outlines.append(outline);
@@ -320,6 +350,7 @@ void parseCell(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& mode
         diagnostics->add(
             ParseSeverity::Skipped, ParseScope::Footprint, QStringLiteral("空 Cell 被跳过"), cell.name, cell.line);
     model.cells.append(cell);
+    model.cellNameVariants[valueOf(node)].append(cell.name);
 }
 
 // 解析 PDB 器件的属性、符号和上下表面封装关联。
@@ -368,6 +399,8 @@ void parsePart(const SectionNode& node, XpeditionHkpModel& model, ParseDiagnosti
 }  // namespace
 
 const XpeditionPadstackDefinition* XpeditionHkpModel::findPadstack(const QString& name) const {
+    if (isPadstackAmbiguous(name))
+        return nullptr;
     for (const auto& item : padstacks) {
         if (item.name == name)
             return &item;
@@ -376,11 +409,33 @@ const XpeditionPadstackDefinition* XpeditionHkpModel::findPadstack(const QString
 }
 
 const XpeditionCellDefinition* XpeditionHkpModel::findCell(const QString& name) const {
+    if (isCellAmbiguous(name))
+        return nullptr;
     for (const auto& item : cells) {
         if (item.name == name)
             return &item;
     }
     return nullptr;
+}
+
+// 判断名称是否存在多个 Padstack 定义。
+bool XpeditionHkpModel::isPadstackAmbiguous(const QString& name) const {
+    return padstackNameVariants.value(name).size() > 1;
+}
+
+// 判断名称是否存在多个 Cell 定义。
+bool XpeditionHkpModel::isCellAmbiguous(const QString& name) const {
+    return cellNameVariants.value(name).size() > 1;
+}
+
+// 判断名称是否存在多个 Pad 定义。
+bool XpeditionHkpModel::isPadAmbiguous(const QString& name) const {
+    return padNameVariants.value(name).size() > 1;
+}
+
+// 判断名称是否存在多个孔定义。
+bool XpeditionHkpModel::isHoleAmbiguous(const QString& name) const {
+    return holeNameVariants.value(name).size() > 1;
 }
 
 XpeditionHkpModel XpeditionHkpModelParser::parse(const QList<SectionNode>& sections,
@@ -409,30 +464,51 @@ XpeditionHkpModel XpeditionHkpModelParser::parse(const QList<SectionNode>& secti
                                       padstack.topSolderPastePad,
                                       padstack.bottomSolderPastePad};
         for (const QString& name : padNames) {
-            if (!name.isEmpty() &&
-                std::none_of(
-                    model.pads.cbegin(), model.pads.cend(), [&](const auto& pad) { return pad.name == name; }) &&
-                diagnostics)
+            if (name.isEmpty() || !diagnostics)
+                continue;
+            if (model.isPadAmbiguous(name))
+                diagnostics->add(ParseSeverity::Error,
+                                 ParseScope::Footprint,
+                                 QStringLiteral("Padstack 引用的 Pad 名称存在歧义：%1").arg(name),
+                                 padstack.name,
+                                 padstack.line);
+            else if (std::none_of(
+                         model.pads.cbegin(), model.pads.cend(), [&](const auto& pad) { return pad.name == name; }))
                 diagnostics->add(ParseSeverity::Warning,
                                  ParseScope::Footprint,
                                  QStringLiteral("Padstack 引用了不存在的 Pad：%1").arg(name),
                                  padstack.name,
                                  padstack.line);
         }
-        if (!padstack.holeName.isEmpty() &&
-            std::none_of(model.holes.cbegin(),
-                         model.holes.cend(),
-                         [&](const auto& hole) { return hole.name == padstack.holeName; }) &&
-            diagnostics)
-            diagnostics->add(ParseSeverity::Warning,
-                             ParseScope::Footprint,
-                             QStringLiteral("Padstack 引用了不存在的孔：%1").arg(padstack.holeName),
-                             padstack.name,
-                             padstack.line);
+        if (!padstack.holeName.isEmpty() && diagnostics) {
+            if (model.isHoleAmbiguous(padstack.holeName))
+                diagnostics->add(ParseSeverity::Error,
+                                 ParseScope::Footprint,
+                                 QStringLiteral("Padstack 引用的孔名称存在歧义：%1").arg(padstack.holeName),
+                                 padstack.name,
+                                 padstack.line);
+            // 唯一候选也不存在时保留可恢复的缺失关联诊断。
+            else if (std::none_of(model.holes.cbegin(), model.holes.cend(), [&](const auto& hole) {
+                         return hole.name == padstack.holeName;
+                     }))
+                diagnostics->add(ParseSeverity::Warning,
+                                 ParseScope::Footprint,
+                                 QStringLiteral("Padstack 引用了不存在的孔：%1").arg(padstack.holeName),
+                                 padstack.name,
+                                 padstack.line);
+        }
     }
     for (const auto& cell : model.cells) {
         for (const auto& pin : cell.pins) {
-            if (!pin.padstack.isEmpty() && !model.findPadstack(pin.padstack) && diagnostics)
+            if (pin.padstack.isEmpty() || !diagnostics)
+                continue;
+            if (model.isPadstackAmbiguous(pin.padstack))
+                diagnostics->add(ParseSeverity::Error,
+                                 ParseScope::Footprint,
+                                 QStringLiteral("引脚引用的 Padstack 名称存在歧义：%1").arg(pin.padstack),
+                                 cell.name,
+                                 pin.line);
+            else if (!model.findPadstack(pin.padstack))
                 diagnostics->add(ParseSeverity::Warning,
                                  ParseScope::Footprint,
                                  QStringLiteral("引脚引用了不存在的 Padstack：%1").arg(pin.padstack),
@@ -442,7 +518,15 @@ XpeditionHkpModel XpeditionHkpModelParser::parse(const QList<SectionNode>& secti
     }
     for (const auto& part : model.parts) {
         for (const QString& cellName : {part.topCell, part.bottomCell}) {
-            if (!cellName.isEmpty() && !model.findCell(cellName) && diagnostics)
+            if (cellName.isEmpty() || !diagnostics)
+                continue;
+            if (model.isCellAmbiguous(cellName))
+                diagnostics->add(ParseSeverity::Error,
+                                 ParseScope::Component,
+                                 QStringLiteral("器件引用的 Cell 名称存在歧义：%1").arg(cellName),
+                                 part.number,
+                                 part.line);
+            else if (!model.findCell(cellName))
                 diagnostics->add(ParseSeverity::Warning,
                                  ParseScope::Component,
                                  QStringLiteral("器件引用了不存在的 Cell：%1").arg(cellName),
