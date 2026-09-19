@@ -1,5 +1,7 @@
 #include "PcadModel.h"
 
+#include "EncodingDetector.h"
+
 #include <QRegularExpression>
 #include <QSet>
 
@@ -416,6 +418,16 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
             }
         }
     }
+    return board;
+}
+
+/** @brief 先检测文本编码，再复用统一字符串解析流程。 */
+PcadBoard PcadParser::parseBytes(const QByteArray& data, const QString& filePath) {
+    ParseDiagnostics decodingDiagnostics;
+    decodingDiagnostics.setFilePath(filePath);
+    const QString content = EncodingDetector::decode(data, &decodingDiagnostics, filePath);
+    PcadBoard board = parse(content, filePath);
+    board.diagnostics.append(decodingDiagnostics);
     return board;
 }
 

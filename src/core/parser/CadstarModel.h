@@ -9,6 +9,7 @@
 #include "ParseDiagnostics.h"
 #include "TextParsers.h"
 
+#include <QByteArray>
 #include <QList>
 #include <QMap>
 #include <QPointF>
@@ -141,6 +142,14 @@ public:
      * @return Cadstar 专用模型和结构化诊断。
      */
     static CadstarLibrary parse(const QString& content, const QString& filePath = QString());
+
+    /**
+     * @brief 从原始字节检测编码后解析 Cadstar ASCII 库。
+     * @param data 原始文件字节。
+     * @param filePath 可选源文件路径。
+     * @return Cadstar 专用模型和编码、语法诊断。
+     */
+    static CadstarLibrary parseBytes(const QByteArray& data, const QString& filePath = QString());
 };
 
 /**

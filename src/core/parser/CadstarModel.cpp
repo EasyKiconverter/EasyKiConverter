@@ -1,5 +1,7 @@
 #include "CadstarModel.h"
 
+#include "EncodingDetector.h"
+
 #include <QRegularExpression>
 #include <QSet>
 
@@ -514,6 +516,16 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
 
     if (!library.isRecognized())
         library.diagnostics.add(ParseSeverity::Error, ParseScope::File, QStringLiteral("未识别的 Cadstar ASCII 库"));
+    return library;
+}
+
+/** @brief 先检测文本编码，再复用统一字符串解析流程。 */
+CadstarLibrary CadstarParser::parseBytes(const QByteArray& data, const QString& filePath) {
+    ParseDiagnostics decodingDiagnostics;
+    decodingDiagnostics.setFilePath(filePath);
+    const QString content = EncodingDetector::decode(data, &decodingDiagnostics, filePath);
+    CadstarLibrary library = parse(content, filePath);
+    library.diagnostics.append(decodingDiagnostics);
     return library;
 }
 

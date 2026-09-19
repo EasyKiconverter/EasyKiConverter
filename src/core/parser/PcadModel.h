@@ -9,6 +9,7 @@
 #include "ParseDiagnostics.h"
 #include "TextParsers.h"
 
+#include <QByteArray>
 #include <QList>
 #include <QPointF>
 #include <QString>
@@ -104,6 +105,14 @@ public:
      * @return P-CAD 格式模型和结构化诊断。
      */
     static PcadBoard parse(const QString& content, const QString& filePath = QString());
+
+    /**
+     * @brief 从原始字节检测编码后解析 P-CAD ASCII PCB。
+     * @param data 原始文件字节。
+     * @param filePath 可选源文件路径。
+     * @return P-CAD 格式模型和编码、语法诊断。
+     */
+    static PcadBoard parseBytes(const QByteArray& data, const QString& filePath = QString());
 };
 
 }  // namespace EasyKiConverter::Parser

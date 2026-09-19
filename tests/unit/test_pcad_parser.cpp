@@ -32,6 +32,18 @@ private slots:
         QVERIFY(qAbs(board.patterns.first().pads.at(1).rotation - 90.0) < 1e-9);
     }
 
+    // 验证 P-CAD 字节入口统一经过编码检测，并保留 UTF-8 BOM 后的 S-expression。
+    void parsesPcadBytesWithBom() {
+        const QByteArray data = QByteArray(
+            "\xEF\xBB\xBF(ACCEL_ASCII \"B\" (UNITS MM) (LIBRARY "
+            "(PADSTYLEDEF \"P\" (PADSHAPE ROUND (SHAPEWIDTH 1) "
+            "(SHAPEHEIGHT 1)))) )");
+        const PcadBoard board = PcadParser::parseBytes(data, QStringLiteral("bom.pcb"));
+        QVERIFY(board.isRecognized());
+        QCOMPARE(board.padStyles.size(), 1);
+        QVERIFY(!board.diagnostics.hasErrors());
+    }
+
     // 验证 P-CAD Pattern 可以映射为现有 Footprint IR，并保留孔、图形和单位。
     void adaptsPcadPatternToIr() {
         const PcadBoard board =

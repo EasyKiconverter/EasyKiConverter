@@ -31,6 +31,15 @@ private slots:
         QCOMPARE(library.parts.size(), 1);
     }
 
+    // 验证 Cadstar 字节入口统一经过编码检测，并保留 UTF-8 BOM 文本内容。
+    void parsesCadstarBytesWithBom() {
+        const QByteArray data = QByteArray("\xEF\xBB\xBFUNITS MM\nPAD P\nSHAPE ROUND\nDIAMETER 1\nENDPAD\n");
+        const CadstarLibrary library = CadstarParser::parseBytes(data, QStringLiteral("bom.lib"));
+        QVERIFY(library.isRecognized());
+        QCOMPARE(library.pads.size(), 1);
+        QVERIFY(!library.diagnostics.hasErrors());
+    }
+
     // 验证 Cadstar Package 和 Component 可以分别映射到现有 Footprint/Symbol IR。
     void adaptsCadstarLibraryToIr() {
         const CadstarLibrary library =
