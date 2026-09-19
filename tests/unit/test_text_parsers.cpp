@@ -62,6 +62,18 @@ private slots:
         QVERIFY(diagnostics.hasErrors());
     }
 
+    // 验证无参数列表不会被误判为普通原子节点。
+    void preservesEmptySExpressionLists() {
+        ParseDiagnostics diagnostics;
+        const QList<SExpressionNode> roots = SExpressionParser::parse(QStringLiteral("(FLAG) (VALUE 1)"), &diagnostics);
+        QCOMPARE(roots.size(), 2);
+        QVERIFY(roots.at(0).isList());
+        QCOMPARE(roots.at(0).atom, QStringLiteral("FLAG"));
+        QVERIFY(roots.at(1).isList());
+        QVERIFY(!roots.at(1).children.first().isList());
+        QVERIFY(diagnostics.isEmpty());
+    }
+
     // 验证常见输入扩展名和头部可以被识别，未知内容保持 Unknown。
     void detectsFormats() {
         QCOMPARE(FormatDetector::detect(QStringLiteral("pads.psk.hkp"), QByteArray()), DetectedFormat::XpeditionHkp);

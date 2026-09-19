@@ -18,7 +18,7 @@ QString nameOf(const Node& node) {
 QList<Node> lists(const Node& node, const QString& name) {
     QList<Node> result;
     for (const Node& child : node.children) {
-        if (!child.children.isEmpty() && nameOf(child) == name.toUpper())
+        if (child.isList() && nameOf(child) == name.toUpper())
             result.append(child);
     }
     return result;
@@ -34,7 +34,7 @@ Node firstList(const Node& node, const QString& name) {
 QStringList scalarValues(const Node& node) {
     QStringList result;
     for (const Node& child : node.children) {
-        if (child.children.isEmpty())
+        if (!child.isList())
             result.append(child.atom);
     }
     return result;
@@ -184,7 +184,7 @@ PcadGraphic parseGraphic(const Node& node, ParseDiagnostics* diagnostics, Length
         graphic.width =
             number(firstScalar(width), diagnostics, QStringLiteral("GRAPHIC.WIDTH"), width.line, defaultUnit);
     for (const Node& child : node.children) {
-        if (child.children.isEmpty()) {
+        if (!child.isList()) {
             if (graphic.type == PcadGraphicType::Text && graphic.text.isEmpty())
                 graphic.text = child.atom;
             continue;
@@ -232,7 +232,7 @@ PcadPattern parsePattern(const Node& node, ParseDiagnostics* diagnostics, Length
         diagnostics->add(
             ParseSeverity::Error, ParseScope::Footprint, QStringLiteral("P-CAD Pattern 缺少名称"), {}, node.line);
     for (const Node& child : node.children) {
-        if (child.children.isEmpty())
+        if (!child.isList())
             continue;
         const QString kind = nameOf(child);
         if (kind == QStringLiteral("PAD"))
@@ -240,7 +240,7 @@ PcadPattern parsePattern(const Node& node, ParseDiagnostics* diagnostics, Length
         // Pattern 图形共用同一套图元解析和单位转换逻辑。
         else if (kind == QStringLiteral("PATTERNGRAPHICS") || kind == QStringLiteral("GRAPHICS")) {
             for (const Node& graphicNode : child.children) {
-                if (!graphicNode.children.isEmpty())
+                if (graphicNode.isList())
                     pattern.graphics.append(parseGraphic(graphicNode, diagnostics, defaultUnit));
             }
         }
@@ -299,13 +299,13 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
         board.name = firstScalar(root);
         // 先读取文件级单位，确保后续库定义不受节点顺序影响。
         for (const Node& rootChild : root.children) {
-            if (!rootChild.children.isEmpty() && nameOf(rootChild) == QStringLiteral("UNITS")) {
+            if (rootChild.isList() && nameOf(rootChild) == QStringLiteral("UNITS")) {
                 board.unit = UnitConverter::parseUnit(firstScalar(rootChild), &board.diagnostics);
                 break;
             }
         }
         for (const Node& child : root.children) {
-            if (child.children.isEmpty())
+            if (!child.isList())
                 continue;
             const QString kind = nameOf(child);
             if (kind == QStringLiteral("UNITS")) {
@@ -327,7 +327,7 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
                 board.layers.append(layer);
             } else if (kind == QStringLiteral("LIBRARY")) {
                 for (const Node& definition : child.children) {
-                    if (definition.children.isEmpty())
+                    if (!definition.isList())
                         continue;
                     const QString definitionName = nameOf(definition);
                     if (definitionName == QStringLiteral("PADSTYLEDEF"))
@@ -338,16 +338,16 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
                 }
             } else if (kind == QStringLiteral("PCBDESIGN")) {
                 for (const Node& design : child.children) {
-                    if (design.children.isEmpty())
+                    if (!design.isList())
                         continue;
                     if (nameOf(design) == QStringLiteral("MULTILAYER")) {
                         for (const Node& placement : design.children) {
-                            if (!placement.children.isEmpty() && nameOf(placement) == QStringLiteral("PATTERN"))
+                            if (placement.isList() && nameOf(placement) == QStringLiteral("PATTERN"))
                                 board.placements.append(parsePlacement(placement, &board.diagnostics, board.unit));
                         }
                     } else if (nameOf(design) == QStringLiteral("LAYERCONTENTS")) {
                         for (const Node& graphic : design.children) {
-                            if (!graphic.children.isEmpty())
+                            if (graphic.isList())
                                 board.graphics.append(parseGraphic(graphic, &board.diagnostics, board.unit));
                         }
                     }

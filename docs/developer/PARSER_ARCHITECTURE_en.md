@@ -27,7 +27,7 @@ Parsers must not call target writers directly or silently discard format-specifi
 - `TextTokenizer`, preserving line, column, quote, and parenthesis locations.
 - `IndentedSectionParser`, which builds a Section Tree for dot-indented formats such as Xpedition HKP and joins unindented coordinate continuation lines to the preceding XY node.
 - `DelimitedSectionParser`, which builds a section tree for Cadstar-style `END*` terminators.
-- `SExpressionParser`, supporting nested lists, quoted atoms, and malformed parentheses diagnostics.
+- `SExpressionParser`, supporting nested lists, empty lists, quoted atoms, malformed-parenthesis diagnostics, and explicit node kinds.
 - `StrictNumberParser`, rejecting invalid and non-finite numbers with field-level diagnostics.
 - `UnitConverter`, converting mm, mil, and inch values to the millimetres used by the IR.
 - `CoordinateTransform`, applying origin, rotation, and mirror operations consistently.

@@ -27,7 +27,7 @@ flowchart LR
 - `TextTokenizer`：保留行列、引号和括号位置的词法单元。
 - `IndentedSectionParser`：解析 Xpedition HKP 等点缩进文本为 Section Tree，并将 XY 节点的无层级坐标续行合并到原节点。
 - `DelimitedSectionParser`：解析 Cadstar 等使用 `END*` 终止符的分段文本。
-- `SExpressionParser`：解析嵌套列表、引号原子和括号错误。
+- `SExpressionParser`：解析嵌套列表、无参数列表、引号原子和括号错误，并显式保留节点类型。
 - `StrictNumberParser`：拒绝非法数字和非有限浮点数，并写入字段级诊断。
 - `UnitConverter`：将 mm、mil、inch 转换为 IR 使用的毫米单位。
 - `CoordinateTransform`：统一处理原点、旋转和镜像。

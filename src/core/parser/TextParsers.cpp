@@ -292,6 +292,7 @@ QList<SExpressionNode> SExpressionParser::parse(const QString& content, ParseDia
             if (token == QStringLiteral("(")) {
                 SExpressionNode node;
                 node.line = lineNumber;
+                node.listNode = true;
                 if (stack.isEmpty()) {
                     roots.append(node);
                     stack.append(&roots.last());
@@ -322,7 +323,10 @@ QList<SExpressionNode> SExpressionParser::parse(const QString& content, ParseDia
                 if (current->atom.isEmpty() && current->children.isEmpty()) {
                     current->atom = token;
                 } else {
-                    current->children.append({token, {}, lineNumber});
+                    SExpressionNode scalar;
+                    scalar.atom = token;
+                    scalar.line = lineNumber;
+                    current->children.append(scalar);
                 }
             }
         }

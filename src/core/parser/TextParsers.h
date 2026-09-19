@@ -92,10 +92,11 @@ struct SExpressionNode {
     QString atom;
     QList<SExpressionNode> children;
     int line = 0;
+    bool listNode = false;
 
     /** @brief 判断节点是否为列表节点。 */
     bool isList() const {
-        return !children.isEmpty();
+        return listNode;
     }
 };
 
