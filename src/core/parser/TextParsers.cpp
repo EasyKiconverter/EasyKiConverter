@@ -1,6 +1,7 @@
 #include "TextParsers.h"
 
 #include <QRegularExpression>
+#include <QSet>
 
 namespace EasyKiConverter::Parser {
 
@@ -158,6 +159,102 @@ QList<SectionNode> IndentedSectionParser::parse(const QString& content, ParseDia
             stack.last().node->children.append(node);
             stack.append({&stack.last().node->children.last(), markerCount});
         }
+    }
+    return roots;
+}
+
+namespace {
+
+// 解析 Cadstar 行中的关键字、引号参数和括号坐标，保留参数边界。
+QStringList tokenizeDelimitedLine(const QString& line) {
+    QStringList tokens;
+    QString current;
+    bool quoted = false;
+    int parentheses = 0;
+    for (const QChar character : line) {
+        if (character == QChar('"')) {
+            quoted = !quoted;
+            continue;
+        }
+        if (!quoted && character == QChar('('))
+            ++parentheses;
+        if (!quoted && character == QChar(')'))
+            --parentheses;
+        const bool separator = !quoted && parentheses == 0 && (character.isSpace() || character == QChar(','));
+        if (separator) {
+            if (!current.isEmpty()) {
+                tokens.append(current);
+                current.clear();
+            }
+        } else {
+            current.append(character);
+        }
+    }
+    if (!current.isEmpty())
+        tokens.append(current);
+    return tokens;
+}
+
+}  // namespace
+
+// 根据显式 END* 标记建立 Cadstar 风格的分段树。
+QList<DelimitedSectionNode> DelimitedSectionParser::parse(const QString& content,
+                                                          const QStringList& leafKeywords,
+                                                          ParseDiagnostics* diagnostics) {
+    const QSet<QString> leaves = QSet<QString>(leafKeywords.cbegin(), leafKeywords.cend());
+    QList<DelimitedSectionNode> roots;
+    QList<DelimitedSectionNode*> stack;
+    const QStringList lines = linesOf(content);
+    for (int index = 0; index < lines.size(); ++index) {
+        const int lineNumber = index + 1;
+        const QString line = lines.at(index).trimmed();
+        if (line.isEmpty() || line.startsWith(QChar('!')) || line.startsWith(QChar('#')) || line.startsWith(QChar('*')))
+            continue;
+        const QStringList tokens = tokenizeDelimitedLine(line);
+        if (tokens.isEmpty())
+            continue;
+        const QString keyword = tokens.first().toUpper();
+        if (keyword.startsWith(QStringLiteral("END"))) {
+            if (stack.isEmpty()) {
+                if (diagnostics)
+                    diagnostics->add(ParseSeverity::Warning,
+                                     ParseScope::File,
+                                     QStringLiteral("没有对应起点的结束标记：%1").arg(keyword),
+                                     {},
+                                     lineNumber);
+                continue;
+            }
+            DelimitedSectionNode* section = stack.takeLast();
+            const QString expected = QStringLiteral("END") + section->keyword;
+            if (keyword != expected && diagnostics)
+                diagnostics->add(ParseSeverity::Warning,
+                                 ParseScope::File,
+                                 QStringLiteral("结束标记与分段不匹配：期望 %1，实际 %2").arg(expected, keyword),
+                                 section->keyword,
+                                 lineNumber);
+            section->closed = true;
+            continue;
+        }
+        DelimitedSectionNode node;
+        node.keyword = keyword;
+        node.arguments = tokens.mid(1);
+        node.line = lineNumber;
+        if (stack.isEmpty())
+            roots.append(node);
+        else
+            stack.last()->children.append(node);
+        DelimitedSectionNode* inserted = stack.isEmpty() ? &roots.last() : &stack.last()->children.last();
+        if (!leaves.contains(keyword))
+            stack.append(inserted);
+    }
+    while (!stack.isEmpty()) {
+        DelimitedSectionNode* section = stack.takeLast();
+        if (diagnostics)
+            diagnostics->add(ParseSeverity::Error,
+                             ParseScope::File,
+                             QStringLiteral("分段缺少结束标记：%1").arg(section->keyword),
+                             {},
+                             section->line);
     }
     return roots;
 }

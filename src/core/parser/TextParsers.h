@@ -45,6 +45,15 @@ struct SectionNode {
     int depth = 0;
 };
 
+/** @brief 使用 END* 终止符的分段文本节点。 */
+struct DelimitedSectionNode {
+    QString keyword;
+    QStringList arguments;
+    QList<DelimitedSectionNode> children;
+    int line = 0;
+    bool closed = false;
+};
+
 /**
  * @brief 解析 Xpedition HKP 等点缩进文本。
  * @details 解析阶段只建立树，不猜测格式字段，具体格式模型在上层读取器中完成。
@@ -58,6 +67,24 @@ public:
      * @return 根节点列表。
      */
     static QList<SectionNode> parse(const QString& content, ParseDiagnostics* diagnostics = nullptr);
+};
+
+/**
+ * @brief 解析 Cadstar 等 END* 终止符分段格式。
+ * @details 叶节点由调用方提供，未知字段仍保留在树中，未闭合节点会产生错误诊断。
+ */
+class DelimitedSectionParser {
+public:
+    /**
+     * @brief 解析带显式结束标记的分段文本。
+     * @param content UTF-8 文本。
+     * @param leafKeywords 不带 END 前缀的叶节点关键字。
+     * @param diagnostics 诊断接收器，可为空。
+     * @return 分段节点树。
+     */
+    static QList<DelimitedSectionNode> parse(const QString& content,
+                                             const QStringList& leafKeywords = {},
+                                             ParseDiagnostics* diagnostics = nullptr);
 };
 
 /** @brief S-expression 节点，支持嵌套列表和带引号原子。 */

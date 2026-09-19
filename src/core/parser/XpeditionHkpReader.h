@@ -7,6 +7,7 @@
 
 #include "GeometryTransforms.h"
 #include "TextParsers.h"
+#include "XpeditionHkpModel.h"
 
 namespace EasyKiConverter::Parser {
 
@@ -21,6 +22,7 @@ struct XpeditionHkpDocument {
     XpeditionHkpType type = XpeditionHkpType::Unknown;
     LengthUnit unit = LengthUnit::Unknown;
     QList<SectionNode> sections;
+    XpeditionHkpModel model;
     ParseDiagnostics diagnostics;
 
     /** @brief 判断文档是否具备可继续映射的文件类型。 */

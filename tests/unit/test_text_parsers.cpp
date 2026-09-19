@@ -2,6 +2,7 @@
 #include "core/parser/ParseDiagnostics.h"
 #include "core/parser/TextParsers.h"
 #include "core/parser/XpeditionHkpReader.h"
+#include "tests/common/TestPaths.hpp"
 
 #include <QTest>
 
@@ -107,6 +108,127 @@ private slots:
         const XpeditionHkpDocument document = XpeditionHkpReader::parse(QString(), QStringLiteral("empty.hkp"));
         QVERIFY(!document.isRecognized());
         QVERIFY(document.diagnostics.hasErrors());
+    }
+
+    // 验证 Pad、Padstack、Cell 和引脚关联可以从真实 HKP 语法进入格式模型。
+    void parsesXpeditionCellLibrary() {
+        const QString content = QStringLiteral(
+            ".UNITS mm\n"
+            ".PAD \"SMD\"\n"
+            "..RECTANGLE\n"
+            "...WIDTH 1.5\n"
+            "...HEIGHT 1.3\n"
+            ".PADSTACK \"P1\"\n"
+            "..PADSTACK_TYPE PIN_SMD\n"
+            "..TECHNOLOGY\n"
+            "...TOP_PAD \"SMD\"\n"
+            ".PACKAGE_CELL \"C1\"\n"
+            "..PIN \"1\"\n"
+            "...XY (1, -2)\n"
+            "...PADSTACK \"P1\"\n"
+            "..SILKSCREEN_OUTLINE\n"
+            "...RECT_SHAPE\n"
+            "....XY (-1, -1)\n"
+            "....XY (1, 1)\n");
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(content, QStringLiteral("sample.cel.hkp"));
+        QCOMPARE(document.model.pads.size(), 1);
+        QCOMPARE(document.model.padstacks.size(), 1);
+        QCOMPARE(document.model.cells.size(), 1);
+        QCOMPARE(document.model.cells.first().pins.size(), 1);
+        QCOMPARE(document.model.cells.first().pins.first().position, QPointF(1.0, -2.0));
+        QCOMPARE(document.model.cells.first().outlines.first().points.size(), 2);
+        QVERIFY(!document.diagnostics.hasErrors());
+    }
+
+    // 验证仓库内的真实格式样本可以通过统一测试路径读取并解析。
+    void parsesXpeditionFixture() {
+        QString error;
+        const QString content = EasyKiConverter::Test::TestPaths::readText(
+            EasyKiConverter::Test::TestPaths::fixturePath(QStringLiteral("xpedition/Sample.CEL.HKP")), &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(content, QStringLiteral("Sample.CEL.HKP"));
+        QCOMPARE(document.type, XpeditionHkpType::CellLibrary);
+        QCOMPARE(document.model.cells.size(), 1);
+        QCOMPARE(document.model.cells.first().pins.size(), 2);
+    }
+
+    // 验证 PDB 器件的名称、封装、符号和属性关联可以被严格保留。
+    void parsesXpeditionPartsDatabaseFixture() {
+        QString error;
+        const QString content = EasyKiConverter::Test::TestPaths::readText(
+            EasyKiConverter::Test::TestPaths::fixturePath(QStringLiteral("xpedition/xpedition_device.pdb.hkp")),
+            &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(content, QStringLiteral("device.pdb.hkp"));
+        QCOMPARE(document.type, XpeditionHkpType::PartsDatabase);
+        QCOMPARE(document.model.parts.size(), 1);
+        QCOMPARE(document.model.parts.first().topCell, QStringLiteral("CC1206"));
+        QCOMPARE(document.model.parts.first().bottomCell, QStringLiteral("CC1206_BOTTOM"));
+        QCOMPARE(document.model.parts.first().symbol, QStringLiteral("Sample:resistor"));
+        QCOMPARE(document.model.parts.first().properties.value(QStringLiteral("Type")), QStringLiteral("Resistor"));
+    }
+
+    // 验证非法坐标和缺失关联会产生可观察诊断，而不是静默生成零坐标。
+    void reportsXpeditionAssociationErrors() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(".UNITS mm\n.PADSTACK \"P1\"\n..TECHNOLOGY\n...TOP_PAD \"MISSING\"\n"
+                           ".PACKAGE_CELL \"C1\"\n..PIN \"1\"\n...XY (bad, 2)\n...PADSTACK \"P1\"\n"),
+            QStringLiteral("broken.cel.hkp"));
+        QVERIFY(document.diagnostics.hasErrors());
+        QVERIFY(document.diagnostics.items().size() >= 2);
+    }
+
+    // 验证旋转和镜像字段会进入引脚模型并保留几何语义。
+    void parsesXpeditionPinTransform() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(
+                ".UNITS mm\n.PACKAGE_CELL \"C1\"\n..PIN \"1\"\n...XY (1, 2)\n...ROTATION 90\n...MIRROR YES\n"),
+            QStringLiteral("transform.cel.hkp"));
+        QCOMPARE(document.model.cells.first().pins.first().rotation, 90.0);
+        QVERIFY(document.model.cells.first().pins.first().mirror);
+    }
+
+    // 验证未知几何关键字被跳过并记录原因，不会静默伪造形状。
+    void reportsUnknownXpeditionPrimitive() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(".UNITS mm\n.PAD \"P\"\n..TRIANGLE\n...WIDTH 1\n"), QStringLiteral("unknown.psk.hkp"));
+        QVERIFY(!document.diagnostics.isEmpty());
+        QCOMPARE(document.model.pads.first().shape, XpeditionPadShape::Unknown);
+    }
+
+    // 验证重复名称会保留数据并生成稳定的重名诊断。
+    void disambiguatesXpeditionDuplicateNames() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(".UNITS mm\n.PAD \"P\"\n..ROUND\n...DIAMETER 1\n.PAD \"P\"\n..ROUND\n...DIAMETER 2\n"),
+            QStringLiteral("duplicate.psk.hkp"));
+        QCOMPARE(document.model.pads.size(), 2);
+        QCOMPARE(document.model.pads.at(1).name, QStringLiteral("P_2"));
+        QVERIFY(!document.diagnostics.isEmpty());
+    }
+
+    // 验证 Cadstar 的 END* 分段和单行叶节点可以建立可遍历的树。
+    void parsesDelimitedSections() {
+        ParseDiagnostics diagnostics;
+        const QList<DelimitedSectionNode> roots = DelimitedSectionParser::parse(
+            QStringLiteral(
+                "PAD \"P1\"\nSHAPE ROUND\nDIAMETER 1.0\nENDPAD\nPACKAGE \"C1\"\nPIN 1 (0 0) P1\nENDPACKAGE\n"),
+            {QStringLiteral("SHAPE"), QStringLiteral("DIAMETER"), QStringLiteral("PIN")},
+            &diagnostics);
+        QCOMPARE(roots.size(), 2);
+        QCOMPARE(roots.first().keyword, QStringLiteral("PAD"));
+        QCOMPARE(roots.first().children.size(), 2);
+        QCOMPARE(roots.first().children.first().arguments.first(), QStringLiteral("ROUND"));
+        QVERIFY(roots.first().closed);
+        QVERIFY(!diagnostics.hasErrors());
+    }
+
+    // 验证孤立和未闭合的 Cadstar 分段会产生可定位诊断。
+    void reportsDelimitedSectionErrors() {
+        ParseDiagnostics diagnostics;
+        const QList<DelimitedSectionNode> roots = DelimitedSectionParser::parse(
+            QStringLiteral("PAD \"P1\"\nSHAPE ROUND\nENDUNKNOWN\nENDPAD\n"), {QStringLiteral("SHAPE")}, &diagnostics);
+        QVERIFY(!roots.isEmpty());
+        QVERIFY(!diagnostics.isEmpty());
     }
 };
 

@@ -7,6 +7,8 @@ add_library(EasyKiConverterParser STATIC
     GeometryTransforms.cpp
     XpeditionHkpReader.h
     XpeditionHkpReader.cpp
+    XpeditionHkpModel.h
+    XpeditionHkpModel.cpp
     TextParsers.h
     TextParsers.cpp
 )
