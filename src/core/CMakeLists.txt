@@ -4,6 +4,7 @@ add_subdirectory(easyeda)
 add_subdirectory(ir)
 add_subdirectory(kicad)
 add_subdirectory(network)
+add_subdirectory(parser)
 add_subdirectory(utils)
 add_subdirectory(altium)
 add_subdirectory(xpedition)
@@ -28,6 +29,7 @@ target_link_libraries(EasyKiConverterCore
         EasyKiConverterKicad
         EasyKiConverterXpedition
         EasyKiConverterNetwork
+        EasyKiConverterParser
         EasyKiConverterUtils
         EasyKiConverterModels
         EasyKiConverterAltium

@@ -18,6 +18,17 @@ target_include_directories(test_easyeda_api PRIVATE
 
 add_test(NAME test_easyeda_api COMMAND test_easyeda_api)
 
+add_executable(test_text_parsers test_text_parsers.cpp)
+target_link_libraries(test_text_parsers PRIVATE
+    Qt6::Test
+    EasyKiConverterParser
+)
+target_include_directories(test_text_parsers PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_text_parsers COMMAND test_text_parsers)
+
 add_executable(test_models test_models.cpp)
 target_link_libraries(test_models PRIVATE
     Qt6::Test
