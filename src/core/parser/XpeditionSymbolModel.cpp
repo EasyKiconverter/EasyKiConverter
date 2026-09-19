@@ -47,6 +47,58 @@ QString propertyValue(const QStringList& values) {
     return values.mid(separator).join(QStringLiteral(" "));
 }
 
+/** @brief 展开 Xpedition 引脚编号的范围表达式并保留普通编号。 */
+QStringList expandPinNumbers(const QString& value, ParseDiagnostics* diagnostics, int line) {
+    QStringList numbers;
+    const QStringList entries = value.split(QChar(','), Qt::KeepEmptyParts);
+    const QRegularExpression rangeExpression(QStringLiteral(R"(^\[\s*(\d+)\s*:\s*(\d+)(?:\s*:\s*(\d+))?\s*\]$)"));
+    for (const QString& rawEntry : entries) {
+        const QString entry = rawEntry.trimmed();
+        if (entry.isEmpty()) {
+            if (diagnostics)
+                diagnostics->add(ParseSeverity::Error,
+                                 ParseScope::Symbol,
+                                 QStringLiteral("Xpedition 引脚编号范围包含空项"),
+                                 value,
+                                 line);
+            continue;
+        }
+        const QRegularExpressionMatch match = rangeExpression.match(entry);
+        if (!match.hasMatch()) {
+            if (entry.startsWith(QChar('[')) || entry.endsWith(QChar(']'))) {
+                if (diagnostics)
+                    diagnostics->add(ParseSeverity::Error,
+                                     ParseScope::Symbol,
+                                     QStringLiteral("Xpedition 引脚编号范围格式非法"),
+                                     entry,
+                                     line);
+            } else {
+                numbers.append(entry);
+            }
+            continue;
+        }
+
+        bool startOk = false;
+        bool endOk = false;
+        bool stepOk = true;
+        const int start = match.captured(1).toInt(&startOk);
+        const int end = match.captured(2).toInt(&endOk);
+        const int step = match.captured(3).isEmpty() ? 1 : match.captured(3).toInt(&stepOk);
+        if (!startOk || !endOk || !stepOk || step <= 0 || end < start) {
+            if (diagnostics)
+                diagnostics->add(ParseSeverity::Error,
+                                 ParseScope::Symbol,
+                                 QStringLiteral("Xpedition 引脚编号范围边界非法"),
+                                 entry,
+                                 line);
+            continue;
+        }
+        for (int number = start; number <= end; number += step)
+            numbers.append(QString::number(number));
+    }
+    return numbers;
+}
+
 /** @brief 为字段不足的符号命令记录结构化错误。 */
 void diagnoseMalformed(ParseDiagnostics* diagnostics, const QString& command, int line) {
     if (diagnostics)
@@ -158,7 +210,7 @@ XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, con
                 if (key == QStringLiteral("PINTYPE"))
                     currentPin->pinType = value;
                 else if (key == QStringLiteral("#"))
-                    currentPin->numbers = value.split(QRegularExpression(QStringLiteral(",")), Qt::SkipEmptyParts);
+                    currentPin->numbers = expandPinNumbers(value, &document.diagnostics, line);
                 else if (key == QStringLiteral("PART"))
                     integer(value, &document.diagnostics, key, line, currentPart);
             }

@@ -34,6 +34,23 @@ private slots:
         QVERIFY(qAbs(symbol.pins.first().length - 2.54) < 1e-9);
     }
 
+    // 验证 Xpedition 引脚编号范围会展开为独立编号，并拒绝反向范围。
+    void symbolParserExpandsPinNumberRanges() {
+        const Parser::XpeditionSymbolDocument document =
+            Parser::XpeditionSymbolParser::parse(QStringLiteral("V 50\nK 1 RANGE_TEST\nY 1\nP 1 100 0 0 0 0 2 0\n"
+                                                                "A 100 0 8 0 3 3 #=[1:5:2]\nE\n"),
+                                                 QStringLiteral("range.1"));
+        QVERIFY(document.isRecognized());
+        QVERIFY(!document.diagnostics.hasErrors());
+        QCOMPARE(document.model.pins.size(), 1);
+        QCOMPARE(document.model.pins.first().numbers, QStringList({"1", "3", "5"}));
+
+        const Parser::XpeditionSymbolDocument invalid = Parser::XpeditionSymbolParser::parse(
+            QStringLiteral("V 50\nK 1 INVALID_RANGE\nY 1\nP 1 100 0 0 0 0 2 0\nA 100 0 8 0 3 3 #=[5:1]\nE\n"),
+            QStringLiteral("invalid-range.1"));
+        QVERIFY(invalid.diagnostics.hasErrors());
+    }
+
     // 验证符号 ZIP 至少包含头部、引脚和矩形等基本 ASCII 记录。
     void symbolLibraryContainsAsciiEntry() {
         QTemporaryDir tempDir;
