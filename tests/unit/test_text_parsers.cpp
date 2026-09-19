@@ -2,6 +2,7 @@
 #include "core/parser/ParseDiagnostics.h"
 #include "core/parser/TextParsers.h"
 #include "core/parser/XpeditionHkpReader.h"
+#include "core/parser/XpeditionSymbolModel.h"
 #include "tests/common/TestPaths.hpp"
 
 #include <QTest>
@@ -230,6 +231,36 @@ private slots:
             QStringLiteral("invalid-point.psk.hkp"));
         QCOMPARE(document.model.pads.first().polygon.size(), 2);
         QVERIFY(document.diagnostics.hasErrors());
+    }
+
+    // 验证 Xpedition V54 符号的引脚、图形、文本和多部件元数据可以被保留。
+    void parsesXpeditionSymbolV54() {
+        QString error;
+        const QString content = EasyKiConverter::Test::TestPaths::readText(
+            EasyKiConverter::Test::TestPaths::fixturePath(QStringLiteral("xpedition/Sample.SYM.1")), &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        const XpeditionSymbolDocument document = XpeditionSymbolParser::parse(content, QStringLiteral("Sample.SYM.1"));
+        QVERIFY(document.isRecognized());
+        QVERIFY(!document.diagnostics.hasErrors());
+        QCOMPARE(document.model.name, QStringLiteral("TEST_SYMBOL"));
+        QCOMPARE(document.model.partCount, 2);
+        QCOMPARE(document.model.pins.size(), 1);
+        QCOMPARE(document.model.pins.first().name, QStringLiteral("INPUT"));
+        QCOMPARE(document.model.pins.first().numbers, QStringList{QStringLiteral("A1")});
+        QCOMPARE(document.model.polylines.size(), 1);
+        QVERIFY(document.model.polylines.first().closed);
+        QCOMPARE(document.model.rectangles.size(), 1);
+        QCOMPARE(document.model.circles.size(), 1);
+        QCOMPARE(document.model.arcs.size(), 1);
+        QCOMPARE(document.model.texts.size(), 1);
+    }
+
+    // 验证 Xpedition 符号非法数字和未知命令会产生可观察诊断。
+    void reportsInvalidXpeditionSymbolFields() {
+        const XpeditionSymbolDocument document = XpeditionSymbolParser::parse(
+            QStringLiteral("V invalid\nP 1 bad 0 0 0 0 0 0\nQ unsupported\n"), QStringLiteral("broken.1"));
+        QVERIFY(document.diagnostics.hasErrors());
+        QVERIFY(!document.diagnostics.isEmpty());
     }
 
     // 验证 Pad 和孔的几何节点顺序变化不会阻止解析器找到受支持的图元。

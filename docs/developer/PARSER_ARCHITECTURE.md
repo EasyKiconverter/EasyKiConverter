@@ -62,11 +62,11 @@ HKP 的 Pad、孔几何不依赖子节点顺序；XY 坐标支持括号、逗号
 
 - EasyEDA/LCSC API 数据：已有 EasyEDA 专用导入器和模型到 IR 的转换路径。
 - Altium SchLib/PcbLib：已有 OLE/CFB 读取器以及 SchLib/PcbLib 导出器，读取器不等同于完整源格式到 IR 的 Importer。
-- Xpedition：已有 IR 到符号文本和 Pads/Cell HKP ZIP 的导出器；本轮已能将 Pad、Hole、Padstack、Cell、Pin、Outline 和 PDB 器件关联解析为格式专用模型，但尚未完成 HKP 到 IR 的完整导入。
+- Xpedition：已有 IR 到符号文本和 Pads/Cell HKP ZIP 的导出器；Pad、Hole、Padstack、Cell、Pin、Outline 和 PDB 器件关联可解析为格式专用模型，V54 符号文本也已能解析引脚、图形、文本和多部件元数据，并通过 Adapter 映射到现有 Symbol IR。
 
 ### 进行中的工作
 
-- Xpedition ASCII/HKP：继续补充符号图元、多文件合并和格式专用模型到 IR 的映射。
+- Xpedition ASCII/HKP：继续补充 HKP 多文件合并、PDB/符号跨文件关联、封装细节和剩余符号图元到 IR 的完整映射。
 - 多文件合并：采用全局名称表、稳定后缀和明确的缺失关联诊断。
 - 真实样本驱动测试：每个格式至少覆盖空文件、损坏文件、非法数字、未知图元和重复名称。
 

@@ -5,6 +5,8 @@ add_library(EasyKiConverterXpedition STATIC
     XpeditionZipWriter.cpp
     ExporterXpeditionSymbol.h
     ExporterXpeditionSymbol.cpp
+    XpeditionSymbolAdapter.h
+    XpeditionSymbolAdapter.cpp
     ExporterXpeditionFootprint.h
     ExporterXpeditionFootprint.cpp
 )
@@ -19,4 +21,5 @@ target_link_libraries(EasyKiConverterXpedition
     PUBLIC
         Qt6::Core
         EasyKiConverterIR
+        EasyKiConverterParser
 )

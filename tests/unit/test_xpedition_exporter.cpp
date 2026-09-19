@@ -2,6 +2,7 @@
 #include "core/ir/SymbolIR.h"
 #include "core/xpedition/ExporterXpeditionFootprint.h"
 #include "core/xpedition/ExporterXpeditionSymbol.h"
+#include "core/xpedition/XpeditionSymbolAdapter.h"
 
 #include <QFile>
 #include <QTemporaryDir>
@@ -13,6 +14,25 @@ class TestXpeditionExporter : public QObject {
     Q_OBJECT
 
 private slots:
+
+    // 验证 Xpedition 符号格式模型可以通过 Adapter 转换为统一 IR。
+    void symbolParserAdapterProducesIr() {
+        const Parser::XpeditionSymbolDocument document =
+            Parser::XpeditionSymbolParser::parse(QStringLiteral("V 50\nK 1 ADAPTER_TEST\nY 1\nP 1 100 0 0 0 0 2 0\n"
+                                                                "L 0 0 8 0 2 0 1 0 IN\nA 100 0 8 0 3 3 #=1\nE\n"),
+                                                 QStringLiteral("adapter.1"));
+        QVERIFY(document.isRecognized());
+        QVERIFY(!document.diagnostics.hasErrors());
+
+        const IR::SymbolComponentIR symbol = XpeditionSymbolAdapter::toIR(document);
+        QCOMPARE(symbol.name, QStringLiteral("ADAPTER_TEST"));
+        QCOMPARE(symbol.pins.size(), 1);
+        QCOMPARE(symbol.pins.first().designator, QStringLiteral("1"));
+        QCOMPARE(symbol.pins.first().name, QStringLiteral("IN"));
+        QCOMPARE(symbol.pins.first().partIndex, 0);
+        QVERIFY(qAbs(symbol.pins.first().position.x() - 2.54) < 1e-9);
+        QVERIFY(qAbs(symbol.pins.first().length - 2.54) < 1e-9);
+    }
 
     // 验证符号 ZIP 至少包含头部、引脚和矩形等基本 ASCII 记录。
     void symbolLibraryContainsAsciiEntry() {

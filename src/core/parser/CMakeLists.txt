@@ -9,6 +9,8 @@ add_library(EasyKiConverterParser STATIC
     XpeditionHkpReader.cpp
     XpeditionHkpModel.h
     XpeditionHkpModel.cpp
+    XpeditionSymbolModel.h
+    XpeditionSymbolModel.cpp
     TextParsers.h
     TextParsers.cpp
 )

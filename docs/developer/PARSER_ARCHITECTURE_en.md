@@ -62,11 +62,11 @@ HKP Pad and hole geometry is discovered independently of child-node order. XY co
 
 - EasyEDA/LCSC API data: existing EasyEDA importers and model-to-IR conversion are available.
 - Altium SchLib/PcbLib: OLE/CFB readers and SchLib/PcbLib exporters exist; a reader is not by itself a complete source-format importer to IR.
-- Xpedition: IR-to-symbol and Pads/Cell HKP ZIP exporters exist. Pad, Hole, Padstack, Cell, Pin, Outline, and PDB associations now parse into a format-specific model, but a complete HKP-to-IR importer is not implemented.
+- Xpedition: IR-to-symbol and Pads/Cell HKP ZIP exporters exist. Pad, Hole, Padstack, Cell, Pin, Outline, and PDB associations parse into format-specific models. V54 symbol text now parses pins, graphics, text, and multi-part metadata and maps them to the existing Symbol IR through an adapter.
 
 ### In progress
 
-- Xpedition ASCII/HKP: continue with symbol graphics, multi-file merging, and mapping the format-specific model to IR.
+- Xpedition ASCII/HKP: continue with HKP multi-file merging, cross-file PDB/symbol associations, package details, and the remaining symbol primitives in the IR mapping.
 - Multi-file merging: use global name tables, stable suffixes, and explicit missing-association diagnostics.
 - Real-sample tests: each format should cover empty, malformed, invalid-number, unknown-primitive, and duplicate-name inputs.
 
