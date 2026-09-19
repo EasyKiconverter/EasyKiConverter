@@ -82,6 +82,12 @@ private slots:
         QCOMPARE(FormatDetector::detect(QStringLiteral("design.dsn"), QByteArray()), DetectedFormat::TinyCadXml);
         QCOMPARE(FormatDetector::detect(QStringLiteral("design.pcb"), QByteArray("ACCEL_ASCII\n")),
                  DetectedFormat::PcadSExpression);
+        QCOMPARE(FormatDetector::detect(QStringLiteral("board.txt"), QByteArray("# comment\nPCB[0 0]\n")),
+                 DetectedFormat::GedaLegacy);
+        QCOMPARE(FormatDetector::detect(QStringLiteral("board.pcb"), QByteArray("pcb(\"board\")\n")),
+                 DetectedFormat::GedaLegacy);
+        QCOMPARE(FormatDetector::detect(QStringLiteral("library.cpa"), QByteArray("cadstar\n")),
+                 DetectedFormat::CadstarAscii);
         QCOMPARE(FormatDetector::detect(QStringLiteral("legacy.lib"), QByteArray(".LIB\n")), DetectedFormat::Unknown);
         QCOMPARE(FormatDetector::detect(QStringLiteral("unknown.bin"), QByteArray("binary")), DetectedFormat::Unknown);
     }

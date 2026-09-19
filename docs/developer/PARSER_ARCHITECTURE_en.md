@@ -31,7 +31,7 @@ Parsers must not call target writers directly or silently discard format-specifi
 - `StrictNumberParser`, rejecting invalid and non-finite numbers with field-level diagnostics.
 - `UnitConverter`, converting mm, mil, and inch values to the millimetres used by the IR.
 - `CoordinateTransform`, applying origin, rotation, and mirror operations consistently.
-- `FormatDetector`, using conservative extension and content-header detection.
+- `FormatDetector`, using conservative extension and content-header detection; it can recognize candidate TinyCAD and gEDA inputs without registering unsupported formats as usable importers.
 - `ArchiveInspector`, validating ZIP central-directory and local-header consistency together with traversal, symlink, encryption, and archive-bomb limits without extracting files.
 - `EncodingDetector`, detecting BOM and UTF-8 and providing a diagnosable, limited Latin-1 fallback for otherwise unclassified text.
 - `ImporterRegistry`, selecting a format importer in registration order without owning format-specific models.

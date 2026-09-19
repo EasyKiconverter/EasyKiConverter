@@ -340,22 +340,24 @@ QList<SExpressionNode> SExpressionParser::parse(const QString& content, ParseDia
 DetectedFormat FormatDetector::detect(const QString& fileName, const QByteArray& content) {
     const QString lowerName = fileName.toLower();
     const QByteArray head = content.left(4096).trimmed();
+    const QByteArray lowerHead = head.toLower();
     if (lowerName.endsWith(QStringLiteral(".json")) && head.startsWith('{'))
         return DetectedFormat::EasyedaJson;
-    if (lowerName.endsWith(QStringLiteral(".dsn")) || head.contains("<TinyCAD"))
+    if (lowerName.endsWith(QStringLiteral(".dsn")) || lowerHead.contains("<tinycad"))
         return DetectedFormat::TinyCadXml;
     if (lowerName.endsWith(QStringLiteral(".psk.hkp")) || lowerName.endsWith(QStringLiteral(".cel.hkp")) ||
-        lowerName.endsWith(QStringLiteral(".pdb.hkp")) || head.contains(".FILETYPE PADSTACK_LIBRARY") ||
-        head.contains(".FILETYPE CELL_LIBRARY") || head.contains(".FILETYPE ASCII_PDB"))
+        lowerName.endsWith(QStringLiteral(".pdb.hkp")) || lowerHead.contains(".filetype padstack_library") ||
+        lowerHead.contains(".filetype cell_library") || lowerHead.contains(".filetype ascii_pdb"))
         return DetectedFormat::XpeditionHkp;
     if (head.startsWith("V ") || head.startsWith("V\t"))
         return DetectedFormat::XpeditionSymbol;
-    if (lowerName.endsWith(QStringLiteral(".pcb")) || head.contains("ACCEL_ASCII"))
-        return DetectedFormat::PcadSExpression;
-    if (head.contains("CADSTAR") || lowerName.endsWith(QStringLiteral(".cpa")))
-        return DetectedFormat::CadstarAscii;
-    if (head.startsWith("PCB["))
+    if (lowerHead.contains("pcb[") || lowerHead.contains("pcb(") ||
+        QRegularExpression(QStringLiteral("fileversion\\[\\d+\\]")).match(QString::fromUtf8(lowerHead)).hasMatch())
         return DetectedFormat::GedaLegacy;
+    if (lowerName.endsWith(QStringLiteral(".pcb")) || lowerHead.contains("accel_ascii"))
+        return DetectedFormat::PcadSExpression;
+    if (lowerHead.contains("cadstar") || lowerName.endsWith(QStringLiteral(".cpa")))
+        return DetectedFormat::CadstarAscii;
     return DetectedFormat::Unknown;
 }
 
