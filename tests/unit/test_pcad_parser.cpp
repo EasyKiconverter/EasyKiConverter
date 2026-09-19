@@ -46,6 +46,29 @@ private slots:
         QCOMPARE(result.footprints.first().pads.size(), 1);
         QVERIFY(result.footprints.first().pads.first().isThroughHole());
         QVERIFY(qAbs(result.footprints.first().pads.first().size.width() - 1.016) < 1e-9);
+        QVERIFY(result.placements.isEmpty());
+        QVERIFY(!diagnostics.hasErrors());
+    }
+
+    // 验证板级放置会通过通用 IR 保留位置、旋转和镜像语义。
+    void adaptsPcadPlacementToIr() {
+        const PcadBoard board =
+            PcadParser::parse(QStringLiteral("(ACCEL_ASCII \"B\" (UNITS MM) (LIBRARY (PADSTYLEDEF \"P\" "
+                                             "(PADSHAPE ROUND (SHAPEWIDTH 1) (SHAPEHEIGHT 1))) (PATTERNDEF \"K\" "
+                                             "(PAD (PADNUM 1) (PADSTYLEREF \"P\") (PT 0 0)))) (PCBDESIGN "
+                                             "(MULTILAYER (PATTERN (PATTERNREF \"K\") (REFDESREF \"U1\") "
+                                             "(PT 10 20) (ROTATION 450) (ISFLIPPED TRUE)))))"),
+                              QStringLiteral("placement.pcb"));
+        QVERIFY(!board.diagnostics.hasErrors());
+        ParseDiagnostics diagnostics;
+        const PcadConversionResult result = PcadAdapter::toIR(board, &diagnostics);
+        QCOMPARE(result.placements.size(), 1);
+        QCOMPARE(result.placements.first().reference, QStringLiteral("U1"));
+        QCOMPARE(result.placements.first().footprintName, QStringLiteral("K"));
+        QVERIFY(qAbs(result.placements.first().position.x() - 10.0) < 1e-9);
+        QVERIFY(qAbs(result.placements.first().position.y() + 20.0) < 1e-9);
+        QVERIFY(qAbs(result.placements.first().rotation - 45.0) < 1e-9);
+        QVERIFY(result.placements.first().mirrored);
         QVERIFY(!diagnostics.hasErrors());
     }
 

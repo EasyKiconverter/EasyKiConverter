@@ -74,6 +74,7 @@ HKP 的 Pad、孔几何不依赖子节点顺序；XY 坐标支持括号、逗号
 - Cadstar ASCII 库：已支持 Pad、Package、Component、Part、焊盘编号范围、异形焊盘、槽孔、基本图形、单位换算和到 Footprint/Symbol IR 的适配。
 - Cadstar 多文件模型：可合并多个已解析库，保留源文件诊断并对跨文件重名关联报错。
 - P-CAD ASCII PCB：已支持 `ACCEL_ASCII` 检测、Pad Style、Pattern、Pattern 图形、器件放置、层号、单位换算、Y 轴转换和 Pattern 到 Footprint IR 的适配。
+- P-CAD 板级放置：器件参考标识、封装引用、位置、旋转和镜像已映射到通用 `FootprintPlacementIR`，不会把放置语义留在 P-CAD 专用模型中。
 
 ### 进行中的工作
 

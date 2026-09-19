@@ -74,6 +74,7 @@ HKP Pad and hole geometry is discovered independently of child-node order. XY co
 - Cadstar ASCII libraries: Pad, Package, Component, Part, pin-number ranges, custom pads, slots, basic graphics, unit conversion, and Footprint/Symbol IR adapters are implemented.
 - Cadstar multi-file models: multiple parsed libraries can be merged while preserving source diagnostics and rejecting ambiguous cross-file references.
 - P-CAD ASCII PCBs: `ACCEL_ASCII` detection, Pad Styles, Patterns, Pattern graphics, component placements, layer numbers, unit conversion, Y-axis conversion, and Pattern-to-Footprint IR adaptation are implemented.
+- P-CAD board placements: reference designators, footprint references, positions, rotations, and mirroring map to the common `FootprintPlacementIR` instead of remaining only in the P-CAD model.
 
 ### In progress
 

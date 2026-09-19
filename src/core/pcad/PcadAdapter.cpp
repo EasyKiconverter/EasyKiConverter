@@ -102,7 +102,15 @@ PcadConversionResult PcadAdapter::toIR(const Parser::PcadBoard& board, Parser::P
     PcadConversionResult result;
     for (const Parser::PcadPattern& pattern : board.patterns)
         result.footprints.append(toFootprint(board, pattern, diagnostics));
-    result.placements = board.placements;
+    for (const Parser::PcadPlacement& sourcePlacement : board.placements) {
+        IR::FootprintPlacementIR placement;
+        placement.reference = sourcePlacement.reference;
+        placement.footprintName = sourcePlacement.patternName;
+        placement.position = sourcePlacement.position;
+        placement.rotation = sourcePlacement.rotation;
+        placement.mirrored = sourcePlacement.flipped;
+        result.placements.append(placement);
+    }
     result.boardGraphics = board.graphics;
     for (const Parser::PcadPlacement& placement : board.placements) {
         bool found = false;

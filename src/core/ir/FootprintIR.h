@@ -219,6 +219,7 @@ struct FootprintComponentIR {
                !outlines.isEmpty();
     }
 
+    /** @brief 清空封装名称、几何图元和三维模型。 */
     void clear() {
         name.clear();
         description.clear();
@@ -234,6 +235,18 @@ struct FootprintComponentIR {
         outlines.clear();
         models3d.clear();
     }
+};
+
+/**
+ * @brief 通用封装放置实例。
+ * @details 该结构只描述板级关联，不复制封装几何；封装几何通过 footprintName 引用同一份 IR 定义。
+ */
+struct FootprintPlacementIR {
+    QString reference;  ///< 器件参考标识，例如 "U1"。
+    QString footprintName;  ///< 被放置的封装定义名称。
+    QPointF position;  ///< 板级位置，单位为毫米。
+    double rotation = 0.0;  ///< 板级旋转角度，单位为度。
+    bool mirrored = false;  ///< 是否位于底面或经过镜像放置。
 };
 
 }  // namespace IR

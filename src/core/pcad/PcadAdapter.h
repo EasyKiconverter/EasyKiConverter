@@ -13,7 +13,7 @@ namespace EasyKiConverter {
 /** @brief P-CAD Pattern 和板级放置的统一转换结果。 */
 struct PcadConversionResult {
     QList<IR::FootprintComponentIR> footprints;
-    QList<Parser::PcadPlacement> placements;
+    QList<IR::FootprintPlacementIR> placements;
     QList<Parser::PcadGraphic> boardGraphics;
 };
 
