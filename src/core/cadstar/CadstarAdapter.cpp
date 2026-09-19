@@ -46,6 +46,14 @@ IR::PinElectricalType electricalTypeFor(const QString& value) {
 const Parser::CadstarPad* findPad(const Parser::CadstarLibrary& library,
                                   const QString& name,
                                   Parser::ParseDiagnostics* diagnostics) {
+    if (library.isPadAmbiguous(name)) {
+        if (diagnostics)
+            diagnostics->add(Parser::ParseSeverity::Error,
+                             Parser::ParseScope::Footprint,
+                             QStringLiteral("Cadstar 焊盘引用存在歧义：%1").arg(name),
+                             name);
+        return nullptr;
+    }
     const Parser::CadstarPad* result = nullptr;
     for (const Parser::CadstarPad& pad : library.pads) {
         if (pad.name != name)
@@ -291,12 +299,24 @@ CadstarConversionResult CadstarAdapter::toIR(const Parser::CadstarLibrary& libra
         result.symbols.append(toSymbol(library, component, diagnostics));
 
     for (const Parser::CadstarPart& part : library.parts) {
+        const bool componentAmbiguous = library.isComponentAmbiguous(part.componentName);
+        const bool packageAmbiguous = library.isPackageAmbiguous(part.packageName);
         bool componentFound = false;
         bool packageFound = false;
         for (const Parser::CadstarComponent& component : library.components)
             componentFound = componentFound || component.name == part.componentName;
         for (const Parser::CadstarPackage& packageModel : library.packages)
             packageFound = packageFound || packageModel.name == part.packageName;
+        if (diagnostics && componentAmbiguous)
+            diagnostics->add(Parser::ParseSeverity::Error,
+                             Parser::ParseScope::Component,
+                             QStringLiteral("Cadstar Part 符号关联存在歧义：%1").arg(part.componentName),
+                             part.name);
+        if (diagnostics && packageAmbiguous)
+            diagnostics->add(Parser::ParseSeverity::Error,
+                             Parser::ParseScope::Footprint,
+                             QStringLiteral("Cadstar Part 封装关联存在歧义：%1").arg(part.packageName),
+                             part.name);
         if (diagnostics && !componentFound)
             diagnostics->add(Parser::ParseSeverity::Error,
                              Parser::ParseScope::Component,

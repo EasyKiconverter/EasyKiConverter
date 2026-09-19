@@ -220,6 +220,26 @@ bool CadstarLibrary::isRecognized() const {
     return !pads.isEmpty() || !packages.isEmpty() || !components.isEmpty() || !parts.isEmpty();
 }
 
+/** @brief 判断焊盘原始名称是否对应多个定义。 */
+bool CadstarLibrary::isPadAmbiguous(const QString& name) const {
+    return padNameVariants.value(name).size() > 1;
+}
+
+/** @brief 判断封装原始名称是否对应多个定义。 */
+bool CadstarLibrary::isPackageAmbiguous(const QString& name) const {
+    return packageNameVariants.value(name).size() > 1;
+}
+
+/** @brief 判断符号原始名称是否对应多个定义。 */
+bool CadstarLibrary::isComponentAmbiguous(const QString& name) const {
+    return componentNameVariants.value(name).size() > 1;
+}
+
+/** @brief 判断器件原始名称是否对应多个定义。 */
+bool CadstarLibrary::isPartAmbiguous(const QString& name) const {
+    return partNameVariants.value(name).size() > 1;
+}
+
 /** @brief 解析 Cadstar 分段树并构建格式专用模型。 */
 CadstarLibrary CadstarParser::parse(const QString& content, const QString& filePath) {
     CadstarLibrary library;
@@ -280,6 +300,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                 library.diagnostics.add(
                     ParseSeverity::Error, ParseScope::Field, QStringLiteral("Cadstar 焊盘缺少名称"), {}, root.line);
             library.pads.append(pad);
+            library.padNameVariants[pad.name].append(pad.name);
             reportDuplicate(library.pads, pad.name, &library.diagnostics, QStringLiteral("焊盘"), root.line);
             continue;
         }
@@ -328,6 +349,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                 library.diagnostics.add(
                     ParseSeverity::Error, ParseScope::Footprint, QStringLiteral("Cadstar 封装缺少名称"), {}, root.line);
             library.packages.append(packageModel);
+            library.packageNameVariants[packageModel.name].append(packageModel.name);
             reportDuplicate(
                 library.packages, packageModel.name, &library.diagnostics, QStringLiteral("封装"), root.line);
             continue;
@@ -403,6 +425,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                 library.diagnostics.add(
                     ParseSeverity::Error, ParseScope::Symbol, QStringLiteral("Cadstar 符号缺少名称"), {}, root.line);
             library.components.append(component);
+            library.componentNameVariants[component.name].append(component.name);
             reportDuplicate(
                 library.components, component.name, &library.diagnostics, QStringLiteral("符号"), root.line);
             continue;
@@ -427,6 +450,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                                         part.name,
                                         root.line);
             library.parts.append(part);
+            library.partNameVariants[part.name].append(part.name);
         }
     }
 

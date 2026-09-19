@@ -62,6 +62,19 @@ private slots:
         CadstarAdapter::toIR(library, &conversionDiagnostics);
         QVERIFY(conversionDiagnostics.hasErrors());
     }
+
+    // 验证重复焊盘名称在 Adapter 阶段不会静默绑定到第一个定义。
+    void rejectsAmbiguousCadstarPadReference() {
+        const CadstarLibrary library =
+            CadstarParser::parse(QStringLiteral("UNITS MM\nPAD P\nSHAPE ROUND\nDIAMETER 1\nENDPAD\nPAD P\nSHAPE ROUND\n"
+                                                "DIAMETER 2\nENDPAD\nPACKAGE PKG\nPIN 1\nPAD P\nENDPIN\nENDPACKAGE\n"),
+                                 QStringLiteral("duplicate-pad.lib"));
+        QVERIFY(library.isPadAmbiguous(QStringLiteral("P")));
+        ParseDiagnostics diagnostics;
+        const CadstarConversionResult result = CadstarAdapter::toIR(library, &diagnostics);
+        QVERIFY(result.footprints.first().pads.isEmpty());
+        QVERIFY(diagnostics.hasErrors());
+    }
 };
 
 QTEST_GUILESS_MAIN(TestCadstarParser)

@@ -102,10 +102,30 @@ struct CadstarLibrary {
     QList<CadstarPackage> packages;
     QList<CadstarComponent> components;
     QList<CadstarPart> parts;
+    /** @brief 原始焊盘名称到定义候选的索引。 */
+    QMap<QString, QStringList> padNameVariants;
+    /** @brief 原始封装名称到定义候选的索引。 */
+    QMap<QString, QStringList> packageNameVariants;
+    /** @brief 原始符号名称到定义候选的索引。 */
+    QMap<QString, QStringList> componentNameVariants;
+    /** @brief 原始器件名称到定义候选的索引。 */
+    QMap<QString, QStringList> partNameVariants;
     ParseDiagnostics diagnostics;
 
     /** @brief 判断输入是否至少包含一个 Cadstar 库定义。 */
     bool isRecognized() const;
+
+    /** @brief 判断焊盘名称是否对应多个定义。 */
+    bool isPadAmbiguous(const QString& name) const;
+
+    /** @brief 判断封装名称是否对应多个定义。 */
+    bool isPackageAmbiguous(const QString& name) const;
+
+    /** @brief 判断符号名称是否对应多个定义。 */
+    bool isComponentAmbiguous(const QString& name) const;
+
+    /** @brief 判断器件名称是否对应多个定义。 */
+    bool isPartAmbiguous(const QString& name) const;
 };
 
 /**
