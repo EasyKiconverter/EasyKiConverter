@@ -117,6 +117,16 @@ private slots:
         QVERIFY(qAbs(symbol.pins.first().length - 2.54) < 1e-9);
     }
 
+    // 验证 Xpedition 符号字节入口统一经过编码检测，并保留 UTF-8 BOM 后的符号内容。
+    void symbolParserReadsBytesWithBom() {
+        const QByteArray data = QByteArray("\xEF\xBB\xBFV 50\nK 1 RES_SYMBOL\nE\n");
+        const Parser::XpeditionSymbolDocument document =
+            Parser::XpeditionSymbolParser::parseBytes(data, QStringLiteral("RES_SYMBOL.1"));
+        QVERIFY(document.isRecognized());
+        QCOMPARE(document.model.name, QStringLiteral("RES_SYMBOL"));
+        QVERIFY(!document.diagnostics.hasErrors());
+    }
+
     // 验证 Xpedition 引脚编号范围会展开为独立编号，并拒绝反向范围。
     void symbolParserExpandsPinNumberRanges() {
         const Parser::XpeditionSymbolDocument document =

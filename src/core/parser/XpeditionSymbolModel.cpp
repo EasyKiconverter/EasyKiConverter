@@ -1,5 +1,7 @@
 #include "XpeditionSymbolModel.h"
 
+#include "EncodingDetector.h"
+
 #include <QRegularExpression>
 
 namespace EasyKiConverter::Parser {
@@ -296,6 +298,16 @@ XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, con
     }
     if (!document.isRecognized())
         document.diagnostics.add(ParseSeverity::Error, ParseScope::File, QStringLiteral("未识别的 Xpedition 符号文件"));
+    return document;
+}
+
+/** @brief 先检测文本编码，再复用统一字符串解析流程。 */
+XpeditionSymbolDocument XpeditionSymbolParser::parseBytes(const QByteArray& data, const QString& filePath) {
+    ParseDiagnostics decodingDiagnostics;
+    decodingDiagnostics.setFilePath(filePath);
+    const QString content = EncodingDetector::decode(data, &decodingDiagnostics, filePath);
+    XpeditionSymbolDocument document = parse(content, filePath);
+    document.diagnostics.append(decodingDiagnostics);
     return document;
 }
 

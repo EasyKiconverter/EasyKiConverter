@@ -7,6 +7,7 @@
 
 #include "ParseDiagnostics.h"
 
+#include <QByteArray>
 #include <QList>
 #include <QMap>
 #include <QPointF>
@@ -115,6 +116,14 @@ public:
      * @return 格式专用模型和诊断集合。
      */
     static XpeditionSymbolDocument parse(const QString& content, const QString& filePath = QString());
+
+    /**
+     * @brief 从原始字节检测编码后解析 Xpedition V54 符号。
+     * @param data 原始文件字节。
+     * @param filePath 可选源文件路径。
+     * @return 格式专用模型和编码、语法诊断。
+     */
+    static XpeditionSymbolDocument parseBytes(const QByteArray& data, const QString& filePath = QString());
 };
 
 }  // namespace EasyKiConverter::Parser
