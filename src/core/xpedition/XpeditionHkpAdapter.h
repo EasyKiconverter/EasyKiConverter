@@ -7,6 +7,8 @@
 
 #include "core/ir/ComponentIR.h"
 #include "core/parser/XpeditionHkpModel.h"
+#include "core/parser/XpeditionHkpReader.h"
+#include "core/parser/XpeditionSymbolModel.h"
 
 #include <QMap>
 
@@ -33,6 +35,17 @@ public:
      */
     static XpeditionHkpConversionResult toIR(const Parser::XpeditionHkpModel& model,
                                              const QMap<QString, IR::SymbolComponentIR>& symbols,
+                                             Parser::ParseDiagnostics* diagnostics = nullptr);
+
+    /**
+     * @brief 合并一个 HKP 文档和多个符号文档后转换为统一 IR。
+     * @param document 已解析的 HKP 文档。
+     * @param symbolDocuments 已解析的 Xpedition 符号文档列表。
+     * @param diagnostics 可选转换诊断接收器。
+     * @return 跨文件关联后的封装和顶层组件结果。
+     */
+    static XpeditionHkpConversionResult toIR(const Parser::XpeditionHkpDocument& document,
+                                             const QList<Parser::XpeditionSymbolDocument>& symbolDocuments,
                                              Parser::ParseDiagnostics* diagnostics = nullptr);
 
     /**

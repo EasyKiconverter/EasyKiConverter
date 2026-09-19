@@ -1,5 +1,7 @@
 #include "XpeditionHkpAdapter.h"
 
+#include "XpeditionSymbolAdapter.h"
+
 namespace EasyKiConverter {
 namespace {
 
@@ -228,6 +230,34 @@ XpeditionHkpConversionResult XpeditionHkpAdapter::toIR(const Parser::XpeditionHk
         result.components.append(component);
     }
     return result;
+}
+
+XpeditionHkpConversionResult XpeditionHkpAdapter::toIR(const Parser::XpeditionHkpDocument& document,
+                                                       const QList<Parser::XpeditionSymbolDocument>& symbolDocuments,
+                                                       Parser::ParseDiagnostics* diagnostics) {
+    if (diagnostics)
+        diagnostics->append(document.diagnostics);
+
+    QMap<QString, IR::SymbolComponentIR> symbols;
+    for (const Parser::XpeditionSymbolDocument& symbolDocument : symbolDocuments) {
+        if (diagnostics)
+            diagnostics->append(symbolDocument.diagnostics);
+        if (!symbolDocument.isRecognized())
+            continue;
+        IR::SymbolComponentIR symbol = XpeditionSymbolAdapter::toIR(symbolDocument, diagnostics);
+        if (symbol.name.isEmpty())
+            continue;
+        if (symbols.contains(symbol.name)) {
+            if (diagnostics)
+                diagnostics->add(Parser::ParseSeverity::Error,
+                                 Parser::ParseScope::Symbol,
+                                 QStringLiteral("Xpedition 符号跨文件重名：%1").arg(symbol.name),
+                                 symbol.name);
+            continue;
+        }
+        symbols.insert(symbol.name, symbol);
+    }
+    return toIR(document.model, symbols, diagnostics);
 }
 
 }  // namespace EasyKiConverter

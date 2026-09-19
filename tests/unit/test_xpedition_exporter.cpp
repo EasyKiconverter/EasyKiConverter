@@ -66,6 +66,38 @@ private slots:
         QVERIFY(!diagnostics.hasErrors());
     }
 
+    // 验证 HKP 文档和多个符号文档可以通过组合入口完成跨文件关联。
+    void hkpAdapterAssociatesSymbolDocuments() {
+        Parser::XpeditionHkpDocument document;
+        document.type = Parser::XpeditionHkpType::PartsDatabase;
+        document.model.pads.append(
+            {QStringLiteral("P1"), Parser::XpeditionPadShape::Round, QSizeF(1.0, 1.0), {}, {}, 1});
+        document.model.padNameVariants[QStringLiteral("P1")].append(QStringLiteral("P1"));
+        document.model.padstacks.append({QStringLiteral("PS1"), {}, QStringLiteral("P1"), {}, {}, {}, {}, {}, {}, 2});
+        document.model.padstackNameVariants[QStringLiteral("PS1")].append(QStringLiteral("PS1"));
+        Parser::XpeditionCellDefinition cell;
+        cell.name = QStringLiteral("CELL1");
+        cell.pins.append({QStringLiteral("1"), {}, QStringLiteral("PS1"), 0.0, false, 3});
+        document.model.cells.append(cell);
+        document.model.cellNameVariants[cell.name].append(cell.name);
+        Parser::XpeditionPartDefinition part;
+        part.number = QStringLiteral("R1");
+        part.name = QStringLiteral("R1");
+        part.topCell = QStringLiteral("CELL1");
+        part.symbol = QStringLiteral("RES_SYMBOL");
+        document.model.parts.append(part);
+
+        const Parser::XpeditionSymbolDocument symbolDocument = Parser::XpeditionSymbolParser::parse(
+            QStringLiteral("V 50\nK 1 RES_SYMBOL\nY 1\nP 1 100 0 0 0 0 2 0\nL 0 0 8 0 2 0 1 0 IN\nE\n"),
+            QStringLiteral("RES_SYMBOL.1"));
+        QVERIFY(symbolDocument.isRecognized());
+        Parser::ParseDiagnostics diagnostics;
+        const XpeditionHkpConversionResult result = XpeditionHkpAdapter::toIR(document, {symbolDocument}, &diagnostics);
+        QCOMPARE(result.components.size(), 1);
+        QCOMPARE(result.components.first().symbol.name, QStringLiteral("RES_SYMBOL"));
+        QVERIFY(!diagnostics.hasErrors());
+    }
+
     // 验证 Xpedition 符号格式模型可以通过 Adapter 转换为统一 IR。
     void symbolParserAdapterProducesIr() {
         const Parser::XpeditionSymbolDocument document =
