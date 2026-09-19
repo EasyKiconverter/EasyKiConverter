@@ -52,6 +52,8 @@ struct PcadGraphic {
     QPointF center;
     double radius = 0.0;
     double width = 0.0;
+    double rotation = 0.0;
+    double textHeight = 0.0;
     double startAngle = 0.0;
     double sweepAngle = 0.0;
     QString text;

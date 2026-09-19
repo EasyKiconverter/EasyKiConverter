@@ -191,7 +191,8 @@ PcadGraphic parseGraphic(const Node& node, ParseDiagnostics* diagnostics, Length
         }
         const QString childName = nameOf(child);
         if (childName == QStringLiteral("PT")) {
-            if (graphic.type == PcadGraphicType::Arc || graphic.type == PcadGraphicType::Circle)
+            if (graphic.type == PcadGraphicType::Arc || graphic.type == PcadGraphicType::Circle ||
+                graphic.type == PcadGraphicType::Text)
                 graphic.center = point(child, diagnostics, QStringLiteral("GRAPHIC.CENTER"), defaultUnit);
             else
                 graphic.points.append(point(child, diagnostics, QStringLiteral("GRAPHIC.POINT"), defaultUnit));
@@ -209,8 +210,12 @@ PcadGraphic parseGraphic(const Node& node, ParseDiagnostics* diagnostics, Length
                     firstScalar(child), diagnostics, QStringLiteral("GRAPHIC.SWEEPANGLE"), child.line) /
                 10.0;
         } else if (childName == QStringLiteral("HEIGHT") && graphic.type == PcadGraphicType::Text) {
-            graphic.radius =
+            graphic.textHeight =
                 number(firstScalar(child), diagnostics, QStringLiteral("GRAPHIC.TEXT.HEIGHT"), child.line, defaultUnit);
+        } else if (childName == QStringLiteral("ROTATION")) {
+            graphic.rotation = StrictNumberParser::parseDouble(
+                                   firstScalar(child), diagnostics, QStringLiteral("GRAPHIC.ROTATION"), child.line) /
+                               10.0;
         } else if (childName == QStringLiteral("WIDTH")) {
             graphic.width =
                 number(firstScalar(child), diagnostics, QStringLiteral("GRAPHIC.WIDTH"), child.line, defaultUnit);

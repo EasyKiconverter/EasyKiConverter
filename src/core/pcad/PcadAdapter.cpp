@@ -80,7 +80,8 @@ void appendGraphic(const Parser::PcadGraphic& source,
             IR::FootprintTextIR text;
             text.text = source.text;
             text.position = source.center;
-            text.fontSize = source.radius;
+            text.fontSize = source.textHeight;
+            text.rotation = source.rotation;
             text.strokeWidth = source.width;
             text.layer = graphicLayer;
             result.texts.append(text);

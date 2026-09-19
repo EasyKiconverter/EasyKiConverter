@@ -72,6 +72,27 @@ private slots:
         QVERIFY(!diagnostics.hasErrors());
     }
 
+    // 验证 P-CAD 文本的坐标、字号和旋转不会在格式模型到 IR 时丢失。
+    void adaptsPcadTextGeometryToIr() {
+        const PcadBoard board =
+            PcadParser::parse(QStringLiteral("(ACCEL_ASCII \"B\" (UNITS MM) (LIBRARY (PATTERNDEF \"K\" "
+                                             "(PATTERNGRAPHICS (TEXT \"LABEL\" (PT 3 4) (HEIGHT 1.2) (ROTATION 900) "
+                                             "(WIDTH 0.1))))) (PCBDESIGN))"),
+                              QStringLiteral("text.pcb"));
+        QVERIFY(!board.diagnostics.hasErrors());
+        ParseDiagnostics diagnostics;
+        const PcadConversionResult result = PcadAdapter::toIR(board, &diagnostics);
+        QCOMPARE(result.footprints.size(), 1);
+        QCOMPARE(result.footprints.first().texts.size(), 1);
+        const IR::FootprintTextIR& text = result.footprints.first().texts.first();
+        QCOMPARE(text.text, QStringLiteral("LABEL"));
+        QVERIFY(qAbs(text.position.x() - 3.0) < 1e-9);
+        QVERIFY(qAbs(text.position.y() + 4.0) < 1e-9);
+        QVERIFY(qAbs(text.fontSize - 1.2) < 1e-9);
+        QVERIFY(qAbs(text.rotation - 90.0) < 1e-9);
+        QVERIFY(!diagnostics.hasErrors());
+    }
+
     // 验证空文件、损坏括号、非法数字和缺失引用均产生可观察诊断。
     void reportsPcadInvalidInputAndMissingReferences() {
         const PcadBoard empty = PcadParser::parse(QString(), QStringLiteral("empty.pcb"));
