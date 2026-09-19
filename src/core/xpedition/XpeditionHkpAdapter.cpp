@@ -103,11 +103,12 @@ IR::LayerType outlineLayer(const QString& sourceLayer, Parser::ParseDiagnostics*
 const Parser::XpeditionCellDefinition* findCell(const Parser::XpeditionHkpModel& model,
                                                 const QString& name,
                                                 Parser::ParseDiagnostics* diagnostics,
-                                                const QString& partNumber) {
+                                                const QString& partNumber,
+                                                bool reportFailure = true) {
     if (name.isEmpty())
         return nullptr;
     if (model.isCellAmbiguous(name)) {
-        if (diagnostics)
+        if (diagnostics && reportFailure)
             diagnostics->add(Parser::ParseSeverity::Error,
                              Parser::ParseScope::Component,
                              QStringLiteral("Xpedition 器件引用的 Cell 存在歧义：%1").arg(name),
@@ -115,7 +116,7 @@ const Parser::XpeditionCellDefinition* findCell(const Parser::XpeditionHkpModel&
         return nullptr;
     }
     const Parser::XpeditionCellDefinition* cell = model.findCell(name);
-    if (cell == nullptr && diagnostics)
+    if (cell == nullptr && diagnostics && reportFailure)
         diagnostics->add(Parser::ParseSeverity::Error,
                          Parser::ParseScope::Component,
                          QStringLiteral("Xpedition 器件引用了不存在的 Cell：%1").arg(name),
@@ -196,9 +197,11 @@ XpeditionHkpConversionResult XpeditionHkpAdapter::toIR(const Parser::XpeditionHk
         result.footprints.append(footprint);
     }
     for (const Parser::XpeditionPartDefinition& part : model.parts) {
-        const Parser::XpeditionCellDefinition* cell = findCell(model, part.topCell, diagnostics, part.number);
+        const bool hasFallbackCell = !part.bottomCell.isEmpty() && part.bottomCell != part.topCell;
+        const Parser::XpeditionCellDefinition* cell =
+            findCell(model, part.topCell, diagnostics, part.number, !hasFallbackCell);
         if (cell == nullptr && !part.bottomCell.isEmpty())
-            cell = findCell(model, part.bottomCell, diagnostics, part.number);
+            cell = findCell(model, part.bottomCell, diagnostics, part.number, true);
         if (cell == nullptr)
             continue;
         if (!symbols.contains(part.symbol)) {

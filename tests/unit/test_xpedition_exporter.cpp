@@ -26,6 +26,10 @@ private slots:
         cell.pins.append({QStringLiteral("1"), QPointF(2.0, 3.0), QStringLiteral("PS1"), 90.0, false, 3});
         model.cells.append(cell);
         model.cellNameVariants[cell.name].append(cell.name);
+        Parser::XpeditionCellDefinition bottomCell = cell;
+        bottomCell.name = QStringLiteral("CELL_BOTTOM");
+        model.cells.append(bottomCell);
+        model.cellNameVariants[bottomCell.name].append(bottomCell.name);
         model.padNameVariants[QStringLiteral("P1")].append(QStringLiteral("P1"));
         model.padstackNameVariants[QStringLiteral("PS1")].append(QStringLiteral("PS1"));
 
@@ -37,6 +41,12 @@ private slots:
         part.symbol = QStringLiteral("RES_SYMBOL");
         part.properties.insert(QStringLiteral("VALUE"), QStringLiteral("10K"));
         model.parts.append(part);
+        Parser::XpeditionPartDefinition bottomPart = part;
+        bottomPart.number = QStringLiteral("R101");
+        bottomPart.name = QStringLiteral("RES_BOTTOM");
+        bottomPart.topCell.clear();
+        bottomPart.bottomCell = QStringLiteral("CELL_BOTTOM");
+        model.parts.append(bottomPart);
 
         IR::SymbolComponentIR symbol;
         symbol.name = QStringLiteral("RES_SYMBOL");
@@ -45,13 +55,14 @@ private slots:
         symbols.insert(symbol.name, symbol);
         Parser::ParseDiagnostics diagnostics;
         const XpeditionHkpConversionResult result = XpeditionHkpAdapter::toIR(model, symbols, &diagnostics);
-        QCOMPARE(result.footprints.size(), 1);
-        QCOMPARE(result.components.size(), 1);
+        QCOMPARE(result.footprints.size(), 2);
+        QCOMPARE(result.components.size(), 2);
         QCOMPARE(result.components.first().name, QStringLiteral("RES_100"));
         QCOMPARE(result.components.first().package, QStringLiteral("CELL1"));
         QCOMPARE(result.components.first().footprint.pads.first().number, QStringLiteral("1"));
         QCOMPARE(result.components.first().sourceMetadata.value(QStringLiteral("VALUE")).toString(),
                  QStringLiteral("10K"));
+        QCOMPARE(result.components.at(1).package, QStringLiteral("CELL_BOTTOM"));
         QVERIFY(!diagnostics.hasErrors());
     }
 
