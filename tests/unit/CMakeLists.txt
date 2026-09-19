@@ -29,6 +29,17 @@ target_include_directories(test_text_parsers PRIVATE
 )
 add_test(NAME test_text_parsers COMMAND test_text_parsers)
 
+add_executable(test_cadstar_parser test_cadstar_parser.cpp)
+target_link_libraries(test_cadstar_parser PRIVATE
+    Qt6::Test
+    EasyKiConverterCadstar
+)
+target_include_directories(test_cadstar_parser PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_cadstar_parser COMMAND test_cadstar_parser)
+
 add_executable(test_models test_models.cpp)
 target_link_libraries(test_models PRIVATE
     Qt6::Test

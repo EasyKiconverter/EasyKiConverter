@@ -11,6 +11,8 @@ add_library(EasyKiConverterParser STATIC
     XpeditionHkpModel.cpp
     XpeditionSymbolModel.h
     XpeditionSymbolModel.cpp
+    CadstarModel.h
+    CadstarModel.cpp
     TextParsers.h
     TextParsers.cpp
 )

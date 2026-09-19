@@ -210,6 +210,18 @@ QList<DelimitedSectionNode> DelimitedSectionParser::parse(const QString& content
     QList<DelimitedSectionNode> roots;
     QList<DelimitedSectionNode*> stack;
     const QStringList lines = linesOf(content);
+
+    // 先收集文件中实际出现的结束标记，使同一关键字可以同时作为
+    // 顶层容器和嵌套引用。例如 Cadstar 的 PAD 有 ENDPAD 容器，
+    // 但封装 PIN 内的 PAD 只是单行引用。
+    QSet<QString> endKeywords;
+    for (const QString& sourceLine : lines) {
+        const QStringList tokens = tokenizeDelimitedLine(sourceLine.trimmed());
+        if (!tokens.isEmpty() && tokens.first().toUpper().startsWith(QStringLiteral("END")) &&
+            tokens.first().toUpper() != QStringLiteral("END"))
+            endKeywords.insert(tokens.first().toUpper().mid(3));
+    }
+
     for (int index = 0; index < lines.size(); ++index) {
         const int lineNumber = index + 1;
         const QString line = lines.at(index).trimmed();
@@ -219,7 +231,7 @@ QList<DelimitedSectionNode> DelimitedSectionParser::parse(const QString& content
         if (tokens.isEmpty())
             continue;
         const QString keyword = tokens.first().toUpper();
-        if (keyword.startsWith(QStringLiteral("END"))) {
+        if (keyword.startsWith(QStringLiteral("END")) && keyword != QStringLiteral("END")) {
             if (stack.isEmpty()) {
                 if (diagnostics)
                     diagnostics->add(ParseSeverity::Warning,
@@ -249,7 +261,10 @@ QList<DelimitedSectionNode> DelimitedSectionParser::parse(const QString& content
         else
             stack.last()->children.append(node);
         DelimitedSectionNode* inserted = stack.isEmpty() ? &roots.last() : &stack.last()->children.last();
-        if (!leaves.contains(keyword))
+        const bool nestedReference =
+            !stack.isEmpty() && (keyword == QStringLiteral("PAD") || keyword == QStringLiteral("PACKAGE") ||
+                                 keyword == QStringLiteral("COMPONENT"));
+        if (!leaves.contains(keyword) || (endKeywords.contains(keyword) && !nestedReference))
             stack.append(inserted);
     }
     while (!stack.isEmpty()) {

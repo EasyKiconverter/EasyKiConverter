@@ -63,6 +63,7 @@ HKP Pad and hole geometry is discovered independently of child-node order. XY co
 - EasyEDA/LCSC API data: existing EasyEDA importers and model-to-IR conversion are available.
 - Altium SchLib/PcbLib: OLE/CFB readers and SchLib/PcbLib exporters exist; a reader is not by itself a complete source-format importer to IR.
 - Xpedition: IR-to-symbol and Pads/Cell HKP ZIP exporters exist. Pad, Hole, Padstack, Cell, Pin, Outline, and PDB associations parse into format-specific models. V54 symbol text now parses pins, graphics, text, and multi-part metadata and maps them to the existing Symbol IR through an adapter.
+- Cadstar ASCII libraries: Pad, Package, Component, Part, pin-number ranges, custom pads, slots, basic graphics, unit conversion, and Footprint/Symbol IR adapters are implemented.
 
 ### In progress
 
@@ -72,7 +73,7 @@ HKP Pad and hole geometry is discovered independently of child-node order. XY co
 
 ### Planned
 
-- Cadstar ASCII libraries: an `END*` section-tree foundation exists; complete Pad, Package, Component, and Part association to IR is not implemented.
+- Cadstar ASCII libraries: continue with vendor samples, multi-file merging, layer semantics, and additional Cadstar primitives; the current scope is limited to public ASCII exchange syntax.
 - P-CAD ASCII/S-expressions: reuse the S-expression parser, then map a format-specific model to IR.
 - P-CAD detection uses the `.pcb` extension or the `ACCEL_ASCII` header; ordinary `.lib` files are not classified as P-CAD.
 - TinyCAD XML, gEDA, and Fabmaster: first validate their public exchange formats against the current IR.
