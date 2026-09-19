@@ -213,6 +213,64 @@ const QStringList kCadstarLeafKeywords = {
     QStringLiteral("PACKAGE"),
 };
 
+/** @brief 根据已使用名称生成跨文件合并时稳定的唯一名称。 */
+QString mergedName(const QString& name, const QSet<QString>& usedNames) {
+    if (!usedNames.contains(name))
+        return name;
+    int suffix = 2;
+    QString candidate;
+    do {
+        candidate = QStringLiteral("%1_%2").arg(name).arg(suffix++);
+    } while (usedNames.contains(candidate));
+    return candidate;
+}
+
+/** @brief 从源文件名称候选表反向找出定义的原始名称。 */
+QString originalName(const QMap<QString, QStringList>& variants, const QString& uniqueNameValue) {
+    for (auto iterator = variants.cbegin(); iterator != variants.cend(); ++iterator) {
+        if (iterator.value().contains(uniqueNameValue))
+            return iterator.key();
+    }
+    return uniqueNameValue;
+}
+
+/** @brief 合并一种 Cadstar 定义并更新原始名称候选索引。 */
+template <typename Definition>
+void appendMergedDefinition(const Definition& source,
+                            QList<Definition>& target,
+                            QMap<QString, QStringList>& variants,
+                            QSet<QString>& usedNames,
+                            const QMap<QString, QStringList>& sourceVariants,
+                            ParseDiagnostics* diagnostics,
+                            ParseScope scope,
+                            const QString& type) {
+    Definition merged = source;
+    const QString rawName = originalName(sourceVariants, source.name);
+    merged.name = mergedName(source.name, usedNames);
+    if (merged.name != source.name && diagnostics)
+        diagnostics->add(ParseSeverity::Warning,
+                         scope,
+                         QStringLiteral("跨文件%1名称重复，已重命名：%2 -> %3").arg(type, source.name, merged.name),
+                         rawName);
+    usedNames.insert(merged.name);
+    target.append(merged);
+    variants[rawName].append(merged.name);
+}
+
+/** @brief 对合并后的候选索引报告无法安全自动选择的原始名称。 */
+void reportAmbiguousNames(const QMap<QString, QStringList>& variants,
+                          ParseDiagnostics* diagnostics,
+                          ParseScope scope,
+                          const QString& type) {
+    for (auto iterator = variants.cbegin(); iterator != variants.cend(); ++iterator) {
+        if (iterator.value().size() > 1 && diagnostics)
+            diagnostics->add(ParseSeverity::Error,
+                             scope,
+                             QStringLiteral("跨文件%1名称存在歧义：%2").arg(type, iterator.key()),
+                             iterator.key());
+    }
+}
+
 }  // namespace
 
 /** @brief 判断 Cadstar 库模型是否包含可转换定义。 */
@@ -457,6 +515,79 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
     if (!library.isRecognized())
         library.diagnostics.add(ParseSeverity::Error, ParseScope::File, QStringLiteral("未识别的 Cadstar ASCII 库"));
     return library;
+}
+
+/** @brief 合并 Cadstar 库并校验单位、重名和跨文件器件关联。 */
+CadstarLibrary CadstarMerger::merge(const QList<CadstarLibrary>& libraries, const QString& filePath) {
+    CadstarLibrary merged;
+    merged.diagnostics.setFilePath(filePath);
+    if (libraries.isEmpty()) {
+        merged.diagnostics.add(ParseSeverity::Error, ParseScope::File, QStringLiteral("没有可合并的 Cadstar 库"));
+        return merged;
+    }
+
+    QSet<QString> padNames;
+    QSet<QString> packageNames;
+    QSet<QString> componentNames;
+    QSet<QString> partNames;
+    for (const CadstarLibrary& library : libraries) {
+        merged.diagnostics.append(library.diagnostics);
+        if (merged.unit != LengthUnit::Unknown && library.unit != LengthUnit::Unknown && merged.unit != library.unit)
+            merged.diagnostics.add(
+                ParseSeverity::Error, ParseScope::File, QStringLiteral("Cadstar 库单位不一致，无法安全合并"), filePath);
+        else if (merged.unit == LengthUnit::Unknown)
+            merged.unit = library.unit;
+
+        for (const CadstarPad& pad : library.pads)
+            appendMergedDefinition(pad,
+                                   merged.pads,
+                                   merged.padNameVariants,
+                                   padNames,
+                                   library.padNameVariants,
+                                   &merged.diagnostics,
+                                   ParseScope::Footprint,
+                                   QStringLiteral("焊盘"));
+        for (const CadstarPackage& packageModel : library.packages)
+            appendMergedDefinition(packageModel,
+                                   merged.packages,
+                                   merged.packageNameVariants,
+                                   packageNames,
+                                   library.packageNameVariants,
+                                   &merged.diagnostics,
+                                   ParseScope::Footprint,
+                                   QStringLiteral("封装"));
+        for (const CadstarComponent& component : library.components)
+            appendMergedDefinition(component,
+                                   merged.components,
+                                   merged.componentNameVariants,
+                                   componentNames,
+                                   library.componentNameVariants,
+                                   &merged.diagnostics,
+                                   ParseScope::Symbol,
+                                   QStringLiteral("符号"));
+        for (const CadstarPart& part : library.parts) {
+            const QString rawName = originalName(library.partNameVariants, part.name);
+            CadstarPart mergedPart = part;
+            mergedPart.name = mergedName(part.name, partNames);
+            if (mergedPart.name != part.name)
+                merged.diagnostics.add(
+                    ParseSeverity::Warning,
+                    ParseScope::Component,
+                    QStringLiteral("跨文件器件名称重复，已重命名：%1 -> %2").arg(part.name, mergedPart.name),
+                    rawName);
+            partNames.insert(mergedPart.name);
+            merged.parts.append(mergedPart);
+            merged.partNameVariants[rawName].append(mergedPart.name);
+        }
+    }
+    reportAmbiguousNames(merged.padNameVariants, &merged.diagnostics, ParseScope::Footprint, QStringLiteral("焊盘"));
+    reportAmbiguousNames(
+        merged.packageNameVariants, &merged.diagnostics, ParseScope::Footprint, QStringLiteral("封装"));
+    reportAmbiguousNames(merged.componentNameVariants, &merged.diagnostics, ParseScope::Symbol, QStringLiteral("符号"));
+    reportAmbiguousNames(merged.partNameVariants, &merged.diagnostics, ParseScope::Component, QStringLiteral("器件"));
+    if (!merged.isRecognized())
+        merged.diagnostics.add(ParseSeverity::Error, ParseScope::File, QStringLiteral("合并结果没有 Cadstar 定义"));
+    return merged;
 }
 
 }  // namespace EasyKiConverter::Parser

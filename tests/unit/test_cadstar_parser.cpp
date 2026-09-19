@@ -75,6 +75,19 @@ private slots:
         QVERIFY(result.footprints.first().pads.isEmpty());
         QVERIFY(diagnostics.hasErrors());
     }
+
+    // 验证多个 Cadstar 库合并后会保留重名候选并阻止错误关联。
+    void mergesCadstarLibraries() {
+        const CadstarLibrary first = CadstarParser::parse(
+            QStringLiteral("UNITS MM\nPAD P\nSHAPE ROUND\nDIAMETER 1\nENDPAD\n"), QStringLiteral("first.lib"));
+        const CadstarLibrary second = CadstarParser::parse(
+            QStringLiteral("UNITS MM\nPAD P\nSHAPE ROUND\nDIAMETER 2\nENDPAD\n"), QStringLiteral("second.lib"));
+        const CadstarLibrary merged = CadstarMerger::merge({first, second}, QStringLiteral("merged.lib"));
+        QCOMPARE(merged.pads.size(), 2);
+        QCOMPARE(merged.pads.at(1).name, QStringLiteral("P_2"));
+        QVERIFY(merged.isPadAmbiguous(QStringLiteral("P")));
+        QVERIFY(merged.diagnostics.hasErrors());
+    }
 };
 
 QTEST_GUILESS_MAIN(TestCadstarParser)

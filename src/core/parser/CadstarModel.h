@@ -143,4 +143,19 @@ public:
     static CadstarLibrary parse(const QString& content, const QString& filePath = QString());
 };
 
+/**
+ * @brief 合并多个 Cadstar ASCII 库模型并保留跨文件关联歧义。
+ * @details 重名定义会生成稳定后缀；引用仍按原始名称解析，多个候选时必须由调用方显式处理。
+ */
+class CadstarMerger {
+public:
+    /**
+     * @brief 合并已解析的 Cadstar 库。
+     * @param libraries 待合并库模型。
+     * @param filePath 合并结果的逻辑路径。
+     * @return 合并后的 Cadstar 专用模型和诊断。
+     */
+    static CadstarLibrary merge(const QList<CadstarLibrary>& libraries, const QString& filePath = QString());
+};
+
 }  // namespace EasyKiConverter::Parser

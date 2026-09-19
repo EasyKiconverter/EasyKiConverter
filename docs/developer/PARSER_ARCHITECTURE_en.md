@@ -72,6 +72,7 @@ HKP Pad and hole geometry is discovered independently of child-node order. XY co
 - Altium SchLib/PcbLib: OLE/CFB readers and SchLib/PcbLib exporters exist; a reader is not by itself a complete source-format importer to IR.
 - Xpedition: IR-to-symbol and Pads/Cell HKP ZIP exporters exist. Pad, Hole, Padstack, Cell, Pin, Outline, and PDB associations parse into format-specific models. V54 symbol text now parses pins, graphics, text, and multi-part metadata and maps them to the existing Symbol IR through an adapter.
 - Cadstar ASCII libraries: Pad, Package, Component, Part, pin-number ranges, custom pads, slots, basic graphics, unit conversion, and Footprint/Symbol IR adapters are implemented.
+- Cadstar multi-file models: multiple parsed libraries can be merged while preserving source diagnostics and rejecting ambiguous cross-file references.
 - P-CAD ASCII PCBs: `ACCEL_ASCII` detection, Pad Styles, Patterns, Pattern graphics, component placements, layer numbers, unit conversion, Y-axis conversion, and Pattern-to-Footprint IR adaptation are implemented.
 
 ### In progress
@@ -82,7 +83,7 @@ HKP Pad and hole geometry is discovered independently of child-node order. XY co
 
 ### Planned
 
-- Cadstar ASCII libraries: continue with vendor samples, multi-file merging, layer semantics, and additional Cadstar primitives; the current scope is limited to public ASCII exchange syntax.
+- Cadstar ASCII libraries: continue with vendor samples, additional layer semantics, and more Cadstar primitives; the current scope is limited to public ASCII exchange syntax.
 - P-CAD ASCII PCBs: continue with vendor samples, board-level graphics conversion, additional Pad Styles, and layer semantics; board placements currently remain in the format-specific model.
 - P-CAD detection uses the `.pcb` extension or the `ACCEL_ASCII` header; ordinary `.lib` files are not classified as P-CAD.
 - TinyCAD XML, gEDA, and Fabmaster: first validate their public exchange formats against the current IR.
