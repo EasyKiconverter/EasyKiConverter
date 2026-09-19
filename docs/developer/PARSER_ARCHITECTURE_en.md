@@ -79,15 +79,15 @@ HKP Pad and hole geometry is discovered independently of child-node order. XY co
 
 ### In progress
 
-- Xpedition ASCII/HKP: continue with HKP multi-file merging, cross-file PDB/symbol associations, package details, and the remaining symbol primitives in the IR mapping.
-- Multi-file merging: use global name tables, stable suffixes, and explicit missing-association diagnostics.
+- Xpedition ASCII/HKP: continue with cross-file PDB/symbol associations, package details, and the remaining symbol primitives in the IR mapping; the basic HKP multi-file merge is implemented.
+- Multi-file associations: continue expanding real samples and source-level association selection; the current merge logic uses global name tables, stable suffixes, and explicit missing or ambiguous-association diagnostics.
 - Real-sample tests: each format should cover empty, malformed, invalid-number, unknown-primitive, and duplicate-name inputs.
 
 ### Planned
 
-- Cadstar ASCII libraries: continue with vendor samples, additional layer semantics, and more Cadstar primitives; the current scope is limited to public ASCII exchange syntax.
-- P-CAD ASCII PCBs: continue with vendor samples, board-level graphics conversion, additional Pad Styles, and layer semantics; board placements currently remain in the format-specific model.
-- P-CAD detection uses the `.pcb` extension or the `ACCEL_ASCII` header; ordinary `.lib` files are not classified as P-CAD.
+- Cadstar ASCII libraries: continue with vendor samples, additional layer semantics, and more Cadstar primitives; the basic multi-file merge is implemented and the current scope is limited to public ASCII exchange syntax.
+- P-CAD ASCII PCBs: continue with vendor samples, board-level graphics conversion, additional Pad Styles, and layer semantics; board placements are mapped to `FootprintPlacementIR`.
+- P-CAD detection uses the `.pcb` extension or the `ACCEL_ASCII` header, with gEDA signature headers taking precedence; ordinary `.lib` files are not classified as P-CAD.
 - TinyCAD XML, gEDA, and Fabmaster: first validate their public exchange formats against the current IR.
 
 ### Exchange-only or unsupported formats

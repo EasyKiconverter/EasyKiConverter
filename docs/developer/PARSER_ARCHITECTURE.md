@@ -79,15 +79,15 @@ HKP 的 Pad、孔几何不依赖子节点顺序；XY 坐标支持括号、逗号
 
 ### 进行中的工作
 
-- Xpedition ASCII/HKP：继续补充 HKP 多文件合并、PDB/符号跨文件关联、封装细节和剩余符号图元到 IR 的完整映射。
-- 多文件合并：采用全局名称表、稳定后缀和明确的缺失关联诊断。
+- Xpedition ASCII/HKP：继续补充 PDB/符号跨文件关联、封装细节和剩余符号图元到 IR 的完整映射；HKP 多文件合并基础能力已经实现。
+- 多文件关联：继续扩充真实样本和来源级关联选择；现有合并逻辑采用全局名称表、稳定后缀和明确的缺失或歧义诊断。
 - 真实样本驱动测试：每个格式至少覆盖空文件、损坏文件、非法数字、未知图元和重复名称。
 
 ### 计划支持
 
-- Cadstar ASCII 库：继续补充真实厂商样本、多文件合并、层语义和更多 Cadstar 图元；当前支持范围以公开 ASCII 交换语法为限。
-- P-CAD ASCII PCB：继续补充真实厂商样本、板级图形到目标格式的转换、更多 Pad Style 和层语义；当前板级 Placement 保留在格式模型中。
-- P-CAD 格式检测：使用 `.pcb` 扩展名或 `ACCEL_ASCII` 文件头识别，普通 `.lib` 文件不会被误判为 P-CAD。
+- Cadstar ASCII 库：继续补充真实厂商样本、层语义和更多 Cadstar 图元；多文件合并基础能力已经实现，当前支持范围以公开 ASCII 交换语法为限。
+- P-CAD ASCII PCB：继续补充真实厂商样本、板级图形到目标格式的转换、更多 Pad Style 和层语义；板级 Placement 已映射到 `FootprintPlacementIR`。
+- P-CAD 格式检测：使用 `.pcb` 扩展名或 `ACCEL_ASCII` 文件头识别，gEDA 特征头优先于扩展名，普通 `.lib` 文件不会被误判为 P-CAD。
 - TinyCAD XML、gEDA 和 Fabmaster：需先确认其公开交换格式与当前 IR 的表达能力。
 
 ### 仅支持交换格式或暂不支持
