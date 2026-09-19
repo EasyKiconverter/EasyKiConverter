@@ -48,23 +48,40 @@ double scale(double value, LengthUnit unit) {
     return UnitConverter::toMillimeters(value, unit);
 }
 
-// 严格解析带括号或逗号的二维坐标。
+// 严格解析带括号或逗号、空格分隔的二维坐标。
 bool parsePair(const QString& text,
                LengthUnit unit,
                ParseDiagnostics* diagnostics,
                const QString& field,
                int line,
                QPointF& result) {
-    static const QRegularExpression pattern(QStringLiteral(R"(^\s*\(?\s*([^,\s]+)\s*,\s*([^\)\s]+)\s*\)?\s*$)"));
-    const QRegularExpressionMatch match = pattern.match(text);
+    const QString value = text.trimmed();
+    const bool hasOpeningParenthesis = value.startsWith(QChar('('));
+    const bool hasClosingParenthesis = value.endsWith(QChar(')'));
+    if (hasOpeningParenthesis != hasClosingParenthesis) {
+        if (diagnostics)
+            diagnostics->add(ParseSeverity::Error,
+                             ParseScope::Field,
+                             QStringLiteral("坐标字段括号不匹配：%1").arg(text),
+                             field,
+                             line);
+        return false;
+    }
+    const QString pairText = hasOpeningParenthesis ? value.mid(1, value.size() - 2).trimmed() : value;
+    static const QRegularExpression pattern(QStringLiteral(R"(^\s*([^,\s()]+)\s*(?:,|\s+)\s*([^,\s()]+)\s*$)"));
+    const QRegularExpressionMatch match = pattern.match(pairText);
     if (!match.hasMatch()) {
         if (diagnostics)
             diagnostics->add(
                 ParseSeverity::Error, ParseScope::Field, QStringLiteral("坐标字段格式错误：%1").arg(text), field, line);
         return false;
     }
-    result = QPointF(scale(StrictNumberParser::parseDouble(match.captured(1), diagnostics, field, line), unit),
-                     scale(StrictNumberParser::parseDouble(match.captured(2), diagnostics, field, line), unit));
+    const int diagnosticCount = diagnostics ? diagnostics->items().size() : 0;
+    const double x = StrictNumberParser::parseDouble(match.captured(1), diagnostics, field, line);
+    const double y = StrictNumberParser::parseDouble(match.captured(2), diagnostics, field, line);
+    if (diagnostics && diagnostics->items().size() != diagnosticCount)
+        return false;
+    result = QPointF(scale(x, unit), scale(y, unit));
     return true;
 }
 
@@ -99,25 +116,50 @@ bool parseBool(const QString& value, ParseDiagnostics* diagnostics, const QStrin
     return false;
 }
 
-// 从一个 XY 节点中解析首个或续行追加的全部坐标。
+// 从一个 XY 节点中解析首个或续行追加的全部坐标，并拒绝隐藏非法点。
 QList<QPointF> parsePoints(const QString& text,
                            LengthUnit unit,
                            ParseDiagnostics* diagnostics,
                            const QString& field,
                            int line) {
     QList<QPointF> points;
-    static const QRegularExpression pattern(QStringLiteral(R"(\(\s*([^,\s]+)\s*,\s*([^\)\s]+)\s*\))"));
-    QRegularExpressionMatchIterator iterator = pattern.globalMatch(text);
-    while (iterator.hasNext()) {
-        const QRegularExpressionMatch match = iterator.next();
-        points.append(
-            QPointF(scale(StrictNumberParser::parseDouble(match.captured(1), diagnostics, field, line), unit),
-                    scale(StrictNumberParser::parseDouble(match.captured(2), diagnostics, field, line), unit)));
-    }
-    if (points.isEmpty()) {
+    const QString value = text.trimmed();
+    if (!value.contains(QChar('(')) && !value.contains(QChar(')'))) {
         QPointF point;
         if (parsePair(text, unit, diagnostics, field, line, point))
             points.append(point);
+        return points;
+    }
+
+    int position = 0;
+    while (position < value.size()) {
+        while (position < value.size() && value.at(position).isSpace())
+            ++position;
+        if (position >= value.size())
+            break;
+        if (value.at(position) != QChar('(')) {
+            if (diagnostics)
+                diagnostics->add(ParseSeverity::Error,
+                                 ParseScope::Field,
+                                 QStringLiteral("坐标点之间存在无法解析的文本：%1").arg(value.mid(position)),
+                                 field,
+                                 line);
+            break;
+        }
+        const int closing = value.indexOf(QChar(')'), position + 1);
+        if (closing < 0) {
+            if (diagnostics)
+                diagnostics->add(ParseSeverity::Error,
+                                 ParseScope::Field,
+                                 QStringLiteral("坐标字段缺少右括号：%1").arg(value.mid(position)),
+                                 field,
+                                 line);
+            break;
+        }
+        QPointF point;
+        if (parsePair(value.mid(position, closing - position + 1), unit, diagnostics, field, line, point))
+            points.append(point);
+        position = closing + 1;
     }
     return points;
 }

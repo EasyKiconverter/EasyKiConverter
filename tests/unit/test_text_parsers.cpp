@@ -210,6 +210,28 @@ private slots:
         QVERIFY(!document.diagnostics.hasErrors());
     }
 
+    // 验证单点坐标同时支持括号、逗号和空格分隔形式。
+    void parsesXpeditionCoordinateSeparators() {
+        const XpeditionHkpDocument document =
+            XpeditionHkpReader::parse(QStringLiteral(".UNITS mm\n.PAD \"P\"\n..POLYGON\n...XY 1, 2\n...XY (3 4)\n"
+                                                     ".PACKAGE_CELL \"C\"\n..PIN \"1\"\n...XY (5 6)\n"),
+                                      QStringLiteral("coordinate-separators.cel.hkp"));
+        QCOMPARE(document.model.pads.first().polygon.size(), 2);
+        QCOMPARE(document.model.pads.first().polygon.at(0), QPointF(1.0, 2.0));
+        QCOMPARE(document.model.pads.first().polygon.at(1), QPointF(3.0, 4.0));
+        QCOMPARE(document.model.cells.first().pins.first().position, QPointF(5.0, 6.0));
+        QVERIFY(!document.diagnostics.hasErrors());
+    }
+
+    // 验证多点坐标中混入非法点时保留合法点但必然生成错误诊断。
+    void reportsInvalidXpeditionContinuationPoint() {
+        const XpeditionHkpDocument document = XpeditionHkpReader::parse(
+            QStringLiteral(".UNITS mm\n.PAD \"POLYGON\"\n..POLYGON\n...XY (0, 0) (bad, 1) (1, 1)\n"),
+            QStringLiteral("invalid-point.psk.hkp"));
+        QCOMPARE(document.model.pads.first().polygon.size(), 2);
+        QVERIFY(document.diagnostics.hasErrors());
+    }
+
     // 验证 Pad 和孔的几何节点顺序变化不会阻止解析器找到受支持的图元。
     void parsesXpeditionGeometryAfterUnknownNode() {
         const XpeditionHkpDocument document = XpeditionHkpReader::parse(

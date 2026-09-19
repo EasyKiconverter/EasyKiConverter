@@ -54,7 +54,7 @@ stateDiagram-v2
 
 Patterns such as `parseFloat(value) || 0` disguise corrupt input as a valid zero and are forbidden in new parsers. Invalid numbers must retain the field, line, and original text in diagnostics. Unknown graphics must report why they were skipped, and their source data should be preserved or represented by an IR extension when needed.
 
-HKP Pad and hole geometry is discovered independently of child-node order. Duplicate definitions retain stable suffixes and an original-name candidate index. If an original reference has multiple candidates, parsing reports an error instead of silently binding to the first definition.
+HKP Pad and hole geometry is discovered independently of child-node order. XY coordinates accept parentheses with comma or whitespace separators. An invalid point in a multi-point value always produces an error, even when other valid points are retained. Duplicate definitions retain stable suffixes and an original-name candidate index; if an original reference has multiple candidates, parsing reports an error instead of silently binding to the first definition.
 
 ## Format status
 
