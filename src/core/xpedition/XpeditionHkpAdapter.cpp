@@ -180,10 +180,10 @@ IR::FootprintComponentIR XpeditionHkpAdapter::toFootprint(const Parser::Xpeditio
     for (const Parser::XpeditionCellOutline& sourceOutline : cell.outlines) {
         if (sourceOutline.points.size() < 2)
             continue;
-        IR::FootprintTrackIR track;
-        track.points = sourceOutline.points;
-        track.layer = outlineLayer(sourceOutline.layer, diagnostics, cell.name);
-        result.tracks.append(track);
+        IR::FootprintOutlineIR outline;
+        outline.points = sourceOutline.points;
+        outline.layer = outlineLayer(sourceOutline.layer, diagnostics, cell.name);
+        result.outlines.append(outline);
     }
     return result;
 }

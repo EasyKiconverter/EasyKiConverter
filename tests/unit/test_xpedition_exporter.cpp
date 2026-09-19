@@ -66,6 +66,29 @@ private slots:
         QVERIFY(!diagnostics.hasErrors());
     }
 
+    // 验证 HKP Cell 轮廓映射为通用轮廓 IR，而不是退化为普通走线。
+    void hkpAdapterPreservesCellOutlineSemantics() {
+        Parser::XpeditionHkpModel model;
+        model.pads.append({QStringLiteral("P1"), Parser::XpeditionPadShape::Round, QSizeF(1.0, 1.0), {}, {}, 1});
+        model.padNameVariants[QStringLiteral("P1")].append(QStringLiteral("P1"));
+        model.padstacks.append({QStringLiteral("PS1"), {}, QStringLiteral("P1"), {}, {}, {}, {}, {}, {}, 2});
+        model.padstackNameVariants[QStringLiteral("PS1")].append(QStringLiteral("PS1"));
+        Parser::XpeditionCellDefinition cell;
+        cell.name = QStringLiteral("CELL_OUTLINE");
+        cell.pins.append({QStringLiteral("1"), {}, QStringLiteral("PS1"), 0.0, false, 3});
+        cell.outlines.append({QStringLiteral("SILKSCREEN_OUTLINE"), {QPointF(0, 0), QPointF(2, 0), QPointF(2, 2)}, 4});
+        model.cells.append(cell);
+        model.cellNameVariants[cell.name].append(cell.name);
+
+        Parser::ParseDiagnostics diagnostics;
+        const IR::FootprintComponentIR result = XpeditionHkpAdapter::toFootprint(model, cell, &diagnostics);
+        QCOMPARE(result.outlines.size(), 1);
+        QCOMPARE(result.outlines.first().points.size(), 3);
+        QCOMPARE(result.outlines.first().layer, IR::LayerType::TopSilk);
+        QVERIFY(result.tracks.isEmpty());
+        QVERIFY(!diagnostics.hasErrors());
+    }
+
     // 验证 HKP 文档和多个符号文档可以通过组合入口完成跨文件关联。
     void hkpAdapterAssociatesSymbolDocuments() {
         Parser::XpeditionHkpDocument document;
