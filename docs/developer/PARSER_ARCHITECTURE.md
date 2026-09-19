@@ -34,11 +34,15 @@ flowchart LR
 - `FormatDetector`：根据扩展名和内容头部给出保守的格式判断。
 - `ArchiveInspector`：只读取 ZIP 中央目录，检查路径穿越、符号链接、加密条目和压缩炸弹边界；不负责解压。
 - `EncodingDetector`：识别 BOM 和 UTF-8，并对无法确认编码的文本提供可诊断的有限 Latin-1 回退。
+- `ImporterRegistry`：按注册顺序选择格式导入器，不直接持有格式专用模型。
+- `ConversionReport`：统一记录转换状态、部分进度、取消标记和跨文件诊断。
 - `ParseDiagnostics`：支持 info、warn、error、skip，以及文件、器件、符号、封装和字段范围。
 
 这些组件只负责语法、位置和通用几何语义，不负责猜测具体格式的业务字段。
 
 归档检查位于实际解压之前，调用方必须先确认 `ArchiveInspectionResult::safe`，再交给具体归档读取器处理。编码回退不是无损保证；解析器应根据诊断决定是否继续转换。
+
+Xpedition HKP 支持通过 `XpeditionHkpMerger` 合并多个已解析文档。合并器保留源文件诊断、检查单位和文件类型一致性，并为重名定义生成稳定后缀；同一原始名称对应多个定义时会报告错误，调用方必须显式处理关联歧义。
 
 ## 诊断和降级规则
 

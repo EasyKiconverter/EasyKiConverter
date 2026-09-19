@@ -9,6 +9,8 @@
 #include "TextParsers.h"
 #include "XpeditionHkpModel.h"
 
+#include <QByteArray>
+
 namespace EasyKiConverter::Parser {
 
 /** @brief Xpedition HKP 文件类型。 */
@@ -43,6 +45,30 @@ public:
      * @return 语法树、文件类型、单位和诊断集合。
      */
     static XpeditionHkpDocument parse(const QString& content, const QString& filePath = QString());
+
+    /**
+     * @brief 从原始字节检测编码后解析 HKP 文档。
+     * @param data 原始文件字节。
+     * @param filePath 可选源文件路径。
+     * @return 经过安全编码解码后的 HKP 文档。
+     */
+    static XpeditionHkpDocument parseBytes(const QByteArray& data, const QString& filePath = QString());
+};
+
+/**
+ * @brief 合并多个 HKP 文件的格式模型并检查跨文件关联歧义。
+ * @details 重名定义保留为稳定后缀；使用原始名称的引用在多候选时保持歧义，禁止静默绑定。
+ */
+class XpeditionHkpMerger {
+public:
+    /**
+     * @brief 合并多个已经解析的 HKP 文档。
+     * @param documents 待合并文档，允许包含不同类型但会产生错误诊断。
+     * @param filePath 合并结果的逻辑路径。
+     * @return 合并后的文档模型和诊断。
+     */
+    static XpeditionHkpDocument merge(const QList<XpeditionHkpDocument>& documents,
+                                      const QString& filePath = QString());
 };
 
 }  // namespace EasyKiConverter::Parser

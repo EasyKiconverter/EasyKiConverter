@@ -302,6 +302,33 @@ private slots:
         QVERIFY(document.diagnostics.hasErrors());
     }
 
+    // 验证多个 HKP 文件可以合并，并且重复的原始名称会保留为歧义关联。
+    void mergesXpeditionDocuments() {
+        const XpeditionHkpDocument first = XpeditionHkpReader::parse(
+            QStringLiteral(".FILETYPE PADSTACK_LIBRARY\n.UNITS mm\n.PAD \"P\"\n..ROUND\n...DIAMETER 1\n"
+                           ".PADSTACK \"S\"\n...TOP_PAD \"P\"\n"),
+            QStringLiteral("first.psk.hkp"));
+        const XpeditionHkpDocument second = XpeditionHkpReader::parse(
+            QStringLiteral(".FILETYPE PADSTACK_LIBRARY\n.UNITS mm\n.PAD \"P\"\n..ROUND\n...DIAMETER 2\n"
+                           ".PADSTACK \"S\"\n...TOP_PAD \"P\"\n"),
+            QStringLiteral("second.psk.hkp"));
+        const XpeditionHkpDocument merged = XpeditionHkpMerger::merge({first, second}, QStringLiteral("merged.hkp"));
+        QCOMPARE(merged.model.pads.size(), 2);
+        QCOMPARE(merged.model.pads.at(1).name, QStringLiteral("P_2"));
+        QVERIFY(merged.model.isPadAmbiguous(QStringLiteral("P")));
+        QVERIFY(merged.model.isPadstackAmbiguous(QStringLiteral("S")));
+        QVERIFY(merged.diagnostics.hasErrors());
+    }
+
+    // 验证 HKP 字节入口能够识别 UTF-8 BOM 并复用统一解析链。
+    void parsesXpeditionUtf8Bytes() {
+        QByteArray bytes("\xEF\xBB\xBF.FILETYPE CELL_LIBRARY\n.UNITS mm\n.PACKAGE_CELL \"C1\"\n");
+        const XpeditionHkpDocument document = XpeditionHkpReader::parseBytes(bytes, QStringLiteral("bom.cel.hkp"));
+        QVERIFY(document.isRecognized());
+        QCOMPARE(document.type, XpeditionHkpType::CellLibrary);
+        QVERIFY(!document.diagnostics.hasErrors());
+    }
+
     // 验证 Cadstar 的 END* 分段和单行叶节点可以建立可遍历的树。
     void parsesDelimitedSections() {
         ParseDiagnostics diagnostics;

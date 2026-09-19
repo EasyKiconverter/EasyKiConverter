@@ -49,6 +49,9 @@ public:
     /** @brief 返回全部诊断，顺序与解析发生顺序一致。 */
     const QList<ParseDiagnostic>& items() const;
 
+    /** @brief 追加另一阶段的诊断并保留其原始文件和位置。 */
+    void append(const ParseDiagnostics& other);
+
     /** @brief 判断是否存在错误诊断。 */
     bool hasErrors() const;
 

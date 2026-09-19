@@ -34,11 +34,15 @@ Parsers must not call target writers directly or silently discard format-specifi
 - `FormatDetector`, using conservative extension and content-header detection.
 - `ArchiveInspector`, inspecting ZIP central directories for traversal, symlink, encryption, and archive-bomb limits without extracting files.
 - `EncodingDetector`, detecting BOM and UTF-8 and providing a diagnosable, limited Latin-1 fallback for otherwise unclassified text.
+- `ImporterRegistry`, selecting a format importer in registration order without owning format-specific models.
+- `ConversionReport`, unifying conversion status, partial progress, cancellation, and cross-file diagnostics.
 - `ParseDiagnostics`, supporting info, warn, error, and skip at file, component, symbol, footprint, and field scope.
 
 These components handle syntax, source locations, and common geometry semantics. They do not guess format-specific business fields.
 
 Archive inspection runs before extraction. Callers must verify `ArchiveInspectionResult::safe` before passing an archive to a format reader. Encoding fallback is not a lossless guarantee; parsers should use diagnostics when deciding whether conversion may continue.
+
+Xpedition HKP documents can be merged through `XpeditionHkpMerger`. The merger preserves source-file diagnostics, checks type and unit consistency, and assigns stable suffixes to duplicate definitions. If an original name maps to multiple definitions, it reports an error and requires the caller to resolve the association explicitly.
 
 ## Diagnostics and degradation rules
 

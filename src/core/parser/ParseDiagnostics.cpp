@@ -25,6 +25,11 @@ const QList<ParseDiagnostic>& ParseDiagnostics::items() const {
     return m_items;
 }
 
+// 合并不同文件或阶段的诊断，保留每条记录原有的文件路径。
+void ParseDiagnostics::append(const ParseDiagnostics& other) {
+    m_items.append(other.items());
+}
+
 // 判断本次解析是否存在阻止可靠转换的错误。
 bool ParseDiagnostics::hasErrors() const {
     for (const ParseDiagnostic& item : m_items) {
