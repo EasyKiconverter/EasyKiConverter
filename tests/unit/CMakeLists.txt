@@ -40,6 +40,18 @@ target_include_directories(test_cadstar_parser PRIVATE
 )
 add_test(NAME test_cadstar_parser COMMAND test_cadstar_parser)
 
+add_executable(test_pcad_parser test_pcad_parser.cpp)
+target_link_libraries(test_pcad_parser PRIVATE
+    Qt6::Test
+    EasyKiConverterPcad
+)
+target_include_directories(test_pcad_parser PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/tests
+)
+add_test(NAME test_pcad_parser COMMAND test_pcad_parser)
+
 add_executable(test_models test_models.cpp)
 target_link_libraries(test_models PRIVATE
     Qt6::Test
@@ -598,6 +610,7 @@ set(EASYKICONVERTER_UNIT_TESTS
     test_test_paths
     test_kicad_exporter_golden
     test_xpedition_exporter
+    test_pcad_parser
     test_kicad_library_table_manager
     test_exporter_3d_model
     test_easyeda_importer_fixtures

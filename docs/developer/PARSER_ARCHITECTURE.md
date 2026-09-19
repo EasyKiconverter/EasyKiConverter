@@ -64,6 +64,7 @@ HKP 的 Pad、孔几何不依赖子节点顺序；XY 坐标支持括号、逗号
 - Altium SchLib/PcbLib：已有 OLE/CFB 读取器以及 SchLib/PcbLib 导出器，读取器不等同于完整源格式到 IR 的 Importer。
 - Xpedition：已有 IR 到符号文本和 Pads/Cell HKP ZIP 的导出器；Pad、Hole、Padstack、Cell、Pin、Outline 和 PDB 器件关联可解析为格式专用模型，V54 符号文本也已能解析引脚、图形、文本和多部件元数据，并通过 Adapter 映射到现有 Symbol IR。
 - Cadstar ASCII 库：已支持 Pad、Package、Component、Part、焊盘编号范围、异形焊盘、槽孔、基本图形、单位换算和到 Footprint/Symbol IR 的适配。
+- P-CAD ASCII PCB：已支持 `ACCEL_ASCII` 检测、Pad Style、Pattern、Pattern 图形、器件放置、层号、单位换算、Y 轴转换和 Pattern 到 Footprint IR 的适配。
 
 ### 进行中的工作
 
@@ -74,7 +75,7 @@ HKP 的 Pad、孔几何不依赖子节点顺序；XY 坐标支持括号、逗号
 ### 计划支持
 
 - Cadstar ASCII 库：继续补充真实厂商样本、多文件合并、层语义和更多 Cadstar 图元；当前支持范围以公开 ASCII 交换语法为限。
-- P-CAD ASCII/S-expression：复用 S-expression 解析器，先建立格式专用模型，再映射到 IR。
+- P-CAD ASCII PCB：继续补充真实厂商样本、板级图形到目标格式的转换、更多 Pad Style 和层语义；当前板级 Placement 保留在格式模型中。
 - P-CAD 格式检测：使用 `.pcb` 扩展名或 `ACCEL_ASCII` 文件头识别，普通 `.lib` 文件不会被误判为 P-CAD。
 - TinyCAD XML、gEDA 和 Fabmaster：需先确认其公开交换格式与当前 IR 的表达能力。
 

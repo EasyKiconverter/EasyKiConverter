@@ -8,6 +8,7 @@ add_subdirectory(parser)
 add_subdirectory(utils)
 add_subdirectory(altium)
 add_subdirectory(cadstar)
+add_subdirectory(pcad)
 add_subdirectory(xpedition)
 
 add_library(EasyKiConverterCore STATIC)
@@ -35,6 +36,7 @@ target_link_libraries(EasyKiConverterCore
         EasyKiConverterModels
         EasyKiConverterAltium
         EasyKiConverterCadstar
+        EasyKiConverterPcad
 )
 
 target_include_directories(EasyKiConverterCore
