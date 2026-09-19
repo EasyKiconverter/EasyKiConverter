@@ -8,10 +8,12 @@ namespace EasyKiConverter::Parser {
 
 namespace {
 
+// 统一比较 HKP 关键字时的大小写。
 QString upper(const QString& value) {
     return value.trimmed().toUpper();
 }
 
+// 去除格式字段外围引号，保留其实际名称和值。
 QString unquote(QString value) {
     value = value.trimmed();
     if (value.size() >= 2 && value.startsWith(QChar('"')) && value.endsWith(QChar('"')))
@@ -19,6 +21,7 @@ QString unquote(QString value) {
     return value;
 }
 
+// 读取节点值并去除 HKP 引号。
 QString valueOf(const SectionNode& node) {
     return unquote(node.value);
 }
@@ -40,10 +43,12 @@ QList<const SectionNode*> childrenOf(const SectionNode& node, const QString& key
     return result;
 }
 
+// 将源文件单位统一换算为模型使用的毫米。
 double scale(double value, LengthUnit unit) {
     return UnitConverter::toMillimeters(value, unit);
 }
 
+// 严格解析带括号或逗号的二维坐标。
 bool parsePair(const QString& text,
                LengthUnit unit,
                ParseDiagnostics* diagnostics,
@@ -63,6 +68,7 @@ bool parsePair(const QString& text,
     return true;
 }
 
+// 将 Xpedition 几何关键字映射为格式专用形状枚举。
 XpeditionPadShape shapeOf(const QString& value) {
     const QString type = upper(value);
     if (type == QStringLiteral("ROUND"))
@@ -93,12 +99,14 @@ bool parseBool(const QString& value, ParseDiagnostics* diagnostics, const QStrin
     return false;
 }
 
+// 记录重名，同时让调用方生成稳定的后缀名称。
 void duplicateWarning(ParseDiagnostics* diagnostics, ParseScope scope, const QString& name, int line) {
     if (diagnostics)
         diagnostics->add(
             ParseSeverity::Warning, scope, QStringLiteral("重复名称将保留为独立定义：%1").arg(name), name, line);
 }
 
+// 在同一模型集合中生成不冲突的稳定名称。
 QString uniqueName(const QString& name,
                    const QStringList& names,
                    ParseDiagnostics* diagnostics,
@@ -115,6 +123,7 @@ QString uniqueName(const QString& name,
     return candidate;
 }
 
+// 从 Pad 或 Hole 的几何子节点解析尺寸。
 void parseSize(const SectionNode& node, LengthUnit unit, ParseDiagnostics* diagnostics, QSizeF& size) {
     if (upper(node.keyword) == QStringLiteral("ROUND") || upper(node.keyword) == QStringLiteral("SQUARE")) {
         if (const SectionNode* diameter = child(node, QStringLiteral("DIAMETER"))) {
@@ -136,6 +145,7 @@ void parseSize(const SectionNode& node, LengthUnit unit, ParseDiagnostics* diagn
         size.setHeight(size.width());
 }
 
+// 解析 Pad 定义及其矩形、圆形或异形几何。
 void parsePad(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& model, ParseDiagnostics* diagnostics) {
     const QString rawName = valueOf(node);
     XpeditionPadDefinition pad;
@@ -175,6 +185,7 @@ void parsePad(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& model
     model.pads.append(pad);
 }
 
+// 解析孔形状、尺寸和镀层选项。
 void parseHole(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& model, ParseDiagnostics* diagnostics) {
     XpeditionHoleDefinition hole;
     hole.name = uniqueName(
@@ -204,6 +215,7 @@ void parseHole(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& mode
     model.holes.append(hole);
 }
 
+// 解析 Padstack 的技术类型、层焊盘和孔关联。
 void parsePadstack(const SectionNode& node, XpeditionHkpModel& model, ParseDiagnostics* diagnostics) {
     XpeditionPadstackDefinition padstack;
     padstack.name = uniqueName(
@@ -250,6 +262,7 @@ void parsePadstack(const SectionNode& node, XpeditionHkpModel& model, ParseDiagn
     model.padstacks.append(padstack);
 }
 
+// 解析封装 Cell 的引脚、轮廓和安装属性。
 void parseCell(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& model, ParseDiagnostics* diagnostics) {
     XpeditionCellDefinition cell;
     cell.name = uniqueName(
@@ -273,6 +286,7 @@ void parseCell(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& mode
         else if (keyword == QStringLiteral("NUMBER_LAYERS"))
             cell.numberOfLayers = static_cast<int>(StrictNumberParser::parseInteger(
                 valueOf(item), diagnostics, QStringLiteral("NUMBER_LAYERS"), item.line));
+        // 解析引脚位置、Padstack、旋转和镜像信息。
         else if (keyword == QStringLiteral("PIN")) {
             XpeditionCellPin pin;
             pin.number = valueOf(item);
@@ -308,6 +322,7 @@ void parseCell(const SectionNode& node, LengthUnit unit, XpeditionHkpModel& mode
     model.cells.append(cell);
 }
 
+// 解析 PDB 器件的属性、符号和上下表面封装关联。
 void parsePart(const SectionNode& node, XpeditionHkpModel& model, ParseDiagnostics* diagnostics) {
     XpeditionPartDefinition part;
     part.number = valueOf(node);
@@ -328,6 +343,7 @@ void parsePart(const SectionNode& node, XpeditionHkpModel& model, ParseDiagnosti
             part.bottomCell = value;
         else if (keyword == QStringLiteral("SYMBOL"))
             part.symbol = value;
+        // 解析 PDB 的键值属性，并拒绝缺少名称或值的记录。
         else if (keyword == QStringLiteral("PROP")) {
             const QStringList values = item.value.split(QRegularExpression(QStringLiteral("\\s*,\\s*")));
             if (values.size() >= 2)
