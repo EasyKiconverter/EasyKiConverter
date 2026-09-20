@@ -600,7 +600,7 @@ Item {
                     id: xpeditionInfoText
                     anchors.fill: parent
                     anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 当前不关联 3D 模型\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
+                    text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前不关联 3D 模型\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
                     font.pixelSize: AppStyle.fontSizes.xs
                     color: AppStyle.colors.textSecondary
                     wrapMode: Text.WordWrap

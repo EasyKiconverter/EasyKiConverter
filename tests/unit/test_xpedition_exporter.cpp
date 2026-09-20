@@ -6,10 +6,87 @@
 #include "core/xpedition/XpeditionSymbolAdapter.h"
 
 #include <QFile>
+#include <QSet>
 #include <QTemporaryDir>
 #include <QTest>
 
 using namespace EasyKiConverter;
+
+namespace {
+
+// 读取 ZIP 二进制字段，验证导出文件具备完整的本地文件头、中央目录和结束记录。
+quint32 readLittleEndian32(const QByteArray& data, qsizetype offset) {
+    return static_cast<quint32>(static_cast<unsigned char>(data.at(offset))) |
+           (static_cast<quint32>(static_cast<unsigned char>(data.at(offset + 1))) << 8) |
+           (static_cast<quint32>(static_cast<unsigned char>(data.at(offset + 2))) << 16) |
+           (static_cast<quint32>(static_cast<unsigned char>(data.at(offset + 3))) << 24);
+}
+
+// 读取 ZIP 二进制字段中的 16 位小端整数。
+quint16 readLittleEndian16(const QByteArray& data, qsizetype offset) {
+    return static_cast<quint16>(static_cast<unsigned char>(data.at(offset))) |
+           (static_cast<quint16>(static_cast<unsigned char>(data.at(offset + 1))) << 8);
+}
+
+// 验证 ZIP 结构和指定条目名称，避免测试只检查压缩包魔数而漏掉截断文件。
+bool hasValidZipStructure(const QByteArray& data, const QSet<QByteArray>& expectedEntries) {
+    constexpr quint32 localHeader = 0x04034b50;
+    constexpr quint32 centralHeader = 0x02014b50;
+    constexpr quint32 endOfDirectory = 0x06054b50;
+    const qsizetype endOffset = data.lastIndexOf(QByteArray("PK\x05\x06", 4));
+    if (endOffset < 0 || endOffset + 22 > data.size())
+        return false;
+
+    const quint16 entryCount = readLittleEndian16(data, endOffset + 10);
+    const quint32 centralSize = readLittleEndian32(data, endOffset + 12);
+    const quint32 centralOffset = readLittleEndian32(data, endOffset + 16);
+    if (readLittleEndian32(data, endOffset) != endOfDirectory ||
+        static_cast<quint64>(centralOffset) + centralSize > static_cast<quint64>(endOffset))
+        return false;
+
+    QSet<QByteArray> actualEntries;
+    qsizetype offset = 0;
+    while (offset < static_cast<qsizetype>(centralOffset)) {
+        if (offset + 30 > data.size() || readLittleEndian32(data, offset) != localHeader)
+            return false;
+        const quint16 flags = readLittleEndian16(data, offset + 6);
+        const quint16 nameSize = readLittleEndian16(data, offset + 26);
+        const quint16 extraSize = readLittleEndian16(data, offset + 28);
+        const quint32 compressedSize = readLittleEndian32(data, offset + 18);
+        const qsizetype nameOffset = offset + 30;
+        const qsizetype payloadOffset = nameOffset + nameSize + extraSize;
+        if (flags & 0x0008 || payloadOffset < nameOffset || payloadOffset + compressedSize > data.size() ||
+            payloadOffset + compressedSize > centralOffset)
+            return false;
+        actualEntries.insert(data.mid(nameOffset, nameSize));
+        offset = payloadOffset + compressedSize;
+    }
+    for (const QByteArray& expectedEntry : expectedEntries) {
+        if (!actualEntries.contains(expectedEntry))
+            return false;
+    }
+    if (offset != static_cast<qsizetype>(centralOffset) || actualEntries.size() != entryCount)
+        return false;
+
+    qsizetype centralEntryOffset = centralOffset;
+    quint16 centralEntryCount = 0;
+    while (centralEntryOffset < endOffset) {
+        if (centralEntryOffset + 46 > data.size() || readLittleEndian32(data, centralEntryOffset) != centralHeader)
+            return false;
+        const quint16 nameSize = readLittleEndian16(data, centralEntryOffset + 28);
+        const quint16 extraSize = readLittleEndian16(data, centralEntryOffset + 30);
+        const quint16 commentSize = readLittleEndian16(data, centralEntryOffset + 32);
+        const qsizetype nameOffset = centralEntryOffset + 46;
+        const qsizetype nextOffset = nameOffset + nameSize + extraSize + commentSize;
+        if (nextOffset > endOffset)
+            return false;
+        centralEntryOffset = nextOffset;
+        ++centralEntryCount;
+    }
+    return centralEntryOffset == endOffset && centralEntryCount == entryCount;
+}
+
+}  // namespace
 
 class TestXpeditionExporter : public QObject {
     Q_OBJECT
@@ -195,6 +272,7 @@ private slots:
         QVERIFY(output.open(QIODevice::ReadOnly));
         const QByteArray data = output.readAll();
         QVERIFY(data.startsWith("PK\x03\x04"));
+        QVERIFY(hasValidZipStructure(data, {QByteArray("TEST_SYMBOL.1")}));
         QVERIFY(data.contains("TEST_SYMBOL.1"));
         QVERIFY(data.contains("V 50"));
         QVERIFY(data.contains("P 1"));
@@ -252,6 +330,8 @@ private slots:
         QVERIFY(output.open(QIODevice::ReadOnly));
         const QByteArray data = output.readAll();
         QVERIFY(data.startsWith("PK\x03\x04"));
+        QVERIFY(
+            hasValidZipStructure(data, {QByteArray("TEST_FOOTPRINT_Pads.hkp"), QByteArray("TEST_FOOTPRINT_Cell.hkp")}));
         QVERIFY(data.contains("TEST_FOOTPRINT_Pads.hkp"));
         QVERIFY(data.contains("TEST_FOOTPRINT_Cell.hkp"));
         QVERIFY(data.contains(".PADSTACK"));
@@ -350,6 +430,81 @@ private slots:
         QVERIFY(
             data.contains(".Hole \"HOLE_39.3701_NONPLATED\"\n..POSITIVE_TOLERANCE 0\n..NEGATIVE_TOLERANCE "
                           "0\n..HOLE_OPTIONS NON_PLATED"));
+    }
+
+    // 验证独立安装孔的 Cell 引用与 Padstack 定义使用完全相同的名称。
+    void standaloneMountingHoleUsesExistingPadstackReference() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        IR::FootprintComponentIR footprint;
+        footprint.name = QStringLiteral("MOUNTING_HOLE");
+        IR::FootprintHoleIR hole;
+        hole.center = QPointF(2.0, 3.0);
+        hole.radius = 0.5;
+        footprint.holes.append(hole);
+
+        const QString outputPath = tempDir.filePath(QStringLiteral("mounting-hole.zip"));
+        ExporterXpeditionFootprint exporter;
+        QVERIFY(exporter.exportFootprintLibrary({footprint}, QStringLiteral("Library"), outputPath));
+
+        QFile output(outputPath);
+        QVERIFY(output.open(QIODevice::ReadOnly));
+        const QByteArray data = output.readAll();
+        const QByteArray stackReference = "...PADSTACK \"HOLE_39.3701_NONPLATED_TH\"";
+        QVERIFY(data.contains(".PADSTACK \"HOLE_39.3701_NONPLATED_TH\""));
+        QVERIFY(data.contains(stackReference));
+        QVERIFY(!data.contains("...PADSTACK \"HOLE_39.3701_TH\""));
+    }
+
+    // 验证非圆椭圆和带顶点的圆角/梯形焊盘不会静默退化为矩形。
+    void padShapeMappingsPreserveSupportedGeometry() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        IR::FootprintComponentIR footprint;
+        footprint.name = QStringLiteral("PAD_SHAPES");
+        IR::FootprintPadIR ellipse;
+        ellipse.number = QStringLiteral("1");
+        ellipse.size = QSizeF(2.0, 1.0);
+        ellipse.shape = IR::PadShape::Ellipse;
+        footprint.pads.append(ellipse);
+        IR::FootprintPadIR custom;
+        custom.number = QStringLiteral("2");
+        custom.size = QSizeF(2.0, 2.0);
+        custom.shape = IR::PadShape::RoundRect;
+        custom.customShapePoints = {QPointF(-1.0, -0.5), QPointF(1.0, -0.5), QPointF(1.0, 0.5), QPointF(-1.0, 0.5)};
+        footprint.pads.append(custom);
+
+        const QString outputPath = tempDir.filePath(QStringLiteral("pad-shapes.zip"));
+        ExporterXpeditionFootprint exporter;
+        QVERIFY(exporter.exportFootprintLibrary({footprint}, QStringLiteral("Library"), outputPath));
+
+        QFile output(outputPath);
+        QVERIFY(output.open(QIODevice::ReadOnly));
+        const QByteArray data = output.readAll();
+        QVERIFY(data.contains("..OBLONG\n...WIDTH 78.7402\n...HEIGHT 39.3701"));
+        QVERIFY(data.contains("..CUSTOM\n...POLYLINE_SHAPE"));
+        QVERIFY(!data.contains("ROUNDRECT"));
+    }
+
+    // 验证无法由 IR 顶点表达的异形焊盘会阻止导出并返回明确诊断。
+    void unsupportedPadShapeFailsWithDiagnostic() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        IR::FootprintComponentIR footprint;
+        footprint.name = QStringLiteral("UNSUPPORTED_PAD");
+        IR::FootprintPadIR pad;
+        pad.number = QStringLiteral("1");
+        pad.shape = IR::PadShape::Trapezoid;
+        pad.size = QSizeF(1.0, 1.0);
+        footprint.pads.append(pad);
+
+        ExporterXpeditionFootprint exporter;
+        QVERIFY(!exporter.exportFootprintLibrary(
+            {footprint}, QStringLiteral("Library"), tempDir.filePath(QStringLiteral("unsupported.zip"))));
+        QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("形状无法表达")));
     }
 
     // 验证底层表贴焊盘不会被错误写入顶层铜、阻焊和锡膏层。
@@ -535,6 +690,35 @@ private slots:
 
         const QString diagnosticText = exporter.diagnostics().join(QStringLiteral("\n"));
         QVERIFY(diagnosticText.contains(QStringLiteral("未写入 3D 模型关联")));
+    }
+
+    // 验证符号安全名称冲突会稳定加后缀，且文本字段会转义引号和反斜杠。
+    void symbolNamesAndTextFieldsAreSafe() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        IR::SymbolComponentIR first;
+        first.name = QStringLiteral("A B");
+        first.designatorPrefix = QStringLiteral("U\"");
+        IR::SymbolPinIR pin;
+        pin.name = QString::fromUtf8("名称\"\\");
+        pin.designator = QStringLiteral("1\\\"");
+        first.pins.append(pin);
+        IR::SymbolComponentIR second = first;
+        second.name = QStringLiteral("A_B");
+
+        const QString outputPath = tempDir.filePath(QStringLiteral("safe-symbols.zip"));
+        ExporterXpeditionSymbol exporter;
+        QVERIFY(exporter.exportSymbolLibrary({first, second}, QStringLiteral("Library"), outputPath, false, false));
+
+        QFile output(outputPath);
+        QVERIFY(output.open(QIODevice::ReadOnly));
+        const QByteArray data = output.readAll();
+        QVERIFY(data.contains("A_B.1"));
+        QVERIFY(data.contains("A_B_2.1"));
+        QVERIFY(data.contains("U\\\""));
+        QVERIFY(data.contains(QString::fromUtf8("名称\\\"\\\\").toUtf8()));
+        QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("名称重复")));
     }
 };
 

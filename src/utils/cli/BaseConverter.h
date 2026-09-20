@@ -5,6 +5,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QStringList>
 
 namespace EasyKiConverter {
 
@@ -126,6 +127,7 @@ private:
     bool m_exportSuccess{false};
     int m_successCount{0};
     int m_failedCount{0};
+    QStringList m_reportedDiagnostics;
 };
 
 }  // namespace EasyKiConverter

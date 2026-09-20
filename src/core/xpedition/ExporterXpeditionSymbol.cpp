@@ -4,6 +4,7 @@
 
 #include <QFileInfo>
 #include <QRegularExpression>
+#include <QSet>
 #include <QtMath>
 
 #include <algorithm>
@@ -24,6 +25,19 @@ QString safeName(QString name) {
     name = name.trimmed();
     name.replace(QRegularExpression(QStringLiteral("[^A-Za-z0-9_.-]")), QStringLiteral("_"));
     return name.isEmpty() ? QStringLiteral("unnamed") : name;
+}
+
+/**
+ * @brief 转义 Xpedition 符号文本字段中的特殊字符。
+ * @param text 原始文本。
+ * @return 可安全写入单行字段的文本。
+ */
+QString escapedText(QString text) {
+    text.replace('\\', QStringLiteral("\\\\"));
+    text.replace('"', QStringLiteral("\\\""));
+    text.replace('\n', QStringLiteral(" "));
+    text.replace('\r', QStringLiteral(" "));
+    return text;
 }
 
 /** @brief 使用稳定精度输出几何数值。 */
@@ -183,12 +197,12 @@ void appendPin(QString& output, const IR::SymbolPinIR& pin, int index) {
         output += QStringLiteral("L %1 %2 8 0 2 0 1 0 %3\n")
                       .arg(fmt(toTh(namePosition.x())))
                       .arg(fmt(toTh(namePosition.y())))
-                      .arg(pin.name);
+                      .arg(escapedText(pin.name));
     if (pin.display.showDesignator && !pin.designator.isEmpty())
         output += QStringLiteral("A %1 %2 8 0 3 3 #=%4\n")
                       .arg(fmt(toTh(numberPosition.x())))
                       .arg(fmt(toTh(numberPosition.y())))
-                      .arg(pin.designator);
+                      .arg(escapedText(pin.designator));
     const QString electricalType = pinElectricalTypeName(pin.electricalType);
     if (!electricalType.isEmpty())
         output += QStringLiteral("A %1 %2 10 0 2 0 PINTYPE=%3\n")
@@ -212,19 +226,21 @@ QStringList ExporterXpeditionSymbol::diagnostics() const {
 }
 
 // 多单元符号通过“名称.部件序号”形成稳定的库条目名称。
-QString ExporterXpeditionSymbol::symbolFileName(const IR::SymbolComponentIR& symbol, int partIndex) const {
+QString ExporterXpeditionSymbol::symbolFileName(const QString& outputName, int partIndex) const {
     // 部件序号从 1 开始，符合目标符号库的多单元命名约定。
-    return QStringLiteral("%1.%2").arg(safeName(symbol.name)).arg(partIndex + 1);
+    return QStringLiteral("%1.%2").arg(outputName).arg(partIndex + 1);
 }
 
 // 符号部件正文按照头信息、引脚、图元和结束记录的顺序拼接。
-QByteArray ExporterXpeditionSymbol::symbolFile(const IR::SymbolComponentIR& symbol, int partIndex) const {
+QByteArray ExporterXpeditionSymbol::symbolFile(const IR::SymbolComponentIR& symbol,
+                                               int partIndex,
+                                               const QString& outputName) const {
     // 每个部件独立成文件，同时保留 commonToAllParts 引脚，避免多单元符号丢失公共引脚。
     QString body;
-    body += QStringLiteral("V 50\nK 1000000000 %1\nY 1\nZ 0\ni 0\n").arg(safeName(symbol.name));
-    body += QStringLiteral("U 0 0 10 0 5 0 %1\n").arg(safeName(symbol.name));
-    body += QStringLiteral("U 0 0 5 0 5 0 REFDES=%1\n").arg(symbol.designatorPrefix);
-    body += QStringLiteral("U 0 0 5 0 5 0 VALUE=%1\n").arg(symbol.name);
+    body += QStringLiteral("V 50\nK 1000000000 %1\nY 1\nZ 0\ni 0\n").arg(outputName);
+    body += QStringLiteral("U 0 0 10 0 5 0 %1\n").arg(outputName);
+    body += QStringLiteral("U 0 0 5 0 5 0 REFDES=%1\n").arg(escapedText(symbol.designatorPrefix));
+    body += QStringLiteral("U 0 0 5 0 5 0 VALUE=%1\n").arg(escapedText(symbol.name));
     const QRectF bounds = symbolBounds(symbol, partIndex);
     body += QStringLiteral("b %1 %2 %3 %4\n")
                 .arg(fmt(toTh(bounds.left())))
@@ -292,11 +308,21 @@ bool ExporterXpeditionSymbol::exportSymbolLibrary(const QList<IR::SymbolComponen
     // 清理任务级诊断后再写入各个部件，保证调用者读取到的是本次结果。
     m_diagnostics.clear();
     XpeditionZipWriter archive;
+    QSet<QString> usedNames;
     for (const IR::SymbolComponentIR& symbol : symbols) {
         if (symbol.name.trimmed().isEmpty()) {
             m_diagnostics.append(QStringLiteral("跳过名称为空的 Xpedition 符号"));
             continue;
         }
+        const QString baseName = safeName(symbol.name);
+        QString outputName = baseName;
+        int suffix = 2;
+        while (usedNames.contains(outputName))
+            outputName = QStringLiteral("%1_%2").arg(baseName).arg(suffix++);
+        if (outputName != baseName)
+            m_diagnostics.append(
+                QStringLiteral("Xpedition 符号名称重复，已重命名：%1 -> %2").arg(symbol.name, outputName));
+        usedNames.insert(outputName);
         const int partCount = qMax(1, symbol.partCount);
         if (!symbol.ellipses.isEmpty() || !symbol.pies.isEmpty() || !symbol.ellipticalArcs.isEmpty() ||
             !symbol.paths.isEmpty() || !symbol.beziers.isEmpty() || !symbol.ieeeSymbols.isEmpty() ||
@@ -309,7 +335,7 @@ bool ExporterXpeditionSymbol::exportSymbolLibrary(const QList<IR::SymbolComponen
             m_diagnostics.append(QStringLiteral("Xpedition 符号 %1 包含当前未写入的引脚装饰").arg(symbol.name));
         }
         for (int partIndex = 0; partIndex < partCount; ++partIndex) {
-            if (!archive.addFile(symbolFileName(symbol, partIndex), symbolFile(symbol, partIndex))) {
+            if (!archive.addFile(symbolFileName(outputName, partIndex), symbolFile(symbol, partIndex, outputName))) {
                 m_diagnostics.append(QStringLiteral("Xpedition 符号文件名重复：%1").arg(symbol.name));
                 return false;
             }

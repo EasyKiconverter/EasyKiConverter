@@ -7,12 +7,12 @@ This document describes the current Xpedition ASCII library export implemented t
 | Capability | Status | Notes |
 | --- | --- | --- |
 | Symbol export | Implemented | Generates Xpedition ASCII symbol text for pins, electrical types, body bounds, rectangles, polylines, polygons, circles, and three-point arcs |
-| Footprint export | Implemented | Generates Padstack and Cell HKP text for pad solder paste/mask layers, round holes, slots, outlines, graphics, text, regions, and standalone holes; SMD pads preserve their top or bottom mounting side |
+| Footprint export | Implemented | Generates Padstack and Cell HKP text for pad solder paste/mask layers, round holes, slots, outlines, graphics, text, regions, and standalone holes; SMD pads preserve their top or bottom mounting side; standalone-hole references are structurally checked |
 | Footprint geometry fidelity | Implemented | Supports rotated rectangles, polyline approximation for arcs, and mapping TopOverlay/BottomOverlay to the corresponding silkscreen side |
 | Multi-part symbols | Implemented | Writes one symbol entry per part |
 | ZIP packaging | Implemented | Produces separate uncompressed ZIP packages for symbols and footprints |
 | 3D model association | Not implemented | No Xpedition 3D association is written; CLI and GUI report and skip the option |
-| Target-software validation | Not complete | Automated tests cover text structure, ZIP integrity, and the project export pipeline |
+| Target-software validation | Not complete | No usable Xpedition installation or command-line reader is available in the current environment; automated tests cover text structure, ZIP integrity, and read-back rules |
 
 ## Data flow
 
@@ -35,6 +35,7 @@ The exporter does not re-parse EasyEDA JSON. Coordinates, pin semantics, pad typ
 - Lengths are converted with `mm / 0.0254`.
 - The footprint Cell origin is the center of the current geometry bounds, with Y inverted for output.
 - Through-hole round and slot holes receive separate Hole definitions; slot definitions include independent diameter and length dimensions.
+- Standalone holes produce a non-plated Padstack and the Cell references the exact same complete name; tests check both the definition and the reference.
 - Symbol coordinates preserve the IR orientation and are converted to TH values.
 
 ## Output files
@@ -57,7 +58,11 @@ IR data that cannot be safely represented is not silently reported as exported:
 - 3D model references produce an unassociated-model diagnostic.
 - Symbol ellipses, pies, elliptical arcs, paths, Bézier curves, IEEE graphics, ordinary text, text frames, and images still produce unsupported-element diagnostics.
 - Duplicate footprint names receive numeric suffixes so ZIP entry names remain unique.
+- Cleaned symbol-name collisions receive stable suffixes; quotes, backslashes, and line breaks in REFDES, VALUE, pin names, and pin numbers are escaped.
+- Xpedition ZIP output currently supports full replacement only. Existing archives are rejected when overwrite is disabled, and append, update, and retry modes are explicitly rejected rather than treated as safe merges.
+- RoundRect, Trapezoid, and Polygon pads are written as CUSTOM only when the IR provides at least three custom vertices. Non-circular Ellipse pads are written as OBLONG; unrepresentable shapes fail with a diagnostic.
 - Entry names are restricted to safe relative names; absolute paths, backslashes, and traversal segments are rejected.
+- Unrecoverable stage errors are added to export-progress diagnostics; the GUI exposes them in the result state and the CLI prints them as export diagnostics.
 
 ## Verification scope
 
@@ -66,7 +71,7 @@ Automated verification currently includes:
 - Dedicated Xpedition symbol and footprint unit tests.
 - Through-hole Padstack hole-reference tests.
 - Diagnostics tests for unsupported footprint primitives.
-- All 43 CTest tests.
+- All 49 CTest tests, including standalone-hole, pad-shape, safe-name, and existing-library policy regressions.
 - A real export was attempted with the project BOM fixture and existing cache; the EasyEDA component API currently returns HTTP 403, so this external-network run is not counted as passing.
 - Repeatable local verification uses fixed IR data, ZIP entry contents, and project cache paths when external data is unavailable.
 

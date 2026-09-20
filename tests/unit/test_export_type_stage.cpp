@@ -712,6 +712,82 @@ private slots:
         QVERIFY(!QDir(tempDir.path() + QDir::separator() + QStringLiteral(".tmp")).exists());
     }
 
+    // 验证 Xpedition 符号库不会在禁止覆盖时改写已有 ZIP。
+    void xpeditionSymbolRejectsNoOverwriteAndUpdateModes() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString finalPath = tempDir.path() + QDir::separator() + QStringLiteral("Existing_Symbols.zip");
+        QFile existing(finalPath);
+        QVERIFY(existing.open(QIODevice::WriteOnly));
+        existing.write("original-xpedition-symbol");
+        existing.close();
+
+        for (const auto mode : {0, 1, 2}) {
+            SymbolExportStage stage;
+            ExportOptions options;
+            options.outputPath = tempDir.path();
+            options.libName = QStringLiteral("Existing");
+            options.targetFormat = TargetEdaFormat::Xpedition;
+            options.overwriteExistingFiles = mode == 2;
+            options.updateMode = mode == 1;
+            options.retryMode = mode == 2;
+            stage.setOptions(options);
+
+            QMap<QString, QSharedPointer<ComponentData>> cachedData;
+            cachedData[QStringLiteral("C_XPEDITION")] =
+                makeSymbolComponent(QStringLiteral("C_XPEDITION"), QStringLiteral("XPEDITION_SYMBOL"));
+            QSignalSpy completedSpy(&stage, &SymbolExportStage::completed);
+            stage.start({QStringLiteral("C_XPEDITION")}, cachedData);
+            QVERIFY2(completedSpy.wait(3000), "Xpedition symbol policy should complete");
+            QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+            QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+            QVERIFY(stage.getProgress().diagnostics.join(QStringLiteral("\n")).contains(QStringLiteral("Xpedition")));
+        }
+
+        QFile unchanged(finalPath);
+        QVERIFY(unchanged.open(QIODevice::ReadOnly));
+        QCOMPARE(unchanged.readAll(), QByteArray("original-xpedition-symbol"));
+    }
+
+    // 验证 Xpedition 封装库的禁止覆盖、更新和重试模式不会绕过安全策略。
+    void xpeditionFootprintRejectsNoOverwriteAndUpdateModes() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString finalPath = tempDir.path() + QDir::separator() + QStringLiteral("Existing_Footprints.zip");
+        QFile existing(finalPath);
+        QVERIFY(existing.open(QIODevice::WriteOnly));
+        existing.write("original-xpedition-footprint");
+        existing.close();
+
+        for (const auto mode : {0, 1, 2}) {
+            FootprintExportStage stage;
+            ExportOptions options;
+            options.outputPath = tempDir.path();
+            options.libName = QStringLiteral("Existing");
+            options.targetFormat = TargetEdaFormat::Xpedition;
+            options.overwriteExistingFiles = mode == 2;
+            options.updateMode = mode == 1;
+            options.retryMode = mode == 2;
+            stage.setOptions(options);
+
+            QMap<QString, QSharedPointer<ComponentData>> cachedData;
+            cachedData[QStringLiteral("C_XPEDITION")] =
+                makeFootprintComponent(QStringLiteral("C_XPEDITION"), QStringLiteral("XPEDITION_FOOTPRINT"));
+            QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+            stage.start({QStringLiteral("C_XPEDITION")}, cachedData);
+            QVERIFY2(completedSpy.wait(3000), "Xpedition footprint policy should complete");
+            QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+            QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+            QVERIFY(stage.getProgress()
+                        .itemStatus.value(QStringLiteral("C_XPEDITION"))
+                        .errorMessage.contains(QStringLiteral("Xpedition")));
+        }
+
+        QFile unchanged(finalPath);
+        QVERIFY(unchanged.open(QIODevice::ReadOnly));
+        QCOMPARE(unchanged.readAll(), QByteArray("original-xpedition-footprint"));
+    }
+
     // 验证符号输入诊断会随导出进度暴露给调用方。
     void symbolLibraryExportEmitsInputDiagnostics() {
         QTemporaryDir tempDir;

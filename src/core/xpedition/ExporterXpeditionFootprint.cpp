@@ -40,21 +40,34 @@ QString fmt(double value) {
  * @param shape 统一表示中的焊盘形状。
  * @return Xpedition Pad 定义使用的形状名称。
  */
-QString padShape(IR::PadShape shape) {
-    // 形状映射保持有限集合，无法表达的复杂焊盘退化为矩形并由上层记录诊断。
-    switch (shape) {
+QString padShape(const IR::FootprintPadIR& pad) {
+    // 目标格式可以直接表达圆、长圆、矩形和自定义多边形；其余形状必须先有可用顶点。
+    switch (pad.shape) {
         case IR::PadShape::Ellipse:
-            return QStringLiteral("ROUND");
+            return qFuzzyCompare(pad.size.width(), pad.size.height()) ? QStringLiteral("ROUND")
+                                                                      : QStringLiteral("OBLONG");
         case IR::PadShape::Oval:
             return QStringLiteral("OBLONG");
         case IR::PadShape::Polygon:
-            return QStringLiteral("CUSTOM");
-        case IR::PadShape::Rect:
         case IR::PadShape::RoundRect:
         case IR::PadShape::Trapezoid:
-        default:
+            return pad.customShapePoints.size() >= 3 ? QStringLiteral("CUSTOM") : QString();
+        case IR::PadShape::Rect:
             return QStringLiteral("RECTANGLE");
+        default:
+            return QString();
     }
+}
+
+/**
+ * @brief 判断焊盘是否已经具备目标格式所需的自定义顶点。
+ * @param pad 待检查的焊盘。
+ * @return 可以写成自定义多边形时返回 true。
+ */
+bool hasCustomPadGeometry(const IR::FootprintPadIR& pad) {
+    return (pad.shape == IR::PadShape::Polygon || pad.shape == IR::PadShape::RoundRect ||
+            pad.shape == IR::PadShape::Trapezoid) &&
+           pad.customShapePoints.size() >= 3;
 }
 
 /**
@@ -64,7 +77,7 @@ QString padShape(IR::PadShape shape) {
  */
 QString padName(const IR::FootprintPadIR& pad) {
     QString geometry = QStringLiteral("%1_%2x%3")
-                           .arg(padShape(pad.shape))
+                           .arg(padShape(pad))
                            .arg(fmt(toTh(pad.size.width())))
                            .arg(fmt(toTh(pad.size.height())));
     if (pad.shape == IR::PadShape::Polygon && !pad.customShapePoints.isEmpty()) {
@@ -199,6 +212,15 @@ QString holeName(double diameterMm, double slotLengthMm = 0.0, bool isPlated = t
  */
 QString holePadName(double diameterMm) {
     return QStringLiteral("HOLE_PAD_%1").arg(fmt(toTh(diameterMm)));
+}
+
+/**
+ * @brief 生成独立安装孔在 Padstack 和 Cell 中共用的引用名称。
+ * @param diameterMm 安装孔直径，单位为毫米。
+ * @return 与 Padstack 定义完全一致的安装孔 Padstack 名称。
+ */
+QString standaloneHoleStackName(double diameterMm) {
+    return holeName(diameterMm, 0.0, false) + QStringLiteral("_TH");
 }
 
 /**
@@ -342,10 +364,10 @@ QByteArray ExporterXpeditionFootprint::padstackFile(const IR::FootprintComponent
         const double width = toTh(pad.size.width()) + expansionTh;
         const double height = toTh(pad.size.height()) + expansionTh;
         output += QStringLiteral(".PAD \"%1\"\n..PAD_OPTIONS USER_GENERATED_NAME\n..OFFSET (0, 0)\n..%2\n")
-                      .arg(name, padShape(pad.shape));
-        if (pad.shape == IR::PadShape::Ellipse) {
+                      .arg(name, padShape(pad));
+        if (pad.shape == IR::PadShape::Ellipse && qFuzzyCompare(pad.size.width(), pad.size.height())) {
             output += QStringLiteral("...DIAMETER %1\n").arg(fmt(width));
-        } else if (pad.shape == IR::PadShape::Polygon && !pad.customShapePoints.isEmpty()) {
+        } else if (hasCustomPadGeometry(pad)) {
             // 自定义焊盘按 X/Y 尺寸比例扩展，保持多边形的相对形状。
             const double scaleX = pad.size.width() > 0.0 ? width / toTh(pad.size.width()) : 1.0;
             const double scaleY = pad.size.height() > 0.0 ? height / toTh(pad.size.height()) : 1.0;
@@ -409,7 +431,7 @@ QByteArray ExporterXpeditionFootprint::padstackFile(const IR::FootprintComponent
             continue;
         const double diameterMm = hole.radius * 2.0;
         const QString baseName = holePadName(diameterMm);
-        const QString stackName = holeName(diameterMm, 0.0, false) + QStringLiteral("_TH");
+        const QString stackName = standaloneHoleStackName(diameterMm);
         if (!writtenPads.contains(baseName)) {
             output += QStringLiteral(
                           ".PAD \"%1\"\n..PAD_OPTIONS USER_GENERATED_NAME\n..OFFSET (0, 0)\n..ROUND\n...DIAMETER %2\n")
@@ -530,7 +552,7 @@ QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& 
                 .arg(holeIndex++)
                 .arg(fmt(toTh(hole.center.x() - origin.x())))
                 .arg(fmt(-toTh(hole.center.y() - origin.y())))
-                .arg(holeName(hole.radius * 2.0) + QStringLiteral("_TH"));
+                .arg(standaloneHoleStackName(hole.radius * 2.0));
     }
     for (const auto& text : footprint.texts) {
         // 仅导出可见文本；隐藏文本不应改变目标封装的视觉结果。
@@ -598,6 +620,13 @@ bool ExporterXpeditionFootprint::exportFootprintLibrary(const QList<IR::Footprin
         if (name != baseName)
             m_diagnostics.append(
                 QStringLiteral("Xpedition 封装名称重复，已重命名：%1 -> %2").arg(footprint.name, name));
+        for (const auto& pad : footprint.pads) {
+            if (padShape(pad).isEmpty()) {
+                m_diagnostics.append(QStringLiteral("Xpedition 封装 %1 的焊盘 %2 形状无法表达，导出已拒绝")
+                                         .arg(footprint.name, pad.number));
+                return false;
+            }
+        }
         if (!footprint.arcs.isEmpty())
             m_diagnostics.append(QStringLiteral("Xpedition 封装 %1 的 %2 个圆弧已使用折线近似")
                                      .arg(footprint.name)
