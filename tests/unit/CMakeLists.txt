@@ -18,6 +18,62 @@ target_include_directories(test_easyeda_api PRIVATE
 
 add_test(NAME test_easyeda_api COMMAND test_easyeda_api)
 
+add_executable(test_text_parsers test_text_parsers.cpp)
+target_link_libraries(test_text_parsers PRIVATE
+    Qt6::Test
+    EasyKiConverterParser
+)
+target_include_directories(test_text_parsers PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_text_parsers COMMAND test_text_parsers)
+
+add_executable(test_cadstar_parser test_cadstar_parser.cpp)
+target_link_libraries(test_cadstar_parser PRIVATE
+    Qt6::Test
+    EasyKiConverterCadstar
+)
+target_include_directories(test_cadstar_parser PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_cadstar_parser COMMAND test_cadstar_parser)
+
+add_executable(test_pcad_parser test_pcad_parser.cpp)
+target_link_libraries(test_pcad_parser PRIVATE
+    Qt6::Test
+    EasyKiConverterPcad
+)
+target_include_directories(test_pcad_parser PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+    ${CMAKE_SOURCE_DIR}/tests
+)
+add_test(NAME test_pcad_parser COMMAND test_pcad_parser)
+
+add_executable(test_parser_security test_parser_security.cpp)
+target_link_libraries(test_parser_security PRIVATE
+    Qt6::Test
+    EasyKiConverterParser
+)
+target_include_directories(test_parser_security PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_parser_security COMMAND test_parser_security)
+
+add_executable(test_importer_registry test_importer_registry.cpp)
+target_link_libraries(test_importer_registry PRIVATE
+    Qt6::Test
+    EasyKiConverterParser
+)
+target_include_directories(test_importer_registry PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_importer_registry COMMAND test_importer_registry)
+
 add_executable(test_models test_models.cpp)
 target_link_libraries(test_models PRIVATE
     Qt6::Test
@@ -576,6 +632,8 @@ set(EASYKICONVERTER_UNIT_TESTS
     test_test_paths
     test_kicad_exporter_golden
     test_xpedition_exporter
+    test_pcad_parser
+    test_parser_security
     test_kicad_library_table_manager
     test_exporter_3d_model
     test_easyeda_importer_fixtures

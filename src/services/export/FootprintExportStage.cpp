@@ -286,6 +286,14 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     const auto abortExport = [&](const QString& errorMessage) {
         qCritical() << "FootprintExportStage:" << errorMessage;
         failCollectedFootprints(errorMessage);
+        {
+            QMutexLocker locker(&m_progressMutex);
+            if (!m_progress.diagnostics.contains(errorMessage))
+                m_progress.diagnostics.append(errorMessage);
+            const ExportTypeProgress progressSnapshot = m_progress;
+            locker.unlock();
+            emit progressChanged(progressSnapshot);
+        }
         m_tempManager.rollbackAll();
         m_isExporting.store(false);
         m_isRunning.store(false);
@@ -328,6 +336,16 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     if (m_options.targetFormat == TargetEdaFormat::Altium && QFile::exists(finalPath) &&
         (!m_options.overwriteExistingFiles || m_options.updateMode)) {
         abortExport(QStringLiteral("Altium PcbLib 暂不支持在已有库上追加或更新，已拒绝覆盖: %1").arg(finalPath));
+        return;
+    }
+
+    if (m_options.targetFormat == TargetEdaFormat::Xpedition && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("Xpedition 封装 ZIP 暂不支持更新或重试模式，请选择覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Xpedition && QFile::exists(finalPath) &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("Xpedition 封装 ZIP 已存在且当前禁止覆盖: %1").arg(finalPath));
         return;
     }
 

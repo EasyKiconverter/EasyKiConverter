@@ -63,6 +63,14 @@ void BaseConverter::onProgressChanged(const ExportOverallProgress& progress) {
     if (context()->parser().showProgress()) {
         printProgressBar(progress.overallPercentage());
     }
+    for (const ExportTypeProgress& typeProgress : progress.exportTypeProgress) {
+        for (const QString& diagnostic : typeProgress.diagnostics) {
+            if (m_reportedDiagnostics.contains(diagnostic))
+                continue;
+            m_reportedDiagnostics.append(diagnostic);
+            printMessage(QCoreApplication::translate("CliConverter", "导出诊断: %1").arg(diagnostic));
+        }
+    }
 }
 
 /** @brief 保存导出完成统计并更新最终成功状态。 */

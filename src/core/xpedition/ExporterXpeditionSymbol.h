@@ -34,10 +34,21 @@ public:
                              const QString& libraryDescription = QString()) override;
 
 private:
-    /** @brief 生成符号部件对应的 ZIP 条目名称。 */
-    QString symbolFileName(const IR::SymbolComponentIR& symbol, int partIndex) const;
-    /** @brief 生成一个符号部件的 Xpedition ASCII 内容。 */
-    QByteArray symbolFile(const IR::SymbolComponentIR& symbol, int partIndex) const;
+    /**
+     * @brief 生成符号部件对应的 ZIP 条目名称。
+     * @param outputName 已经完成清理和去重的符号名称。
+     * @param partIndex 符号部件索引，从零开始。
+     * @return ZIP 内的相对条目名称。
+     */
+    QString symbolFileName(const QString& outputName, int partIndex) const;
+    /**
+     * @brief 生成一个符号部件的 Xpedition ASCII 内容。
+     * @param symbol 原始符号 IR。
+     * @param partIndex 符号部件索引，从零开始。
+     * @param outputName 写入目标语法的安全符号名称。
+     * @return UTF-8 编码的符号部件内容。
+     */
+    QByteArray symbolFile(const IR::SymbolComponentIR& symbol, int partIndex, const QString& outputName) const;
     QStringList m_diagnostics;
 };
 

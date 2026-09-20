@@ -51,9 +51,7 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     options.exportModel3DPathMode = viewModel.m_exportModel3DPathMode;
     options.exportPreviewImages = viewModel.m_exportPreviewImages;
     options.exportDatasheet = viewModel.m_exportDatasheet;
-    options.overwriteExistingFiles = viewModel.m_overwriteExistingFiles;
     options.weakNetworkSupport = viewModel.m_weakNetworkSupport;
-    options.updateMode = viewModel.m_exportMode == 1;
     options.debugMode = viewModel.m_debugMode;
     options.exportSymbolDescription = viewModel.m_exportSymbolDescription;
     options.exportFootprintDescription = viewModel.m_exportFootprintDescription;
@@ -63,6 +61,11 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     options.targetFormat = viewModel.m_targetModel
                                ? static_cast<TargetEdaFormat>(viewModel.m_targetModel->currentIndex())
                                : TargetEdaFormat::KiCad;
+    // Xpedition ZIP 只能完整替换，界面的“覆盖”选项不能被误传成更新模式。
+    const bool xpeditionTarget = options.targetFormat == TargetEdaFormat::Xpedition;
+    options.overwriteExistingFiles =
+        viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
+    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget;
 
     qInfo() << "Export options:" << "OutputPath:" << options.outputPath << "LibName:" << options.libName
             << "TargetFormat:" << targetFormatName(options.targetFormat) << "Symbol:" << options.exportSymbol
