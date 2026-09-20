@@ -40,6 +40,17 @@ target_include_directories(test_cadstar_parser PRIVATE
 )
 add_test(NAME test_cadstar_parser COMMAND test_cadstar_parser)
 
+add_executable(test_allegro_exporter test_allegro_exporter.cpp)
+target_link_libraries(test_allegro_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterAllegro
+)
+target_include_directories(test_allegro_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_allegro_exporter COMMAND test_allegro_exporter)
+
 add_executable(test_pcad_parser test_pcad_parser.cpp)
 target_link_libraries(test_pcad_parser PRIVATE
     Qt6::Test

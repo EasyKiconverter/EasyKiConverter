@@ -75,6 +75,8 @@ Item {
                                         return ".SchLib";
                                     if (targetId === "xpedition")
                                         return "_Symbols.zip / _Footprints.zip";
+                                    if (targetId === "allegro")
+                                        return "Footprint Import Package";
                                     return "";
                                 }
                                 font.pixelSize: 9
@@ -145,6 +147,7 @@ Item {
             title: qsTranslate("MainWindow", "导出内容")
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "符号库")
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 3)
                 checked: root.exportSettingsController ? root.exportSettingsController.exportSymbol : false
                 onToggled: val => {
                     if (root.exportSettingsController)
@@ -169,6 +172,7 @@ Item {
                     id: model3dToggle
                     label: qsTranslate("MainWindow", "3D 模型")
                     property bool isXpeditionTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 2
+                    property bool isAllegroTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 3
                     checked: root.exportSettingsController ? root.exportSettingsController.exportModel3D : false
                     enabled: !isXpeditionTarget
                     onToggled: val => {
@@ -601,6 +605,42 @@ Item {
                     anchors.fill: parent
                     anchors.margins: AppStyle.spacing.md
                     text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前不关联 3D 模型\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
+                    font.pixelSize: AppStyle.fontSizes.xs
+                    color: AppStyle.colors.textSecondary
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.4
+                }
+            }
+        }
+
+        // ==================== Allegro 导出说明（仅 Import Package） ====================
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+            clip: true
+            Behavior on Layout.preferredHeight {
+                NumberAnimation {
+                    duration: 400
+                    easing.type: Easing.OutQuart
+                }
+            }
+
+            Rectangle {
+                id: allegroInfoBox
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                implicitHeight: allegroInfoText.implicitHeight + AppStyle.spacing.md * 2
+                radius: AppStyle.radius.sm
+                color: AppStyle.colors.surface
+                border.color: AppStyle.colors.border
+                border.width: 1
+                opacity: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? 1 : 0
+                Text {
+                    id: allegroInfoText
+                    anchors.fill: parent
+                    anchors.margins: AppStyle.spacing.md
+                    text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- 仅生成 Footprint Import Package\n" + "- 需要用户在 Cadence Allegro 中生成 .dra/.psm/.pad\n" + "- 不支持符号、更新、追加或重试模式\n" + "- STEP 变换和 Place Bound 诊断会写入包内 JSON")
                     font.pixelSize: AppStyle.fontSizes.xs
                     color: AppStyle.colors.textSecondary
                     wrapMode: Text.WordWrap

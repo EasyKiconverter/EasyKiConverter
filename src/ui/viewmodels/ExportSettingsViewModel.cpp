@@ -104,6 +104,8 @@ void ExportSettingsViewModel::setLibName(const QString& name) {
 
 // 设置是否导出符号库。
 void ExportSettingsViewModel::setExportSymbol(bool enabled) {
+    if (enabled && m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro))
+        enabled = false;
     if (m_exportSymbol != enabled) {
         m_exportSymbol = enabled;
         m_configService->setExportSymbol(enabled);
@@ -225,6 +227,11 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
                 setExportModel3D(false);
                 return;
             }
+            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro)) {
+                setExportSymbol(false);
+                if (m_exportModel3D)
+                    setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
+            }
             if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Altium) &&
                 (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
                 // Altium PcbLib 只能可靠嵌入 STEP，切换目标时移除 WRL 位。
@@ -233,6 +240,11 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
         });
         if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Xpedition))
             setExportModel3D(false);
+        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro)) {
+            setExportSymbol(false);
+            if (m_exportModel3D)
+                setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
+        }
         if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Altium) &&
             (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
             setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);

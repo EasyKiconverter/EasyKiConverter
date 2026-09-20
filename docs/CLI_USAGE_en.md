@@ -23,7 +23,7 @@ easykiconverter convert batch -i <component_list_file> -o <output_dir> [options]
 | `--output` | `-o` | Output directory path | - |
 | `--lib-name` | | Export library name | EasyKiConverter |
 | `--component` | `-c` | LCSC component ID | - |
-| `--target-format` | | Target format (kicad/altium/xpedition) | kicad |
+| `--target-format` | | Target format (kicad/altium/xpedition/allegro) | kicad |
 | `--symbol` | | Export symbol library | true |
 | `--footprint` | | Export footprint library | true |
 | `--3d-model` | | Export 3D models (default WRL format) | false |

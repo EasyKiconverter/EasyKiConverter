@@ -230,6 +230,7 @@ set(QML_FILES
     src/ui/qml/components/ExportSettingsBaseCard.qml
     src/ui/qml/components/KiCadSettingsCard.qml
     src/ui/qml/components/AltiumSettingsCard.qml
+    src/ui/qml/components/AllegroSettingsCard.qml
     src/ui/qml/components/StyledCheckBox.qml
     src/ui/qml/components/SettingsSectionHeader.qml
     src/ui/qml/components/ExportProgressCard.qml

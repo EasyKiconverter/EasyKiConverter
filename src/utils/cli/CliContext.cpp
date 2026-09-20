@@ -79,6 +79,8 @@ ExportOptions CliContext::createExportOptions() const {
         options.targetFormat = TargetEdaFormat::Altium;
     } else if (format == QStringLiteral("xpedition")) {
         options.targetFormat = TargetEdaFormat::Xpedition;
+    } else if (format == QStringLiteral("allegro")) {
+        options.targetFormat = TargetEdaFormat::Allegro;
     } else {
         options.targetFormat = TargetEdaFormat::KiCad;
     }
@@ -90,6 +92,11 @@ ExportOptions CliContext::createExportOptions() const {
     if (options.targetFormat == TargetEdaFormat::Xpedition && options.exportModel3D) {
         qWarning() << "Xpedition 目标当前不支持 3D 模型关联，已忽略 --3d-model";
         options.exportModel3D = false;
+    }
+    if (options.targetFormat == TargetEdaFormat::Allegro) {
+        options.exportSymbol = false;
+        if (options.exportModel3D)
+            options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
     }
 
     return options;

@@ -18,7 +18,7 @@ public:
 
     /**
      * @brief 获取封装库文件/目录扩展名
-     * @return 文件扩展名（如 ".pretty"、".PcbLib"），包含点号
+     * @return 文件扩展名或目录后缀（如 ".pretty"、".PcbLib" 或目标格式要求的目录后缀）
      */
     virtual QString libraryFileExtension() const = 0;
 

@@ -1,5 +1,6 @@
 #include "ExporterFactory.h"
 
+#include "core/allegro/ExporterAllegroFootprint.h"
 #include "core/altium/ExporterAltiumFootprint.h"
 #include "core/altium/ExporterAltiumSymbol.h"
 #include "core/kicad/Exporter3DModel.h"
@@ -22,6 +23,8 @@ std::unique_ptr<ISymbolExporter> ExporterFactory::createSymbolExporter(TargetEda
             return std::make_unique<ExporterAltiumSymbol>();
         case TargetEdaFormat::Xpedition:
             return std::make_unique<ExporterXpeditionSymbol>();
+        case TargetEdaFormat::Allegro:
+            return nullptr;
         default:
             return nullptr;
     }
@@ -39,6 +42,8 @@ std::unique_ptr<IFootprintExporter> ExporterFactory::createFootprintExporter(Tar
             return std::make_unique<ExporterAltiumFootprint>();
         case TargetEdaFormat::Xpedition:
             return std::make_unique<ExporterXpeditionFootprint>();
+        case TargetEdaFormat::Allegro:
+            return std::make_unique<ExporterAllegroFootprint>();
         default:
             return nullptr;
     }
@@ -57,6 +62,8 @@ std::unique_ptr<IModel3DExporter> ExporterFactory::createModel3DExporter(TargetE
         case TargetEdaFormat::Altium:
             // Altium 同样支持 WRL/STEP 格式，复用 KiCad 的 3D 导出器
             return std::unique_ptr<IModel3DExporter>(new Exporter3DModel(parent));
+        case TargetEdaFormat::Allegro:
+            return nullptr;
         default:
             return nullptr;
     }
