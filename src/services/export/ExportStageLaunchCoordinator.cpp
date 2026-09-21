@@ -124,7 +124,11 @@ void ExportStageLaunchCoordinator::start(ParallelExportService& owner) {
     if (enableFootprint) {
         auto* stage = new FootprintExportStage(&owner);
         stage->setOptions(owner.m_options);
-        owner.registerStageAndStart(stage, QStringLiteral("Footprint"), plan.exportableComponentIds, runGeneration);
+        owner.registerStageAndStart(
+            stage,
+            plan.symbolOnlyCombinedLibrary ? QStringLiteral("Symbol") : QStringLiteral("Footprint"),
+            plan.exportableComponentIds,
+            runGeneration);
     }
 
     if (runExternalModel3DStage) {

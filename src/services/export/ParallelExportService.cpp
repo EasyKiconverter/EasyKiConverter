@@ -406,9 +406,11 @@ void ParallelExportService::onExportTypeProgressChanged(const QString& typeName,
         return;
     }
 
+    ExportTypeProgress normalizedProgress = progress;
+    normalizedProgress.typeName = typeName;
     {
         QMutexLocker locker(&m_progressMutex);
-        m_progress.exportTypeProgress[typeName] = progress;
+        m_progress.exportTypeProgress[typeName] = normalizedProgress;
     }
 
     updateOverallProgress();

@@ -213,6 +213,8 @@ private slots:
         const ExportRunPlan eagleSymbolPlan = buildExportRunPlan(
             eagleSymbolOptions, {QStringLiteral("C300")}, {{QStringLiteral("C300"), eagleSymbolData}});
         QVERIFY(eagleSymbolPlan.enableFootprint);
+        QVERIFY(eagleSymbolPlan.symbolOnlyCombinedLibrary);
+        QCOMPARE(eagleSymbolPlan.progressTypeNames(), QStringList{QStringLiteral("Symbol")});
         QCOMPARE(eagleSymbolPlan.exportableComponentIds, QStringList{QStringLiteral("C300")});
 
         ExportOptions cadstarOptions;

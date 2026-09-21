@@ -17,7 +17,7 @@ QStringList ExportRunPlan::progressTypeNames() const {
         typeNames.append(QStringLiteral("Symbol"));
     }
     if (enableFootprint) {
-        typeNames.append(QStringLiteral("Footprint"));
+        typeNames.append(symbolOnlyCombinedLibrary ? QStringLiteral("Symbol") : QStringLiteral("Footprint"));
     }
     if (enableModel3D) {
         typeNames.append(QStringLiteral("Model3D"));
@@ -39,6 +39,8 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
         options.targetFormat == TargetEdaFormat::Eagle || options.targetFormat == TargetEdaFormat::Cadstar;
     const bool embeddedModelTarget =
         options.targetFormat == TargetEdaFormat::Altium || options.targetFormat == TargetEdaFormat::Allegro;
+    // 仅符号模式仍由组合库写入阶段负责，但进度需要展示为 Symbol。
+    plan.symbolOnlyCombinedLibrary = combinedTarget && options.exportSymbol && !options.exportFootprint;
     // Eagle/CADSTAR 的组合库由封装阶段统一写入，符号单独导出也复用同一文件事务。
     plan.enableSymbol = options.exportSymbol && options.targetFormat != TargetEdaFormat::Allegro &&
                         options.targetFormat != TargetEdaFormat::Eagle &&
