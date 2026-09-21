@@ -29,6 +29,10 @@ private slots:
     void rejectsUnsupportedSymbolArcStyle();
     /** @brief 验证清洗后的 DeviceSet 名称冲突会阻止生成歧义器件集。 */
     void rejectsDeviceSetNameCollision();
+    /** @brief 验证封装旋转矩形会保留旋转后的端点坐标。 */
+    void writesRotatedRectangle();
+    /** @brief 验证非圆形通孔焊盘不会被静默压成圆形。 */
+    void rejectsNonCircularThroughHole();
 };
 
 static IR::FootprintComponentIR makeFixture(const QString& name) {
@@ -54,6 +58,7 @@ static IR::FootprintComponentIR makeFixture(const QString& name) {
     footprint.holes.append({QPointF(0.0, 2.0), 0.4, false});
     footprint.circles.append({QPointF(0.0, 0.0), 2.0, 0.15, IR::LayerType::TopSilk, false});
     footprint.arcs.append({QPointF(0.0, 0.0), 2.0, 0.0, 90.0, 0.15, IR::LayerType::TopSilk, {}, false});
+    footprint.rectangles.append({QRectF(10.0, 10.0, 2.0, 1.0), 0.15, IR::LayerType::TopSilk, 90.0, false});
     return footprint;
 }
 
@@ -269,6 +274,49 @@ void TestEagleExporter::rejectsDeviceSetNameCollision() {
     QVERIFY(!exporter.exportComponentLibrary(
         {first, second}, QStringLiteral("collision"), temporary.path() + QStringLiteral("/collision.lbr")));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("冲突")));
+}
+
+/** 验证旋转矩形的 Eagle wire 端点体现了 IR 中的旋转角度。 */
+void TestEagleExporter::writesRotatedRectangle() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    const QString path = temporary.path() + QStringLiteral("/rotated.lbr");
+    QVERIFY(exporter.exportFootprintLibrary(
+        {makeFixture(QStringLiteral("ROTATED_PACKAGE"))}, QStringLiteral("rotated"), path));
+
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    QXmlStreamReader reader(&file);
+    bool rotatedWireSeen = false;
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (!reader.isStartElement() || reader.name() != QStringLiteral("wire") ||
+            reader.attributes().value(QStringLiteral("layer")) != QStringLiteral("21"))
+            continue;
+        const double x1 = reader.attributes().value(QStringLiteral("x1")).toDouble();
+        const double y1 = reader.attributes().value(QStringLiteral("y1")).toDouble();
+        const double x2 = reader.attributes().value(QStringLiteral("x2")).toDouble();
+        const double y2 = reader.attributes().value(QStringLiteral("y2")).toDouble();
+        if (qAbs(x1 - 11.5) < 1e-6 && qAbs(y1 - 9.5) < 1e-6 && qAbs(x2 - 11.5) < 1e-6 && qAbs(y2 - 11.5) < 1e-6) {
+            rotatedWireSeen = true;
+            break;
+        }
+    }
+    QVERIFY2(!reader.hasError(), qPrintable(reader.errorString()));
+    QVERIFY(rotatedWireSeen);
+}
+
+/** 验证非圆形通孔焊盘导出失败并给出形状诊断。 */
+void TestEagleExporter::rejectsNonCircularThroughHole() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    IR::FootprintComponentIR footprint = makeFixture(QStringLiteral("OVAL_HOLE"));
+    footprint.pads.last().size = QSizeF(2.0, 1.0);
+    QVERIFY(!exporter.exportFootprintLibrary(
+        {footprint}, QStringLiteral("oval-hole"), temporary.path() + QStringLiteral("/oval-hole.lbr")));
+    QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("非圆形")));
 }
 
 QTEST_MAIN(TestEagleExporter)

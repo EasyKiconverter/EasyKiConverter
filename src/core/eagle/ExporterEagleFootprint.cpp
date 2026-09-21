@@ -142,6 +142,12 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
             diagnostics.append(QStringLiteral("Eagle: 通孔焊盘 %1 的形状无法无损表达").arg(pad.number));
             return false;
         }
+        if (pad.isThroughHole() && (pad.shape == IR::PadShape::Ellipse || pad.shape == IR::PadShape::Oval) &&
+            qAbs(pad.size.width() - pad.size.height()) > 1e-6) {
+            diagnostics.append(
+                QStringLiteral("Eagle: 通孔焊盘 %1 的非圆形孔盘无法由 Eagle pad 无损表达").arg(pad.number));
+            return false;
+        }
     }
     for (const IR::FootprintTrackIR& track : footprint.tracks) {
         if (!layerNumber(track.layer).has_value()) {
@@ -175,13 +181,24 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
     }
     for (const IR::FootprintRectangleIR& rectangle : footprint.rectangles) {
         const auto layer = layerNumber(rectangle.layer);
-        if (!layer.has_value()) {
+        if (!layer.has_value() || !std::isfinite(rectangle.rotation)) {
             diagnostics.append(QStringLiteral("Eagle: 矩形图元使用无法映射的图层"));
             return false;
         }
         const QRectF bounds = rectangle.bounds;
-        const QList<QPointF> corners = {
-            bounds.topLeft(), bounds.topRight(), bounds.bottomRight(), bounds.bottomLeft(), bounds.topLeft()};
+        const QPointF center = bounds.center();
+        const double radians = qDegreesToRadians(rectangle.rotation);
+        const double cosine = std::cos(radians);
+        const double sine = std::sin(radians);
+        const auto rotate = [center, cosine, sine](const QPointF& point) {
+            const QPointF offset = point - center;
+            return center + QPointF(offset.x() * cosine - offset.y() * sine, offset.x() * sine + offset.y() * cosine);
+        };
+        const QList<QPointF> corners = {rotate(bounds.topLeft()),
+                                        rotate(bounds.topRight()),
+                                        rotate(bounds.bottomRight()),
+                                        rotate(bounds.bottomLeft()),
+                                        rotate(bounds.topLeft())};
         for (int index = 0; index < corners.size() - 1; ++index) {
             xml.writeStartElement(QStringLiteral("wire"));
             xml.writeAttribute(QStringLiteral("x1"), number(corners.at(index).x()));
@@ -194,8 +211,12 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
         }
     }
     for (const IR::FootprintTrackIR& track : footprint.tracks) {
-        if (track.points.size() < 2)
+        if (track.points.isEmpty())
             continue;
+        if (track.points.size() < 2) {
+            diagnostics.append(QStringLiteral("Eagle: 走线至少需要两个点，不能静默丢弃"));
+            return false;
+        }
         const int layer = *layerNumber(track.layer);
         for (int index = 0; index < track.points.size() - 1; ++index) {
             const QPointF& first = track.points.at(index);
@@ -211,8 +232,12 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
         }
     }
     for (const IR::FootprintRegionIR& region : footprint.regions) {
-        if (region.vertices.size() < 3)
+        if (region.vertices.isEmpty())
             continue;
+        if (region.vertices.size() < 3) {
+            diagnostics.append(QStringLiteral("Eagle: 区域至少需要三个顶点，不能静默丢弃"));
+            return false;
+        }
         const auto layer = layerNumber(region.layer);
         if (!layer.has_value()) {
             diagnostics.append(QStringLiteral("Eagle: 区域使用无法映射的图层"));
