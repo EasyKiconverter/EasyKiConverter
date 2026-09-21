@@ -3,6 +3,8 @@
 add_library(EasyKiConverterPads STATIC
     ExporterPadsFootprint.h
     ExporterPadsFootprint.cpp
+    ExporterPadsSymbol.h
+    ExporterPadsSymbol.cpp
 )
 
 target_include_directories(EasyKiConverterPads

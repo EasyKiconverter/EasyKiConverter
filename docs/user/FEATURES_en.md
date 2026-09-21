@@ -56,9 +56,9 @@ Automatically download and convert 3D models.
 - Model verification
 - Altium embeds STEP models in PcbLib instead of creating external WRL references
 - Xpedition currently exports symbols and footprints without 3D model associations
-- PADS currently exports ASCII PCB Decals only; it does not export symbols, native binary libraries, or 3D associations, and rejects geometry that cannot be represented losslessly
+- PADS currently exports ASCII Schematic Decal symbols and PCB Decals without Part Type device associations; the independent stage can emit 3D files and unsupported geometry is rejected
 - Eagle exports XML symbols, packages, DeviceSets, and pin associations; 3D files are emitted by the independent stage, but unverified managed `package3d` associations are not written, and unsupported geometry is rejected
-- P-CAD currently exports Pad Styles and Patterns in an ASCII PCB Library only; it does not export symbols, Component/Part associations, or 3D models, and rejects geometry that cannot be represented losslessly
+- P-CAD currently exports Pad Styles and Patterns in an ASCII PCB Library only; it does not export symbols, Component/Part associations, or native 3D associations, while the independent stage can emit 3D files and unsupported geometry is rejected
 
 ## Performance Optimization
 

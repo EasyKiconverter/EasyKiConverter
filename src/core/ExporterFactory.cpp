@@ -8,6 +8,7 @@
 #include "core/kicad/ExporterFootprint.h"
 #include "core/kicad/ExporterSymbol.h"
 #include "core/pads/ExporterPadsFootprint.h"
+#include "core/pads/ExporterPadsSymbol.h"
 #include "core/pcad/ExporterPcadFootprint.h"
 #include "core/xpedition/ExporterXpeditionFootprint.h"
 #include "core/xpedition/ExporterXpeditionSymbol.h"
@@ -26,6 +27,8 @@ std::unique_ptr<ISymbolExporter> ExporterFactory::createSymbolExporter(TargetEda
             return std::make_unique<ExporterAltiumSymbol>();
         case TargetEdaFormat::Xpedition:
             return std::make_unique<ExporterXpeditionSymbol>();
+        case TargetEdaFormat::Pads:
+            return std::make_unique<ExporterPadsSymbol>();
         case TargetEdaFormat::Allegro:
             return nullptr;
         default:

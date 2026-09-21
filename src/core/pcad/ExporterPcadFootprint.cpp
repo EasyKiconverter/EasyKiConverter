@@ -139,8 +139,8 @@ bool validateFootprint(const IR::FootprintComponentIR& footprint, QStringList& d
         return false;
     }
     if (!footprint.models3d.isEmpty())
-        diagnostics.append(
-            QStringLiteral("P-CAD: Pattern ASCII 不包含三维模型关联，已跳过 %1 个模型").arg(footprint.models3d.size()));
+        diagnostics.append(QStringLiteral("P-CAD: Pattern ASCII 不包含三维模型关联，将由独立三维阶段输出 %1 个模型")
+                               .arg(footprint.models3d.size()));
     for (const IR::FootprintPadIR& pad : footprint.pads) {
         if (pad.number.isEmpty() || !isAscii(pad.number)) {
             diagnostics.append(QStringLiteral("P-CAD: 焊盘编号必须为非空 ASCII 文本：%1").arg(pad.number));

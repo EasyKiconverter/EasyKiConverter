@@ -104,13 +104,8 @@ ExportOptions CliContext::createExportOptions() const {
         if (options.exportModel3D)
             options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
     }
-    if (options.targetFormat == TargetEdaFormat::Pads) {
-        options.exportSymbol = false;
-        options.exportModel3D = false;
-    }
     if (options.targetFormat == TargetEdaFormat::Pcad) {
         options.exportSymbol = false;
-        options.exportModel3D = false;
     }
 
     return options;

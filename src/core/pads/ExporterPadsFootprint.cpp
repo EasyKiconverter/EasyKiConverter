@@ -15,6 +15,7 @@ namespace {
 
 constexpr double MM_TO_MIL = 39.37007874015748;
 
+// 将封装名称清洗为 PADS PCB Decal 可接受的文件和记录标识符。
 QString safeDecalName(const QString& value) {
     QString result;
     result.reserve(value.size());
@@ -29,14 +30,17 @@ QString safeDecalName(const QString& value) {
     return result.left(40);
 }
 
+// 将毫米尺寸转换为 PADS 的 mil 文本。
 QString number(double value) {
     return QString::number(value * MM_TO_MIL, 'f', 6);
 }
 
+// 序列化 PADS 支持的角度字段。
 QString angle(double value) {
     return QString::number(value, 'f', 3);
 }
 
+// PADS ASCII Decal 目前只接受可验证的 ASCII 文本。
 bool isAsciiText(const QString& value) {
     const QByteArray bytes = value.toUtf8();
     for (const unsigned char byte : bytes) {
@@ -46,7 +50,9 @@ bool isAsciiText(const QString& value) {
     return true;
 }
 
+// 将 IR 焊盘形状映射为 PADS Pad Stack 形状代码。
 QString padShape(const IR::FootprintPadIR& pad, QStringList& diagnostics) {
+    // 只返回规范中有明确制造语义的形状代码。
     switch (pad.shape) {
         case IR::PadShape::Ellipse:
             return qFuzzyCompare(pad.size.width(), pad.size.height()) ? QStringLiteral("R") : QStringLiteral("OF");
@@ -65,11 +71,13 @@ QString padShape(const IR::FootprintPadIR& pad, QStringList& diagnostics) {
     return {};
 }
 
+// 写入 PADS PCB Decal 图元头部。
 bool writePieceHeader(QTextStream& stream, const QString& type, int count, double width, int layer) {
     stream << type << ' ' << count << ' ' << number(width) << ' ' << layer << " -1\n";
     return stream.status() == QTextStream::Ok;
 }
 
+// 将单个封装 IR 写入一个 PADS PCB Decal 文件。
 bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& path, QStringList& diagnostics) {
     const QString name = safeDecalName(footprint.name);
     if (name.isEmpty()) {
@@ -105,8 +113,8 @@ bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& pa
         }
     }
     if (!footprint.models3d.isEmpty())
-        diagnostics.append(
-            QStringLiteral("PADS: 当前输出为 PCB Decal，已跳过 %1 个三维模型关联").arg(footprint.models3d.size()));
+        diagnostics.append(QStringLiteral("PADS: PCB Decal 不包含三维模型关联，将由独立三维阶段输出 %1 个模型")
+                               .arg(footprint.models3d.size()));
 
     QList<QString> padShapes;
     for (const IR::FootprintPadIR& pad : footprint.pads) {
@@ -228,14 +236,17 @@ bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& pa
 
 }  // namespace
 
+// 返回 PADS PCB Decal 目录后缀。
 QString ExporterPadsFootprint::libraryFileExtension() const {
     return QStringLiteral("_PADS");
 }
 
+// PADS 封装输出由多个 .d 文件组成一个目录库。
 bool ExporterPadsFootprint::isDirectoryOutput() const {
     return true;
 }
 
+// 导出单个 PADS PCB Decal，并保留目标格式诊断。
 bool ExporterPadsFootprint::exportFootprint(const IR::FootprintComponentIR& footprint,
                                             const QString& filePath,
                                             const QString&) {
@@ -243,6 +254,7 @@ bool ExporterPadsFootprint::exportFootprint(const IR::FootprintComponentIR& foot
     return writeFootprint(footprint, filePath, m_diagnostics);
 }
 
+// 导出目录形式的 PADS PCB Decal 库并检查名称冲突。
 bool ExporterPadsFootprint::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                    const QString&,
                                                    const QString& filePath,
@@ -276,6 +288,7 @@ bool ExporterPadsFootprint::exportFootprintLibrary(const QList<IR::FootprintComp
     return true;
 }
 
+// 返回最近一次封装导出的诊断列表。
 QStringList ExporterPadsFootprint::diagnostics() const {
     return m_diagnostics;
 }
