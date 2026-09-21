@@ -31,6 +31,8 @@ private slots:
     void symbolPackageContainsNormalizedData();
     /** @brief 验证完整 Import Package 会保存符号、封装和器件关联。 */
     void componentPackageContainsSymbolAssociation();
+    /** @brief 验证符号引脚缺少对应焊盘时拒绝生成不完整关联。 */
+    void componentPackageRejectsMissingPadAssociation();
 };
 
 static IR::SymbolComponentIR makeSymbolFixture() {
@@ -254,6 +256,23 @@ void TestAllegroExporter::componentPackageContainsSymbolAssociation() {
              QFileInfo(symbolEntry.value(QStringLiteral("path")).toString()).completeBaseName());
     QCOMPARE(relation.value(QStringLiteral("footprint")).toString(), QStringLiteral("QFN_PACKAGE"));
     QCOMPARE(relation.value(QStringLiteral("pin_to_pad")).toArray().size(), 1);
+}
+
+/** 验证 Pin-Pad 关联不能把不存在的焊盘静默写入 Import Package。 */
+void TestAllegroExporter::componentPackageRejectsMissingPadAssociation() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component;
+    component.name = QStringLiteral("MISSING_PAD");
+    component.symbol = makeSymbolFixture();
+    component.symbol.pins.first().designator = QStringLiteral("99");
+    component.footprint = makeQfnFixture();
+    component.footprint.name = QStringLiteral("QFN_PACKAGE");
+
+    ExporterAllegroFootprint exporter;
+    const QString output = temporary.filePath(QStringLiteral("missing_pad_Allegro"));
+    QVERIFY(!exporter.exportComponentLibrary({component}, QStringLiteral("missing_pad"), output));
+    QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("找不到对应封装焊盘")));
 }
 
 QTEST_MAIN(TestAllegroExporter)

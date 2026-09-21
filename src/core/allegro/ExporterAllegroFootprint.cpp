@@ -587,19 +587,40 @@ bool writeAllegroSymbolFiles(const QList<IR::SymbolComponentIR>& symbols,
 }
 
 /** 将符号与封装、引脚与焊盘关系写入 Import Package 清单。 */
-QJsonArray componentEntries(const QList<IR::ComponentIR>& components) {
-    QJsonArray entries;
+bool componentEntries(const QList<IR::ComponentIR>& components, QJsonArray& entries, QStringList& diagnostics) {
     for (const IR::ComponentIR& component : components) {
+        QSet<QString> padNumbers;
+        for (const IR::FootprintPadIR& pad : component.footprint.pads)
+            padNumbers.insert(pad.number);
+
+        QSet<QString> pinNumbers;
         QJsonArray pinMappings;
-        for (const IR::SymbolPinIR& pin : component.symbol.pins)
-            pinMappings.append(
-                QJsonObject{{QStringLiteral("pin"), pin.designator}, {QStringLiteral("pad"), pin.designator}});
+        for (const IR::SymbolPinIR& pin : component.symbol.pins) {
+            const QString pinNumber = pin.designator.trimmed();
+            if (pinNumber.isEmpty()) {
+                diagnostics.append(
+                    QStringLiteral("Allegro: 组件 %1 存在空符号引脚编号，无法建立 Pin-Pad 关联").arg(component.name));
+                return false;
+            }
+            if (pinNumbers.contains(pinNumber)) {
+                diagnostics.append(
+                    QStringLiteral("Allegro: 组件 %1 存在重复符号引脚编号 %2").arg(component.name, pinNumber));
+                return false;
+            }
+            if (!padNumbers.contains(pinNumber)) {
+                diagnostics.append(
+                    QStringLiteral("Allegro: 组件 %1 的符号引脚 %2 找不到对应封装焊盘").arg(component.name, pinNumber));
+                return false;
+            }
+            pinNumbers.insert(pinNumber);
+            pinMappings.append(QJsonObject{{QStringLiteral("pin"), pinNumber}, {QStringLiteral("pad"), pinNumber}});
+        }
         entries.append(QJsonObject{{QStringLiteral("component"), component.name},
                                    {QStringLiteral("symbol"), safeName(component.symbol.name, component.name)},
                                    {QStringLiteral("footprint"), safeName(component.footprint.name, component.name)},
                                    {QStringLiteral("pin_to_pad"), pinMappings}});
     }
-    return entries;
+    return true;
 }
 
 }  // namespace
@@ -863,7 +884,10 @@ bool ExporterAllegroFootprint::exportComponentLibrary(const QList<IR::ComponentI
     QJsonObject manifest = document.object();
     manifest.insert(QStringLiteral("target"), QStringLiteral("Allegro semantic symbol and PCB package"));
     manifest.insert(QStringLiteral("symbols"), symbolEntries);
-    manifest.insert(QStringLiteral("components"), componentEntries(components));
+    QJsonArray componentRelations;
+    if (!componentEntries(components, componentRelations, m_diagnostics))
+        return false;
+    manifest.insert(QStringLiteral("components"), componentRelations);
     manifest.insert(QStringLiteral("required_directories"),
                     QJsonArray{"normalized-data", "padstacks", "shapes", "models", "symbols"});
     if (!writeJson(filePath + QDir::separator() + QStringLiteral("manifest.json"), manifest) ||

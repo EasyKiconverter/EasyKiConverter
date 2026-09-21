@@ -7,8 +7,8 @@
 
 #include "core/ir/FootprintIR.h"
 
-#include <QList>
 #include <QJsonArray>
+#include <QList>
 #include <QPointF>
 #include <QString>
 
