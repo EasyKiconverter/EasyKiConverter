@@ -146,14 +146,20 @@ private slots:
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
+        SymbolBBox bbox = sourceSymbol->bbox();
+        bbox.x = -2.0;
+        bbox.y = -3.0;
+        bbox.width = 4.0;
+        bbox.height = 6.0;
+        symbol->setBbox(bbox);
         symbol->setPins(sourceSymbol->pins());
         symbol->setRectangles(sourceSymbol->rectangles());
         componentData.first().setSymbolData(symbol);
 
         // 使用本地 OBJ 夹具，确保集成测试不依赖真实网络或用户缓存。
         Model3DData model;
-        model.setName(QStringLiteral("PcadCompleteModel"));
-        model.setUuid(QStringLiteral("pcad-complete-model"));
+        model.setName(QStringLiteral("KiCadCompleteModel"));
+        model.setUuid(QStringLiteral("kicad-complete-model"));
         componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
         componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
@@ -167,7 +173,7 @@ private slots:
         QSignalSpy failedSpy(&service, &ParallelExportService::failed);
         service.startExport();
 
-        QVERIFY2(completedSpy.wait(30000), "P-CAD complete export should finish");
+        QVERIFY2(completedSpy.wait(30000), "KiCad complete export should finish");
         QCOMPARE(completedSpy.count(), 1);
         QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
@@ -195,7 +201,93 @@ private slots:
         QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
         QCOMPARE(component.value(QStringLiteral("status")).toString(), QStringLiteral("success"));
-        QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("PcadCompleteModel.wrl"))));
+        QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("KiCadCompleteModel.wrl"))));
+    }
+
+    // 验证 PADS 的符号、封装、器件关联文件和独立三维模型可以由同一条导出管线完成。
+    void testPadsPipelineExportsAllLibraryArtifacts() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString componentId = QStringLiteral("C91003");
+        QList<ComponentData> componentData = makeFixtureComponents({componentId});
+        QVERIFY(componentData.size() == 1);
+
+        // PADS 当前只对本测试使用的矩形和引脚提供稳定 ASCII 映射，其他源图元仍由生产代码拒绝并报告诊断。
+        const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        auto symbol = QSharedPointer<SymbolData>::create();
+        symbol->setInfo(sourceSymbol->info());
+        SymbolBBox bbox = sourceSymbol->bbox();
+        bbox.x = -2.0;
+        bbox.y = -3.0;
+        bbox.width = 4.0;
+        bbox.height = 6.0;
+        symbol->setBbox(bbox);
+        symbol->setPins(sourceSymbol->pins());
+        QList<SymbolRectangle> rectangles = sourceSymbol->rectangles();
+        for (SymbolRectangle& rectangle : rectangles) {
+            rectangle.rx = 0.0;
+            rectangle.ry = 0.0;
+        }
+        symbol->setRectangles(rectangles);
+        componentData.first().setSymbolData(symbol);
+
+        Model3DData model;
+        model.setName(QStringLiteral("PadsCompleteModel"));
+        model.setUuid(QStringLiteral("pads-complete-model"));
+        componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
+        componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        ParallelExportService service;
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("PadsCompletePipeline"));
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.exportModel3D = true;
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        service.startPreload({componentId});
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+
+        QVERIFY2(completedSpy.wait(30000), "PADS complete export should finish");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        QString error;
+        const QString symbolPath = tempDir.filePath(QStringLiteral("PadsCompletePipeline_PADS.c"));
+        const QString partTypePath = tempDir.filePath(QStringLiteral("PadsCompletePipeline_PADS.p"));
+        const QString footprintDir = tempDir.filePath(QStringLiteral("PadsCompletePipeline_PADS"));
+        const QString footprintPath = QDir(footprintDir).filePath(QStringLiteral("CANCEL_FP_0.d"));
+        QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
+        QVERIFY2(QFileInfo::exists(partTypePath), qPrintable(partTypePath));
+        QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
+        QVERIFY(TestPaths::readText(symbolPath, &error).contains(QStringLiteral("*PADS-LIBRARY-SCH-DECALS-V9*")));
+        QVERIFY(TestPaths::readText(partTypePath, &error).contains(QStringLiteral("*PADS-LIBRARY-PART-TYPES-V9*")));
+        QVERIFY(TestPaths::readText(partTypePath, &error).contains(QStringLiteral("CANCEL_FP_0")));
+        QVERIFY(TestPaths::readText(footprintPath, &error).contains(QStringLiteral("CANCEL_FP_0 I")));
+
+        const QString modelDir = tempDir.filePath(QStringLiteral("PadsCompletePipeline.3dmodels"));
+        const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
+        QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Pads));
+        const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
+        QCOMPARE(components.size(), 1);
+        const QJsonObject component = components.first().toObject();
+        QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
+        QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
+        QCOMPARE(component.value(QStringLiteral("status")).toString(), QStringLiteral("success"));
+        QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("PadsCompleteModel.wrl"))));
     }
 
     // 验证 Eagle 组合库会同时输出符号、封装、器件映射和独立三维模型。

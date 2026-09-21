@@ -108,6 +108,38 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     int successCount = 0;
     int skippedCount = 0;
 
+    // 库级导出只有一次 writer 调用，必须在提交前把每个组件的最终状态固化到阶段快照。
+    const auto finalizeProgress = [this, &componentIds, &collectedIds, &failedIds](bool librarySucceeded,
+                                                                                   const QString& errorMessage) {
+        ExportTypeProgress progressSnapshot;
+        {
+            QMutexLocker locker(&m_progressMutex);
+            for (const QString& componentId : componentIds) {
+                auto statusIt = m_progress.itemStatus.find(componentId);
+                if (statusIt == m_progress.itemStatus.end() || statusIt->isComplete()) {
+                    continue;
+                }
+
+                const bool failed =
+                    failedIds.contains(componentId) || (!librarySucceeded && collectedIds.contains(componentId));
+                statusIt->status = failed ? ExportItemStatus::Status::Failed : ExportItemStatus::Status::Success;
+                if (failed && !errorMessage.isEmpty()) {
+                    statusIt->errorMessage = errorMessage;
+                }
+                statusIt->endTime = QDateTime::currentDateTime();
+                ++m_progress.completedCount;
+                if (failed) {
+                    ++m_progress.failedCount;
+                } else {
+                    ++m_progress.successCount;
+                }
+                m_progress.inProgressCount = qMax(0, m_progress.inProgressCount - 1);
+            }
+            progressSnapshot = m_progress;
+        }
+        emit progressChanged(progressSnapshot);
+    };
+
     for (const QString& componentId : componentIds) {
         if (m_cancelled.load()) {
             qDebug() << "SymbolExportStage: Export cancelled during data collection";
@@ -188,6 +220,7 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     const auto abortExport = [&](const QString& errorMessage) {
         qCritical() << "SymbolExportStage:" << errorMessage;
         failCollectedSymbols(errorMessage);
+        finalizeProgress(false, errorMessage);
         {
             QMutexLocker locker(&m_progressMutex);
             if (!m_progress.diagnostics.contains(errorMessage))
@@ -372,6 +405,8 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     // 避免与其他 Stage（如 FootprintExportStage）的临时文件冲突
 
     qDebug() << "SymbolExportStage: Completed. Success:" << successCount << "Failed:" << failedIds.size();
+
+    finalizeProgress(true, QString());
 
     m_isExporting.store(false);
     m_isRunning.store(false);
