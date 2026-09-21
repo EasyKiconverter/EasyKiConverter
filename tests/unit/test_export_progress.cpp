@@ -103,6 +103,35 @@ private slots:
         QCOMPARE(plan.runningStageCount(), 1);
     }
 
+    // 验证组合库目标会同时规划符号、封装和独立三维模型输出。
+    void exportRunPlanIncludesAllLibraryArtifacts() {
+        ExportOptions options;
+        options.exportSymbol = true;
+        options.exportFootprint = true;
+        options.exportModel3D = true;
+
+        options.targetFormat = TargetEdaFormat::Pcad;
+        ExportRunPlan pcadPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(pcadPlan.enableSymbol);
+        QVERIFY(pcadPlan.enableFootprint);
+        QVERIFY(pcadPlan.enableModel3D);
+        QVERIFY(pcadPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Eagle;
+        const ExportRunPlan eaglePlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(!eaglePlan.enableSymbol);
+        QVERIFY(eaglePlan.enableFootprint);
+        QVERIFY(eaglePlan.enableModel3D);
+        QVERIFY(eaglePlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Altium;
+        const ExportRunPlan altiumPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(altiumPlan.enableSymbol);
+        QVERIFY(altiumPlan.enableFootprint);
+        QVERIFY(altiumPlan.enableModel3D);
+        QVERIFY(!altiumPlan.runExternalModel3DStage);
+    }
+
     // 提供三维模型格式位掩码测试所需的参数组合。
     void exportOptionsModel3DFormatBitmask_data() {
         QTest::addColumn<int>("format");

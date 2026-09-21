@@ -1,6 +1,6 @@
-# Eagle XML 库导出
+# Eagle XML 组合库导出
 
-当前支持 **EasyEDA/LCSC → Eagle XML `.lbr` 库**，可在同一文件中写入封装、符号、DeviceSet 和引脚到焊盘的关联。三维模型仍由独立模型阶段输出；由于 Eagle `package3d` 依赖受管 URN，本项目不会伪造托管关联。
+当前支持 **EasyEDA/LCSC → Eagle XML `.lbr` 组合库**，可在同一文件中写入封装、符号、DeviceSet 和引脚到焊盘的关联，因此不是仅封装库导出。三维模型仍由独立模型阶段输出；由于 Eagle `package3d` 依赖受管 URN，本项目不会伪造托管关联。
 
 ```mermaid
 flowchart LR

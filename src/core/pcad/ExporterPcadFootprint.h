@@ -2,7 +2,7 @@
 
 /**
  * @file ExporterPcadFootprint.h
- * @brief P-CAD ASCII PCB 封装库导出器。
+ * @brief P-CAD ASCII PCB 库导出器。
  */
 
 #include "core/interfaces/IFootprintExporter.h"
@@ -11,7 +11,7 @@ namespace EasyKiConverter {
 
 /**
  * @brief 将统一封装 IR 写入 P-CAD ASCII PCB Library（`.lia`）。
- * @details 符号库由 ExporterPcadSymbol 单独写入，三维模型由独立模型阶段写入。
+ * @details 符号和器件关联由 ExporterPcadSymbol 配套写入，三维模型由独立模型阶段写入。
  */
 class ExporterPcadFootprint final : public IFootprintExporter {
 public:

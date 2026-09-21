@@ -1,6 +1,6 @@
-# P-CAD ASCII footprint library export
+# P-CAD ASCII symbol, component, and PCB library export
 
-The current feature supports **EasyEDA/LCSC to P-CAD ASCII schematic and PCB libraries**. The schematic library writes `symbolDef`, `compDef`, and available footprint associations; the PCB library writes Pad Styles and Patterns; 3D models are emitted by the independent model stage. This is not a native library workflow validated in P-CAD yet.
+The current feature supports **EasyEDA/LCSC to P-CAD ASCII schematic, component-association, and PCB libraries**. The schematic library writes `symbolDef`, `compDef`, and available footprint associations; the PCB library writes Pad Styles and Patterns; 3D models are emitted by the independent model stage. This is not a native library workflow validated in P-CAD yet.
 
 ```mermaid
 flowchart LR

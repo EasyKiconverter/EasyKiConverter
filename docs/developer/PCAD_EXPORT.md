@@ -1,6 +1,6 @@
-# P-CAD ASCII 封装库导出
+# P-CAD ASCII 符号、器件和 PCB 库导出
 
-当前功能支持 **EasyEDA/LCSC → P-CAD ASCII 原理图库和 PCB 封装库**。符号库包含 `symbolDef`、`compDef` 和可用的封装关联；PCB 库包含 Pad Style 和 Pattern；三维模型由独立阶段输出并保留为独立文件。它不等同于已经通过 P-CAD 实机验证的完整原生工程库。
+当前功能支持 **EasyEDA/LCSC → P-CAD ASCII 原理图库、器件关联库和 PCB 库**。符号库包含 `symbolDef`、`compDef` 和可用的封装关联；PCB 库包含 Pad Style 和 Pattern；三维模型由独立阶段输出并保留为独立文件。它不等同于已经通过 P-CAD 实机验证的完整原生工程库。
 
 ```mermaid
 flowchart LR

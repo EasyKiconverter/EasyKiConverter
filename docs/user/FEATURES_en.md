@@ -21,9 +21,9 @@ Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), Xpedition ASCII
 - Text labels
 - Symbol properties (name, value, footprint)
 
-### Footprint Generation
+### Symbol, Footprint, and 3D Library Export
 
-Create KiCad (.kicad_mod), Altium (.PcbLib), Xpedition ASCII, PADS ASCII (Schematic Decal, Part Type, and PCB Decal), P-CAD ASCII schematic and PCB libraries (.lia), Eagle XML (.lbr), or CADSTAR ASCII (.lib) libraries from EasyEDA data. Eagle, CADSTAR, and P-CAD write their implemented symbols, packages, and component associations; 3D models are emitted by an independent stage.
+Create EDA library outputs containing symbol libraries, footprint libraries, and 3D model files from EasyEDA data. Targets include KiCad (.kicad_sym/.kicad_mod), Altium (.SchLib/.PcbLib), Xpedition ASCII, PADS ASCII (Schematic Decal, Part Type, and PCB Decal), P-CAD ASCII schematic and PCB libraries (.lia), Eagle XML (.lbr), and CADSTAR ASCII (.lib). Eagle, CADSTAR, and P-CAD write their implemented symbols, packages, and component associations; WRL/STEP files are emitted by an independent stage, while Altium embeds STEP models in PcbLib.
 
 **Features:**
 - Complete footprint geometry conversion

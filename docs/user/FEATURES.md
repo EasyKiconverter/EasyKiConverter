@@ -13,9 +13,9 @@ EasyKiConverter 可以将 EasyEDA 符号转换为 KiCad（.kicad_sym）、Altium
 - 保持符号的原始布局和结构
 - 支持多种符号类型（电阻、电容、IC 等）
 
-### 封装生成
+### 符号、封装与三维库导出
 
-从 EasyEDA 数据创建 KiCad（.kicad_mod）、Altium（.PcbLib）、Xpedition ASCII、PADS ASCII（Schematic Decal、Part Type 和 PCB Decal）、P-CAD ASCII（原理图 `.lia`、PCB `.lia`）、Eagle XML（.lbr）或 CADSTAR ASCII（.lib）库。Eagle、CADSTAR 和 P-CAD 会写入其已实现的符号、封装和器件关联；3D 模型由独立阶段输出。
+从 EasyEDA 数据创建包含符号库、封装库和三维模型输出的 EDA 库。目标格式包括 KiCad（.kicad_sym/.kicad_mod）、Altium（.SchLib/.PcbLib）、Xpedition ASCII、PADS ASCII（Schematic Decal、Part Type 和 PCB Decal）、P-CAD ASCII（原理图 `.lia`、PCB `.lia`）、Eagle XML（.lbr）和 CADSTAR ASCII（.lib）。Eagle、CADSTAR 和 P-CAD 会写入其已实现的符号、封装和器件关联；WRL/STEP 三维文件由独立阶段输出，Altium 的 STEP 会嵌入 PcbLib。
 
 - 支持通孔和表面贴装封装
 - 完整的焊盘信息转换

@@ -19,8 +19,8 @@ enum class TargetEdaFormat {
     Xpedition = 2, /**< Xpedition ASCII 库格式 */
     Allegro = 3, /**< Allegro PCB 封装 Import Package */
     Pads = 4, /**< PADS Parts Library ASCII PCB Decal */
-    Eagle = 5, /**< Eagle XML footprint package */
-    Pcad = 6, /**< P-CAD ASCII PCB Library footprint package */
+    Eagle = 5, /**< Eagle XML 组合库（符号、封装和器件关联） */
+    Pcad = 6, /**< P-CAD ASCII 符号库、器件库和 PCB 库 */
     Cadstar = 7 /**< CADSTAR ASCII combined symbol and package library */
 };
 

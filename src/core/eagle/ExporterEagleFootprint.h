@@ -2,7 +2,7 @@
 
 /**
  * @file ExporterEagleFootprint.h
- * @brief Eagle XML 封装库导出器。
+ * @brief Eagle XML 组合库导出器。
  */
 
 #include "core/interfaces/IFootprintExporter.h"
@@ -11,7 +11,7 @@ namespace EasyKiConverter {
 
 /**
  * @brief 将统一组件 IR 写入 Eagle XML library 文件。
- * @details 支持 package、symbol、deviceset 和 pin-to-pad 关联；三维文件由独立阶段输出。
+ * @details 在同一个 .lbr 中输出 package、symbol、deviceset 和 pin-to-pad 关联；三维文件由独立阶段输出。
  */
 class ExporterEagleFootprint final : public IFootprintExporter {
 public:
