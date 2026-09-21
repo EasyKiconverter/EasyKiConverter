@@ -155,6 +155,27 @@ void Model3DExportStage::start(const QStringList& componentIds,
         }
     }
 
+    // 旧清单与新模型文件不能拆开更新，否则清单可能继续引用已经不存在或不匹配的文件。
+    const QString manifestPath = outputDir + QDir::separator() + QStringLiteral("manifest.json");
+    if (QFileInfo::exists(manifestPath) && !m_options.overwriteExistingFiles) {
+        for (auto it = m_componentPaths.cbegin(); it != m_componentPaths.cend(); ++it) {
+            const QString componentId = it.key();
+            const QString modelName = m_modelFileStems.value(componentId);
+            const QString wrlPath =
+                needWrl ? outputDir + QDir::separator() + modelName + QStringLiteral(".wrl") : QString();
+            const QString stepPath =
+                needStep ? outputDir + QDir::separator() + modelName + QStringLiteral(".step") : QString();
+            const bool wrlExists = !needWrl || QFileInfo::exists(wrlPath);
+            const bool stepExists = !needStep || QFileInfo::exists(stepPath);
+            if (!wrlExists || !stepExists) {
+                m_preflightErrors.insert(
+                    componentId,
+                    QStringLiteral("3D model manifest exists and overwrite is disabled; model files and manifest "
+                                   "must be updated together"));
+            }
+        }
+    }
+
     m_isExporting.store(true);
 
     // Paths must be ready before workers read m_componentPaths.
