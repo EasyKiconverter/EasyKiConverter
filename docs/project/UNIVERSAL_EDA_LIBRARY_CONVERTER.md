@@ -59,7 +59,7 @@ Importer 负责解析源文件并完成源格式到 IR 的语义映射；IR 负�
 | Xpedition | ASCII ZIP | ASCII ZIP | 符号和封装分包 | WRL/STEP | 当前不写入未经验证的原生关联 |
 | Allegro | 不支持 | Import Package | 不支持原理图器件库 | Import Package 内的 STEP/模型数据 | 需要 Cadence 环境生成 `.dra/.psm/.pad` |
 | PADS | Schematic Decal `.c` | PCB Decal `.d` | Part Type `.p` | 独立 WRL/STEP | 当前不写入原生关联 |
-| Eagle | `.lbr` 中的 Symbols | `.lbr` 中的 Packages | `.lbr` 中的 DeviceSets 和连接 | 独立 WRL/STEP | 不写入未经验证的托管 `package3d` |
+| Eagle | `.lbr` 中的 Symbols（含可表达的圆弧） | `.lbr` 中的 Packages（含可表达的圆弧） | `.lbr` 中的 DeviceSets 和连接 | 独立 WRL/STEP | 不写入未经验证的托管 `package3d` |
 | P-CAD | 原理图 `.lia` | PCB `.lia` | `compDef` 和 Part 关联 | 独立 WRL/STEP | 当前不写入原生关联 |
 | CADSTAR | `.lib` 中的 Component | `.lib` 中的 Package/Pad | `.lib` 中的 Part | 独立 WRL/STEP | 不写入未经验证的私有关联 |
 | OrCAD Capture | XML | 不生成 Capture PCB 库 | `pcbFootprint` 名称属性 | 独立 WRL/STEP | XML 不伪造原生 3D 关联 |

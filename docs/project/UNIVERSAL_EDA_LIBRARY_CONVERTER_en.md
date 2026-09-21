@@ -31,7 +31,7 @@ The current export pipeline builds symbol, footprint, and 3D data from the compo
 | Xpedition | ASCII ZIP | ASCII ZIP | Separate symbol and footprint packages | Standalone WRL/STEP | No unverified native association |
 | Allegro | Not supported | Import Package | No schematic component library | STEP/model data in the package | Cadence is required to generate `.dra/.psm/.pad` |
 | PADS | Schematic Decal `.c` | PCB Decal `.d` | Part Type `.p` | Standalone WRL/STEP | No native association currently written |
-| Eagle | Symbols in `.lbr` | Packages in `.lbr` | DeviceSets and connections in `.lbr` | Standalone WRL/STEP | No unverified managed `package3d` |
+| Eagle | Symbols in `.lbr`, including representable arcs | Packages in `.lbr`, including representable arcs | DeviceSets and connections in `.lbr` | Standalone WRL/STEP | No unverified managed `package3d` |
 | P-CAD | Schematic `.lia` | PCB `.lia` | `compDef` and Part associations | Standalone WRL/STEP | No native association currently written |
 | CADSTAR | Components in `.lib` | Packages/Pads in `.lib` | Parts in `.lib` | Standalone WRL/STEP | No unverified private association |
 | OrCAD Capture | XML | No Capture PCB library | `pcbFootprint` name property | Standalone WRL/STEP | XML does not invent a native 3D association |

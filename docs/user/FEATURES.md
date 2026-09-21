@@ -31,7 +31,7 @@ EasyKiConverter 可以将 EasyEDA 符号转换为 KiCad（.kicad_sym）、Altium
 - Altium 目标将 STEP 模型嵌入 PcbLib，不生成外部 WRL 模型引用
 - Xpedition 目标导出符号和封装，并可由独立阶段输出 WRL/STEP 3D 文件；当前不写入原生 3D 模型关联
 - PADS 目标当前导出 ASCII Schematic Decal 符号、Part Type 器件关联和 PCB Decal 封装；3D 文件可由独立阶段输出，不可无损表达的图元会报告错误
-- Eagle 目标可导出 XML Symbol、Package、DeviceSet 和引脚关联；3D 文件由独立阶段输出，但不写入未经验证的托管 `package3d` 关联；不可无损表达的图元会报告错误
+- Eagle 目标可导出 XML Symbol、Package、DeviceSet 和引脚关联，符号与封装圆弧会写入带 `curve` 属性的 wire；3D 文件由独立阶段输出，但不写入未经验证的托管 `package3d` 关联；不可无损表达的图元会报告错误
 - P-CAD 目标输出 ASCII 原理图库和 PCB Library，支持已实现的符号、Component/Part 关联和封装关联；3D 文件由独立阶段输出，不可无损表达的图元会报告错误
 - CADSTAR 目标可导出 Component、Package、Pad 和 Part 关联；3D 文件由独立阶段输出，不写入未经验证的私有 3D 关联，无法表达的图元会报告错误
 - OrCAD Capture 目标输出 XML 符号库和 `pcbFootprint` 名称关联；不生成原生 OLB，PCB 封装几何和 3D 文件需要独立目标或阶段输出

@@ -57,7 +57,7 @@ Automatically download and convert 3D models.
 - Altium embeds STEP models in PcbLib instead of creating external WRL references
 - Xpedition exports symbols and footprints and can emit standalone WRL/STEP files through the independent stage; native 3D associations are not written
 - PADS currently exports ASCII Schematic Decal symbols, Part Type device associations, and PCB Decals; the independent stage can emit 3D files and unsupported geometry is rejected
-- Eagle exports XML symbols, packages, DeviceSets, and pin associations; 3D files are emitted by the independent stage, but unverified managed `package3d` associations are not written, and unsupported geometry is rejected
+- Eagle exports XML symbols, packages, DeviceSets, and pin associations; symbol and package arcs are written as wires with the `curve` attribute. 3D files are emitted by the independent stage, but unverified managed `package3d` associations are not written, and unsupported geometry is rejected
 - P-CAD exports ASCII schematic and PCB libraries with implemented symbol, Component/Part, and footprint associations; 3D files are emitted by the independent stage and unsupported geometry is rejected
 - CADSTAR exports Component, Package, Pad, and Part associations; 3D files are emitted by the independent stage without unverified private CADSTAR 3D links, and unsupported geometry is rejected
 - OrCAD Capture exports an XML symbol library with `pcbFootprint` name associations; it does not generate native OLB, while PCB geometry is exported by a separate supported target and 3D files are emitted by the independent model stage

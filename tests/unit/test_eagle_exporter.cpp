@@ -19,6 +19,12 @@ private slots:
     void writesCompleteComponentLibrary();
     /** @brief 验证缺失封装焊盘时拒绝生成无效器件关联。 */
     void rejectsMissingPadMapping();
+    /** @brief 验证圆弧会写入 Eagle wire 的 curve 属性。 */
+    void writesArcAsCurvedWire();
+    /** @brief 验证非法圆弧参数会失败并生成诊断。 */
+    void rejectsInvalidArc();
+    /** @brief 验证符号三点圆弧会写入 Eagle wire 的 curve 属性。 */
+    void writesSymbolArcAsCurvedWire();
 };
 
 static IR::FootprintComponentIR makeFixture(const QString& name) {
@@ -43,6 +49,7 @@ static IR::FootprintComponentIR makeFixture(const QString& name) {
     footprint.pads.append(through);
     footprint.holes.append({QPointF(0.0, 2.0), 0.4, false});
     footprint.circles.append({QPointF(0.0, 0.0), 2.0, 0.15, IR::LayerType::TopSilk, false});
+    footprint.arcs.append({QPointF(0.0, 0.0), 2.0, 0.0, 90.0, 0.15, IR::LayerType::TopSilk, {}, false});
     return footprint;
 }
 
@@ -55,6 +62,15 @@ static IR::ComponentIR makeComponentFixture() {
     component.symbol.designatorPrefix = QStringLiteral("R");
     component.symbol.description = component.description;
     component.symbol.rectangles.append({-1.27, -2.54, 1.27, 2.54, 0.15});
+    component.symbol.arcs.append({{2.0, 0.0},
+                                  {1.414213562, 1.414213562},
+                                  {0.0, 2.0},
+                                  Qt::black,
+                                  0.15,
+                                  IR::StrokeStyle::Solid,
+                                  Qt::transparent,
+                                  false,
+                                  0});
     IR::SymbolPinIR pin;
     pin.name = QStringLiteral("1");
     pin.designator = QStringLiteral("1");
@@ -158,6 +174,67 @@ void TestEagleExporter::rejectsMissingPadMapping() {
     QVERIFY(!exporter.exportComponentLibrary(
         {component}, QStringLiteral("invalid"), temporary.path() + QStringLiteral("/invalid.lbr")));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("找不到对应焊盘")));
+}
+
+/** 验证 Eagle XML 圆弧使用端点和 curve 属性保留扫掠角。 */
+void TestEagleExporter::writesArcAsCurvedWire() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    const QString path = temporary.path() + QStringLiteral("/arc.lbr");
+    QVERIFY(exporter.exportFootprintLibrary({makeFixture(QStringLiteral("ARC_PACKAGE"))}, QStringLiteral("arc"), path));
+
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    QXmlStreamReader reader(&file);
+    bool curvedWireSeen = false;
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (reader.isStartElement() && reader.name() == QStringLiteral("wire") &&
+            reader.attributes().hasAttribute(QStringLiteral("curve"))) {
+            QCOMPARE(reader.attributes().value(QStringLiteral("curve")).toDouble(), 90.0);
+            curvedWireSeen = true;
+        }
+    }
+    QVERIFY2(!reader.hasError(), qPrintable(reader.errorString()));
+    QVERIFY(curvedWireSeen);
+}
+
+/** 验证起止角度相同的圆弧不会被静默写成不确定几何。 */
+void TestEagleExporter::rejectsInvalidArc() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    IR::FootprintComponentIR footprint = makeFixture(QStringLiteral("INVALID_ARC"));
+    footprint.arcs.first().endAngle = footprint.arcs.first().startAngle;
+    QVERIFY(!exporter.exportFootprintLibrary(
+        {footprint}, QStringLiteral("invalid"), temporary.path() + QStringLiteral("/invalid.lbr")));
+    QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("起止角度相同")));
+}
+
+/** 验证 Eagle Symbol 的三点圆弧被序列化为带曲率的 wire。 */
+void TestEagleExporter::writesSymbolArcAsCurvedWire() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    const QString path = temporary.path() + QStringLiteral("/symbol-arc.lbr");
+    QVERIFY(exporter.exportComponentLibrary({makeComponentFixture()}, QStringLiteral("symbol-arc"), path));
+
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    QXmlStreamReader reader(&file);
+    bool symbolArcSeen = false;
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (reader.isStartElement() && reader.name() == QStringLiteral("wire") &&
+            reader.attributes().value(QStringLiteral("layer")) == QStringLiteral("94") &&
+            reader.attributes().hasAttribute(QStringLiteral("curve"))) {
+            symbolArcSeen = true;
+            break;
+        }
+    }
+    QVERIFY2(!reader.hasError(), qPrintable(reader.errorString()));
+    QVERIFY(symbolArcSeen);
 }
 
 QTEST_MAIN(TestEagleExporter)
