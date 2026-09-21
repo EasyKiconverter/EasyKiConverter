@@ -35,3 +35,5 @@ Exporting `MyLib` creates `MyLib_Allegro/` with `manifest.json`, `generator.il`,
 Select `Allegro PCB` in the GUI or use `--target-format allegro` in the CLI. The first phase supports complete replacement export only; update, append, and retry modes are rejected. Load `generator.il` as the package entry point and configure `PSMPATH`, `PADPATH`, and `steppath` in the target Cadence Allegro environment. Native `.dra/.psm/.pad` generation remains a user-side Cadence operation.
 
 No usable Allegro executable was detected in the development environment. The project therefore validates package structure, JSON references, and file completeness, but does not claim native Allegro compatibility validation.
+
+See [Allegro Native Format Research](ALLEGRO_NATIVE_FORMAT_RESEARCH_en.md) for confirmed format facts, public sample observations, and unconfirmed fields. Until samples from a fixed Cadence version pass open, save, and reopen validation, the Import Package must not be treated as Native Library Export.

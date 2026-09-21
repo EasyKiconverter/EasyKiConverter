@@ -35,3 +35,5 @@ flowchart LR
 GUI 选择 `Allegro PCB`，CLI 使用 `--target-format allegro`。第一阶段只允许完整覆盖导出，不支持已有包的更新、追加或重试。执行 `generator.il` 只是导入包入口提示和验证入口，实际 `.dra/.psm/.pad` 生成需要用户安装并使用目标 Cadence Allegro 版本配置 `PSMPATH`、`PADPATH` 和 `steppath`。
 
 当前开发环境未检测到可用于自动打开、保存和回读 Allegro 数据库的目标软件，因此本项目只验证 Import Package 结构、JSON 引用和文件完整性，不宣称完成 Allegro 实机兼容性验证。
+
+Native `.dra/.psm/.pad` 的格式事实、公开样本观察和未确认字段请参阅 [Allegro Native 格式研究](ALLEGRO_NATIVE_FORMAT_RESEARCH.md)。在取得固定 Cadence 版本的真实样本并完成打开、保存、回读验证前，不应将 Import Package 当作 Native Library Export。
