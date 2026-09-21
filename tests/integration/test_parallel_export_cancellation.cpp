@@ -206,6 +206,84 @@ private slots:
         QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("KiCadCompleteModel.wrl"))));
     }
 
+    // 验证 Xpedition 分离归档会同时生成符号库、封装库和独立三维模型清单。
+    void testXpeditionPipelineExportsAllLibraryArtifacts() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString componentId = QStringLiteral("C91009");
+        QList<ComponentData> componentData = makeFixtureComponents({componentId});
+        QVERIFY(componentData.size() == 1);
+
+        // Xpedition 符号测试只保留当前 ASCII writer 可直接表达的矩形和引脚。
+        const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        auto symbol = QSharedPointer<SymbolData>::create();
+        symbol->setInfo(sourceSymbol->info());
+        SymbolBBox bbox = sourceSymbol->bbox();
+        bbox.x = -2.0;
+        bbox.y = -3.0;
+        bbox.width = 4.0;
+        bbox.height = 6.0;
+        symbol->setBbox(bbox);
+        symbol->setPins(sourceSymbol->pins());
+        symbol->setRectangles(sourceSymbol->rectangles());
+        componentData.first().setSymbolData(symbol);
+
+        // 使用本地 OBJ 夹具验证独立模型阶段，不依赖网络和用户缓存。
+        Model3DData model;
+        model.setName(QStringLiteral("XpeditionCompleteModel"));
+        model.setUuid(QStringLiteral("xpedition-complete-model"));
+        componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
+        componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        ParallelExportService service;
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("XpeditionCompletePipeline"));
+        options.targetFormat = TargetEdaFormat::Xpedition;
+        options.exportModel3D = true;
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        service.startPreload({componentId});
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+
+        QVERIFY2(completedSpy.wait(30000), "Xpedition complete export should finish");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        QString error;
+        const QString symbolPath = tempDir.filePath(QStringLiteral("XpeditionCompletePipeline_Symbols.zip"));
+        const QString footprintPath = tempDir.filePath(QStringLiteral("XpeditionCompletePipeline_Footprints.zip"));
+        QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
+        QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
+        QVERIFY(TestPaths::readBytes(symbolPath, &error).contains(QByteArray("CANCEL_SYM_0.1")));
+        QVERIFY(TestPaths::readBytes(footprintPath, &error).contains(QByteArray("CANCEL_FP_0_Pads.hkp")));
+        QVERIFY(TestPaths::readBytes(footprintPath, &error).contains(QByteArray("CANCEL_FP_0_Cell.hkp")));
+
+        const QString modelDir = tempDir.filePath(QStringLiteral("XpeditionCompletePipeline.3dmodels"));
+        const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
+        QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Xpedition));
+        const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
+        QCOMPARE(components.size(), 1);
+        const QJsonObject component = components.first().toObject();
+        QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
+        QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
+        QCOMPARE(component.value(QStringLiteral("status")).toString(), QStringLiteral("success"));
+        QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("XpeditionCompleteModel.wrl"))));
+    }
+
     // 验证 Altium 管线分别生成 SchLib、PcbLib，并将 STEP 嵌入封装库。
     void testAltiumPipelineExportsSymbolFootprintAndEmbeddedStep() {
         QTemporaryDir tempDir;
