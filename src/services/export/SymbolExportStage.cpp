@@ -380,6 +380,13 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
             abortExport(QStringLiteral("Invalid symbol companion file name: %1").arg(companionName));
             return;
         }
+        const QString companionFinalPath = QDir(outputDir).filePath(companionName);
+        // 主库不存在时没有可合并的旧内容，禁止覆盖残留的伴随文件，避免部分库被静默替换。
+        if (!finalFileExists && !m_options.overwriteExistingFiles && QFile::exists(companionFinalPath)) {
+            abortExport(QStringLiteral("Symbol companion file already exists and overwrite is disabled: %1")
+                            .arg(companionFinalPath));
+            return;
+        }
         const QString companionTempPath = QDir(m_tempManager.tempDirectory()).filePath(companionName);
         QFile companionFile(companionTempPath);
         if (!companionFile.open(QIODevice::WriteOnly | QIODevice::Truncate) ||
@@ -389,7 +396,7 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         }
         companionFile.close();
         m_tempManager.registerTempFile(companionTempPath);
-        commitItems.append({companionTempPath, QDir(outputDir).filePath(companionName), false});
+        commitItems.append({companionTempPath, companionFinalPath, false});
     }
     if (!m_tempManager.commitBatch(commitItems)) {
         abortExport(QStringLiteral("Failed to commit symbol library files"));

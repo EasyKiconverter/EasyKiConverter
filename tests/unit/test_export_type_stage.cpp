@@ -784,6 +784,40 @@ private slots:
         QVERIFY(QFileInfo::exists(tempDir.filePath(QStringLiteral("PadsFirstExport_PADS.p"))));
     }
 
+    // 验证主符号文件缺失但伴随 Part Type 文件存在时不会覆盖旧文件。
+    void padsSymbolLibraryRejectsOrphanCompanionWithoutOverwrite() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString companionPath = tempDir.filePath(QStringLiteral("PadsOrphan_PADS.p"));
+        QFile existing(companionPath);
+        QVERIFY(existing.open(QIODevice::WriteOnly));
+        existing.write("keep-orphan-part-type");
+        existing.close();
+
+        SymbolExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("PadsOrphan");
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PADS_ORPHAN")] =
+            makeSymbolComponent(QStringLiteral("C_PADS_ORPHAN"), QStringLiteral("PADS_ORPHAN_SYMBOL"));
+
+        QSignalSpy completedSpy(&stage, &SymbolExportStage::completed);
+        stage.start({QStringLiteral("C_PADS_ORPHAN")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "PADS orphan companion policy should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+
+        QVERIFY(existing.open(QIODevice::ReadOnly));
+        QCOMPARE(existing.readAll(), QByteArray("keep-orphan-part-type"));
+    }
+
     // 验证 Eagle 组合库阶段同时提交 Symbol、Package、DeviceSet 和引脚焊盘关联。
     void eagleCombinedLibraryStageWritesAllLibrarySections() {
         QTemporaryDir tempDir;
