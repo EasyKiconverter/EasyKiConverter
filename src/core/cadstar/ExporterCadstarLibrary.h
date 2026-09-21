@@ -6,6 +6,7 @@
  */
 
 #include "core/interfaces/IFootprintExporter.h"
+#include "core/interfaces/ISymbolExporter.h"
 
 namespace EasyKiConverter {
 
@@ -14,7 +15,7 @@ namespace EasyKiConverter {
  * @details 该导出器生成文本交换库，不声称生成 CADSTAR 私有数据库。
  *          符号、封装和 Part 在同一个 .lib 中输出，3D 模型由独立阶段输出。
  */
-class ExporterCadstarLibrary final : public IFootprintExporter {
+class ExporterCadstarLibrary final : public IFootprintExporter, public ISymbolExporter {
 public:
     /** @brief 返回 CADSTAR ASCII 库扩展名。 */
     QString libraryFileExtension() const override;
@@ -42,6 +43,17 @@ public:
     bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                              const QString& libName,
                              const QString& filePath) override;
+
+    /** @brief 通过通用符号接口导出 CADSTAR ASCII 符号库。 */
+    bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                             const QString& libName,
+                             const QString& filePath,
+                             bool appendMode,
+                             bool updateMode,
+                             const QString& libraryDescription = QString()) override;
+
+    /** @brief 通过通用符号接口导出单个 CADSTAR 符号。 */
+    bool exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) override;
 
     /** @brief 导出包含符号、封装和 Part 关联的完整 CADSTAR ASCII 库。 */
     bool exportComponentLibrary(const QList<IR::ComponentIR>& components,

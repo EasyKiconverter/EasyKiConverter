@@ -790,6 +790,26 @@ bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponent
     return !xml.hasError();
 }
 
+/** 通过通用符号接口复用 Eagle 的符号库写入器，并拒绝未实现的合并模式。 */
+bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                                                 const QString& libName,
+                                                 const QString& filePath,
+                                                 bool appendMode,
+                                                 bool updateMode,
+                                                 const QString& libraryDescription) {
+    Q_UNUSED(libraryDescription)
+    if (appendMode || updateMode) {
+        m_diagnostics = {QStringLiteral("Eagle XML 符号库暂不支持追加或更新模式")};
+        return false;
+    }
+    return exportSymbolLibrary(symbols, libName, filePath);
+}
+
+/** 通过通用符号接口导出单个 Eagle 符号。 */
+bool ExporterEagleFootprint::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
+    return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
+}
+
 /** 返回最近一次 Eagle 导出的诊断信息。 */
 QStringList ExporterEagleFootprint::diagnostics() const {
     return m_diagnostics;

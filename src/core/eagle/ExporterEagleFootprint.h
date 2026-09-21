@@ -6,6 +6,7 @@
  */
 
 #include "core/interfaces/IFootprintExporter.h"
+#include "core/interfaces/ISymbolExporter.h"
 
 namespace EasyKiConverter {
 
@@ -13,7 +14,7 @@ namespace EasyKiConverter {
  * @brief 将统一组件 IR 写入 Eagle XML library 文件。
  * @details 在同一个 .lbr 中输出 package、symbol、deviceset 和 pin-to-pad 关联；三维文件由独立阶段输出。
  */
-class ExporterEagleFootprint final : public IFootprintExporter {
+class ExporterEagleFootprint final : public IFootprintExporter, public ISymbolExporter {
 public:
     /** @brief 获取 Eagle library 文件扩展名。 */
     QString libraryFileExtension() const override;
@@ -41,6 +42,17 @@ public:
     bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                              const QString& libName,
                              const QString& filePath) override;
+
+    /** @brief 通过通用符号接口导出 Eagle XML 符号库。 */
+    bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                             const QString& libName,
+                             const QString& filePath,
+                             bool appendMode,
+                             bool updateMode,
+                             const QString& libraryDescription = QString()) override;
+
+    /** @brief 通过通用符号接口导出单个 Eagle 符号。 */
+    bool exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) override;
 
     /** @brief 写入 Eagle XML 的完整 Symbol、Package 和 DeviceSet 关联库。 */
     bool exportComponentLibrary(const QList<IR::ComponentIR>& components,

@@ -112,6 +112,9 @@ private slots:
     /** @brief 验证所有已注册目标格式都能创建独立三维模型导出器。 */
     void model3DExporterIsAvailableForAllTargets();
 
+    /** @brief 验证组合库目标也能通过通用工厂创建符号导出器。 */
+    void combinedLibrarySymbolExportersAreAvailable();
+
     /** @brief 验证预览图缓存缺少前置索引时仍会导出后续图片。 */
     void previewImageExportLoadsNonContiguousCacheEntries() {
         QTemporaryDir outputDir;
@@ -1644,6 +1647,13 @@ void TestExportTypeStage::model3DExporterIsAvailableForAllTargets() {
                                             TargetEdaFormat::Orcad};
     for (const TargetEdaFormat format : formats)
         QVERIFY2(ExporterFactory::createModel3DExporter(format) != nullptr, "目标格式缺少独立三维导出器");
+}
+
+/** 验证 Eagle 和 CADSTAR 组合库能够通过通用工厂创建符号导出器。 */
+void TestExportTypeStage::combinedLibrarySymbolExportersAreAvailable() {
+    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Eagle) != nullptr);
+    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Cadstar) != nullptr);
+    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Allegro) == nullptr);
 }
 
 }  // namespace EasyKiConverter

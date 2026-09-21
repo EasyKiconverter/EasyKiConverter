@@ -354,6 +354,26 @@ bool ExporterCadstarLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
     return true;
 }
 
+/** 通过通用符号接口复用 CADSTAR 的符号库写入器，并拒绝未实现的合并模式。 */
+bool ExporterCadstarLibrary::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                                                 const QString& libName,
+                                                 const QString& filePath,
+                                                 bool appendMode,
+                                                 bool updateMode,
+                                                 const QString& libraryDescription) {
+    Q_UNUSED(libraryDescription)
+    if (appendMode || updateMode) {
+        m_diagnostics = {QStringLiteral("CADSTAR ASCII 符号库暂不支持追加或更新模式")};
+        return false;
+    }
+    return exportSymbolLibrary(symbols, libName, filePath);
+}
+
+/** 通过通用符号接口导出单个 CADSTAR 符号。 */
+bool ExporterCadstarLibrary::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
+    return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
+}
+
 bool ExporterCadstarLibrary::exportComponentLibrary(const QList<IR::ComponentIR>& components,
                                                     const QString& libName,
                                                     const QString& filePath,
