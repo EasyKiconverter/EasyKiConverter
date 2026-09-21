@@ -59,9 +59,9 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
 
     // Eagle 和 CADSTAR 在同时选择符号、封装时才写入完整组合库；仅封装导出不应无条件要求符号缓存。
     const bool needsSymbolData = plan.enableSymbol || (combinedTarget && options.exportSymbol);
+    // 组合目标的仅符号路径直接调用符号 writer，不应因为没有封装缓存而被预加载阶段拦截。
     const bool needsFootprintData = (options.exportFootprint && options.targetFormat != TargetEdaFormat::Orcad) ||
-                                    (embeddedModelTarget && options.exportModel3D) ||
-                                    (combinedTarget && options.exportSymbol);
+                                    (embeddedModelTarget && options.exportModel3D);
     for (const QString& componentId : componentIds) {
         const auto it = cachedData.constFind(componentId);
         const auto& component = it == cachedData.cend() ? QSharedPointer<ComponentData>() : it.value();

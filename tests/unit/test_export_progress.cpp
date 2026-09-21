@@ -283,13 +283,8 @@ private slots:
         QVERIFY(eagleSymbolPlan.enableFootprint);
         QVERIFY(eagleSymbolPlan.symbolOnlyCombinedLibrary);
         QCOMPARE(eagleSymbolPlan.progressTypeNames(), QStringList{QStringLiteral("Symbol")});
-        QVERIFY(eagleSymbolPlan.exportableComponentIds.isEmpty());
-        QCOMPARE(eagleSymbolPlan.missingDataComponentIds, QStringList{QStringLiteral("C300")});
-
-        eagleSymbolData->setFootprintData(QSharedPointer<FootprintData>::create());
-        const ExportRunPlan eagleCompleteSymbolPlan = buildExportRunPlan(
-            eagleSymbolOptions, {QStringLiteral("C300")}, {{QStringLiteral("C300"), eagleSymbolData}});
-        QCOMPARE(eagleCompleteSymbolPlan.exportableComponentIds, QStringList{QStringLiteral("C300")});
+        QCOMPARE(eagleSymbolPlan.exportableComponentIds, QStringList{QStringLiteral("C300")});
+        QVERIFY(eagleSymbolPlan.missingDataComponentIds.isEmpty());
 
         ExportOptions cadstarOptions;
         cadstarOptions.targetFormat = TargetEdaFormat::Cadstar;
@@ -322,8 +317,8 @@ private slots:
         QVERIFY(allegroSymbolPlan.enableFootprint);
         QVERIFY(allegroSymbolPlan.symbolOnlyCombinedLibrary);
         QCOMPARE(allegroSymbolPlan.progressTypeNames(), QStringList{QStringLiteral("Symbol")});
-        QVERIFY(allegroSymbolPlan.exportableComponentIds.isEmpty());
-        QCOMPARE(allegroSymbolPlan.missingDataComponentIds, QStringList{QStringLiteral("C400")});
+        QCOMPARE(allegroSymbolPlan.exportableComponentIds, QStringList{QStringLiteral("C400")});
+        QVERIFY(allegroSymbolPlan.missingDataComponentIds.isEmpty());
     }
 
     // 提供三维模型格式位掩码测试所需的参数组合。
