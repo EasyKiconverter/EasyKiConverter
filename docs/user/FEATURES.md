@@ -29,7 +29,7 @@ EasyKiConverter 可以将 EasyEDA 符号转换为 KiCad（.kicad_sym）、Altium
 - 支持 WRL 格式
 - 支持 STEP 格式
 - Altium 目标将 STEP 模型嵌入 PcbLib，不生成外部 WRL 模型引用
-- Xpedition 目标当前导出符号和封装，不写入 3D 模型关联
+- Xpedition 目标导出符号和封装，并可由独立阶段输出 WRL/STEP 3D 文件；当前不写入原生 3D 模型关联
 - PADS 目标当前导出 ASCII Schematic Decal 符号、Part Type 器件关联和 PCB Decal 封装；3D 文件可由独立阶段输出，不可无损表达的图元会报告错误
 - Eagle 目标可导出 XML Symbol、Package、DeviceSet 和引脚关联；3D 文件由独立阶段输出，但不写入未经验证的托管 `package3d` 关联；不可无损表达的图元会报告错误
 - P-CAD 目标输出 ASCII 原理图库和 PCB Library，支持已实现的符号、Component/Part 关联和封装关联；3D 文件由独立阶段输出，不可无损表达的图元会报告错误

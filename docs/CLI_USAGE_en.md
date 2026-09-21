@@ -52,7 +52,7 @@ CLI mode exports the following by default:
 **Note**:
 - 3D models, preview images, and datasheets are not exported by default
 - Use `--3d-model` when needed; KiCad defaults to WRL, while Altium automatically converges to STEP and embeds it in PcbLib
-- Xpedition currently exports symbol and footprint ZIP packages only and does not support 3D model association; `--3d-model` records a warning and skips the 3D stage
+- Xpedition exports symbol and footprint ZIP packages and can emit standalone WRL/STEP model files through the independent stage; native Xpedition 3D associations are not written
 - PADS currently exports ASCII Schematic Decal symbols, Part Type device associations, and PCB Decal footprints; `--3d-model` emits WRL/STEP files through the independent model stage, while update, append, and retry modes are rejected
 - Eagle exports XML `.lbr` libraries containing symbols, packages, DeviceSets, and pin-to-pad connections; `--3d-model` emits WRL/STEP files through the independent model stage but does not fabricate managed `package3d` associations, while update, append, and retry modes are rejected
 - P-CAD export includes a separate ASCII schematic library (`_PCAD_SCH.lia`), PCB Library (`.lia`), and independent WRL/STEP model stage. Complex schematic primitives, update, append, and retry modes are rejected with diagnostics

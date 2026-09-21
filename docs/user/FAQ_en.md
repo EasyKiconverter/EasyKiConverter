@@ -6,7 +6,7 @@ This document collects the most frequently asked questions and their solutions.
 
 ### What is EasyKiConverter?
 
-EasyKiConverter is a C++ desktop application based on Qt 6 Quick and MVVM architecture for converting LCSC and EasyEDA components to KiCad, Altium, or Xpedition formats. It converts symbols, footprints, and 3D models; Xpedition currently does not write 3D model associations.
+EasyKiConverter is a C++ desktop application based on Qt 6 Quick and MVVM architecture for converting LCSC and EasyEDA components to multiple EDA library formats. It converts symbol libraries, footprint libraries, and 3D model files; Xpedition currently emits standalone 3D files without native 3D associations.
 
 ### Is EasyKiConverter free?
 
