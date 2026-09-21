@@ -47,10 +47,16 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
     plan.enablePreview = options.exportPreviewImages;
     plan.enableDatasheet = options.exportDatasheet;
 
+    // 组合库目标需要同时读取符号和封装；其他目标只要求其已启用阶段所需的数据。
+    const bool needsSymbolData = plan.enableSymbol || options.targetFormat == TargetEdaFormat::Eagle ||
+                                 options.targetFormat == TargetEdaFormat::Cadstar;
+    const bool needsFootprintData = plan.enableFootprint || options.targetFormat == TargetEdaFormat::Eagle ||
+                                    options.targetFormat == TargetEdaFormat::Cadstar;
     for (const QString& componentId : componentIds) {
         const auto it = cachedData.constFind(componentId);
-        if (it != cachedData.cend() && it.value() && it.value()->isValid() && it.value()->symbolData() &&
-            it.value()->footprintData()) {
+        const auto& component = it == cachedData.cend() ? QSharedPointer<ComponentData>() : it.value();
+        if (component && component->isValid() && (!needsSymbolData || component->symbolData()) &&
+            (!needsFootprintData || component->footprintData())) {
             plan.exportableComponentIds.append(componentId);
         } else {
             plan.missingDataComponentIds.append(componentId);

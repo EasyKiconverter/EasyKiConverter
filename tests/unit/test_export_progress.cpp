@@ -139,6 +139,35 @@ private slots:
         QVERIFY(orcadPlan.runExternalModel3DStage);
     }
 
+    // 验证仅符号或仅封装的目标不会被另一类未启用数据错误阻断。
+    void exportRunPlanUsesOnlyRequiredLibraryData() {
+        auto symbolOnly = QSharedPointer<ComponentData>::create();
+        symbolOnly->setLcscId(QStringLiteral("C100"));
+        symbolOnly->setSymbolData(QSharedPointer<SymbolData>::create());
+
+        ExportOptions orcadOptions;
+        orcadOptions.targetFormat = TargetEdaFormat::Orcad;
+        orcadOptions.exportSymbol = true;
+        orcadOptions.exportFootprint = false;
+        orcadOptions.exportModel3D = false;
+        const ExportRunPlan orcadPlan =
+            buildExportRunPlan(orcadOptions, {QStringLiteral("C100")}, {{QStringLiteral("C100"), symbolOnly}});
+        QCOMPARE(orcadPlan.exportableComponentIds, QStringList{QStringLiteral("C100")});
+
+        auto footprintOnly = QSharedPointer<ComponentData>::create();
+        footprintOnly->setLcscId(QStringLiteral("C200"));
+        footprintOnly->setFootprintData(QSharedPointer<FootprintData>::create());
+
+        ExportOptions allegroOptions;
+        allegroOptions.targetFormat = TargetEdaFormat::Allegro;
+        allegroOptions.exportSymbol = false;
+        allegroOptions.exportFootprint = true;
+        allegroOptions.exportModel3D = false;
+        const ExportRunPlan allegroPlan =
+            buildExportRunPlan(allegroOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
+        QCOMPARE(allegroPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+    }
+
     // 提供三维模型格式位掩码测试所需的参数组合。
     void exportOptionsModel3DFormatBitmask_data() {
         QTest::addColumn<int>("format");

@@ -428,6 +428,17 @@ target_include_directories(test_command_line_parser PRIVATE
 )
 add_test(NAME test_command_line_parser COMMAND test_command_line_parser)
 
+add_executable(test_target_format_options test_target_format_options.cpp)
+target_link_libraries(test_target_format_options PRIVATE
+    Qt6::Test
+    EasyKiConverter::Cli
+)
+target_include_directories(test_target_format_options PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_target_format_options COMMAND test_target_format_options)
+
 # 语言管理器测试
 add_executable(test_language_manager test_language_manager.cpp)
 target_link_libraries(test_language_manager PRIVATE

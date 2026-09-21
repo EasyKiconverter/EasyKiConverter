@@ -47,7 +47,7 @@ CommandLineParser::CommandLineParser(int argc, char* argv[])
     , m_completionOption("completion", "生成 Shell 补全脚本 (bash/zsh/fish)", "shell")
     , m_completeOption("complete", "内部选项：输出动态补全数据", "type") {
     m_parser.setApplicationDescription(
-        QCoreApplication::translate("main", "EasyKiConverter - LCSC/EasyEDA 元件转 KiCad 库工具"));
+        QCoreApplication::translate("main", "EasyKiConverter - LCSC/EasyEDA 元件 EDA 库转换工具"));
 
     // Qt 内置的帮助和版本选项
     m_parser.addHelpOption();

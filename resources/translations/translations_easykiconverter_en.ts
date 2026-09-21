@@ -1854,8 +1854,8 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
     <name>main</name>
     <message>
         <location filename="../../src/utils/CommandLineParser.cpp" line="47"/>
-        <source>EasyKiConverter - LCSC/EasyEDA 元件转 KiCad 库工具</source>
-        <translation>EasyKiConverter - LCSC/EasyEDA to KiCad Library Converter</translation>
+        <source>EasyKiConverter - LCSC/EasyEDA 元件 EDA 库转换工具</source>
+        <translation>EasyKiConverter - LCSC/EasyEDA EDA Library Converter</translation>
     </message>
     <message>
         <location filename="../../src/main.cpp" line="428"/>
