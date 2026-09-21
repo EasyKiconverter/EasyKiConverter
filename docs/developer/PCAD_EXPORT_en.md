@@ -32,7 +32,7 @@ Select `P-CAD PCB` in the GUI or use `--target-format pcad` in the CLI. Symbol e
 
 The exporter rejects independent unnumbered mounting holes, slots, polygon/trapezoid pads, unmappable layers, non-ASCII names or text, unsupported schematic curves/text frames/images, and update, append, or retry modes for an existing library. 3D models are emitted by the independent model stage with visible diagnostics.
 
-The file declares `fileUnits MM`, writes coordinates using P-CAD's upward-positive Y convention, and stores rotations in tenths of a degree.
+The file declares `fileUnits MM`, writes coordinates using P-CAD's upward-positive Y convention, and stores rotations in tenths of a degree. When 3D export is enabled, the independent stage emits WRL/STEP files and reports them as standalone outputs; the P-CAD library does not receive an unverified native 3D association.
 
 `tests/unit/test_pcad_exporter.cpp` validates the PCB library. The symbol-library tests validate `symbolDef`, `compDef`, multi-part pins, and footprint association records. P-CAD or another official compatible tool is not installed in the current environment, so official open/save/read-back validation has not been performed.
 
