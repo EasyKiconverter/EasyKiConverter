@@ -27,6 +27,8 @@ private slots:
     void writesSymbolArcAsCurvedWire();
     /** @brief 验证 Eagle 不会静默丢弃符号圆弧的填充和线型语义。 */
     void rejectsUnsupportedSymbolArcStyle();
+    /** @brief 验证清洗后的 DeviceSet 名称冲突会阻止生成歧义器件集。 */
+    void rejectsDeviceSetNameCollision();
 };
 
 static IR::FootprintComponentIR makeFixture(const QString& name) {
@@ -249,6 +251,24 @@ void TestEagleExporter::rejectsUnsupportedSymbolArcStyle() {
     QVERIFY(!exporter.exportComponentLibrary(
         {component}, QStringLiteral("filled-arc"), temporary.path() + QStringLiteral("/filled-arc.lbr")));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("填充")));
+}
+
+/** 验证不同原始组件名称不会清洗为同一个 Eagle DeviceSet 名称。 */
+void TestEagleExporter::rejectsDeviceSetNameCollision() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    IR::ComponentIR first = makeComponentFixture();
+    IR::ComponentIR second = makeComponentFixture();
+    first.name = QStringLiteral("A B");
+    second.name = QStringLiteral("A/B");
+    first.symbol.name = QStringLiteral("A_B_SYMBOL");
+    second.symbol.name = QStringLiteral("A_B_SYMBOL_2");
+    first.footprint.name = QStringLiteral("A_B_PACKAGE");
+    second.footprint.name = QStringLiteral("A_B_PACKAGE_2");
+    QVERIFY(!exporter.exportComponentLibrary(
+        {first, second}, QStringLiteral("collision"), temporary.path() + QStringLiteral("/collision.lbr")));
+    QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("冲突")));
 }
 
 QTEST_MAIN(TestEagleExporter)

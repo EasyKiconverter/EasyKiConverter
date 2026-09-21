@@ -513,10 +513,13 @@ bool writeSymbol(QXmlStreamWriter& xml,
 bool writeComponentLibrary(QXmlStreamWriter& xml, const QList<IR::ComponentIR>& components, QStringList& diagnostics) {
     QSet<QString> symbolNames;
     QSet<QString> packageNames;
+    QSet<QString> deviceNames;
     for (const IR::ComponentIR& component : components) {
         const QString baseSymbolName = safeName(component.symbol.name);
         const QString packageName = safeName(component.footprint.name);
-        if (baseSymbolName.isEmpty() || packageName.isEmpty() || packageNames.contains(packageName)) {
+        const QString deviceName = safeName(component.name.isEmpty() ? component.symbol.name : component.name);
+        if (baseSymbolName.isEmpty() || packageName.isEmpty() || deviceName.isEmpty() ||
+            packageNames.contains(packageName) || deviceNames.contains(deviceName)) {
             diagnostics.append(QStringLiteral("Eagle: 符号或封装名称为空或清洗后冲突：%1").arg(component.name));
             return false;
         }
@@ -538,6 +541,7 @@ bool writeComponentLibrary(QXmlStreamWriter& xml, const QList<IR::ComponentIR>& 
             symbolNames.insert(symbolName);
         }
         packageNames.insert(packageName);
+        deviceNames.insert(deviceName);
     }
 
     xml.writeStartElement(QStringLiteral("symbols"));
