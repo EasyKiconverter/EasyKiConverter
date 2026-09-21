@@ -1,5 +1,7 @@
+#include "core/eagle/ExporterEagleFootprint.h"
 #include "core/easyeda/EasyedaFootprintImporter.h"
 #include "core/easyeda/EasyedaSymbolImporter.h"
+#include "core/ir/ComponentDataConverter.h"
 #include "models/ComponentData.h"
 #include "models/Model3DData.h"
 #include "services/ComponentCacheService.h"
@@ -13,6 +15,7 @@
 #include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QTest>
+#include <QXmlStreamReader>
 
 using namespace EasyKiConverter;
 using namespace EasyKiConverter::Test;
@@ -139,7 +142,7 @@ private slots:
         QList<ComponentData> componentData = makeFixtureComponents(componentIds);
         QVERIFY(componentData.size() == 1);
 
-        // P-CAD 只接受本测试需要的矩形和引脚，显式移除 EasyEDA 夹具中的非兼容图元。
+        // KiCad 只接受本测试需要的矩形和引脚，显式移除 EasyEDA 夹具中的非兼容图元。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
@@ -193,6 +196,124 @@ private slots:
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
         QCOMPARE(component.value(QStringLiteral("status")).toString(), QStringLiteral("success"));
         QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("PcadCompleteModel.wrl"))));
+    }
+
+    // 验证 Eagle 组合库会同时输出符号、封装、器件映射和独立三维模型。
+    void testEaglePipelineExportsAllLibraryArtifacts() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        ParallelExportService service;
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("EagleCompletePipeline"));
+        options.targetFormat = TargetEdaFormat::Eagle;
+        options.exportModel3D = true;
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        const QString componentId = QStringLiteral("C91002");
+        QList<ComponentData> componentData = makeFixtureComponents({componentId});
+        QVERIFY(componentData.size() == 1);
+
+        // Eagle XML 组合库只接受本测试需要的矩形和引脚，移除 EasyEDA 夹具中的不可表达图元。
+        const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        auto symbol = QSharedPointer<SymbolData>::create();
+        symbol->setInfo(sourceSymbol->info());
+        const auto isEagleRectangle = [](const SymbolRectangle& rectangle) {
+            return (rectangle.fillColor.isEmpty() || rectangle.fillColor == QStringLiteral("none")) &&
+                   (rectangle.strokeStyle.isEmpty() || rectangle.strokeStyle == QStringLiteral("solid"));
+        };
+        if (sourceSymbol->isMultiPart()) {
+            QList<SymbolPart> eagleParts;
+            for (SymbolPart part : sourceSymbol->parts()) {
+                QList<SymbolRectangle> eagleRectangles;
+                for (const SymbolRectangle& rectangle : part.rectangles) {
+                    if (isEagleRectangle(rectangle))
+                        eagleRectangles.append(rectangle);
+                }
+                part.rectangles = eagleRectangles;
+                eagleParts.append(part);
+            }
+            symbol->setParts(eagleParts);
+        } else {
+            symbol->setPins(sourceSymbol->pins());
+            QList<SymbolRectangle> eagleRectangles;
+            for (const SymbolRectangle& rectangle : sourceSymbol->rectangles()) {
+                if (isEagleRectangle(rectangle))
+                    eagleRectangles.append(rectangle);
+            }
+            symbol->setRectangles(eagleRectangles);
+        }
+        componentData.first().setSymbolData(symbol);
+
+        // 使用本地 OBJ 数据验证三维阶段，不允许测试隐式访问网络。
+        Model3DData model;
+        model.setName(QStringLiteral("EagleCompleteModel"));
+        model.setUuid(QStringLiteral("eagle-complete-model"));
+        componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
+        componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        // 在启动并行阶段前验证同一份 IR，确保失败信息来自 Eagle writer 而不是线程调度。
+        ExporterEagleFootprint directExporter;
+        const QString directLibraryPath = tempDir.filePath(QStringLiteral("direct-eagle.lbr"));
+        const IR::ComponentIR directComponent = IR::toComponentIR(componentData.first());
+        QVERIFY2(directExporter.exportComponentLibrary({directComponent}, QStringLiteral("direct"), directLibraryPath),
+                 qPrintable(directExporter.diagnostics().join(QStringLiteral("\n"))));
+
+        service.startPreload({componentId});
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+
+        QVERIFY2(completedSpy.wait(30000), "Eagle complete export should finish");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        QString error;
+        const QString libraryPath = tempDir.filePath(QStringLiteral("EagleCompletePipeline.lbr"));
+        QVERIFY2(QFileInfo::exists(libraryPath), qPrintable(libraryPath));
+        QFile libraryFile(libraryPath);
+        QVERIFY(libraryFile.open(QIODevice::ReadOnly));
+        QXmlStreamReader reader(&libraryFile);
+        bool symbolSeen = false;
+        bool packageSeen = false;
+        bool deviceSetSeen = false;
+        bool connectSeen = false;
+        while (!reader.atEnd()) {
+            reader.readNext();
+            if (!reader.isStartElement())
+                continue;
+            symbolSeen = symbolSeen || reader.name() == QStringLiteral("symbol");
+            packageSeen = packageSeen || reader.name() == QStringLiteral("package");
+            deviceSetSeen = deviceSetSeen || reader.name() == QStringLiteral("deviceset");
+            connectSeen = connectSeen || reader.name() == QStringLiteral("connect");
+        }
+        QVERIFY2(!reader.hasError(), qPrintable(reader.errorString()));
+        QVERIFY(symbolSeen);
+        QVERIFY(packageSeen);
+        QVERIFY(deviceSetSeen);
+        QVERIFY(connectSeen);
+
+        const QString modelDir = tempDir.filePath(QStringLiteral("EagleCompletePipeline.3dmodels"));
+        const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
+        QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Eagle));
+        const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
+        QCOMPARE(components.size(), 1);
+        const QJsonObject component = components.first().toObject();
+        QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
+        QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
+        QCOMPARE(component.value(QStringLiteral("status")).toString(), QStringLiteral("success"));
+        QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("EagleCompleteModel.wrl"))));
     }
 
     // 验证预加载数据不完整时导出流程会明确失败。
