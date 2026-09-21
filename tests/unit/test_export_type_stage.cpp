@@ -788,6 +788,39 @@ private slots:
         QCOMPARE(unchanged.readAll(), QByteArray("original-xpedition-footprint"));
     }
 
+    // 验证 PADS Decal 目录已有且禁止覆盖时不会被临时导出替换。
+    void padsFootprintRejectsExistingDirectoryWithoutOverwrite() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString finalPath = tempDir.path() + QDir::separator() + QStringLiteral("Existing_PADS");
+        QVERIFY(QDir().mkpath(finalPath));
+        QFile marker(finalPath + QDir::separator() + QStringLiteral("keep.txt"));
+        QVERIFY(marker.open(QIODevice::WriteOnly));
+        marker.write("keep");
+        marker.close();
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("Existing");
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PADS")] =
+            makeFootprintComponent(QStringLiteral("C_PADS"), QStringLiteral("PADS_FOOTPRINT"));
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_PADS")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "PADS overwrite policy should complete");
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+        QVERIFY(stage.getProgress().diagnostics.join(QStringLiteral("\n")).contains(QStringLiteral("PADS")));
+        QFile unchanged(marker.fileName());
+        QVERIFY(unchanged.open(QIODevice::ReadOnly));
+        QCOMPARE(unchanged.readAll(), QByteArray("keep"));
+    }
+
     // 验证符号输入诊断会随导出进度暴露给调用方。
     void symbolLibraryExportEmitsInputDiagnostics() {
         QTemporaryDir tempDir;
