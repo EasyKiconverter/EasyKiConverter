@@ -87,8 +87,8 @@ private slots:
         QCOMPARE(plan.runningStageCount(), 5);
     }
 
-    // 验证 Xpedition 不会启动独立三维模型阶段，但仍保留导出选项之外的阶段计划。
-    void exportRunPlanSkipsXpeditionModelStage() {
+    // 验证 Xpedition 会输出独立三维模型，但不请求原生内嵌关联。
+    void exportRunPlanUsesStandaloneXpeditionModelStage() {
         ExportOptions options;
         options.targetFormat = TargetEdaFormat::Xpedition;
         options.exportSymbol = false;
@@ -97,10 +97,10 @@ private slots:
 
         const ExportRunPlan plan = buildExportRunPlan(options, {}, {});
 
-        QVERIFY(!plan.enableModel3D);
-        QVERIFY(!plan.runExternalModel3DStage);
-        QCOMPARE(plan.progressTypeNames(), QStringList{QStringLiteral("Footprint")});
-        QCOMPARE(plan.runningStageCount(), 1);
+        QCOMPARE(plan.enableModel3D, true);
+        QCOMPARE(plan.runExternalModel3DStage, true);
+        QCOMPARE(plan.progressTypeNames(), QStringList({QStringLiteral("Footprint"), QStringLiteral("Model3D")}));
+        QCOMPARE(plan.runningStageCount(), 2);
     }
 
     // 验证组合库目标会同时规划符号、封装和独立三维模型输出。

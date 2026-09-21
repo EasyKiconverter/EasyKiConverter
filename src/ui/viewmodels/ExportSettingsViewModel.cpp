@@ -124,11 +124,8 @@ void ExportSettingsViewModel::setExportFootprint(bool enabled) {
     }
 }
 
-// 设置是否导出三维模型，并应用目标格式限制。
+// 设置是否导出三维模型。
 void ExportSettingsViewModel::setExportModel3D(bool enabled) {
-    if (enabled && m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Xpedition)) {
-        enabled = false;
-    }
     if (m_exportModel3D != enabled) {
         m_exportModel3D = enabled;
         m_configService->setExportModel3D(enabled);
@@ -225,10 +222,6 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
     m_targetModel = model;
     if (m_targetModel) {
         connect(m_targetModel, &ExportTargetModel::currentTargetChanged, this, [this]() {
-            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Xpedition)) {
-                setExportModel3D(false);
-                return;
-            }
             if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro)) {
                 setExportSymbol(false);
                 if (m_exportModel3D)
@@ -242,8 +235,6 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
             }
         });
-        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Xpedition))
-            setExportModel3D(false);
         if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro)) {
             setExportSymbol(false);
             if (m_exportModel3D)

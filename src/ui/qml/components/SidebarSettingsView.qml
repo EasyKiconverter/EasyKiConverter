@@ -182,24 +182,12 @@ Item {
                 SidebarToggleRow {
                     id: model3dToggle
                     label: qsTranslate("MainWindow", "3D 模型")
-                    property bool isXpeditionTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 2
                     property bool isAllegroTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 3
                     checked: root.exportSettingsController ? root.exportSettingsController.exportModel3D : false
-                    enabled: !isXpeditionTarget
                     onToggled: val => {
                         if (root.exportSettingsController)
                             root.exportSettingsController.setExportModel3D(val);
                     }
-                }
-
-                Text {
-                    visible: model3dToggle.isXpeditionTarget
-                    Layout.fillWidth: true
-                    Layout.leftMargin: AppStyle.spacing.lg
-                    text: qsTranslate("MainWindow", "Xpedition 当前不支持 3D 模型关联")
-                    color: AppStyle.colors.textSecondary
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    wrapMode: Text.WordWrap
                 }
 
                 // 子选项区域（高度动画 + clip）
@@ -615,7 +603,7 @@ Item {
                     id: xpeditionInfoText
                     anchors.fill: parent
                     anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前不关联 3D 模型\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
+                    text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
                     font.pixelSize: AppStyle.fontSizes.xs
                     color: AppStyle.colors.textSecondary
                     wrapMode: Text.WordWrap

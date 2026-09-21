@@ -1476,7 +1476,7 @@
     <message>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="223"/>
         <source>Xpedition 当前不支持 3D 模型关联</source>
-        <translation type="unfinished"></translation>
+        <translation>Xpedition 当前不支持原生 3D 关联，可输出独立模型文件</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="450"/>
@@ -1573,9 +1573,15 @@
         <source>Xpedition 导出说明：
 - 符号库导出为 _Symbols.zip
 - 封装库导出为 _Footprints.zip
-- 当前不关联 3D 模型
+- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联
+- 当前仅支持覆盖导出，不支持追加、更新或重试
 - 当前支持基础引脚、矩形、折线、圆形和圆弧图元</source>
-        <translation type="unfinished"></translation>
+        <translation>Xpedition 导出说明：
+- 符号库导出为 _Symbols.zip
+- 封装库导出为 _Footprints.zip
+- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联
+- 当前仅支持覆盖导出，不支持追加、更新或重试
+- 当前支持基础引脚、矩形、折线、圆形和圆弧图元</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="731"/>

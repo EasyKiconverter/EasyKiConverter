@@ -11,7 +11,7 @@ This document describes the current Xpedition ASCII library export implemented t
 | Footprint geometry fidelity | Implemented | Supports rotated rectangles, polyline approximation for arcs, and mapping TopOverlay/BottomOverlay to the corresponding silkscreen side |
 | Multi-part symbols | Implemented | Writes one symbol entry per part |
 | ZIP packaging | Implemented | Produces separate uncompressed ZIP packages for symbols and footprints |
-| 3D model association | Not implemented | No Xpedition 3D association is written; CLI and GUI report and skip the option |
+| 3D model output | Implemented (standalone files) | WRL/STEP files are emitted by the independent stage; native Xpedition 3D association is not written |
 | Target-software validation | Not complete | No usable Xpedition installation or command-line reader is available in the current environment; automated tests cover text structure, ZIP integrity, and read-back rules |
 
 ## Data flow
@@ -22,8 +22,10 @@ flowchart LR
     Importer --> IR[Unified IR]
     IR --> Symbol[ExporterXpeditionSymbol]
     IR --> Footprint[ExporterXpeditionFootprint]
+    IR --> Model3D[Model3DExportStage]
     Symbol --> SymbolZip[lib-name_Symbols.zip]
     Footprint --> FootprintZip[lib-name_Footprints.zip]
+    Model3D --> Models[standalone WRL/STEP files]
 ```
 
 The exporter does not re-parse EasyEDA JSON. Coordinates, pin semantics, pad types, and footprint primitives are normalized by the IR builder first, then converted to Xpedition units and syntax.
@@ -44,6 +46,7 @@ When symbols and footprints are exported together, the output contains:
 
 - `<lib-name>_Symbols.zip`: ASCII symbol entries named `<symbol-name>.<part-number>`.
 - `<lib-name>_Footprints.zip`: `<name>_Pads.hkp` and `<name>_Cell.hkp` for each footprint.
+- Standalone 3D model directory: WRL, STEP, or both are emitted according to the selected format; model names remain associated with the component cache identifiers.
 
 The two stages cannot share one `.zip` path because they run concurrently and would conflict during commit. The exporters therefore return `_Symbols.zip` and `_Footprints.zip` suffixes respectively.
 
@@ -55,7 +58,7 @@ IR data that cannot be safely represented is not silently reported as exported:
 - Rotated rectangles are serialized from their rotated vertices; TopOverlay/BottomOverlay are mapped to the corresponding silkscreen side.
 - SMD and through-hole pads reference solder paste/mask definitions; when IR has no mask expansion field, an explicit 8 TH default expansion is used.
 - Text mirroring, text paths, inconsistent KeepOut flags, courtyard generation, and unknown layers produce diagnostics when the target cannot express them completely.
-- 3D model references produce an unassociated-model diagnostic.
+- Xpedition native 3D associations are not written; models are emitted by the independent stage and the result diagnostics explain that manual association in the target tool is required.
 - Symbol ellipses, pies, elliptical arcs, paths, Bézier curves, IEEE graphics, ordinary text, text frames, and images still produce unsupported-element diagnostics.
 - Duplicate footprint names receive numeric suffixes so ZIP entry names remain unique.
 - Cleaned symbol-name collisions receive stable suffixes; quotes, backslashes, and line breaks in REFDES, VALUE, pin names, and pin numbers are escaped.
@@ -71,7 +74,7 @@ Automated verification currently includes:
 - Dedicated Xpedition symbol and footprint unit tests.
 - Through-hole Padstack hole-reference tests.
 - Diagnostics tests for unsupported footprint primitives.
-- All 49 CTest tests, including standalone-hole, pad-shape, safe-name, and existing-library policy regressions.
+- The full CTest suite, including standalone-hole, pad-shape, safe-name, existing-library policy, and standalone 3D stage regressions.
 - A real export was attempted with the project BOM fixture and existing cache; the EasyEDA component API currently returns HTTP 403, so this external-network run is not counted as passing.
 - Repeatable local verification uses fixed IR data, ZIP entry contents, and project cache paths when external data is unavailable.
 

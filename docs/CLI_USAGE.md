@@ -52,7 +52,7 @@ CLI 模式默认导出以下内容：
 **注意**：
 - 默认不导出 3D 模型、预览图和数据手册
 - 需要 3D 模型时传入 `--3d-model`；KiCad 默认使用 WRL，Altium 会自动收敛为 STEP 并嵌入 PcbLib
-- Xpedition 当前只导出符号和封装 ZIP 包，不支持 3D 模型关联；传入 `--3d-model` 时会记录告警并跳过 3D 阶段
+- Xpedition 导出符号和封装 ZIP 包，并可通过独立阶段输出 WRL/STEP 三维模型；当前不会写入 Xpedition 原生 3D 关联
 - PADS 当前导出 ASCII Schematic Decal 符号、Part Type 器件关联和 PCB Decal 封装；传入 `--3d-model` 时由独立阶段输出 WRL/STEP 文件，更新、追加和重试模式会被拒绝
 - Eagle 当前可导出包含 Symbol、Package、DeviceSet 和引脚到焊盘关联的 XML `.lbr` 库；`--3d-model` 由独立阶段输出 WRL/STEP 文件，但不会伪造受管 `package3d` 关联，更新、追加和重试模式会被拒绝
 - P-CAD 导出包含独立的 ASCII 原理图库（`_PCAD_SCH.lia`）、PCB Library（`.lia`）和独立 WRL/STEP 三维模型阶段；复杂符号图元、更新、追加和重试模式会被拒绝并生成诊断

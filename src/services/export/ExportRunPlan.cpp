@@ -40,8 +40,8 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
                         options.targetFormat != TargetEdaFormat::Cadstar;
     // OrCAD Capture XML 只承载符号和封装名称属性，PCB 封装几何由其他目标库负责。
     plan.enableFootprint = options.exportFootprint && options.targetFormat != TargetEdaFormat::Orcad;
-    // PADS、P-CAD 和 Eagle 没有经过本项目验证的原生模型关联时，仍输出独立模型文件并保留诊断。
-    plan.enableModel3D = options.exportModel3D && options.targetFormat != TargetEdaFormat::Xpedition;
+    // 目标格式没有经过本项目验证的原生模型关联时，仍输出独立模型文件并保留诊断。
+    plan.enableModel3D = options.exportModel3D;
     plan.runExternalModel3DStage = plan.enableModel3D && options.targetFormat != TargetEdaFormat::Altium &&
                                    options.targetFormat != TargetEdaFormat::Allegro;
     plan.enablePreview = options.exportPreviewImages;

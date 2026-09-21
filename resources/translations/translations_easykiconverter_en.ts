@@ -1397,7 +1397,7 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
     <message>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="223"/>
         <source>Xpedition 当前不支持 3D 模型关联</source>
-        <translation type="unfinished"></translation>
+        <translation>Xpedition does not support native 3D associations; standalone model files are available</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="450"/>
@@ -1494,9 +1494,15 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <source>Xpedition 导出说明：
 - 符号库导出为 _Symbols.zip
 - 封装库导出为 _Footprints.zip
-- 当前不关联 3D 模型
+- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联
+- 当前仅支持覆盖导出，不支持追加、更新或重试
 - 当前支持基础引脚、矩形、折线、圆形和圆弧图元</source>
-        <translation type="unfinished"></translation>
+        <translation>Xpedition export:
+- Symbols are written to _Symbols.zip
+- Footprints are written to _Footprints.zip
+- 3D models are emitted as standalone WRL/STEP files without native associations
+- Only replacement export is supported; append, update, and retry are rejected
+- Basic pins, rectangles, polylines, circles, and arcs are supported</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="731"/>
