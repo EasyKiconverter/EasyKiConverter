@@ -17,7 +17,7 @@ enum class TargetEdaFormat {
     KiCad = 0, /**< KiCad 格式（默认） */
     Altium = 1, /**< Altium Designer 格式 */
     Xpedition = 2, /**< Xpedition ASCII 库格式 */
-    Allegro = 3, /**< Allegro PCB 封装 Import Package */
+    Allegro = 3, /**< Allegro 符号、封装和三维语义 Import Package */
     Pads = 4, /**< PADS Parts Library ASCII 符号、器件关联和 PCB Decal */
     Eagle = 5, /**< Eagle XML 组合库（符号、封装和器件关联） */
     Pcad = 6, /**< P-CAD ASCII 符号库、器件库和 PCB 库 */

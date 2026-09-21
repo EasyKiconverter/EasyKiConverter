@@ -4,8 +4,8 @@ import QtQuick.Layouts
 import EasyKiconverter_Cpp_Version.src.ui.qml.styles 1.0
 
 /**
- * @brief Allegro PCB 封装 Import Package 设置卡片。
- * @details 第一阶段只导出封装，不提供原理图符号或原生数据库写入选项。
+ * @brief Allegro 符号、封装和三维语义 Import Package 设置卡片。
+ * @details 输出规范化语义包，不直接写入 Allegro 原生数据库。
  */
 ColumnLayout {
     id: allegroCard
@@ -15,6 +15,15 @@ ColumnLayout {
     RowLayout {
         Layout.fillWidth: true
         spacing: AppStyle.spacing.lg
+        StyledCheckBox {
+            text: qsTranslate("MainWindow", "符号 Import Package")
+            ToolTip.text: qsTranslate("MainWindow", "将符号和引脚语义写入 Allegro Import Package")
+            checked: allegroCard.exportSettingsController ? allegroCard.exportSettingsController.exportSymbol : false
+            onCheckedChanged: {
+                if (allegroCard.exportSettingsController)
+                    allegroCard.exportSettingsController.setExportSymbol(checked);
+            }
+        }
         StyledCheckBox {
             text: qsTranslate("MainWindow", "封装 Import Package")
             ToolTip.text: qsTranslate("MainWindow", "生成 Allegro 封装导入包，不直接生成 .dra/.psm/.pad")

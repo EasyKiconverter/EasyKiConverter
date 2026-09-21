@@ -147,7 +147,7 @@ Item {
             title: qsTranslate("MainWindow", "导出内容")
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "符号库")
-                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 3)
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 8)
                 checked: root.exportSettingsController ? root.exportSettingsController.exportSymbol : false
                 onToggled: val => {
                     if (root.exportSettingsController)
@@ -612,7 +612,7 @@ Item {
             }
         }
 
-        // ==================== Allegro 导出说明（仅 Import Package） ====================
+        // ==================== Allegro 导出说明（符号、封装和三维语义包） ====================
         Item {
             Layout.fillWidth: true
             Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
@@ -639,7 +639,7 @@ Item {
                     id: allegroInfoText
                     anchors.fill: parent
                     anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- 仅生成 Footprint Import Package\n" + "- 需要用户在 Cadence Allegro 中生成 .dra/.psm/.pad\n" + "- 不支持符号、更新、追加或重试模式\n" + "- STEP 变换和 Place Bound 诊断会写入包内 JSON")
+                    text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- Import Package 包含规范化 Symbol、Footprint、Pin-Pad 关联和 STEP 数据\n" + "- 不生成原生 Allegro Symbol、OLB、.dra/.psm/.pad\n" + "- 需要在 Cadence Allegro 环境中继续生成目标库\n" + "- 不支持更新和重试模式\n" + "- Place Bound 缺失时会在诊断中说明回退策略")
                     font.pixelSize: AppStyle.fontSizes.xs
                     color: AppStyle.colors.textSecondary
                     wrapMode: Text.WordWrap
