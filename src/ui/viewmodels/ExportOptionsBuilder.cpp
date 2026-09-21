@@ -37,6 +37,8 @@ static const char* targetFormatName(TargetEdaFormat format) {
         return "PADS";
     if (format == TargetEdaFormat::Eagle)
         return "Eagle";
+    if (format == TargetEdaFormat::Cadstar)
+        return "CADSTAR";
     if (format == TargetEdaFormat::Pcad)
         return "P-CAD";
     if (format == TargetEdaFormat::Orcad)

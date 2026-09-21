@@ -103,6 +103,24 @@ private slots:
         QCOMPARE(plan.runningStageCount(), 2);
     }
 
+    // 验证仅导出独立三维模型时不会额外启动封装库阶段。
+    void exportRunPlanUsesOnlyStandaloneModelStage() {
+        ExportOptions options;
+        options.targetFormat = TargetEdaFormat::Xpedition;
+        options.exportSymbol = false;
+        options.exportFootprint = false;
+        options.exportModel3D = true;
+
+        const ExportRunPlan plan = buildExportRunPlan(options, {}, {});
+
+        QVERIFY(!plan.enableSymbol);
+        QVERIFY(!plan.enableFootprint);
+        QVERIFY(plan.enableModel3D);
+        QVERIFY(plan.runExternalModel3DStage);
+        QCOMPARE(plan.progressTypeNames(), QStringList({QStringLiteral("Model3D")}));
+        QCOMPARE(plan.runningStageCount(), 1);
+    }
+
     // 验证组合库目标会同时规划符号、封装和独立三维模型输出。
     void exportRunPlanIncludesAllLibraryArtifacts() {
         ExportOptions options;

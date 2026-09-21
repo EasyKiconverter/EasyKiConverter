@@ -46,6 +46,7 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
                         options.targetFormat != TargetEdaFormat::Eagle &&
                         options.targetFormat != TargetEdaFormat::Cadstar;
     // OrCAD Capture XML 只承载符号和封装名称属性，PCB 封装几何由其他目标库负责。
+    // 独立三维导出不应顺带生成封装库；只有目标格式需要把模型关联写入库时，才保留封装阶段。
     plan.enableFootprint = (options.exportFootprint && options.targetFormat != TargetEdaFormat::Orcad) ||
                            (combinedTarget && options.exportSymbol) || (embeddedModelTarget && options.exportModel3D);
     // 目标格式没有经过本项目验证的原生模型关联时，仍输出独立模型文件并保留诊断。
