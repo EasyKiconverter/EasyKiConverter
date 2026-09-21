@@ -38,6 +38,8 @@ The current export pipeline builds symbol, footprint, and 3D data from the compo
 
 “Standalone 3D” means that the common `Model3DExportStage` emits the model, or that a target Import Package includes it as a controlled file. It does not mean that the target software has already established a native model reference. Data that the target cannot express must be reported by export diagnostics rather than silently discarded.
 
+Standalone models are written to `<library-name>.3dmodels/` by default and use the model name as the file-name stem. Duplicate model names receive stable suffixes so different components cannot overwrite one another. With “no overwrite” enabled, a model is skipped when all requested output files already exist; if only part of the requested formats exists, that component fails and the existing files remain unchanged.
+
 ## Scope and phases
 
 The first phase focuses on library data: symbols, footprints, component associations, 3D models, and common metadata. The intended flow is:
