@@ -27,6 +27,8 @@ Research copies were obtained from the public `Werni2A/vlsicad_stm8_breakout_boa
 
 The `.dra`, `.psm` and `.pad` headers are different. A `.psm` cannot be treated as a renamed `.dra`, and a `.pad` cannot be emitted as an ordinary ZIP. The public `h_c80.pad` sample has no `PK 03 04` ZIP signature, while OpenAllegroParser documents embedded ZIP/JSON behavior as version-dependent. Native writing therefore requires a fixed version and target-environment samples rather than one guessed generic header.
 
+Another public library, `taoyilee/PCB_LIB`, provides additional samples: `0805r.dra` starts with `03 0c 13 00`, `142-0771-821.dra` and its matching `.psm` start with `03 10 13 00`, while the matching `.pad` starts with `03 02 13 00`. Even within one public library, file roles have different header layouts; version and role cannot be inferred from the extension alone.
+
 ## File roles and versions
 
 The public KiCad notes list version magic values for Allegro 16.x, 17.2, 17.4, 17.5 and 18.x, and identify major layout changes in 17.2 and 18.0. The `.dra` file role `0x02` is recorded as an observation in the KiCad research notes; it is not a complete `.dra` specification.
