@@ -485,6 +485,11 @@ bool ExporterAllegroFootprint::exportFootprintLibrary(const QList<IR::FootprintC
         AllegroPackageModel package;
         if (!buildPackage(footprint, package, m_diagnostics))
             return false;
+        if (!exportStep) {
+            // 未启用 STEP 输出时不能在规范化数据中留下不存在的模型引用。
+            package.stepFiles.clear();
+            package.stepTransforms = QJsonArray();
+        }
         if (packageNames.contains(package.name)) {
             m_diagnostics.append(QStringLiteral("Allegro: 封装名称冲突，清理后仍为 %1").arg(package.name));
             return false;
@@ -515,11 +520,15 @@ bool ExporterAllegroFootprint::exportFootprintLibrary(const QList<IR::FootprintC
                 }
             }
         }
-        for (int i = 0; i < footprint.models3d.size() && i < package.stepFiles.size(); ++i) {
-            const IR::Model3DIR& model = footprint.models3d.at(i);
+        int stepIndex = 0;
+        for (const IR::Model3DIR& model : footprint.models3d) {
+            if (!model.hasStepData())
+                continue;
+            if (stepIndex >= package.stepFiles.size())
+                break;
             const QString modelPath =
-                modelDir + QDir::separator() + package.name + QLatin1Char('_') + package.stepFiles.at(i);
-            if (exportStep && model.hasStepData() && !writeText(modelPath, model.stepData())) {
+                modelDir + QDir::separator() + package.name + QLatin1Char('_') + package.stepFiles.at(stepIndex++);
+            if (exportStep && !writeText(modelPath, model.stepData())) {
                 m_diagnostics.append(QStringLiteral("Allegro: 无法写入 STEP 模型 %1").arg(modelPath));
                 return false;
             }

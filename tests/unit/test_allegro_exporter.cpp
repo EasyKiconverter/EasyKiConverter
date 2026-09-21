@@ -25,6 +25,8 @@ private slots:
     void unknownLayerProducesFailure();
     /** @brief 验证目标格式输出后缀和 Allegro 层语义映射。 */
     void targetContractIsExplicit();
+    /** @brief 验证缺失 STEP 的前置模型不会导致后续有效模型错配或丢失。 */
+    void writesValidStepAfterMissingModel();
 };
 
 static IR::FootprintComponentIR makeQfnFixture() {
@@ -155,6 +157,34 @@ void TestAllegroExporter::targetContractIsExplicit() {
     QVERIFY(AllegroLayerMapper::map(IR::LayerType::TopSilk).has_value());
     QCOMPARE(AllegroLayerMapper::map(IR::LayerType::TopSilk)->subclassName, QStringLiteral("SILKSCREEN_TOP"));
     QVERIFY(!AllegroLayerMapper::map(IR::LayerType::Unknown).has_value());
+}
+
+/** 验证多个模型中间存在无 STEP 数据时，后续有效模型仍能正确写入。 */
+void TestAllegroExporter::writesValidStepAfterMissingModel() {
+    IR::FootprintComponentIR footprint;
+    footprint.name = QStringLiteral("MULTI_MODEL");
+
+    IR::FootprintPadIR pad;
+    pad.number = QStringLiteral("1");
+    pad.size = QSizeF(1.0, 1.0);
+    footprint.pads.append(pad);
+
+    IR::Model3DIR missing;
+    missing.setName(QStringLiteral("missing.step"));
+    footprint.models3d.append(missing);
+
+    IR::Model3DIR valid;
+    valid.setName(QStringLiteral("valid.step"));
+    valid.setStepData(QByteArrayLiteral("ISO-10303-21;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
+    footprint.models3d.append(valid);
+
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterAllegroFootprint exporter;
+    QVERIFY(exporter.exportFootprintLibrary({footprint}, QStringLiteral("multi"), temporary.path(), false, true));
+    const QString modelPath = temporary.filePath(QStringLiteral("models/MULTI_MODEL_valid.step"));
+    QVERIFY(QFileInfo::exists(modelPath));
+    QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("缺少数据")));
 }
 
 QTEST_MAIN(TestAllegroExporter)
