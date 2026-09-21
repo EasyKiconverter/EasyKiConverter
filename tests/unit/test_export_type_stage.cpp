@@ -1036,6 +1036,64 @@ private slots:
         QCOMPARE(unchanged.readAll(), QByteArray("keep-pcad"));
     }
 
+    // 验证 P-CAD 的符号库和封装库由不同阶段生成，并保留符号到封装的关联。
+    void pcadLibraryStagesWriteSymbolAndFootprintArtifacts() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString componentId = QStringLiteral("C_PCAD_STAGE");
+        const QString footprintName = QStringLiteral("PCAD_STAGE_FOOTPRINT");
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(componentId, makeCombinedLibraryComponent(componentId, footprintName));
+
+        SymbolExportStage symbolStage;
+        ExportOptions symbolOptions;
+        symbolOptions.outputPath = tempDir.path();
+        symbolOptions.libName = QStringLiteral("PcadStage");
+        symbolOptions.targetFormat = TargetEdaFormat::Pcad;
+        symbolOptions.overwriteExistingFiles = true;
+        symbolStage.setOptions(symbolOptions);
+
+        QSignalSpy symbolCompleted(&symbolStage, &SymbolExportStage::completed);
+        symbolStage.start({componentId}, cachedData);
+        if (symbolCompleted.count() == 0)
+            QVERIFY2(symbolCompleted.wait(3000), "P-CAD symbol export should complete");
+        QCOMPARE(symbolCompleted.count(), 1);
+        QCOMPARE(symbolCompleted.at(0).at(0).toInt(), 1);
+        QCOMPARE(symbolCompleted.at(0).at(1).toInt(), 0);
+
+        QFile symbolFile(tempDir.filePath(QStringLiteral("PcadStage_PCAD_SCH.lia")));
+        QVERIFY(symbolFile.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString symbolContent = QString::fromUtf8(symbolFile.readAll());
+        QVERIFY(symbolContent.startsWith(QStringLiteral("(ACCEL_ASCII")));
+        QVERIFY(symbolContent.contains(QStringLiteral("(compDef \"CADSTAR_SYMBOL\"")));
+        QVERIFY(symbolContent.contains(
+            QStringLiteral("(attachedPattern (patternNum 1) (patternName \"PCAD_STAGE_FOOTPRINT\"))")));
+
+        FootprintExportStage footprintStage;
+        ExportOptions footprintOptions;
+        footprintOptions.outputPath = tempDir.path();
+        footprintOptions.libName = QStringLiteral("PcadStage");
+        footprintOptions.targetFormat = TargetEdaFormat::Pcad;
+        footprintOptions.overwriteExistingFiles = true;
+        footprintStage.setOptions(footprintOptions);
+
+        QSignalSpy footprintCompleted(&footprintStage, &FootprintExportStage::completed);
+        footprintStage.start({componentId}, cachedData);
+        if (footprintCompleted.count() == 0)
+            QVERIFY2(footprintCompleted.wait(3000), "P-CAD footprint export should complete");
+        QCOMPARE(footprintCompleted.count(), 1);
+        QCOMPARE(footprintCompleted.at(0).at(0).toInt(), 1);
+        QCOMPARE(footprintCompleted.at(0).at(1).toInt(), 0);
+
+        QFile footprintFile(tempDir.filePath(QStringLiteral("PcadStage.lia")));
+        QVERIFY(footprintFile.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString footprintContent = QString::fromUtf8(footprintFile.readAll());
+        QVERIFY(footprintContent.startsWith(QStringLiteral("(ACCEL_ASCII")));
+        QVERIFY(footprintContent.contains(QStringLiteral("(patternDef \"PCAD_STAGE_FOOTPRINT\"")));
+        QVERIFY(footprintContent.contains(QStringLiteral("(padNum \"1\")")));
+    }
+
     // 验证符号输入诊断会随导出进度暴露给调用方。
     void symbolLibraryExportEmitsInputDiagnostics() {
         QTemporaryDir tempDir;
