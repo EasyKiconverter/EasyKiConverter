@@ -92,6 +92,12 @@ The KiCad research records PACKAGE_GEOMETRY, PACKAGE_KEEPOUT, PIN, REF_DES and E
 
 This validates the IR-to-Allegro semantic boundary, but does not generate a native database or assume that `generator.il` can replace Cadence across versions.
 
+## Generation paths intentionally excluded
+
+Cadence's official application note provides a Padstack generation path through Allegro SKILL, including `axlDBCreatePadStack` and `axlPadstackToDisk`, and explains that saving a `.dra` can produce a `.psm`. This path has stronger evidence than direct binary reverse engineering, but it requires Cadence to execute and therefore does not satisfy the requirement that file generation work without Cadence. EasyKiConverter does not treat a SKILL backend as a substitute for a native binary writer.
+
+Some third-party tools similarly generate scripts, invoke Padstack Designer, and then invoke Allegro to create `.dra/.psm`. They may be considered for a future Cadence-assisted backend, but they do not prove that EasyKiConverter has an independent native binary writer.
+
 ## Required missing evidence
 
 Before implementing a binary writer, the project must obtain:
@@ -101,6 +107,8 @@ Before implementing a binary writer, the project must obtain:
 3. Cadence open, save and reopen results proving there is no database corruption or automatic repair.
 4. KiCad and OpenAllegroParser validation, including fields they do not cover.
 5. Reproducible tests for PXML, native `.pad` and Allegro-version relationships.
+
+Cadence documentation and script APIs can inform semantic and verification work, but cannot replace the native binary evidence above.
 
 Until this evidence exists, a native writer would necessarily contain unverified format guesses and must not be merged as product functionality.
 

@@ -92,6 +92,12 @@ KiCad 研究资料记录了 PACKAGE_GEOMETRY、PACKAGE_KEEPOUT、PIN、REF_DES�
 
 该原型验证了 IR 到 Allegro 语义模型的边界，但不生成 Native 数据库，也不假设 `generator.il` 能跨版本替代 Cadence 官方工具。
 
+## 被排除的生成路径
+
+Cadence 官方应用说明提供了基于 Allegro SKILL 的 Padstack 生成路径，包括 `axlDBCreatePadStack` 和 `axlPadstackToDisk`，并说明 `.dra` 保存后可生成 `.psm`。这条路径比直接逆向二进制更有证据基础，但它要求 Cadence 环境参与执行，不符合本任务“无需 Cadence 程序参与文件生成”的目标，因此本项目当前不把 SKILL 脚本后端当作 Native Export 的替代实现。
+
+部分第三方工具也采用“生成脚本、调用 Padstack Designer、再调用 Allegro 生成 `.dra/.psm`”的流程。这些方案可以作为未来可选的 Cadence-assisted backend，但不能证明 EasyKiConverter 已经具备独立 Native Binary Writer。
+
 ## 尚缺少的必要证据
 
 在实现 Binary Writer 之前必须补齐：
@@ -101,6 +107,8 @@ KiCad 研究资料记录了 PACKAGE_GEOMETRY、PACKAGE_KEEPOUT、PIN、REF_DES�
 3. 获得 Cadence 打开、保存、重新打开的结果，确认没有 database corruption 或自动修复。
 4. 用 KiCad 和 OpenAllegroParser 做读取校验，并记录它们未覆盖的字段。
 5. 对 PXML、Native `.pad` 和 Allegro 版本之间的转换关系建立可复现测试。
+
+Cadence 官方资料和脚本接口只能作为语义和验证参考，不能替代上述 Native 二进制证据。
 
 在这些证据出现之前，任何 Native `.dra/.psm/.pad` writer 都会包含未经确认的格式猜测，不应合入产品。
 
