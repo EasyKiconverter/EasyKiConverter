@@ -19,6 +19,9 @@ private slots:
 
     /** @brief 验证 CADSTAR writer 不会静默退化不支持的焊盘形状。 */
     void rejectsUnsupportedPadShape();
+
+    /** @brief 验证完整 CADSTAR 组件拒绝缺失的 Pin-Pad 关联。 */
+    void rejectsMissingPinPadAssociation();
 };
 
 /** @brief 验证完整库可以被项目解析器回读并保持关键关联。 */
@@ -109,6 +112,30 @@ void TestCadstarExporter::rejectsUnsupportedPadShape() {
     ExporterCadstarLibrary exporter;
     QVERIFY(!exporter.exportFootprint(footprint, directory.filePath(QStringLiteral("bad.lib"))));
     QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("禁止静默降级")));
+}
+
+/** 验证 Part 关联不能引用不存在的封装焊盘。 */
+void TestCadstarExporter::rejectsMissingPinPadAssociation() {
+    IR::ComponentIR component;
+    component.name = QStringLiteral("MISSING_PAD");
+    component.symbol.name = QStringLiteral("MISSING_PAD_SYMBOL");
+    component.symbol.rectangles.append({-1.0, -1.0, 1.0, 1.0});
+    IR::SymbolPinIR pin;
+    pin.designator = QStringLiteral("99");
+    pin.name = QStringLiteral("UNCONNECTED");
+    component.symbol.pins.append(pin);
+    component.footprint.name = QStringLiteral("PACKAGE");
+    IR::FootprintPadIR pad;
+    pad.number = QStringLiteral("1");
+    pad.shape = IR::PadShape::Rect;
+    pad.size = QSizeF(1.0, 1.0);
+    component.footprint.pads.append(pad);
+
+    QTemporaryDir directory;
+    ExporterCadstarLibrary exporter;
+    QVERIFY(!exporter.exportComponentLibrary(
+        {component}, QStringLiteral("library"), directory.filePath(QStringLiteral("missing.lib"))));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("找不到对应封装焊盘")));
 }
 
 QTEST_GUILESS_MAIN(TestCadstarExporter)

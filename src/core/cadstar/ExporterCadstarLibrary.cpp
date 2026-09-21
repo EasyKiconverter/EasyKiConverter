@@ -247,6 +247,16 @@ bool writePackageAndPart(QTextStream& stream,
         packageNames.insert(packageName);
     }
     if (includePart) {
+        QSet<QString> padNumbers;
+        for (const IR::FootprintPadIR& pad : component.footprint.pads)
+            padNumbers.insert(pad.number);
+        for (const IR::SymbolPinIR& pin : component.symbol.pins) {
+            if (pin.designator.trimmed().isEmpty() || !padNumbers.contains(pin.designator)) {
+                diagnostics.append(QStringLiteral("CADSTAR: 组件 %1 的符号引脚 %2 找不到对应封装焊盘")
+                                       .arg(component.name, pin.designator));
+                return false;
+            }
+        }
         const QString symbolName = component.symbol.name.isEmpty() ? component.name : component.symbol.name;
         stream << "PART " << quote(component.name) << "\nCOMPONENT " << quote(symbolName) << "\nPACKAGE "
                << quote(packageName) << '\n';
