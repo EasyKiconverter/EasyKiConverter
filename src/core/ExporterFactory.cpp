@@ -8,6 +8,7 @@
 #include "core/kicad/Exporter3DModel.h"
 #include "core/kicad/ExporterFootprint.h"
 #include "core/kicad/ExporterSymbol.h"
+#include "core/orcad/ExporterOrcadSymbol.h"
 #include "core/pads/ExporterPadsFootprint.h"
 #include "core/pads/ExporterPadsSymbol.h"
 #include "core/pcad/ExporterPcadFootprint.h"
@@ -33,6 +34,8 @@ std::unique_ptr<ISymbolExporter> ExporterFactory::createSymbolExporter(TargetEda
             return std::make_unique<ExporterPadsSymbol>();
         case TargetEdaFormat::Pcad:
             return std::make_unique<ExporterPcadSymbol>();
+        case TargetEdaFormat::Orcad:
+            return std::make_unique<ExporterOrcadSymbol>();
         case TargetEdaFormat::Allegro:
             return nullptr;
         default:

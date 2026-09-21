@@ -107,6 +107,17 @@ target_include_directories(test_pcad_exporter PRIVATE
 )
 add_test(NAME test_pcad_exporter COMMAND test_pcad_exporter)
 
+add_executable(test_orcad_exporter test_orcad_exporter.cpp)
+target_link_libraries(test_orcad_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterOrcad
+)
+target_include_directories(test_orcad_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_orcad_exporter COMMAND test_orcad_exporter)
+
 add_executable(test_parser_security test_parser_security.cpp)
 target_link_libraries(test_parser_security PRIVATE
     Qt6::Test

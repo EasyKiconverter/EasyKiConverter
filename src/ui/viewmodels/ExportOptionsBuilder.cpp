@@ -39,6 +39,8 @@ static const char* targetFormatName(TargetEdaFormat format) {
         return "Eagle";
     if (format == TargetEdaFormat::Pcad)
         return "P-CAD";
+    if (format == TargetEdaFormat::Orcad)
+        return "OrCAD Capture";
     return "KiCad";
 }
 
@@ -75,12 +77,15 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     const bool padsTarget = options.targetFormat == TargetEdaFormat::Pads;
     const bool eagleTarget = options.targetFormat == TargetEdaFormat::Eagle;
     const bool pcadTarget = options.targetFormat == TargetEdaFormat::Pcad;
+    const bool orcadTarget = options.targetFormat == TargetEdaFormat::Orcad;
     if (allegroTarget)
         options.exportSymbol = false;
+    if (orcadTarget)
+        options.exportFootprint = false;
     options.overwriteExistingFiles =
         viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
-    options.updateMode =
-        viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget && !eagleTarget && !pcadTarget;
+    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget &&
+                         !eagleTarget && !pcadTarget && !orcadTarget;
 
     qInfo() << "Export options:" << "OutputPath:" << options.outputPath << "LibName:" << options.libName
             << "TargetFormat:" << targetFormatName(options.targetFormat) << "Symbol:" << options.exportSymbol

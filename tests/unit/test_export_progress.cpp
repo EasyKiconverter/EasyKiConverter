@@ -130,6 +130,13 @@ private slots:
         QVERIFY(altiumPlan.enableFootprint);
         QVERIFY(altiumPlan.enableModel3D);
         QVERIFY(!altiumPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Orcad;
+        const ExportRunPlan orcadPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(orcadPlan.enableSymbol);
+        QVERIFY(!orcadPlan.enableFootprint);
+        QVERIFY(orcadPlan.enableModel3D);
+        QVERIFY(orcadPlan.runExternalModel3DStage);
     }
 
     // 提供三维模型格式位掩码测试所需的参数组合。

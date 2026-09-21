@@ -115,6 +115,8 @@ void ExportSettingsViewModel::setExportSymbol(bool enabled) {
 
 // 设置是否导出封装库。
 void ExportSettingsViewModel::setExportFootprint(bool enabled) {
+    if (enabled && m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+        enabled = false;
     if (m_exportFootprint != enabled) {
         m_exportFootprint = enabled;
         m_configService->setExportFootprint(enabled);
@@ -232,6 +234,8 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
                 if (m_exportModel3D)
                     setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
             }
+            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+                setExportFootprint(false);
             if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Altium) &&
                 (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
                 // Altium PcbLib 只能可靠嵌入 STEP，切换目标时移除 WRL 位。
@@ -245,6 +249,8 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
             if (m_exportModel3D)
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
         }
+        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+            setExportFootprint(false);
         if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Altium) &&
             (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
             setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);

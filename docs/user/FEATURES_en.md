@@ -6,7 +6,7 @@ This document provides a detailed description of the features available in EasyK
 
 ### Symbol Conversion
 
-Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), Xpedition ASCII, PADS ASCII, or CADSTAR ASCII symbol libraries; Eagle symbols are written as part of a complete `.lbr` library.
+Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), Xpedition ASCII, PADS ASCII, CADSTAR ASCII, or OrCAD Capture XML symbol libraries; Eagle symbols are written as part of a complete `.lbr` library.
 
 **Features:**
 - Complete symbol geometry conversion
@@ -23,7 +23,7 @@ Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), Xpedition ASCII
 
 ### Symbol, Footprint, and 3D Library Export
 
-Create EDA library outputs containing symbol libraries, footprint libraries, and 3D model files from EasyEDA data. Targets include KiCad (.kicad_sym/.kicad_mod), Altium (.SchLib/.PcbLib), Xpedition ASCII, PADS ASCII (Schematic Decal, Part Type, and PCB Decal), P-CAD ASCII schematic and PCB libraries (.lia), Eagle XML (.lbr), and CADSTAR ASCII (.lib). Eagle, CADSTAR, and P-CAD write their implemented symbols, packages, and component associations; WRL/STEP files are emitted by an independent stage, while Altium embeds STEP models in PcbLib.
+Create EDA library outputs containing symbol libraries, footprint libraries, and 3D model files from EasyEDA data. Targets include KiCad (.kicad_sym/.kicad_mod), Altium (.SchLib/.PcbLib), Xpedition ASCII, PADS ASCII (Schematic Decal, Part Type, and PCB Decal), P-CAD ASCII schematic and PCB libraries (.lia), Eagle XML (.lbr), CADSTAR ASCII (.lib), and OrCAD Capture XML (.xml). Eagle, CADSTAR, and P-CAD write their implemented symbols, packages, and component associations; OrCAD XML writes symbols and footprint-name associations; WRL/STEP files are emitted by an independent stage, while Altium embeds STEP models in PcbLib.
 
 **Features:**
 - Complete footprint geometry conversion
@@ -60,6 +60,7 @@ Automatically download and convert 3D models.
 - Eagle exports XML symbols, packages, DeviceSets, and pin associations; 3D files are emitted by the independent stage, but unverified managed `package3d` associations are not written, and unsupported geometry is rejected
 - P-CAD exports ASCII schematic and PCB libraries with implemented symbol, Component/Part, and footprint associations; 3D files are emitted by the independent stage and unsupported geometry is rejected
 - CADSTAR exports Component, Package, Pad, and Part associations; 3D files are emitted by the independent stage without unverified private CADSTAR 3D links, and unsupported geometry is rejected
+- OrCAD Capture exports an XML symbol library with `pcbFootprint` name associations; it does not generate native OLB, while PCB geometry and 3D files require a separate supported target or stage
 
 ## Performance Optimization
 

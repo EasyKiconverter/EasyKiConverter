@@ -929,6 +929,16 @@
         <translation>封装导入包和 3D 数据</translation>
     </message>
     <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="108"/>
+        <source>OrCAD XML 符号库（封装名称关联）</source>
+        <translation>OrCAD XML 符号库（封装名称关联）</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="172"/>
+        <source>OrCAD Capture XML 只保存符号和封装名称关联，PCB 封装几何需要单独导出</source>
+        <translation>OrCAD Capture XML 只保存符号和封装名称关联，PCB 封装几何需要单独导出</translation>
+    </message>
+    <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="165"/>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="110"/>
         <source>输出路径</source>

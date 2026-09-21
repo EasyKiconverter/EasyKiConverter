@@ -157,11 +157,22 @@ Item {
 
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "封装库")
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 8)
                 checked: root.exportSettingsController ? root.exportSettingsController.exportFootprint : false
                 onToggled: val => {
                     if (root.exportSettingsController)
                         root.exportSettingsController.setExportFootprint(val);
                 }
+            }
+
+            Text {
+                visible: root.exportTargetModel && root.exportTargetModel.currentIndex === 8
+                Layout.fillWidth: true
+                Layout.leftMargin: AppStyle.spacing.lg
+                text: qsTranslate("MainWindow", "OrCAD Capture XML 只保存符号和封装名称关联，PCB 封装几何需要单独导出")
+                color: AppStyle.colors.textSecondary
+                font.pixelSize: AppStyle.fontSizes.xs
+                wrapMode: Text.WordWrap
             }
 
             // 3D 模型 - 扁平化子选项布局

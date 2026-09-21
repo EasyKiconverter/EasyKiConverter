@@ -89,6 +89,8 @@ ExportOptions CliContext::createExportOptions() const {
         options.targetFormat = TargetEdaFormat::Pcad;
     } else if (format == QStringLiteral("cadstar")) {
         options.targetFormat = TargetEdaFormat::Cadstar;
+    } else if (format == QStringLiteral("orcad")) {
+        options.targetFormat = TargetEdaFormat::Orcad;
     } else {
         options.targetFormat = TargetEdaFormat::KiCad;
     }
@@ -108,6 +110,9 @@ ExportOptions CliContext::createExportOptions() const {
     }
     if (options.targetFormat == TargetEdaFormat::Pcad) {
         options.exportSymbol = false;
+    }
+    if (options.targetFormat == TargetEdaFormat::Orcad) {
+        options.exportFootprint = false;
     }
 
     return options;

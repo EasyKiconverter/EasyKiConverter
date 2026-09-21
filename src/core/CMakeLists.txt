@@ -13,6 +13,7 @@ add_subdirectory(xpedition)
 add_subdirectory(allegro)
 add_subdirectory(pads)
 add_subdirectory(eagle)
+add_subdirectory(orcad)
 
 add_library(EasyKiConverterCore STATIC)
 
@@ -43,6 +44,7 @@ target_link_libraries(EasyKiConverterCore
         EasyKiConverterAltium
         EasyKiConverterCadstar
         EasyKiConverterPcad
+        EasyKiConverterOrcad
 )
 
 target_include_directories(EasyKiConverterCore

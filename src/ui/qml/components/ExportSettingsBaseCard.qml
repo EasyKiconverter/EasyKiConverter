@@ -104,6 +104,8 @@ Card {
                                     return qsTranslate("MainWindow", ".lib 符号、封装和器件");
                                 if (targetId === "allegro")
                                     return qsTranslate("MainWindow", "封装导入包和 3D 数据");
+                                if (targetId === "orcad")
+                                    return qsTranslate("MainWindow", "OrCAD XML 符号库（封装名称关联）");
                                 return "";
                             }
                             font.pixelSize: AppStyle.fontSizes.xs

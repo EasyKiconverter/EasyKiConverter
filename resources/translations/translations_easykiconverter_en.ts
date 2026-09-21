@@ -832,6 +832,16 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>Footprint Import Package and 3D data</translation>
     </message>
     <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="108"/>
+        <source>OrCAD XML 符号库（封装名称关联）</source>
+        <translation>OrCAD XML symbol library (footprint-name association)</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="172"/>
+        <source>OrCAD Capture XML 只保存符号和封装名称关联，PCB 封装几何需要单独导出</source>
+        <translation>OrCAD Capture XML stores symbols and footprint-name associations only; PCB geometry must be exported separately</translation>
+    </message>
+    <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="165"/>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="110"/>
         <source>输出路径</source>

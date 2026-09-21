@@ -21,7 +21,8 @@ enum class TargetEdaFormat {
     Pads = 4, /**< PADS Parts Library ASCII 符号、器件关联和 PCB Decal */
     Eagle = 5, /**< Eagle XML 组合库（符号、封装和器件关联） */
     Pcad = 6, /**< P-CAD ASCII 符号库、器件库和 PCB 库 */
-    Cadstar = 7 /**< CADSTAR ASCII combined symbol and package library */
+    Cadstar = 7, /**< CADSTAR ASCII combined symbol and package library */
+    Orcad = 8 /**< OrCAD Capture XML symbol library */
 };
 
 /**

@@ -6,7 +6,7 @@
 
 ### 符号转换
 
-EasyKiConverter 可以将 EasyEDA 符号转换为 KiCad（.kicad_sym）、Altium（.SchLib）、Xpedition ASCII、PADS ASCII 或 CADSTAR ASCII 符号库格式；Eagle 的符号写入完整 `.lbr` 组合库中。
+EasyKiConverter 可以将 EasyEDA 符号转换为 KiCad（.kicad_sym）、Altium（.SchLib）、Xpedition ASCII、PADS ASCII、CADSTAR ASCII 和 OrCAD Capture XML 符号库格式；Eagle 的符号写入完整 `.lbr` 组合库中。
 
 - 支持完整的符号几何数据转换
 - 自动处理引脚信息和属性
@@ -15,7 +15,7 @@ EasyKiConverter 可以将 EasyEDA 符号转换为 KiCad（.kicad_sym）、Altium
 
 ### 符号、封装与三维库导出
 
-从 EasyEDA 数据创建包含符号库、封装库和三维模型输出的 EDA 库。目标格式包括 KiCad（.kicad_sym/.kicad_mod）、Altium（.SchLib/.PcbLib）、Xpedition ASCII、PADS ASCII（Schematic Decal、Part Type 和 PCB Decal）、P-CAD ASCII（原理图 `.lia`、PCB `.lia`）、Eagle XML（.lbr）和 CADSTAR ASCII（.lib）。Eagle、CADSTAR 和 P-CAD 会写入其已实现的符号、封装和器件关联；WRL/STEP 三维文件由独立阶段输出，Altium 的 STEP 会嵌入 PcbLib。
+从 EasyEDA 数据创建包含符号库、封装库和三维模型输出的 EDA 库。目标格式包括 KiCad（.kicad_sym/.kicad_mod）、Altium（.SchLib/.PcbLib）、Xpedition ASCII、PADS ASCII（Schematic Decal、Part Type 和 PCB Decal）、P-CAD ASCII（原理图 `.lia`、PCB `.lia`）、Eagle XML（.lbr）、CADSTAR ASCII（.lib）和 OrCAD Capture XML（.xml）。Eagle、CADSTAR 和 P-CAD 会写入其已实现的符号、封装和器件关联；OrCAD XML 写入符号及封装名称关联；WRL/STEP 三维文件由独立阶段输出，Altium 的 STEP 会嵌入 PcbLib。
 
 - 支持通孔和表面贴装封装
 - 完整的焊盘信息转换
@@ -34,6 +34,7 @@ EasyKiConverter 可以将 EasyEDA 符号转换为 KiCad（.kicad_sym）、Altium
 - Eagle 目标可导出 XML Symbol、Package、DeviceSet 和引脚关联；3D 文件由独立阶段输出，但不写入未经验证的托管 `package3d` 关联；不可无损表达的图元会报告错误
 - P-CAD 目标输出 ASCII 原理图库和 PCB Library，支持已实现的符号、Component/Part 关联和封装关联；3D 文件由独立阶段输出，不可无损表达的图元会报告错误
 - CADSTAR 目标可导出 Component、Package、Pad 和 Part 关联；3D 文件由独立阶段输出，不写入未经验证的私有 3D 关联，无法表达的图元会报告错误
+- OrCAD Capture 目标输出 XML 符号库和 `pcbFootprint` 名称关联；不生成原生 OLB，PCB 封装几何和 3D 文件需要独立目标或阶段输出
 - 自动模型定位和缩放
 - 模型偏移参数自动计算
 
