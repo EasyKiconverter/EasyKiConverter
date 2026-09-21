@@ -25,6 +25,8 @@ private slots:
     void rejectsInvalidArc();
     /** @brief 验证符号三点圆弧会写入 Eagle wire 的 curve 属性。 */
     void writesSymbolArcAsCurvedWire();
+    /** @brief 验证 Eagle 不会静默丢弃符号圆弧的填充和线型语义。 */
+    void rejectsUnsupportedSymbolArcStyle();
 };
 
 static IR::FootprintComponentIR makeFixture(const QString& name) {
@@ -235,6 +237,18 @@ void TestEagleExporter::writesSymbolArcAsCurvedWire() {
     }
     QVERIFY2(!reader.hasError(), qPrintable(reader.errorString()));
     QVERIFY(symbolArcSeen);
+}
+
+/** 验证符号圆弧的不可表达样式会失败并生成诊断。 */
+void TestEagleExporter::rejectsUnsupportedSymbolArcStyle() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    IR::ComponentIR component = makeComponentFixture();
+    component.symbol.arcs.first().isFilled = true;
+    QVERIFY(!exporter.exportComponentLibrary(
+        {component}, QStringLiteral("filled-arc"), temporary.path() + QStringLiteral("/filled-arc.lbr")));
+    QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("填充")));
 }
 
 QTEST_MAIN(TestEagleExporter)

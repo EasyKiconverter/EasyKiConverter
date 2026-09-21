@@ -332,6 +332,10 @@ QString symbolPinRotation(IR::PinDirection direction) {
 
 /** 将三点圆弧转换为 Eagle Symbol wire 所需的端点和扫掠角。 */
 bool writeSymbolArc(QXmlStreamWriter& xml, const IR::SymbolArcIR& arc, QStringList& diagnostics) {
+    if (arc.isFilled || arc.strokeStyle != IR::StrokeStyle::Solid) {
+        diagnostics.append(QStringLiteral("Eagle: 符号圆弧的填充或非实线样式无法由 XML wire 无损表达"));
+        return false;
+    }
     const QPointF& start = arc.startPoint;
     const QPointF& middle = arc.midPoint;
     const QPointF& end = arc.endPoint;
@@ -410,6 +414,10 @@ bool writeSymbol(QXmlStreamWriter& xml,
     for (const IR::SymbolRectangleIR& rectangle : symbol.rectangles) {
         if (rectangle.partIndex != partIndex)
             continue;
+        if (rectangle.isFilled || rectangle.strokeStyle != IR::StrokeStyle::Solid) {
+            diagnostics.append(QStringLiteral("Eagle: 符号矩形的填充或非实线样式无法由 XML wire 无损表达"));
+            return false;
+        }
         writeWire({rectangle.x0, rectangle.y0}, {rectangle.x1, rectangle.y0}, rectangle.strokeWidth);
         writeWire({rectangle.x1, rectangle.y0}, {rectangle.x1, rectangle.y1}, rectangle.strokeWidth);
         writeWire({rectangle.x1, rectangle.y1}, {rectangle.x0, rectangle.y1}, rectangle.strokeWidth);
@@ -418,6 +426,10 @@ bool writeSymbol(QXmlStreamWriter& xml,
     for (const IR::SymbolCircleIR& circle : symbol.circles) {
         if (circle.partIndex != partIndex)
             continue;
+        if (circle.isFilled || circle.strokeStyle != IR::StrokeStyle::Solid) {
+            diagnostics.append(QStringLiteral("Eagle: 符号圆形的填充或非实线样式无法由 XML circle 无损表达"));
+            return false;
+        }
         xml.writeEmptyElement(QStringLiteral("circle"));
         xml.writeAttribute(QStringLiteral("x"), number(circle.center.x()));
         xml.writeAttribute(QStringLiteral("y"), number(circle.center.y()));
@@ -430,12 +442,20 @@ bool writeSymbol(QXmlStreamWriter& xml,
             writeWire(points.at(index), points.at(index + 1), width);
     };
     for (const IR::SymbolPolylineIR& polyline : symbol.polylines) {
+        if (polyline.partIndex == partIndex && (polyline.isFilled || polyline.strokeStyle != IR::StrokeStyle::Solid)) {
+            diagnostics.append(QStringLiteral("Eagle: 符号折线的填充或非实线样式无法由 XML wire 无损表达"));
+            return false;
+        }
         if (polyline.partIndex == partIndex)
             writePointList(polyline.points, polyline.strokeWidth);
     }
     for (const IR::SymbolPolygonIR& polygon : symbol.polygons) {
         if (polygon.partIndex != partIndex || polygon.points.size() < 2)
             continue;
+        if (polygon.isFilled || polygon.strokeStyle != IR::StrokeStyle::Solid) {
+            diagnostics.append(QStringLiteral("Eagle: 符号多边形的填充或非实线样式无法由 XML wire 无损表达"));
+            return false;
+        }
         QList<QPointF> closed = polygon.points;
         closed.append(polygon.points.first());
         writePointList(closed, polygon.strokeWidth);
@@ -444,6 +464,10 @@ bool writeSymbol(QXmlStreamWriter& xml,
         if (path.partIndex == partIndex && !path.segments.isEmpty()) {
             diagnostics.append(
                 QStringLiteral("Eagle: 符号 %1 含路径曲线，当前 XML writer 无法无损表达").arg(symbol.name));
+            return false;
+        }
+        if (path.partIndex == partIndex && (path.isFilled || path.strokeStyle != IR::StrokeStyle::Solid)) {
+            diagnostics.append(QStringLiteral("Eagle: 符号路径的填充或非实线样式无法由 XML wire 无损表达"));
             return false;
         }
         if (path.partIndex == partIndex)

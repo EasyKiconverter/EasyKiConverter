@@ -28,5 +28,6 @@ flowchart LR
 - Managed Eagle `package3d`, variants, and URN-based 3D associations are not generated.
 - Symbol three-point arcs and package arcs that can be represented by an Eagle XML `wire` are written with the `curve` attribute; symbol path curves and geometries with indeterminate arc semantics are rejected instead of silently downgraded.
 - Polygon, Trapezoid, and slot pad geometries that the current writer cannot represent losslessly are rejected with diagnostics; arcs are supported within the stated mapping.
+- Filled, dashed, and dotted symbol styles that the current XML writer cannot represent losslessly are rejected with diagnostics instead of being downgraded to solid strokes.
 - Eagle is not installed in the current environment; XML structure and reference checks are covered, but no target-software open/save or cross-version validation has been performed.
 - Update, append, and retry modes are rejected; an existing file is not replaced when overwrite is disabled.
