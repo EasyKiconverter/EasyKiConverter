@@ -55,7 +55,7 @@ CLI 模式默认导出以下内容：
 - Xpedition 当前只导出符号和封装 ZIP 包，不支持 3D 模型关联；传入 `--3d-model` 时会记录告警并跳过 3D 阶段
 - PADS 当前导出 ASCII Schematic Decal 符号、Part Type 器件关联和 PCB Decal 封装；传入 `--3d-model` 时由独立阶段输出 WRL/STEP 文件，更新、追加和重试模式会被拒绝
 - Eagle 当前可导出包含 Symbol、Package、DeviceSet 和引脚到焊盘关联的 XML `.lbr` 库；`--3d-model` 由独立阶段输出 WRL/STEP 文件，但不会伪造受管 `package3d` 关联，更新、追加和重试模式会被拒绝
-- P-CAD 当前只导出 ASCII PCB Library（`.lia`）的 Pad Style 和 Pattern，不支持符号、Component/Part 关联和原生 3D 模型关联；传入 `--3d-model` 时由独立阶段输出 WRL/STEP 文件，更新、追加和重试模式会被拒绝
+- P-CAD 导出包含独立的 ASCII 原理图库（`_PCAD_SCH.lia`）、PCB Library（`.lia`）和独立 WRL/STEP 三维模型阶段；复杂符号图元、更新、追加和重试模式会被拒绝并生成诊断
 - CADSTAR 当前导出 UTF-8 ASCII `.lib`，完整模式包含 Component、Package、Pad 和 Part 关联；3D 模型由独立阶段输出，不写入未经验证的 CADSTAR 私有模型关联，更新、追加和重试模式会被拒绝
 - 需要数据手册时传入 `--datasheet`
 - 普通模式不生成详细报告，仅在调试模式 (`--debug`) 下生成

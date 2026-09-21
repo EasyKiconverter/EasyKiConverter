@@ -11,7 +11,7 @@ namespace EasyKiConverter {
 
 /**
  * @brief 将统一封装 IR 写入 P-CAD ASCII PCB Library（`.lia`）。
- * @details 只生成封装库中的 Pad Style 和 Pattern，不生成 P-CAD 原理图或完整器件库。
+ * @details 符号库由 ExporterPcadSymbol 单独写入，三维模型由独立模型阶段写入。
  */
 class ExporterPcadFootprint final : public IFootprintExporter {
 public:

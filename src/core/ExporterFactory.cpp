@@ -11,6 +11,7 @@
 #include "core/pads/ExporterPadsFootprint.h"
 #include "core/pads/ExporterPadsSymbol.h"
 #include "core/pcad/ExporterPcadFootprint.h"
+#include "core/pcad/ExporterPcadSymbol.h"
 #include "core/xpedition/ExporterXpeditionFootprint.h"
 #include "core/xpedition/ExporterXpeditionSymbol.h"
 
@@ -30,6 +31,8 @@ std::unique_ptr<ISymbolExporter> ExporterFactory::createSymbolExporter(TargetEda
             return std::make_unique<ExporterXpeditionSymbol>();
         case TargetEdaFormat::Pads:
             return std::make_unique<ExporterPadsSymbol>();
+        case TargetEdaFormat::Pcad:
+            return std::make_unique<ExporterPcadSymbol>();
         case TargetEdaFormat::Allegro:
             return nullptr;
         default:

@@ -55,7 +55,7 @@ CLI mode exports the following by default:
 - Xpedition currently exports symbol and footprint ZIP packages only and does not support 3D model association; `--3d-model` records a warning and skips the 3D stage
 - PADS currently exports ASCII Schematic Decal symbols, Part Type device associations, and PCB Decal footprints; `--3d-model` emits WRL/STEP files through the independent model stage, while update, append, and retry modes are rejected
 - Eagle exports XML `.lbr` libraries containing symbols, packages, DeviceSets, and pin-to-pad connections; `--3d-model` emits WRL/STEP files through the independent model stage but does not fabricate managed `package3d` associations, while update, append, and retry modes are rejected
-- P-CAD currently exports Pad Styles and Patterns in an ASCII PCB Library (`.lia`) only and does not support symbols, Component/Part associations, or native 3D associations; `--3d-model` emits WRL/STEP files through the independent model stage, while update, append, and retry modes are rejected
+- P-CAD export includes a separate ASCII schematic library (`_PCAD_SCH.lia`), PCB Library (`.lia`), and independent WRL/STEP model stage. Complex schematic primitives, update, append, and retry modes are rejected with diagnostics
 - CADSTAR currently exports a UTF-8 ASCII `.lib` containing Component, Package, Pad, and Part associations in complete mode; 3D models are emitted by the independent stage without unverified CADSTAR private model links, and update, append, and retry modes are rejected
 - Use `--datasheet` when datasheets are needed
 - Normal mode does not generate detailed reports; only in debug mode (`--debug`)

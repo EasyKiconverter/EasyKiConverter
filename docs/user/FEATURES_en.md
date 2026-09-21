@@ -23,7 +23,7 @@ Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), Xpedition ASCII
 
 ### Footprint Generation
 
-Create KiCad (.kicad_mod), Altium (.PcbLib), Xpedition ASCII, PADS ASCII (Schematic Decal, Part Type, and PCB Decal), P-CAD ASCII (.lia), Eagle XML (.lbr), or CADSTAR ASCII (.lib) libraries from EasyEDA data. Eagle and CADSTAR can write symbols, packages, and component associations together; 3D models are emitted by an independent stage.
+Create KiCad (.kicad_mod), Altium (.PcbLib), Xpedition ASCII, PADS ASCII (Schematic Decal, Part Type, and PCB Decal), P-CAD ASCII schematic and PCB libraries (.lia), Eagle XML (.lbr), or CADSTAR ASCII (.lib) libraries from EasyEDA data. Eagle, CADSTAR, and P-CAD write their implemented symbols, packages, and component associations; 3D models are emitted by an independent stage.
 
 **Features:**
 - Complete footprint geometry conversion
@@ -58,7 +58,7 @@ Automatically download and convert 3D models.
 - Xpedition currently exports symbols and footprints without 3D model associations
 - PADS currently exports ASCII Schematic Decal symbols, Part Type device associations, and PCB Decals; the independent stage can emit 3D files and unsupported geometry is rejected
 - Eagle exports XML symbols, packages, DeviceSets, and pin associations; 3D files are emitted by the independent stage, but unverified managed `package3d` associations are not written, and unsupported geometry is rejected
-- P-CAD currently exports Pad Styles and Patterns in an ASCII PCB Library only; it does not export symbols, Component/Part associations, or native 3D associations, while the independent stage can emit 3D files and unsupported geometry is rejected
+- P-CAD exports ASCII schematic and PCB libraries with implemented symbol, Component/Part, and footprint associations; 3D files are emitted by the independent stage and unsupported geometry is rejected
 - CADSTAR exports Component, Package, Pad, and Part associations; 3D files are emitted by the independent stage without unverified private CADSTAR 3D links, and unsupported geometry is rejected
 
 ## Performance Optimization

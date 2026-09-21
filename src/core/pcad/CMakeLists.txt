@@ -3,6 +3,8 @@
 add_library(EasyKiConverterPcad STATIC
     ExporterPcadFootprint.h
     ExporterPcadFootprint.cpp
+    ExporterPcadSymbol.h
+    ExporterPcadSymbol.cpp
     PcadAdapter.h
     PcadAdapter.cpp
 )

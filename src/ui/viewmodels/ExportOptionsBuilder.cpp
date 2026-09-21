@@ -77,8 +77,6 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     const bool pcadTarget = options.targetFormat == TargetEdaFormat::Pcad;
     if (allegroTarget)
         options.exportSymbol = false;
-    if (pcadTarget)
-        options.exportSymbol = false;
     options.overwriteExistingFiles =
         viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
     options.updateMode =
