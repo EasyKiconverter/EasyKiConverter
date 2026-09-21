@@ -298,6 +298,75 @@ private slots:
         QVERIFY(hasModelBody);
     }
 
+    // 验证 OrCAD 管线输出 XML 符号库和独立三维模型，不虚构 Capture PCB 库。
+    void testOrcadPipelineExportsSymbolAndStandaloneModel() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString componentId = QStringLiteral("C91008");
+        QList<ComponentData> componentData = makeFixtureComponents({componentId});
+        QVERIFY(componentData.size() == 1);
+
+        // OrCAD XML 测试只保留矩形和引脚，确保失败时能区分符号数据问题和管线问题。
+        const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        auto symbol = QSharedPointer<SymbolData>::create();
+        symbol->setInfo(sourceSymbol->info());
+        symbol->setBbox(sourceSymbol->bbox());
+        symbol->setPins(sourceSymbol->pins());
+        symbol->setRectangles(sourceSymbol->rectangles());
+        componentData.first().setSymbolData(symbol);
+
+        Model3DData model;
+        model.setName(QStringLiteral("OrcadCompleteModel"));
+        model.setUuid(QStringLiteral("orcad-complete-model"));
+        componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
+        componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        ParallelExportService service;
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("OrcadCompletePipeline"));
+        options.targetFormat = TargetEdaFormat::Orcad;
+        options.exportFootprint = false;
+        options.exportModel3D = true;
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        service.startPreload({componentId});
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+
+        QVERIFY2(completedSpy.wait(30000), "OrCAD complete export should finish");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        QString error;
+        const QString symbolPath = tempDir.filePath(QStringLiteral("OrcadCompletePipeline.xml"));
+        QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
+        const QString symbolText = TestPaths::readText(symbolPath, &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        QVERIFY(symbolText.contains(QStringLiteral("<Lib")));
+        QVERIFY(symbolText.contains(QStringLiteral("pcbFootprint=")));
+
+        const QString modelDir = tempDir.filePath(QStringLiteral("OrcadCompletePipeline.3dmodels"));
+        const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
+        QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Orcad));
+        const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
+        QCOMPARE(components.size(), 1);
+        QCOMPARE(components.first().toObject().value(QStringLiteral("status")).toString(), QStringLiteral("success"));
+        QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("OrcadCompleteModel.wrl"))));
+    }
+
     // 验证 Allegro Import Package 同时保存符号、封装、Pin-Pad 关联和 STEP 模型。
     void testAllegroPipelineExportsAllLibraryArtifacts() {
         QTemporaryDir tempDir;
