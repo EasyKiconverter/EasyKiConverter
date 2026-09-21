@@ -3,6 +3,7 @@
 #include "core/allegro/ExporterAllegroFootprint.h"
 #include "core/altium/ExporterAltiumFootprint.h"
 #include "core/altium/ExporterAltiumSymbol.h"
+#include "core/cadstar/ExporterCadstarLibrary.h"
 #include "core/eagle/ExporterEagleFootprint.h"
 #include "core/kicad/Exporter3DModel.h"
 #include "core/kicad/ExporterFootprint.h"
@@ -56,6 +57,8 @@ std::unique_ptr<IFootprintExporter> ExporterFactory::createFootprintExporter(Tar
             return std::make_unique<ExporterEagleFootprint>();
         case TargetEdaFormat::Pcad:
             return std::make_unique<ExporterPcadFootprint>();
+        case TargetEdaFormat::Cadstar:
+            return std::make_unique<ExporterCadstarLibrary>();
         default:
             return nullptr;
     }

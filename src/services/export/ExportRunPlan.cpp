@@ -36,7 +36,8 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
                                  const QMap<QString, QSharedPointer<ComponentData>>& cachedData) {
     ExportRunPlan plan;
     // Eagle 完整 XML 库由封装阶段一次性写入 Symbol、Package 和 DeviceSet，避免两个阶段争用同一 .lbr。
-    plan.enableSymbol = options.exportSymbol && options.targetFormat != TargetEdaFormat::Eagle;
+    plan.enableSymbol = options.exportSymbol && options.targetFormat != TargetEdaFormat::Eagle &&
+                        options.targetFormat != TargetEdaFormat::Cadstar;
     plan.enableFootprint = options.exportFootprint;
     // PADS、P-CAD 和 Eagle 没有经过本项目验证的原生模型关联时，仍输出独立模型文件并保留诊断。
     plan.enableModel3D = options.exportModel3D && options.targetFormat != TargetEdaFormat::Xpedition;

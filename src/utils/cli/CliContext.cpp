@@ -87,6 +87,8 @@ ExportOptions CliContext::createExportOptions() const {
         options.targetFormat = TargetEdaFormat::Eagle;
     } else if (format == QStringLiteral("pcad")) {
         options.targetFormat = TargetEdaFormat::Pcad;
+    } else if (format == QStringLiteral("cadstar")) {
+        options.targetFormat = TargetEdaFormat::Cadstar;
     } else {
         options.targetFormat = TargetEdaFormat::KiCad;
     }

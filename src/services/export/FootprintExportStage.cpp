@@ -193,7 +193,7 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         }
 
         footprintList.append(footprint);
-        if (m_options.targetFormat == TargetEdaFormat::Eagle)
+        if (m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar)
             componentIrList.append(IR::toComponentIR(*data));
         collectedIds.append(componentId);
         successCount++;
@@ -398,6 +398,15 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         abortExport(QStringLiteral("P-CAD ASCII 封装库已存在且当前禁止覆盖: %1").arg(finalPath));
         return;
     }
+    if (m_options.targetFormat == TargetEdaFormat::Cadstar && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("CADSTAR ASCII 库不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Cadstar && QFile::exists(finalPath) &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("CADSTAR ASCII 库已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
 
     if (tempPath.isEmpty()) {
         abortExport(QStringLiteral("Failed to create temp path"));
@@ -439,7 +448,8 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         for (const FootprintData& fd : footprintList) {
             irFootprintList.append(IR::toFootprintIR(fd));
         }
-        if (m_options.targetFormat == TargetEdaFormat::Eagle && m_options.exportSymbol) {
+        if ((m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar) &&
+            m_options.exportSymbol) {
             exportSuccess = exporter->exportComponentLibrary(
                 componentIrList, libName, tempPath, m_options.exportModel3D, outputDir);
         } else {

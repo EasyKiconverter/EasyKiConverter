@@ -23,7 +23,7 @@ easykiconverter convert batch -i <component_list_file> -o <output_dir> [options]
 | `--output` | `-o` | 输出目录路径 | - |
 | `--lib-name` | | 导出库名称 | EasyKiConverter |
 | `--component` | `-c` | LCSC 元器件编号 | - |
-| `--target-format` | | 目标格式（kicad/altium/xpedition/allegro/pads/eagle/pcad） | kicad |
+| `--target-format` | | 目标格式（kicad/altium/xpedition/allegro/pads/eagle/pcad/cadstar） | kicad |
 | `--symbol` | | 导出符号库 | true |
 | `--footprint` | | 导出封装库 | true |
 | `--3d-model` | | 导出 3D 模型（默认 WRL 格式） | false |
@@ -56,6 +56,7 @@ CLI 模式默认导出以下内容：
 - PADS 当前导出 ASCII Schematic Decal 符号、Part Type 器件关联和 PCB Decal 封装；传入 `--3d-model` 时由独立阶段输出 WRL/STEP 文件，更新、追加和重试模式会被拒绝
 - Eagle 当前可导出包含 Symbol、Package、DeviceSet 和引脚到焊盘关联的 XML `.lbr` 库；`--3d-model` 由独立阶段输出 WRL/STEP 文件，但不会伪造受管 `package3d` 关联，更新、追加和重试模式会被拒绝
 - P-CAD 当前只导出 ASCII PCB Library（`.lia`）的 Pad Style 和 Pattern，不支持符号、Component/Part 关联和原生 3D 模型关联；传入 `--3d-model` 时由独立阶段输出 WRL/STEP 文件，更新、追加和重试模式会被拒绝
+- CADSTAR 当前导出 UTF-8 ASCII `.lib`，完整模式包含 Component、Package、Pad 和 Part 关联；3D 模型由独立阶段输出，不写入未经验证的 CADSTAR 私有模型关联，更新、追加和重试模式会被拒绝
 - 需要数据手册时传入 `--datasheet`
 - 普通模式不生成详细报告，仅在调试模式 (`--debug`) 下生成
 

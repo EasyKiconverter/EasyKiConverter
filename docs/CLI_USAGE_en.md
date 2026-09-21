@@ -23,7 +23,7 @@ easykiconverter convert batch -i <component_list_file> -o <output_dir> [options]
 | `--output` | `-o` | Output directory path | - |
 | `--lib-name` | | Export library name | EasyKiConverter |
 | `--component` | `-c` | LCSC component ID | - |
-| `--target-format` | | Target format (kicad/altium/xpedition/allegro/pads/eagle) | kicad |
+| `--target-format` | | Target format (kicad/altium/xpedition/allegro/pads/eagle/pcad/cadstar) | kicad |
 | `--symbol` | | Export symbol library | true |
 | `--footprint` | | Export footprint library | true |
 | `--3d-model` | | Export 3D models (default WRL format) | false |
@@ -56,6 +56,7 @@ CLI mode exports the following by default:
 - PADS currently exports ASCII Schematic Decal symbols, Part Type device associations, and PCB Decal footprints; `--3d-model` emits WRL/STEP files through the independent model stage, while update, append, and retry modes are rejected
 - Eagle exports XML `.lbr` libraries containing symbols, packages, DeviceSets, and pin-to-pad connections; `--3d-model` emits WRL/STEP files through the independent model stage but does not fabricate managed `package3d` associations, while update, append, and retry modes are rejected
 - P-CAD currently exports Pad Styles and Patterns in an ASCII PCB Library (`.lia`) only and does not support symbols, Component/Part associations, or native 3D associations; `--3d-model` emits WRL/STEP files through the independent model stage, while update, append, and retry modes are rejected
+- CADSTAR currently exports a UTF-8 ASCII `.lib` containing Component, Package, Pad, and Part associations in complete mode; 3D models are emitted by the independent stage without unverified CADSTAR private model links, and update, append, and retry modes are rejected
 - Use `--datasheet` when datasheets are needed
 - Normal mode does not generate detailed reports; only in debug mode (`--debug`)
 

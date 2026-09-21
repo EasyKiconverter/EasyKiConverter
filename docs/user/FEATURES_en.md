@@ -6,7 +6,7 @@ This document provides a detailed description of the features available in EasyK
 
 ### Symbol Conversion
 
-Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), or Xpedition ASCII symbol libraries.
+Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), Xpedition ASCII, PADS ASCII, or CADSTAR ASCII symbol libraries; Eagle symbols are written as part of a complete `.lbr` library.
 
 **Features:**
 - Complete symbol geometry conversion
@@ -23,7 +23,7 @@ Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), or Xpedition AS
 
 ### Footprint Generation
 
-Create KiCad (.kicad_mod), Altium (.PcbLib), Xpedition ASCII, PADS ASCII (Schematic Decal, Part Type, and PCB Decal), P-CAD ASCII (.lia), or Eagle XML (.lbr) libraries from EasyEDA data. Eagle can write symbols, packages, and device associations together; 3D models are emitted by an independent stage.
+Create KiCad (.kicad_mod), Altium (.PcbLib), Xpedition ASCII, PADS ASCII (Schematic Decal, Part Type, and PCB Decal), P-CAD ASCII (.lia), Eagle XML (.lbr), or CADSTAR ASCII (.lib) libraries from EasyEDA data. Eagle and CADSTAR can write symbols, packages, and component associations together; 3D models are emitted by an independent stage.
 
 **Features:**
 - Complete footprint geometry conversion
@@ -59,6 +59,7 @@ Automatically download and convert 3D models.
 - PADS currently exports ASCII Schematic Decal symbols, Part Type device associations, and PCB Decals; the independent stage can emit 3D files and unsupported geometry is rejected
 - Eagle exports XML symbols, packages, DeviceSets, and pin associations; 3D files are emitted by the independent stage, but unverified managed `package3d` associations are not written, and unsupported geometry is rejected
 - P-CAD currently exports Pad Styles and Patterns in an ASCII PCB Library only; it does not export symbols, Component/Part associations, or native 3D associations, while the independent stage can emit 3D files and unsupported geometry is rejected
+- CADSTAR exports Component, Package, Pad, and Part associations; 3D files are emitted by the independent stage without unverified private CADSTAR 3D links, and unsupported geometry is rejected
 
 ## Performance Optimization
 

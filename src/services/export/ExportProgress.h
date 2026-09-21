@@ -20,7 +20,8 @@ enum class TargetEdaFormat {
     Allegro = 3, /**< Allegro PCB 封装 Import Package */
     Pads = 4, /**< PADS Parts Library ASCII PCB Decal */
     Eagle = 5, /**< Eagle XML footprint package */
-    Pcad = 6 /**< P-CAD ASCII PCB Library footprint package */
+    Pcad = 6, /**< P-CAD ASCII PCB Library footprint package */
+    Cadstar = 7 /**< CADSTAR ASCII combined symbol and package library */
 };
 
 /**

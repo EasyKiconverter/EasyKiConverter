@@ -27,6 +27,7 @@
 - [架构文档](developer/ARCHITECTURE.md) - 项目架构设计
 - [转换层与映射关系](developer/CONVERSION_MAPPING.md) - EasyEDA、IR、KiCad、Altium、Xpedition 的算法与字段映射
 - [Xpedition 导出能力](developer/XPEDITION_EXPORT.md) - Xpedition ASCII 符号和封装导出范围、限制与验证
+- [CADSTAR 导出能力](developer/CADSTAR_EXPORT.md) - CADSTAR ASCII 符号、封装、Pad 和 Part 导出范围、限制与验证
 - [格式解析架构](developer/PARSER_ARCHITECTURE.md) - 通用文本解析基础设施、诊断模型和格式支持边界
 - [EasyEDA API 原始数据说明](developer/EASYEDA_API_DATA.md) - API 响应结构、shape 编码和字段解析
 - [文档维护指南](developer/DOCUMENTATION_MAINTENANCE.md) - 文档事实来源、更新触发条件和过时内容清理规则
