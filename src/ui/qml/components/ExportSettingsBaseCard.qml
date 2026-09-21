@@ -95,9 +95,15 @@ Card {
                                 if (targetId === "xpedition")
                                     return qsTranslate("MainWindow", "_Symbols.zip / _Footprints.zip");
                                 if (targetId === "pads")
-                                    return qsTranslate("MainWindow", "PCB Decal .d");
+                                    return qsTranslate("MainWindow", ".c/.p/.d 符号、器件和 PCB 封装");
                                 if (targetId === "eagle")
-                                    return qsTranslate("MainWindow", ".lbr package library");
+                                    return qsTranslate("MainWindow", ".lbr 符号、封装和器件");
+                                if (targetId === "pcad")
+                                    return qsTranslate("MainWindow", ".lia 原理图和 PCB 库");
+                                if (targetId === "cadstar")
+                                    return qsTranslate("MainWindow", ".lib 符号、封装和器件");
+                                if (targetId === "allegro")
+                                    return qsTranslate("MainWindow", "封装导入包和 3D 数据");
                                 return "";
                             }
                             font.pixelSize: AppStyle.fontSizes.xs

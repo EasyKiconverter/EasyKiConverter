@@ -904,6 +904,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="98"/>
+        <source>.c/.p/.d 符号、器件和 PCB 封装</source>
+        <translation>.c/.p/.d 符号、器件和 PCB 封装</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="100"/>
+        <source>.lbr 符号、封装和器件</source>
+        <translation>.lbr 符号、封装和器件</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="102"/>
+        <source>.lia 原理图和 PCB 库</source>
+        <translation>.lia 原理图和 PCB 库</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="104"/>
+        <source>.lib 符号、封装和器件</source>
+        <translation>.lib 符号、封装和器件</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="106"/>
+        <source>封装导入包和 3D 数据</source>
+        <translation>封装导入包和 3D 数据</translation>
+    </message>
+    <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="165"/>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="110"/>
         <source>输出路径</source>

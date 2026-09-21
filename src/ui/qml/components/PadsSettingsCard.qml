@@ -4,7 +4,7 @@ import EasyKiconverter_Cpp_Version.src.ui.qml.styles 1.0
 
 /**
  * @brief PADS ASCII 库导出设置卡片。
- * @details PADS 输出 Schematic Decal、Part Type 符号关联和 PCB Decal 封装，三维模型由独立阶段输出。
+ * @details PADS 输出 Schematic Decal、Part Type 器件关联、PCB Decal 封装和独立三维模型文件。
  */
 ColumnLayout {
     id: padsCard

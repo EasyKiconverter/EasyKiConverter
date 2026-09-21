@@ -807,6 +807,31 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="98"/>
+        <source>.c/.p/.d 符号、器件和 PCB 封装</source>
+        <translation>.c/.p/.d symbols, parts and PCB footprints</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="100"/>
+        <source>.lbr 符号、封装和器件</source>
+        <translation>.lbr symbols, packages and devices</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="102"/>
+        <source>.lia 原理图和 PCB 库</source>
+        <translation>.lia schematic and PCB libraries</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="104"/>
+        <source>.lib 符号、封装和器件</source>
+        <translation>.lib symbols, packages and parts</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="106"/>
+        <source>封装导入包和 3D 数据</source>
+        <translation>Footprint Import Package and 3D data</translation>
+    </message>
+    <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="165"/>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="110"/>
         <source>输出路径</source>
