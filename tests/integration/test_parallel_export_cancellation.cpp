@@ -204,6 +204,89 @@ private slots:
         QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("KiCadCompleteModel.wrl"))));
     }
 
+    // 验证 Allegro Import Package 同时保存符号、封装、Pin-Pad 关联和 STEP 模型。
+    void testAllegroPipelineExportsAllLibraryArtifacts() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString componentId = QStringLiteral("C91006");
+        QList<ComponentData> componentData = makeFixtureComponents({componentId});
+        QVERIFY(componentData.size() == 1);
+
+        // 使用本地最小 STEP 交换文件，避免 Allegro 管线测试访问网络或依赖用户缓存。
+        Model3DData model;
+        model.setName(QStringLiteral("AllegroCompleteModel"));
+        model.setUuid(QStringLiteral("allegro-complete-model"));
+        model.setStep(QByteArrayLiteral("ISO-10303-21;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
+        componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
+        componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        ParallelExportService service;
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("AllegroCompletePipeline"));
+        options.targetFormat = TargetEdaFormat::Allegro;
+        options.exportModel3D = true;
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        service.startPreload({componentId});
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+
+        QVERIFY2(completedSpy.wait(30000), "Allegro complete export should finish");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        const QString packageDir = tempDir.filePath(QStringLiteral("AllegroCompletePipeline_Allegro"));
+        const QString manifestPath = QDir(packageDir).filePath(QStringLiteral("manifest.json"));
+        QString error;
+        QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        QCOMPARE(manifest.value(QStringLiteral("target")).toString(),
+                 QStringLiteral("Allegro semantic symbol and PCB package"));
+        QCOMPARE(manifest.value(QStringLiteral("native_database_generated")).toBool(), false);
+
+        const QJsonArray symbols = manifest.value(QStringLiteral("symbols")).toArray();
+        QCOMPARE(symbols.size(), 1);
+        QCOMPARE(symbols.first().toObject().value(QStringLiteral("name")).toString(), QStringLiteral("CANCEL_SYM_0"));
+
+        const QJsonArray packages = manifest.value(QStringLiteral("packages")).toArray();
+        QCOMPARE(packages.size(), 1);
+        const QJsonObject package = packages.first().toObject();
+        QCOMPARE(package.value(QStringLiteral("name")).toString(), QStringLiteral("CANCEL_FP_0"));
+        QCOMPARE(package.value(QStringLiteral("pin_count")).toInt(), 1);
+        QCOMPARE(package.value(QStringLiteral("step_count")).toInt(), 1);
+
+        const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
+        QCOMPARE(components.size(), 1);
+        const QJsonObject component = components.first().toObject();
+        QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
+        QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
+        QCOMPARE(component.value(QStringLiteral("pin_to_pad")).toArray().size(), 1);
+
+        const QString normalizedPath = QDir(packageDir).filePath(QStringLiteral("normalized-data/CANCEL_FP_0.json"));
+        const QString symbolPath = QDir(packageDir).filePath(QStringLiteral("symbols/CANCEL_SYM_0.json"));
+        QVERIFY2(QFileInfo::exists(normalizedPath), qPrintable(normalizedPath));
+        QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
+        const QJsonObject normalized = TestPaths::readJsonObject(normalizedPath, &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        const QJsonArray stepModels = normalized.value(QStringLiteral("step_models")).toArray();
+        QCOMPARE(stepModels.size(), 1);
+        const QString stepPath =
+            QDir(packageDir).filePath(QStringLiteral("models/CANCEL_FP_0_") + stepModels.first().toString());
+        QVERIFY2(QFileInfo::exists(stepPath), qPrintable(stepPath));
+        QVERIFY(TestPaths::readText(stepPath, &error).startsWith(QStringLiteral("ISO-10303-21;")));
+    }
+
     // 验证 PADS 的符号、封装、器件关联文件和独立三维模型可以由同一条导出管线完成。
     void testPadsPipelineExportsAllLibraryArtifacts() {
         QTemporaryDir tempDir;

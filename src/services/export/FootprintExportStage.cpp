@@ -214,7 +214,11 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         if (data->footprintData())
             footprintList.append(footprint);
         if (combinedTarget && data->symbolData()) {
-            componentIrList.append(IR::toComponentIR(*data));
+            // 组合库必须使用完成 STEP 准备后的封装副本，否则模型准备结果会在重新转换组件时丢失。
+            IR::ComponentIR componentIr = IR::toComponentIR(*data);
+            if (data->footprintData())
+                componentIr.footprint = IR::toFootprintIR(footprint);
+            componentIrList.append(componentIr);
             symbolList.append(IR::toSymbolIR(*data->symbolData()));
         }
         collectedIds.append(componentId);
