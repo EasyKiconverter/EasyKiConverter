@@ -302,11 +302,15 @@ bool ExporterXpeditionSymbol::exportSymbol(const IR::SymbolComponentIR& symbol, 
 bool ExporterXpeditionSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                                   const QString&,
                                                   const QString& filePath,
-                                                  bool,
-                                                  bool,
+                                                  bool appendMode,
+                                                  bool updateMode,
                                                   const QString&) {
     // 清理任务级诊断后再写入各个部件，保证调用者读取到的是本次结果。
     m_diagnostics.clear();
+    if (appendMode || updateMode) {
+        m_diagnostics.append(QStringLiteral("Xpedition 符号 ZIP 暂不支持追加或更新模式"));
+        return false;
+    }
     XpeditionZipWriter archive;
     QSet<QString> usedNames;
     for (const IR::SymbolComponentIR& symbol : symbols) {

@@ -334,7 +334,8 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     ISymbolExporter::CompanionFiles companionFiles;
     QString libraryDescription = m_options.symbolLibraryDescription;
     {
-        bool appendMode = !m_options.overwriteExistingFiles;
+        // 只有目标库已经存在且禁止覆盖时才表示追加；首次创建空库不能被误判为追加模式。
+        const bool appendMode = finalFileExists && !m_options.overwriteExistingFiles;
         // 转换旧类型列表到 IR 类型
         QList<IR::SymbolComponentIR> irSymbolList;
         irSymbolList.reserve(symbolList.size());

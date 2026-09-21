@@ -757,6 +757,33 @@ private slots:
         QVERIFY(partTypeContent.contains(QStringLiteral("PADS_SYMBOL PKG_C_PADS_SYMBOL")));
     }
 
+    // 验证首次创建 PADS 符号库时不会把“不覆盖”误判为追加模式。
+    void padsSymbolLibraryCreatesNewFileWithNoOverwrite() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        SymbolExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("PadsFirstExport");
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PADS_FIRST")] =
+            makeSymbolComponent(QStringLiteral("C_PADS_FIRST"), QStringLiteral("PADS_FIRST_SYMBOL"));
+
+        QSignalSpy completedSpy(&stage, &SymbolExportStage::completed);
+        stage.start({QStringLiteral("C_PADS_FIRST")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "PADS first symbol export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QVERIFY(QFileInfo::exists(tempDir.filePath(QStringLiteral("PadsFirstExport_PADS.c"))));
+        QVERIFY(QFileInfo::exists(tempDir.filePath(QStringLiteral("PadsFirstExport_PADS.p"))));
+    }
+
     // 验证 Eagle 组合库阶段同时提交 Symbol、Package、DeviceSet 和引脚焊盘关联。
     void eagleCombinedLibraryStageWritesAllLibrarySections() {
         QTemporaryDir tempDir;
