@@ -1243,6 +1243,9 @@ private slots:
         auto model = QSharedPointer<Model3DData>::create();
         model->setUuid(QStringLiteral("both-model-uuid"));
         model->setName(QStringLiteral("Both Model"));
+        model->setTranslation({1.0, 2.0, 3.0});
+        model->setRotation({10.0, 20.0, 30.0});
+        model->setStepOffsetMm({0.1, 0.2, 0.3});
         model->setStep(QByteArrayLiteral("ISO-10303-21;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
         component->setModel3DData(model);
         component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
@@ -1273,6 +1276,14 @@ private slots:
                  QStringLiteral("Both Model.wrl"));
         QCOMPARE(componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("step")).toString(),
                  QStringLiteral("Both Model.step"));
+        const QJsonObject modelObject = componentObject.value(QStringLiteral("model")).toObject();
+        QCOMPARE(modelObject.value(QStringLiteral("uuid")).toString(), QStringLiteral("both-model-uuid"));
+        QCOMPARE(modelObject.value(QStringLiteral("translationMm")).toObject().value(QStringLiteral("x")).toDouble(),
+                 0.254);
+        QCOMPARE(modelObject.value(QStringLiteral("rotationDeg")).toObject().value(QStringLiteral("z")).toDouble(),
+                 30.0);
+        QCOMPARE(modelObject.value(QStringLiteral("stepOffsetMm")).toObject().value(QStringLiteral("y")).toDouble(),
+                 0.2);
     }
 
     // 验证相同模型名称会被稳定去重，避免独立三维模型文件互相覆盖。

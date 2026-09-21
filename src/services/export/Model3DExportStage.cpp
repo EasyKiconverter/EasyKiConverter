@@ -1,6 +1,7 @@
 #include "Model3DExportStage.h"
 
 #include "Model3DExportWorker.h"
+#include "core/ir/Model3DDataConverter.h"
 #include "core/kicad/Exporter3DModel.h"
 #include "models/ComponentData.h"
 #include "services/ComponentCacheService.h"
@@ -325,6 +326,13 @@ void Model3DExportStage::writeAssociationManifest() {
 
     QJsonArray components;
     const ExportTypeProgress progress = getProgress();
+    const auto vectorToJson = [](const IR::Model3DVec3& vector) {
+        QJsonObject value;
+        value.insert(QStringLiteral("x"), vector.x);
+        value.insert(QStringLiteral("y"), vector.y);
+        value.insert(QStringLiteral("z"), vector.z);
+        return value;
+    };
     for (const QString& componentId : m_componentIds) {
         QJsonObject componentObject;
         componentObject.insert(QStringLiteral("componentId"), componentId);
@@ -336,6 +344,22 @@ void Model3DExportStage::writeAssociationManifest() {
                 componentObject.insert(QStringLiteral("symbol"), data->symbolData()->info().name);
             if (data->footprintData())
                 componentObject.insert(QStringLiteral("footprint"), data->footprintData()->info().name);
+
+            Model3DData model;
+            if (data->model3DData())
+                model = *data->model3DData();
+            if (model.uuid().isEmpty() && data->footprintData())
+                model = data->footprintData()->model3D();
+            if (!model.uuid().isEmpty() || !model.name().isEmpty()) {
+                const IR::Model3DIR modelIr = IR::toModel3DIR(model);
+                QJsonObject modelObject;
+                modelObject.insert(QStringLiteral("name"), model.name());
+                modelObject.insert(QStringLiteral("uuid"), model.uuid());
+                modelObject.insert(QStringLiteral("translationMm"), vectorToJson(modelIr.translation()));
+                modelObject.insert(QStringLiteral("rotationDeg"), vectorToJson(modelIr.rotation()));
+                modelObject.insert(QStringLiteral("stepOffsetMm"), vectorToJson(modelIr.stepOffsetMm()));
+                componentObject.insert(QStringLiteral("model"), modelObject);
+            }
         }
 
         const ExportItemStatus status = progress.itemStatus.value(componentId);
