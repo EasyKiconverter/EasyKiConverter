@@ -17,6 +17,7 @@ flowchart LR
 
 - GUI 目标格式 `CADSTAR` 和 CLI `--target-format cadstar`。
 - `ComponentIR` 到 CADSTAR `COMPONENT`、`PACKAGE`、`PAD`、`PART` 的转换。
+- 仅启用封装导出时不强制读取符号缓存；符号和封装同时启用时才生成完整的 `COMPONENT`、`PACKAGE`、`PART` 关联库。
 - 圆形、矩形、椭圆、槽孔和自定义多边形 Pad。
 - 封装矩形、圆、折线和多边形图元。
 - 符号引脚、矩形、圆和多边形图元。

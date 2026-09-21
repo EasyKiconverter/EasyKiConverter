@@ -18,6 +18,7 @@ flowchart LR
 - GUI target `Eagle PCB` and CLI target `--target-format eagle`.
 - Basic XML output for SMD, PTH, independent mechanical holes, circles, rectangles, tracks, regions, and text.
 - When symbol and footprint export are enabled, symbols, DeviceSets, gates, devices, and pin-to-pad connections are written; multi-part symbols are emitted as separate gates.
+- Footprint-only selection writes a package-only XML library; symbol and footprint cache data are both required only for a complete DeviceSet association library.
 - When 3D export is enabled, the independent stage emits WRL/STEP files and reports the result; the `.lbr` does not contain an unverified managed `package3d` URN.
 - Conservative mapping for top/bottom copper, silkscreen, mask, paste, assembly, keepout, and mechanical layers.
 - Sanitized package-name collisions, empty pin numbers, invalid values, unknown layers, and unsupported primitives produce failure diagnostics.

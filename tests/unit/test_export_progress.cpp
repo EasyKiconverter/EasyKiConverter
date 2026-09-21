@@ -194,6 +194,22 @@ private slots:
         const ExportRunPlan allegroPlan =
             buildExportRunPlan(allegroOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
         QCOMPARE(allegroPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+
+        ExportOptions eagleOptions;
+        eagleOptions.targetFormat = TargetEdaFormat::Eagle;
+        eagleOptions.exportSymbol = false;
+        eagleOptions.exportFootprint = true;
+        const ExportRunPlan eaglePlan =
+            buildExportRunPlan(eagleOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
+        QCOMPARE(eaglePlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+
+        ExportOptions cadstarOptions;
+        cadstarOptions.targetFormat = TargetEdaFormat::Cadstar;
+        cadstarOptions.exportSymbol = false;
+        cadstarOptions.exportFootprint = true;
+        const ExportRunPlan cadstarPlan =
+            buildExportRunPlan(cadstarOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
+        QCOMPARE(cadstarPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
     }
 
     // 提供三维模型格式位掩码测试所需的参数组合。

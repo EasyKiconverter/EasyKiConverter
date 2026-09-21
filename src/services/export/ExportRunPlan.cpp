@@ -48,11 +48,12 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
     plan.enablePreview = options.exportPreviewImages;
     plan.enableDatasheet = options.exportDatasheet;
 
-    // 组合库目标需要同时读取符号和封装；其他目标只要求其已启用阶段所需的数据。
-    const bool needsSymbolData = plan.enableSymbol || options.targetFormat == TargetEdaFormat::Eagle ||
-                                 options.targetFormat == TargetEdaFormat::Cadstar;
-    const bool needsFootprintData = plan.enableFootprint || options.targetFormat == TargetEdaFormat::Eagle ||
-                                    options.targetFormat == TargetEdaFormat::Cadstar;
+    // Eagle 和 CADSTAR 在同时选择符号、封装时才写入完整组合库；仅封装导出不应无条件要求符号缓存。
+    const bool writesCombinedLibrary =
+        (options.targetFormat == TargetEdaFormat::Eagle || options.targetFormat == TargetEdaFormat::Cadstar) &&
+        options.exportSymbol && options.exportFootprint;
+    const bool needsSymbolData = plan.enableSymbol || writesCombinedLibrary;
+    const bool needsFootprintData = plan.enableFootprint || writesCombinedLibrary;
     for (const QString& componentId : componentIds) {
         const auto it = cachedData.constFind(componentId);
         const auto& component = it == cachedData.cend() ? QSharedPointer<ComponentData>() : it.value();
