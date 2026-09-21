@@ -96,6 +96,8 @@ Card {
                                     return qsTranslate("MainWindow", "_Symbols.zip / _Footprints.zip");
                                 if (targetId === "pads")
                                     return qsTranslate("MainWindow", "PCB Decal .d");
+                                if (targetId === "eagle")
+                                    return qsTranslate("MainWindow", ".lbr package library");
                                 return "";
                             }
                             font.pixelSize: AppStyle.fontSizes.xs

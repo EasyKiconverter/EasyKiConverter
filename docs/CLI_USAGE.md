@@ -23,7 +23,7 @@ easykiconverter convert batch -i <component_list_file> -o <output_dir> [options]
 | `--output` | `-o` | 输出目录路径 | - |
 | `--lib-name` | | 导出库名称 | EasyKiConverter |
 | `--component` | `-c` | LCSC 元器件编号 | - |
-| `--target-format` | | 目标格式（kicad/altium/xpedition/allegro/pads） | kicad |
+| `--target-format` | | 目标格式（kicad/altium/xpedition/allegro/pads/eagle） | kicad |
 | `--symbol` | | 导出符号库 | true |
 | `--footprint` | | 导出封装库 | true |
 | `--3d-model` | | 导出 3D 模型（默认 WRL 格式） | false |
@@ -54,6 +54,7 @@ CLI 模式默认导出以下内容：
 - 需要 3D 模型时传入 `--3d-model`；KiCad 默认使用 WRL，Altium 会自动收敛为 STEP 并嵌入 PcbLib
 - Xpedition 当前只导出符号和封装 ZIP 包，不支持 3D 模型关联；传入 `--3d-model` 时会记录告警并跳过 3D 阶段
 - PADS 当前只导出 ASCII PCB Decal 封装，不支持符号和 3D 模型关联；传入 `--3d-model` 时会记录告警并跳过 3D 阶段，更新、追加和重试模式会被拒绝
+- Eagle 当前只导出 XML package 封装库，不支持符号、device 和 3D 模型关联；传入 `--3d-model` 时会记录告警并跳过 3D 阶段，更新、追加和重试模式会被拒绝
 - 需要数据手册时传入 `--datasheet`
 - 普通模式不生成详细报告，仅在调试模式 (`--debug`) 下生成
 

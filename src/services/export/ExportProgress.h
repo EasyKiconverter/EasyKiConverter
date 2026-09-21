@@ -18,7 +18,8 @@ enum class TargetEdaFormat {
     Altium = 1, /**< Altium Designer 格式 */
     Xpedition = 2, /**< Xpedition ASCII 库格式 */
     Allegro = 3, /**< Allegro PCB 封装 Import Package */
-    Pads = 4 /**< PADS Parts Library ASCII PCB Decal */
+    Pads = 4, /**< PADS Parts Library ASCII PCB Decal */
+    Eagle = 5 /**< Eagle XML footprint package */
 };
 
 /**
@@ -59,7 +60,8 @@ struct ExportOptions {
      * 为 Altium 获取并嵌入 STEP。
      */
     constexpr bool needsEmbeddedModel3DStep() const {
-        if (!exportModel3D || targetFormat == TargetEdaFormat::Xpedition || targetFormat == TargetEdaFormat::Pads)
+        if (!exportModel3D || targetFormat == TargetEdaFormat::Xpedition || targetFormat == TargetEdaFormat::Pads ||
+            targetFormat == TargetEdaFormat::Eagle)
             return false;
         return needsModel3DStep() || targetFormat == TargetEdaFormat::Altium ||
                targetFormat == TargetEdaFormat::Allegro;

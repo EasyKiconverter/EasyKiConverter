@@ -12,6 +12,7 @@ add_subdirectory(pcad)
 add_subdirectory(xpedition)
 add_subdirectory(allegro)
 add_subdirectory(pads)
+add_subdirectory(eagle)
 
 add_library(EasyKiConverterCore STATIC)
 
@@ -34,6 +35,7 @@ target_link_libraries(EasyKiConverterCore
         EasyKiConverterXpedition
         EasyKiConverterAllegro
         EasyKiConverterPads
+        EasyKiConverterEagle
         EasyKiConverterNetwork
         EasyKiConverterParser
         EasyKiConverterUtils

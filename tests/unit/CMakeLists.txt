@@ -62,6 +62,17 @@ target_include_directories(test_pads_exporter PRIVATE
 )
 add_test(NAME test_pads_exporter COMMAND test_pads_exporter)
 
+add_executable(test_eagle_exporter test_eagle_exporter.cpp)
+target_link_libraries(test_eagle_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterEagle
+)
+target_include_directories(test_eagle_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_eagle_exporter COMMAND test_eagle_exporter)
+
 add_executable(test_pcad_parser test_pcad_parser.cpp)
 target_link_libraries(test_pcad_parser PRIVATE
     Qt6::Test

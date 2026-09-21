@@ -35,6 +35,8 @@ static const char* targetFormatName(TargetEdaFormat format) {
         return "Allegro";
     if (format == TargetEdaFormat::Pads)
         return "PADS";
+    if (format == TargetEdaFormat::Eagle)
+        return "Eagle";
     return "KiCad";
 }
 
@@ -69,15 +71,21 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     const bool xpeditionTarget = options.targetFormat == TargetEdaFormat::Xpedition;
     const bool allegroTarget = options.targetFormat == TargetEdaFormat::Allegro;
     const bool padsTarget = options.targetFormat == TargetEdaFormat::Pads;
-    if (allegroTarget)
+    const bool eagleTarget = options.targetFormat == TargetEdaFormat::Eagle;
+    if (allegroTarget || eagleTarget)
         options.exportSymbol = false;
     if (padsTarget) {
         options.exportSymbol = false;
         options.exportModel3D = false;
     }
+    if (eagleTarget) {
+        options.exportSymbol = false;
+        options.exportModel3D = false;
+    }
     options.overwriteExistingFiles =
         viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
-    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget;
+    options.updateMode =
+        viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget && !eagleTarget;
 
     qInfo() << "Export options:" << "OutputPath:" << options.outputPath << "LibName:" << options.libName
             << "TargetFormat:" << targetFormatName(options.targetFormat) << "Symbol:" << options.exportSymbol
