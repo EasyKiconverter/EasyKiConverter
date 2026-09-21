@@ -932,8 +932,8 @@
     </message>
     <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="106"/>
-        <source>封装导入包和 3D 数据</source>
-        <translation>封装导入包和 3D 数据</translation>
+        <source>符号、封装导入包和 3D 数据</source>
+        <translation>符号、封装导入包和 3D 数据</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="108"/>

@@ -1,4 +1,4 @@
-# Allegro PCB 封装 Import Package 导出模块
+# Allegro 符号、封装和三维语义 Import Package 导出模块
 
 add_library(EasyKiConverterAllegro STATIC
     AllegroFootprintModel.h

@@ -2,7 +2,7 @@
 
 /**
  * @file AllegroFootprintModel.h
- * @brief Allegro PCB 封装 Import Package 的目标模型。
+ * @brief Allegro 符号、封装和三维语义 Import Package 的目标模型。
  */
 
 #include "core/ir/FootprintIR.h"

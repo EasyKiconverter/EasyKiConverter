@@ -835,8 +835,8 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="106"/>
-        <source>封装导入包和 3D 数据</source>
-        <translation>Footprint Import Package and 3D data</translation>
+        <source>符号、封装导入包和 3D 数据</source>
+        <translation>Symbol, Footprint Import Package and 3D data</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="108"/>
