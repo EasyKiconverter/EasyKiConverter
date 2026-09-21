@@ -6,7 +6,7 @@ namespace EasyKiConverter {
 
 /**
  * @brief PADS ASCII Schematic Decal 符号导出器。
- * @details 输出 PADS Parts Library 的符号图形文件（.c），不伪造 Part Type 器件关联文件。
+ * @details 输出 PADS Parts Library 的 Schematic Decal（.c）和 Part Type（.p）文件。
  */
 class ExporterPadsSymbol final : public ISymbolExporter {
 public:
@@ -27,8 +27,12 @@ public:
     /** @brief 返回最近一次导出的诊断信息。 */
     QStringList diagnostics() const override;
 
+    /** @brief 返回 PADS Part Type 等伴随库文件。 */
+    CompanionFiles companionFiles() const override;
+
 private:
     QStringList m_diagnostics;
+    CompanionFiles m_companionFiles;
 };
 
 }  // namespace EasyKiConverter

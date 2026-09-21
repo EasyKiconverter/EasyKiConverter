@@ -1,8 +1,11 @@
 #include "ExporterPadsSymbol.h"
 
+#include <QBuffer>
 #include <QDateTime>
 #include <QFile>
+#include <QFileInfo>
 #include <QRegularExpression>
+#include <QSet>
 #include <QTextStream>
 
 #include <algorithm>
@@ -46,6 +49,46 @@ bool finitePoint(const QPointF& point) {
 // 检查线宽是否为目标格式可接受的有限非负数。
 bool finiteWidth(double width) {
     return std::isfinite(width) && width >= 0.0;
+}
+
+// 将统一 IR 的电气类型转换为 PADS Part Type 的单字符引脚类型。
+QChar partTypePinCode(IR::PinElectricalType type) {
+    // PADS 使用固定的单字符类型，未知或无源语义统一保留为未定义类型。
+    switch (type) {
+        case IR::PinElectricalType::Input:
+            return QChar('L');
+        case IR::PinElectricalType::Output:
+            return QChar('S');
+        case IR::PinElectricalType::Bidirectional:
+            return QChar('B');
+        case IR::PinElectricalType::Power:
+            return QChar('P');
+        case IR::PinElectricalType::OpenCollector:
+            return QChar('C');
+        case IR::PinElectricalType::OpenEmitter:
+            return QChar('O');
+        case IR::PinElectricalType::Passive:
+        case IR::PinElectricalType::Unspecified:
+        default:
+            return QChar('U');
+    }
+}
+
+// 为同一库内的清洗后名称分配稳定且不冲突的 PADS 名称。
+QString uniqueName(const QString& value, QSet<QString>& usedNames, QStringList& diagnostics) {
+    const QString base = safeName(value);
+    if (base.isEmpty()) {
+        diagnostics.append(QStringLiteral("PADS: 名称清洗后为空: %1").arg(value));
+        return {};
+    }
+    QString candidate = base.left(40);
+    int suffix = 2;
+    while (usedNames.contains(candidate.toLower())) {
+        const QString suffixText = QStringLiteral("_%1").arg(suffix++);
+        candidate = base.left(40 - suffixText.size()) + suffixText;
+    }
+    usedNames.insert(candidate.toLower());
+    return candidate;
 }
 
 // 写入 PADS Schematic Decal 的通用折线或闭合图元。
@@ -133,11 +176,14 @@ int pinCount(const IR::SymbolComponentIR& symbol, int part) {
 }
 
 // 将一个 IR 部件写成独立的 PADS Schematic Decal 记录。
-bool writePart(QTextStream& stream, const IR::SymbolComponentIR& symbol, int part, QStringList& diagnostics) {
+bool writePart(QTextStream& stream,
+               const IR::SymbolComponentIR& symbol,
+               const QString& baseName,
+               int part,
+               QStringList& diagnostics) {
     const int pieces = pieceCount(symbol, part);
     const int texts = textCount(symbol, part);
     const int pins = pinCount(symbol, part);
-    const QString baseName = safeName(symbol.name);
     const QString partName = part == 0 ? baseName : baseName + QStringLiteral("_P%1").arg(part + 1);
     stream << partName << " 0 0 50 5 50 5 2 " << pieces << ' ' << texts << ' ' << pins << " 0\n";
     stream << "TIMESTAMP " << QDateTime::currentDateTimeUtc().toString(QStringLiteral("yyyy.MM.dd.hh.mm.ss")) << "\n";
@@ -218,6 +264,78 @@ bool writePart(QTextStream& stream, const IR::SymbolComponentIR& symbol, int par
     return stream.status() == QTextStream::Ok;
 }
 
+// 生成一个 PADS Part Type 文件，把符号部件、封装名称和引脚编号关联起来。
+QByteArray buildPartTypeFile(const QList<IR::SymbolComponentIR>& symbols,
+                             const QList<QString>& symbolNames,
+                             QStringList& diagnostics) {
+    QByteArray bytes;
+    QBuffer buffer(&bytes);
+    if (!buffer.open(QIODevice::WriteOnly)) {
+        diagnostics.append(QStringLiteral("PADS: 无法创建 Part Type 缓冲区"));
+        return {};
+    }
+    QTextStream stream(&buffer);
+    stream.setEncoding(QStringConverter::Utf8);
+    stream << "*PADS-LIBRARY-PART-TYPES-V9*\n";
+    for (int index = 0; index < symbols.size(); ++index) {
+        const auto& symbol = symbols.at(index);
+        const QString& symbolName = symbolNames.at(index);
+        const QString footprintName = safeName(symbol.footprintName);
+        if (footprintName.isEmpty()) {
+            diagnostics.append(QStringLiteral("PADS: 符号 %1 缺少有效封装关联，无法生成 Part Type").arg(symbol.name));
+            return {};
+        }
+        const int partCount = qMax(1, symbol.partCount);
+        if (partCount > 702) {
+            diagnostics.append(QStringLiteral("PADS: 符号 %1 的部件数量超过 Part Type 限制").arg(symbol.name));
+            return {};
+        }
+        stream << symbolName << ' ' << footprintName << " I STD 0 " << partCount << " 0 0 0\n";
+        stream << "TIMESTAMP " << QDateTime::currentDateTimeUtc().toString(QStringLiteral("yyyy.MM.dd.hh.mm.ss"))
+               << "\n";
+        for (int part = 0; part < partCount; ++part) {
+            const QString decalName = part == 0 ? symbolName : symbolName + QStringLiteral("_P%1").arg(part + 1);
+            QList<const IR::SymbolPinIR*> pins;
+            QSet<QString> pinNumbers;
+            for (const auto& pin : symbol.pins) {
+                if (pin.partIndex != part && !pin.commonToAllParts)
+                    continue;
+                if (pin.designator.isEmpty() || pin.designator.size() > 7 || pin.designator.contains(' ')) {
+                    diagnostics.append(
+                        QStringLiteral("PADS: 符号 %1 的 Part Type 引脚编号无效: %2").arg(symbol.name, pin.designator));
+                    return {};
+                }
+                if (pinNumbers.contains(pin.designator.toLower())) {
+                    diagnostics.append(QStringLiteral("PADS: 符号 %1 的部件 %2 存在重复引脚编号: %3")
+                                           .arg(symbol.name)
+                                           .arg(part + 1)
+                                           .arg(pin.designator));
+                    return {};
+                }
+                if (pin.name.contains(QRegularExpression(QStringLiteral("[\\s\\\"]")))) {
+                    diagnostics.append(
+                        QStringLiteral("PADS: 符号 %1 的 Part Type 引脚名称无效: %2").arg(symbol.name, pin.name));
+                    return {};
+                }
+                pinNumbers.insert(pin.designator.toLower());
+                pins.append(&pin);
+            }
+            stream << "GATE 1 " << pins.size() << " 0\n" << decalName << '\n';
+            for (const auto* pin : pins) {
+                stream << pin->designator << " 0 " << partTypePinCode(pin->electricalType) << ' '
+                       << (pin->name.isEmpty() ? QStringLiteral("UNNAMED") : pin->name) << '\n';
+            }
+        }
+    }
+    stream << "*END*\n";
+    stream.flush();
+    if (stream.status() != QTextStream::Ok) {
+        diagnostics.append(QStringLiteral("PADS: Part Type 文件生成失败"));
+        return {};
+    }
+    return bytes;
+}
+
 }  // namespace
 
 // 返回 PADS Schematic Decal 文件后缀，符号和封装输出保持可区分。
@@ -238,6 +356,7 @@ bool ExporterPadsSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>&
                                              bool updateMode,
                                              const QString&) {
     m_diagnostics.clear();
+    m_companionFiles.clear();
     if (appendMode || updateMode) {
         m_diagnostics.append(QStringLiteral("PADS Schematic Decal 当前只支持完整重写，不支持追加或更新模式"));
         return false;
@@ -254,10 +373,18 @@ bool ExporterPadsSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>&
     QTextStream stream(&file);
     stream.setEncoding(QStringConverter::Utf8);
     stream << "*PADS-LIBRARY-SCH-DECALS-V9*\n";
+    QSet<QString> usedNames;
+    QList<QString> symbolNames;
+    symbolNames.reserve(symbols.size());
     for (const auto& symbol : symbols) {
+        const QString outputName = uniqueName(symbol.name, usedNames, m_diagnostics);
+        if (outputName.isEmpty())
+            return false;
+        symbolNames.append(outputName);
         const int count = qMax(1, symbol.partCount);
         for (int part = 0; part < count; ++part) {
-            if (!validatePart(symbol, part, m_diagnostics) || !writePart(stream, symbol, part, m_diagnostics))
+            if (!validatePart(symbol, part, m_diagnostics) ||
+                !writePart(stream, symbol, outputName, part, m_diagnostics))
                 return false;
         }
     }
@@ -267,13 +394,23 @@ bool ExporterPadsSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>&
         m_diagnostics.append(QStringLiteral("PADS: 写入符号库时发生 I/O 错误"));
         return false;
     }
-    m_diagnostics.append(QStringLiteral("PADS: 当前输出为 Schematic Decal 符号库，不包含 Part Type 器件关联"));
+    const QByteArray partTypeBytes = buildPartTypeFile(symbols, symbolNames, m_diagnostics);
+    if (partTypeBytes.isEmpty())
+        return false;
+    m_companionFiles.insert(QFileInfo(filePath).completeBaseName() + QStringLiteral(".p"), partTypeBytes);
+    m_diagnostics.append(
+        QStringLiteral("PADS: 已为 %1 个符号输出 Schematic Decal 与 Part Type 封装关联").arg(symbols.size()));
     return true;
 }
 
 // 返回最近一次导出的结构限制和失败原因。
 QStringList ExporterPadsSymbol::diagnostics() const {
     return m_diagnostics;
+}
+
+// 返回与 Schematic Decal 一起提交的 Part Type 文件。
+ISymbolExporter::CompanionFiles ExporterPadsSymbol::companionFiles() const {
+    return m_companionFiles;
 }
 
 }  // namespace EasyKiConverter

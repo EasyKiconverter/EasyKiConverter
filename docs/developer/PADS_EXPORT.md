@@ -1,6 +1,6 @@
 # PADS ASCII 库导出
 
-当前功能支持 **EasyEDA/LCSC → PADS Parts Library ASCII Schematic Decal 与 PCB Decal**，并可通过独立三维阶段输出 WRL/STEP 文件。它不是 PADS 原生二进制库，也不是包含 Part Type 器件关联的完整元件库导出器。
+当前功能支持 **EasyEDA/LCSC → PADS Parts Library ASCII Schematic Decal、Part Type 与 PCB Decal**，并可通过独立三维阶段输出 WRL/STEP 文件。它不是 PADS 原生二进制库，也不是包含全部高级逻辑属性的完整 PADS 元件库导出器。
 
 ## 导出边界
 
@@ -13,7 +13,8 @@ flowchart LR
     Sch --> C[.c 符号图形文件]
     Pcb --> D[.d 封装文件]
     Model3D --> Models[.3dmodels 目录]
-    C --> PADS[PADS 中继续建立器件关联]
+    C --> Part[Part Type 器件关联]
+    Part --> PADS[PADS 库管理流程]
     D --> PADS
     Models --> PADS
 ```
@@ -24,7 +25,7 @@ flowchart LR
 
 - GUI 目标格式：`PADS PCB`。
 - CLI 目标格式：`--target-format pads`。
-- 符号阶段输出 PADS ASCII Schematic Decal（`.c`），支持基本图元、文本、引脚和多部件拆分。
+- 符号阶段输出 PADS ASCII Schematic Decal（`.c`）和 Part Type（`.p`），支持基本图元、文本、引脚、多部件拆分以及符号到封装的关联。
 - 一个输出目录中为每个封装生成一个经过安全清洗的 `<name>.d` 文件。
 - 圆形、方形、矩形、椭圆和基本走线/矩形/区域图元。
 - SMD 与 PTH Pad 栈；PTH 会写入顶层和底层记录，并保留钻孔及镀层标志。
@@ -34,7 +35,7 @@ flowchart LR
 ## 明确限制
 
 - 当前不支持独立机械孔、圆弧、RoundRect、Trapezoid、Polygon 自定义 Pad 的无损输出；遇到这些数据会失败并给出诊断，不会静默退化。
-- PADS 输出的 `.c` 是 Schematic Decal 图形库，不包含 Part Type（`.p`）器件、封装和引脚映射；器件关联需要用户在 PADS 中继续完成。
+- PADS Part Type 当前按符号的 `footprintName` 生成封装关联，并按符号部件生成 Gate 和引脚映射；复杂的替代封装、门交换和标准电源网络仍需用户在 PADS 中补充。
 - PADS PCB Decal 不写入原生 3D 模型关联；`--3d-model` 会由独立阶段输出 WRL/STEP 文件，并保留独立文件清单语义。
 - 尚未实现 PADS 完整 Part/Logic 库、多文件索引或现有 PADS 库更新/追加。
 - 现有输出目录的 `no-overwrite`、`update-mode` 和 `retry-mode` 不会伪装成安全合并；这些模式会被导出阶段拒绝。
@@ -50,8 +51,8 @@ GUI 中选择 `PADS PCB` 后可选择符号、封装和独立 3D 文件导出；
 easykiconverter --target-format pads ...
 ```
 
-生成的 `.c`、`.d` 和 `.3dmodels` 需要由用户按照目标 PADS 版本的库管理流程导入或关联。请在目标软件中确认层语义、文本编码、制造属性和 Part Type 引脚映射；本项目不宣称跨版本的 PADS 原生兼容性。
+生成的 `.c`、`.p`、`.d` 和 `.3dmodels` 需要由用户按照目标 PADS 版本的库管理流程导入或关联。请在目标软件中确认层语义、文本编码、制造属性和 Part Type 引脚映射；本项目不宣称跨版本的 PADS 原生兼容性。
 
 ## 测试
 
-`tests/unit/test_pads_exporter.cpp` 使用本地 IR fixture 验证 Schematic Decal 的多部件符号、引脚、基本图元和结束记录，以及 PCB Decal 的 mil 单位头、SMD/PTH Pad 栈、清洗名称冲突和不可无损表达数据的失败诊断。测试不访问网络，也不依赖本地安装的 PADS 软件。
+`tests/unit/test_pads_exporter.cpp` 使用本地 IR fixture 验证 Schematic Decal、Part Type 的多部件符号、引脚、封装关联和结束记录，以及 PCB Decal 的 mil 单位头、SMD/PTH Pad 栈、清洗名称冲突和不可无损表达数据的失败诊断。测试不访问网络，也不依赖本地安装的 PADS 软件。

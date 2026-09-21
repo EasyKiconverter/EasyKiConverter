@@ -4,7 +4,7 @@ import EasyKiconverter_Cpp_Version.src.ui.qml.styles 1.0
 
 /**
  * @brief PADS ASCII 库导出设置卡片。
- * @details PADS 输出 Schematic Decal 符号和 PCB Decal 封装，三维模型由独立阶段输出。
+ * @details PADS 输出 Schematic Decal、Part Type 符号关联和 PCB Decal 封装，三维模型由独立阶段输出。
  */
 ColumnLayout {
     id: padsCard
@@ -33,7 +33,7 @@ ColumnLayout {
             id: padsInfo
             anchors.fill: parent
             anchors.margins: AppStyle.spacing.md
-            text: qsTranslate("MainWindow", "PADS 导出说明：\n" + "- 符号输出为 ASCII Schematic Decal（.c）\n" + "- 封装输出为 ASCII PCB Decal（.d）\n" + "- 3D 模型由独立阶段输出，不写入原生关联\n" + "- 不支持更新、追加和重试模式\n" + "- 无法无损表达的图元会在导出诊断中报告错误")
+            text: qsTranslate("MainWindow", "PADS 导出说明：\n" + "- 符号输出为 ASCII Schematic Decal（.c）和 Part Type（.p）\n" + "- 封装输出为 ASCII PCB Decal（.d）\n" + "- 3D 模型由独立阶段输出，不写入原生关联\n" + "- 不支持更新、追加和重试模式\n" + "- 无法无损表达的图元会在导出诊断中报告错误")
             font.pixelSize: AppStyle.fontSizes.xs
             color: AppStyle.colors.textSecondary
             wrapMode: Text.WordWrap

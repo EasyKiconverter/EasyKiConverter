@@ -2,7 +2,9 @@
 
 #include "core/ir/SymbolIR.h"
 
+#include <QByteArray>
 #include <QList>
+#include <QMap>
 #include <QString>
 #include <QStringList>
 
@@ -15,6 +17,12 @@ namespace EasyKiConverter {
  */
 class ISymbolExporter {
 public:
+    /**
+     * @brief 符号库导出的伴随文件内容。
+     * @details 目标格式需要多个相互关联的库文件时，主库文件之外的文件通过此结构参与同一事务提交。
+     */
+    using CompanionFiles = QMap<QString, QByteArray>;
+
     virtual ~ISymbolExporter() = default;
 
     /**
@@ -28,6 +36,14 @@ public:
      * @return 目标格式写入器产生的诊断列表
      */
     virtual QStringList diagnostics() const {
+        return {};
+    }
+
+    /**
+     * @brief 获取最近一次导出的伴随文件。
+     * @return 文件名到完整文件内容的映射，文件名必须是相对库目录的安全文件名。
+     */
+    virtual CompanionFiles companionFiles() const {
         return {};
     }
 

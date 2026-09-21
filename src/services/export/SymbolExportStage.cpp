@@ -298,6 +298,7 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     qDebug() << "SymbolExportStage: targetFormat:" << static_cast<int>(m_options.targetFormat);
 
     bool exportSuccess = false;
+    ISymbolExporter::CompanionFiles companionFiles;
     QString libraryDescription = m_options.symbolLibraryDescription;
     {
         bool appendMode = !m_options.overwriteExistingFiles;
@@ -309,6 +310,7 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         }
         exportSuccess = exporter->exportSymbolLibrary(
             irSymbolList, libName, tempPath, appendMode, m_options.updateMode, libraryDescription);
+        companionFiles = exporter->companionFiles();
         const QStringList exporterDiagnostics = exporter->diagnostics();
         if (!exporterDiagnostics.isEmpty()) {
             QMutexLocker locker(&m_progressMutex);
@@ -335,8 +337,28 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
 
-    if (!m_tempManager.commitWithBackup(tempPath, finalPath)) {
-        abortExport(QStringLiteral("Failed to commit temp file"));
+    QVector<TempFileManager::CommitItem> commitItems;
+    commitItems.append({tempPath, finalPath, false});
+    for (auto it = companionFiles.cbegin(); it != companionFiles.cend(); ++it) {
+        const QString companionName = it.key();
+        if (companionName.isEmpty() || QFileInfo(companionName).fileName() != companionName ||
+            companionName == QFileInfo(finalPath).fileName()) {
+            abortExport(QStringLiteral("Invalid symbol companion file name: %1").arg(companionName));
+            return;
+        }
+        const QString companionTempPath = QDir(m_tempManager.tempDirectory()).filePath(companionName);
+        QFile companionFile(companionTempPath);
+        if (!companionFile.open(QIODevice::WriteOnly | QIODevice::Truncate) ||
+            companionFile.write(it.value()) != it.value().size()) {
+            abortExport(QStringLiteral("Failed to write symbol companion file: %1").arg(companionName));
+            return;
+        }
+        companionFile.close();
+        m_tempManager.registerTempFile(companionTempPath);
+        commitItems.append({companionTempPath, QDir(outputDir).filePath(companionName), false});
+    }
+    if (!m_tempManager.commitBatch(commitItems)) {
+        abortExport(QStringLiteral("Failed to commit symbol library files"));
         return;
     }
     qDebug() << "SymbolExportStage: Successfully exported to:" << finalPath;

@@ -712,6 +712,39 @@ private slots:
         QVERIFY(!QDir(tempDir.path() + QDir::separator() + QStringLiteral(".tmp")).exists());
     }
 
+    // 验证 PADS 符号图形和 Part Type 关联文件随同一导出事务提交。
+    void padsSymbolLibraryCommitsCompanionPartType() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        SymbolExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("PadsSymbols");
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PADS_SYMBOL")] =
+            makeSymbolComponent(QStringLiteral("C_PADS_SYMBOL"), QStringLiteral("PADS_SYMBOL"));
+
+        QSignalSpy completedSpy(&stage, &SymbolExportStage::completed);
+        stage.start({QStringLiteral("C_PADS_SYMBOL")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "PADS symbol export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile schematicFile(tempDir.path() + QDir::separator() + QStringLiteral("PadsSymbols_PADS.c"));
+        QVERIFY(schematicFile.exists());
+        QFile partTypeFile(tempDir.path() + QDir::separator() + QStringLiteral("PadsSymbols_PADS.p"));
+        QVERIFY(partTypeFile.exists());
+        QVERIFY(partTypeFile.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString partTypeContent = QString::fromUtf8(partTypeFile.readAll());
+        QVERIFY(partTypeContent.contains(QStringLiteral("PADS_SYMBOL PKG_C_PADS_SYMBOL")));
+    }
+
     // 验证 Xpedition 符号库不会在禁止覆盖时改写已有 ZIP。
     void xpeditionSymbolRejectsNoOverwriteAndUpdateModes() {
         QTemporaryDir tempDir;

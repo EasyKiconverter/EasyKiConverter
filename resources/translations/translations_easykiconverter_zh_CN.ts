@@ -1672,13 +1672,13 @@
     <message>
         <location filename="../../src/ui/qml/components/PadsSettingsCard.qml" line="36"/>
         <source>PADS 导出说明：
-- 符号输出为 ASCII Schematic Decal（.c）
+- 符号输出为 ASCII Schematic Decal（.c）和 Part Type（.p）
 - 封装输出为 ASCII PCB Decal（.d）
 - 3D 模型由独立阶段输出，不写入原生关联
 - 不支持更新、追加和重试模式
 - 无法无损表达的图元会在导出诊断中报告错误</source>
         <translation>PADS 导出说明：
-- 符号输出为 ASCII Schematic Decal（.c）
+- 符号输出为 ASCII Schematic Decal（.c）和 Part Type（.p）
 - 封装输出为 ASCII PCB Decal（.d）
 - 3D 模型由独立阶段输出，不写入原生关联
 - 不支持更新、追加和重试模式

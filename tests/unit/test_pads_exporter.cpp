@@ -106,6 +106,7 @@ void TestPadsExporter::writesSchematicDecal() {
 
     IR::SymbolComponentIR symbol;
     symbol.name = QStringLiteral("U_TEST");
+    symbol.footprintName = QStringLiteral("QFN-24");
     symbol.partCount = 2;
 
     IR::SymbolRectangleIR rectangle;
@@ -121,6 +122,7 @@ void TestPadsExporter::writesSchematicDecal() {
     pin.designator = QStringLiteral("1");
     pin.position = QPointF(-3.0, 0.0);
     pin.length = 1.0;
+    pin.partIndex = 1;
     symbol.pins.append(pin);
 
     IR::SymbolTextIR text;
@@ -142,6 +144,13 @@ void TestPadsExporter::writesSchematicDecal() {
     QVERIFY(content.contains(QStringLiteral("CLOSED 5")));
     QVERIFY(content.contains(QStringLiteral("T -118.110236 0")));
     QVERIFY(content.endsWith(QStringLiteral("*END*\n")));
+    const auto companionFiles = exporter.companionFiles();
+    QVERIFY(companionFiles.contains(QStringLiteral("library_PADS.p")));
+    const QString partType = QString::fromUtf8(companionFiles.value(QStringLiteral("library_PADS.p")));
+    QVERIFY(partType.startsWith(QStringLiteral("*PADS-LIBRARY-PART-TYPES-V9*")));
+    QVERIFY(partType.contains(QStringLiteral("U_TEST QFN-24 I STD 0 2 0 0 0")));
+    QVERIFY(partType.contains(QStringLiteral("GATE 1 1 0\nU_TEST_P2")));
+    QVERIFY(partType.endsWith(QStringLiteral("*END*\n")));
 }
 
 /** 验证符号库不能把未经实现的追加或更新语义伪装成成功。 */
@@ -150,6 +159,7 @@ void TestPadsExporter::rejectsSymbolMergeModes() {
     QVERIFY(temporary.isValid());
     IR::SymbolComponentIR symbol;
     symbol.name = QStringLiteral("R_TEST");
+    symbol.footprintName = QStringLiteral("R-0603");
 
     ExporterPadsSymbol exporter;
     const QString path = QDir(temporary.path()).filePath(QStringLiteral("library_PADS.c"));
