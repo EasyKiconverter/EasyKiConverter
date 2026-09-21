@@ -1322,6 +1322,17 @@ private slots:
         component->setModel3DData(model);
         component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
+        auto symbol = QSharedPointer<SymbolData>::create();
+        SymbolInfo symbolInfo;
+        symbolInfo.name = QStringLiteral("BOTH_SYMBOL");
+        symbol->setInfo(symbolInfo);
+        component->setSymbolData(symbol);
+        auto footprint = QSharedPointer<FootprintData>::create();
+        FootprintInfo footprintInfo;
+        footprintInfo.name = QStringLiteral("BOTH_FOOTPRINT");
+        footprint->setInfo(footprintInfo);
+        component->setFootprintData(footprint);
+
         QMap<QString, QSharedPointer<ComponentData>> cachedData;
         cachedData.insert(QStringLiteral("C_BOTH_MODELS"), component);
         QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
@@ -1344,6 +1355,8 @@ private slots:
         const QJsonObject componentObject =
             manifestObject.value(QStringLiteral("components")).toArray().first().toObject();
         QCOMPARE(componentObject.value(QStringLiteral("componentId")).toString(), QStringLiteral("C_BOTH_MODELS"));
+        QCOMPARE(componentObject.value(QStringLiteral("symbol")).toString(), QStringLiteral("BOTH_SYMBOL"));
+        QCOMPARE(componentObject.value(QStringLiteral("footprint")).toString(), QStringLiteral("BOTH_FOOTPRINT"));
         QCOMPARE(componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("wrl")).toString(),
                  QStringLiteral("Both Model.wrl"));
         QCOMPARE(componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("step")).toString(),
