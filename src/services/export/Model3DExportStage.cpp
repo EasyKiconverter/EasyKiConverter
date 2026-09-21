@@ -219,6 +219,25 @@ void Model3DExportStage::startWorker(QObject* worker,
         paths.wrlFinalPath = needWrl ? (outputDir + QDir::separator() + modelName + QStringLiteral(".wrl")) : QString();
         paths.stepFinalPath =
             needStep ? (outputDir + QDir::separator() + modelName + QStringLiteral(".step")) : QString();
+
+        // 临时路径存在时，Worker 无法自行判断最终文件是否已存在，因此在提交前显式执行不覆盖策略。
+        const bool wrlExists = !paths.wrlFinalPath.isEmpty() && QFile::exists(paths.wrlFinalPath);
+        const bool stepExists = !paths.stepFinalPath.isEmpty() && QFile::exists(paths.stepFinalPath);
+        const bool anyExisting = wrlExists || stepExists;
+        if (!m_options.overwriteExistingFiles && anyExisting) {
+            const bool allRequestedExist = (!needWrl || wrlExists) && (!needStep || stepExists);
+            m_componentPaths.remove(componentId);
+            if (allRequestedExist) {
+                completeSkippedItemProgress(exportWorker, componentId, QStringLiteral("3D model file already exists"));
+            } else {
+                completeItemProgress(exportWorker,
+                                     componentId,
+                                     false,
+                                     QStringLiteral("3D model output partially exists and overwrite is disabled"));
+            }
+            delete exportWorker;
+            return;
+        }
         exportWorker->setOutputPaths({paths.wrlTempPath, paths.stepTempPath});
     }
 

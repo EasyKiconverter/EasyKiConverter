@@ -1258,6 +1258,50 @@ private slots:
         QVERIFY(QFile::exists(tempDir.filePath(QStringLiteral("DuplicateModels.3dmodels/Shared Model_2.wrl"))));
     }
 
+    // 验证禁止覆盖时不会改写已有三维模型文件。
+    void model3DNoOverwritePreservesExistingFile() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString outputDir = tempDir.filePath(QStringLiteral("NoOverwriteModels.3dmodels"));
+        QVERIFY(QDir().mkpath(outputDir));
+        const QString existingPath = QDir(outputDir).filePath(QStringLiteral("Existing Model.wrl"));
+        QFile existing(existingPath);
+        QVERIFY(existing.open(QIODevice::WriteOnly));
+        const QByteArray originalData = QByteArrayLiteral("original model\n");
+        QVERIFY(existing.write(originalData) == originalData.size());
+        existing.close();
+
+        Model3DExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("NoOverwriteModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        auto component = QSharedPointer<ComponentData>::create();
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("no-overwrite-model"));
+        model->setName(QStringLiteral("Existing Model"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_NO_OVERWRITE"), component);
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_NO_OVERWRITE")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "No-overwrite model export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(2).toInt(), 1);
+
+        QFile result(existingPath);
+        QVERIFY(result.open(QIODevice::ReadOnly));
+        QCOMPARE(result.readAll(), originalData);
+    }
+
     // 验证运行中的阶段会拒绝重复启动请求。
     void duplicateStartWhileRunningIsIgnored() {
         DeferredStage stage;
