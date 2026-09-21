@@ -66,8 +66,35 @@ void Model3DExportStage::start(const QStringList& componentIds,
     };
 
     m_componentPaths.clear();
+    m_modelFileStems.clear();
     m_skippedComponents.clear();
     m_preflightErrors.clear();
+
+    // 先按输入顺序分配唯一文件名，避免多个元件共用模型名称时互相覆盖。
+    QSet<QString> usedModelStems;
+    for (const QString& componentId : componentIds) {
+        QString modelName;
+        const auto cachedIt = cachedData.constFind(componentId);
+        if (cachedIt != cachedData.cend() && cachedIt.value()) {
+            const auto& data = cachedIt.value();
+            if (data->model3DData())
+                modelName = data->model3DData()->name();
+            if (modelName.isEmpty() && data->footprintData())
+                modelName = data->footprintData()->info().name;
+        }
+        if (modelName.isEmpty())
+            modelName = componentId;
+        modelName = PathSecurity::sanitizeFilename(modelName);
+        if (modelName.isEmpty())
+            modelName = QStringLiteral("model");
+
+        const QString baseName = modelName;
+        int suffix = 2;
+        while (usedModelStems.contains(modelName.toCaseFolded()))
+            modelName = QStringLiteral("%1_%2").arg(baseName).arg(suffix++);
+        usedModelStems.insert(modelName.toCaseFolded());
+        m_modelFileStems.insert(componentId, modelName);
+    }
 
     // 输出目录创建失败时仍然交给基类建立逐项状态，避免主服务留下 Pending 项。
     if (!dir.exists(outputDir) && !dir.mkpath(outputDir)) {
@@ -176,17 +203,7 @@ void Model3DExportStage::startWorker(QObject* worker,
     exportWorker->setOptions(m_options);
     exportWorker->setData(componentId, data, m_options);
 
-    QString modelName;
-    if (data && data->model3DData()) {
-        modelName = data->model3DData()->name();
-    }
-    if (modelName.isEmpty() && data && data->footprintData()) {
-        modelName = data->footprintData()->info().name;
-    }
-    if (modelName.isEmpty()) {
-        modelName = componentId;
-    }
-    modelName = PathSecurity::sanitizeFilename(modelName);
+    const QString modelName = m_modelFileStems.value(componentId, PathSecurity::sanitizeFilename(componentId));
 
     const bool needWrl = m_options.needsModel3DWrl();
     const bool needStep = m_options.needsModel3DStep();

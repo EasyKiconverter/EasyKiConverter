@@ -1224,6 +1224,40 @@ private slots:
         QVERIFY(QFile::exists(tempDir.filePath(QStringLiteral("FootprintModels.3dmodels/C_FOOTPRINT_MODEL.wrl"))));
     }
 
+    // 验证相同模型名称会被稳定去重，避免独立三维模型文件互相覆盖。
+    void duplicateModelNamesProduceDistinctFiles() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        Model3DExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("DuplicateModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        for (const QString& componentId : {QStringLiteral("C_MODEL_A"), QStringLiteral("C_MODEL_B")}) {
+            auto component = QSharedPointer<ComponentData>::create();
+            auto model = QSharedPointer<Model3DData>::create();
+            model->setUuid(componentId + QStringLiteral("-uuid"));
+            model->setName(QStringLiteral("Shared Model"));
+            component->setModel3DData(model);
+            component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+            cachedData.insert(componentId, component);
+        }
+
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_MODEL_A"), QStringLiteral("C_MODEL_B")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "Duplicate model name export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 2);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QVERIFY(QFile::exists(tempDir.filePath(QStringLiteral("DuplicateModels.3dmodels/Shared Model.wrl"))));
+        QVERIFY(QFile::exists(tempDir.filePath(QStringLiteral("DuplicateModels.3dmodels/Shared Model_2.wrl"))));
+    }
+
     // 验证运行中的阶段会拒绝重复启动请求。
     void duplicateStartWhileRunningIsIgnored() {
         DeferredStage stage;

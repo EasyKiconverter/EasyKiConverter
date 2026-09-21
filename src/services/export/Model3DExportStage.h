@@ -89,6 +89,7 @@ private:
     struct ExportOptions m_options;  ///< 导出选项
     TempFileManager m_tempManager;  ///< 临时文件管理器
     QMap<QString, TempFilePaths> m_componentPaths;  ///< componentId -> temp/final paths
+    QHash<QString, QString> m_modelFileStems;  ///< componentId -> 去重后的三维模型文件名主体
     QSet<QString> m_skippedComponents;  ///< 没有可导出三维数据或格式的元器件
     QHash<QString, QString> m_preflightErrors;  ///< 启动前路径准备失败的元器件及错误信息
 };
