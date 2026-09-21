@@ -745,6 +745,78 @@ private slots:
         QVERIFY(partTypeContent.contains(QStringLiteral("PADS_SYMBOL PKG_C_PADS_SYMBOL")));
     }
 
+    // 验证 Eagle 组合库阶段同时提交 Symbol、Package、DeviceSet 和引脚焊盘关联。
+    void eagleCombinedLibraryStageWritesAllLibrarySections() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("EagleCombined");
+        options.targetFormat = TargetEdaFormat::Eagle;
+        options.exportSymbol = true;
+        options.exportFootprint = true;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_EAGLE_COMBINED")] =
+            makeCombinedLibraryComponent(QStringLiteral("C_EAGLE_COMBINED"), QStringLiteral("EAGLE_PACKAGE"));
+
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_EAGLE_COMBINED")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "Eagle combined library export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile output(tempDir.filePath(QStringLiteral("EagleCombined.lbr")));
+        QVERIFY(output.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString content = QString::fromUtf8(output.readAll());
+        QVERIFY(content.contains(QStringLiteral("<symbols>")));
+        QVERIFY(content.contains(QStringLiteral("<packages>")));
+        QVERIFY(content.contains(QStringLiteral("<devicesets>")));
+        QVERIFY(content.contains(QStringLiteral("package=\"EAGLE_PACKAGE\"")));
+        QVERIFY(content.contains(QStringLiteral("pin=\"PIN1\"")));
+        QVERIFY(content.contains(QStringLiteral("pad=\"1\"")));
+    }
+
+    // 验证 CADSTAR 组合库阶段同时提交 Component、Package、Pad 和 Part 关联。
+    void cadstarCombinedLibraryStageWritesAllLibrarySections() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("CadstarCombined");
+        options.targetFormat = TargetEdaFormat::Cadstar;
+        options.exportSymbol = true;
+        options.exportFootprint = true;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_CADSTAR_COMBINED")] =
+            makeCombinedLibraryComponent(QStringLiteral("C_CADSTAR_COMBINED"), QStringLiteral("CADSTAR_PACKAGE"));
+
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_CADSTAR_COMBINED")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "CADSTAR combined library export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile output(tempDir.filePath(QStringLiteral("CadstarCombined.lib")));
+        QVERIFY(output.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString content = QString::fromUtf8(output.readAll());
+        QVERIFY(content.contains(QStringLiteral("COMPONENT \"CADSTAR_SYMBOL\"")));
+        QVERIFY(content.contains(QStringLiteral("PACKAGE \"CADSTAR_PACKAGE\"")));
+        QVERIFY(content.contains(QStringLiteral("PAD \"CADSTAR_PACKAGE_PAD_1\"")));
+        QVERIFY(content.contains(QStringLiteral("PART \"C_CADSTAR_COMBINED\"")));
+    }
+
     // 验证 Xpedition 符号库不会在禁止覆盖时改写已有 ZIP。
     void xpeditionSymbolRejectsNoOverwriteAndUpdateModes() {
         QTemporaryDir tempDir;
@@ -1303,6 +1375,48 @@ private:
             footprintData->setModel3D(model3D);
         }
 
+        componentData->setFootprintData(footprintData);
+        return componentData;
+    }
+
+    // 构造同时具备符号和封装的最小组件，供组合库阶段测试使用。
+    static QSharedPointer<ComponentData> makeCombinedLibraryComponent(const QString& componentId,
+                                                                      const QString& footprintName) {
+        auto componentData = makeSymbolComponent(componentId, QStringLiteral("CADSTAR_SYMBOL"));
+        componentData->setName(componentId);
+        componentData->setPackage(footprintName);
+        auto symbolData = componentData->symbolData();
+        SymbolInfo symbolInfo = symbolData->info();
+        symbolInfo.package = footprintName;
+        symbolData->setInfo(symbolInfo);
+        SymbolPin symbolPin;
+        symbolPin.settings.spicePinNumber = QStringLiteral("1");
+        symbolPin.settings.posX = 0.0;
+        symbolPin.settings.posY = 0.0;
+        symbolPin.name.text = QStringLiteral("PIN1");
+        symbolPin.name.isDisplayed = true;
+        symbolData->addPin(symbolPin);
+        auto footprintData = QSharedPointer<FootprintData>::create();
+        FootprintInfo info;
+        info.name = footprintName;
+        info.type = QStringLiteral("smd");
+        footprintData->setInfo(info);
+        FootprintBBox bbox;
+        bbox.x = 0;
+        bbox.y = 0;
+        bbox.width = 1;
+        bbox.height = 1;
+        footprintData->setBbox(bbox);
+        FootprintPad pad{};
+        pad.shape = QStringLiteral("RECT");
+        pad.centerX = 0.0;
+        pad.centerY = 0.0;
+        pad.width = 1.0;
+        pad.height = 1.0;
+        pad.layerId = 1;
+        pad.number = QStringLiteral("1");
+        pad.isPlated = true;
+        footprintData->addPad(pad);
         componentData->setFootprintData(footprintData);
         return componentData;
     }
