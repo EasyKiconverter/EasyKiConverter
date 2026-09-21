@@ -100,6 +100,8 @@ Cadence 官方应用说明提供了基于 Allegro SKILL 的 Padstack 生成路�
 
 部分第三方工具也采用“生成脚本、调用 Padstack Designer、再调用 Allegro 生成 `.dra/.psm`”的流程。这些方案可以作为未来可选的 Cadence-assisted backend，但不能证明 EasyKiConverter 已经具备独立 Native Binary Writer。
 
+Cadence 社区公开的 Padstack Editor 命令说明还记录了 `-x` 和 `-xo` 参数：前者由 PXML 创建 `.pad`，后者由 `.pad` 导出 PXML。该路径可以帮助验证 Padstack 语义和字段映射，但两端都要求 Padstack Editor 执行，不能作为无需 Cadence 的 `.pad` writer。PXML 也不能替代 `.dra` 或 `.psm` 的对象图和二进制序列化验证。相关公开资料包括 [Padstack Editor PXML 命令说明](https://community.cadence.com/cadence_technology_forums/pcb-design/f/allegro-x-pcb-editor/62532/automatically-export-pxml-file-from-padstack-editor/1401534) 和 [OpenAllegroParser 的 Pad 格式记录](https://github.com/Werni2A/OpenAllegroParser/blob/main/doc/pad.md)。
+
 ## 尚缺少的必要证据
 
 在实现 Binary Writer 之前必须补齐：

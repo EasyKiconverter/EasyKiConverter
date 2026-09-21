@@ -100,6 +100,8 @@ Cadence's official application note provides a Padstack generation path through 
 
 Some third-party tools similarly generate scripts, invoke Padstack Designer, and then invoke Allegro to create `.dra/.psm`. They may be considered for a future Cadence-assisted backend, but they do not prove that EasyKiConverter has an independent native binary writer.
 
+Cadence's public Padstack Editor command notes also document `-x` to create a `.pad` from PXML and `-xo` to export PXML from a `.pad`. This is useful for validating Padstack semantics and field mapping, but both directions require Padstack Editor and therefore cannot serve as an independent `.pad` writer. PXML also does not replace the object graph and binary serialization evidence required for `.dra` or `.psm`. See the [Padstack Editor PXML command notes](https://community.cadence.com/cadence_technology_forums/pcb-design/f/allegro-x-pcb-editor/62532/automatically-export-pxml-file-from-padstack-editor/1401534) and [OpenAllegroParser Pad format notes](https://github.com/Werni2A/OpenAllegroParser/blob/main/doc/pad.md).
+
 ## Required missing evidence
 
 Before implementing a binary writer, the project must obtain:
