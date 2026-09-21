@@ -1224,6 +1224,42 @@ private slots:
         QVERIFY(QFile::exists(tempDir.filePath(QStringLiteral("FootprintModels.3dmodels/C_FOOTPRINT_MODEL.wrl"))));
     }
 
+    // 验证阶段级 BOTH 模式会同时提交 WRL 和 STEP 两种三维模型文件。
+    void model3DStageExportsWrlAndStepTogether() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        Model3DExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("BothModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_BOTH;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        auto component = QSharedPointer<ComponentData>::create();
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("both-model-uuid"));
+        model->setName(QStringLiteral("Both Model"));
+        model->setStep(QByteArrayLiteral("ISO-10303-21;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_BOTH_MODELS"), component);
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_BOTH_MODELS")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "Combined 3D model export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(2).toInt(), 0);
+        const QString outputBase = QStringLiteral("BothModels.3dmodels/Both Model");
+        QVERIFY(QFile::exists(tempDir.filePath(outputBase + QStringLiteral(".wrl"))));
+        QVERIFY(QFile::exists(tempDir.filePath(outputBase + QStringLiteral(".step"))));
+    }
+
     // 验证相同模型名称会被稳定去重，避免独立三维模型文件互相覆盖。
     void duplicateModelNamesProduceDistinctFiles() {
         QTemporaryDir tempDir;
