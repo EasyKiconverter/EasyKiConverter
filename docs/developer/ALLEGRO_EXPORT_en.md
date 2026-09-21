@@ -1,25 +1,27 @@
-# Allegro PCB footprint export
+# Allegro semantic library Import Package export
 
 ## Scope
 
-The current feature supports **EasyEDA/LCSC Footprint to an Allegro PCB Footprint Import Package** only. It does not write Cadence private `.dra`, `.psm`, or `.pad` databases, and it does not support Allegro schematic symbols, Capture `.olb`, or a complete Cadence component library.
+The current feature supports **EasyEDA/LCSC symbols and footprints to an Allegro semantic Import Package**. Symbols, footprints, pin-to-pad relations, and available STEP models are stored as normalized data. It does not write Cadence private `.dra`, `.psm`, or `.pad` databases, and it does not generate native Allegro schematic symbols or Capture `.olb` files.
 
 ```mermaid
 flowchart LR
-    A[EasyEDA/LCSC Footprint] --> B[FootprintIR]
+    A[EasyEDA/LCSC Symbol + Footprint] --> B[ComponentIR]
     B --> C[Allegro target model]
+    C --> S[Normalized symbol data]
     C --> D[Padstacks and dependencies]
     C --> E[Package geometry and place bound]
     C --> F[STEP association and transforms]
     D --> G[Allegro Import Package]
     E --> G
     F --> G
+    S --> G
     G --> H[User generates native libraries in Cadence Allegro]
 ```
 
 ## Output
 
-Exporting `MyLib` creates `MyLib_Allegro/` with `manifest.json`, `generator.il`, `README_ALLEGRO.md`, `normalized-data/`, `padstacks/`, `shapes/`, and `models/`. `manifest.json` is the package index and lists every footprint, pin, padstack, and STEP file.
+Exporting `MyLib` creates `MyLib_Allegro/` with `manifest.json`, `generator.il`, `README_ALLEGRO.md`, `normalized-data/`, `symbols/`, `padstacks/`, `shapes/`, and `models/`. `manifest.json` is the package index and lists every symbol, footprint, pin, padstack, pin-to-pad relation, and STEP file.
 
 ## Semantics and degradation
 

@@ -426,6 +426,182 @@ QJsonObject packageObject(const AllegroPackageModel& package) {
             {QStringLiteral("place_bound_fallback"), package.usedPlaceBoundFallback}};
 }
 
+/** 将符号引脚写成不依赖 Allegro 私有编号的规范化 JSON。 */
+QJsonObject symbolPinObject(const IR::SymbolPinIR& pin) {
+    return {{QStringLiteral("name"), pin.name},
+            {QStringLiteral("designator"), pin.designator},
+            {QStringLiteral("x_mm"), pin.position.x()},
+            {QStringLiteral("y_mm"), pin.position.y()},
+            {QStringLiteral("length_mm"), pin.length},
+            {QStringLiteral("direction"), static_cast<int>(pin.direction)},
+            {QStringLiteral("electrical_type"), static_cast<int>(pin.electricalType)},
+            {QStringLiteral("part_index"), pin.partIndex},
+            {QStringLiteral("common_to_all_parts"), pin.commonToAllParts},
+            {QStringLiteral("show_name"), pin.display.showName},
+            {QStringLiteral("show_designator"), pin.display.showDesignator},
+            {QStringLiteral("name_rotation_deg"), pin.nameRotation},
+            {QStringLiteral("number_rotation_deg"), pin.numberRotation},
+            {QStringLiteral("inverted"), pin.style.inverted},
+            {QStringLiteral("clock"), pin.style.clock},
+            {QStringLiteral("active_low"), pin.style.activeLow}};
+}
+
+/** 将 Allegro Import Package 需要的符号语义写入 JSON。 */
+QJsonObject symbolObject(const IR::SymbolComponentIR& symbol) {
+    QJsonArray pins;
+    for (const IR::SymbolPinIR& pin : symbol.pins)
+        pins.append(symbolPinObject(pin));
+
+    QJsonArray rectangles;
+    for (const IR::SymbolRectangleIR& rectangle : symbol.rectangles) {
+        rectangles.append(QJsonObject{{QStringLiteral("x0_mm"), rectangle.x0},
+                                      {QStringLiteral("y0_mm"), rectangle.y0},
+                                      {QStringLiteral("x1_mm"), rectangle.x1},
+                                      {QStringLiteral("y1_mm"), rectangle.y1},
+                                      {QStringLiteral("corner_radius_x_mm"), rectangle.cornerRadiusX},
+                                      {QStringLiteral("corner_radius_y_mm"), rectangle.cornerRadiusY},
+                                      {QStringLiteral("stroke_width_mm"), rectangle.strokeWidth},
+                                      {QStringLiteral("filled"), rectangle.isFilled},
+                                      {QStringLiteral("part_index"), rectangle.partIndex}});
+    }
+
+    QJsonArray circles;
+    for (const IR::SymbolCircleIR& circle : symbol.circles) {
+        circles.append(QJsonObject{
+            {QStringLiteral("center"),
+             QJsonObject{{QStringLiteral("x"), circle.center.x()}, {QStringLiteral("y"), circle.center.y()}}},
+            {QStringLiteral("radius_mm"), circle.radius},
+            {QStringLiteral("stroke_width_mm"), circle.strokeWidth},
+            {QStringLiteral("filled"), circle.isFilled},
+            {QStringLiteral("part_index"), circle.partIndex}});
+    }
+
+    QJsonArray arcs;
+    for (const IR::SymbolArcIR& arc : symbol.arcs) {
+        arcs.append(QJsonObject{
+            {QStringLiteral("start"),
+             QJsonObject{{QStringLiteral("x"), arc.startPoint.x()}, {QStringLiteral("y"), arc.startPoint.y()}}},
+            {QStringLiteral("mid"),
+             QJsonObject{{QStringLiteral("x"), arc.midPoint.x()}, {QStringLiteral("y"), arc.midPoint.y()}}},
+            {QStringLiteral("end"),
+             QJsonObject{{QStringLiteral("x"), arc.endPoint.x()}, {QStringLiteral("y"), arc.endPoint.y()}}},
+            {QStringLiteral("stroke_width_mm"), arc.strokeWidth},
+            {QStringLiteral("filled"), arc.isFilled},
+            {QStringLiteral("part_index"), arc.partIndex}});
+    }
+
+    QJsonArray polylines;
+    for (const IR::SymbolPolylineIR& polyline : symbol.polylines)
+        polylines.append(QJsonObject{{QStringLiteral("points_mm"), pointArray(polyline.points)},
+                                     {QStringLiteral("stroke_width_mm"), polyline.strokeWidth},
+                                     {QStringLiteral("filled"), polyline.isFilled},
+                                     {QStringLiteral("part_index"), polyline.partIndex}});
+
+    QJsonArray polygons;
+    for (const IR::SymbolPolygonIR& polygon : symbol.polygons)
+        polygons.append(QJsonObject{{QStringLiteral("points_mm"), pointArray(polygon.points)},
+                                    {QStringLiteral("stroke_width_mm"), polygon.strokeWidth},
+                                    {QStringLiteral("filled"), polygon.isFilled},
+                                    {QStringLiteral("part_index"), polygon.partIndex}});
+
+    QJsonArray texts;
+    for (const IR::SymbolTextIR& text : symbol.texts)
+        texts.append(QJsonObject{{QStringLiteral("text"), text.text},
+                                 {QStringLiteral("x_mm"), text.position.x()},
+                                 {QStringLiteral("y_mm"), text.position.y()},
+                                 {QStringLiteral("rotation_deg"), text.rotation},
+                                 {QStringLiteral("font_family"), text.fontFamily},
+                                 {QStringLiteral("font_size_mm"), text.fontSizeMm},
+                                 {QStringLiteral("visible"), text.visible},
+                                 {QStringLiteral("part_index"), text.partIndex}});
+
+    QJsonObject graphicsCounts{{QStringLiteral("pins"), symbol.pins.size()},
+                               {QStringLiteral("rectangles"), symbol.rectangles.size()},
+                               {QStringLiteral("circles"), symbol.circles.size()},
+                               {QStringLiteral("arcs"), symbol.arcs.size()},
+                               {QStringLiteral("ellipses"), symbol.ellipses.size()},
+                               {QStringLiteral("pies"), symbol.pies.size()},
+                               {QStringLiteral("elliptical_arcs"), symbol.ellipticalArcs.size()},
+                               {QStringLiteral("polylines"), symbol.polylines.size()},
+                               {QStringLiteral("polygons"), symbol.polygons.size()},
+                               {QStringLiteral("paths"), symbol.paths.size()},
+                               {QStringLiteral("beziers"), symbol.beziers.size()},
+                               {QStringLiteral("ieee_symbols"), symbol.ieeeSymbols.size()},
+                               {QStringLiteral("texts"), symbol.texts.size()},
+                               {QStringLiteral("text_frames"), symbol.textFrames.size()},
+                               {QStringLiteral("images"), symbol.images.size()}};
+
+    return {{QStringLiteral("name"), symbol.name},
+            {QStringLiteral("description"), symbol.description},
+            {QStringLiteral("designator_prefix"), symbol.designatorPrefix},
+            {QStringLiteral("part_count"), symbol.partCount},
+            {QStringLiteral("origin_mm"),
+             QJsonObject{{QStringLiteral("x"), symbol.originX}, {QStringLiteral("y"), symbol.originY}}},
+            {QStringLiteral("preserve_logical_origin"), symbol.preserveLogicalOrigin},
+            {QStringLiteral("footprint_name"), symbol.footprintName},
+            {QStringLiteral("footprint_names"), QJsonArray::fromStringList(symbol.footprintNames)},
+            {QStringLiteral("aliases"), QJsonArray::fromStringList(symbol.aliases)},
+            {QStringLiteral("pins"), pins},
+            {QStringLiteral("rectangles"), rectangles},
+            {QStringLiteral("circles"), circles},
+            {QStringLiteral("arcs"), arcs},
+            {QStringLiteral("polylines"), polylines},
+            {QStringLiteral("polygons"), polygons},
+            {QStringLiteral("texts"), texts},
+            {QStringLiteral("graphics_counts"), graphicsCounts}};
+}
+
+/** 写入符号文件并返回 manifest 中的符号条目。 */
+bool writeAllegroSymbolFiles(const QList<IR::SymbolComponentIR>& symbols,
+                             const QString& packageDir,
+                             QJsonArray& symbolEntries,
+                             QStringList& diagnostics) {
+    const QString symbolDir = packageDir + QDir::separator() + QStringLiteral("symbols");
+    if (!QDir().mkpath(symbolDir)) {
+        diagnostics.append(QStringLiteral("Allegro: 无法创建符号规范化目录"));
+        return false;
+    }
+    QSet<QString> names;
+    for (const IR::SymbolComponentIR& symbol : symbols) {
+        const QString name = safeName(symbol.name, QStringLiteral("symbol"));
+        if (names.contains(name)) {
+            diagnostics.append(QStringLiteral("Allegro: 符号名称清洗后冲突：%1").arg(name));
+            return false;
+        }
+        names.insert(name);
+        const QString relativePath = QStringLiteral("symbols/%1.json").arg(name);
+        if (!writeJson(packageDir + QDir::separator() + relativePath, symbolObject(symbol))) {
+            diagnostics.append(QStringLiteral("Allegro: 无法写入符号规范化数据：%1").arg(name));
+            return false;
+        }
+        symbolEntries.append(QJsonObject{{QStringLiteral("name"), name},
+                                         {QStringLiteral("path"), relativePath},
+                                         {QStringLiteral("part_count"), symbol.partCount},
+                                         {QStringLiteral("pin_count"), symbol.pins.size()}});
+
+        if (!symbol.paths.isEmpty() || !symbol.beziers.isEmpty() || !symbol.images.isEmpty())
+            diagnostics.append(
+                QStringLiteral("Allegro: 符号 %1 的部分高级图元仅保留图元计数，需在导入环境复核").arg(name));
+    }
+    return true;
+}
+
+/** 将符号与封装、引脚与焊盘关系写入 Import Package 清单。 */
+QJsonArray componentEntries(const QList<IR::ComponentIR>& components) {
+    QJsonArray entries;
+    for (const IR::ComponentIR& component : components) {
+        QJsonArray pinMappings;
+        for (const IR::SymbolPinIR& pin : component.symbol.pins)
+            pinMappings.append(
+                QJsonObject{{QStringLiteral("pin"), pin.designator}, {QStringLiteral("pad"), pin.designator}});
+        entries.append(QJsonObject{{QStringLiteral("component"), component.name},
+                                   {QStringLiteral("symbol"), safeName(component.symbol.name, component.name)},
+                                   {QStringLiteral("footprint"), safeName(component.footprint.name, component.name)},
+                                   {QStringLiteral("pin_to_pad"), pinMappings}});
+    }
+    return entries;
+}
+
 }  // namespace
 
 /** Allegro Import Package 使用目录后缀，而不是原生库扩展名。 */
@@ -577,6 +753,125 @@ bool ExporterAllegroFootprint::exportFootprintLibrary(const QList<IR::FootprintC
                 "3. Use the target Allegro import procedure to generate .dra, .psm and .pad files.\n\n"
                 "The package was not validated by a locally installed Allegro executable.\n"))) {
         m_diagnostics.append(QStringLiteral("Allegro: 无法写入 Import Package 使用说明"));
+        return false;
+    }
+    return true;
+}
+
+/** 生成仅包含 Allegro 符号规范化数据的 Import Package。 */
+bool ExporterAllegroFootprint::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                                                   const QString& libName,
+                                                   const QString& filePath) {
+    m_diagnostics.clear();
+    if (symbols.isEmpty()) {
+        m_diagnostics.append(QStringLiteral("Allegro: 没有可导出的符号"));
+        return false;
+    }
+    if (!QDir().mkpath(filePath)) {
+        m_diagnostics.append(QStringLiteral("Allegro: 无法创建符号 Import Package 目录 %1").arg(filePath));
+        return false;
+    }
+
+    QJsonArray symbolEntries;
+    if (!writeAllegroSymbolFiles(symbols, filePath, symbolEntries, m_diagnostics))
+        return false;
+
+    const QJsonObject manifest{{QStringLiteral("schema"), QStringLiteral("easykiconverter.allegro.import-package.v1")},
+                               {QStringLiteral("target"), QStringLiteral("Allegro semantic symbol package")},
+                               {QStringLiteral("library_name"), safeName(libName, QStringLiteral("EasyKiConverter"))},
+                               {QStringLiteral("generation_mode"), QStringLiteral("normalized-symbol-data")},
+                               {QStringLiteral("native_database_generated"), false},
+                               {QStringLiteral("symbols"), symbolEntries},
+                               {QStringLiteral("required_directories"), QJsonArray{"symbols"}},
+                               {QStringLiteral("entrypoint"), QStringLiteral("generator.il")},
+                               {QStringLiteral("native_outputs"), QJsonArray{".dra", ".psm", ".pad"}}};
+    if (!writeJson(filePath + QDir::separator() + QStringLiteral("manifest.json"), manifest) ||
+        !writeText(filePath + QDir::separator() + QStringLiteral("generator.il"),
+                   QByteArray(";; Symbol data is normalized for a target Allegro workflow.\n")) ||
+        !writeText(filePath + QDir::separator() + QStringLiteral("README_ALLEGRO.md"),
+                   QByteArray("# Allegro semantic symbol package\n\n"
+                              "This package preserves symbol and pin semantics as normalized JSON.\n"
+                              "It does not claim to generate a native Cadence schematic database.\n"))) {
+        m_diagnostics.append(QStringLiteral("Allegro: 无法写入符号 Import Package 清单或说明"));
+        return false;
+    }
+    return true;
+}
+
+/** 通过通用符号接口导出 Allegro 语义包，并拒绝未实现的合并模式。 */
+bool ExporterAllegroFootprint::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                                                   const QString& libName,
+                                                   const QString& filePath,
+                                                   bool appendMode,
+                                                   bool updateMode,
+                                                   const QString& libraryDescription) {
+    Q_UNUSED(libraryDescription)
+    if (appendMode || updateMode) {
+        m_diagnostics = {QStringLiteral("Allegro 符号 Import Package 暂不支持追加或更新模式")};
+        return false;
+    }
+    return exportSymbolLibrary(symbols, libName, filePath);
+}
+
+/** 通过通用符号接口导出单个 Allegro 符号。 */
+bool ExporterAllegroFootprint::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
+    return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
+}
+
+/** 在已有封装 Import Package 中追加符号和器件关联清单。 */
+bool ExporterAllegroFootprint::exportComponentLibrary(const QList<IR::ComponentIR>& components,
+                                                      const QString& libName,
+                                                      const QString& filePath,
+                                                      bool exportModel3D,
+                                                      const QString& model3DBaseDir) {
+    if (components.isEmpty()) {
+        m_diagnostics = {QStringLiteral("Allegro: 没有可导出的完整组件")};
+        return false;
+    }
+    QList<IR::FootprintComponentIR> footprints;
+    QList<IR::SymbolComponentIR> symbols;
+    footprints.reserve(components.size());
+    symbols.reserve(components.size());
+    for (const IR::ComponentIR& component : components) {
+        if (!component.hasSymbol() || !component.hasFootprint()) {
+            m_diagnostics = {QStringLiteral("Allegro: 组件 %1 缺少符号或封装，无法建立完整关联").arg(component.name)};
+            return false;
+        }
+        footprints.append(component.footprint);
+        symbols.append(component.symbol);
+    }
+
+    if (!exportFootprintLibrary(
+            footprints, libName, filePath, false, exportModel3D, QString(), QString(), false, model3DBaseDir))
+        return false;
+
+    QJsonArray symbolEntries;
+    if (!writeAllegroSymbolFiles(symbols, filePath, symbolEntries, m_diagnostics))
+        return false;
+
+    QFile manifestFile(filePath + QDir::separator() + QStringLiteral("manifest.json"));
+    if (!manifestFile.open(QIODevice::ReadOnly)) {
+        m_diagnostics.append(QStringLiteral("Allegro: 无法读取已生成的 manifest.json"));
+        return false;
+    }
+    QJsonParseError parseError;
+    QJsonDocument document = QJsonDocument::fromJson(manifestFile.readAll(), &parseError);
+    if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
+        m_diagnostics.append(QStringLiteral("Allegro: 已生成的 manifest.json 无法解析"));
+        return false;
+    }
+    QJsonObject manifest = document.object();
+    manifest.insert(QStringLiteral("target"), QStringLiteral("Allegro semantic symbol and PCB package"));
+    manifest.insert(QStringLiteral("symbols"), symbolEntries);
+    manifest.insert(QStringLiteral("components"), componentEntries(components));
+    manifest.insert(QStringLiteral("required_directories"),
+                    QJsonArray{"normalized-data", "padstacks", "shapes", "models", "symbols"});
+    if (!writeJson(filePath + QDir::separator() + QStringLiteral("manifest.json"), manifest) ||
+        !writeText(filePath + QDir::separator() + QStringLiteral("README_ALLEGRO.md"),
+                   QByteArray("# Allegro semantic symbol and PCB package\n\n"
+                              "This package contains normalized symbol, footprint, pin-to-pad, and STEP data.\n"
+                              "It does not contain native Cadence schematic or PCB databases.\n"))) {
+        m_diagnostics.append(QStringLiteral("Allegro: 无法更新包含符号关联的 Import Package 文件"));
         return false;
     }
     return true;

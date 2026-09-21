@@ -57,7 +57,7 @@ Importer 负责解析源文件并完成源格式到 IR 的语义映射；IR 负�
 | KiCad | `.kicad_sym` | `.kicad_mod` | 通过组件数据关联 | WRL/STEP/OBJ | 按 KiCad 封装语法写入 |
 | Altium | `.SchLib` | `.PcbLib` | 通过组件和模型记录关联 | STEP | STEP 嵌入 `.PcbLib` |
 | Xpedition | ASCII ZIP | ASCII ZIP | 符号和封装分包 | WRL/STEP | 当前不写入未经验证的原生关联 |
-| Allegro | 不支持 | Import Package | 不支持原理图器件库 | Import Package 内的 STEP/模型数据 | 需要 Cadence 环境生成 `.dra/.psm/.pad` |
+| Allegro | Import Package 规范化符号数据（非原生原理图库） | Import Package | `manifest.json` 中的符号、封装和 Pin-Pad 关系 | Import Package 内的 STEP/模型数据 | 需要 Cadence 环境生成 `.dra/.psm/.pad`，不生成原生 OLB |
 | PADS | Schematic Decal `.c` | PCB Decal `.d` | Part Type `.p` | 独立 WRL/STEP | 当前不写入原生关联 |
 | Eagle | `.lbr` 中的 Symbols（可单独输出，含可表达的圆弧） | `.lbr` 中的 Packages（可单独输出，含可表达的圆弧） | 完整组合库中的 DeviceSets 和连接 | 独立 WRL/STEP | 不写入未经验证的托管 `package3d` |
 | P-CAD | 原理图 `.lia` | PCB `.lia` | `compDef` 和 Part 关联 | 独立 WRL/STEP | 当前不写入原生关联 |

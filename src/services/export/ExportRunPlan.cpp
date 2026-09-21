@@ -35,8 +35,9 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
                                  const QStringList& componentIds,
                                  const QMap<QString, QSharedPointer<ComponentData>>& cachedData) {
     ExportRunPlan plan;
-    const bool combinedTarget =
-        options.targetFormat == TargetEdaFormat::Eagle || options.targetFormat == TargetEdaFormat::Cadstar;
+    const bool combinedTarget = options.targetFormat == TargetEdaFormat::Eagle ||
+                                options.targetFormat == TargetEdaFormat::Cadstar ||
+                                options.targetFormat == TargetEdaFormat::Allegro;
     const bool embeddedModelTarget =
         options.targetFormat == TargetEdaFormat::Altium || options.targetFormat == TargetEdaFormat::Allegro;
     // 仅符号模式仍由组合库写入阶段负责，但进度需要展示为 Symbol。

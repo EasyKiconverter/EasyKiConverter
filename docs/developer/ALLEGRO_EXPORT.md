@@ -1,25 +1,27 @@
-# Allegro PCB 封装导出
+# Allegro 语义库 Import Package 导出
 
 ## 范围
 
-当前功能只支持 **EasyEDA/LCSC Footprint → Allegro PCB Footprint Import Package**。它不生成 Cadence 私有的 `.dra`、`.psm` 或 `.pad` 数据库，也不支持 Allegro 原理图 Symbol、Capture `.olb` 或完整 Component Library。
+当前功能支持 **EasyEDA/LCSC Symbol + Footprint → Allegro 语义 Import Package**。符号、封装、Pin-Pad 关系和可用的 STEP 模型会以规范化数据写入包中；它不生成 Cadence 私有的 `.dra`、`.psm` 或 `.pad` 数据库，也不生成原生 Allegro 原理图 Symbol 或 Capture `.olb`。
 
 ```mermaid
 flowchart LR
-    A[EasyEDA/LCSC Footprint] --> B[FootprintIR]
+    A[EasyEDA/LCSC Symbol + Footprint] --> B[ComponentIR]
     B --> C[Allegro 专用目标模型]
+    C --> S[Symbol 规范化数据]
     C --> D[Padstack 与依赖文件]
     C --> E[Package Geometry 与 Place Bound]
     C --> F[STEP 关联与变换]
     D --> G[Allegro Import Package]
     E --> G
     F --> G
+    S --> G
     G --> H[用户在 Cadence Allegro 中生成原生库]
 ```
 
 ## 输出目录
 
-导出 `MyLib` 时生成 `MyLib_Allegro/`，包括 `manifest.json`、`generator.il`、`README_ALLEGRO.md`、`normalized-data/`、`padstacks/`、`shapes/` 和 `models/`。`manifest.json` 是唯一的包入口索引，并列出每个封装、Pin、Padstack 和 STEP 文件。
+导出 `MyLib` 时生成 `MyLib_Allegro/`，包括 `manifest.json`、`generator.il`、`README_ALLEGRO.md`、`normalized-data/`、`symbols/`、`padstacks/`、`shapes/` 和 `models/`。`manifest.json` 是唯一的包入口索引，并列出每个符号、封装、Pin、Padstack、Pin-Pad 关系和 STEP 文件。
 
 ## 语义和降级
 

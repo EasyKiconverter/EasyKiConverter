@@ -49,7 +49,7 @@ ColumnLayout {
             id: allegroInfo
             anchors.fill: parent
             anchors.margins: AppStyle.spacing.md
-            text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- 第一阶段仅支持 Footprint Import Package\n" + "- 需要在 Cadence Allegro 环境中生成 .dra/.psm/.pad\n" + "- 不支持原理图 Symbol、更新和重试模式\n" + "- Place Bound 缺失时会在诊断中说明回退策略")
+            text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- Import Package 包含规范化 Symbol、Footprint、Pin-Pad 关联和 STEP 数据\n" + "- 不生成原生 Allegro Symbol、OLB、.dra/.psm/.pad\n" + "- 需要在 Cadence Allegro 环境中继续生成目标库\n" + "- 不支持更新和重试模式\n" + "- Place Bound 缺失时会在诊断中说明回退策略")
             font.pixelSize: AppStyle.fontSizes.xs
             color: AppStyle.colors.textSecondary
             wrapMode: Text.WordWrap

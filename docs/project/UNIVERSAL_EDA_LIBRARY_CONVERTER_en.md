@@ -29,7 +29,7 @@ The current export pipeline builds symbol, footprint, and 3D data from the compo
 | KiCad | `.kicad_sym` | `.kicad_mod` | Component-data association | WRL/STEP/OBJ | Written in KiCad footprint syntax |
 | Altium | `.SchLib` | `.PcbLib` | Component and model records | STEP | Embedded in `.PcbLib` |
 | Xpedition | ASCII ZIP | ASCII ZIP | Separate symbol and footprint packages | Standalone WRL/STEP | No unverified native association |
-| Allegro | Not supported | Import Package | No schematic component library | STEP/model data in the package | Cadence is required to generate `.dra/.psm/.pad` |
+| Allegro | Normalized symbol data in Import Package (not a native schematic library) | Import Package | Symbol, footprint, and pin-pad relations in `manifest.json` | STEP/model data in the package | Cadence is required to generate `.dra/.psm/.pad`; no native OLB is generated |
 | PADS | Schematic Decal `.c` | PCB Decal `.d` | Part Type `.p` | Standalone WRL/STEP | No native association currently written |
 | Eagle | Symbols in `.lbr` (standalone selection supported, including representable arcs) | Packages in `.lbr` (standalone selection supported, including representable arcs) | DeviceSets and connections in the complete combined library | Standalone WRL/STEP | No unverified managed `package3d` |
 | P-CAD | Schematic `.lia` | PCB `.lia` | `compDef` and Part associations | Standalone WRL/STEP | No native association currently written |

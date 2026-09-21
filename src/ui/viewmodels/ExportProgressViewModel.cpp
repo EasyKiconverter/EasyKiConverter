@@ -160,7 +160,8 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
 
     // Store component IDs
     const TargetEdaFormat selectedFormat = static_cast<TargetEdaFormat>(targetFormat);
-    m_eagleCombinedLibrary = (selectedFormat == TargetEdaFormat::Eagle || selectedFormat == TargetEdaFormat::Cadstar) &&
+    m_eagleCombinedLibrary = (selectedFormat == TargetEdaFormat::Eagle || selectedFormat == TargetEdaFormat::Cadstar ||
+                              selectedFormat == TargetEdaFormat::Allegro) &&
                              exportSymbol && exportFootprint;
     m_exportSymbolEnabled = exportSymbol;
     m_exportFootprintEnabled = exportFootprint;
@@ -354,7 +355,7 @@ void ExportProgressViewModel::handleItemStatusChanged(const QString& componentId
         }
         result[typeStatusKey(typeName)] = statusText;
         if (m_eagleCombinedLibrary && typeName == QStringLiteral("Footprint")) {
-            // Eagle 和 CADSTAR 的完整库在封装阶段同时写入符号；让符号状态跟随同一原子导出结果。
+            // 组合目标在封装阶段同时写入符号；让符号状态跟随同一原子导出结果。
             result["symbolSuccess"] = result["footprintSuccess"];
             result["symbolStatus"] = statusText;
         }

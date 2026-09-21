@@ -37,7 +37,7 @@ std::unique_ptr<ISymbolExporter> ExporterFactory::createSymbolExporter(TargetEda
         case TargetEdaFormat::Orcad:
             return std::make_unique<ExporterOrcadSymbol>();
         case TargetEdaFormat::Allegro:
-            return nullptr;
+            return std::make_unique<ExporterAllegroFootprint>();
         case TargetEdaFormat::Eagle:
             return std::make_unique<ExporterEagleFootprint>();
         case TargetEdaFormat::Cadstar:

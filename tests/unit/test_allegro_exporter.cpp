@@ -27,7 +27,29 @@ private slots:
     void targetContractIsExplicit();
     /** @brief 验证缺失 STEP 的前置模型不会导致后续有效模型错配或丢失。 */
     void writesValidStepAfterMissingModel();
+    /** @brief 验证 Allegro Import Package 会保存符号和引脚语义。 */
+    void symbolPackageContainsNormalizedData();
+    /** @brief 验证完整 Import Package 会保存符号、封装和器件关联。 */
+    void componentPackageContainsSymbolAssociation();
 };
+
+static IR::SymbolComponentIR makeSymbolFixture() {
+    IR::SymbolComponentIR symbol;
+    symbol.name = QStringLiteral("QFN_SYMBOL_测试");
+    symbol.description = QStringLiteral("Allegro normalized symbol");
+    symbol.designatorPrefix = QStringLiteral("U");
+    symbol.partCount = 2;
+    symbol.rectangles.append({-2.0, -1.0, 2.0, 1.0});
+    IR::SymbolPinIR pin;
+    pin.name = QStringLiteral("VCC");
+    pin.designator = QStringLiteral("1");
+    pin.position = QPointF(-3.0, 0.0);
+    pin.length = 1.0;
+    pin.partIndex = 0;
+    pin.electricalType = IR::PinElectricalType::Power;
+    symbol.pins.append(pin);
+    return symbol;
+}
 
 static IR::FootprintComponentIR makeQfnFixture() {
     IR::FootprintComponentIR footprint;
@@ -185,6 +207,53 @@ void TestAllegroExporter::writesValidStepAfterMissingModel() {
     const QString modelPath = temporary.filePath(QStringLiteral("models/MULTI_MODEL_valid.step"));
     QVERIFY(QFileInfo::exists(modelPath));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("缺少数据")));
+}
+
+/** 验证符号 Import Package 的 JSON 可回读且保留多部件和引脚字段。 */
+void TestAllegroExporter::symbolPackageContainsNormalizedData() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterAllegroFootprint exporter;
+    const QString output = temporary.filePath(QStringLiteral("symbols_Allegro"));
+    QVERIFY(exporter.exportSymbolLibrary({makeSymbolFixture()}, QStringLiteral("symbols"), output));
+
+    QFile symbolFile(output + QStringLiteral("/symbols/QFN_SYMBOL____.json"));
+    if (!symbolFile.exists()) {
+        const QStringList files = QDir(output + QStringLiteral("/symbols")).entryList(QDir::Files);
+        QCOMPARE(files.size(), 1);
+        symbolFile.setFileName(output + QStringLiteral("/symbols/") + files.first());
+    }
+    QVERIFY(symbolFile.open(QIODevice::ReadOnly));
+    const QJsonObject symbol = QJsonDocument::fromJson(symbolFile.readAll()).object();
+    QCOMPARE(symbol.value(QStringLiteral("part_count")).toInt(), 2);
+    QCOMPARE(symbol.value(QStringLiteral("pins")).toArray().size(), 1);
+    QVERIFY(QFileInfo::exists(output + QStringLiteral("/manifest.json")));
+}
+
+/** 验证完整 Allegro Import Package 的 manifest 建立符号、封装和 Pin-Pad 关系。 */
+void TestAllegroExporter::componentPackageContainsSymbolAssociation() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component;
+    component.name = QStringLiteral("C_ALLEGRO");
+    component.symbol = makeSymbolFixture();
+    component.footprint = makeQfnFixture();
+    component.footprint.name = QStringLiteral("QFN_PACKAGE");
+
+    ExporterAllegroFootprint exporter;
+    const QString output = temporary.filePath(QStringLiteral("component_Allegro"));
+    QVERIFY(exporter.exportComponentLibrary({component}, QStringLiteral("component"), output, true));
+    QFile manifestFile(output + QStringLiteral("/manifest.json"));
+    QVERIFY(manifestFile.open(QIODevice::ReadOnly));
+    const QJsonObject manifest = QJsonDocument::fromJson(manifestFile.readAll()).object();
+    QCOMPARE(manifest.value(QStringLiteral("symbols")).toArray().size(), 1);
+    QCOMPARE(manifest.value(QStringLiteral("components")).toArray().size(), 1);
+    const QJsonObject relation = manifest.value(QStringLiteral("components")).toArray().first().toObject();
+    const QJsonObject symbolEntry = manifest.value(QStringLiteral("symbols")).toArray().first().toObject();
+    QCOMPARE(relation.value(QStringLiteral("symbol")).toString(),
+             QFileInfo(symbolEntry.value(QStringLiteral("path")).toString()).completeBaseName());
+    QCOMPARE(relation.value(QStringLiteral("footprint")).toString(), QStringLiteral("QFN_PACKAGE"));
+    QCOMPARE(relation.value(QStringLiteral("pin_to_pad")).toArray().size(), 1);
 }
 
 QTEST_MAIN(TestAllegroExporter)

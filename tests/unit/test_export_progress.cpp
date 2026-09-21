@@ -252,6 +252,21 @@ private slots:
             embeddedModelOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
         QVERIFY(embeddedModelPlan.enableFootprint);
         QCOMPARE(embeddedModelPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+
+        ExportOptions allegroSymbolOptions;
+        allegroSymbolOptions.targetFormat = TargetEdaFormat::Allegro;
+        allegroSymbolOptions.exportSymbol = true;
+        allegroSymbolOptions.exportFootprint = false;
+        auto allegroSymbolData = QSharedPointer<ComponentData>::create();
+        allegroSymbolData->setLcscId(QStringLiteral("C400"));
+        allegroSymbolData->setSymbolData(QSharedPointer<SymbolData>::create());
+        const ExportRunPlan allegroSymbolPlan = buildExportRunPlan(
+            allegroSymbolOptions, {QStringLiteral("C400")}, {{QStringLiteral("C400"), allegroSymbolData}});
+        QVERIFY(!allegroSymbolPlan.enableSymbol);
+        QVERIFY(allegroSymbolPlan.enableFootprint);
+        QVERIFY(allegroSymbolPlan.symbolOnlyCombinedLibrary);
+        QCOMPARE(allegroSymbolPlan.progressTypeNames(), QStringList{QStringLiteral("Symbol")});
+        QCOMPARE(allegroSymbolPlan.exportableComponentIds, QStringList{QStringLiteral("C400")});
     }
 
     // 提供三维模型格式位掩码测试所需的参数组合。

@@ -177,8 +177,9 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
 
         QSharedPointer<ComponentData> data = it.value();
 
-        const bool combinedTarget =
-            m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar;
+        const bool combinedTarget = m_options.targetFormat == TargetEdaFormat::Eagle ||
+                                    m_options.targetFormat == TargetEdaFormat::Cadstar ||
+                                    m_options.targetFormat == TargetEdaFormat::Allegro;
         const bool needsSymbol = combinedTarget && m_options.exportSymbol;
         const bool needsFootprint = m_options.exportFootprint || m_options.exportModel3D;
         if (needsSymbol && !data->symbolData()) {
@@ -472,8 +473,9 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         for (const FootprintData& fd : footprintList) {
             irFootprintList.append(IR::toFootprintIR(fd));
         }
-        const bool combinedTarget =
-            m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar;
+        const bool combinedTarget = m_options.targetFormat == TargetEdaFormat::Eagle ||
+                                    m_options.targetFormat == TargetEdaFormat::Cadstar ||
+                                    m_options.targetFormat == TargetEdaFormat::Allegro;
         if (combinedTarget && m_options.exportSymbol && m_options.exportFootprint) {
             exportSuccess = exporter->exportComponentLibrary(
                 componentIrList, libName, tempPath, m_options.exportModel3D, outputDir);

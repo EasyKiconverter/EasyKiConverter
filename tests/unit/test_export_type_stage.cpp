@@ -1653,7 +1653,7 @@ void TestExportTypeStage::model3DExporterIsAvailableForAllTargets() {
 void TestExportTypeStage::combinedLibrarySymbolExportersAreAvailable() {
     QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Eagle) != nullptr);
     QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Cadstar) != nullptr);
-    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Allegro) == nullptr);
+    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Allegro) != nullptr);
 }
 
 }  // namespace EasyKiConverter
