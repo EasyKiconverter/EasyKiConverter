@@ -121,6 +121,30 @@ private slots:
         QCOMPARE(plan.runningStageCount(), 1);
     }
 
+    // 验证 OrCAD 的独立三维导出只启动模型阶段，不错误创建不存在的封装导出阶段。
+    void exportRunPlanKeepsOrcadModelIndependent() {
+        ExportOptions options;
+        options.targetFormat = TargetEdaFormat::Orcad;
+        options.exportSymbol = false;
+        options.exportFootprint = false;
+        options.exportModel3D = true;
+
+        auto component = QSharedPointer<ComponentData>::create();
+        component->setLcscId(QStringLiteral("C12399"));
+        component->setFootprintData(QSharedPointer<FootprintData>::create());
+
+        const ExportRunPlan plan =
+            buildExportRunPlan(options, {QStringLiteral("C12399")}, {{QStringLiteral("C12399"), component}});
+
+        QVERIFY(!plan.enableSymbol);
+        QVERIFY(!plan.enableFootprint);
+        QVERIFY(plan.enableModel3D);
+        QVERIFY(plan.runExternalModel3DStage);
+        QCOMPARE(plan.exportableComponentIds, QStringList{QStringLiteral("C12399")});
+        QCOMPARE(plan.progressTypeNames(), QStringList{QStringLiteral("Model3D")});
+        QCOMPARE(plan.runningStageCount(), 1);
+    }
+
     // 验证组合库目标会同时规划符号、封装和独立三维模型输出。
     void exportRunPlanIncludesAllLibraryArtifacts() {
         ExportOptions options;
