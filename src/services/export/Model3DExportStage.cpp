@@ -8,11 +8,24 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QFileInfo>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QPointer>
+#include <QSaveFile>
 
 namespace EasyKiConverter {
 
-Model3DExportStage::Model3DExportStage(QObject* parent) : ExportTypeStage("Model3D", 2, parent) {}
+Model3DExportStage::Model3DExportStage(QObject* parent) : ExportTypeStage("Model3D", 2, parent) {
+    // 在所有模型任务收敛后写入关联清单，确保清单只引用最终文件路径。
+    connect(
+        this,
+        &ExportTypeStage::completed,
+        this,
+        [this](int, int, int) { writeAssociationManifest(); },
+        Qt::DirectConnection);
+}
 
 Model3DExportStage::~Model3DExportStage() {
     cancel();
@@ -279,6 +292,94 @@ void Model3DExportStage::startWorker(QObject* worker,
         Qt::QueuedConnection);
 
     m_threadPool.start(exportWorker);
+}
+
+/** 写入组件、符号、封装与独立三维模型文件之间的项目级关联清单。 */
+void Model3DExportStage::writeAssociationManifest() {
+    if (m_componentIds.isEmpty())
+        return;
+
+    const QString libName = m_options.libName.isEmpty() ? QStringLiteral("EasyKiConverter") : m_options.libName;
+    QString outputDir = m_options.outputPath;
+    if (outputDir.isEmpty())
+        outputDir = QDir::currentPath() + QStringLiteral("/export");
+    outputDir += QDir::separator() + libName + QStringLiteral(".3dmodels");
+
+    const QString manifestPath = outputDir + QDir::separator() + QStringLiteral("manifest.json");
+    if (QFileInfo::exists(manifestPath) && !m_options.overwriteExistingFiles) {
+        QMutexLocker locker(&m_progressMutex);
+        const QString diagnostic = QStringLiteral("3D 关联清单已存在且禁止覆盖：%1").arg(manifestPath);
+        if (!m_progress.diagnostics.contains(diagnostic))
+            m_progress.diagnostics.append(diagnostic);
+        const ExportTypeProgress snapshot = m_progress;
+        locker.unlock();
+        emit progressChanged(snapshot);
+        return;
+    }
+
+    QJsonObject root;
+    root.insert(QStringLiteral("format"), QStringLiteral("EasyKiConverter.3d-model-manifest"));
+    root.insert(QStringLiteral("version"), 1);
+    root.insert(QStringLiteral("library"), libName);
+    root.insert(QStringLiteral("targetFormat"), static_cast<int>(m_options.targetFormat));
+
+    QJsonArray components;
+    const ExportTypeProgress progress = getProgress();
+    for (const QString& componentId : m_componentIds) {
+        QJsonObject componentObject;
+        componentObject.insert(QStringLiteral("componentId"), componentId);
+        componentObject.insert(QStringLiteral("modelStem"), m_modelFileStems.value(componentId));
+
+        const auto data = m_cachedData.value(componentId);
+        if (data) {
+            if (data->symbolData())
+                componentObject.insert(QStringLiteral("symbol"), data->symbolData()->info().name);
+            if (data->footprintData())
+                componentObject.insert(QStringLiteral("footprint"), data->footprintData()->info().name);
+        }
+
+        const ExportItemStatus status = progress.itemStatus.value(componentId);
+        QString statusName = QStringLiteral("pending");
+        if (status.status == ExportItemStatus::Status::Success)
+            statusName = QStringLiteral("success");
+        else if (status.status == ExportItemStatus::Status::Failed)
+            statusName = QStringLiteral("failed");
+        else if (status.status == ExportItemStatus::Status::Skipped)
+            statusName = QStringLiteral("skipped");
+        else if (status.status == ExportItemStatus::Status::InProgress)
+            statusName = QStringLiteral("in-progress");
+        componentObject.insert(QStringLiteral("status"), statusName);
+        if (!status.errorMessage.isEmpty())
+            componentObject.insert(QStringLiteral("diagnostic"), status.errorMessage);
+
+        const QString modelStem = m_modelFileStems.value(componentId);
+        QJsonObject files;
+        if (m_options.needsModel3DWrl()) {
+            const QString relativePath = modelStem + QStringLiteral(".wrl");
+            if (QFileInfo::exists(outputDir + QDir::separator() + relativePath))
+                files.insert(QStringLiteral("wrl"), relativePath);
+        }
+        if (m_options.needsModel3DStep()) {
+            const QString relativePath = modelStem + QStringLiteral(".step");
+            if (QFileInfo::exists(outputDir + QDir::separator() + relativePath))
+                files.insert(QStringLiteral("step"), relativePath);
+        }
+        componentObject.insert(QStringLiteral("files"), files);
+        components.append(componentObject);
+    }
+    root.insert(QStringLiteral("components"), components);
+
+    QSaveFile manifest(manifestPath);
+    if (!manifest.open(QIODevice::WriteOnly | QIODevice::Text) ||
+        manifest.write(QJsonDocument(root).toJson(QJsonDocument::Indented)) < 0 || !manifest.commit()) {
+        QMutexLocker locker(&m_progressMutex);
+        const QString diagnostic = QStringLiteral("无法写入 3D 关联清单：%1").arg(manifestPath);
+        if (!m_progress.diagnostics.contains(diagnostic))
+            m_progress.diagnostics.append(diagnostic);
+        const ExportTypeProgress snapshot = m_progress;
+        locker.unlock();
+        emit progressChanged(snapshot);
+    }
 }
 
 }  // namespace EasyKiConverter

@@ -11,6 +11,8 @@
 #include <QDir>
 #include <QFile>
 #include <QImage>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QSet>
 #include <QSignalSpy>
 #include <QTemporaryDir>
@@ -1258,6 +1260,19 @@ private slots:
         const QString outputBase = QStringLiteral("BothModels.3dmodels/Both Model");
         QVERIFY(QFile::exists(tempDir.filePath(outputBase + QStringLiteral(".wrl"))));
         QVERIFY(QFile::exists(tempDir.filePath(outputBase + QStringLiteral(".step"))));
+
+        QFile manifest(tempDir.filePath(QStringLiteral("BothModels.3dmodels/manifest.json")));
+        QVERIFY(manifest.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QJsonObject manifestObject = QJsonDocument::fromJson(manifest.readAll()).object();
+        QCOMPARE(manifestObject.value(QStringLiteral("format")).toString(),
+                 QStringLiteral("EasyKiConverter.3d-model-manifest"));
+        const QJsonObject componentObject =
+            manifestObject.value(QStringLiteral("components")).toArray().first().toObject();
+        QCOMPARE(componentObject.value(QStringLiteral("componentId")).toString(), QStringLiteral("C_BOTH_MODELS"));
+        QCOMPARE(componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("wrl")).toString(),
+                 QStringLiteral("Both Model.wrl"));
+        QCOMPARE(componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("step")).toString(),
+                 QStringLiteral("Both Model.step"));
     }
 
     // 验证相同模型名称会被稳定去重，避免独立三维模型文件互相覆盖。

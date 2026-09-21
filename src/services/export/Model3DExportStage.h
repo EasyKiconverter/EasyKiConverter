@@ -79,6 +79,14 @@ protected:
     void startWorker(QObject* worker, const QString& componentId, const QSharedPointer<ComponentData>& data) override;
 
 private:
+    /**
+     * @brief 写入独立三维模型与组件库对象之间的关联清单。
+     *
+     * 清单使用项目自有 JSON 格式，仅描述实际生成的文件和导出状态，
+     * 不冒充目标 EDA 的原生三维关联数据。
+     */
+    void writeAssociationManifest();
+
     struct TempFilePaths {
         QString wrlTempPath;
         QString wrlFinalPath;
