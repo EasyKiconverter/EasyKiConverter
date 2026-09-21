@@ -108,10 +108,6 @@ ExportOptions CliContext::createExportOptions() const {
         options.exportSymbol = false;
         options.exportModel3D = false;
     }
-    if (options.targetFormat == TargetEdaFormat::Eagle) {
-        options.exportSymbol = false;
-        options.exportModel3D = false;
-    }
     if (options.targetFormat == TargetEdaFormat::Pcad) {
         options.exportSymbol = false;
         options.exportModel3D = false;

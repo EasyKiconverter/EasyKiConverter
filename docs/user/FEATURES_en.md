@@ -23,7 +23,7 @@ Convert EasyEDA symbols to KiCad (.kicad_sym), Altium (.SchLib), or Xpedition AS
 
 ### Footprint Generation
 
-Create KiCad (.kicad_mod), Altium (.PcbLib), Xpedition ASCII, PADS PCB Decal, P-CAD ASCII (.lia), or Eagle XML footprint libraries from EasyEDA packages.
+Create KiCad (.kicad_mod), Altium (.PcbLib), Xpedition ASCII, PADS PCB Decal, P-CAD ASCII (.lia), or Eagle XML (.lbr) libraries from EasyEDA data. Eagle can write symbols, packages, and device associations together; 3D models are emitted by an independent stage.
 
 **Features:**
 - Complete footprint geometry conversion
@@ -57,7 +57,7 @@ Automatically download and convert 3D models.
 - Altium embeds STEP models in PcbLib instead of creating external WRL references
 - Xpedition currently exports symbols and footprints without 3D model associations
 - PADS currently exports ASCII PCB Decals only; it does not export symbols, native binary libraries, or 3D associations, and rejects geometry that cannot be represented losslessly
-- Eagle currently exports XML package libraries only; it does not export symbols, devices, or 3D associations, and rejects geometry that cannot be represented losslessly
+- Eagle exports XML symbols, packages, DeviceSets, and pin associations; 3D files are emitted by the independent stage, but unverified managed `package3d` associations are not written, and unsupported geometry is rejected
 - P-CAD currently exports Pad Styles and Patterns in an ASCII PCB Library only; it does not export symbols, Component/Part associations, or 3D models, and rejects geometry that cannot be represented losslessly
 
 ## Performance Optimization

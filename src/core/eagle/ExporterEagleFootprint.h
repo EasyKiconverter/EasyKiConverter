@@ -10,8 +10,8 @@
 namespace EasyKiConverter {
 
 /**
- * @brief 将统一封装 IR 写入 Eagle XML library 文件。
- * @details 第一阶段只输出 package，暂不生成 Eagle symbol、device 或 3D 模型关联。
+ * @brief 将统一组件 IR 写入 Eagle XML library 文件。
+ * @details 支持 package、symbol、deviceset 和 pin-to-pad 关联；三维文件由独立阶段输出。
  */
 class ExporterEagleFootprint final : public IFootprintExporter {
 public:
@@ -35,6 +35,13 @@ public:
                                 const QString& libraryDescription = QString(),
                                 const QString& libraryKeywords = QString(),
                                 bool useAbsolutePaths = false,
+                                const QString& model3DBaseDir = QString()) override;
+
+    /** @brief 写入 Eagle XML 的完整 Symbol、Package 和 DeviceSet 关联库。 */
+    bool exportComponentLibrary(const QList<IR::ComponentIR>& components,
+                                const QString& libName,
+                                const QString& filePath,
+                                bool exportModel3D = false,
                                 const QString& model3DBaseDir = QString()) override;
 
     /** @brief 获取最近一次导出的诊断信息。 */

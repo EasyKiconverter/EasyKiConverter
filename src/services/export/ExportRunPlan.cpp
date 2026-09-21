@@ -35,11 +35,11 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
                                  const QStringList& componentIds,
                                  const QMap<QString, QSharedPointer<ComponentData>>& cachedData) {
     ExportRunPlan plan;
-    plan.enableSymbol = options.exportSymbol;
+    // Eagle 完整 XML 库由封装阶段一次性写入 Symbol、Package 和 DeviceSet，避免两个阶段争用同一 .lbr。
+    plan.enableSymbol = options.exportSymbol && options.targetFormat != TargetEdaFormat::Eagle;
     plan.enableFootprint = options.exportFootprint;
     plan.enableModel3D = options.exportModel3D && options.targetFormat != TargetEdaFormat::Xpedition &&
                          options.targetFormat != TargetEdaFormat::Pads && options.targetFormat != TargetEdaFormat::Pcad;
-    plan.enableModel3D = plan.enableModel3D && options.targetFormat != TargetEdaFormat::Eagle;
     plan.enableModel3D = plan.enableModel3D && options.targetFormat != TargetEdaFormat::Pcad;
     plan.runExternalModel3DStage = plan.enableModel3D && options.targetFormat != TargetEdaFormat::Altium &&
                                    options.targetFormat != TargetEdaFormat::Allegro;

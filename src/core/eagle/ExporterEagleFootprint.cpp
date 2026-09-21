@@ -235,6 +235,260 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
     return !xml.hasError();
 }
 
+// 写入 Eagle XML 中所有本导出器会使用的标准图层定义。
+void writeLayerTable(QXmlStreamWriter& xml) {
+    xml.writeStartElement(QStringLiteral("layers"));
+    const QList<QPair<int, QString>> layers = {{1, "Top"},
+                                               {16, "Bottom"},
+                                               {21, "tPlace"},
+                                               {22, "bPlace"},
+                                               {29, "tStop"},
+                                               {30, "bStop"},
+                                               {31, "tCream"},
+                                               {32, "bCream"},
+                                               {39, "tKeepout"},
+                                               {46, "Milling"},
+                                               {51, "tDocu"},
+                                               {52, "bDocu"},
+                                               {94, "Symbols"},
+                                               {95, "Names"},
+                                               {96, "Values"}};
+    for (const auto& layer : layers) {
+        xml.writeEmptyElement(QStringLiteral("layer"));
+        xml.writeAttribute(QStringLiteral("number"), QString::number(layer.first));
+        xml.writeAttribute(QStringLiteral("name"), layer.second);
+        xml.writeAttribute(QStringLiteral("color"), QStringLiteral("4"));
+        xml.writeAttribute(QStringLiteral("fill"), QStringLiteral("1"));
+        xml.writeAttribute(QStringLiteral("visible"), QStringLiteral("yes"));
+        xml.writeAttribute(QStringLiteral("active"), QStringLiteral("yes"));
+    }
+    xml.writeEndElement();
+}
+
+// 将统一 IR 的符号方向转换为 Eagle pin 的旋转文本。
+QString symbolPinRotation(IR::PinDirection direction) {
+    switch (direction) {
+        case IR::PinDirection::Left:
+            return QStringLiteral("R180");
+        case IR::PinDirection::Up:
+            return QStringLiteral("R90");
+        case IR::PinDirection::Down:
+            return QStringLiteral("R270");
+        case IR::PinDirection::Right:
+        default:
+            return QStringLiteral("R0");
+    }
+}
+
+// 写入 Eagle symbol 的可直接表达图元，并拒绝无法无损转换的曲线。
+bool writeSymbol(QXmlStreamWriter& xml,
+                 const IR::SymbolComponentIR& symbol,
+                 int partIndex,
+                 const QString& symbolName,
+                 QStringList& diagnostics) {
+    xml.writeStartElement(QStringLiteral("symbol"));
+    xml.writeAttribute(QStringLiteral("name"), symbolName);
+    if (!symbol.description.isEmpty()) {
+        xml.writeStartElement(QStringLiteral("description"));
+        xml.writeCharacters(symbol.description);
+        xml.writeEndElement();
+    }
+
+    const auto writeWire = [&xml](const QPointF& first, const QPointF& second, double width) {
+        xml.writeEmptyElement(QStringLiteral("wire"));
+        xml.writeAttribute(QStringLiteral("x1"), number(first.x()));
+        xml.writeAttribute(QStringLiteral("y1"), number(first.y()));
+        xml.writeAttribute(QStringLiteral("x2"), number(second.x()));
+        xml.writeAttribute(QStringLiteral("y2"), number(second.y()));
+        xml.writeAttribute(QStringLiteral("width"), number(width));
+        xml.writeAttribute(QStringLiteral("layer"), QStringLiteral("94"));
+    };
+
+    for (const IR::SymbolRectangleIR& rectangle : symbol.rectangles) {
+        if (rectangle.partIndex != partIndex)
+            continue;
+        writeWire({rectangle.x0, rectangle.y0}, {rectangle.x1, rectangle.y0}, rectangle.strokeWidth);
+        writeWire({rectangle.x1, rectangle.y0}, {rectangle.x1, rectangle.y1}, rectangle.strokeWidth);
+        writeWire({rectangle.x1, rectangle.y1}, {rectangle.x0, rectangle.y1}, rectangle.strokeWidth);
+        writeWire({rectangle.x0, rectangle.y1}, {rectangle.x0, rectangle.y0}, rectangle.strokeWidth);
+    }
+    for (const IR::SymbolCircleIR& circle : symbol.circles) {
+        if (circle.partIndex != partIndex)
+            continue;
+        xml.writeEmptyElement(QStringLiteral("circle"));
+        xml.writeAttribute(QStringLiteral("x"), number(circle.center.x()));
+        xml.writeAttribute(QStringLiteral("y"), number(circle.center.y()));
+        xml.writeAttribute(QStringLiteral("radius"), number(circle.radius));
+        xml.writeAttribute(QStringLiteral("width"), number(circle.strokeWidth));
+        xml.writeAttribute(QStringLiteral("layer"), QStringLiteral("94"));
+    }
+    const auto writePointList = [&writeWire](const QList<QPointF>& points, double width) {
+        for (int index = 0; index + 1 < points.size(); ++index)
+            writeWire(points.at(index), points.at(index + 1), width);
+    };
+    for (const IR::SymbolPolylineIR& polyline : symbol.polylines) {
+        if (polyline.partIndex == partIndex)
+            writePointList(polyline.points, polyline.strokeWidth);
+    }
+    for (const IR::SymbolPolygonIR& polygon : symbol.polygons) {
+        if (polygon.partIndex != partIndex || polygon.points.size() < 2)
+            continue;
+        QList<QPointF> closed = polygon.points;
+        closed.append(polygon.points.first());
+        writePointList(closed, polygon.strokeWidth);
+    }
+    for (const IR::SymbolPathIR& path : symbol.paths) {
+        if (path.partIndex == partIndex && !path.segments.isEmpty()) {
+            diagnostics.append(
+                QStringLiteral("Eagle: 符号 %1 含路径曲线，当前 XML writer 无法无损表达").arg(symbol.name));
+            return false;
+        }
+        if (path.partIndex == partIndex)
+            writePointList(path.points, path.strokeWidth);
+    }
+    for (const IR::SymbolArcIR& arc : symbol.arcs) {
+        if (arc.partIndex == partIndex) {
+            diagnostics.append(
+                QStringLiteral("Eagle: 符号 %1 含圆弧，当前 writer 要求先完成曲线语义映射").arg(symbol.name));
+            return false;
+        }
+    }
+    for (const IR::SymbolPinIR& pin : symbol.pins) {
+        if (pin.partIndex != partIndex && !pin.commonToAllParts)
+            continue;
+        if (pin.name.isEmpty() || pin.designator.isEmpty()) {
+            diagnostics.append(QStringLiteral("Eagle: 符号 %1 存在空引脚名称或编号").arg(symbol.name));
+            return false;
+        }
+        xml.writeEmptyElement(QStringLiteral("pin"));
+        xml.writeAttribute(QStringLiteral("name"), pin.name);
+        xml.writeAttribute(QStringLiteral("x"), number(pin.position.x()));
+        xml.writeAttribute(QStringLiteral("y"), number(pin.position.y()));
+        xml.writeAttribute(QStringLiteral("length"), number(pin.length > 0.0 ? pin.length : 2.54));
+        xml.writeAttribute(QStringLiteral("rot"), symbolPinRotation(pin.direction));
+    }
+    for (const IR::SymbolTextIR& text : symbol.texts) {
+        if (!text.visible || text.partIndex != partIndex || text.text.isEmpty())
+            continue;
+        xml.writeStartElement(QStringLiteral("text"));
+        xml.writeAttribute(QStringLiteral("x"), number(text.position.x()));
+        xml.writeAttribute(QStringLiteral("y"), number(text.position.y()));
+        xml.writeAttribute(QStringLiteral("size"), number(text.fontSizeMm > 0.0 ? text.fontSizeMm : 1.27));
+        xml.writeAttribute(QStringLiteral("layer"), QStringLiteral("94"));
+        xml.writeAttribute(QStringLiteral("rot"), rotation(text.rotation));
+        xml.writeCharacters(text.text);
+        xml.writeEndElement();
+    }
+    xml.writeEndElement();
+    return !xml.hasError();
+}
+
+// 写入包含符号、封装和引脚映射的 Eagle 完整 XML 库。
+bool writeComponentLibrary(QXmlStreamWriter& xml, const QList<IR::ComponentIR>& components, QStringList& diagnostics) {
+    QSet<QString> symbolNames;
+    QSet<QString> packageNames;
+    for (const IR::ComponentIR& component : components) {
+        const QString baseSymbolName = safeName(component.symbol.name);
+        const QString packageName = safeName(component.footprint.name);
+        if (baseSymbolName.isEmpty() || packageName.isEmpty() || packageNames.contains(packageName)) {
+            diagnostics.append(QStringLiteral("Eagle: 符号或封装名称为空或清洗后冲突：%1").arg(component.name));
+            return false;
+        }
+        if (component.symbol.partCount < 1) {
+            diagnostics.append(QStringLiteral("Eagle: 组件 %1 的符号部件数非法").arg(component.name));
+            return false;
+        }
+        if (!component.hasSymbol() || !component.hasFootprint()) {
+            diagnostics.append(QStringLiteral("Eagle: 组件 %1 缺少符号或封装，无法建立 DeviceSet").arg(component.name));
+            return false;
+        }
+        for (int partIndex = 0; partIndex < component.symbol.partCount; ++partIndex) {
+            const QString symbolName =
+                partIndex == 0 ? baseSymbolName : baseSymbolName + QStringLiteral("_P%1").arg(partIndex + 1);
+            if (symbolNames.contains(symbolName)) {
+                diagnostics.append(QStringLiteral("Eagle: 符号名称冲突：%1").arg(symbolName));
+                return false;
+            }
+            symbolNames.insert(symbolName);
+        }
+        packageNames.insert(packageName);
+    }
+
+    xml.writeStartElement(QStringLiteral("symbols"));
+    for (const IR::ComponentIR& component : components) {
+        for (int partIndex = 0; partIndex < component.symbol.partCount; ++partIndex) {
+            const QString symbolName =
+                partIndex == 0 ? safeName(component.symbol.name)
+                               : safeName(component.symbol.name) + QStringLiteral("_P%1").arg(partIndex + 1);
+            if (!writeSymbol(xml, component.symbol, partIndex, symbolName, diagnostics))
+                return false;
+        }
+    }
+    xml.writeEndElement();
+
+    xml.writeStartElement(QStringLiteral("devicesets"));
+    for (const IR::ComponentIR& component : components) {
+        const QString deviceName = safeName(component.name.isEmpty() ? component.symbol.name : component.name);
+        xml.writeStartElement(QStringLiteral("deviceset"));
+        xml.writeAttribute(QStringLiteral("name"), deviceName);
+        xml.writeAttribute(
+            QStringLiteral("prefix"),
+            component.symbol.designatorPrefix.isEmpty() ? QStringLiteral("U") : component.symbol.designatorPrefix);
+        xml.writeStartElement(QStringLiteral("gates"));
+        for (int partIndex = 0; partIndex < component.symbol.partCount; ++partIndex) {
+            const QString gateName = QStringLiteral("G$%1").arg(partIndex + 1);
+            const QString symbolName =
+                partIndex == 0 ? safeName(component.symbol.name)
+                               : safeName(component.symbol.name) + QStringLiteral("_P%1").arg(partIndex + 1);
+            xml.writeEmptyElement(QStringLiteral("gate"));
+            xml.writeAttribute(QStringLiteral("name"), gateName);
+            xml.writeAttribute(QStringLiteral("symbol"), symbolName);
+            xml.writeAttribute(QStringLiteral("x"), QStringLiteral("0"));
+            xml.writeAttribute(QStringLiteral("y"), QStringLiteral("0"));
+        }
+        xml.writeEndElement();
+        xml.writeStartElement(QStringLiteral("devices"));
+        xml.writeStartElement(QStringLiteral("device"));
+        xml.writeAttribute(QStringLiteral("name"), QString());
+        xml.writeAttribute(QStringLiteral("package"), safeName(component.footprint.name));
+        xml.writeStartElement(QStringLiteral("connects"));
+        for (int partIndex = 0; partIndex < component.symbol.partCount; ++partIndex) {
+            const QString gateName = QStringLiteral("G$%1").arg(partIndex + 1);
+            for (const IR::SymbolPinIR& pin : component.symbol.pins) {
+                if (pin.partIndex != partIndex && !pin.commonToAllParts)
+                    continue;
+                bool padExists = false;
+                for (const IR::FootprintPadIR& pad : component.footprint.pads) {
+                    if (pad.number == pin.designator) {
+                        padExists = true;
+                        break;
+                    }
+                }
+                if (!padExists) {
+                    diagnostics.append(
+                        QStringLiteral("Eagle: 组件 %1 的引脚 %2 找不到对应焊盘").arg(component.name, pin.designator));
+                    return false;
+                }
+                xml.writeEmptyElement(QStringLiteral("connect"));
+                xml.writeAttribute(QStringLiteral("gate"), gateName);
+                xml.writeAttribute(QStringLiteral("pin"), pin.name);
+                xml.writeAttribute(QStringLiteral("pad"), pin.designator);
+            }
+        }
+        xml.writeEndElement();
+        xml.writeStartElement(QStringLiteral("technologies"));
+        xml.writeEmptyElement(QStringLiteral("technology"));
+        xml.writeAttribute(QStringLiteral("name"), QString());
+        xml.writeEndElement();
+        xml.writeEndElement();
+        xml.writeEndElement();
+        xml.writeEndElement();
+        xml.writeEndElement();
+    }
+    xml.writeEndElement();
+    return !xml.hasError();
+}
+
 bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
                   const QString& filePath,
                   const QString& description,
@@ -254,29 +508,7 @@ bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
     xml.writeEmptyElement(QStringLiteral("setting"));
     xml.writeAttribute(QStringLiteral("alwaysvectorfont"), QStringLiteral("no"));
     xml.writeEndElement();
-    xml.writeStartElement(QStringLiteral("layers"));
-    const QList<QPair<int, QString>> layers = {{1, "Top"},
-                                               {16, "Bottom"},
-                                               {21, "tPlace"},
-                                               {22, "bPlace"},
-                                               {29, "tStop"},
-                                               {30, "bStop"},
-                                               {31, "tCream"},
-                                               {32, "bCream"},
-                                               {39, "tKeepout"},
-                                               {46, "Milling"},
-                                               {51, "tDocu"},
-                                               {52, "bDocu"}};
-    for (const auto& layer : layers) {
-        xml.writeEmptyElement(QStringLiteral("layer"));
-        xml.writeAttribute(QStringLiteral("number"), QString::number(layer.first));
-        xml.writeAttribute(QStringLiteral("name"), layer.second);
-        xml.writeAttribute(QStringLiteral("color"), QStringLiteral("4"));
-        xml.writeAttribute(QStringLiteral("fill"), QStringLiteral("1"));
-        xml.writeAttribute(QStringLiteral("visible"), QStringLiteral("yes"));
-        xml.writeAttribute(QStringLiteral("active"), QStringLiteral("yes"));
-    }
-    xml.writeEndElement();
+    writeLayerTable(xml);
     xml.writeStartElement(QStringLiteral("library"));
     xml.writeStartElement(QStringLiteral("description"));
     xml.writeCharacters(description);
@@ -339,6 +571,61 @@ bool ExporterEagleFootprint::exportFootprintLibrary(const QList<IR::FootprintCom
 
 QStringList ExporterEagleFootprint::diagnostics() const {
     return m_diagnostics;
+}
+
+bool ExporterEagleFootprint::exportComponentLibrary(const QList<IR::ComponentIR>& components,
+                                                    const QString& libName,
+                                                    const QString& filePath,
+                                                    bool exportModel3D,
+                                                    const QString&) {
+    m_diagnostics.clear();
+    if (components.isEmpty()) {
+        m_diagnostics.append(QStringLiteral("Eagle: 没有可导出的完整组件"));
+        return false;
+    }
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        m_diagnostics.append(QStringLiteral("Eagle: 无法写入完整库：%1").arg(filePath));
+        return false;
+    }
+
+    QXmlStreamWriter xml(&file);
+    xml.setAutoFormatting(true);
+    xml.writeStartDocument();
+    xml.writeStartElement(QStringLiteral("eagle"));
+    xml.writeAttribute(QStringLiteral("version"), QStringLiteral("9.6.2"));
+    xml.writeStartElement(QStringLiteral("drawing"));
+    xml.writeStartElement(QStringLiteral("settings"));
+    xml.writeEmptyElement(QStringLiteral("setting"));
+    xml.writeAttribute(QStringLiteral("alwaysvectorfont"), QStringLiteral("no"));
+    xml.writeEndElement();
+    writeLayerTable(xml);
+    xml.writeStartElement(QStringLiteral("library"));
+    xml.writeStartElement(QStringLiteral("description"));
+    xml.writeCharacters(libName);
+    xml.writeEndElement();
+    xml.writeStartElement(QStringLiteral("packages"));
+    for (const IR::ComponentIR& component : components) {
+        if (!writePackage(xml, component.footprint, m_diagnostics))
+            return false;
+    }
+    xml.writeEndElement();
+    if (!writeComponentLibrary(xml, components, m_diagnostics))
+        return false;
+    if (exportModel3D) {
+        // Eagle 的 package3d 关联需要受管 URN 或经过 Eagle 生成的包描述，不能用外部文件路径伪造。
+        for (const IR::ComponentIR& component : components) {
+            if (component.hasModel3D())
+                m_diagnostics.append(
+                    QStringLiteral("Eagle: 组件 %1 的 3D 文件由独立 Model3D 阶段输出，未写入受管 package3d 关联")
+                        .arg(component.name));
+        }
+    }
+    xml.writeEndElement();
+    xml.writeEndElement();
+    xml.writeEndElement();
+    xml.writeEndDocument();
+    return !xml.hasError();
 }
 
 }  // namespace EasyKiConverter

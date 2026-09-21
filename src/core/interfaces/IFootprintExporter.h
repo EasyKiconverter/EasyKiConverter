@@ -1,5 +1,6 @@
 #pragma once
 
+#include "core/ir/ComponentIR.h"
 #include "core/ir/FootprintIR.h"
 
 #include <QList>
@@ -61,6 +62,24 @@ public:
                                         const QString& libraryKeywords = QString(),
                                         bool useAbsolutePaths = false,
                                         const QString& model3DBaseDir = QString()) = 0;
+
+    /**
+     * @brief 导出同时包含符号、封装和器件关联的完整库。
+     * @details 仅由目标格式能够在一个库文件中表达完整组件时覆盖此接口。
+     * @param components 完整组件 IR 列表
+     * @param libName 库名称
+     * @param filePath 输出文件路径
+     * @param exportModel3D 是否写入目标格式可表达的三维关联
+     * @param model3DBaseDir 外部三维模型输出目录
+     * @return 是否成功
+     */
+    virtual bool exportComponentLibrary(const QList<IR::ComponentIR>&,
+                                        const QString&,
+                                        const QString&,
+                                        bool = false,
+                                        const QString& = QString()) {
+        return false;
+    }
 
     /**
      * @brief 获取最近一次导出的非致命诊断

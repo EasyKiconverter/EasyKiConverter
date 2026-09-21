@@ -3,6 +3,7 @@
 #include "FootprintModel3DPreparation.h"
 #include "KiCadLibraryTableManager.h"
 #include "core/ExporterFactory.h"
+#include "core/ir/ComponentDataConverter.h"
 #include "core/ir/FootprintDataConverter.h"
 #include "models/ComponentData.h"
 #include "services/ComponentCacheService.h"
@@ -104,6 +105,7 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     const uint64_t gen = ComponentCacheService::instance()->currentGeneration();
 
     QList<FootprintData> footprintList;
+    QList<IR::ComponentIR> componentIrList;
     QStringList collectedIds;
     QStringList failedIds;
     int successCount = 0;
@@ -191,6 +193,8 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         }
 
         footprintList.append(footprint);
+        if (m_options.targetFormat == TargetEdaFormat::Eagle)
+            componentIrList.append(IR::toComponentIR(*data));
         collectedIds.append(componentId);
         successCount++;
 
@@ -435,16 +439,21 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         for (const FootprintData& fd : footprintList) {
             irFootprintList.append(IR::toFootprintIR(fd));
         }
-        exportSuccess =
-            exporter->exportFootprintLibrary(irFootprintList,
-                                             libName,
-                                             tempPath,
-                                             preferWrl,
-                                             exportStep,
-                                             libraryDescription,
-                                             libraryKeywords,
-                                             m_options.exportModel3DPathMode == ExportOptions::MODEL_3D_PATH_ABSOLUTE,
-                                             outputDir);
+        if (m_options.targetFormat == TargetEdaFormat::Eagle && m_options.exportSymbol) {
+            exportSuccess = exporter->exportComponentLibrary(
+                componentIrList, libName, tempPath, m_options.exportModel3D, outputDir);
+        } else {
+            exportSuccess = exporter->exportFootprintLibrary(
+                irFootprintList,
+                libName,
+                tempPath,
+                preferWrl,
+                exportStep,
+                libraryDescription,
+                libraryKeywords,
+                m_options.exportModel3DPathMode == ExportOptions::MODEL_3D_PATH_ABSOLUTE,
+                outputDir);
+        }
         const QStringList exporterDiagnostics = exporter->diagnostics();
         if (!exporterDiagnostics.isEmpty()) {
             QMutexLocker locker(&m_progressMutex);

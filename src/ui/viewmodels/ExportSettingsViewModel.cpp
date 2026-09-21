@@ -107,7 +107,6 @@ void ExportSettingsViewModel::setExportSymbol(bool enabled) {
     if (enabled && m_targetModel &&
         (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro) ||
          m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Pads) ||
-         m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Eagle) ||
          m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Pcad)))
         enabled = false;
     if (m_exportSymbol != enabled) {
@@ -131,7 +130,6 @@ void ExportSettingsViewModel::setExportModel3D(bool enabled) {
     if (enabled && m_targetModel &&
         (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Xpedition) ||
          m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Pads) ||
-         m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Eagle) ||
          m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Pcad))) {
         enabled = false;
     }
@@ -244,10 +242,6 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
                 setExportSymbol(false);
                 setExportModel3D(false);
             }
-            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Eagle)) {
-                setExportSymbol(false);
-                setExportModel3D(false);
-            }
             if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Pcad)) {
                 setExportSymbol(false);
                 setExportModel3D(false);
@@ -266,10 +260,6 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
         }
         if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Pads)) {
-            setExportSymbol(false);
-            setExportModel3D(false);
-        }
-        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Eagle)) {
             setExportSymbol(false);
             setExportModel3D(false);
         }

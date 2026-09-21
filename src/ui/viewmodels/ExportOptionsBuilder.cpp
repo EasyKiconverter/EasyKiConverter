@@ -75,13 +75,9 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     const bool padsTarget = options.targetFormat == TargetEdaFormat::Pads;
     const bool eagleTarget = options.targetFormat == TargetEdaFormat::Eagle;
     const bool pcadTarget = options.targetFormat == TargetEdaFormat::Pcad;
-    if (allegroTarget || eagleTarget)
+    if (allegroTarget)
         options.exportSymbol = false;
     if (padsTarget || pcadTarget) {
-        options.exportSymbol = false;
-        options.exportModel3D = false;
-    }
-    if (eagleTarget) {
         options.exportSymbol = false;
         options.exportModel3D = false;
     }

@@ -252,6 +252,7 @@ private:
     bool m_isStopping;
     bool m_hasCompletedExport;
     bool m_exportSymbolEnabled;
+    bool m_eagleCombinedLibrary;
     bool m_exportFootprintEnabled;
     bool m_exportModel3DEnabled;
     bool m_exportPreviewEnabled;

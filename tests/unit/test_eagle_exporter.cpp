@@ -15,6 +15,10 @@ private slots:
     void writesXmlLibrary();
     /** @brief 验证清洗名称冲突会阻止生成歧义 package。 */
     void rejectsNameCollision();
+    /** @brief 验证完整 Eagle XML 库包含符号、器件集和引脚映射。 */
+    void writesCompleteComponentLibrary();
+    /** @brief 验证缺失封装焊盘时拒绝生成无效器件关联。 */
+    void rejectsMissingPadMapping();
 };
 
 static IR::FootprintComponentIR makeFixture(const QString& name) {
@@ -40,6 +44,28 @@ static IR::FootprintComponentIR makeFixture(const QString& name) {
     footprint.holes.append({QPointF(0.0, 2.0), 0.4, false});
     footprint.circles.append({QPointF(0.0, 0.0), 2.0, 0.15, IR::LayerType::TopSilk, false});
     return footprint;
+}
+
+static IR::ComponentIR makeComponentFixture() {
+    IR::ComponentIR component;
+    component.name = QStringLiteral("R_10K");
+    component.description = QStringLiteral("完整 Eagle 组件测试");
+    component.prefix = QStringLiteral("R");
+    component.symbol.name = QStringLiteral("R_10K_SYMBOL");
+    component.symbol.designatorPrefix = QStringLiteral("R");
+    component.symbol.description = component.description;
+    component.symbol.rectangles.append({-1.27, -2.54, 1.27, 2.54, 0.15});
+    IR::SymbolPinIR pin;
+    pin.name = QStringLiteral("1");
+    pin.designator = QStringLiteral("1");
+    pin.position = QPointF(-3.81, 0.0);
+    pin.direction = IR::PinDirection::Left;
+    pin.partIndex = 0;
+    component.symbol.pins.append(pin);
+    component.footprint = makeFixture(QStringLiteral("R_10K_PACKAGE"));
+    component.footprint.pads.removeLast();
+    component.footprint.pads.first().number = QStringLiteral("1");
+    return component;
 }
 
 /** 验证 Eagle XML library 可解析且包含基础封装元素。 */
@@ -86,6 +112,52 @@ void TestEagleExporter::rejectsNameCollision() {
                                              QStringLiteral("library"),
                                              temporary.path() + QStringLiteral("/library.lbr")));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("冲突")));
+}
+
+/** 验证完整 Eagle XML library 可被回读并保留组件关联关系。 */
+void TestEagleExporter::writesCompleteComponentLibrary() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    const QString path = temporary.path() + QStringLiteral("/complete.lbr");
+    QVERIFY(exporter.exportComponentLibrary({makeComponentFixture()}, QStringLiteral("complete"), path));
+
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    QXmlStreamReader reader(&file);
+    bool symbolSeen = false;
+    bool devicesetSeen = false;
+    bool gateSeen = false;
+    bool deviceSeen = false;
+    bool connectSeen = false;
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (!reader.isStartElement())
+            continue;
+        symbolSeen = symbolSeen || reader.name() == QStringLiteral("symbol");
+        devicesetSeen = devicesetSeen || reader.name() == QStringLiteral("deviceset");
+        gateSeen = gateSeen || reader.name() == QStringLiteral("gate");
+        deviceSeen = deviceSeen || reader.name() == QStringLiteral("device");
+        connectSeen = connectSeen || reader.name() == QStringLiteral("connect");
+    }
+    QVERIFY2(!reader.hasError(), qPrintable(reader.errorString()));
+    QVERIFY(symbolSeen);
+    QVERIFY(devicesetSeen);
+    QVERIFY(gateSeen);
+    QVERIFY(deviceSeen);
+    QVERIFY(connectSeen);
+}
+
+/** 验证 pin-to-pad 关联缺失时导出失败且报告原因。 */
+void TestEagleExporter::rejectsMissingPadMapping() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    ExporterEagleFootprint exporter;
+    IR::ComponentIR component = makeComponentFixture();
+    component.symbol.pins.first().designator = QStringLiteral("99");
+    QVERIFY(!exporter.exportComponentLibrary(
+        {component}, QStringLiteral("invalid"), temporary.path() + QStringLiteral("/invalid.lbr")));
+    QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("找不到对应焊盘")));
 }
 
 QTEST_MAIN(TestEagleExporter)
