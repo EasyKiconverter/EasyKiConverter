@@ -1,3 +1,4 @@
+#include "core/ExporterFactory.h"
 #include "models/ComponentData.h"
 #include "services/ComponentCacheService.h"
 #include "services/export/ExportTypeStage.h"
@@ -107,6 +108,9 @@ class TestExportTypeStage : public QObject {
     Q_OBJECT
 
 private slots:
+
+    /** @brief 验证所有已注册目标格式都能创建独立三维模型导出器。 */
+    void model3DExporterIsAvailableForAllTargets();
 
     /** @brief 验证预览图缓存缺少前置索引时仍会导出后续图片。 */
     void previewImageExportLoadsNonContiguousCacheEntries() {
@@ -1561,6 +1565,21 @@ private:
         return componentData;
     }
 };
+
+/** 验证所有已注册目标格式都能创建独立三维模型导出器。 */
+void TestExportTypeStage::model3DExporterIsAvailableForAllTargets() {
+    const QList<TargetEdaFormat> formats = {TargetEdaFormat::KiCad,
+                                            TargetEdaFormat::Altium,
+                                            TargetEdaFormat::Xpedition,
+                                            TargetEdaFormat::Allegro,
+                                            TargetEdaFormat::Pads,
+                                            TargetEdaFormat::Eagle,
+                                            TargetEdaFormat::Pcad,
+                                            TargetEdaFormat::Cadstar,
+                                            TargetEdaFormat::Orcad};
+    for (const TargetEdaFormat format : formats)
+        QVERIFY2(ExporterFactory::createModel3DExporter(format) != nullptr, "目标格式缺少独立三维导出器");
+}
 
 }  // namespace EasyKiConverter
 

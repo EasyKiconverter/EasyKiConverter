@@ -74,17 +74,21 @@ std::unique_ptr<IFootprintExporter> ExporterFactory::createFootprintExporter(Tar
  * @brief 创建 3D 模型导出器
  * @note 使用裸 new 而非 std::make_unique，因为 Exporter3DModel 继承 QObject，
  *       需要将 parent 传递给构造函数以建立 Qt 对象所有权。
- * @note Altium 3D 模型（WRL/STEP）格式与 KiCad 通用，复用 KiCad 实现。
+ * @note WRL/STEP 是独立模型产物，所有目标格式都可以复用该转换器；目标格式的原生模型关联仍由各自封装导出器决定。
  */
 std::unique_ptr<IModel3DExporter> ExporterFactory::createModel3DExporter(TargetEdaFormat format, QObject* parent) {
-    // WRL/STEP 的三维模型导出器由支持该格式的目标格式共享。
+    // 独立 WRL/STEP 模型不依赖目标库的私有关联语法，因此统一复用可靠的公共实现。
     switch (format) {
         case TargetEdaFormat::KiCad:
         case TargetEdaFormat::Altium:
-            // Altium 同样支持 WRL/STEP 格式，复用 KiCad 的 3D 导出器
-            return std::unique_ptr<IModel3DExporter>(new Exporter3DModel(parent));
         case TargetEdaFormat::Allegro:
-            return nullptr;
+        case TargetEdaFormat::Xpedition:
+        case TargetEdaFormat::Pads:
+        case TargetEdaFormat::Eagle:
+        case TargetEdaFormat::Pcad:
+        case TargetEdaFormat::Cadstar:
+        case TargetEdaFormat::Orcad:
+            return std::unique_ptr<IModel3DExporter>(new Exporter3DModel(parent));
         default:
             return nullptr;
     }
