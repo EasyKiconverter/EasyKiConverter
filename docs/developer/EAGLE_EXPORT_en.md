@@ -1,6 +1,6 @@
 # Eagle XML Combined Library Export
 
-The current scope is **EasyEDA/LCSC to an Eagle XML `.lbr` combined library**. The same file contains packages, symbols, DeviceSets, and pin-to-pad connections, so this is not a footprint-only export. 3D files are emitted by the independent model stage; managed Eagle `package3d` associations are not fabricated because they require managed URNs.
+The current scope is **EasyEDA/LCSC to an Eagle XML `.lbr` library**: the selection can produce a complete combined library, a symbol-only library, or a package-only library. The complete library contains packages, symbols, DeviceSets, and pin-to-pad connections in one file, so this is not limited to footprint export. 3D files are emitted by the independent model stage; managed Eagle `package3d` associations are not fabricated because they require managed URNs.
 
 ```mermaid
 flowchart LR
