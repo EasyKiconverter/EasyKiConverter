@@ -204,6 +204,75 @@ private slots:
         QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("KiCadCompleteModel.wrl"))));
     }
 
+    // 验证 Altium 管线分别生成 SchLib、PcbLib，并将 STEP 嵌入封装库。
+    void testAltiumPipelineExportsSymbolFootprintAndEmbeddedStep() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString componentId = QStringLiteral("C91007");
+        QList<ComponentData> componentData = makeFixtureComponents({componentId});
+        QVERIFY(componentData.size() == 1);
+
+        // Altium 符号夹具只保留当前 writer 可直接表达的矩形和引脚，避免把源格式高级图元混入管线测试。
+        const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        auto symbol = QSharedPointer<SymbolData>::create();
+        symbol->setInfo(sourceSymbol->info());
+        SymbolBBox bbox = sourceSymbol->bbox();
+        bbox.x = -2.0;
+        bbox.y = -3.0;
+        bbox.width = 4.0;
+        bbox.height = 6.0;
+        symbol->setBbox(bbox);
+        symbol->setPins(sourceSymbol->pins());
+        QList<SymbolRectangle> rectangles = sourceSymbol->rectangles();
+        for (SymbolRectangle& rectangle : rectangles) {
+            rectangle.rx = 0.0;
+            rectangle.ry = 0.0;
+        }
+        symbol->setRectangles(rectangles);
+        componentData.first().setSymbolData(symbol);
+
+        // 预置有效 STEP 和 OBJ 数据，确保嵌入模型验证不访问网络。
+        Model3DData model;
+        model.setName(QStringLiteral("AltiumCompleteModel"));
+        model.setUuid(QStringLiteral("altium-complete-model"));
+        model.setStep(QByteArrayLiteral("ISO-10303-21;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
+        componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
+        componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        ParallelExportService service;
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("AltiumCompletePipeline"));
+        options.targetFormat = TargetEdaFormat::Altium;
+        options.exportModel3D = true;
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        service.startPreload({componentId});
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+
+        QVERIFY2(completedSpy.wait(30000), "Altium complete export should finish");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        const QString symbolPath = tempDir.filePath(QStringLiteral("AltiumCompletePipeline.SchLib"));
+        const QString footprintPath = tempDir.filePath(QStringLiteral("AltiumCompletePipeline.PcbLib"));
+        QString error;
+        QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
+        QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
+        QVERIFY(TestPaths::readBytes(symbolPath, &error).startsWith(QByteArray::fromHex("D0CF11E0")));
+        QVERIFY(TestPaths::readBytes(footprintPath, &error).startsWith(QByteArray::fromHex("D0CF11E0")));
+    }
+
     // 验证 Allegro Import Package 同时保存符号、封装、Pin-Pad 关联和 STEP 模型。
     void testAllegroPipelineExportsAllLibraryArtifacts() {
         QTemporaryDir tempDir;
