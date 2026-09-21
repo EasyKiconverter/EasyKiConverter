@@ -60,8 +60,13 @@ void appendGraphic(const Parser::PcadGraphic& source,
     // 图元类型映射只使用 IR 语义，不把 P-CAD 节点名称泄漏到 IR。
     switch (source.type) {
         case Parser::PcadGraphicType::Line: {
-            if (source.points.size() < 2)
+            if (source.points.size() < 2) {
+                if (diagnostics)
+                    diagnostics->add(Parser::ParseSeverity::Error,
+                                     Parser::ParseScope::Footprint,
+                                     QStringLiteral("P-CAD 封装线段缺少两个端点"));
                 break;
+            }
             IR::FootprintTrackIR track;
             track.points = source.points;
             track.width = source.width;
@@ -90,8 +95,13 @@ void appendGraphic(const Parser::PcadGraphic& source,
             break;
         }
         case Parser::PcadGraphicType::Polygon: {
-            if (source.points.size() < 3)
+            if (source.points.size() < 3) {
+                if (diagnostics)
+                    diagnostics->add(Parser::ParseSeverity::Error,
+                                     Parser::ParseScope::Footprint,
+                                     QStringLiteral("P-CAD 封装多边形缺少三个顶点"));
                 break;
+            }
             IR::FootprintRegionIR region;
             region.vertices = source.points;
             region.layer = graphicLayer;
@@ -124,8 +134,13 @@ void appendBoardGraphic(const Parser::PcadGraphic& source, IR::BoardIR& result, 
     // 按图元语义写入通用 IR，避免把来源格式的枚举和节点结构带出适配层。
     switch (source.type) {
         case Parser::PcadGraphicType::Line: {
-            if (source.points.size() < 2)
+            if (source.points.size() < 2) {
+                if (diagnostics)
+                    diagnostics->add(Parser::ParseSeverity::Error,
+                                     Parser::ParseScope::File,
+                                     QStringLiteral("P-CAD 板级线段缺少两个端点"));
                 break;
+            }
             IR::FootprintTrackIR track;
             track.points = source.points;
             track.width = source.width;
@@ -154,8 +169,13 @@ void appendBoardGraphic(const Parser::PcadGraphic& source, IR::BoardIR& result, 
             break;
         }
         case Parser::PcadGraphicType::Polygon: {
-            if (source.points.size() < 3)
+            if (source.points.size() < 3) {
+                if (diagnostics)
+                    diagnostics->add(Parser::ParseSeverity::Error,
+                                     Parser::ParseScope::File,
+                                     QStringLiteral("P-CAD 板级多边形缺少三个顶点"));
                 break;
+            }
             IR::FootprintRegionIR region;
             region.vertices = source.points;
             region.layer = graphicLayer;
@@ -247,6 +267,8 @@ IR::FootprintComponentIR PcadAdapter::toFootprint(const Parser::PcadBoard& board
             pad.holeSize = style->holeDiameter;
         }
         // 将 Pad Style 形状映射为统一焊盘枚举。
+        bool shapeSupported = true;
+        // 未知形状不猜测替代几何，避免制造语义被静默改变。
         switch (style->shape) {
             case Parser::PcadPadShape::Round:
                 pad.shape = IR::PadShape::Ellipse;
@@ -261,14 +283,16 @@ IR::FootprintComponentIR PcadAdapter::toFootprint(const Parser::PcadBoard& board
                 pad.shape = IR::PadShape::Rect;
                 break;
             case Parser::PcadPadShape::Unknown:
-                pad.shape = IR::PadShape::Rect;
+                shapeSupported = false;
                 if (diagnostics)
-                    diagnostics->add(Parser::ParseSeverity::Warning,
+                    diagnostics->add(Parser::ParseSeverity::Error,
                                      Parser::ParseScope::Footprint,
-                                     QStringLiteral("P-CAD 未知焊盘形状已降级为矩形"),
+                                     QStringLiteral("P-CAD 未知焊盘形状无法映射，已跳过焊盘"),
                                      style->name);
                 break;
         }
+        if (!shapeSupported)
+            continue;
         result.pads.append(pad);
     }
     for (const Parser::PcadGraphic& graphic : pattern.graphics)

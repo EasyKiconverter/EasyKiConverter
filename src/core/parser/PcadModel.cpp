@@ -97,7 +97,7 @@ PcadPadShape padShape(const Node& node, ParseDiagnostics* diagnostics) {
     if (diagnostics)
         diagnostics->add(ParseSeverity::Warning,
                          ParseScope::Footprint,
-                         QStringLiteral("P-CAD 未知焊盘形状，后续将降级"),
+                         QStringLiteral("P-CAD 未知焊盘形状，无法映射到统一 IR"),
                          type,
                          node.line);
     return PcadPadShape::Unknown;
