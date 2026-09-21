@@ -169,7 +169,7 @@ PcadGraphic parseGraphic(const Node& node, ParseDiagnostics* diagnostics, Length
         graphic.type = PcadGraphicType::Circle;
     else if (kind == QStringLiteral("TEXT"))
         graphic.type = PcadGraphicType::Text;
-    else if (kind == QStringLiteral("POLY") || kind == QStringLiteral("POLYGON"))
+    else if (kind == QStringLiteral("POLY") || kind == QStringLiteral("POLYGON") || kind == QStringLiteral("PCBPOLY"))
         graphic.type = PcadGraphicType::Polygon;
     else {
         graphic.type = PcadGraphicType::Unknown;
@@ -239,11 +239,33 @@ PcadPattern parsePattern(const Node& node, ParseDiagnostics* diagnostics, Length
         const QString kind = nameOf(child);
         if (kind == QStringLiteral("PAD"))
             pattern.pads.append(parsePatternPad(child, diagnostics, defaultUnit));
+        // 标准 P-CAD Pattern 可能把焊盘放在 MULTILAYER 容器中。
+        else if (kind == QStringLiteral("MULTILAYER")) {
+            for (const Node& padNode : child.children) {
+                if (padNode.isList() && nameOf(padNode) == QStringLiteral("PAD"))
+                    pattern.pads.append(parsePatternPad(padNode, diagnostics, defaultUnit));
+            }
+        }
         // Pattern 图形共用同一套图元解析和单位转换逻辑。
         else if (kind == QStringLiteral("PATTERNGRAPHICS") || kind == QStringLiteral("GRAPHICS")) {
             for (const Node& graphicNode : child.children) {
                 if (graphicNode.isList())
                     pattern.graphics.append(parseGraphic(graphicNode, diagnostics, defaultUnit));
+            }
+        } else if (kind == QStringLiteral("LAYERCONTENTS")) {
+            const Node layerNode = firstList(child, QStringLiteral("LAYERNUMREF"));
+            const int layerNumber =
+                layerNode.atom.isEmpty()
+                    ? 0
+                    : StrictNumberParser::parseInteger(
+                          firstScalar(layerNode), diagnostics, QStringLiteral("GRAPHICS.LAYER"), layerNode.line);
+            for (const Node& graphicNode : child.children) {
+                if (!graphicNode.isList() || nameOf(graphicNode) == QStringLiteral("LAYERNUMREF"))
+                    continue;
+                PcadGraphic graphic = parseGraphic(graphicNode, diagnostics, defaultUnit);
+                if (graphic.layerNumber == 0)
+                    graphic.layerNumber = layerNumber;
+                pattern.graphics.append(graphic);
             }
         }
     }
@@ -323,8 +345,12 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
         board.name = firstScalar(root);
         // 先读取文件级单位，确保后续库定义不受节点顺序影响。
         for (const Node& rootChild : root.children) {
-            if (rootChild.isList() && nameOf(rootChild) == QStringLiteral("UNITS")) {
-                board.unit = UnitConverter::parseUnit(firstScalar(rootChild), &board.diagnostics);
+            if (rootChild.isList() &&
+                (nameOf(rootChild) == QStringLiteral("UNITS") || nameOf(rootChild) == QStringLiteral("ASCIIHEADER"))) {
+                const Node unitNode = nameOf(rootChild) == QStringLiteral("ASCIIHEADER")
+                                          ? firstList(rootChild, QStringLiteral("FILEUNITS"))
+                                          : rootChild;
+                board.unit = UnitConverter::parseUnit(firstScalar(unitNode), &board.diagnostics);
                 break;
             }
         }
@@ -334,6 +360,10 @@ PcadBoard PcadParser::parse(const QString& content, const QString& filePath) {
             const QString kind = nameOf(child);
             if (kind == QStringLiteral("UNITS")) {
                 board.unit = UnitConverter::parseUnit(firstScalar(child), &board.diagnostics);
+            } else if (kind == QStringLiteral("ASCIIHEADER")) {
+                const Node unitNode = firstList(child, QStringLiteral("FILEUNITS"));
+                if (!unitNode.atom.isEmpty())
+                    board.unit = UnitConverter::parseUnit(firstScalar(unitNode), &board.diagnostics);
             } else if (kind == QStringLiteral("LAYER") || kind == QStringLiteral("LAYERDEF")) {
                 const QStringList values = scalarValues(child);
                 PcadLayer layer;

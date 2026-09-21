@@ -85,6 +85,17 @@ target_include_directories(test_pcad_parser PRIVATE
 )
 add_test(NAME test_pcad_parser COMMAND test_pcad_parser)
 
+add_executable(test_pcad_exporter test_pcad_exporter.cpp)
+target_link_libraries(test_pcad_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterPcad
+)
+target_include_directories(test_pcad_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_pcad_exporter COMMAND test_pcad_exporter)
+
 add_executable(test_parser_security test_parser_security.cpp)
 target_link_libraries(test_parser_security PRIVATE
     Qt6::Test

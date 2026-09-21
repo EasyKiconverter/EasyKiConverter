@@ -385,6 +385,15 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         abortExport(QStringLiteral("Eagle XML 封装库已存在且当前禁止覆盖: %1").arg(finalPath));
         return;
     }
+    if (m_options.targetFormat == TargetEdaFormat::Pcad && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("P-CAD ASCII 封装库不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Pcad && QFile::exists(finalPath) &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("P-CAD ASCII 封装库已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
 
     if (tempPath.isEmpty()) {
         abortExport(QStringLiteral("Failed to create temp path"));

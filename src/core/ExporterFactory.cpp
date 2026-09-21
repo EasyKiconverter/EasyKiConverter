@@ -8,6 +8,7 @@
 #include "core/kicad/ExporterFootprint.h"
 #include "core/kicad/ExporterSymbol.h"
 #include "core/pads/ExporterPadsFootprint.h"
+#include "core/pcad/ExporterPcadFootprint.h"
 #include "core/xpedition/ExporterXpeditionFootprint.h"
 #include "core/xpedition/ExporterXpeditionSymbol.h"
 
@@ -50,6 +51,8 @@ std::unique_ptr<IFootprintExporter> ExporterFactory::createFootprintExporter(Tar
             return std::make_unique<ExporterPadsFootprint>();
         case TargetEdaFormat::Eagle:
             return std::make_unique<ExporterEagleFootprint>();
+        case TargetEdaFormat::Pcad:
+            return std::make_unique<ExporterPcadFootprint>();
         default:
             return nullptr;
     }

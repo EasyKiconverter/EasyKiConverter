@@ -85,6 +85,8 @@ ExportOptions CliContext::createExportOptions() const {
         options.targetFormat = TargetEdaFormat::Pads;
     } else if (format == QStringLiteral("eagle")) {
         options.targetFormat = TargetEdaFormat::Eagle;
+    } else if (format == QStringLiteral("pcad")) {
+        options.targetFormat = TargetEdaFormat::Pcad;
     } else {
         options.targetFormat = TargetEdaFormat::KiCad;
     }
@@ -107,6 +109,10 @@ ExportOptions CliContext::createExportOptions() const {
         options.exportModel3D = false;
     }
     if (options.targetFormat == TargetEdaFormat::Eagle) {
+        options.exportSymbol = false;
+        options.exportModel3D = false;
+    }
+    if (options.targetFormat == TargetEdaFormat::Pcad) {
         options.exportSymbol = false;
         options.exportModel3D = false;
     }

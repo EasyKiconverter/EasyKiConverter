@@ -821,6 +821,39 @@ private slots:
         QCOMPARE(unchanged.readAll(), QByteArray("keep"));
     }
 
+    // 验证 P-CAD ASCII 单文件已有且禁止覆盖时不会替换原文件。
+    void pcadFootprintRejectsExistingFileWithoutOverwrite() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString finalPath = tempDir.path() + QDir::separator() + QStringLiteral("Existing.lia");
+        QFile existing(finalPath);
+        QVERIFY(existing.open(QIODevice::WriteOnly));
+        existing.write("keep-pcad");
+        existing.close();
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("Existing");
+        options.targetFormat = TargetEdaFormat::Pcad;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PCAD")] =
+            makeFootprintComponent(QStringLiteral("C_PCAD"), QStringLiteral("PCAD_FOOTPRINT"));
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_PCAD")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "P-CAD overwrite policy should complete");
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+        QVERIFY(stage.getProgress().diagnostics.join(QStringLiteral("\n")).contains(QStringLiteral("P-CAD")));
+
+        QFile unchanged(finalPath);
+        QVERIFY(unchanged.open(QIODevice::ReadOnly));
+        QCOMPARE(unchanged.readAll(), QByteArray("keep-pcad"));
+    }
+
     // 验证符号输入诊断会随导出进度暴露给调用方。
     void symbolLibraryExportEmitsInputDiagnostics() {
         QTemporaryDir tempDir;

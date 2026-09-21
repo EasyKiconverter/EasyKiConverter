@@ -55,6 +55,7 @@ CLI mode exports the following by default:
 - Xpedition currently exports symbol and footprint ZIP packages only and does not support 3D model association; `--3d-model` records a warning and skips the 3D stage
 - PADS currently exports ASCII PCB Decal footprints only and does not support symbols or 3D model associations; `--3d-model` records a warning and skips the 3D stage, while update, append, and retry modes are rejected
 - Eagle currently exports XML package libraries only and does not support symbols, devices, or 3D associations; `--3d-model` records a warning and skips the 3D stage, while update, append, and retry modes are rejected
+- P-CAD currently exports Pad Styles and Patterns in an ASCII PCB Library (`.lia`) only and does not support symbols, Component/Part associations, or 3D models; `--3d-model` records a warning and skips the 3D stage, while update, append, and retry modes are rejected
 - Use `--datasheet` when datasheets are needed
 - Normal mode does not generate detailed reports; only in debug mode (`--debug`)
 
