@@ -20,6 +20,24 @@ Once a format has both an Importer and an Exporter, it can in principle interope
 
 The repository already contains the IR directory and foundational types such as `SymbolComponentIR`, `FootprintComponentIR`, and `Model3DIR`. See [ADR 012: Intermediate Representation Refactor](adr/012-intermediate-representation-refactor.md) and [Conversion Mapping](../developer/CONVERSION_MAPPING.md).
 
+## Current export capabilities
+
+The current export pipeline builds symbol, footprint, and 3D data from the component cache and selects either an independent stage or a combined-library writer according to the target format. The table describes the implemented code boundaries; it does not claim complete coverage of each target EDA's native format:
+
+| Target | Symbol library | Footprint library | Device association | 3D output | Native 3D association |
+| --- | --- | --- | --- | --- | --- |
+| KiCad | `.kicad_sym` | `.kicad_mod` | Component-data association | WRL/STEP/OBJ | Written in KiCad footprint syntax |
+| Altium | `.SchLib` | `.PcbLib` | Component and model records | STEP | Embedded in `.PcbLib` |
+| Xpedition | ASCII ZIP | ASCII ZIP | Separate symbol and footprint packages | Standalone WRL/STEP | No unverified native association |
+| Allegro | Not supported | Import Package | No schematic component library | STEP/model data in the package | Cadence is required to generate `.dra/.psm/.pad` |
+| PADS | Schematic Decal `.c` | PCB Decal `.d` | Part Type `.p` | Standalone WRL/STEP | No native association currently written |
+| Eagle | Symbols in `.lbr` | Packages in `.lbr` | DeviceSets and connections in `.lbr` | Standalone WRL/STEP | No unverified managed `package3d` |
+| P-CAD | Schematic `.lia` | PCB `.lia` | `compDef` and Part associations | Standalone WRL/STEP | No native association currently written |
+| CADSTAR | Components in `.lib` | Packages/Pads in `.lib` | Parts in `.lib` | Standalone WRL/STEP | No unverified private association |
+| OrCAD Capture | XML | No Capture PCB library | `pcbFootprint` name property | Standalone WRL/STEP | XML does not invent a native 3D association |
+
+“Standalone 3D” means that the common `Model3DExportStage` emits the model, or that a target Import Package includes it as a controlled file. It does not mean that the target software has already established a native model reference. Data that the target cannot express must be reported by export diagnostics rather than silently discarded.
+
 ## Scope and phases
 
 The first phase focuses on library data: symbols, footprints, component associations, 3D models, and common metadata. The intended flow is:

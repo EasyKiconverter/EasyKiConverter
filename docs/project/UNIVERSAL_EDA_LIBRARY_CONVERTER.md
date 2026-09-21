@@ -48,7 +48,25 @@ flowchart TD
 
 Importer 负责解析源文件并完成源格式到 IR 的语义映射；IR 负责表达与具体 EDA 无关的库数据；Exporter 负责生成目标格式并处理目标格式的能力差异。
 
-## 3. 架构收益
+## 3. 当前导出能力
+
+当前导出管线统一从组件缓存构建符号、封装和 3D 数据，并根据目标格式能力选择独立阶段或组合库写入。下表描述的是当前代码已经实现的输出边界，不代表目标 EDA 原生格式的完整覆盖：
+
+| 目标格式 | 符号库 | 封装库 | 器件关联 | 3D 模型输出 | 原生 3D 关联 |
+| --- | --- | --- | --- | --- | --- |
+| KiCad | `.kicad_sym` | `.kicad_mod` | 通过组件数据关联 | WRL/STEP/OBJ | 按 KiCad 封装语法写入 |
+| Altium | `.SchLib` | `.PcbLib` | 通过组件和模型记录关联 | STEP | STEP 嵌入 `.PcbLib` |
+| Xpedition | ASCII ZIP | ASCII ZIP | 符号和封装分包 | WRL/STEP | 当前不写入未经验证的原生关联 |
+| Allegro | 不支持 | Import Package | 不支持原理图器件库 | Import Package 内的 STEP/模型数据 | 需要 Cadence 环境生成 `.dra/.psm/.pad` |
+| PADS | Schematic Decal `.c` | PCB Decal `.d` | Part Type `.p` | 独立 WRL/STEP | 当前不写入原生关联 |
+| Eagle | `.lbr` 中的 Symbols | `.lbr` 中的 Packages | `.lbr` 中的 DeviceSets 和连接 | 独立 WRL/STEP | 不写入未经验证的托管 `package3d` |
+| P-CAD | 原理图 `.lia` | PCB `.lia` | `compDef` 和 Part 关联 | 独立 WRL/STEP | 当前不写入原生关联 |
+| CADSTAR | `.lib` 中的 Component | `.lib` 中的 Package/Pad | `.lib` 中的 Part | 独立 WRL/STEP | 不写入未经验证的私有关联 |
+| OrCAD Capture | XML | 不生成 Capture PCB 库 | `pcbFootprint` 名称属性 | 独立 WRL/STEP | XML 不伪造原生 3D 关联 |
+
+其中“独立 3D”表示模型由公共 `Model3DExportStage` 输出，或由目标 Import Package 作为受控文件写入；它不等同于目标软件已经建立了原生模型引用。目标格式无法表达的内容必须通过导出诊断报告，不能静默丢失。
+
+## 4. 架构收益
 
 统一 IR 可以避免转换路径随格式数量平方增长。假设支持 10 种 EDA：
 
@@ -58,7 +76,7 @@ Importer 负责解析源文件并完成源格式到 IR 的语义映射；IR 负�
 
 这能降低重复逻辑、测试成本和长期维护成本，也使格式适配器不再依赖特定的数据来源。
 
-## 4. 分阶段范围
+## 5. 分阶段范围
 
 ### 4.1 第一阶段：EDA 库转换
 
@@ -94,7 +112,7 @@ flowchart LR
 
 项目转换涉及更多格式专有语义，不能简单视为库转换的自然延伸，应单独进行模型设计、兼容性评估和验收。
 
-## 5. 转换质量边界
+## 6. 转换质量边界
 
 项目可以承诺：在源格式 Importer 和目标格式 Exporter 均已实现的前提下，提供转换路径；不应承诺所有格式之间都能实现 100% 无损转换。
 
@@ -121,7 +139,7 @@ flowchart LR
 
 如果目标格式无法表达某项数据，应尽量保留其语义或扩展属性，并明确报告降级和未映射内容；禁止静默丢弃重要数据。
 
-## 6. 转换报告
+## 7. 转换报告
 
 建议提供 Conversion Report（转换报告）或 Compatibility Report（兼容性报告），使用户能够判断导出结果是否需要人工检查。
 
@@ -147,7 +165,7 @@ U15：源格式 Pad Stack 使用了目标格式不支持的属性，已降级为
 J3：自定义属性 XYZ 没有目标字段，已保存为扩展属性。
 ```
 
-## 7. 格式支持边界和实现策略
+## 8. 格式支持边界和实现策略
 
 项目目标应表述为：
 
@@ -164,7 +182,7 @@ J3：自定义属性 XYZ 没有目标字段，已保存为扩展属性。
 
 优先直接解析可稳定读取的原生格式；如果原生格式不适合直接接入，则考虑支持该 EDA 官方提供的 ASCII、XML 或 Exchange 格式。依赖外部工具时，必须记录工具版本、运行平台和已知限制。
 
-## 8. 项目产品定义
+## 9. 项目产品定义
 
 针对当前项目，推荐使用以下精确定义：
 
