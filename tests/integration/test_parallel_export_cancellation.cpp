@@ -1,3 +1,5 @@
+#include "core/altium/readers/AltiumPcbLibReader.h"
+#include "core/altium/readers/AltiumSchLibReader.h"
 #include "core/eagle/ExporterEagleFootprint.h"
 #include "core/easyeda/EasyedaFootprintImporter.h"
 #include "core/easyeda/EasyedaSymbolImporter.h"
@@ -271,6 +273,29 @@ private slots:
         QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
         QVERIFY(TestPaths::readBytes(symbolPath, &error).startsWith(QByteArray::fromHex("D0CF11E0")));
         QVERIFY(TestPaths::readBytes(footprintPath, &error).startsWith(QByteArray::fromHex("D0CF11E0")));
+
+        // 使用项目内独立读取器回读两个 OLE 库，验证文件不是只有容器头而没有有效内容。
+        AltiumSchLibReader symbolReader;
+        QVERIFY2(symbolReader.open(symbolPath), qPrintable(symbolReader.errorString()));
+        QCOMPARE(symbolReader.components().size(), 1);
+        QByteArray symbolData;
+        QVERIFY(symbolReader.readComponentData(0, &symbolData));
+        QVERIFY(symbolData.contains("LibReference=CANCEL_SYM_0"));
+
+        AltiumPcbLibReader footprintReader;
+        QVERIFY2(footprintReader.open(footprintPath), qPrintable(footprintReader.errorString()));
+        QCOMPARE(footprintReader.components().size(), 1);
+        QVector<AltiumPcbLibReader::PrimitiveRecord> primitives;
+        QVERIFY(footprintReader.readFootprintObjects(0, &primitives));
+        QVERIFY(!primitives.isEmpty());
+        bool hasPad = false;
+        bool hasModelBody = false;
+        for (const AltiumPcbLibReader::PrimitiveRecord& primitive : primitives) {
+            hasPad = hasPad || primitive.hasPadFields;
+            hasModelBody = hasModelBody || primitive.hasComponentBodyFields;
+        }
+        QVERIFY(hasPad);
+        QVERIFY(hasModelBody);
     }
 
     // 验证 Allegro Import Package 同时保存符号、封装、Pin-Pad 关联和 STEP 模型。
