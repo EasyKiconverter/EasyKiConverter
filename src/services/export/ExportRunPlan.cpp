@@ -36,7 +36,8 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
                                  const QMap<QString, QSharedPointer<ComponentData>>& cachedData) {
     ExportRunPlan plan;
     // Eagle 完整 XML 库由封装阶段一次性写入 Symbol、Package 和 DeviceSet，避免两个阶段争用同一 .lbr。
-    plan.enableSymbol = options.exportSymbol && options.targetFormat != TargetEdaFormat::Eagle &&
+    plan.enableSymbol = options.exportSymbol && options.targetFormat != TargetEdaFormat::Allegro &&
+                        options.targetFormat != TargetEdaFormat::Eagle &&
                         options.targetFormat != TargetEdaFormat::Cadstar;
     // OrCAD Capture XML 只承载符号和封装名称属性，PCB 封装几何由其他目标库负责。
     plan.enableFootprint = options.exportFootprint && options.targetFormat != TargetEdaFormat::Orcad;

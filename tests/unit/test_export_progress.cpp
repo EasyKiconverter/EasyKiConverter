@@ -137,6 +137,34 @@ private slots:
         QVERIFY(!orcadPlan.enableFootprint);
         QVERIFY(orcadPlan.enableModel3D);
         QVERIFY(orcadPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Xpedition;
+        const ExportRunPlan xpeditionPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(xpeditionPlan.enableSymbol);
+        QVERIFY(xpeditionPlan.enableFootprint);
+        QVERIFY(xpeditionPlan.enableModel3D);
+        QVERIFY(xpeditionPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Pads;
+        const ExportRunPlan padsPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(padsPlan.enableSymbol);
+        QVERIFY(padsPlan.enableFootprint);
+        QVERIFY(padsPlan.enableModel3D);
+        QVERIFY(padsPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Cadstar;
+        const ExportRunPlan cadstarPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(!cadstarPlan.enableSymbol);
+        QVERIFY(cadstarPlan.enableFootprint);
+        QVERIFY(cadstarPlan.enableModel3D);
+        QVERIFY(cadstarPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Allegro;
+        const ExportRunPlan allegroPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(!allegroPlan.enableSymbol);
+        QVERIFY(allegroPlan.enableFootprint);
+        QVERIFY(allegroPlan.enableModel3D);
+        QVERIFY(!allegroPlan.runExternalModel3DStage);
     }
 
     // 验证仅符号或仅封装的目标不会被另一类未启用数据错误阻断。
