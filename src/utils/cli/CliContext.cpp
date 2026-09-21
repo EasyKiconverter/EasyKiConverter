@@ -100,7 +100,6 @@ ExportOptions CliContext::createExportOptions() const {
         options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
     }
     if (options.targetFormat == TargetEdaFormat::Allegro) {
-        options.exportSymbol = false;
         if (options.exportModel3D)
             options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
     }
