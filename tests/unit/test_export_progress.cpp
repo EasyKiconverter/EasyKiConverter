@@ -145,6 +145,32 @@ private slots:
         QCOMPARE(plan.runningStageCount(), 1);
     }
 
+    // 验证独立三维模型可以在没有封装数据时单独导出，不被封装阶段的输入条件阻断。
+    void exportRunPlanAcceptsIndependentModelWithoutFootprint() {
+        ExportOptions options;
+        options.targetFormat = TargetEdaFormat::Xpedition;
+        options.exportSymbol = false;
+        options.exportFootprint = false;
+        options.exportModel3D = true;
+
+        auto component = QSharedPointer<ComponentData>::create();
+        component->setLcscId(QStringLiteral("C12400"));
+        component->setSymbolData(QSharedPointer<SymbolData>::create());
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("independent-model"));
+        model->setName(QStringLiteral("IndependentModel"));
+        component->setModel3DData(model);
+
+        const ExportRunPlan plan =
+            buildExportRunPlan(options, {QStringLiteral("C12400")}, {{QStringLiteral("C12400"), component}});
+
+        QVERIFY(!plan.enableSymbol);
+        QVERIFY(!plan.enableFootprint);
+        QVERIFY(plan.runExternalModel3DStage);
+        QCOMPARE(plan.exportableComponentIds, QStringList{QStringLiteral("C12400")});
+        QVERIFY(plan.missingDataComponentIds.isEmpty());
+    }
+
     // 验证组合库目标会同时规划符号、封装和独立三维模型输出。
     void exportRunPlanIncludesAllLibraryArtifacts() {
         ExportOptions options;
