@@ -1,12 +1,15 @@
 #include "core/easyeda/EasyedaFootprintImporter.h"
 #include "core/easyeda/EasyedaSymbolImporter.h"
 #include "models/ComponentData.h"
+#include "models/Model3DData.h"
 #include "services/ComponentCacheService.h"
 #include "services/export/ParallelExportService.h"
 #include "tests/common/TestPaths.hpp"
 
 #include <QDir>
 #include <QFileInfo>
+#include <QJsonArray>
+#include <QJsonObject>
 #include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QTest>
@@ -117,6 +120,79 @@ private slots:
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QVERIFY(footprintContent.contains(QStringLiteral("(footprint easykiconverter:CANCEL_FP_0")));
         QVERIFY(footprintContent.contains(QStringLiteral("(pad 1 smd rect")));
+    }
+
+    // 验证完整导出流程同时生成符号库、封装库和独立三维模型关联。
+    void testPipelineExportsSymbolFootprintAndModel() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        ParallelExportService service;
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("CompletePipeline"));
+        options.targetFormat = TargetEdaFormat::KiCad;
+        options.exportModel3D = true;
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        const QStringList componentIds = {QStringLiteral("C91001")};
+        QList<ComponentData> componentData = makeFixtureComponents(componentIds);
+        QVERIFY(componentData.size() == 1);
+
+        // P-CAD 只接受本测试需要的矩形和引脚，显式移除 EasyEDA 夹具中的非兼容图元。
+        const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        auto symbol = QSharedPointer<SymbolData>::create();
+        symbol->setInfo(sourceSymbol->info());
+        symbol->setPins(sourceSymbol->pins());
+        symbol->setRectangles(sourceSymbol->rectangles());
+        componentData.first().setSymbolData(symbol);
+
+        // 使用本地 OBJ 夹具，确保集成测试不依赖真实网络或用户缓存。
+        Model3DData model;
+        model.setName(QStringLiteral("PcadCompleteModel"));
+        model.setUuid(QStringLiteral("pcad-complete-model"));
+        componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
+        componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        service.startPreload(componentIds);
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+
+        QVERIFY2(completedSpy.wait(30000), "P-CAD complete export should finish");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        QString error;
+        const QString symbolPath = tempDir.filePath(QStringLiteral("CompletePipeline.kicad_sym"));
+        const QString footprintDir = tempDir.filePath(QStringLiteral("CompletePipeline.pretty"));
+        const QString footprintPath = QDir(footprintDir).filePath(QStringLiteral("CANCEL_FP_0.kicad_mod"));
+        QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
+        QVERIFY2(QFileInfo::exists(footprintDir), qPrintable(footprintDir));
+        QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
+        QVERIFY(TestPaths::readText(symbolPath, &error).contains(QStringLiteral("(kicad_symbol_lib")));
+        QVERIFY(TestPaths::readText(footprintPath, &error).contains(QStringLiteral("(footprint")));
+
+        const QString modelDir = tempDir.filePath(QStringLiteral("CompletePipeline.3dmodels"));
+        const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
+        QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+        QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::KiCad));
+        const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
+        QCOMPARE(components.size(), 1);
+        const QJsonObject component = components.first().toObject();
+        QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
+        QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
+        QCOMPARE(component.value(QStringLiteral("status")).toString(), QStringLiteral("success"));
+        QVERIFY(QFileInfo::exists(QDir(modelDir).filePath(QStringLiteral("PcadCompleteModel.wrl"))));
     }
 
     // 验证预加载数据不完整时导出流程会明确失败。
