@@ -19,6 +19,7 @@ flowchart LR
 - SMD、PTH、独立机械孔、圆、矩形、走线、区域和文本的基础 XML 输出。
 - 在同时启用符号和封装导出时，写入 Symbol、DeviceSet、Gate、Device 和 Connect 关联；多部件符号按 Gate 输出。
 - 仅启用封装导出时写入 package-only XML；只有同时启用符号和封装时才要求两类缓存并写入 DeviceSet 关联。
+- 仅启用符号导出时写入 symbol-only XML；该文件不包含 Package、DeviceSet 或 Pin-to-Pad 关联。
 - 启用 3D 导出时，独立阶段输出 WRL/STEP 文件并生成可见诊断；`.lbr` 不写入未经验证的 `package3d` 托管 URN。
 - 顶/底铜、丝印、阻焊、锡膏、装配、Keepout 和机械层的保守映射。
 - 清洗后的 package 名称冲突、空编号、非法数值、未知图层和未实现图元会产生失败诊断。

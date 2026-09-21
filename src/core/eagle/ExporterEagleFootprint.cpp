@@ -726,6 +726,70 @@ bool ExporterEagleFootprint::exportFootprintLibrary(const QList<IR::FootprintCom
     return writeLibrary(footprints, filePath, libraryDescription, m_diagnostics);
 }
 
+bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                                                 const QString& libName,
+                                                 const QString& filePath) {
+    m_diagnostics.clear();
+    if (symbols.isEmpty()) {
+        m_diagnostics.append(QStringLiteral("Eagle: 没有可导出的符号"));
+        return false;
+    }
+
+    QSet<QString> symbolNames;
+    for (const IR::SymbolComponentIR& symbol : symbols) {
+        const QString baseName = safeName(symbol.name);
+        if (baseName.isEmpty() || symbolNames.contains(baseName) || symbol.partCount < 1) {
+            m_diagnostics.append(QStringLiteral("Eagle: 符号名称为空、清洗后冲突或部件数非法：%1").arg(symbol.name));
+            return false;
+        }
+        for (int partIndex = 0; partIndex < symbol.partCount; ++partIndex) {
+            const QString name = partIndex == 0 ? baseName : baseName + QStringLiteral("_P%1").arg(partIndex + 1);
+            if (symbolNames.contains(name)) {
+                m_diagnostics.append(QStringLiteral("Eagle: 符号部件名称冲突：%1").arg(name));
+                return false;
+            }
+            symbolNames.insert(name);
+        }
+    }
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        m_diagnostics.append(QStringLiteral("Eagle: 无法写入符号库：%1").arg(filePath));
+        return false;
+    }
+
+    QXmlStreamWriter xml(&file);
+    xml.setAutoFormatting(true);
+    xml.writeStartDocument();
+    xml.writeStartElement(QStringLiteral("eagle"));
+    xml.writeAttribute(QStringLiteral("version"), QStringLiteral("9.6.2"));
+    xml.writeStartElement(QStringLiteral("drawing"));
+    xml.writeStartElement(QStringLiteral("settings"));
+    xml.writeEmptyElement(QStringLiteral("setting"));
+    xml.writeAttribute(QStringLiteral("alwaysvectorfont"), QStringLiteral("no"));
+    xml.writeEndElement();
+    writeLayerTable(xml);
+    xml.writeStartElement(QStringLiteral("library"));
+    xml.writeStartElement(QStringLiteral("description"));
+    xml.writeCharacters(libName);
+    xml.writeEndElement();
+    xml.writeStartElement(QStringLiteral("symbols"));
+    for (const IR::SymbolComponentIR& symbol : symbols) {
+        const QString baseName = safeName(symbol.name);
+        for (int partIndex = 0; partIndex < symbol.partCount; ++partIndex) {
+            const QString name = partIndex == 0 ? baseName : baseName + QStringLiteral("_P%1").arg(partIndex + 1);
+            if (!writeSymbol(xml, symbol, partIndex, name, m_diagnostics))
+                return false;
+        }
+    }
+    xml.writeEndElement();
+    xml.writeEndElement();
+    xml.writeEndElement();
+    xml.writeEndElement();
+    xml.writeEndDocument();
+    return !xml.hasError();
+}
+
 /** 返回最近一次 Eagle 导出的诊断信息。 */
 QStringList ExporterEagleFootprint::diagnostics() const {
     return m_diagnostics;

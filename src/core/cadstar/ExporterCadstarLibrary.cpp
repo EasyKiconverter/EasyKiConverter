@@ -321,6 +321,39 @@ bool ExporterCadstarLibrary::exportFootprintLibrary(const QList<IR::FootprintCom
     return true;
 }
 
+bool ExporterCadstarLibrary::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                                                 const QString& libName,
+                                                 const QString& filePath) {
+    m_diagnostics.clear();
+    if (symbols.isEmpty()) {
+        m_diagnostics.append(QStringLiteral("CADSTAR: 没有可导出的符号"));
+        return false;
+    }
+
+    QFile file(filePath);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        m_diagnostics.append(QStringLiteral("CADSTAR: 无法写入符号库：%1").arg(filePath));
+        return false;
+    }
+    QTextStream stream(&file);
+    stream.setEncoding(QStringConverter::Utf8);
+    stream << "UNITS MM\n";
+    if (!libName.isEmpty())
+        stream << "PROPERTY DESCRIPTION " << quote(libName) << '\n';
+
+    QSet<QString> symbolNames;
+    for (const IR::SymbolComponentIR& symbol : symbols) {
+        if (symbol.name.isEmpty() || symbolNames.contains(symbol.name)) {
+            m_diagnostics.append(QStringLiteral("CADSTAR: 符号名称为空或重复：%1").arg(symbol.name));
+            return false;
+        }
+        if (!writeComponent(stream, symbol, m_diagnostics))
+            return false;
+        symbolNames.insert(symbol.name);
+    }
+    return true;
+}
+
 bool ExporterCadstarLibrary::exportComponentLibrary(const QList<IR::ComponentIR>& components,
                                                     const QString& libName,
                                                     const QString& filePath,

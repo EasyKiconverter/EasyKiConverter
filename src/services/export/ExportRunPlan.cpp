@@ -35,12 +35,17 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
                                  const QStringList& componentIds,
                                  const QMap<QString, QSharedPointer<ComponentData>>& cachedData) {
     ExportRunPlan plan;
-    // Eagle 完整 XML 库由封装阶段一次性写入 Symbol、Package 和 DeviceSet，避免两个阶段争用同一 .lbr。
+    const bool combinedTarget =
+        options.targetFormat == TargetEdaFormat::Eagle || options.targetFormat == TargetEdaFormat::Cadstar;
+    const bool embeddedModelTarget =
+        options.targetFormat == TargetEdaFormat::Altium || options.targetFormat == TargetEdaFormat::Allegro;
+    // Eagle/CADSTAR 的组合库由封装阶段统一写入，符号单独导出也复用同一文件事务。
     plan.enableSymbol = options.exportSymbol && options.targetFormat != TargetEdaFormat::Allegro &&
                         options.targetFormat != TargetEdaFormat::Eagle &&
                         options.targetFormat != TargetEdaFormat::Cadstar;
     // OrCAD Capture XML 只承载符号和封装名称属性，PCB 封装几何由其他目标库负责。
-    plan.enableFootprint = options.exportFootprint && options.targetFormat != TargetEdaFormat::Orcad;
+    plan.enableFootprint = (options.exportFootprint && options.targetFormat != TargetEdaFormat::Orcad) ||
+                           (combinedTarget && options.exportSymbol) || (embeddedModelTarget && options.exportModel3D);
     // 目标格式没有经过本项目验证的原生模型关联时，仍输出独立模型文件并保留诊断。
     plan.enableModel3D = options.exportModel3D;
     plan.runExternalModel3DStage = plan.enableModel3D && options.targetFormat != TargetEdaFormat::Altium &&
@@ -49,11 +54,9 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
     plan.enableDatasheet = options.exportDatasheet;
 
     // Eagle 和 CADSTAR 在同时选择符号、封装时才写入完整组合库；仅封装导出不应无条件要求符号缓存。
-    const bool writesCombinedLibrary =
-        (options.targetFormat == TargetEdaFormat::Eagle || options.targetFormat == TargetEdaFormat::Cadstar) &&
-        options.exportSymbol && options.exportFootprint;
-    const bool needsSymbolData = plan.enableSymbol || writesCombinedLibrary;
-    const bool needsFootprintData = plan.enableFootprint || writesCombinedLibrary;
+    const bool needsSymbolData = plan.enableSymbol || (combinedTarget && options.exportSymbol);
+    const bool needsFootprintData =
+        (options.exportFootprint && options.targetFormat != TargetEdaFormat::Orcad) || options.exportModel3D;
     for (const QString& componentId : componentIds) {
         const auto it = cachedData.constFind(componentId);
         const auto& component = it == cachedData.cend() ? QSharedPointer<ComponentData>() : it.value();

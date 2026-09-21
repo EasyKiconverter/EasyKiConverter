@@ -37,6 +37,11 @@ public:
                                 bool useAbsolutePaths = false,
                                 const QString& model3DBaseDir = QString()) override;
 
+    /** @brief 写入仅包含 Symbol 定义的 Eagle XML 库。 */
+    bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                             const QString& libName,
+                             const QString& filePath) override;
+
     /** @brief 写入 Eagle XML 的完整 Symbol、Package 和 DeviceSet 关联库。 */
     bool exportComponentLibrary(const QList<IR::ComponentIR>& components,
                                 const QString& libName,

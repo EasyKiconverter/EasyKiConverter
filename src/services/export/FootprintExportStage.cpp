@@ -106,6 +106,7 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
 
     QList<FootprintData> footprintList;
     QList<IR::ComponentIR> componentIrList;
+    QList<IR::SymbolComponentIR> symbolList;
     QStringList collectedIds;
     QStringList failedIds;
     int successCount = 0;
@@ -176,7 +177,21 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
 
         QSharedPointer<ComponentData> data = it.value();
 
-        if (!data->footprintData()) {
+        const bool combinedTarget =
+            m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar;
+        const bool needsSymbol = combinedTarget && m_options.exportSymbol;
+        const bool needsFootprint = m_options.exportFootprint || m_options.exportModel3D;
+        if (needsSymbol && !data->symbolData()) {
+            qWarning() << "FootprintExportStage: No symbol data for component:" << componentId;
+            failedIds.append(componentId);
+            ExportItemStatus status;
+            status.status = ExportItemStatus::Status::Failed;
+            status.errorMessage = "No symbol data";
+            publishItemStatus(componentId, status);
+            publishEmbeddedModelFailure(componentId, QStringLiteral("No symbol data"));
+            continue;
+        }
+        if (needsFootprint && !data->footprintData()) {
             qWarning() << "FootprintExportStage: No footprint data for component:" << componentId;
             failedIds.append(componentId);
             ExportItemStatus status;
@@ -187,26 +202,35 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
             continue;
         }
 
-        FootprintData footprint = *data->footprintData();
-        if (m_options.needsEmbeddedModel3DStep()) {
+        FootprintData footprint;
+        if (data->footprintData()) {
+            footprint = *data->footprintData();
+        }
+        if (needsFootprint && m_options.needsEmbeddedModel3DStep()) {
             FootprintModel3DPreparation::prepare(footprint, data, componentId, gen);
         }
 
-        footprintList.append(footprint);
-        if (m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar)
+        if (data->footprintData())
+            footprintList.append(footprint);
+        if (combinedTarget && data->symbolData()) {
             componentIrList.append(IR::toComponentIR(*data));
+            symbolList.append(IR::toSymbolIR(*data->symbolData()));
+        }
         collectedIds.append(componentId);
         successCount++;
 
         ExportItemStatus status;
         status.status = ExportItemStatus::Status::Success;
-        status.diagnostics = footprint.validationErrors();
+        if (data->symbolData())
+            status.diagnostics.append(data->symbolData()->validationErrors());
+        if (data->footprintData())
+            status.diagnostics.append(footprint.validationErrors());
         if (!status.diagnostics.isEmpty())
             qWarning() << "FootprintExportStage: Input diagnostics for" << componentId << status.diagnostics;
         publishItemStatus(componentId, status);
 
         if ((m_options.targetFormat == TargetEdaFormat::Altium || m_options.targetFormat == TargetEdaFormat::Allegro) &&
-            m_options.exportModel3D) {
+            m_options.exportModel3D && data->footprintData()) {
             ExportItemStatus modelStatus;
             if (!footprint.model3D().step().isEmpty()) {
                 modelStatus.status = ExportItemStatus::Status::Success;
@@ -258,8 +282,8 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
 
-    if (footprintList.isEmpty()) {
-        qWarning() << "FootprintExportStage: No valid footprints to export";
+    if (footprintList.isEmpty() && componentIrList.isEmpty() && symbolList.isEmpty()) {
+        qWarning() << "FootprintExportStage: No valid library data to export";
         m_isExporting.store(false);
         m_isRunning.store(false);
         emit completed(0, componentIds.size(), 0);
@@ -448,10 +472,13 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         for (const FootprintData& fd : footprintList) {
             irFootprintList.append(IR::toFootprintIR(fd));
         }
-        if ((m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar) &&
-            m_options.exportSymbol) {
+        const bool combinedTarget =
+            m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar;
+        if (combinedTarget && m_options.exportSymbol && m_options.exportFootprint) {
             exportSuccess = exporter->exportComponentLibrary(
                 componentIrList, libName, tempPath, m_options.exportModel3D, outputDir);
+        } else if (combinedTarget && m_options.exportSymbol) {
+            exportSuccess = exporter->exportSymbolLibrary(symbolList, libName, tempPath);
         } else {
             exportSuccess = exporter->exportFootprintLibrary(
                 irFootprintList,

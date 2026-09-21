@@ -64,6 +64,19 @@ public:
                                         const QString& model3DBaseDir = QString()) = 0;
 
     /**
+     * @brief 导出仅包含符号定义的库。
+     * @details 组合库格式可以实现该接口，以便用户只选择符号库时仍能生成有效输出；
+     *          不支持独立符号库的封装导出器保留默认失败行为。
+     * @param symbols 符号 IR 列表
+     * @param libName 库名称
+     * @param filePath 输出文件路径
+     * @return 是否成功
+     */
+    virtual bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>&, const QString&, const QString&) {
+        return false;
+    }
+
+    /**
      * @brief 导出同时包含符号、封装和器件关联的完整库。
      * @details 仅由目标格式能够在一个库文件中表达完整组件时覆盖此接口。
      * @param components 完整组件 IR 列表

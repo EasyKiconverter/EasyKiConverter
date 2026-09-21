@@ -203,6 +203,18 @@ private slots:
             buildExportRunPlan(eagleOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
         QCOMPARE(eaglePlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
 
+        ExportOptions eagleSymbolOptions;
+        eagleSymbolOptions.targetFormat = TargetEdaFormat::Eagle;
+        eagleSymbolOptions.exportSymbol = true;
+        eagleSymbolOptions.exportFootprint = false;
+        auto eagleSymbolData = QSharedPointer<ComponentData>::create();
+        eagleSymbolData->setLcscId(QStringLiteral("C300"));
+        eagleSymbolData->setSymbolData(QSharedPointer<SymbolData>::create());
+        const ExportRunPlan eagleSymbolPlan = buildExportRunPlan(
+            eagleSymbolOptions, {QStringLiteral("C300")}, {{QStringLiteral("C300"), eagleSymbolData}});
+        QVERIFY(eagleSymbolPlan.enableFootprint);
+        QCOMPARE(eagleSymbolPlan.exportableComponentIds, QStringList{QStringLiteral("C300")});
+
         ExportOptions cadstarOptions;
         cadstarOptions.targetFormat = TargetEdaFormat::Cadstar;
         cadstarOptions.exportSymbol = false;
@@ -210,6 +222,16 @@ private slots:
         const ExportRunPlan cadstarPlan =
             buildExportRunPlan(cadstarOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
         QCOMPARE(cadstarPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+
+        ExportOptions embeddedModelOptions;
+        embeddedModelOptions.targetFormat = TargetEdaFormat::Allegro;
+        embeddedModelOptions.exportSymbol = false;
+        embeddedModelOptions.exportFootprint = false;
+        embeddedModelOptions.exportModel3D = true;
+        const ExportRunPlan embeddedModelPlan = buildExportRunPlan(
+            embeddedModelOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
+        QVERIFY(embeddedModelPlan.enableFootprint);
+        QCOMPARE(embeddedModelPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
     }
 
     // 提供三维模型格式位掩码测试所需的参数组合。

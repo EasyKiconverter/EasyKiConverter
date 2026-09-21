@@ -788,6 +788,39 @@ private slots:
         QVERIFY(content.contains(QStringLiteral("pad=\"1\"")));
     }
 
+    // 验证 Eagle 仅符号输出不要求封装缓存，也不生成虚假的器件关联。
+    void eagleSymbolOnlyLibraryStageWritesSymbols() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("EagleSymbolsOnly");
+        options.targetFormat = TargetEdaFormat::Eagle;
+        options.exportSymbol = true;
+        options.exportFootprint = false;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_EAGLE_SYMBOL")] =
+            makeSymbolComponent(QStringLiteral("C_EAGLE_SYMBOL"), QStringLiteral("EAGLE_SYMBOL"));
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_EAGLE_SYMBOL")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "Eagle symbol-only export should complete");
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile output(tempDir.filePath(QStringLiteral("EagleSymbolsOnly.lbr")));
+        QVERIFY(output.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString content = QString::fromUtf8(output.readAll());
+        QVERIFY(content.contains(QStringLiteral("<symbols>")));
+        QVERIFY(content.contains(QStringLiteral("name=\"EAGLE_SYMBOL\"")));
+        QVERIFY(!content.contains(QStringLiteral("<packages>")));
+        QVERIFY(!content.contains(QStringLiteral("<devicesets>")));
+    }
+
     // 验证 CADSTAR 组合库阶段同时提交 Component、Package、Pad 和 Part 关联。
     void cadstarCombinedLibraryStageWritesAllLibrarySections() {
         QTemporaryDir tempDir;
@@ -821,6 +854,38 @@ private slots:
         QVERIFY(content.contains(QStringLiteral("PACKAGE \"CADSTAR_PACKAGE\"")));
         QVERIFY(content.contains(QStringLiteral("PAD \"CADSTAR_PACKAGE_PAD_1\"")));
         QVERIFY(content.contains(QStringLiteral("PART \"C_CADSTAR_COMBINED\"")));
+    }
+
+    // 验证 CADSTAR 仅符号输出不要求封装缓存，也不生成虚假的 Part 关联。
+    void cadstarSymbolOnlyLibraryStageWritesSymbols() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("CadstarSymbolsOnly");
+        options.targetFormat = TargetEdaFormat::Cadstar;
+        options.exportSymbol = true;
+        options.exportFootprint = false;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_CADSTAR_SYMBOL")] =
+            makeSymbolComponent(QStringLiteral("C_CADSTAR_SYMBOL"), QStringLiteral("CADSTAR_SYMBOL_ONLY"));
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_CADSTAR_SYMBOL")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "CADSTAR symbol-only export should complete");
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile output(tempDir.filePath(QStringLiteral("CadstarSymbolsOnly.lib")));
+        QVERIFY(output.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QByteArray content = output.readAll();
+        QVERIFY(content.contains("COMPONENT \"CADSTAR_SYMBOL_ONLY\""));
+        QVERIFY(!content.contains("PACKAGE "));
+        QVERIFY(!content.contains("PART "));
     }
 
     // 验证 Xpedition 符号库不会在禁止覆盖时改写已有 ZIP。

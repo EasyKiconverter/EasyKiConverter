@@ -38,6 +38,11 @@ public:
                                 bool useAbsolutePaths = false,
                                 const QString& model3DBaseDir = QString()) override;
 
+    /** @brief 写入仅包含 Component 符号定义的 CADSTAR ASCII 库。 */
+    bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
+                             const QString& libName,
+                             const QString& filePath) override;
+
     /** @brief 导出包含符号、封装和 Part 关联的完整 CADSTAR ASCII 库。 */
     bool exportComponentLibrary(const QList<IR::ComponentIR>& components,
                                 const QString& libName,

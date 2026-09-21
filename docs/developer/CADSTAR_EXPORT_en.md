@@ -18,6 +18,7 @@ flowchart LR
 - GUI target `CADSTAR` and CLI `--target-format cadstar`.
 - `ComponentIR` to CADSTAR `COMPONENT`, `PACKAGE`, `PAD`, and `PART` conversion.
 - Footprint-only export does not require symbol cache data; the complete `COMPONENT`, `PACKAGE`, and `PART` association library requires both symbol and footprint export.
+- Symbol-only export writes a library containing `COMPONENT` definitions without `PACKAGE`, `PART`, or 3D associations.
 - Round, rectangle, oval, slot-hole, and custom polygon Pads.
 - Package rectangles, circles, polylines, and polygons.
 - Symbol pins, rectangles, circles, and polygons.

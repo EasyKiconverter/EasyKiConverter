@@ -17,6 +17,8 @@ private slots:
     void rejectsNameCollision();
     /** @brief 验证完整 Eagle XML 库包含符号、器件集和引脚映射。 */
     void writesCompleteComponentLibrary();
+    /** @brief 验证仅符号导出不会伪造封装和器件关联。 */
+    void writesSymbolOnlyLibrary();
     /** @brief 验证缺失封装焊盘时拒绝生成无效器件关联。 */
     void rejectsMissingPadMapping();
     /** @brief 验证圆弧会写入 Eagle wire 的 curve 属性。 */
@@ -171,6 +173,35 @@ void TestEagleExporter::writesCompleteComponentLibrary() {
     QVERIFY(gateSeen);
     QVERIFY(deviceSeen);
     QVERIFY(connectSeen);
+}
+
+/** 验证 Eagle 符号单独导出仍生成可回读 XML，且不包含未选择的关联段。 */
+void TestEagleExporter::writesSymbolOnlyLibrary() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    const IR::ComponentIR component = makeComponentFixture();
+    ExporterEagleFootprint exporter;
+    const QString path = temporary.path() + QStringLiteral("/symbols.lbr");
+    QVERIFY(exporter.exportSymbolLibrary({component.symbol}, QStringLiteral("symbols"), path));
+
+    QFile file(path);
+    QVERIFY(file.open(QIODevice::ReadOnly));
+    QXmlStreamReader reader(&file);
+    bool symbolSeen = false;
+    bool packageSeen = false;
+    bool deviceSetSeen = false;
+    while (!reader.atEnd()) {
+        reader.readNext();
+        if (!reader.isStartElement())
+            continue;
+        symbolSeen = symbolSeen || reader.name() == QStringLiteral("symbol");
+        packageSeen = packageSeen || reader.name() == QStringLiteral("package");
+        deviceSetSeen = deviceSetSeen || reader.name() == QStringLiteral("deviceset");
+    }
+    QVERIFY2(!reader.hasError(), qPrintable(reader.errorString()));
+    QVERIFY(symbolSeen);
+    QVERIFY(!packageSeen);
+    QVERIFY(!deviceSetSeen);
 }
 
 /** 验证 pin-to-pad 关联缺失时导出失败且报告原因。 */
