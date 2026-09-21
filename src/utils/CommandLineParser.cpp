@@ -41,7 +41,7 @@ CommandLineParser::CommandLineParser(int argc, char* argv[])
     , m_symbolDescriptionOption("symbol-description", "符号库描述文本", "text")
     , m_footprintDescriptionOption("footprint-description", "封装库描述文本", "text")
     , m_targetFormatOption("target-format",
-                           "目标 EDA 格式 (kicad/altium/xpedition/allegro，默认: kicad)",
+                           "目标 EDA 格式 (kicad/altium/xpedition/allegro/pads，默认: kicad)",
                            "format",
                            "kicad")
     , m_completionOption("completion", "生成 Shell 补全脚本 (bash/zsh/fish)", "shell")

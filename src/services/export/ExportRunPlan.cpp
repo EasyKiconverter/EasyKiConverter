@@ -37,7 +37,8 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
     ExportRunPlan plan;
     plan.enableSymbol = options.exportSymbol;
     plan.enableFootprint = options.exportFootprint;
-    plan.enableModel3D = options.exportModel3D && options.targetFormat != TargetEdaFormat::Xpedition;
+    plan.enableModel3D = options.exportModel3D && options.targetFormat != TargetEdaFormat::Xpedition &&
+                         options.targetFormat != TargetEdaFormat::Pads;
     plan.runExternalModel3DStage = plan.enableModel3D && options.targetFormat != TargetEdaFormat::Altium &&
                                    options.targetFormat != TargetEdaFormat::Allegro;
     plan.enablePreview = options.exportPreviewImages;

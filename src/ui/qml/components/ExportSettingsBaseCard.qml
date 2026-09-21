@@ -94,6 +94,8 @@ Card {
                                     return qsTranslate("MainWindow", ".SchLib / .PcbLib");
                                 if (targetId === "xpedition")
                                     return qsTranslate("MainWindow", "_Symbols.zip / _Footprints.zip");
+                                if (targetId === "pads")
+                                    return qsTranslate("MainWindow", "PCB Decal .d");
                                 return "";
                             }
                             font.pixelSize: AppStyle.fontSizes.xs

@@ -81,6 +81,8 @@ ExportOptions CliContext::createExportOptions() const {
         options.targetFormat = TargetEdaFormat::Xpedition;
     } else if (format == QStringLiteral("allegro")) {
         options.targetFormat = TargetEdaFormat::Allegro;
+    } else if (format == QStringLiteral("pads")) {
+        options.targetFormat = TargetEdaFormat::Pads;
     } else {
         options.targetFormat = TargetEdaFormat::KiCad;
     }
@@ -97,6 +99,10 @@ ExportOptions CliContext::createExportOptions() const {
         options.exportSymbol = false;
         if (options.exportModel3D)
             options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
+    }
+    if (options.targetFormat == TargetEdaFormat::Pads) {
+        options.exportSymbol = false;
+        options.exportModel3D = false;
     }
 
     return options;

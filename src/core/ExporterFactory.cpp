@@ -6,6 +6,7 @@
 #include "core/kicad/Exporter3DModel.h"
 #include "core/kicad/ExporterFootprint.h"
 #include "core/kicad/ExporterSymbol.h"
+#include "core/pads/ExporterPadsFootprint.h"
 #include "core/xpedition/ExporterXpeditionFootprint.h"
 #include "core/xpedition/ExporterXpeditionSymbol.h"
 
@@ -44,6 +45,8 @@ std::unique_ptr<IFootprintExporter> ExporterFactory::createFootprintExporter(Tar
             return std::make_unique<ExporterXpeditionFootprint>();
         case TargetEdaFormat::Allegro:
             return std::make_unique<ExporterAllegroFootprint>();
+        case TargetEdaFormat::Pads:
+            return std::make_unique<ExporterPadsFootprint>();
         default:
             return nullptr;
     }

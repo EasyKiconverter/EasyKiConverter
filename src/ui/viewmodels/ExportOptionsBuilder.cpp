@@ -33,6 +33,8 @@ static const char* targetFormatName(TargetEdaFormat format) {
         return "Xpedition";
     if (format == TargetEdaFormat::Allegro)
         return "Allegro";
+    if (format == TargetEdaFormat::Pads)
+        return "PADS";
     return "KiCad";
 }
 
@@ -66,11 +68,16 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     // Xpedition ZIP 只能完整替换，界面的“覆盖”选项不能被误传成更新模式。
     const bool xpeditionTarget = options.targetFormat == TargetEdaFormat::Xpedition;
     const bool allegroTarget = options.targetFormat == TargetEdaFormat::Allegro;
+    const bool padsTarget = options.targetFormat == TargetEdaFormat::Pads;
     if (allegroTarget)
         options.exportSymbol = false;
+    if (padsTarget) {
+        options.exportSymbol = false;
+        options.exportModel3D = false;
+    }
     options.overwriteExistingFiles =
         viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
-    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget;
+    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget;
 
     qInfo() << "Export options:" << "OutputPath:" << options.outputPath << "LibName:" << options.libName
             << "TargetFormat:" << targetFormatName(options.targetFormat) << "Symbol:" << options.exportSymbol

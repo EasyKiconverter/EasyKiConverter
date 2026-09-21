@@ -367,6 +367,16 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
 
+    if (m_options.targetFormat == TargetEdaFormat::Pads && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("PADS ASCII 封装库不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Pads && QDir(finalPath).exists() &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("PADS ASCII 封装库已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
+
     if (tempPath.isEmpty()) {
         abortExport(QStringLiteral("Failed to create temp path"));
         return;
@@ -457,7 +467,7 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     }
 
     // 目录输出模式下注册库（如 KiCad 库表）
-    if (isDirOutput && !libraryDescription.isEmpty()) {
+    if (isDirOutput && m_options.targetFormat == TargetEdaFormat::KiCad && !libraryDescription.isEmpty()) {
         KiCadLibraryTableManager::registerFootprintLibrary(outputDir, libName, finalPath, libraryDescription);
     }
 

@@ -22,6 +22,7 @@ set(QML_FILES
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/KiCadSettingsCard.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/AltiumSettingsCard.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/AllegroSettingsCard.qml
+    ${CMAKE_SOURCE_DIR}/src/ui/qml/components/PadsSettingsCard.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/StyledCheckBox.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/SettingsSectionHeader.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/ExportProgressCard.qml
