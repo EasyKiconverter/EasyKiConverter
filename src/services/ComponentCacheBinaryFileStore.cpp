@@ -3,6 +3,7 @@
 #include "CacheDataValidator.h"
 #include "CacheSafety.h"
 
+#include <QDir>
 #include <QFile>
 #include <QFileInfo>
 
@@ -13,6 +14,10 @@ namespace {
 /** @brief 读取文件内容并在校验失败时删除损坏文件。 */
 QByteArray readValidatedFile(const QString& filePath, bool validateAsPreview) {
     if (!QFileInfo::exists(filePath))
+        return QByteArray();
+
+    QDir componentDir = QFileInfo(filePath).dir();
+    if (!componentDir.cdUp() || !CacheSafety::isOwnedComponentFile(componentDir.absolutePath(), filePath))
         return QByteArray();
 
     QFile file(filePath);

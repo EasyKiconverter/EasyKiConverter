@@ -16,6 +16,11 @@ QByteArray Model3DCacheFileStore::read(const QString& filePath, const QString& e
         return QByteArray();
     }
 
+    QDir modelDir = QFileInfo(filePath).dir();
+    if (!modelDir.cdUp() || !CacheSafety::isOwnedModel3DFile(modelDir.absolutePath(), filePath)) {
+        return QByteArray();
+    }
+
     QFile file(filePath);
     if (!file.open(QIODevice::ReadOnly)) {
         return QByteArray();

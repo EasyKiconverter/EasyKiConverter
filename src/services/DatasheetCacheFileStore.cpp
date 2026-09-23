@@ -40,7 +40,8 @@ QByteArray DatasheetCacheFileStore::load(const ComponentCacheService& owner, con
         return data;
 
     QString trashError;
-    CacheSafety::moveToTrash(datasheetFilePath, &trashError);
+    if (CacheSafety::isOwnedComponentFile(owner.cacheDir(), datasheetFilePath))
+        CacheSafety::moveToTrash(datasheetFilePath, &trashError);
     return QByteArray();
 }
 
@@ -75,7 +76,8 @@ void DatasheetCacheFileStore::save(const QString& componentId,
         const QString alternatePath = actualPath.endsWith(QStringLiteral(".pdf"))
                                           ? m_owner.resolveDatasheetPath(componentId, QStringLiteral("html"), true)
                                           : m_owner.resolveDatasheetPath(componentId, QStringLiteral("pdf"), true);
-        if (alternatePath != actualPath && QFile::exists(alternatePath))
+        if (alternatePath != actualPath && QFile::exists(alternatePath) &&
+            CacheSafety::isOwnedComponentFile(m_owner.cacheDir(), alternatePath))
             CacheSafety::moveToTrash(alternatePath, &trashError);
     }
 

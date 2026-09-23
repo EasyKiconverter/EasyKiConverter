@@ -8,6 +8,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSaveFile>
+#include <QSet>
 
 namespace EasyKiConverter {
 
@@ -216,6 +217,29 @@ bool CacheSafety::isOwnedComponentDirectory(const QString& rootPath, const QStri
            metadata.value(QStringLiteral("cacheOwner")).toString() == QStringLiteral("EasyKiConverter") &&
            metadata.value(QStringLiteral("cacheEntryVersion")).toInt() == 1 && metadataId.isString() &&
            metadataId.toString().compare(id, Qt::CaseInsensitive) == 0;
+}
+
+// 校验组件缓存文件的父目录、直接层级和已知文件名，拒绝接管未知内容。
+bool CacheSafety::isOwnedComponentFile(const QString& rootPath, const QString& path) {
+    const QFileInfo info(path);
+    if (!isOwnedRoot(rootPath) || !info.isFile() || info.isSymLink())
+        return false;
+    const QString componentDir = info.dir().absolutePath();
+    if (!isOwnedComponentDirectory(rootPath, componentDir) || !isDirectChild(componentDir, path))
+        return false;
+
+    static const QSet<QString> knownFiles = {
+        QStringLiteral("symbol.json"),
+        QStringLiteral("footprint.json"),
+        QStringLiteral("cad_data.json"),
+        QStringLiteral("datasheet"),
+        QStringLiteral("datasheet.pdf"),
+        QStringLiteral("datasheet.html"),
+        QStringLiteral("preview_0.jpg"),
+        QStringLiteral("preview_1.jpg"),
+        QStringLiteral("preview_2.jpg"),
+    };
+    return knownFiles.contains(info.fileName());
 }
 
 // 校验三维模型文件是否位于受标记保护的模型目录中。

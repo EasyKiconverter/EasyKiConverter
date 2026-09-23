@@ -51,6 +51,9 @@ public:
     /** @brief 判断元器件缓存目录是否能通过元数据证明归应用所有。 */
     static bool isOwnedComponentDirectory(const QString& rootPath, const QString& path);
 
+    /** @brief 判断元器件缓存文件是否位于已验证目录且文件名属于缓存布局。 */
+    static bool isOwnedComponentFile(const QString& rootPath, const QString& path);
+
     /** @brief 判断三维模型缓存文件是否属于已标记的模型缓存目录。 */
     static bool isOwnedModel3DFile(const QString& rootPath, const QString& path);
 

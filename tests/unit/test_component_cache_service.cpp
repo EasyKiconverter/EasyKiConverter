@@ -104,6 +104,11 @@ private slots:
     // 验证图片服务不会把损坏的缓存文件报告为可用预览图。
     void testImageServiceRejectsCorruptCachedPreview() {
         const QString componentId = QStringLiteral("C54326");
+        ComponentData metadata;
+        metadata.setLcscId(componentId);
+        metadata.setName(QStringLiteral("Corrupt preview fixture"));
+        m_cache->saveComponentMetadata(componentId, metadata);
+
         const QString imagePath = m_cache->previewImagePath(componentId, 0);
         QVERIFY(QDir().mkpath(QFileInfo(imagePath).absolutePath()));
         QFile imageFile(imagePath);
@@ -124,6 +129,11 @@ private slots:
     // 验证取消全部请求后，单个新请求可以重新加载已有预览图缓存。
     void testImageServiceCanRestartSingleRequestAfterCancelAll() {
         const QString componentId = QStringLiteral("C54327");
+        ComponentData metadata;
+        metadata.setLcscId(componentId);
+        metadata.setName(QStringLiteral("Restart preview fixture"));
+        m_cache->saveComponentMetadata(componentId, metadata);
+
         QImage image(2, 2, QImage::Format_RGB32);
         image.fill(Qt::blue);
         QBuffer buffer;
@@ -308,6 +318,11 @@ private slots:
     // 验证数据手册下载不会直接返回格式无效的磁盘缓存。
     void testDownloadDatasheetRemovesInvalidCachedData() {
         const QString componentId = QStringLiteral("C54325");
+        ComponentData metadata;
+        metadata.setLcscId(componentId);
+        metadata.setName(QStringLiteral("Invalid datasheet fixture"));
+        m_cache->saveComponentMetadata(componentId, metadata);
+
         QVERIFY(QDir().mkpath(m_tempDir.filePath(componentId)));
         const QString cachedPath = m_tempDir.filePath(componentId + QStringLiteral("/datasheet.pdf"));
         QFile cachedFile(cachedPath);

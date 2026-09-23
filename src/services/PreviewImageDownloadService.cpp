@@ -64,7 +64,8 @@ QByteArray PreviewImageDownloadService::download(const QString& componentId,
                     return data;
                 }
                 QString trashError;
-                CacheSafety::moveToTrash(cachedPath, &trashError);
+                if (CacheSafety::isOwnedComponentFile(m_owner.cacheDir(), cachedPath))
+                    CacheSafety::moveToTrash(cachedPath, &trashError);
             }
         }
     }

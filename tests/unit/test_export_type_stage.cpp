@@ -130,6 +130,11 @@ private slots:
         cache->setCacheDir(cacheDir.path());
         cache->clearAllCache();
 
+        ComponentData metadata;
+        metadata.setLcscId(QStringLiteral("C45001"));
+        metadata.setName(QStringLiteral("Non-contiguous preview fixture"));
+        cache->saveComponentMetadata(QStringLiteral("C45001"), metadata);
+
         QImage image(2, 2, QImage::Format_RGB32);
         image.fill(Qt::green);
         QBuffer buffer;
