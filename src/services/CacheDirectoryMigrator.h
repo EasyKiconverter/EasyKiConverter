@@ -25,7 +25,11 @@ private:
     /**
      * @brief 迁移目录中的全部缓存条目。
      */
-    static bool moveDirectoryContents(const QString& sourceDir, const QString& targetDir);
+    static bool moveDirectoryContents(const QString& sourceRoot,
+                                      const QString& sourceDir,
+                                      const QString& targetRoot,
+                                      const QString& targetDir,
+                                      bool legacySource);
 
     /**
      * @brief 迁移单个缓存文件或目录条目。

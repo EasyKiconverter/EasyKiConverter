@@ -1,4 +1,5 @@
 #include "services/CacheRepository.h"
+#include "services/CacheSafety.h"
 #include "services/ComponentCacheService.h"
 #include "services/ComponentCacheWritePolicy.h"
 #include "services/LcscImageService.h"
@@ -24,7 +25,11 @@ private slots:
     void init() {
         QVERIFY(m_tempDir.isValid());
         m_cache = ComponentCacheService::instance();
-        m_cache->setCacheDir(m_tempDir.path());
+        QSignalSpy warningSpy(m_cache, &ComponentCacheService::cacheMaintenanceWarning);
+        const bool cacheDirSet = m_cache->setCacheDir(m_tempDir.path());
+        const QString warning =
+            warningSpy.isEmpty() ? QStringLiteral("未提供诊断") : warningSpy.constLast().at(0).toString();
+        QVERIFY2(cacheDirSet, qPrintable(warning));
         m_cache->clearAllCache();
     }
 
@@ -33,6 +38,9 @@ private slots:
         if (m_cache != nullptr) {
             m_cache->clearAllCache();
         }
+        // 测试会故意创建无法验证归属的文件；这些文件必须只在隔离的临时目录中清理。
+        QVERIFY(QDir(m_tempDir.path()).removeRecursively());
+        QVERIFY(QDir().mkpath(m_tempDir.path()));
     }
 
     // 验证预览图 URL 经过保存和读取后保持规范化结果。
@@ -149,6 +157,9 @@ private slots:
         QVERIFY2(readySpy.wait(3000), "A restarted request should load cached preview images");
         QCOMPARE(readySpy.count(), 1);
         QCOMPARE(readySpy.at(0).at(0).toString(), componentId);
+
+        // 预览缓存属于本用例的临时 fixture，验证异步读取后清理，避免未知状态影响后续安全性测试。
+        QVERIFY(QDir(m_cache->componentCacheDir(componentId)).removeRecursively());
     }
 
     // 验证既不是 PDF 也不是 HTML 的响应不会进入数据手册缓存。
@@ -264,6 +275,34 @@ private slots:
 
         m_cache->removeCache(componentId);
         QVERIFY(QFileInfo::exists(legacyDir));
+
+        // 旧缓存目录属于本用例的临时 fixture，验证保留行为后再清理，避免污染后续用例。
+        QVERIFY(QDir(legacyDir).removeRecursively());
+    }
+
+    // 验证清空缓存只处理已验证文件，组件目录中的用户文件保持不变。
+    void testClearCachePreservesUnknownComponentFiles() {
+        const QString componentId = QStringLiteral("C54331");
+        ComponentData data;
+        data.setLcscId(componentId);
+        data.setName(QStringLiteral("Owned component"));
+        m_cache->saveComponentMetadata(componentId, data);
+
+        const QString unknownPath =
+            QDir(m_cache->componentCacheDir(componentId)).filePath(QStringLiteral("user-note.txt"));
+        QFile unknown(unknownPath);
+        QVERIFY(unknown.open(QIODevice::WriteOnly));
+        QVERIFY(unknown.write("do not remove") > 0);
+        unknown.close();
+
+        m_cache->clearAllCache();
+
+        QVERIFY(QFileInfo::exists(unknownPath));
+        QVERIFY(QFileInfo::exists(m_cache->componentCacheDir(componentId)));
+
+        // 该测试使用的是临时缓存根目录；保留断言完成后清理 fixture，避免影响后续用例的同名组件。
+        QVERIFY(QFile::remove(unknownPath));
+        QVERIFY(QDir().rmdir(m_cache->componentCacheDir(componentId)));
     }
 
     // 验证大小写目录并存时缓存枚举不会返回重复的元器件编号。
@@ -295,6 +334,7 @@ private slots:
         invalidMetadata.close();
 
         QVERIFY(!m_cache->getCachedComponentIds().contains(invalidId));
+        QVERIFY(QDir(invalidDir).removeRecursively());
     }
 
     // 验证 CAD 缓存写入和读取都会拒绝结构损坏的 JSON。
@@ -579,6 +619,7 @@ private slots:
         m_cache->clearAllCache();
 
         QVERIFY(QFileInfo::exists(rootFilePath));
+        QVERIFY(QFile::remove(rootFilePath));
     }
 
     // 回归测试：generation 不匹配时写入被丢弃
@@ -633,6 +674,28 @@ private slots:
         QVERIFY(loadedData != nullptr);
         QCOMPARE(loadedData->name(), QStringLiteral("Migrated Component"));
         QCOMPARE(m_cache->loadPreviewImage(componentId, 0), previewData);
+    }
+
+    // 验证没有新版本根标记的旧缓存仍可迁移，并在目标目录补齐所有权信息。
+    void testLegacyCacheDirMigrationPreservesExistingCache() {
+        const QString componentId = QStringLiteral("C24682");
+        ComponentData data;
+        data.setLcscId(componentId);
+        data.setName(QStringLiteral("Legacy migrated component"));
+        m_cache->saveComponentMetadata(componentId, data);
+        QVERIFY(QFile::remove(QDir(m_cache->cacheDir()).filePath(CacheSafety::ownershipMarkerName())));
+
+        QTemporaryDir newCacheDir;
+        QVERIFY(newCacheDir.isValid());
+        QVERIFY(m_cache->setCacheDir(newCacheDir.path(), /*migrateExistingCache=*/true));
+
+        const QSharedPointer<ComponentData> loadedData = m_cache->loadComponentData(componentId);
+        QVERIFY(loadedData != nullptr);
+        QCOMPARE(loadedData->name(), QStringLiteral("Legacy migrated component"));
+        QVERIFY(CacheSafety::isOwnedRoot(newCacheDir.path()));
+
+        // 清理该迁移场景之前由同一测试 fixture 产生的旧预览目录，避免无标记根目录被误判为用户目录。
+        QVERIFY(QDir(m_tempDir.filePath(QStringLiteral("C54327"))).removeRecursively());
     }
 
     // 验证缓存枚举和磁盘大小统计在目录迁移前后保持一致。

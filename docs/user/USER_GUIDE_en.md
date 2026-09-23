@@ -115,11 +115,11 @@ Click the theme toggle button in the top right corner to switch between dark and
 
 ### Cache Directory Safety
 
-The cache directory must be empty or already contain an EasyKiConverter ownership marker. Filesystem roots, the user home directory, and symbolic-link directories are rejected. Editing a cache path does not migrate data on every keystroke; the path is applied only after folder selection or editing is completed and validation succeeds.
+The cache directory must be empty, be the application default cache directory, or contain a legacy cache whose files and metadata can be fully identified. Filesystem roots, the user home directory itself, other descendants under it, and symbolic-link directories are rejected; the application default cache directory is the only exception. Editing a cache path does not migrate data on every keystroke; the path is applied only after folder selection or editing is completed and validation succeeds.
 
 Cache maintenance follows these boundaries:
 
-- The root and each cache entry must pass ownership-marker and metadata identity checks. Unknown files, directories, symbolic links, and unverifiable legacy entries are preserved.
+- The root and each cache entry must pass ownership-marker and metadata identity checks. Legacy caches are adopted only when their layout and metadata are identifiable; unknown files, directories, symbolic links, and unverifiable legacy entries are preserved.
 - Startup self-healing, quota pruning, directory migration, and “Clear cache” process only entries whose ownership can be verified.
 - The confirmation dialog shows the number of entries in scope. Confirmed entries are moved to the system trash; if trash is unavailable or an operation fails, the original data is kept and no permanent-delete fallback is used.
 - Migration conflicts or failures preserve the source directory and user files; the active configuration is not switched to an incomplete target.

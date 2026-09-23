@@ -1,13 +1,39 @@
 #include "CacheDirectoryMigrator.h"
 
+#include "CacheMetadataStore.h"
 #include "CacheSafety.h"
 #include "utils/logging/LogMacros.h"
 
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QJsonDocument>
 
 namespace EasyKiConverter {
+
+namespace {
+
+// 判断旧版模型文件是否可以在没有目录标记时迁移。
+bool isLegacyModelFile(const QFileInfo& info) {
+    if (!info.isFile() || info.isSymLink())
+        return false;
+    const QString suffix = info.suffix();
+    return suffix.compare(QStringLiteral("obj"), Qt::CaseInsensitive) == 0 ||
+           suffix.compare(QStringLiteral("step"), Qt::CaseInsensitive) == 0 ||
+           suffix.compare(QStringLiteral("wrl"), Qt::CaseInsensitive) == 0;
+}
+
+// 将旧版本元数据升级为当前缓存所有权格式。
+bool upgradeMetadata(const QString& path) {
+    QJsonObject metadata = CacheMetadataStore::read(path);
+    if (metadata.isEmpty())
+        return false;
+    metadata[QStringLiteral("cacheOwner")] = QStringLiteral("EasyKiConverter");
+    metadata[QStringLiteral("cacheEntryVersion")] = 1;
+    return CacheMetadataStore::writeAtomically(path, QJsonDocument(metadata).toJson(QJsonDocument::Indented));
+}
+
+}  // namespace
 
 bool CacheDirectoryMigrator::migrate(const QString& oldCacheDir, const QString& newCacheDir) {
     if (oldCacheDir.isEmpty() || newCacheDir.isEmpty() || oldCacheDir == newCacheDir) {
@@ -18,11 +44,16 @@ bool CacheDirectoryMigrator::migrate(const QString& oldCacheDir, const QString& 
     if (!source.exists()) {
         return true;
     }
-    if (!CacheSafety::isOwnedRoot(oldCacheDir) || !CacheSafety::isOwnedRoot(newCacheDir)) {
-        LOG_WARN(LogModule::Core,
-                 "Skipped cache migration because ownership cannot be verified: {} -> {}",
-                 oldCacheDir,
-                 newCacheDir);
+    const bool legacySource = !CacheSafety::isOwnedRoot(oldCacheDir);
+    if (legacySource && !CacheSafety::canAdoptLegacyRoot(oldCacheDir) &&
+        !source.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+        LOG_WARN(
+            LogModule::Core, "Skipped legacy cache migration because source ownership is ambiguous: {}", oldCacheDir);
+        return false;
+    }
+    if (!CacheSafety::isOwnedRoot(newCacheDir)) {
+        LOG_WARN(
+            LogModule::Core, "Skipped cache migration because target ownership cannot be verified: {}", newCacheDir);
         return false;
     }
 
@@ -33,12 +64,22 @@ bool CacheDirectoryMigrator::migrate(const QString& oldCacheDir, const QString& 
     }
 
     bool moved = true;
-    for (const QString& sourcePath : CacheSafety::ownedComponentDirectories(oldCacheDir)) {
+    const QStringList componentDirectories = legacySource ? CacheSafety::legacyComponentDirectories(oldCacheDir)
+                                                          : CacheSafety::ownedComponentDirectories(oldCacheDir);
+    for (const QString& sourcePath : componentDirectories) {
         const QString targetPath = QDir(newCacheDir).filePath(QFileInfo(sourcePath).fileName());
-        if (!moveDirectoryContents(sourcePath, targetPath))
+        if (!moveDirectoryContents(oldCacheDir, sourcePath, newCacheDir, targetPath, legacySource))
             moved = false;
     }
-    for (const QString& sourcePath : CacheSafety::ownedModel3DFiles(oldCacheDir)) {
+    QStringList modelFiles = CacheSafety::ownedModel3DFiles(oldCacheDir);
+    if (legacySource) {
+        const QDir modelRoot(QDir(oldCacheDir).filePath(QStringLiteral("model3d")));
+        for (const QFileInfo& info : modelRoot.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name)) {
+            if (isLegacyModelFile(info))
+                modelFiles.append(info.absoluteFilePath());
+        }
+    }
+    for (const QString& sourcePath : modelFiles) {
         const QString targetPath = QDir(newCacheDir).filePath(QStringLiteral("model3d")) + QDir::separator() +
                                    QFileInfo(sourcePath).fileName();
         if (!moveCacheEntry(sourcePath, targetPath))
@@ -54,15 +95,31 @@ bool CacheDirectoryMigrator::migrate(const QString& oldCacheDir, const QString& 
     return moved;
 }
 
-bool CacheDirectoryMigrator::moveDirectoryContents(const QString& sourceDir, const QString& targetDir) {
+bool CacheDirectoryMigrator::moveDirectoryContents(const QString& sourceRoot,
+                                                   const QString& sourceDir,
+                                                   const QString& targetRoot,
+                                                   const QString& targetDir,
+                                                   bool legacySource) {
     QDir source(sourceDir);
     if (!source.exists()) {
         return true;
     }
 
     QDir target;
+    if (target.exists(targetDir) && !CacheSafety::isOwnedComponentDirectory(targetRoot, targetDir) &&
+        !QDir(targetDir).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+        LOG_WARN(LogModule::Core, "Refusing cache migration into an unowned target directory: {}", targetDir);
+        return false;
+    }
     if (!target.exists(targetDir) && !target.mkpath(targetDir)) {
         LOG_WARN(LogModule::Core, "Failed to create cache migration directory: {}", targetDir);
+        return false;
+    }
+
+    // 组件目录的元数据会在迁移第一个文件后暂时离开源目录，因此必须在循环前完成一次所有权确认。
+    const bool sourceOwned = legacySource || CacheSafety::isOwnedComponentDirectory(sourceRoot, sourceDir);
+    if (!sourceOwned) {
+        LOG_WARN(LogModule::Core, "Refusing cache migration from an unowned component directory: {}", sourceDir);
         return false;
     }
 
@@ -79,7 +136,8 @@ bool CacheDirectoryMigrator::moveDirectoryContents(const QString& sourceDir, con
                                     QStringLiteral("preview_2.jpg")};
     const QFileInfoList entries = source.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
     for (const QFileInfo& entryInfo : entries) {
-        if (entryInfo.isSymLink() || !knownFiles.contains(entryInfo.fileName())) {
+        const bool known = entryInfo.isFile() && !entryInfo.isSymLink() && knownFiles.contains(entryInfo.fileName());
+        if (!known) {
             allMoved = false;
             continue;
         }
@@ -90,6 +148,14 @@ bool CacheDirectoryMigrator::moveDirectoryContents(const QString& sourceDir, con
         }
     }
 
+    const QString metadataPath = QDir(targetDir).filePath(QStringLiteral("component.json"));
+    if (QFileInfo::exists(metadataPath) && !upgradeMetadata(metadataPath))
+        allMoved = false;
+    if (allMoved && source.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty() &&
+        !QDir().rmdir(sourceDir)) {
+        LOG_WARN(LogModule::Core, "Failed to remove empty cache migration directory: {}", sourceDir);
+        allMoved = false;
+    }
     return allMoved;
 }
 
@@ -101,15 +167,6 @@ bool CacheDirectoryMigrator::moveCacheEntry(const QString& sourcePath, const QSt
 
     QFileInfo targetInfo(targetPath);
     if (targetInfo.exists()) {
-        if (sourceInfo.isDir() && targetInfo.isDir()) {
-            const bool moved = moveDirectoryContents(sourcePath, targetPath);
-            QDir sourceDir(sourcePath);
-            if (sourceDir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
-                sourceDir.rmdir(sourcePath);
-            }
-            return moved;
-        }
-
         LOG_WARN(LogModule::Core, "Skipping cache migration entry because target already exists: {}", targetPath);
         return false;
     }
@@ -120,8 +177,10 @@ bool CacheDirectoryMigrator::moveCacheEntry(const QString& sourcePath, const QSt
         return false;
     }
 
-    if (sourceInfo.isDir())
-        return moveDirectoryContents(sourcePath, targetPath);
+    if (sourceInfo.isDir()) {
+        LOG_WARN(LogModule::Core, "Refusing to migrate an unexpected cache directory entry: {}", sourcePath);
+        return false;
+    }
 
     if (QFile::rename(sourcePath, targetPath)) {
         return true;

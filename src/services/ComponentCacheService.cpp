@@ -99,7 +99,12 @@ QString ComponentCacheService::ensureComponentDir(const QString& lcscId) const {
     }
     QDir dir(dirPath);
     if (!dir.exists()) {
-        dir.mkpath(dirPath);
+        if (!dir.mkpath(dirPath))
+            return QString();
+    } else if (!CacheSafety::isOwnedComponentDirectory(cacheDir(), dirPath) &&
+               !dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+        qWarning() << "ensureComponentDir: refusing to reuse non-empty unowned directory:" << dirPath;
+        return QString();
     }
     return dirPath;
 }

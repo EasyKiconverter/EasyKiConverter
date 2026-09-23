@@ -1,4 +1,5 @@
 #include "services/CacheSafety.h"
+#include "services/ConfigService.h"
 
 #include <QDir>
 #include <QFile>
@@ -13,6 +14,8 @@ class TestCacheSafety : public QObject {
 private slots:
     void rejectsNonEmptyUnownedDirectory();
     void rejectsHomeDirectory();
+    void acceptsApplicationDefaultCachePath();
+    void adoptsRecognizableLegacyCacheRoot();
     void movesOwnedEntryThroughInjectedTrash();
     void preservesEntryWhenTrashFails();
     void ignoresUnknownAndSymlinkEntries();
@@ -46,6 +49,40 @@ void TestCacheSafety::rejectsHomeDirectory() {
     error.clear();
     QVERIFY(!CacheSafety::validateSelection(homeChild, &normalized, &error));
     QVERIFY(!error.isEmpty());
+}
+
+// 验证应用默认缓存目录虽位于应用数据目录下，但不会被用户主目录保护规则误拒绝。
+void TestCacheSafety::acceptsApplicationDefaultCachePath() {
+    QString normalized;
+    QString error;
+    QVERIFY2(CacheSafety::validateSelection(ConfigService::defaultCacheDir(), &normalized, &error), qPrintable(error));
+}
+
+// 验证旧版本可识别缓存根目录能够安全补齐当前所有权标记。
+void TestCacheSafety::adoptsRecognizableLegacyCacheRoot() {
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+    const QString componentPath = QDir(tempDir.path()).filePath(QStringLiteral("C10003"));
+    QVERIFY(QDir().mkpath(componentPath));
+    QFile metadata(QDir(componentPath).filePath(QStringLiteral("component.json")));
+    QVERIFY(metadata.open(QIODevice::WriteOnly));
+    QVERIFY(metadata.write(QByteArrayLiteral("{\"lcscId\":\"C10003\"}")) > 0);
+    metadata.close();
+
+    const QString modelPath = QDir(tempDir.path()).filePath(QStringLiteral("model3d/model.step"));
+    QVERIFY(QDir().mkpath(QFileInfo(modelPath).absolutePath()));
+    QFile model(modelPath);
+    QVERIFY(model.open(QIODevice::WriteOnly));
+    QVERIFY(model.write("step") > 0);
+    model.close();
+
+    QString error;
+    QVERIFY(CacheSafety::canAdoptLegacyRoot(tempDir.path()));
+    QVERIFY(CacheSafety::ensureOwnedRoot(tempDir.path(), &error));
+    QVERIFY2(CacheSafety::ensureOwnedModel3DDirectory(tempDir.path(), &error), qPrintable(error));
+    QVERIFY(CacheSafety::isOwnedRoot(tempDir.path()));
+    QVERIFY(CacheSafety::isOwnedComponentDirectory(tempDir.path(), componentPath));
+    QVERIFY(CacheSafety::isOwnedModel3DFile(tempDir.path(), modelPath));
 }
 
 // 验证已托管缓存条目通过可注入回收站移动，并且原路径消失。

@@ -1,5 +1,6 @@
 #include "CacheSafety.h"
 
+#include "BomParser.h"
 #include "CacheMetadataStore.h"
 
 #include <QDir>
@@ -9,6 +10,7 @@
 #include <QJsonObject>
 #include <QSaveFile>
 #include <QSet>
+#include <QStandardPaths>
 
 namespace EasyKiConverter {
 
@@ -32,6 +34,86 @@ bool isAncestorOrSame(const QString& ancestor, const QString& candidate) {
     const QString relative = QDir(ancestor).relativeFilePath(candidate);
     return relative == QStringLiteral(".") ||
            (!relative.startsWith(QStringLiteral("..")) && !QDir::isAbsolutePath(relative));
+}
+
+// 返回旧版组件缓存允许迁移的文件名集合。
+const QSet<QString>& legacyComponentFileNames() {
+    static const QSet<QString> names = {
+        QStringLiteral("component.json"),
+        QStringLiteral("symbol.json"),
+        QStringLiteral("footprint.json"),
+        QStringLiteral("cad_data.json"),
+        QStringLiteral("datasheet"),
+        QStringLiteral("datasheet.pdf"),
+        QStringLiteral("datasheet.html"),
+        QStringLiteral("preview_0.jpg"),
+        QStringLiteral("preview_1.jpg"),
+        QStringLiteral("preview_2.jpg"),
+    };
+    return names;
+}
+
+// 判断文件名是否属于组件缓存的公开布局。
+bool isKnownComponentFileName(const QString& name) {
+    return legacyComponentFileNames().contains(name);
+}
+
+// 判断旧版模型缓存文件是否使用当前支持的扩展名。
+bool isKnownModel3DFileName(const QString& name) {
+    const QString suffix = QFileInfo(name).suffix();
+    return suffix.compare(QStringLiteral("obj"), Qt::CaseInsensitive) == 0 ||
+           suffix.compare(QStringLiteral("step"), Qt::CaseInsensitive) == 0 ||
+           suffix.compare(QStringLiteral("wrl"), Qt::CaseInsensitive) == 0;
+}
+
+// 判断旧版三维模型目录中是否只有可识别的普通模型文件。
+bool containsOnlyKnownModel3DEntries(const QString& path) {
+    for (const QFileInfo& info : QDir(path).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot)) {
+        if (info.fileName() == CacheSafety::model3DMarkerName() && info.isFile() && !info.isSymLink())
+            continue;
+        if (!info.isFile() || info.isSymLink() || !isKnownModel3DFileName(info.fileName()))
+            return false;
+    }
+    return true;
+}
+
+// 判断旧版缓存根目录中是否只有可识别的缓存内容。
+bool containsOnlyLegacyCacheEntries(const QString& path) {
+    const QDir root(path);
+    for (const QFileInfo& info : root.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot)) {
+        if (info.isSymLink())
+            return false;
+        if (info.isDir()) {
+            if (info.fileName() == QStringLiteral("model3d")) {
+                if (!containsOnlyKnownModel3DEntries(info.absoluteFilePath()))
+                    return false;
+                continue;
+            }
+            if (QDir(info.absoluteFilePath()).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty())
+                continue;
+            if (!CacheSafety::isLegacyComponentDirectory(info.absoluteFilePath()))
+                return false;
+            for (const QFileInfo& child :
+                 QDir(info.absoluteFilePath()).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot)) {
+                if (!child.isFile() || child.isSymLink() || !isKnownComponentFileName(child.fileName()))
+                    return false;
+            }
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
+
+// 将旧版组件元数据补齐当前所有权字段。
+bool upgradeLegacyComponentMetadata(const QString& path) {
+    QJsonObject metadata = CacheMetadataStore::read(QDir(path).filePath(QStringLiteral("component.json")));
+    if (metadata.isEmpty())
+        return false;
+    metadata[QStringLiteral("cacheOwner")] = QStringLiteral("EasyKiConverter");
+    metadata[QStringLiteral("cacheEntryVersion")] = 1;
+    return CacheMetadataStore::writeAtomically(QDir(path).filePath(QStringLiteral("component.json")),
+                                               QJsonDocument(metadata).toJson(QJsonDocument::Indented));
 }
 
 // 生成缓存所有权标记的最小字段集合。
@@ -75,7 +157,9 @@ bool CacheSafety::isSafePath(const QString& path, QString* normalizedPath, QStri
     const QString normalized = canonicalOrCleanPath(trimmed);
     const QString root = QDir::cleanPath(QDir::rootPath());
     const QString home = canonicalOrCleanPath(QDir::homePath());
-    if (normalized == root || isAncestorOrSame(home, normalized)) {
+    const QString defaultCache = canonicalOrCleanPath(
+        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/cache"));
+    if (normalized == root || (isAncestorOrSame(home, normalized) && normalized != defaultCache)) {
         if (error)
             *error = QStringLiteral("不能选择文件系统根目录或用户主目录及其上级目录");
         return false;
@@ -132,7 +216,7 @@ bool CacheSafety::validateSelection(const QString& path, QString* normalizedPath
     if (hasValidMarker(normalized, QStringLiteral("root")))
         return true;
     const QDir dir(normalized);
-    if (!dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+    if (!dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty() && !canAdoptLegacyRoot(normalized)) {
         if (error)
             *error = QStringLiteral("缓存目录必须为空，或已经包含 EasyKiConverter 所有权标记");
         return false;
@@ -153,12 +237,25 @@ bool CacheSafety::ensureOwnedRoot(const QString& path, QString* error) {
     }
     if (hasValidMarker(normalized, QStringLiteral("root")))
         return true;
-    if (!QDir(normalized).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+    if (!QDir(normalized).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty() &&
+        !canAdoptLegacyRoot(normalized)) {
         if (error)
             *error = QStringLiteral("缓存目录不是空目录且无法验证所有权：%1").arg(normalized);
         return false;
     }
-    return writeMarker(normalized, QStringLiteral("root"), error);
+    const bool adoptLegacy = canAdoptLegacyRoot(normalized);
+    if (!writeMarker(normalized, QStringLiteral("root"), error))
+        return false;
+    if (adoptLegacy) {
+        for (const QString& componentPath : legacyComponentDirectories(normalized)) {
+            if (!upgradeLegacyComponentMetadata(componentPath)) {
+                if (error)
+                    *error = QStringLiteral("无法升级旧缓存元数据：%1").arg(componentPath);
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 // 判断目录是否拥有有效的 EasyKiConverter 缓存根标记。
@@ -184,7 +281,8 @@ bool CacheSafety::ensureOwnedModel3DDirectory(const QString& rootPath, QString* 
     }
     if (hasValidMarker(modelPath, QStringLiteral("model3d")))
         return true;
-    if (!QDir(modelPath).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+    const QFileInfoList entries = QDir(modelPath).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    if (!entries.isEmpty() && !containsOnlyKnownModel3DEntries(modelPath)) {
         if (error)
             *error = QStringLiteral("三维模型缓存目录不是空目录且无法验证所有权：%1").arg(modelPath);
         return false;
@@ -228,18 +326,53 @@ bool CacheSafety::isOwnedComponentFile(const QString& rootPath, const QString& p
     if (!isOwnedComponentDirectory(rootPath, componentDir) || !isDirectChild(componentDir, path))
         return false;
 
-    static const QSet<QString> knownFiles = {
-        QStringLiteral("symbol.json"),
-        QStringLiteral("footprint.json"),
-        QStringLiteral("cad_data.json"),
-        QStringLiteral("datasheet"),
-        QStringLiteral("datasheet.pdf"),
-        QStringLiteral("datasheet.html"),
-        QStringLiteral("preview_0.jpg"),
-        QStringLiteral("preview_1.jpg"),
-        QStringLiteral("preview_2.jpg"),
-    };
-    return knownFiles.contains(info.fileName());
+    return isKnownComponentFileName(info.fileName());
+}
+
+// 列出指定元器件目录中的已知、非符号链接缓存文件。
+QStringList CacheSafety::ownedComponentFiles(const QString& rootPath, const QString& componentPath) {
+    QStringList result;
+    if (!isOwnedComponentDirectory(rootPath, componentPath))
+        return result;
+    for (const QFileInfo& info : QDir(componentPath).entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name)) {
+        if (isOwnedComponentFile(rootPath, info.absoluteFilePath()))
+            result.append(info.absoluteFilePath());
+    }
+    return result;
+}
+
+// 判断旧版本元数据是否能证明目录对应一个元器件缓存。
+bool CacheSafety::isLegacyComponentDirectory(const QString& path) {
+    const QFileInfo info(path);
+    if (!info.isDir() || info.isSymLink() || !BomParser::validateId(info.fileName()))
+        return false;
+    const QJsonObject metadata = CacheMetadataStore::read(QDir(path).filePath(QStringLiteral("component.json")));
+    const QJsonValue metadataId = metadata.value(QStringLiteral("lcscId"));
+    return metadataId.isString() && metadataId.toString().compare(info.fileName(), Qt::CaseInsensitive) == 0;
+}
+
+// 列出旧版本缓存根目录中可迁移的元器件目录。
+QStringList CacheSafety::legacyComponentDirectories(const QString& rootPath) {
+    QStringList result;
+    const QDir root(rootPath);
+    if (!root.exists())
+        return result;
+    for (const QFileInfo& info : root.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name)) {
+        if (info.fileName() != QStringLiteral("model3d") && isLegacyComponentDirectory(info.absoluteFilePath()))
+            result.append(info.absoluteFilePath());
+    }
+    return result;
+}
+
+// 判断旧版本根目录是否只包含可识别缓存，避免把用户目录标记为应用目录。
+bool CacheSafety::canAdoptLegacyRoot(const QString& path) {
+    QString normalized;
+    if (!isSafePath(path, &normalized, nullptr))
+        return false;
+    const QFileInfo info(normalized);
+    return info.isDir() && !hasValidMarker(normalized, QStringLiteral("root")) &&
+           !QDir(normalized).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty() &&
+           containsOnlyLegacyCacheEntries(normalized);
 }
 
 // 校验三维模型文件是否位于受标记保护的模型目录中。

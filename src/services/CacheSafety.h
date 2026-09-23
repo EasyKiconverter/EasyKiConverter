@@ -54,6 +54,18 @@ public:
     /** @brief 判断元器件缓存文件是否位于已验证目录且文件名属于缓存布局。 */
     static bool isOwnedComponentFile(const QString& rootPath, const QString& path);
 
+    /** @brief 列出指定元器件目录中所有可验证归属的缓存文件。 */
+    static QStringList ownedComponentFiles(const QString& rootPath, const QString& componentPath);
+
+    /** @brief 判断目录是否符合旧版本缓存的可识别结构。 */
+    static bool isLegacyComponentDirectory(const QString& path);
+
+    /** @brief 列出旧版本缓存中可安全迁移的元器件目录。 */
+    static QStringList legacyComponentDirectories(const QString& rootPath);
+
+    /** @brief 判断未带新标记的旧缓存根目录是否可以安全升级。 */
+    static bool canAdoptLegacyRoot(const QString& path);
+
     /** @brief 判断三维模型缓存文件是否属于已标记的模型缓存目录。 */
     static bool isOwnedModel3DFile(const QString& rootPath, const QString& path);
 

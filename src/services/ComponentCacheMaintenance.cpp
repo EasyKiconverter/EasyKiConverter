@@ -37,14 +37,23 @@ void ComponentCacheMaintenance::remove(const QString& componentId) {
         const QString dirPath = m_owner.componentCacheDir(normalizedId);
         if (dirPath.isEmpty())
             return;
-        if (CacheSafety::isOwnedComponentDirectory(m_owner.cacheDir(), dirPath)) {
+        const QStringList files = CacheSafety::ownedComponentFiles(m_owner.cacheDir(), dirPath);
+        bool allFilesMoved = true;
+        for (const QString& filePath : files) {
             QString error;
-            if (CacheSafety::moveToTrash(dirPath, &error, m_trash)) {
-                LOG_DEBUG(LogModule::Core, "Moved disk cache to trash for: {}", normalizedId);
-            } else {
+            if (!CacheSafety::moveToTrash(filePath, &error, m_trash)) {
+                allFilesMoved = false;
                 emit m_owner.cacheMaintenanceWarning(error);
             }
         }
+        if (allFilesMoved && !files.isEmpty() &&
+            QDir(dirPath).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+            QString error;
+            if (!CacheSafety::moveToTrash(dirPath, &error, m_trash))
+                emit m_owner.cacheMaintenanceWarning(error);
+        }
+        if (!files.isEmpty())
+            LOG_DEBUG(LogModule::Core, "Moved owned disk cache files to trash for: {}", normalizedId);
     }
 
     qint64 sizeAfterUpdate = 0;
@@ -65,10 +74,22 @@ void ComponentCacheMaintenance::clearAll() {
     {
         QMutexLocker diskLocker(&m_owner.m_diskWriteMutex);
         m_owner.m_tombstones.blockAll();
-        for (const QString& entry : CacheSafety::ownedComponentDirectories(m_owner.cacheDir())) {
-            QString error;
-            if (!CacheSafety::moveToTrash(entry, &error, m_trash))
-                emit m_owner.cacheMaintenanceWarning(error);
+        for (const QString& componentDir : CacheSafety::ownedComponentDirectories(m_owner.cacheDir())) {
+            const QStringList files = CacheSafety::ownedComponentFiles(m_owner.cacheDir(), componentDir);
+            bool allFilesMoved = true;
+            for (const QString& filePath : files) {
+                QString error;
+                if (!CacheSafety::moveToTrash(filePath, &error, m_trash)) {
+                    allFilesMoved = false;
+                    emit m_owner.cacheMaintenanceWarning(error);
+                }
+            }
+            if (allFilesMoved && !files.isEmpty() &&
+                QDir(componentDir).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+                QString error;
+                if (!CacheSafety::moveToTrash(componentDir, &error, m_trash))
+                    emit m_owner.cacheMaintenanceWarning(error);
+            }
         }
         for (const QString& entry : CacheSafety::ownedModel3DFiles(m_owner.cacheDir())) {
             QString error;
@@ -125,7 +146,14 @@ QStringList ComponentCacheMaintenance::cachedComponentIds(const ComponentCacheSe
 /** @brief 在磁盘锁保护下递归统计缓存目录大小。 */
 qint64 ComponentCacheMaintenance::cacheSize(const ComponentCacheService& owner) {
     QMutexLocker diskLocker(&owner.m_diskWriteMutex);
-    return owner.calculateDirSize(owner.cacheDir());
+    qint64 size = 0;
+    for (const QString& componentDir : CacheSafety::ownedComponentDirectories(owner.cacheDir())) {
+        for (const QString& filePath : CacheSafety::ownedComponentFiles(owner.cacheDir(), componentDir))
+            size += QFileInfo(filePath).size();
+    }
+    for (const QString& filePath : CacheSafety::ownedModel3DFiles(owner.cacheDir()))
+        size += QFileInfo(filePath).size();
+    return size;
 }
 
 }  // namespace EasyKiConverter

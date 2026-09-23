@@ -40,8 +40,10 @@ qint64 CachePruner::calculateDirSize(const QString& dirPath) const {
 
 qint64 CachePruner::currentCacheSize() const {
     qint64 totalSize = 0;
-    for (const QString& path : CacheSafety::ownedComponentDirectories(m_cacheRoot))
-        totalSize += _calculateDirSize(path);
+    for (const QString& componentPath : CacheSafety::ownedComponentDirectories(m_cacheRoot)) {
+        for (const QString& filePath : CacheSafety::ownedComponentFiles(m_cacheRoot, componentPath))
+            totalSize += QFileInfo(filePath).size();
+    }
     return totalSize;
 }
 
@@ -52,15 +54,17 @@ qint64 CachePruner::pruneTo(qint64 targetSizeBytes) {
         qint64 size;
     };
 
-    // 第一阶段：收集所有缓存条目信息（排除 model3d）
+    // 第一阶段：按文件收集可验证的缓存条目（排除 model3d 和未知文件）。
     QList<CacheEntry> cacheList;
     qint64 currentSize = 0;
 
-    for (const QString& path : CacheSafety::ownedComponentDirectories(m_cacheRoot)) {
-        const QFileInfo info(path);
-        const qint64 entrySize = _calculateDirSize(path);
-        cacheList.append({path, info.lastModified(), entrySize});
-        currentSize += entrySize;
+    for (const QString& componentPath : CacheSafety::ownedComponentDirectories(m_cacheRoot)) {
+        for (const QString& path : CacheSafety::ownedComponentFiles(m_cacheRoot, componentPath)) {
+            const QFileInfo info(path);
+            const qint64 entrySize = info.size();
+            cacheList.append({path, info.lastModified(), entrySize});
+            currentSize += entrySize;
+        }
     }
 
     if (currentSize <= targetSizeBytes) {
