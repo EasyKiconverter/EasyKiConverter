@@ -31,7 +31,7 @@ This manual provides detailed instructions for using all features of EasyKiConve
 #### macOS
 
 1. Download the latest version from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases)
-2. Intel Macs should download `macos-intel.dmg`; Apple Silicon Macs should download `macos-arm64.dmg`.
+2. Intel Macs should download `macos-x86_64.dmg`; Apple Silicon Macs should download `macos-arm64.dmg`.
 3. Open the DMG, drag `EasyKiConverter.app` to the Applications folder, and launch it.
 
 #### Linux

@@ -24,7 +24,7 @@ EasyKiConverter `<version>` 改善了 EasyEDA 到 KiCad/Altium 的库转换质�
 | Linux | arm64 | AppImage | `EasyKiConverter-<version>-linux-aarch64.AppImage` |
 | Linux | amd64 | DEB/RPM/Arch | 对应架构安装包 |
 | Linux | arm64 | DEB/RPM/Arch | 对应架构安装包 |
-| macOS | intel | DMG | `EasyKiConverter-<version>-macos-intel.dmg` |
+| macOS | x86_64 | DMG | `EasyKiConverter-<version>-macos-x86_64.dmg` |
 | macOS | arm64 | DMG | `EasyKiConverter-<version>-macos-arm64.dmg` |
 
 > 每个发布制品都提供对应的 `.sha256sum` 文件，Release 还提供 `SHA256SUMS` 汇总清单。下载后建议先验证文件完整性，再执行安装或运行。

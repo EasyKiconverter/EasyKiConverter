@@ -192,7 +192,7 @@ jobs:
           require_asset '*-linux-aarch64.rpm'
           require_asset '*-linux-x86_64.pkg.tar.zst'
           require_asset '*-linux-aarch64.pkg.tar.zst'
-          require_asset '*-macos-intel.dmg'
+          require_asset '*-macos-x86_64.dmg'
           require_asset '*-macos-arm64.dmg'
           require_asset '*-windows-x86_64.msix'
           require_asset '*-windows-arm64.msix'
@@ -234,7 +234,7 @@ jobs:
           manifest="release_assets/SHA256SUMS"
           : > "$manifest"
           while IFS= read -r asset; do
-            sha256sum "release_assets/$asset" >> "$manifest"
+            (cd release_assets && sha256sum "$asset") >> "$manifest"
           done < <(find release_assets -maxdepth 1 -type f ! -name '*.sha256sum' ! -name 'SHA256SUMS' -printf '%f\n' | sort)
           test -s "$manifest"
 
@@ -289,7 +289,7 @@ jobs:
               "Linux:"*-linux-aarch64.pkg.tar.zst) architecture="arm64"; format="Arch Linux"; format_order=4 ;;
               "Linux:"*-linux-x86_64.pkg.tar.zst) architecture="amd64"; format="Arch Linux"; format_order=4 ;;
               "macOS:"*-macos-arm64.dmg) architecture="arm64"; format="DMG"; format_order=1 ;;
-              "macOS:"*-macos-intel.dmg) architecture="intel"; format="DMG"; format_order=1 ;;
+              "macOS:"*-macos-x86_64.dmg) architecture="x86_64"; format="DMG"; format_order=1 ;;
               *) return 0 ;;
             esac
 
@@ -305,10 +305,6 @@ jobs:
               arm64)
                 architecture_order=2
                 architecture_display="arm64"
-                ;;
-              intel)
-                architecture_order=3
-                architecture_display="intel"
                 ;;
               *) return 0 ;;
             esac

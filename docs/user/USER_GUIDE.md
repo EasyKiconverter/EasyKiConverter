@@ -31,7 +31,7 @@
 #### macOS
 
 1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载最新版本
-2. Intel Mac 下载 `macos-intel.dmg`，Apple Silicon Mac 下载 `macos-arm64.dmg`
+2. Intel Mac 下载 `macos-x86_64.dmg`，Apple Silicon Mac 下载 `macos-arm64.dmg`
 3. 打开 DMG，将 `EasyKiConverter.app` 拖入“应用程序”文件夹后启动
 
 #### Linux
