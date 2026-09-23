@@ -168,7 +168,8 @@ AltiumSchPin AltiumSymbolPinConverter::convert(const IR::SymbolPinIR& pin) {
     // EasyEDA 的 pin name 显示标志在部分库中未设置，但名称字符串本身仍是符号的一部分。
     altiumPin.showName =
         !pin.hasNamePosition && (pin.display.showName || pin.showName || !pin.name.trimmed().isEmpty());
-    altiumPin.showDesignator = !pin.hasNumberPosition && (pin.display.showDesignator || pin.showDesignator);
+    // 编号统一由独立的水平文本记录承载，禁止 Altium 按引脚方向旋转内置 designator。
+    altiumPin.showDesignator = false;
     altiumPin.isHidden = !altiumPin.showName && !altiumPin.showDesignator;
     altiumPin.color = AltiumSymbolConversionUtils::toAltiumColor(QColor(Qt::black));
 

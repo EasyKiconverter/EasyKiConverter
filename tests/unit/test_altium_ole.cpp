@@ -11,6 +11,8 @@
  *          - 导出器的多部件和折线保持
  */
 
+#include "core/altium/AltiumSymbolPinConverter.h"
+#include "core/altium/AltiumSymbolPinTextConverter.h"
 #include "core/altium/ExporterAltiumFootprint.h"
 #include "core/altium/ExporterAltiumSymbol.h"
 #include "core/altium/compound/OLECompoundReader.h"
@@ -476,6 +478,72 @@ private slots:
      */
     void userDefinedLayerMapsToMechanicalLayer() {
         QCOMPARE(AltiumLayerMap::fromLayerTypeToAltium(IR::LayerType::UserDefined), 57);
+    }
+
+    /**
+     * @brief 验证 Altium 符号引脚编号始终通过独立水平文本显示。
+     * @details 同时覆盖存在和缺失源编号坐标的引脚，确保不会回退到随引脚方向旋转的内置编号。
+     */
+    void pinDesignatorsAlwaysUseHorizontalText() {
+        IR::SymbolPinIR positionedPin;
+        positionedPin.name = QStringLiteral("IN");
+        positionedPin.designator = QStringLiteral("1");
+        positionedPin.position = QPointF(2.0, 3.0);
+        positionedPin.numberPosition = QPointF(1.0, 2.0);
+        positionedPin.numberRotation = 90.0;
+        positionedPin.hasNumberPosition = true;
+        positionedPin.direction = IR::PinDirection::Up;
+
+        const QList<AltiumSchText> positionedTexts =
+            AltiumSymbolPinTextConverter::convert(positionedPin, QStringLiteral("POSITIONED"), nullptr);
+        QCOMPARE(positionedTexts.size(), 1);
+        QCOMPARE(positionedTexts.first().text, QStringLiteral("1"));
+        QCOMPARE(positionedTexts.first().orientation, 0);
+        QCOMPARE(positionedTexts.first().locationX, AltiumCoord::mmToRaw(1.0));
+        QCOMPARE(positionedTexts.first().locationY, AltiumCoord::mmToRaw(2.0));
+        QVERIFY(!AltiumSymbolPinConverter::convert(positionedPin).showDesignator);
+
+        IR::SymbolPinIR fallbackPin = positionedPin;
+        fallbackPin.designator = QStringLiteral("2");
+        fallbackPin.position = QPointF(-4.0, 5.0);
+        fallbackPin.numberPosition = {};
+        fallbackPin.numberRotation = 270.0;
+        fallbackPin.hasNumberPosition = false;
+        fallbackPin.direction = IR::PinDirection::Down;
+
+        const QList<AltiumSchText> fallbackTexts =
+            AltiumSymbolPinTextConverter::convert(fallbackPin, QStringLiteral("FALLBACK"), nullptr);
+        QCOMPARE(fallbackTexts.size(), 1);
+        QCOMPARE(fallbackTexts.first().text, QStringLiteral("2"));
+        QCOMPARE(fallbackTexts.first().orientation, 0);
+        QCOMPARE(fallbackTexts.first().locationX, AltiumCoord::mmToRaw(-4.0));
+        QCOMPARE(fallbackTexts.first().locationY, AltiumCoord::mmToRaw(5.0));
+        QVERIFY(!AltiumSymbolPinConverter::convert(fallbackPin).showDesignator);
+
+        IR::SymbolComponentIR exportedSymbol;
+        exportedSymbol.name = QStringLiteral("HORIZONTAL_PIN_NUMBERS");
+        exportedSymbol.pins = {positionedPin, fallbackPin};
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString libraryPath = tempDir.filePath(QStringLiteral("horizontal-pin-numbers.SchLib"));
+        ExporterAltiumSymbol exporter;
+        QVERIFY(exporter.exportSymbolLibrary(
+            {exportedSymbol}, QStringLiteral("horizontal-pin-numbers"), libraryPath, false, false));
+        QByteArray symbolData;
+        QVERIFY(readCfbStream(libraryPath, QStringLiteral("HORIZONTAL_PIN_NUMBERS/Data"), symbolData));
+        for (const QByteArray& designator : {QByteArrayLiteral("1"), QByteArrayLiteral("2")}) {
+            const int textOffset = symbolData.indexOf("Text=" + designator);
+            QVERIFY(textOffset > 0);
+            const int textRecordOffset = symbolData.lastIndexOf("|RECORD=4|", textOffset);
+            QVERIFY(textRecordOffset >= 0);
+            const int nextRecordOffset = symbolData.indexOf("|RECORD=", textOffset);
+            QVERIFY(nextRecordOffset > textOffset);
+            const QByteArray textRecord = symbolData.mid(textRecordOffset, nextRecordOffset - textRecordOffset);
+            QVERIFY(!textRecord.contains("Orientation=1"));
+            QVERIFY(!textRecord.contains("Orientation=2"));
+            QVERIFY(!textRecord.contains("Orientation=3"));
+        }
+        QVERIFY(!symbolData.contains("ShowDesignator=T"));
     }
 
     /**
