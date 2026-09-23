@@ -698,6 +698,39 @@ private slots:
         QVERIFY(QDir(m_tempDir.filePath(QStringLiteral("C54327"))).removeRecursively());
     }
 
+    // 回归测试：迁移发现目标冲突时不应先搬走其他组件的源文件。
+    void testCacheDirMigrationConflictPreservesSourceEntries() {
+        const QString firstComponentId = QStringLiteral("C24683");
+        const QString conflictingComponentId = QStringLiteral("C24684");
+        for (const QString& componentId : {firstComponentId, conflictingComponentId}) {
+            ComponentData data;
+            data.setLcscId(componentId);
+            data.setName(QStringLiteral("Conflict migration fixture"));
+            m_cache->saveComponentMetadata(componentId, data);
+        }
+
+        QTemporaryDir targetCacheDir;
+        QVERIFY(targetCacheDir.isValid());
+        QString ownershipError;
+        QVERIFY2(CacheSafety::ensureOwnedRoot(targetCacheDir.path(), &ownershipError), qPrintable(ownershipError));
+
+        const QString targetComponentDir = targetCacheDir.filePath(conflictingComponentId);
+        QVERIFY(QDir().mkpath(targetComponentDir));
+        QFile targetMetadata(QDir(targetComponentDir).filePath(QStringLiteral("component.json")));
+        QVERIFY(targetMetadata.open(QIODevice::WriteOnly | QIODevice::Text));
+        const QJsonObject metadata{{QStringLiteral("lcscId"), conflictingComponentId},
+                                   {QStringLiteral("cacheOwner"), QStringLiteral("EasyKiConverter")},
+                                   {QStringLiteral("cacheEntryVersion"), 1}};
+        QVERIFY(targetMetadata.write(QJsonDocument(metadata).toJson(QJsonDocument::Compact)) > 0);
+        targetMetadata.close();
+
+        QVERIFY(!m_cache->setCacheDir(targetCacheDir.path(), true));
+        QCOMPARE(m_cache->cacheDir(), m_tempDir.path());
+        QVERIFY(QFileInfo::exists(m_tempDir.filePath(firstComponentId + QStringLiteral("/component.json"))));
+        QVERIFY(QFileInfo::exists(m_tempDir.filePath(conflictingComponentId + QStringLiteral("/component.json"))));
+        QVERIFY(QFileInfo::exists(targetMetadata.fileName()));
+    }
+
     // 验证缓存枚举和磁盘大小统计在目录迁移前后保持一致。
     void testCacheEnumerationAndSizeAfterMigration() {
         const QString firstComponentId = QStringLiteral("C24681");
