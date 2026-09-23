@@ -99,12 +99,17 @@ bool _hasValidModel3DMetadata(const QJsonObject& metadata) {
 }  // namespace
 
 // 保存缓存根目录，供后续自愈操作解析各类缓存路径。
-CacheHealthManager::CacheHealthManager(const QString& cacheRoot) : m_cacheRoot(cacheRoot) {}
+CacheHealthManager::CacheHealthManager(const QString& cacheRoot, const CacheSafety::TrashFunction& trash)
+    : m_cacheRoot(cacheRoot), m_trash(trash) {}
 
 // 扫描全部元件和三维模型缓存，并修复或移除无效条目。
 int CacheHealthManager::healAll() {
     QDir rootDir(m_cacheRoot);
     if (!rootDir.exists()) {
+        return 0;
+    }
+    if (!CacheSafety::isOwnedRoot(m_cacheRoot)) {
+        qWarning().noquote() << "Skipped cache self-heal because ownership cannot be verified:" << m_cacheRoot;
         return 0;
     }
 
@@ -113,7 +118,11 @@ int CacheHealthManager::healAll() {
 
     const QStringList componentDirs = rootDir.entryList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
     for (const QString& entry : componentDirs) {
-        if (entry == "model3d") {
+        if (entry == "model3d" || entry == CacheSafety::ownershipMarkerName()) {
+            continue;
+        }
+        if (!CacheSafety::isOwnedComponentDirectory(m_cacheRoot, rootDir.filePath(entry))) {
+            qWarning().noquote() << "Preserved cache entry with unverifiable ownership:" << rootDir.filePath(entry);
             continue;
         }
         if (repairComponentCache(entry)) {
@@ -180,15 +189,13 @@ bool CacheHealthManager::repairComponentCache(const QString& lcscId) {
 
     const QString metaPath = metadataPath(lcscId);
     if (!QFileInfo::exists(metaPath)) {
-        componentDir.removeRecursively();
-        qWarning().noquote() << "Removed invalid cache dir without metadata:" << dirPath;
+        qWarning().noquote() << "Preserved invalid cache dir without verifiable metadata:" << dirPath;
         return false;
     }
 
     QJsonObject metadata = loadMetadata(lcscId);
     if (metadata.isEmpty()) {
-        componentDir.removeRecursively();
-        qWarning().noquote() << "Removed invalid cache dir with unreadable metadata:" << dirPath;
+        qWarning().noquote() << "Preserved cache dir with unreadable metadata:" << dirPath;
         return false;
     }
 
@@ -196,14 +203,12 @@ bool CacheHealthManager::repairComponentCache(const QString& lcscId) {
     if (metadata.contains(QStringLiteral("lcscId")) &&
         (!metadataId.isString() ||
          (!metadataId.toString().isEmpty() && metadataId.toString().compare(lcscId, Qt::CaseInsensitive) != 0))) {
-        componentDir.removeRecursively();
-        qWarning().noquote() << "Removed cache dir with mismatched component ID:" << dirPath;
+        qWarning().noquote() << "Preserved cache dir with mismatched component ID:" << dirPath;
         return false;
     }
 
     if (!_hasValidModel3DMetadata(metadata)) {
-        componentDir.removeRecursively();
-        qWarning().noquote() << "Removed cache dir with invalid 3D metadata:" << dirPath;
+        qWarning().noquote() << "Preserved cache dir with invalid 3D metadata:" << dirPath;
         return false;
     }
 
@@ -231,8 +236,9 @@ bool CacheHealthManager::repairComponentCache(const QString& lcscId) {
         }
 
         if (!hasValidCad) {
-            QFile::remove(cadPath);
-            qWarning().noquote() << "Removed broken cad_data.json from cache:" << cadPath;
+            QString error;
+            if (!CacheSafety::moveToTrash(cadPath, &error, m_trash))
+                qWarning().noquote() << "Preserved broken cad_data.json:" << cadPath << error;
         }
     }
 
@@ -245,8 +251,9 @@ bool CacheHealthManager::repairComponentCache(const QString& lcscId) {
                                ComponentCacheService::isValidPreviewImageData(previewFile.readAll());
             previewFile.close();
             if (!valid) {
-                QFile::remove(previewPath);
-                qWarning().noquote() << "Removed invalid preview cache file:" << previewPath;
+                QString error;
+                if (!CacheSafety::moveToTrash(previewPath, &error, m_trash))
+                    qWarning().noquote() << "Preserved invalid preview cache file:" << previewPath << error;
             }
         }
     }
@@ -260,25 +267,25 @@ bool CacheHealthManager::repairComponentCache(const QString& lcscId) {
 
             const QString format = legacyData.startsWith("%PDF-") ? QStringLiteral("pdf") : QStringLiteral("html");
             if (!ComponentCacheService::isValidDatasheetData(legacyData, format)) {
-                QFile::remove(legacyDatasheetPath);
-                qWarning().noquote() << "Removed invalid legacy datasheet cache file:" << legacyDatasheetPath;
+                QString error;
+                if (!CacheSafety::moveToTrash(legacyDatasheetPath, &error, m_trash))
+                    qWarning().noquote() << "Preserved invalid legacy datasheet cache file:" << legacyDatasheetPath
+                                         << error;
             } else {
                 const QString targetPath = resolveDatasheetPath(lcscId, format, true);
                 if (QFile::exists(targetPath)) {
-                    QFile::remove(targetPath);
-                }
-                if (legacyDatasheet.rename(legacyDatasheetPath, targetPath)) {
+                    qWarning().noquote() << "Preserved legacy datasheet because target already exists:" << targetPath;
+                } else if (legacyDatasheet.rename(legacyDatasheetPath, targetPath)) {
                     metadata["datasheetFormat"] = format;
                     metadataChanged = true;
                     qInfo().noquote() << "Migrated legacy datasheet cache file:" << targetPath;
                 } else {
-                    QFile::remove(legacyDatasheetPath);
-                    qWarning().noquote() << "Removed unreadable legacy datasheet cache file:" << legacyDatasheetPath;
+                    qWarning().noquote() << "Preserved legacy datasheet that could not be migrated:"
+                                         << legacyDatasheetPath;
                 }
             }
         } else {
-            QFile::remove(legacyDatasheetPath);
-            qWarning().noquote() << "Removed unreadable legacy datasheet cache file:" << legacyDatasheetPath;
+            qWarning().noquote() << "Preserved unreadable legacy datasheet cache file:" << legacyDatasheetPath;
         }
     }
 
@@ -294,8 +301,9 @@ bool CacheHealthManager::repairComponentCache(const QString& lcscId) {
                            ComponentCacheService::isValidDatasheetData(datasheetFile.readAll(), format);
         datasheetFile.close();
         if (datasheetInfo.size() <= 0 || !valid) {
-            QFile::remove(resolvedDatasheetPath);
-            qWarning().noquote() << "Removed invalid datasheet cache file:" << resolvedDatasheetPath;
+            QString error;
+            if (!CacheSafety::moveToTrash(resolvedDatasheetPath, &error, m_trash))
+                qWarning().noquote() << "Preserved invalid datasheet cache file:" << resolvedDatasheetPath << error;
         } else if (datasheetFormat.isEmpty()) {
             metadata["datasheetFormat"] =
                 resolvedDatasheetPath.endsWith(".html") ? QStringLiteral("html") : QStringLiteral("pdf");
@@ -309,8 +317,7 @@ bool CacheHealthManager::repairComponentCache(const QString& lcscId) {
     const bool hasModel3DUuid = !metadata.value("model3duuid").toString().isEmpty();
 
     if (!hasValidCad && !hasBasicIdentity && !hasPreviewUrls && !hasDatasheetUrl && !hasModel3DUuid) {
-        componentDir.removeRecursively();
-        qWarning().noquote() << "Removed unusable cache dir after self-heal:" << dirPath;
+        qWarning().noquote() << "Preserved unusable cache dir because recursive deletion is disabled:" << dirPath;
         return false;
     }
 
@@ -328,10 +335,16 @@ void CacheHealthManager::repairModel3DCache() {
     if (!dir.exists()) {
         return;
     }
+    if (!CacheSafety::isOwnedRoot(m_cacheRoot) || !QFileInfo::exists(dir.filePath(CacheSafety::model3DMarkerName()))) {
+        qWarning().noquote() << "Skipped 3D cache self-heal because ownership cannot be verified:" << modelCacheDir;
+        return;
+    }
 
     const QSet<QString> validSuffixes = {QStringLiteral("obj"), QStringLiteral("step"), QStringLiteral("wrl")};
     const QFileInfoList files = dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot, QDir::Name);
     for (const QFileInfo& fileInfo : files) {
+        if (!CacheSafety::isOwnedModel3DFile(m_cacheRoot, fileInfo.absoluteFilePath()))
+            continue;
         const QString suffix = fileInfo.suffix().toLower();
         bool validContent = false;
         if (validSuffixes.contains(suffix) && fileInfo.size() > 0) {
@@ -350,8 +363,9 @@ void CacheHealthManager::repairModel3DCache() {
         const bool removable =
             !validContent || !validSuffixes.contains(suffix) || fileInfo.fileName().startsWith(".tmp");
         if (removable) {
-            QFile::remove(fileInfo.absoluteFilePath());
-            qWarning().noquote() << "Removed broken 3D cache file:" << fileInfo.absoluteFilePath();
+            QString error;
+            if (!CacheSafety::moveToTrash(fileInfo.absoluteFilePath(), &error, m_trash))
+                qWarning().noquote() << "Preserved broken 3D cache file:" << fileInfo.absoluteFilePath() << error;
         }
     }
 }

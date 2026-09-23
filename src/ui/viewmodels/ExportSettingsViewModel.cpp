@@ -8,6 +8,7 @@
 #include "ExportSettingsViewModel.h"
 
 #include "ExportOptionsBuilder.h"
+#include "services/CacheSafety.h"
 #include "services/ComponentCacheService.h"
 #include "services/export/ParallelExportService.h"
 #include "utils/FileUtils.h"
@@ -55,6 +56,11 @@ ExportSettingsViewModel::ExportSettingsViewModel(ParallelExportService* exportSe
     }
 
     loadFromConfig();
+
+    connect(ComponentCacheService::instance(),
+            &ComponentCacheService::cacheMaintenanceWarning,
+            this,
+            [this](const QString& message) { setStatus(message); });
 
     if (m_exportService) {
         connect(m_exportService,
@@ -289,16 +295,25 @@ void ExportSettingsViewModel::setFootprintLibraryKeywords(const QString& keyword
     }
 }
 
-// 设置缓存目录，持久化配置后迁移已有缓存。
+// 校验缓存目录后再持久化配置并迁移已有缓存。
 void ExportSettingsViewModel::setCacheDir(const QString& path) {
-    const QString normalizedPath = QDir::cleanPath(path);
-    if (m_cacheDir != normalizedPath) {
-        m_cacheDir = normalizedPath;
-        // 先持久化配置，再迁移文件：即使迁移中断，重启后仍使用新路径（旧目录文件保留）
-        m_configService->setCacheDir(normalizedPath);
-        ComponentCacheService::instance()->setCacheDir(normalizedPath, /*migrateExistingCache=*/true);
-        emit cacheDirChanged();
+    QString normalizedPath;
+    QString error;
+    if (!CacheSafety::validateSelection(path, &normalizedPath, &error)) {
+        setStatus(error);
+        return;
     }
+    if (m_cacheDir == normalizedPath)
+        return;
+
+    if (!ComponentCacheService::instance()->setCacheDir(normalizedPath, /*migrateExistingCache=*/true)) {
+        setStatus(QStringLiteral("缓存目录未切换：%1").arg(error.isEmpty() ? QStringLiteral("迁移失败") : error));
+        return;
+    }
+
+    m_cacheDir = normalizedPath;
+    m_configService->setCacheDir(normalizedPath);
+    emit cacheDirChanged();
 }
 
 // 设置磁盘缓存上限并限制在允许范围内。
@@ -490,7 +505,12 @@ void ExportSettingsViewModel::loadFromConfig() {
     m_overwriteExistingFiles = m_configService->getOverwriteExistingFiles();
     m_weakNetworkSupport = m_configService->getWeakNetworkSupport();
     m_exportMode = m_configService->getExportMode();
-    m_cacheDir = m_configService->getCacheDir();
+    const QString configuredCacheDir = m_configService->getCacheDir();
+    QString normalizedCacheDir;
+    if (CacheSafety::validateSelection(configuredCacheDir, &normalizedCacheDir, nullptr))
+        m_cacheDir = normalizedCacheDir;
+    else
+        m_cacheDir = ComponentCacheService::instance()->cacheDir();
     m_diskCacheLimitMB = m_configService->getDiskCacheLimitMB();
 
     bool envDebugMode = qEnvironmentVariableIsSet("EASYKICONVERTER_DEBUG_MODE");
@@ -572,7 +592,16 @@ void ExportSettingsViewModel::resetConfig() {
     m_symbolLibraryDescription.clear();
     m_footprintLibraryDescription.clear();
     m_footprintLibraryKeywords.clear();
-    m_cacheDir = m_configService->getCacheDir();
+    const QString configuredCacheDir = m_configService->getCacheDir();
+    QString normalizedCacheDir;
+    QString cacheDirError;
+    if (CacheSafety::validateSelection(configuredCacheDir, &normalizedCacheDir, &cacheDirError)) {
+        m_cacheDir = normalizedCacheDir;
+    } else {
+        // 恢复配置时保留当前已验证的缓存目录，避免无效配置触发迁移或清理。
+        m_cacheDir = ComponentCacheService::instance()->cacheDir();
+        setStatus(cacheDirError);
+    }
     m_diskCacheLimitMB = m_configService->getDiskCacheLimitMB();
 
     m_configService->beginBatchUpdate();
@@ -592,7 +621,11 @@ void ExportSettingsViewModel::resetConfig() {
     m_configService->setCacheDir(m_cacheDir);
     m_configService->setDiskCacheLimitMB(m_diskCacheLimitMB);
     m_configService->endBatchUpdate();
-    ComponentCacheService::instance()->setCacheDir(m_cacheDir);
+    if (!ComponentCacheService::instance()->setCacheDir(m_cacheDir, /*migrateExistingCache=*/false)) {
+        // 当前目录无法安全恢复时，不覆盖已生效的缓存目录配置。
+        m_cacheDir = ComponentCacheService::instance()->cacheDir();
+        m_configService->setCacheDir(m_cacheDir);
+    }
     ComponentCacheService::instance()->setDiskCacheLimit(m_diskCacheLimitMB);
 
     emit outputPathChanged();

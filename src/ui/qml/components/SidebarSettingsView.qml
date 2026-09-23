@@ -133,7 +133,7 @@ Item {
                 label: qsTranslate("MainWindow", "缓存目录")
                 text: root.exportSettingsController ? root.exportSettingsController.cacheDir : ""
                 placeholder: qsTranslate("MainWindow", "选择目录...")
-                onTextEdited: txt => {
+                onEditingFinished: txt => {
                     if (root.exportSettingsController)
                         root.exportSettingsController.setCacheDir(txt);
                 }

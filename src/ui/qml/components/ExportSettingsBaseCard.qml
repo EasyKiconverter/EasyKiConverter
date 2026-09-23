@@ -282,9 +282,10 @@ Card {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 36
                         text: baseCard.exportSettingsController ? baseCard.exportSettingsController.cacheDir : ""
-                        onTextChanged: {
+                        onEditingFinished: {
                             if (baseCard.exportSettingsController) {
                                 baseCard.exportSettingsController.setCacheDir(text);
+                                text = baseCard.exportSettingsController.cacheDir;
                             }
                         }
                         placeholderText: qsTranslate("MainWindow", "默认缓存目录")

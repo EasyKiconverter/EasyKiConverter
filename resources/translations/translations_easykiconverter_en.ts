@@ -10,8 +10,8 @@
         <translation>Input file does not exist: %1</translation>
     </message>
     <message>
-        <location filename="../../src/utils/cli/FileReader.cpp" line="31"/>
         <location filename="../../src/utils/cli/BomConverter.cpp" line="27"/>
+        <location filename="../../src/utils/cli/FileReader.cpp" line="31"/>
         <source>BOM 表中没有找到有效的元器件编号</source>
         <translation>No valid component IDs found in BOM file</translation>
     </message>
@@ -51,7 +51,7 @@ Conversion completed: %1 succeeded, %2 failed</translation>
     <message>
         <location filename="../../src/utils/cli/BaseConverter.cpp" line="71"/>
         <source>导出诊断: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Confirm Clear Cache</translation>
     </message>
     <message>
         <location filename="../../src/utils/cli/ComponentConverter.cpp" line="16"/>
@@ -60,14 +60,13 @@ Conversion completed: %1 succeeded, %2 failed</translation>
     </message>
     <message>
         <location filename="../../src/utils/cli/ComponentConverter.cpp" line="20"/>
-        <location filename="../../tests/unit/test_cli_converters.cpp" line="106"/>
         <source>未指定元器件编号</source>
         <translation>No component ID specified</translation>
     </message>
     <message>
         <location filename="../../src/utils/cli/ComponentConverter.cpp" line="25"/>
         <source>元器件编号格式无效: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Move to Trash</translation>
     </message>
     <message>
         <location filename="../../src/utils/cli/ComponentConverter.cpp" line="29"/>
@@ -135,7 +134,7 @@ Conversion completed: %1 succeeded, %2 failed</translation>
     <message>
         <location filename="../../src/utils/CommandLineParser.cpp" line="390"/>
         <source>无效的 3D 模型路径模式: %1（有效值: %2）</source>
-        <translation type="unfinished"></translation>
+        <translation>Verified cache entries to process: %1. They will be moved to the system trash. Unknown files, directories, and unverifiable content will be preserved. If the trash is unavailable, the original data will not be deleted. Continue?</translation>
     </message>
     <message>
         <location filename="../../src/utils/CommandLineParser.cpp" line="396"/>
@@ -606,8 +605,8 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>Exit Program</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/UpdateDialog.qml" line="65"/>
         <location filename="../../src/ui/qml/components/ExitDialog.qml" line="59"/>
+        <location filename="../../src/ui/qml/components/UpdateDialog.qml" line="65"/>
         <source>取消</source>
         <translation>Cancel</translation>
     </message>
@@ -709,20 +708,20 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>Add Component</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/MainWindow.qml" line="485"/>
         <location filename="../../src/ui/qml/components/ComponentInputCard.qml" line="18"/>
+        <location filename="../../src/ui/qml/MainWindow.qml" line="485"/>
         <source>输入LCSC元件编号 (例如: C2040)</source>
         <translation>Enter LCSC Component ID (e.g., C2040)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/MainWindow.qml" line="519"/>
         <location filename="../../src/ui/qml/components/ComponentInputCard.qml" line="52"/>
+        <location filename="../../src/ui/qml/MainWindow.qml" line="519"/>
         <source>添加</source>
         <translation>Add</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/MainWindow.qml" line="531"/>
         <location filename="../../src/ui/qml/components/ComponentInputCard.qml" line="63"/>
+        <location filename="../../src/ui/qml/MainWindow.qml" line="531"/>
         <source>粘贴</source>
         <translation>Paste</translation>
     </message>
@@ -855,14 +854,14 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>Path</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/MainWindow.qml" line="191"/>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="196"/>
+        <location filename="../../src/ui/qml/MainWindow.qml" line="191"/>
         <source>选择输出目录</source>
         <translation>Select Output Directory</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="208"/>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="302"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="303"/>
         <source>浏览</source>
         <translation>Browse</translation>
     </message>
@@ -898,12 +897,12 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>Cache Directory</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="290"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="291"/>
         <source>默认缓存目录</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="319"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="320"/>
         <source>磁盘缓存上限 (MB)</source>
         <translation>Disk Cache Limit (MB)</translation>
     </message>
@@ -946,43 +945,43 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>Footprints</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="363"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="364"/>
         <source>导出选项</source>
         <translation>Export Options</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="363"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="364"/>
         <source> 设置</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="445"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="446"/>
         <source>通用选项</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="453"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="454"/>
         <source>导出元件预览图</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="463"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="464"/>
         <source>导出元件数据手册</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="474"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="475"/>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="659"/>
         <source>导出模式</source>
         <translation>Export Mode</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="482"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="483"/>
         <source>追加模式</source>
         <translation>Append Mode</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="519"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="520"/>
         <source>更新模式</source>
         <translation>Update Mode</translation>
     </message>
@@ -1023,12 +1022,12 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>Retry Failed Items</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="11"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="22"/>
         <source>导出统计</source>
         <translation>Export Statistics</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="18"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="29"/>
         <source>基本统计</source>
         <translation>Basic Statistics</translation>
     </message>
@@ -1049,7 +1048,7 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation type="vanished">Open Detailed Report</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="153"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="162"/>
         <source>打开缓存目录</source>
         <translation>Open Cache Directory</translation>
     </message>
@@ -1075,20 +1074,20 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>No File Selected</translation>
     </message>
     <message>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="108"/>
         <location filename="../../src/ui/qml/components/KiCadSettingsCard.qml" line="44"/>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="97"/>
         <source>3D模型</source>
         <translation>3D</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="452"/>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="106"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="453"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="117"/>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="483"/>
         <source>预览图</source>
         <translation>Preview</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="111"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="122"/>
         <source>手册</source>
         <translation>Datasheet</translation>
     </message>
@@ -1121,52 +1120,72 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>File Writing</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="27"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="13"/>
+        <source>确认清空缓存</source>
+        <translation>Confirm Clear Cache</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="14"/>
+        <source>移入回收站</source>
+        <translation>Move to Trash</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="15"/>
+        <source>取消</source>
+        <translation>Cancel</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="16"/>
+        <source>将处理 %1 个已验证的 EasyKiConverter 缓存条目，并移入系统回收站。未知文件、目录和无法验证的内容会保留；如果回收站不可用，原数据不会被删除。是否继续？</source>
+        <translation>Move %1 verified EasyKiConverter cache entries to the system trash. Unknown files, directories, and unverifiable content will be preserved; if the trash is unavailable, the original data will not be deleted. Continue?</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="38"/>
         <source>总数</source>
         <translation>Total</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="32"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="43"/>
         <source>成功</source>
         <translation>Success</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="38"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="49"/>
         <source>失败</source>
         <translation>Failed</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="44"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="55"/>
         <source>成功率</source>
         <translation>Success Rate</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="60"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="71"/>
         <source>抓取进度</source>
         <translation>Fetch Progress</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="65"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="76"/>
         <source>处理进度</source>
         <translation>Processing Progress</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="70"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="81"/>
         <source>写入进度</source>
         <translation>Write Progress</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="77"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="88"/>
         <source>导出详情</source>
         <translation>Export Details</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="126"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="137"/>
         <source>打开输出目录</source>
         <translation>Open Output Directory</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="140"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="151"/>
         <source>清空缓存</source>
         <translation>Clear Cache</translation>
     </message>
@@ -1187,12 +1206,12 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation type="vanished">Avg Write</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="87"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="98"/>
         <source>符号</source>
         <translation>Symbols</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="92"/>
+        <location filename="../../src/ui/qml/components/ExportStatisticsCard.qml" line="103"/>
         <source>封装</source>
         <translation>Footprints</translation>
     </message>
@@ -1213,8 +1232,8 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation type="vanished">Rate Limit</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/MainWindow.qml" line="795"/>
         <location filename="../../src/ui/qml/components/ExportButtonsSection.qml" line="81"/>
+        <location filename="../../src/ui/qml/MainWindow.qml" line="795"/>
         <source>正在转换...</source>
         <translation>Exporting...</translation>
     </message>
@@ -1225,13 +1244,11 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/ExportButtonsSection.qml" line="148"/>
-        <location filename="../../tests/ui/tst_ExportFlow.qml" line="299"/>
         <source>正在停止...</source>
         <translation>Stopping...</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/ExportButtonsSection.qml" line="148"/>
-        <location filename="../../tests/ui/tst_ExportFlow.qml" line="293"/>
         <source>停止转换</source>
         <translation>Stop Export</translation>
     </message>
@@ -1470,7 +1487,7 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>3D Model</translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="462"/>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="463"/>
         <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="492"/>
         <source>数据手册</source>
         <translation>Datasheet</translation>
@@ -1620,8 +1637,8 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../src/ui/qml/components/AltiumSettingsCard.qml" line="39"/>
         <location filename="../../src/ui/qml/components/AllegroSettingsCard.qml" line="37"/>
+        <location filename="../../src/ui/qml/components/AltiumSettingsCard.qml" line="39"/>
         <source>3D模型 (STEP)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1952,24 +1969,20 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
 <context>
     <name>tst_MainDialogBindings</name>
     <message>
-        <location filename="../../tests/ui/tst_MainDialogBindings.qml" line="61"/>
         <source>确认退出</source>
-        <translation type="unfinished">Confirm Exit</translation>
+        <translation type="obsolete">Confirm Exit</translation>
     </message>
     <message>
-        <location filename="../../tests/ui/tst_MainDialogBindings.qml" line="62"/>
         <source>转换正在进行中。退出将取消当前转换，已导出的文件会保留。确定要退出吗？</source>
-        <translation type="unfinished">Conversion is in progress. Exiting will cancel the current conversion, but exported files will be preserved. Are you sure you want to exit?</translation>
+        <translation type="obsolete">Conversion is in progress. Exiting will cancel the current conversion, but exported files will be preserved. Are you sure you want to exit?</translation>
     </message>
     <message>
-        <location filename="../../tests/ui/tst_MainDialogBindings.qml" line="63"/>
         <source>强制退出</source>
-        <translation type="unfinished">Force Exit</translation>
+        <translation type="obsolete">Force Exit</translation>
     </message>
     <message>
-        <location filename="../../tests/ui/tst_MainDialogBindings.qml" line="64"/>
         <source>继续转换</source>
-        <translation type="unfinished">Continue</translation>
+        <translation type="obsolete">Continue</translation>
     </message>
 </context>
 </TS>

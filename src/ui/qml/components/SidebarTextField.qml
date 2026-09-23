@@ -11,6 +11,7 @@ ColumnLayout {
     property string browseIcon: ""
     signal browseClicked
     signal textEdited(string text)
+    signal editingFinished(string text)
     Layout.fillWidth: true
     spacing: 2
     Text {
@@ -33,6 +34,7 @@ ColumnLayout {
                     fieldRoot.textEdited(text);
                 }
             }
+            onEditingFinished: fieldRoot.editingFinished(text)
             background: Rectangle {
                 color: AppStyle.colors.surface
                 border.color: tf.focus ? AppStyle.colors.primary : AppStyle.colors.border

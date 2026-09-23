@@ -1,6 +1,7 @@
 #include "ComponentCacheBinaryFileStore.h"
 
 #include "CacheDataValidator.h"
+#include "CacheSafety.h"
 
 #include <QFile>
 #include <QFileInfo>
@@ -25,7 +26,8 @@ QByteArray readValidatedFile(const QString& filePath, bool validateAsPreview) {
     if (valid)
         return data;
 
-    QFile::remove(filePath);
+    QString trashError;
+    CacheSafety::moveToTrash(filePath, &trashError);
     return QByteArray();
 }
 

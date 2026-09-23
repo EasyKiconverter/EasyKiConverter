@@ -2,6 +2,7 @@
 
 #include "CacheDataValidator.h"
 #include "CacheMetadataStore.h"
+#include "CacheSafety.h"
 
 #include <QDir>
 #include <QFile>
@@ -27,7 +28,8 @@ QByteArray Model3DCacheFileStore::read(const QString& filePath, const QString& e
         return data;
     }
 
-    QFile::remove(filePath);
+    QString trashError;
+    CacheSafety::moveToTrash(filePath, &trashError);
     return QByteArray();
 }
 

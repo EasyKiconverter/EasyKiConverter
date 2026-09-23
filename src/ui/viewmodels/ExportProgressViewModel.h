@@ -154,6 +154,8 @@ public:
     Q_INVOKABLE QString getLastExportedPath() const;
     Q_INVOKABLE bool openLastExportedFolder();
     Q_INVOKABLE void clearCache();
+    /** @brief 返回清空缓存确认对话框中的可处理条目数量。 */
+    Q_INVOKABLE int cacheEntryCount() const;
     Q_INVOKABLE void resetExport();
     Q_INVOKABLE void setFilterMode(const QString& mode);
     Q_INVOKABLE void retryComponent(const QString& componentId);

@@ -113,6 +113,27 @@ Click the theme toggle button in the top right corner to switch between dark and
    - Enable debug export (developers only)
 4. Click "Save" to save settings
 
+### Cache Directory Safety
+
+The cache directory must be empty or already contain an EasyKiConverter ownership marker. Filesystem roots, the user home directory, and symbolic-link directories are rejected. Editing a cache path does not migrate data on every keystroke; the path is applied only after folder selection or editing is completed and validation succeeds.
+
+Cache maintenance follows these boundaries:
+
+- The root and each cache entry must pass ownership-marker and metadata identity checks. Unknown files, directories, symbolic links, and unverifiable legacy entries are preserved.
+- Startup self-healing, quota pruning, directory migration, and “Clear cache” process only entries whose ownership can be verified.
+- The confirmation dialog shows the number of entries in scope. Confirmed entries are moved to the system trash; if trash is unavailable or an operation fails, the original data is kept and no permanent-delete fallback is used.
+- Migration conflicts or failures preserve the source directory and user files; the active configuration is not switched to an incomplete target.
+
+```mermaid
+flowchart TD
+    Select[Select or edit cache directory] --> Validate{Validate path and ownership}
+    Validate -- Reject --> Keep[Keep current configuration and show reason]
+    Validate -- Accept --> Apply[Apply after confirmation and migrate verified entries]
+    Apply --> Maintain[Self-heal, prune quota, or clear]
+    Maintain --> Trash[Move verified entries to system trash only]
+    Maintain --> Preserve[Preserve unknown or failed entries]
+```
+
 ### Starting Conversion
 
 1. Ensure all components are added to the list

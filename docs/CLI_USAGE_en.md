@@ -71,10 +71,11 @@ easykiconverter convert component -c C12345 -o ./output \
 ```
 
 Notes:
-- `--cache-dir` specifies the cache root directory for this run
+- `--cache-dir` specifies the cache root directory for this run; it must be empty or contain an EasyKiConverter ownership marker. Roots, the user home directory, and symbolic-link directories are rejected.
 - Valid range for `--cache-size-mb` is `1` to `1048576`
-- When modifying the cache directory in GUI, the app attempts to migrate old cache data to the new directory to reuse already-downloaded data; existing files with the same name are not overwritten
+- In the GUI, the path is validated and verified entries are migrated only after editing is complete; conflicts or migration failures preserve the source and keep the previous configuration.
 - 3D model cache is stored in the `model3d` subdirectory of the cache directory, excluded from LRU eviction by default to avoid frequent re-downloading of large files
+- Clear-cache only moves verified entries to the system trash; unknown content and entries that fail trash operations are preserved, with no permanent-delete fallback.
 
 ## Shell Completion
 

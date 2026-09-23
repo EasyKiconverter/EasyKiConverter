@@ -2,6 +2,7 @@
 
 #include "CacheDataValidator.h"
 #include "CacheMetadataStore.h"
+#include "CacheSafety.h"
 #include "ComponentCacheService.h"
 #include "utils/logging/LogMacros.h"
 
@@ -38,7 +39,8 @@ QByteArray DatasheetCacheFileStore::load(const ComponentCacheService& owner, con
     if (CacheDataValidator::isValidDatasheet(data, format))
         return data;
 
-    QFile::remove(datasheetFilePath);
+    QString trashError;
+    CacheSafety::moveToTrash(datasheetFilePath, &trashError);
     return QByteArray();
 }
 
@@ -64,6 +66,7 @@ void DatasheetCacheFileStore::save(const QString& componentId,
         return;
 
     QString actualPath;
+    QString trashError;
     {
         QMutexLocker locker(&m_owner.m_mutex);
         if (m_owner.ensureComponentDir(componentId).isEmpty())
@@ -73,7 +76,7 @@ void DatasheetCacheFileStore::save(const QString& componentId,
                                           ? m_owner.resolveDatasheetPath(componentId, QStringLiteral("html"), true)
                                           : m_owner.resolveDatasheetPath(componentId, QStringLiteral("pdf"), true);
         if (alternatePath != actualPath && QFile::exists(alternatePath))
-            QFile::remove(alternatePath);
+            CacheSafety::moveToTrash(alternatePath, &trashError);
     }
 
     if (CacheMetadataStore::writeAtomically(actualPath, data)) {

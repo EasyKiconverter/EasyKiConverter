@@ -176,6 +176,17 @@ target_include_directories(test_cache_pruner PRIVATE
 )
 add_test(NAME test_cache_pruner COMMAND test_cache_pruner)
 
+add_executable(test_cache_safety test_cache_safety.cpp)
+target_link_libraries(test_cache_safety PRIVATE
+    Qt6::Test
+    EasyKiConverterLib
+)
+target_include_directories(test_cache_safety PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_cache_safety COMMAND test_cache_safety)
+
 add_executable(test_core_utils test_core_utils.cpp)
 target_link_libraries(test_core_utils PRIVATE
     Qt6::Test

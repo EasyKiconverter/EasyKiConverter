@@ -27,6 +27,8 @@ add_library(EasyKiConverterServices STATIC
     CacheFileLayout.h
     CacheDirectoryMigrator.cpp
     CacheDirectoryMigrator.h
+    CacheSafety.cpp
+    CacheSafety.h
     CacheMetadataStore.cpp
     CacheMetadataStore.h
     CacheDataValidator.cpp

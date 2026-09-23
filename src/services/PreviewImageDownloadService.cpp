@@ -1,6 +1,7 @@
 #include "PreviewImageDownloadService.h"
 
 #include "CacheDataValidator.h"
+#include "CacheSafety.h"
 #include "ComponentCacheService.h"
 #include "core/network/NetworkClient.h"
 #include "utils/logging/LogMacros.h"
@@ -62,7 +63,8 @@ QByteArray PreviewImageDownloadService::download(const QString& componentId,
                     }
                     return data;
                 }
-                QFile::remove(cachedPath);
+                QString trashError;
+                CacheSafety::moveToTrash(cachedPath, &trashError);
             }
         }
     }

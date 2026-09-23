@@ -571,6 +571,11 @@ void ExportProgressViewModel::clearCache() {
     ComponentCacheService::instance()->clearAllCache();
 }
 
+// 返回已经通过所有权校验、可以安全移入回收站的条目数量。
+int ExportProgressViewModel::cacheEntryCount() const {
+    return ComponentCacheService::instance()->getOwnedCacheEntryCount();
+}
+
 /** @brief 重置导出结果、进度和过滤状态。 */
 void ExportProgressViewModel::resetExport() {
     if (m_throttleTimer) {

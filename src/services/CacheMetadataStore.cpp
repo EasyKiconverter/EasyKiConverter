@@ -87,6 +87,8 @@ bool CacheMetadataStore::hasValidModel3D(const QJsonObject& metadata) {
 // 从元器件对象构建完整的缓存元数据 JSON。
 QJsonObject CacheMetadataStore::build(const QString& componentId, const ComponentData& data) {
     QJsonObject metadata;
+    metadata[QStringLiteral("cacheOwner")] = QStringLiteral("EasyKiConverter");
+    metadata[QStringLiteral("cacheEntryVersion")] = 1;
     metadata["lcscId"] = componentId;
     metadata["name"] = data.name();
     metadata["prefix"] = data.prefix();

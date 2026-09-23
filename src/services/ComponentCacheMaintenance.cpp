@@ -14,7 +14,9 @@
 namespace EasyKiConverter {
 
 /** @brief 保存维护协调器所属的缓存服务。 */
-ComponentCacheMaintenance::ComponentCacheMaintenance(ComponentCacheService& owner) : m_owner(owner) {}
+ComponentCacheMaintenance::ComponentCacheMaintenance(ComponentCacheService& owner,
+                                                     const CacheSafety::TrashFunction& trash)
+    : m_owner(owner), m_trash(trash) {}
 
 /**
  * @brief 删除指定元器件的一级和二级缓存。
@@ -35,10 +37,13 @@ void ComponentCacheMaintenance::remove(const QString& componentId) {
         const QString dirPath = m_owner.componentCacheDir(normalizedId);
         if (dirPath.isEmpty())
             return;
-        QDir dir(dirPath);
-        if (dir.exists()) {
-            dir.removeRecursively();
-            LOG_DEBUG(LogModule::Core, "Removed disk cache for: {}", normalizedId);
+        if (CacheSafety::isOwnedComponentDirectory(m_owner.cacheDir(), dirPath)) {
+            QString error;
+            if (CacheSafety::moveToTrash(dirPath, &error, m_trash)) {
+                LOG_DEBUG(LogModule::Core, "Moved disk cache to trash for: {}", normalizedId);
+            } else {
+                emit m_owner.cacheMaintenanceWarning(error);
+            }
         }
     }
 
@@ -60,17 +65,17 @@ void ComponentCacheMaintenance::clearAll() {
     {
         QMutexLocker diskLocker(&m_owner.m_diskWriteMutex);
         m_owner.m_tombstones.blockAll();
-        QDir dir(m_owner.cacheDir());
-        if (dir.exists()) {
-            const QFileInfoList entries = dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries);
-            for (const QFileInfo& entry : entries) {
-                if (entry.isDir())
-                    QDir(entry.absoluteFilePath()).removeRecursively();
-                else
-                    QFile::remove(entry.absoluteFilePath());
-            }
-            LOG_DEBUG(LogModule::Core, "Cleared all disk cache");
+        for (const QString& entry : CacheSafety::ownedComponentDirectories(m_owner.cacheDir())) {
+            QString error;
+            if (!CacheSafety::moveToTrash(entry, &error, m_trash))
+                emit m_owner.cacheMaintenanceWarning(error);
         }
+        for (const QString& entry : CacheSafety::ownedModel3DFiles(m_owner.cacheDir())) {
+            QString error;
+            if (!CacheSafety::moveToTrash(entry, &error, m_trash))
+                emit m_owner.cacheMaintenanceWarning(error);
+        }
+        LOG_DEBUG(LogModule::Core, "Moved owned disk cache entries to trash");
     }
 
     m_owner.m_memoryCache.clear();
@@ -100,17 +105,16 @@ QStringList ComponentCacheMaintenance::cachedComponentIds(const ComponentCacheSe
         return result;
 
     for (const QString& entry : dir.entryList(QDir::Dirs)) {
-        if (entry == QStringLiteral(".") || entry == QStringLiteral("..") || entry == QStringLiteral("model3d"))
+        if (entry == QStringLiteral(".") || entry == QStringLiteral("..") || entry == QStringLiteral("model3d") ||
+            entry == CacheSafety::ownershipMarkerName())
             continue;
         const QString normalizedId = entry.toUpper();
         const QJsonObject metadata = CacheMetadataStore::read(owner.metadataPath(entry));
         const QJsonValue metadataId = metadata.value(QStringLiteral("lcscId"));
         const bool matchesEntry =
-            !metadata.contains(QStringLiteral("lcscId")) ||
-            (metadataId.isString() &&
-             (metadataId.toString().isEmpty() || metadataId.toString().compare(entry, Qt::CaseInsensitive) == 0));
-        if (!metadata.isEmpty() && matchesEntry && CacheMetadataStore::hasValidModel3D(metadata) &&
-            !seenIds.contains(normalizedId)) {
+            metadataId.isString() && metadataId.toString().compare(entry, Qt::CaseInsensitive) == 0;
+        if (CacheSafety::isOwnedComponentDirectory(owner.cacheDir(), dir.filePath(entry)) && matchesEntry &&
+            CacheMetadataStore::hasValidModel3D(metadata) && !seenIds.contains(normalizedId)) {
             result.append(normalizedId);
             seenIds.insert(normalizedId);
         }

@@ -1,6 +1,7 @@
 #include "DatasheetDownloadService.h"
 
 #include "CacheDataValidator.h"
+#include "CacheSafety.h"
 #include "ComponentCacheService.h"
 #include "core/network/NetworkClient.h"
 #include "utils/logging/LogMacros.h"
@@ -75,7 +76,8 @@ QByteArray DatasheetDownloadService::download(const QString& componentId,
                     }
                     return cachedData;
                 }
-                QFile::remove(fullPath);
+                QString trashError;
+                CacheSafety::moveToTrash(fullPath, &trashError);
             }
         }
     }

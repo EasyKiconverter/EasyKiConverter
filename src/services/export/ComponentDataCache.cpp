@@ -3,6 +3,7 @@
 #include "../../models/ComponentData.h"
 #include "../../models/FootprintDataSerializer.h"
 #include "../../models/SymbolDataSerializer.h"
+#include "../CacheSafety.h"
 
 #include <QDebug>
 #include <QDir>
@@ -23,6 +24,11 @@ ComponentDataCache::~ComponentDataCache() {
 
 void ComponentDataCache::setCacheDir(const QString& path) {
     QMutexLocker locker(&m_cacheMutex);
+    QString error;
+    if (!CacheSafety::ensureOwnedRoot(path, &error)) {
+        qWarning() << "ComponentDataCache: refusing unowned cache directory" << error;
+        return;
+    }
     m_cacheDir = path;
 
     // 创建子目录结构
@@ -185,33 +191,10 @@ void ComponentDataCache::clearDiskCache(const QString& componentId) {
         return;
     }
 
-    if (componentId.isEmpty()) {
-        // 清除整个缓存目录
-        QDir cacheDir(m_cacheDir);
-        cacheDir.removeRecursively();
-        setCacheDir(m_cacheDir);  // 重建目录结构
-    } else {
-        // 清除指定元器件的缓存文件
-        QString dataFilePath = m_cacheDir + QStringLiteral("/") + componentId + QStringLiteral(".json");
-        QFile::remove(dataFilePath);
-
-        // 清除关联的文件
-        QStringList subDirs = {QStringLiteral("symbols"),
-                               QStringLiteral("footprints"),
-                               QStringLiteral("3dmodels"),
-                               QStringLiteral("datasheets"),
-                               QStringLiteral("previews")};
-
-        for (const QString& subDir : subDirs) {
-            QString dirPath = m_cacheDir + QStringLiteral("/") + subDir;
-            QDir subDirHandle(dirPath);
-            QStringList filters = {componentId + QStringLiteral("*")};
-            QStringList files = subDirHandle.entryList(filters);
-            for (const QString& file : files) {
-                subDirHandle.remove(file);
-            }
-        }
-    }
+    // 该旧缓存格式没有逐条所有权清单，无法证明目录中的文件全部由应用创建。
+    // 因此宁可拒绝清理，也不递归删除或永久删除可能属于用户的数据。
+    Q_UNUSED(componentId);
+    qWarning() << "ComponentDataCache: refusing disk cleanup because entry ownership is unverifiable";
 }
 
 }  // namespace EasyKiConverter
