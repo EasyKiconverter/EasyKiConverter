@@ -24,21 +24,21 @@
 
 #### Windows
 
-1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载最新版本
-2. 解压下载的压缩包
-3. 双击 `EasyKiConverter.exe` 运行应用程序
+1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载与设备匹配的包。Intel/AMD 64 位设备选择文件名中的 `windows-x86_64`；Windows on Arm 选择 `windows-arm64`。
+2. 普通安装请选择 `-installer.exe`；免安装使用请选择 `-portable.zip` 并解压到新的目录；MSIX 用户请选择 `.msix` 包并按系统提示安装。
+3. 安装程序或 MSIX 安装完成后从开始菜单启动；便携版解压后运行目录中的 `easykiconverter.exe`。
 
 #### macOS
 
 1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载最新版本
-2. 解压下载的压缩包
-3. 双击 `EasyKiConverter.app` 运行应用程序
+2. Intel Mac 下载 `macos-intel.dmg`，Apple Silicon Mac 下载 `macos-arm64.dmg`
+3. 打开 DMG，将 `EasyKiConverter.app` 拖入“应用程序”文件夹后启动
 
 #### Linux
 
 1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载最新版本
-2. 解压下载的压缩包
-3. 运行 `./EasyKiConverter` 启动应用程序
+2. 根据 CPU 架构下载 `linux-x86_64.AppImage` 或 `linux-aarch64.AppImage`
+3. 为 AppImage 添加执行权限并运行：`chmod +x EasyKiConverter-*.AppImage && ./EasyKiConverter-*.AppImage`
 
 ## 界面介绍
 

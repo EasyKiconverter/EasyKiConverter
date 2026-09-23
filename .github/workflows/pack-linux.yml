@@ -790,7 +790,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-g${{ steps.version.outputs.GIT_HASH }}-${{ matrix.dist.appimage_arch }}.AppImage
+          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-linux-${{ matrix.dist.appimage_arch }}.AppImage
           path: |
             *.AppImage
             *.sha256sum
@@ -857,7 +857,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-g${{ steps.version.outputs.GIT_HASH }}-${{ matrix.dist.deb_arch }}.deb
+          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-linux-${{ matrix.dist.deb_arch }}.deb
           path: |
             *.deb
             *.sha256sum
@@ -928,7 +928,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-g${{ steps.version.outputs.GIT_HASH }}-${{ matrix.dist.rpm_arch }}.rpm
+          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-linux-${{ matrix.dist.rpm_arch }}.rpm
           path: |
             *.rpm
             *.sha256sum
@@ -999,7 +999,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-g${{ steps.version.outputs.GIT_HASH }}-${{ matrix.dist.archlinux_arch }}.pkg.tar.zst
+          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-linux-${{ matrix.dist.archlinux_arch }}.pkg.tar.zst
           path: |
             *.pkg.tar.zst
             *.sha256sum

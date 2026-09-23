@@ -113,10 +113,10 @@ qmake -query QT_VERSION       # 必须为 6.10.2
 
 Windows 发布构建同时支持以下架构：
 
-- x64：Qt `win64_msvc2022_64`，vcpkg triplet `x64-windows`
+- x86_64：Qt `win64_msvc2022_64`，vcpkg triplet `x64-windows`；发布文件名使用 `windows-x86_64`
 - ARM64：Windows 11 on ARM、Qt `win64_msvc2022_arm64`，vcpkg triplet `arm64-windows`
 
-ARM64 发布包由 GitHub Actions 的 `windows-11-arm` runner 构建，生成 ARM64 便携版、安装程序和 MSIX 包。
+ARM64 发布包由 GitHub Actions 的 `windows-11-arm` runner 构建，生成 `windows-arm64` 便携版、安装程序和 MSIX 包。x86_64 发布包使用 `windows-x86_64` 标识；MSIX 清单内部仍使用 Windows 要求的 `x64` 架构值。
 
 ### LoongArch64（龙架构）
 

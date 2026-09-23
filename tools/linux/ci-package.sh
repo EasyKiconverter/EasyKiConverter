@@ -123,7 +123,7 @@ package_appimage() {
     local version="$3"
     local git_hash="$4"
     local appimage_arch="$5"
-    local output_name="${product}-${version}-g${git_hash}.${appimage_arch}.AppImage"
+    local output_name="${product}-${version}-linux-${appimage_arch}.AppImage"
 
     for qt_lib_dir in /opt/qt/*/*/plugins/sqldrivers; do
         if [ -d "$qt_lib_dir" ]; then
@@ -169,7 +169,7 @@ package_nfpm() {
     local output_arch="$7"
     local extension="$8"
     local nfpm_config="nfpm_temp.yaml"
-    local output_name="${product}-${version}-g${git_hash}_${output_arch}.${extension}"
+    local output_name="${product}-${version}-linux-${output_arch}.${extension}"
 
     fix_permissions "$appdir"
     render_nfpm_config "$appdir" "$version" "$nfpm_arch" "$nfpm_config"

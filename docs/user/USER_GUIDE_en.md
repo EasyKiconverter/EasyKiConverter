@@ -24,21 +24,21 @@ This manual provides detailed instructions for using all features of EasyKiConve
 
 #### Windows
 
-1. Download the latest version from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases)
-2. Extract the downloaded archive
-3. Double-click `EasyKiConverter.exe` to run the application
+1. Download a matching package from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases). Intel/AMD 64-bit devices should use filenames containing `windows-x86_64`; Windows on Arm devices should use `windows-arm64`.
+2. Choose `-installer.exe` for a normal installation, `-portable.zip` for a portable copy, or `.msix` for MSIX installation.
+3. Start the installed application from the Start menu, or extract the portable ZIP to a new directory and run `easykiconverter.exe`.
 
 #### macOS
 
 1. Download the latest version from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases)
-2. Extract the downloaded archive
-3. Double-click `EasyKiConverter.app` to run the application
+2. Intel Macs should download `macos-intel.dmg`; Apple Silicon Macs should download `macos-arm64.dmg`.
+3. Open the DMG, drag `EasyKiConverter.app` to the Applications folder, and launch it.
 
 #### Linux
 
 1. Download the latest version from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases)
-2. Extract the downloaded archive
-3. Run `./EasyKiConverter` to launch the application
+2. Download `linux-x86_64.AppImage` or `linux-aarch64.AppImage` for your CPU architecture.
+3. Make the AppImage executable and run it: `chmod +x EasyKiConverter-*.AppImage && ./EasyKiConverter-*.AppImage`
 
 ## Interface Overview
 

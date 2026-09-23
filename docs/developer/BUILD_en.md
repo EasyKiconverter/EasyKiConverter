@@ -107,10 +107,10 @@ qmake -query QT_VERSION       # must be 6.10.2
 
 Windows release builds support both architectures:
 
-- x64: Qt `win64_msvc2022_64`, vcpkg triplet `x64-windows`
+- x86_64: Qt `win64_msvc2022_64`, vcpkg triplet `x64-windows`; release filenames use `windows-x86_64`
 - ARM64: Windows 11 on Arm, Qt `win64_msvc2022_arm64`, vcpkg triplet `arm64-windows`
 
-The ARM64 release packages are built on the GitHub Actions `windows-11-arm` runner and include portable, installer, and MSIX packages.
+The ARM64 release packages are built on the GitHub Actions `windows-11-arm` runner and use the `windows-arm64` filename marker for portable, installer, and MSIX packages. x86_64 packages use `windows-x86_64`; the MSIX manifest still uses the Windows-required `x64` architecture value internally.
 
 ### LoongArch64
 

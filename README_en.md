@@ -42,7 +42,7 @@
 ### Installation
 Please visit the [Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) page to download the version for your platform:
 
-*   **Windows**: amd64 (the filenames use `x64`) and arm64 builds are available; download the matching `.exe` installer or `.zip` portable package for your device.
+*   **Windows**: x86_64 and arm64 builds are available. Intel/AMD 64-bit devices should use filenames containing `windows-x86_64`; Windows on Arm devices should use `windows-arm64`. Both architectures provide `.exe` installers, `.zip` portable packages, and `.msix` packages.
 *   **Linux**: Download the x86_64/ARM64 `.AppImage`. LoongArch64 currently requires separate build infrastructure and is not included in official release packages yet.
 *   **macOS**: Download `.dmg` image file.
 *   **Arch Linux**: `yay -S easykiconverter`

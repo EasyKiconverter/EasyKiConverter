@@ -180,34 +180,33 @@ jobs:
             fi
           }
 
-          require_asset '*-win64.zip'
-          require_asset '*-win64-arm64.zip'
-          require_asset '*-x64-setup.exe'
-          require_asset '*-arm64-setup.exe'
-          require_asset '*.x86_64.AppImage'
-          require_asset '*.aarch64.AppImage'
-          require_asset '*_amd64.deb'
-          require_asset '*_arm64.deb'
-          require_asset '*_x86_64.rpm'
-          require_asset '*_aarch64.rpm'
-          require_asset '*_x86_64.pkg.tar.zst'
-          require_asset '*_aarch64.pkg.tar.zst'
-          require_asset '*-intel.dmg'
-          require_asset '*-arm64.dmg'
-          require_asset '*-x64.msix'
-          require_asset '*-arm64.msix'
+          require_asset '*-windows-x86_64-portable.zip'
+          require_asset '*-windows-arm64-portable.zip'
+          require_asset '*-windows-x86_64-installer.exe'
+          require_asset '*-windows-arm64-installer.exe'
+          require_asset '*-linux-x86_64.AppImage'
+          require_asset '*-linux-aarch64.AppImage'
+          require_asset '*-linux-amd64.deb'
+          require_asset '*-linux-arm64.deb'
+          require_asset '*-linux-x86_64.rpm'
+          require_asset '*-linux-aarch64.rpm'
+          require_asset '*-linux-x86_64.pkg.tar.zst'
+          require_asset '*-linux-aarch64.pkg.tar.zst'
+          require_asset '*-macos-intel.dmg'
+          require_asset '*-macos-arm64.dmg'
+          require_asset '*-windows-x86_64.msix'
+          require_asset '*-windows-arm64.msix'
 
-          target_short_sha="${TARGET_SHA:0:7}"
           while IFS= read -r asset; do
             filename="$(basename "$asset")"
             case "$filename" in
-              EasyKiConverter-${VERSION}-g${target_short_sha}[-_.]*) ;;
+              EasyKiConverter-${VERSION}-*) ;;
               *)
                 echo "Asset version or commit mismatch: $filename"
                 exit 1
                 ;;
             esac
-          done < <(find release_assets -maxdepth 1 -type f ! -name '*.sha256sum' -print)
+          done < <(find release_assets -maxdepth 1 -type f ! -name '*.sha256sum' ! -name 'SHA256SUMS' -print)
 
           while IFS= read -r checksum; do
             [[ -s "$checksum" ]] || { echo "Empty checksum file: $checksum"; exit 1; }
@@ -222,11 +221,22 @@ jobs:
           done < <(find release_assets -maxdepth 1 -type f -name '*.sha256sum' -print)
 
           checksum_count="$(find release_assets -maxdepth 1 -type f -name '*.sha256sum' | wc -l)"
-          asset_count="$(find release_assets -maxdepth 1 -type f \! -name '*.sha256sum' | wc -l)"
+          asset_count="$(find release_assets -maxdepth 1 -type f \! -name '*.sha256sum' \! -name 'SHA256SUMS' | wc -l)"
           [[ "$checksum_count" -eq "$asset_count" ]] || {
             echo "Every release asset must have exactly one .sha256sum file"
             exit 1
           }
+
+      - name: Generate aggregate SHA256 manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="release_assets/SHA256SUMS"
+          : > "$manifest"
+          while IFS= read -r asset; do
+            sha256sum "release_assets/$asset" >> "$manifest"
+          done < <(find release_assets -maxdepth 1 -type f ! -name '*.sha256sum' ! -name 'SHA256SUMS' -printf '%f\n' | sort)
+          test -s "$manifest"
 
       - name: Generate structured release notes
         env:
@@ -264,26 +274,30 @@ jobs:
             esac
 
             case "$platform:$filename" in
-              "Windows:"*-win64-arm64.zip) architecture="arm64"; format="便携版 ZIP"; format_order=2 ;;
-              "Windows:"*-win64.zip) architecture="amd64"; format="便携版 ZIP"; format_order=2 ;;
-              "Windows:"*-arm64-setup.exe) architecture="arm64"; format="安装程序 EXE"; format_order=1 ;;
-              "Windows:"*-x64-setup.exe) architecture="amd64"; format="安装程序 EXE"; format_order=1 ;;
-              "Windows:"*-arm64.msix) architecture="arm64"; format="MSIX"; format_order=3 ;;
-              "Windows:"*-x64.msix) architecture="amd64"; format="MSIX"; format_order=3 ;;
-              "Linux:"*aarch64.AppImage) architecture="arm64"; format="AppImage"; format_order=1 ;;
-              "Linux:"*x86_64.AppImage) architecture="amd64"; format="AppImage"; format_order=1 ;;
-              "Linux:"*_arm64.deb) architecture="arm64"; format="DEB"; format_order=2 ;;
-              "Linux:"*_amd64.deb) architecture="amd64"; format="DEB"; format_order=2 ;;
-              "Linux:"*_aarch64.rpm) architecture="arm64"; format="RPM"; format_order=3 ;;
-              "Linux:"*_x86_64.rpm) architecture="amd64"; format="RPM"; format_order=3 ;;
-              "Linux:"*_aarch64.pkg.tar.zst) architecture="arm64"; format="Arch Linux"; format_order=4 ;;
-              "Linux:"*_x86_64.pkg.tar.zst) architecture="amd64"; format="Arch Linux"; format_order=4 ;;
-              "macOS:"*-arm64.dmg) architecture="arm64"; format="DMG"; format_order=1 ;;
-              "macOS:"*-intel.dmg) architecture="intel"; format="DMG"; format_order=1 ;;
+              "Windows:"*-windows-arm64-portable.zip) architecture="arm64"; format="便携版 ZIP"; format_order=2 ;;
+              "Windows:"*-windows-x86_64-portable.zip) architecture="x86_64"; format="便携版 ZIP"; format_order=2 ;;
+              "Windows:"*-windows-arm64-installer.exe) architecture="arm64"; format="安装程序 EXE"; format_order=1 ;;
+              "Windows:"*-windows-x86_64-installer.exe) architecture="x86_64"; format="安装程序 EXE"; format_order=1 ;;
+              "Windows:"*-windows-arm64.msix) architecture="arm64"; format="MSIX"; format_order=3 ;;
+              "Windows:"*-windows-x86_64.msix) architecture="x86_64"; format="MSIX"; format_order=3 ;;
+              "Linux:"*-linux-aarch64.AppImage) architecture="arm64"; format="AppImage"; format_order=1 ;;
+              "Linux:"*-linux-x86_64.AppImage) architecture="amd64"; format="AppImage"; format_order=1 ;;
+              "Linux:"*-linux-arm64.deb) architecture="arm64"; format="DEB"; format_order=2 ;;
+              "Linux:"*-linux-amd64.deb) architecture="amd64"; format="DEB"; format_order=2 ;;
+              "Linux:"*-linux-aarch64.rpm) architecture="arm64"; format="RPM"; format_order=3 ;;
+              "Linux:"*-linux-x86_64.rpm) architecture="amd64"; format="RPM"; format_order=3 ;;
+              "Linux:"*-linux-aarch64.pkg.tar.zst) architecture="arm64"; format="Arch Linux"; format_order=4 ;;
+              "Linux:"*-linux-x86_64.pkg.tar.zst) architecture="amd64"; format="Arch Linux"; format_order=4 ;;
+              "macOS:"*-macos-arm64.dmg) architecture="arm64"; format="DMG"; format_order=1 ;;
+              "macOS:"*-macos-intel.dmg) architecture="intel"; format="DMG"; format_order=1 ;;
               *) return 0 ;;
             esac
 
             case "$architecture" in
+              x86_64)
+                architecture_order=1
+                architecture_display="x86_64"
+                ;;
               amd64)
                 architecture_order=1
                 architecture_display="amd64"
@@ -307,7 +321,7 @@ jobs:
           for platform in Windows Linux macOS; do
             while IFS= read -r asset; do
               filename="$(basename "$asset")"
-              [[ "$filename" == *.sha256sum ]] && continue
+              [[ "$filename" == *.sha256sum || "$filename" == SHA256SUMS ]] && continue
               release_row "$platform" "$filename"
             done < <(find release_assets -maxdepth 1 -type f -print | sort)
           done
@@ -323,7 +337,7 @@ jobs:
             echo "| --- | --- | --- | --- |"
             LC_ALL=C sort -t $'\t' -k1,1n -k2,2n -k3,3n -k4,4 "$download_rows" | cut -f4-
             echo
-            echo "> 下载表按 Windows、Linux、macOS 的系统顺序排列。Windows 架构统一标记为 amd64 或 arm64；amd64 适用于 Intel/AMD 64 位设备，arm64 适用于 Windows on Arm 设备。"
+            echo "> 下载表按 Windows、Linux、macOS 的系统顺序排列。Windows 文件名使用 x86_64 或 arm64；x86_64 适用于 Intel/AMD 64 位设备，arm64 适用于 Windows on Arm 设备。"
             echo
             echo "## 重要变化"
             echo
@@ -367,7 +381,7 @@ jobs:
             echo
             echo "## 校验和"
             echo
-            echo "请下载对应的 .sha256sum 文件验证制品完整性。"
+            echo "每个制品附带同名的 .sha256sum 文件；也可以下载 SHA256SUMS 统一校验清单验证本次发布的全部制品。"
             echo
             echo "## 已知问题"
             echo
