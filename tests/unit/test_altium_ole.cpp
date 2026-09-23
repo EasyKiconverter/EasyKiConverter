@@ -598,6 +598,53 @@ private slots:
     }
 
     /**
+     * @brief 验证缺少源编号坐标时编号文本跟随投影后的引脚主体端。
+     * @details 覆盖水平和垂直引脚，确保主体边界投影及连接点量化不会造成编号错位。
+     */
+    void fallbackPinNumbersFollowNormalizedPins() {
+        AltiumSchComponent component;
+        AltiumSchRectangle body;
+        body.locationX = -1000000;
+        body.locationY = -1000000;
+        body.cornerX = 1000000;
+        body.cornerY = 1000000;
+        component.rectangles.append(body);
+
+        AltiumSchPin horizontalPin;
+        horizontalPin.locationX = 4500000;
+        horizontalPin.locationY = 250000;
+        horizontalPin.length = 350000;
+        horizontalPin.orientation = AltiumModels::PinOrientation::Right;
+        component.pins.append(horizontalPin);
+        AltiumSchText horizontalNumber;
+        horizontalNumber.locationX = 4500000;
+        horizontalNumber.locationY = 250000;
+        horizontalNumber.isPinLabel = true;
+        horizontalNumber.isFallbackPinNumber = true;
+        horizontalNumber.sourcePinIndex = 0;
+        component.texts.append(horizontalNumber);
+
+        AltiumSchPin verticalPin;
+        verticalPin.locationX = -250000;
+        verticalPin.locationY = 4500000;
+        verticalPin.length = 350000;
+        verticalPin.orientation = AltiumModels::PinOrientation::Up;
+        component.pins.append(verticalPin);
+        AltiumSchText verticalNumber = horizontalNumber;
+        verticalNumber.locationX = -250000;
+        verticalNumber.locationY = 4500000;
+        verticalNumber.sourcePinIndex = 1;
+        component.texts.append(verticalNumber);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        QCOMPARE(component.texts.at(0).locationX, component.pins.at(0).locationX);
+        QCOMPARE(component.texts.at(0).locationY, component.pins.at(0).locationY);
+        QCOMPARE(component.texts.at(1).locationX, component.pins.at(1).locationX);
+        QCOMPARE(component.texts.at(1).locationY, component.pins.at(1).locationY);
+    }
+
+    /**
      * @brief 验证包含迷你流和常规流的 CFB 文件可被正确解析
      * @details 写入多种大小的流，验证红黑树平衡性，以及嵌套存储路径的读取
      */

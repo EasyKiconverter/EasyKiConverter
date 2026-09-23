@@ -91,15 +91,17 @@ QList<AltiumSchText> AltiumSymbolPinTextConverter::convert(const IR::SymbolPinIR
                 diagnostics,
                 QStringLiteral("符号 %1 引脚 %2 编号文本参数无效，已跳过").arg(symbolName).arg(pin.designator));
         } else {
-            texts.append(makePinText(pin.designator,
-                                     numberPosition,
-                                     pin.numberFontSizeMm,
-                                     0.0,
-                                     pin.numberAnchor,
-                                     symbolName,
-                                     QStringLiteral("引脚 %1 编号文本").arg(pin.designator),
-                                     pin,
-                                     diagnostics));
+            AltiumSchText numberText = makePinText(pin.designator,
+                                                   numberPosition,
+                                                   pin.numberFontSizeMm,
+                                                   0.0,
+                                                   pin.numberAnchor,
+                                                   symbolName,
+                                                   QStringLiteral("引脚 %1 编号文本").arg(pin.designator),
+                                                   pin,
+                                                   diagnostics);
+            numberText.isFallbackPinNumber = !pin.hasNumberPosition;
+            texts.append(numberText);
         }
     }
     return texts;

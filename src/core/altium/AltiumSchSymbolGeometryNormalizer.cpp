@@ -314,6 +314,15 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
         quantizePinConnectionGroups(component.pins);
     }
 
+    // 回退编号原先使用源引脚位置，必须在投影和连接点量化后同步到引脚主体端。
+    for (AltiumSchText& text : component.texts) {
+        if (!text.isFallbackPinNumber || text.sourcePinIndex < 0 || text.sourcePinIndex >= component.pins.size())
+            continue;
+        const AltiumSchPin& pin = component.pins.at(text.sourcePinIndex);
+        text.locationX = pin.locationX;
+        text.locationY = pin.locationY;
+    }
+
     // 汇总平移后的图形边界，文本和参数字段必须以此边界为基准布局。
     int graphicMinX = INT_MAX, graphicMinY = INT_MAX;
     int graphicMaxX = INT_MIN, graphicMaxY = INT_MIN;
