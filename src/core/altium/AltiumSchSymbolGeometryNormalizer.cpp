@@ -279,8 +279,6 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
     }
 
     // 将引脚主体端投影到矩形主体边界，保持连接方向与符号轮廓一致。
-    if (component.rectangles.isEmpty() && component.roundRectangles.isEmpty())
-        return;
     int bodyMinX = INT_MAX, bodyMinY = INT_MAX;
     int bodyMaxX = INT_MIN, bodyMaxY = INT_MIN;
     for (const auto& rect : component.rectangles) {
@@ -295,53 +293,123 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
         bodyMaxX = qMax(bodyMaxX, qMax(rect.locationX, rect.cornerX));
         bodyMaxY = qMax(bodyMaxY, qMax(rect.locationY, rect.cornerY));
     }
-    for (auto& pin : component.pins) {
-        // 将引脚主体端投影到对应的矩形边界，保持引脚方向和主体连接一致。
-        switch (pin.orientation) {
-            case AltiumModels::PinOrientation::Right:
-                pin.locationX = bodyMaxX;
-                break;
-            case AltiumModels::PinOrientation::Left:
-                pin.locationX = bodyMinX;
-                break;
-            case AltiumModels::PinOrientation::Up:
-                pin.locationY = bodyMaxY;
-                break;
-            case AltiumModels::PinOrientation::Down:
-                pin.locationY = bodyMinY;
-                break;
+    if (bodyMinX != INT_MAX) {
+        for (auto& pin : component.pins) {
+            // 将引脚主体端投影到对应的矩形边界，保持引脚方向和主体连接一致。
+            switch (pin.orientation) {
+                case AltiumModels::PinOrientation::Right:
+                    pin.locationX = bodyMaxX;
+                    break;
+                case AltiumModels::PinOrientation::Left:
+                    pin.locationX = bodyMinX;
+                    break;
+                case AltiumModels::PinOrientation::Up:
+                    pin.locationY = bodyMaxY;
+                    break;
+                case AltiumModels::PinOrientation::Down:
+                    pin.locationY = bodyMinY;
+                    break;
+            }
+        }
+        quantizePinConnectionGroups(component.pins);
+    }
+
+    // 汇总平移后的图形边界，文本和参数字段必须以此边界为基准布局。
+    int graphicMinX = INT_MAX, graphicMinY = INT_MAX;
+    int graphicMaxX = INT_MIN, graphicMaxY = INT_MIN;
+    const auto includeGraphic = [&](int x, int y) {
+        graphicMinX = qMin(graphicMinX, x);
+        graphicMinY = qMin(graphicMinY, y);
+        graphicMaxX = qMax(graphicMaxX, x);
+        graphicMaxY = qMax(graphicMaxY, y);
+    };
+    const auto includeGraphicPoint = [&includeGraphic](const QPointF& point) {
+        includeGraphic(static_cast<int>(std::lround(point.x() * 1000.0)),
+                       static_cast<int>(std::lround(point.y() * 1000.0)));
+    };
+    for (const auto& rect : component.rectangles) {
+        includeGraphic(qMin(rect.locationX, rect.cornerX), qMin(rect.locationY, rect.cornerY));
+        includeGraphic(qMax(rect.locationX, rect.cornerX), qMax(rect.locationY, rect.cornerY));
+    }
+    for (const auto& rect : component.roundRectangles) {
+        includeGraphic(qMin(rect.locationX, rect.cornerX), qMin(rect.locationY, rect.cornerY));
+        includeGraphic(qMax(rect.locationX, rect.cornerX), qMax(rect.locationY, rect.cornerY));
+    }
+    for (const auto& line : component.lines) {
+        includeGraphic(qMin(line.locationX, line.cornerX), qMin(line.locationY, line.cornerY));
+        includeGraphic(qMax(line.locationX, line.cornerX), qMax(line.locationY, line.cornerY));
+    }
+    for (const auto& arc : component.arcs) {
+        includeGraphic(arc.centerX - arc.radius, arc.centerY - arc.radius);
+        includeGraphic(arc.centerX + arc.radius, arc.centerY + arc.radius);
+    }
+    for (const auto& ellipse : component.ellipses) {
+        includeGraphic(ellipse.centerX - ellipse.radiusX, ellipse.centerY - ellipse.radiusY);
+        includeGraphic(ellipse.centerX + ellipse.radiusX, ellipse.centerY + ellipse.radiusY);
+    }
+    for (const auto& pie : component.pies) {
+        includeGraphic(pie.centerX - pie.radius, pie.centerY - pie.radius);
+        includeGraphic(pie.centerX + pie.radius, pie.centerY + pie.radius);
+    }
+    for (const auto& arc : component.ellipticalArcs) {
+        includeGraphic(arc.centerX - arc.radiusX, arc.centerY - arc.radiusY);
+        includeGraphic(arc.centerX + arc.radiusX, arc.centerY + arc.radiusY);
+    }
+    for (const auto& polygon : component.polygons)
+        for (const QPointF& point : polygon.vertices)
+            includeGraphicPoint(point);
+    for (const auto& polyline : component.polylines)
+        for (const QPointF& point : polyline.vertices)
+            includeGraphicPoint(point);
+    for (const auto& path : component.paths)
+        for (const QPointF& point : path.vertices)
+            includeGraphicPoint(point);
+    for (const auto& bezier : component.beziers)
+        for (const QPointF& point : bezier.controlPoints)
+            includeGraphicPoint(point);
+    for (const auto& ieee : component.ieeeSymbols)
+        includeGraphic(ieee.locationX, ieee.locationY);
+    for (const auto& image : component.images) {
+        includeGraphic(qMin(image.locationX, image.cornerX), qMin(image.locationY, image.cornerY));
+        includeGraphic(qMax(image.locationX, image.cornerX), qMax(image.locationY, image.cornerY));
+    }
+    if (graphicMinX == INT_MAX) {
+        // 没有独立图形时，以引脚范围作为最后的安全锚点，避免文本落在未定义位置。
+        for (const auto& pin : component.pins) {
+            includeGraphic(pin.locationX, pin.locationY);
+            const QPointF connection = computePinConnectionPoint(pin);
+            includeGraphic(static_cast<int>(connection.x()), static_cast<int>(connection.y()));
         }
     }
-    quantizePinConnectionGroups(component.pins);
 
-    // 重合的可见字段按 Altium 习惯在主体中心纵向排列，独立字段保持原始位置。
+    // 普通可见文本和可见参数统一居中放到图形下方；引脚标签仍由其引脚位置控制。
     QList<int> visibleTextIndices;
     for (int i = 0; i < component.texts.size(); ++i) {
-        if (!component.texts[i].isHidden)
+        if (!component.texts[i].isPinLabel && component.texts[i].isDisplayed && !component.texts[i].isHidden)
             visibleTextIndices.append(i);
     }
-    if (visibleTextIndices.size() <= 1)
-        return;
-    const auto& first = component.texts[visibleTextIndices.first()];
-    bool coincident = true;
-    for (int index : visibleTextIndices) {
-        const auto& text = component.texts[index];
-        if (qAbs(text.locationX - first.locationX) > 10000 || qAbs(text.locationY - first.locationY) > 10000) {
-            coincident = false;
-            break;
-        }
+    QList<int> visibleParameterIndices;
+    for (int i = 0; i < component.parameters.size(); ++i) {
+        if (!component.parameters[i].isHidden)
+            visibleParameterIndices.append(i);
     }
-    if (!coincident)
+    if (graphicMinX == INT_MAX || (visibleTextIndices.isEmpty() && visibleParameterIndices.isEmpty()))
         return;
-    const int centerX = (bodyMinX + bodyMaxX) / 2;
-    const int centerY = (bodyMinY + bodyMaxY) / 2;
-    constexpr int kFieldStart = -300000;
+    const int centerX = (graphicMinX + graphicMaxX) / 2;
+    constexpr int kFieldGap = 300000;
     constexpr int kFieldSpacing = 2000000;
+    int nextY = graphicMinY - kFieldGap;
     for (int order = 0; order < visibleTextIndices.size(); ++order) {
         auto& text = component.texts[visibleTextIndices[order]];
         text.locationX = centerX;
-        text.locationY = centerY + kFieldStart + order * kFieldSpacing;
+        text.locationY = nextY - order * kFieldSpacing;
         text.orientation = 0;
+    }
+    for (int order = 0; order < visibleParameterIndices.size(); ++order) {
+        auto& parameter = component.parameters[visibleParameterIndices[order]];
+        parameter.locationX = centerX;
+        parameter.locationY = nextY - (visibleTextIndices.size() + order) * kFieldSpacing;
+        parameter.orientation = 0;
     }
 }
 
