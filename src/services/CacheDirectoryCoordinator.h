@@ -22,7 +22,7 @@ public:
      * @param cacheDir 新缓存根目录
      * @param migrateExistingCache 是否迁移旧目录内容
      */
-    void setDirectory(const QString& cacheDir, bool migrateExistingCache);
+    bool setDirectory(const QString& cacheDir, bool migrateExistingCache);
 
 private:
     /** @brief 保存缓存服务引用，不负责其生命周期。 */

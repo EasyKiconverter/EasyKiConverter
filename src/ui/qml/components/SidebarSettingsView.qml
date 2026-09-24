@@ -75,6 +75,8 @@ Item {
                                         return ".SchLib";
                                     if (targetId === "xpedition")
                                         return "_Symbols.zip / _Footprints.zip";
+                                    if (targetId === "allegro")
+                                        return "Footprint Import Package";
                                     return "";
                                 }
                                 font.pixelSize: 9
@@ -131,7 +133,7 @@ Item {
                 label: qsTranslate("MainWindow", "缓存目录")
                 text: root.exportSettingsController ? root.exportSettingsController.cacheDir : ""
                 placeholder: qsTranslate("MainWindow", "选择目录...")
-                onTextEdited: txt => {
+                onEditingFinished: txt => {
                     if (root.exportSettingsController)
                         root.exportSettingsController.setCacheDir(txt);
                 }
@@ -145,6 +147,7 @@ Item {
             title: qsTranslate("MainWindow", "导出内容")
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "符号库")
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 8)
                 checked: root.exportSettingsController ? root.exportSettingsController.exportSymbol : false
                 onToggled: val => {
                     if (root.exportSettingsController)
@@ -154,11 +157,22 @@ Item {
 
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "封装库")
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 8)
                 checked: root.exportSettingsController ? root.exportSettingsController.exportFootprint : false
                 onToggled: val => {
                     if (root.exportSettingsController)
                         root.exportSettingsController.setExportFootprint(val);
                 }
+            }
+
+            Text {
+                visible: root.exportTargetModel && root.exportTargetModel.currentIndex === 8
+                Layout.fillWidth: true
+                Layout.leftMargin: AppStyle.spacing.lg
+                text: qsTranslate("MainWindow", "OrCAD Capture XML 只保存符号和封装名称关联，PCB 封装几何需要单独导出")
+                color: AppStyle.colors.textSecondary
+                font.pixelSize: AppStyle.fontSizes.xs
+                wrapMode: Text.WordWrap
             }
 
             // 3D 模型 - 扁平化子选项布局
@@ -168,23 +182,12 @@ Item {
                 SidebarToggleRow {
                     id: model3dToggle
                     label: qsTranslate("MainWindow", "3D 模型")
-                    property bool isXpeditionTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 2
+                    property bool isAllegroTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 3
                     checked: root.exportSettingsController ? root.exportSettingsController.exportModel3D : false
-                    enabled: !isXpeditionTarget
                     onToggled: val => {
                         if (root.exportSettingsController)
                             root.exportSettingsController.setExportModel3D(val);
                     }
-                }
-
-                Text {
-                    visible: model3dToggle.isXpeditionTarget
-                    Layout.fillWidth: true
-                    Layout.leftMargin: AppStyle.spacing.lg
-                    text: qsTranslate("MainWindow", "Xpedition 当前不支持 3D 模型关联")
-                    color: AppStyle.colors.textSecondary
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    wrapMode: Text.WordWrap
                 }
 
                 // 子选项区域（高度动画 + clip）
@@ -600,7 +603,43 @@ Item {
                     id: xpeditionInfoText
                     anchors.fill: parent
                     anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前不关联 3D 模型\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
+                    text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
+                    font.pixelSize: AppStyle.fontSizes.xs
+                    color: AppStyle.colors.textSecondary
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.4
+                }
+            }
+        }
+
+        // ==================== Allegro 导出说明（符号、封装和三维语义包） ====================
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+            clip: true
+            Behavior on Layout.preferredHeight {
+                NumberAnimation {
+                    duration: 400
+                    easing.type: Easing.OutQuart
+                }
+            }
+
+            Rectangle {
+                id: allegroInfoBox
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                implicitHeight: allegroInfoText.implicitHeight + AppStyle.spacing.md * 2
+                radius: AppStyle.radius.sm
+                color: AppStyle.colors.surface
+                border.color: AppStyle.colors.border
+                border.width: 1
+                opacity: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? 1 : 0
+                Text {
+                    id: allegroInfoText
+                    anchors.fill: parent
+                    anchors.margins: AppStyle.spacing.md
+                    text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- Import Package 包含规范化 Symbol、Footprint、Pin-Pad 关联和 STEP 数据\n" + "- 不生成原生 Allegro Symbol、OLB、.dra/.psm/.pad\n" + "- 需要在 Cadence Allegro 环境中继续生成目标库\n" + "- 不支持更新和重试模式\n" + "- Place Bound 缺失时会在诊断中说明回退策略")
                     font.pixelSize: AppStyle.fontSizes.xs
                     color: AppStyle.colors.textSecondary
                     wrapMode: Text.WordWrap

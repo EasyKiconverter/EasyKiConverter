@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CacheSafety.h"
+
 #include <QJsonObject>
 #include <QString>
 
@@ -19,7 +21,8 @@ class ComponentCacheService;
  */
 class CacheHealthManager {
 public:
-    explicit CacheHealthManager(const QString& cacheRoot);
+    explicit CacheHealthManager(const QString& cacheRoot,
+                                const CacheSafety::TrashFunction& trash = CacheSafety::TrashFunction());
     ~CacheHealthManager() = default;
 
     /**
@@ -77,6 +80,7 @@ private:
     QString previewImagePath(const QString& lcscId, int index) const;
 
     QString m_cacheRoot;
+    CacheSafety::TrashFunction m_trash;
 };
 
 }  // namespace EasyKiConverter

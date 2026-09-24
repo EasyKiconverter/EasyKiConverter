@@ -1,3 +1,4 @@
+#include "core/ExporterFactory.h"
 #include "models/ComponentData.h"
 #include "services/ComponentCacheService.h"
 #include "services/export/ExportTypeStage.h"
@@ -11,6 +12,8 @@
 #include <QDir>
 #include <QFile>
 #include <QImage>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QSet>
 #include <QSignalSpy>
 #include <QTemporaryDir>
@@ -106,6 +109,15 @@ class TestExportTypeStage : public QObject {
 
 private slots:
 
+    /** @brief 验证所有已注册目标格式都能创建独立三维模型导出器。 */
+    void model3DExporterIsAvailableForAllTargets();
+
+    /** @brief 验证目标格式的符号、封装和三维导出入口与实际能力边界一致。 */
+    void exporterFactoryMatchesLibraryArtifactCapabilities();
+
+    /** @brief 验证组合库目标也能通过通用工厂创建符号导出器。 */
+    void combinedLibrarySymbolExportersAreAvailable();
+
     /** @brief 验证预览图缓存缺少前置索引时仍会导出后续图片。 */
     void previewImageExportLoadsNonContiguousCacheEntries() {
         QTemporaryDir outputDir;
@@ -117,6 +129,11 @@ private slots:
         const QString previousCacheDir = cache->cacheDir();
         cache->setCacheDir(cacheDir.path());
         cache->clearAllCache();
+
+        ComponentData metadata;
+        metadata.setLcscId(QStringLiteral("C45001"));
+        metadata.setName(QStringLiteral("Non-contiguous preview fixture"));
+        cache->saveComponentMetadata(QStringLiteral("C45001"), metadata);
 
         QImage image(2, 2, QImage::Format_RGB32);
         image.fill(Qt::green);
@@ -712,6 +729,237 @@ private slots:
         QVERIFY(!QDir(tempDir.path() + QDir::separator() + QStringLiteral(".tmp")).exists());
     }
 
+    // 验证 PADS 符号图形和 Part Type 关联文件随同一导出事务提交。
+    void padsSymbolLibraryCommitsCompanionPartType() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        SymbolExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("PadsSymbols");
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PADS_SYMBOL")] =
+            makeSymbolComponent(QStringLiteral("C_PADS_SYMBOL"), QStringLiteral("PADS_SYMBOL"));
+
+        QSignalSpy completedSpy(&stage, &SymbolExportStage::completed);
+        stage.start({QStringLiteral("C_PADS_SYMBOL")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "PADS symbol export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile schematicFile(tempDir.path() + QDir::separator() + QStringLiteral("PadsSymbols_PADS.c"));
+        QVERIFY(schematicFile.exists());
+        QFile partTypeFile(tempDir.path() + QDir::separator() + QStringLiteral("PadsSymbols_PADS.p"));
+        QVERIFY(partTypeFile.exists());
+        QVERIFY(partTypeFile.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString partTypeContent = QString::fromUtf8(partTypeFile.readAll());
+        QVERIFY(partTypeContent.contains(QStringLiteral("PADS_SYMBOL PKG_C_PADS_SYMBOL")));
+    }
+
+    // 验证首次创建 PADS 符号库时不会把“不覆盖”误判为追加模式。
+    void padsSymbolLibraryCreatesNewFileWithNoOverwrite() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        SymbolExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("PadsFirstExport");
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PADS_FIRST")] =
+            makeSymbolComponent(QStringLiteral("C_PADS_FIRST"), QStringLiteral("PADS_FIRST_SYMBOL"));
+
+        QSignalSpy completedSpy(&stage, &SymbolExportStage::completed);
+        stage.start({QStringLiteral("C_PADS_FIRST")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "PADS first symbol export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QVERIFY(QFileInfo::exists(tempDir.filePath(QStringLiteral("PadsFirstExport_PADS.c"))));
+        QVERIFY(QFileInfo::exists(tempDir.filePath(QStringLiteral("PadsFirstExport_PADS.p"))));
+    }
+
+    // 验证主符号文件缺失但伴随 Part Type 文件存在时不会覆盖旧文件。
+    void padsSymbolLibraryRejectsOrphanCompanionWithoutOverwrite() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString companionPath = tempDir.filePath(QStringLiteral("PadsOrphan_PADS.p"));
+        QFile existing(companionPath);
+        QVERIFY(existing.open(QIODevice::WriteOnly));
+        existing.write("keep-orphan-part-type");
+        existing.close();
+
+        SymbolExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("PadsOrphan");
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PADS_ORPHAN")] =
+            makeSymbolComponent(QStringLiteral("C_PADS_ORPHAN"), QStringLiteral("PADS_ORPHAN_SYMBOL"));
+
+        QSignalSpy completedSpy(&stage, &SymbolExportStage::completed);
+        stage.start({QStringLiteral("C_PADS_ORPHAN")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "PADS orphan companion policy should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+
+        QVERIFY(existing.open(QIODevice::ReadOnly));
+        QCOMPARE(existing.readAll(), QByteArray("keep-orphan-part-type"));
+    }
+
+    // 验证 Eagle 组合库阶段同时提交 Symbol、Package、DeviceSet 和引脚焊盘关联。
+    void eagleCombinedLibraryStageWritesAllLibrarySections() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("EagleCombined");
+        options.targetFormat = TargetEdaFormat::Eagle;
+        options.exportSymbol = true;
+        options.exportFootprint = true;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_EAGLE_COMBINED")] =
+            makeCombinedLibraryComponent(QStringLiteral("C_EAGLE_COMBINED"), QStringLiteral("EAGLE_PACKAGE"));
+
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_EAGLE_COMBINED")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "Eagle combined library export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile output(tempDir.filePath(QStringLiteral("EagleCombined.lbr")));
+        QVERIFY(output.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString content = QString::fromUtf8(output.readAll());
+        QVERIFY(content.contains(QStringLiteral("<symbols>")));
+        QVERIFY(content.contains(QStringLiteral("<packages>")));
+        QVERIFY(content.contains(QStringLiteral("<devicesets>")));
+        QVERIFY(content.contains(QStringLiteral("package=\"EAGLE_PACKAGE\"")));
+        QVERIFY(content.contains(QStringLiteral("pin=\"PIN1\"")));
+        QVERIFY(content.contains(QStringLiteral("pad=\"1\"")));
+    }
+
+    // 验证 Eagle 仅符号输出不要求封装缓存，也不生成虚假的器件关联。
+    void eagleSymbolOnlyLibraryStageWritesSymbols() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("EagleSymbolsOnly");
+        options.targetFormat = TargetEdaFormat::Eagle;
+        options.exportSymbol = true;
+        options.exportFootprint = false;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_EAGLE_SYMBOL")] =
+            makeSymbolComponent(QStringLiteral("C_EAGLE_SYMBOL"), QStringLiteral("EAGLE_SYMBOL"));
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_EAGLE_SYMBOL")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "Eagle symbol-only export should complete");
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile output(tempDir.filePath(QStringLiteral("EagleSymbolsOnly.lbr")));
+        QVERIFY(output.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString content = QString::fromUtf8(output.readAll());
+        QVERIFY(content.contains(QStringLiteral("<symbols>")));
+        QVERIFY(content.contains(QStringLiteral("name=\"EAGLE_SYMBOL\"")));
+        QVERIFY(!content.contains(QStringLiteral("<packages>")));
+        QVERIFY(!content.contains(QStringLiteral("<devicesets>")));
+    }
+
+    // 验证 CADSTAR 组合库阶段同时提交 Component、Package、Pad 和 Part 关联。
+    void cadstarCombinedLibraryStageWritesAllLibrarySections() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("CadstarCombined");
+        options.targetFormat = TargetEdaFormat::Cadstar;
+        options.exportSymbol = true;
+        options.exportFootprint = true;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_CADSTAR_COMBINED")] =
+            makeCombinedLibraryComponent(QStringLiteral("C_CADSTAR_COMBINED"), QStringLiteral("CADSTAR_PACKAGE"));
+
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_CADSTAR_COMBINED")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "CADSTAR combined library export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile output(tempDir.filePath(QStringLiteral("CadstarCombined.lib")));
+        QVERIFY(output.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString content = QString::fromUtf8(output.readAll());
+        QVERIFY(content.contains(QStringLiteral("COMPONENT \"CADSTAR_SYMBOL\"")));
+        QVERIFY(content.contains(QStringLiteral("PACKAGE \"CADSTAR_PACKAGE\"")));
+        QVERIFY(content.contains(QStringLiteral("PAD \"CADSTAR_PACKAGE_PAD_1\"")));
+        QVERIFY(content.contains(QStringLiteral("PART \"C_CADSTAR_COMBINED\"")));
+    }
+
+    // 验证 CADSTAR 仅符号输出不要求封装缓存，也不生成虚假的 Part 关联。
+    void cadstarSymbolOnlyLibraryStageWritesSymbols() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("CadstarSymbolsOnly");
+        options.targetFormat = TargetEdaFormat::Cadstar;
+        options.exportSymbol = true;
+        options.exportFootprint = false;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_CADSTAR_SYMBOL")] =
+            makeSymbolComponent(QStringLiteral("C_CADSTAR_SYMBOL"), QStringLiteral("CADSTAR_SYMBOL_ONLY"));
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_CADSTAR_SYMBOL")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "CADSTAR symbol-only export should complete");
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        QFile output(tempDir.filePath(QStringLiteral("CadstarSymbolsOnly.lib")));
+        QVERIFY(output.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QByteArray content = output.readAll();
+        QVERIFY(content.contains("COMPONENT \"CADSTAR_SYMBOL_ONLY\""));
+        QVERIFY(!content.contains("PACKAGE "));
+        QVERIFY(!content.contains("PART "));
+    }
+
     // 验证 Xpedition 符号库不会在禁止覆盖时改写已有 ZIP。
     void xpeditionSymbolRejectsNoOverwriteAndUpdateModes() {
         QTemporaryDir tempDir;
@@ -786,6 +1034,130 @@ private slots:
         QFile unchanged(finalPath);
         QVERIFY(unchanged.open(QIODevice::ReadOnly));
         QCOMPARE(unchanged.readAll(), QByteArray("original-xpedition-footprint"));
+    }
+
+    // 验证 PADS Decal 目录已有且禁止覆盖时不会被临时导出替换。
+    void padsFootprintRejectsExistingDirectoryWithoutOverwrite() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString finalPath = tempDir.path() + QDir::separator() + QStringLiteral("Existing_PADS");
+        QVERIFY(QDir().mkpath(finalPath));
+        QFile marker(finalPath + QDir::separator() + QStringLiteral("keep.txt"));
+        QVERIFY(marker.open(QIODevice::WriteOnly));
+        marker.write("keep");
+        marker.close();
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("Existing");
+        options.targetFormat = TargetEdaFormat::Pads;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PADS")] =
+            makeFootprintComponent(QStringLiteral("C_PADS"), QStringLiteral("PADS_FOOTPRINT"));
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_PADS")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "PADS overwrite policy should complete");
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+        QVERIFY(stage.getProgress().diagnostics.join(QStringLiteral("\n")).contains(QStringLiteral("PADS")));
+        QFile unchanged(marker.fileName());
+        QVERIFY(unchanged.open(QIODevice::ReadOnly));
+        QCOMPARE(unchanged.readAll(), QByteArray("keep"));
+    }
+
+    // 验证 P-CAD ASCII 单文件已有且禁止覆盖时不会替换原文件。
+    void pcadFootprintRejectsExistingFileWithoutOverwrite() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString finalPath = tempDir.path() + QDir::separator() + QStringLiteral("Existing.lia");
+        QFile existing(finalPath);
+        QVERIFY(existing.open(QIODevice::WriteOnly));
+        existing.write("keep-pcad");
+        existing.close();
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("Existing");
+        options.targetFormat = TargetEdaFormat::Pcad;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[QStringLiteral("C_PCAD")] =
+            makeFootprintComponent(QStringLiteral("C_PCAD"), QStringLiteral("PCAD_FOOTPRINT"));
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({QStringLiteral("C_PCAD")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "P-CAD overwrite policy should complete");
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+        QVERIFY(stage.getProgress().diagnostics.join(QStringLiteral("\n")).contains(QStringLiteral("P-CAD")));
+
+        QFile unchanged(finalPath);
+        QVERIFY(unchanged.open(QIODevice::ReadOnly));
+        QCOMPARE(unchanged.readAll(), QByteArray("keep-pcad"));
+    }
+
+    // 验证 P-CAD 的符号库和封装库由不同阶段生成，并保留符号到封装的关联。
+    void pcadLibraryStagesWriteSymbolAndFootprintArtifacts() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString componentId = QStringLiteral("C_PCAD_STAGE");
+        const QString footprintName = QStringLiteral("PCAD_STAGE_FOOTPRINT");
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(componentId, makeCombinedLibraryComponent(componentId, footprintName));
+
+        SymbolExportStage symbolStage;
+        ExportOptions symbolOptions;
+        symbolOptions.outputPath = tempDir.path();
+        symbolOptions.libName = QStringLiteral("PcadStage");
+        symbolOptions.targetFormat = TargetEdaFormat::Pcad;
+        symbolOptions.overwriteExistingFiles = true;
+        symbolStage.setOptions(symbolOptions);
+
+        QSignalSpy symbolCompleted(&symbolStage, &SymbolExportStage::completed);
+        symbolStage.start({componentId}, cachedData);
+        if (symbolCompleted.count() == 0)
+            QVERIFY2(symbolCompleted.wait(3000), "P-CAD symbol export should complete");
+        QCOMPARE(symbolCompleted.count(), 1);
+        QCOMPARE(symbolCompleted.at(0).at(0).toInt(), 1);
+        QCOMPARE(symbolCompleted.at(0).at(1).toInt(), 0);
+
+        QFile symbolFile(tempDir.filePath(QStringLiteral("PcadStage_PCAD_SCH.lia")));
+        QVERIFY(symbolFile.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString symbolContent = QString::fromUtf8(symbolFile.readAll());
+        QVERIFY(symbolContent.startsWith(QStringLiteral("(ACCEL_ASCII")));
+        QVERIFY(symbolContent.contains(QStringLiteral("(compDef \"CADSTAR_SYMBOL\"")));
+        QVERIFY(symbolContent.contains(
+            QStringLiteral("(attachedPattern (patternNum 1) (patternName \"PCAD_STAGE_FOOTPRINT\"))")));
+
+        FootprintExportStage footprintStage;
+        ExportOptions footprintOptions;
+        footprintOptions.outputPath = tempDir.path();
+        footprintOptions.libName = QStringLiteral("PcadStage");
+        footprintOptions.targetFormat = TargetEdaFormat::Pcad;
+        footprintOptions.overwriteExistingFiles = true;
+        footprintStage.setOptions(footprintOptions);
+
+        QSignalSpy footprintCompleted(&footprintStage, &FootprintExportStage::completed);
+        footprintStage.start({componentId}, cachedData);
+        if (footprintCompleted.count() == 0)
+            QVERIFY2(footprintCompleted.wait(3000), "P-CAD footprint export should complete");
+        QCOMPARE(footprintCompleted.count(), 1);
+        QCOMPARE(footprintCompleted.at(0).at(0).toInt(), 1);
+        QCOMPARE(footprintCompleted.at(0).at(1).toInt(), 0);
+
+        QFile footprintFile(tempDir.filePath(QStringLiteral("PcadStage.lia")));
+        QVERIFY(footprintFile.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QString footprintContent = QString::fromUtf8(footprintFile.readAll());
+        QVERIFY(footprintContent.startsWith(QStringLiteral("(ACCEL_ASCII")));
+        QVERIFY(footprintContent.contains(QStringLiteral("(patternDef \"PCAD_STAGE_FOOTPRINT\"")));
+        QVERIFY(footprintContent.contains(QStringLiteral("(padNum \"1\")")));
     }
 
     // 验证符号输入诊断会随导出进度暴露给调用方。
@@ -1053,6 +1425,202 @@ private slots:
         QVERIFY(QFile::exists(tempDir.filePath(QStringLiteral("FootprintModels.3dmodels/C_FOOTPRINT_MODEL.wrl"))));
     }
 
+    // 验证阶段级 BOTH 模式会同时提交 WRL 和 STEP 两种三维模型文件。
+    void model3DStageExportsWrlAndStepTogether() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        Model3DExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("BothModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_BOTH;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        auto component = QSharedPointer<ComponentData>::create();
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("both-model-uuid"));
+        model->setName(QStringLiteral("Both Model"));
+        model->setTranslation({1.0, 2.0, 3.0});
+        model->setRotation({10.0, 20.0, 30.0});
+        model->setStepOffsetMm({0.1, 0.2, 0.3});
+        model->setStep(QByteArrayLiteral("ISO-10303-21;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        auto symbol = QSharedPointer<SymbolData>::create();
+        SymbolInfo symbolInfo;
+        symbolInfo.name = QStringLiteral("BOTH_SYMBOL");
+        symbol->setInfo(symbolInfo);
+        component->setSymbolData(symbol);
+        auto footprint = QSharedPointer<FootprintData>::create();
+        FootprintInfo footprintInfo;
+        footprintInfo.name = QStringLiteral("BOTH_FOOTPRINT");
+        footprint->setInfo(footprintInfo);
+        component->setFootprintData(footprint);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_BOTH_MODELS"), component);
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_BOTH_MODELS")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "Combined 3D model export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(2).toInt(), 0);
+        const QString outputBase = QStringLiteral("BothModels.3dmodels/Both Model");
+        QVERIFY(QFile::exists(tempDir.filePath(outputBase + QStringLiteral(".wrl"))));
+        QVERIFY(QFile::exists(tempDir.filePath(outputBase + QStringLiteral(".step"))));
+
+        QFile manifest(tempDir.filePath(QStringLiteral("BothModels.3dmodels/manifest.json")));
+        QVERIFY(manifest.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QJsonObject manifestObject = QJsonDocument::fromJson(manifest.readAll()).object();
+        QCOMPARE(manifestObject.value(QStringLiteral("format")).toString(),
+                 QStringLiteral("EasyKiConverter.3d-model-manifest"));
+        const QJsonObject componentObject =
+            manifestObject.value(QStringLiteral("components")).toArray().first().toObject();
+        QCOMPARE(componentObject.value(QStringLiteral("componentId")).toString(), QStringLiteral("C_BOTH_MODELS"));
+        QCOMPARE(componentObject.value(QStringLiteral("symbol")).toString(), QStringLiteral("BOTH_SYMBOL"));
+        QCOMPARE(componentObject.value(QStringLiteral("footprint")).toString(), QStringLiteral("BOTH_FOOTPRINT"));
+        QCOMPARE(componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("wrl")).toString(),
+                 QStringLiteral("Both Model.wrl"));
+        QCOMPARE(componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("step")).toString(),
+                 QStringLiteral("Both Model.step"));
+        const QJsonObject modelObject = componentObject.value(QStringLiteral("model")).toObject();
+        QCOMPARE(modelObject.value(QStringLiteral("uuid")).toString(), QStringLiteral("both-model-uuid"));
+        QCOMPARE(modelObject.value(QStringLiteral("translationMm")).toObject().value(QStringLiteral("x")).toDouble(),
+                 0.254);
+        QCOMPARE(modelObject.value(QStringLiteral("rotationDeg")).toObject().value(QStringLiteral("z")).toDouble(),
+                 30.0);
+        QCOMPARE(modelObject.value(QStringLiteral("stepOffsetMm")).toObject().value(QStringLiteral("y")).toDouble(),
+                 0.2);
+    }
+
+    // 验证相同模型名称会被稳定去重，避免独立三维模型文件互相覆盖。
+    void duplicateModelNamesProduceDistinctFiles() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        Model3DExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("DuplicateModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        for (const QString& componentId : {QStringLiteral("C_MODEL_A"), QStringLiteral("C_MODEL_B")}) {
+            auto component = QSharedPointer<ComponentData>::create();
+            auto model = QSharedPointer<Model3DData>::create();
+            model->setUuid(componentId + QStringLiteral("-uuid"));
+            model->setName(QStringLiteral("Shared Model"));
+            component->setModel3DData(model);
+            component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+            cachedData.insert(componentId, component);
+        }
+
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_MODEL_A"), QStringLiteral("C_MODEL_B")}, cachedData);
+        QVERIFY2(completedSpy.wait(3000), "Duplicate model name export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 2);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QVERIFY(QFile::exists(tempDir.filePath(QStringLiteral("DuplicateModels.3dmodels/Shared Model.wrl"))));
+        QVERIFY(QFile::exists(tempDir.filePath(QStringLiteral("DuplicateModels.3dmodels/Shared Model_2.wrl"))));
+    }
+
+    // 验证禁止覆盖时不会改写已有三维模型文件。
+    void model3DNoOverwritePreservesExistingFile() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString outputDir = tempDir.filePath(QStringLiteral("NoOverwriteModels.3dmodels"));
+        QVERIFY(QDir().mkpath(outputDir));
+        const QString existingPath = QDir(outputDir).filePath(QStringLiteral("Existing Model.wrl"));
+        QFile existing(existingPath);
+        QVERIFY(existing.open(QIODevice::WriteOnly));
+        const QByteArray originalData = QByteArrayLiteral("original model\n");
+        QVERIFY(existing.write(originalData) == originalData.size());
+        existing.close();
+
+        Model3DExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("NoOverwriteModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        auto component = QSharedPointer<ComponentData>::create();
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("no-overwrite-model"));
+        model->setName(QStringLiteral("Existing Model"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_NO_OVERWRITE"), component);
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_NO_OVERWRITE")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "No-overwrite model export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(2).toInt(), 1);
+
+        QFile result(existingPath);
+        QVERIFY(result.open(QIODevice::ReadOnly));
+        QCOMPARE(result.readAll(), originalData);
+    }
+
+    // 验证已有三维关联清单时，禁止覆盖会阻止模型文件与清单被拆开更新。
+    void model3DNoOverwriteRejectsStaleManifestUpdate() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString outputDir = tempDir.filePath(QStringLiteral("ManifestConflict.3dmodels"));
+        QVERIFY(QDir().mkpath(outputDir));
+        const QString manifestPath = QDir(outputDir).filePath(QStringLiteral("manifest.json"));
+        QFile manifest(manifestPath);
+        QVERIFY(manifest.open(QIODevice::WriteOnly | QIODevice::Text));
+        const QByteArray originalManifest = QByteArrayLiteral("{\"version\":0}\n");
+        QVERIFY(manifest.write(originalManifest) == originalManifest.size());
+        manifest.close();
+
+        Model3DExportStage stage;
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("ManifestConflict");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        options.overwriteExistingFiles = false;
+        stage.setOptions(options);
+
+        auto component = QSharedPointer<ComponentData>::create();
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("manifest-conflict-model"));
+        model->setName(QStringLiteral("New Model"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_MANIFEST_CONFLICT"), component);
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_MANIFEST_CONFLICT")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "Manifest conflict should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(2).toInt(), 0);
+        QVERIFY(!QFile::exists(QDir(outputDir).filePath(QStringLiteral("New Model.wrl"))));
+
+        QFile result(manifestPath);
+        QVERIFY(result.open(QIODevice::ReadOnly | QIODevice::Text));
+        QCOMPARE(result.readAll(), originalManifest);
+    }
+
     // 验证运行中的阶段会拒绝重复启动请求。
     void duplicateStartWhileRunningIsIgnored() {
         DeferredStage stage;
@@ -1207,7 +1775,93 @@ private:
         componentData->setFootprintData(footprintData);
         return componentData;
     }
+
+    // 构造同时具备符号和封装的最小组件，供组合库阶段测试使用。
+    static QSharedPointer<ComponentData> makeCombinedLibraryComponent(const QString& componentId,
+                                                                      const QString& footprintName) {
+        auto componentData = makeSymbolComponent(componentId, QStringLiteral("CADSTAR_SYMBOL"));
+        componentData->setName(componentId);
+        componentData->setPackage(footprintName);
+        auto symbolData = componentData->symbolData();
+        SymbolInfo symbolInfo = symbolData->info();
+        symbolInfo.package = footprintName;
+        symbolData->setInfo(symbolInfo);
+        SymbolPin symbolPin;
+        symbolPin.settings.spicePinNumber = QStringLiteral("1");
+        symbolPin.settings.posX = 0.0;
+        symbolPin.settings.posY = 0.0;
+        symbolPin.name.text = QStringLiteral("PIN1");
+        symbolPin.name.isDisplayed = true;
+        symbolData->addPin(symbolPin);
+        auto footprintData = QSharedPointer<FootprintData>::create();
+        FootprintInfo info;
+        info.name = footprintName;
+        info.type = QStringLiteral("smd");
+        footprintData->setInfo(info);
+        FootprintBBox bbox;
+        bbox.x = 0;
+        bbox.y = 0;
+        bbox.width = 1;
+        bbox.height = 1;
+        footprintData->setBbox(bbox);
+        FootprintPad pad{};
+        pad.shape = QStringLiteral("RECT");
+        pad.centerX = 0.0;
+        pad.centerY = 0.0;
+        pad.width = 1.0;
+        pad.height = 1.0;
+        pad.layerId = 1;
+        pad.number = QStringLiteral("1");
+        pad.isPlated = true;
+        footprintData->addPad(pad);
+        componentData->setFootprintData(footprintData);
+        return componentData;
+    }
 };
+
+/** 验证所有已注册目标格式都能创建独立三维模型导出器。 */
+void TestExportTypeStage::model3DExporterIsAvailableForAllTargets() {
+    const QList<TargetEdaFormat> formats = {TargetEdaFormat::KiCad,
+                                            TargetEdaFormat::Altium,
+                                            TargetEdaFormat::Xpedition,
+                                            TargetEdaFormat::Allegro,
+                                            TargetEdaFormat::Pads,
+                                            TargetEdaFormat::Eagle,
+                                            TargetEdaFormat::Pcad,
+                                            TargetEdaFormat::Cadstar,
+                                            TargetEdaFormat::Orcad};
+    for (const TargetEdaFormat format : formats)
+        QVERIFY2(ExporterFactory::createModel3DExporter(format) != nullptr, "目标格式缺少独立三维导出器");
+}
+
+/** 验证各目标格式的符号、封装和三维导出入口与其实际能力边界一致。 */
+void TestExportTypeStage::exporterFactoryMatchesLibraryArtifactCapabilities() {
+    const QList<TargetEdaFormat> libraryTargets = {TargetEdaFormat::KiCad,
+                                                   TargetEdaFormat::Altium,
+                                                   TargetEdaFormat::Xpedition,
+                                                   TargetEdaFormat::Allegro,
+                                                   TargetEdaFormat::Pads,
+                                                   TargetEdaFormat::Eagle,
+                                                   TargetEdaFormat::Pcad,
+                                                   TargetEdaFormat::Cadstar};
+    for (const TargetEdaFormat format : libraryTargets) {
+        QVERIFY2(ExporterFactory::createSymbolExporter(format) != nullptr, "目标格式缺少符号导出入口");
+        QVERIFY2(ExporterFactory::createFootprintExporter(format) != nullptr, "目标格式缺少封装导出入口");
+        QVERIFY2(ExporterFactory::createModel3DExporter(format) != nullptr, "目标格式缺少三维导出入口");
+    }
+
+    // OrCAD Capture 当前输出 XML 符号库和封装名称关联，不提供 Capture PCB 封装 writer。
+    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Orcad) != nullptr);
+    QVERIFY(ExporterFactory::createFootprintExporter(TargetEdaFormat::Orcad) == nullptr);
+    QVERIFY(ExporterFactory::createModel3DExporter(TargetEdaFormat::Orcad) != nullptr);
+}
+
+/** 验证 Eagle 和 CADSTAR 组合库能够通过通用工厂创建符号导出器。 */
+void TestExportTypeStage::combinedLibrarySymbolExportersAreAvailable() {
+    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Eagle) != nullptr);
+    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Cadstar) != nullptr);
+    QVERIFY(ExporterFactory::createSymbolExporter(TargetEdaFormat::Allegro) != nullptr);
+}
 
 }  // namespace EasyKiConverter
 

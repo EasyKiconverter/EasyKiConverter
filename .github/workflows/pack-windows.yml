@@ -47,7 +47,7 @@ jobs:
             qt_arch: 'win64_msvc2022_64'
             setup_cmake: true
             package_arch: 'x64'
-            pak_arch: 'win64'
+            file_arch: 'x86_64'
           - runner: 'windows-11-arm'
             arch: 'arm64'
             generator: 'Ninja'
@@ -57,7 +57,7 @@ jobs:
             qt_arch: 'win64_msvc2022_arm64'
             setup_cmake: false
             package_arch: 'arm64'
-            pak_arch: 'win64-arm64'
+            file_arch: 'arm64'
         type: [portable, installer]
     steps:
       - name: 'Checkout Source code'
@@ -259,7 +259,7 @@ jobs:
           Copy-Item -Path $env:GITHUB_WORKSPACE\build\lib\* -Destination $env:GITHUB_WORKSPACE\build\Package\portable\ -Recurse -ErrorAction SilentlyContinue
           Copy-Item -Path $env:GITHUB_WORKSPACE\README*.md -Destination $env:GITHUB_WORKSPACE\build\Package\portable\ -ErrorAction SilentlyContinue
           Copy-Item -Path $env:GITHUB_WORKSPACE\LICENSE -Destination $env:GITHUB_WORKSPACE\build\Package\portable\
-          Compress-Archive -Path $env:GITHUB_WORKSPACE\build\Package\portable\* -DestinationPath $env:GITHUB_WORKSPACE\build\Package\portable\${env:PRODUCT}-${env:VERSION}-g${env:GIT_HASH}-${{ matrix.config.pak_arch }}.zip
+          Compress-Archive -Path $env:GITHUB_WORKSPACE\build\Package\portable\* -DestinationPath $env:GITHUB_WORKSPACE\build\Package\portable\${env:PRODUCT}-${env:VERSION}-windows-${{ matrix.config.file_arch }}-portable.zip
 
       - name: 'Smoke test portable executable'
         if: matrix.type == 'portable'
@@ -327,7 +327,7 @@ jobs:
 
           # Rename output to standard format
           $setupExe = Get-ChildItem -Path $outputDir -Filter "EasyKiConverter_*_Setup.exe" | Select-Object -First 1
-          $newContentName = "${env:PRODUCT}-${env:VERSION}-g${env:GIT_HASH}-${{ matrix.config.package_arch }}-setup.exe"
+          $newContentName = "${env:PRODUCT}-${env:VERSION}-windows-${{ matrix.config.file_arch }}-installer.exe"
           Rename-Item -Path $setupExe.FullName -NewName $newContentName
 
           Write-Host "Installer created at: $outputDir\$newContentName"
@@ -336,7 +336,7 @@ jobs:
         if: matrix.type == 'portable'
         shell: pwsh
         run: |
-          $fileName = "${env:PRODUCT}-${env:VERSION}-g${env:GIT_HASH}-${{ matrix.config.pak_arch }}.zip"
+          $fileName = "${env:PRODUCT}-${env:VERSION}-windows-${{ matrix.config.file_arch }}-portable.zip"
           $filePath = "$env:GITHUB_WORKSPACE\build\Package\portable\$fileName"
           $hash = Get-FileHash -Path $filePath -Algorithm SHA256
           $hashString = $hash.Hash.ToLower() + " *" + $fileName
@@ -347,7 +347,7 @@ jobs:
         if: matrix.type == 'installer'
         shell: pwsh
         run: |
-          $fileName = "${env:PRODUCT}-${env:VERSION}-g${env:GIT_HASH}-${{ matrix.config.package_arch }}-setup.exe"
+          $fileName = "${env:PRODUCT}-${env:VERSION}-windows-${{ matrix.config.file_arch }}-installer.exe"
           $filePath = "$env:GITHUB_WORKSPACE\build\Package\installer\$fileName"
           $hash = Get-FileHash -Path $filePath -Algorithm SHA256
           $hashString = $hash.Hash.ToLower() + " *" + $fileName
@@ -415,7 +415,7 @@ jobs:
                 # 注意：AppxManifest.xml 必须在 staging 目录中，文件名必须为 AppxManifest.xml
                 $stagingDir = "$env:GITHUB_WORKSPACE\build\Staging"
                 $outputDir = "$env:GITHUB_WORKSPACE\build\Package\msix"
-                $msixPath = "$outputDir\${env:PRODUCT}-${env:VERSION}-g${env:GIT_HASH}-${{ matrix.config.package_arch }}.msix"
+                $msixPath = "$outputDir\${env:PRODUCT}-${env:VERSION}-windows-${{ matrix.config.file_arch }}.msix"
       
                 mkdir -p $outputDir
       
@@ -461,7 +461,7 @@ jobs:
         if: matrix.type == 'installer'
         shell: pwsh
         run: |
-          $fileName = "${env:PRODUCT}-${env:VERSION}-g${env:GIT_HASH}-${{ matrix.config.package_arch }}.msix"
+          $fileName = "${env:PRODUCT}-${env:VERSION}-windows-${{ matrix.config.file_arch }}.msix"
           $filePath = "$env:GITHUB_WORKSPACE\build\Package\msix\$fileName"
           $hash = Get-FileHash -Path $filePath -Algorithm SHA256
           $hashString = $hash.Hash.ToLower() + " *" + $fileName
@@ -472,29 +472,29 @@ jobs:
         if: matrix.type == 'portable'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.package_arch }}-portable
+          name: EasyKiConverter-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}-portable
           path: |
-            ${{ github.workspace }}/build/Package/portable/${{ env.PRODUCT }}-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.pak_arch }}.zip
-            ${{ github.workspace }}/build/Package/portable/${{ env.PRODUCT }}-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.pak_arch }}.zip.sha256sum
+            ${{ github.workspace }}/build/Package/portable/${{ env.PRODUCT }}-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}-portable.zip
+            ${{ github.workspace }}/build/Package/portable/${{ env.PRODUCT }}-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}-portable.zip.sha256sum
           overwrite: true
 
       - name: 'Artifact Upload (installer)'
         if: matrix.type == 'installer'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.package_arch }}-setup
+          name: EasyKiConverter-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}-installer
           path: |
-            ${{ github.workspace }}/build/Package/installer/${{ env.PRODUCT }}-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.package_arch }}-setup.exe
-            ${{ github.workspace }}/build/Package/installer/${{ env.PRODUCT }}-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.package_arch }}-setup.exe.sha256sum
+            ${{ github.workspace }}/build/Package/installer/${{ env.PRODUCT }}-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}-installer.exe
+            ${{ github.workspace }}/build/Package/installer/${{ env.PRODUCT }}-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}-installer.exe.sha256sum
           overwrite: true
 
       - name: 'Artifact Upload (MSIX)'
         if: matrix.type == 'installer'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.package_arch }}-msix
+          name: EasyKiConverter-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}-msix
           path: |
-            ${{ github.workspace }}/build/Package/msix/${{ env.PRODUCT }}-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.package_arch }}.msix
-            ${{ github.workspace }}/build/Package/msix/${{ env.PRODUCT }}-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.config.package_arch }}.msix.sha256sum
+            ${{ github.workspace }}/build/Package/msix/${{ env.PRODUCT }}-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}.msix
+            ${{ github.workspace }}/build/Package/msix/${{ env.PRODUCT }}-${{ env.VERSION }}-windows-${{ matrix.config.file_arch }}.msix.sha256sum
           overwrite: true
           if-no-files-found: error

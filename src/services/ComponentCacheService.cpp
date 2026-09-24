@@ -7,6 +7,7 @@
 #include "CacheMetadataStore.h"
 #include "CachePathResolver.h"
 #include "CachePruner.h"
+#include "CacheSafety.h"
 #include "ComponentCacheBinaryFileStore.h"
 #include "ComponentCacheCadDataWriter.h"
 #include "ComponentCacheFileReadCoordinator.h"
@@ -65,9 +66,9 @@ ComponentCacheService* ComponentCacheService::instance() {
 }
 
 // 设置缓存目录，并按需迁移旧目录中的缓存内容。
-void ComponentCacheService::setCacheDir(const QString& cacheDir, bool migrateExistingCache) {
+bool ComponentCacheService::setCacheDir(const QString& cacheDir, bool migrateExistingCache) {
     CacheDirectoryCoordinator coordinator(*this);
-    coordinator.setDirectory(cacheDir, migrateExistingCache);
+    return coordinator.setDirectory(cacheDir, migrateExistingCache);
 }
 
 // 获取当前缓存根目录。
@@ -98,7 +99,12 @@ QString ComponentCacheService::ensureComponentDir(const QString& lcscId) const {
     }
     QDir dir(dirPath);
     if (!dir.exists()) {
-        dir.mkpath(dirPath);
+        if (!dir.mkpath(dirPath))
+            return QString();
+    } else if (!CacheSafety::isOwnedComponentDirectory(cacheDir(), dirPath) &&
+               !dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
+        qWarning() << "ensureComponentDir: refusing to reuse non-empty unowned directory:" << dirPath;
+        return QString();
     }
     return dirPath;
 }
@@ -106,11 +112,8 @@ QString ComponentCacheService::ensureComponentDir(const QString& lcscId) const {
 // 确保公共三维模型缓存目录存在。
 QString ComponentCacheService::ensureModel3DCacheDir() const {
     const QString dirPath = cacheDir() + "/model3d";
-    QDir dir(dirPath);
-    if (!dir.exists()) {
-        dir.mkpath(dirPath);
-    }
-    return dirPath;
+    QString error;
+    return CacheSafety::ensureOwnedModel3DDirectory(cacheDir(), &error) ? dirPath : QString();
 }
 
 // 判断元器件是否具有可用的完整磁盘缓存。
@@ -389,6 +392,13 @@ qint64 ComponentCacheService::getCacheSize() const {
     return ComponentCacheMaintenance::cacheSize(*this);
 }
 
+// 统计清理操作可以安全处理的缓存条目，不把未知用户文件计入范围。
+int ComponentCacheService::getOwnedCacheEntryCount() const {
+    QMutexLocker locker(&m_diskWriteMutex);
+    const QString root = cacheDir();
+    return CacheSafety::ownedComponentDirectories(root).size() + CacheSafety::ownedModel3DFiles(root).size();
+}
+
 // 返回一级内存缓存的当前占用大小。
 qint64 ComponentCacheService::getMemoryCacheSize() const {
     return m_memoryCache.totalCost();
@@ -473,7 +483,10 @@ void ComponentCacheService::saveMetadata(const QString& lcscId, const QJsonObjec
         return;
     }
     QString metaPath = metadataPath(lcscId);
-    QJsonDocument doc(metadata);
+    QJsonObject ownedMetadata = metadata;
+    ownedMetadata[QStringLiteral("cacheOwner")] = QStringLiteral("EasyKiConverter");
+    ownedMetadata[QStringLiteral("cacheEntryVersion")] = 1;
+    QJsonDocument doc(ownedMetadata);
     if (!CacheMetadataStore::writeAtomically(metaPath, doc.toJson(QJsonDocument::Indented))) {
         LOG_WARN(LogModule::Core, "Failed to open metadata file for writing: {}", metaPath);
     }

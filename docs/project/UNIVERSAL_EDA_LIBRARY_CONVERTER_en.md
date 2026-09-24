@@ -20,6 +20,28 @@ Once a format has both an Importer and an Exporter, it can in principle interope
 
 The repository already contains the IR directory and foundational types such as `SymbolComponentIR`, `FootprintComponentIR`, and `Model3DIR`. See [ADR 012: Intermediate Representation Refactor](adr/012-intermediate-representation-refactor.md) and [Conversion Mapping](../developer/CONVERSION_MAPPING.md).
 
+## Current export capabilities
+
+The current export pipeline builds symbol, footprint, and 3D data from the component cache and selects either an independent stage or a combined-library writer according to the target format. The table describes the implemented code boundaries; it does not claim complete coverage of each target EDA's native format:
+
+| Target | Symbol library | Footprint library | Device association | 3D output | Native 3D association |
+| --- | --- | --- | --- | --- | --- |
+| KiCad | `.kicad_sym` | `.kicad_mod` | Component-data association | WRL/STEP/OBJ | Written in KiCad footprint syntax |
+| Altium | `.SchLib` | `.PcbLib` | Component and model records | STEP | Embedded in `.PcbLib` |
+| Xpedition | ASCII ZIP | ASCII ZIP | Separate symbol and footprint packages | Standalone WRL/STEP | No unverified native association |
+| Allegro | Normalized symbol data in Import Package (not a native schematic library) | Import Package | Symbol, footprint, and pin-pad relations in `manifest.json` | STEP/model data in the package | Cadence is required to generate `.dra/.psm/.pad`; no native OLB is generated |
+| PADS | Schematic Decal `.c` | PCB Decal `.d` | Part Type `.p` | Standalone WRL/STEP | No native association currently written |
+| Eagle | Symbols in `.lbr` (standalone selection supported, including representable arcs) | Packages in `.lbr` (standalone selection supported, including representable arcs) | DeviceSets and connections in the complete combined library | Standalone WRL/STEP | No unverified managed `package3d` |
+| P-CAD | Schematic `.lia` | PCB `.lia` | `compDef` and Part associations | Standalone WRL/STEP | No native association currently written |
+| CADSTAR | Components in `.lib` | Packages/Pads in `.lib` | Parts in `.lib` | Standalone WRL/STEP | No unverified private association |
+| OrCAD Capture | XML | No Capture PCB library | `pcbFootprint` name property | Standalone WRL/STEP | XML does not invent a native 3D association |
+
+“Standalone 3D” means that the common `Model3DExportStage` emits the model, or that a target Import Package includes it as a controlled file. It does not mean that the target software has already established a native model reference. Data that the target cannot express must be reported by export diagnostics rather than silently discarded.
+
+The common 3D stage also writes `manifest.json` inside `<library>.3dmodels/`. It records component IDs, symbol names, footprint names, model files, model UUIDs, translations, rotations, STEP offsets, and per-item status so standalone 3D files can be matched to the symbol and footprint outputs from the same export. This is an EasyKiConverter project manifest; it does not claim that the target EDA has created a native 3D association.
+
+Standalone models are written to `<library-name>.3dmodels/` by default and use the model name as the file-name stem. Duplicate model names receive stable suffixes so different components cannot overwrite one another. With “no overwrite” enabled, a model is skipped when all requested output files already exist; if only part of the requested formats exists, that component fails and the existing files remain unchanged.
+
 ## Scope and phases
 
 The first phase focuses on library data: symbols, footprints, component associations, 3D models, and common metadata. The intended flow is:

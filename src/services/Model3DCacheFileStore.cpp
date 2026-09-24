@@ -2,6 +2,7 @@
 
 #include "CacheDataValidator.h"
 #include "CacheMetadataStore.h"
+#include "CacheSafety.h"
 
 #include <QDir>
 #include <QFile>
@@ -12,6 +13,11 @@ namespace EasyKiConverter {
 /** @brief 读取并校验模型文件，损坏文件会被删除。 */
 QByteArray Model3DCacheFileStore::read(const QString& filePath, const QString& extension) {
     if (!QFileInfo::exists(filePath)) {
+        return QByteArray();
+    }
+
+    QDir modelDir = QFileInfo(filePath).dir();
+    if (!modelDir.cdUp() || !CacheSafety::isOwnedModel3DFile(modelDir.absolutePath(), filePath)) {
         return QByteArray();
     }
 
@@ -27,7 +33,8 @@ QByteArray Model3DCacheFileStore::read(const QString& filePath, const QString& e
         return data;
     }
 
-    QFile::remove(filePath);
+    QString trashError;
+    CacheSafety::moveToTrash(filePath, &trashError);
     return QByteArray();
 }
 

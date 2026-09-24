@@ -11,6 +11,9 @@
  *          - 导出器的多部件和折线保持
  */
 
+#include "core/altium/AltiumSchSymbolGeometryNormalizer.h"
+#include "core/altium/AltiumSymbolPinConverter.h"
+#include "core/altium/AltiumSymbolPinTextConverter.h"
 #include "core/altium/ExporterAltiumFootprint.h"
 #include "core/altium/ExporterAltiumSymbol.h"
 #include "core/altium/compound/OLECompoundReader.h"
@@ -476,6 +479,169 @@ private slots:
      */
     void userDefinedLayerMapsToMechanicalLayer() {
         QCOMPARE(AltiumLayerMap::fromLayerTypeToAltium(IR::LayerType::UserDefined), 57);
+    }
+
+    /**
+     * @brief 验证 Altium 符号引脚编号始终通过独立水平文本显示。
+     * @details 同时覆盖存在和缺失源编号坐标的引脚，确保不会回退到随引脚方向旋转的内置编号。
+     */
+    void pinDesignatorsAlwaysUseHorizontalText() {
+        IR::SymbolPinIR positionedPin;
+        positionedPin.name = QStringLiteral("IN");
+        positionedPin.designator = QStringLiteral("1");
+        positionedPin.position = QPointF(2.0, 3.0);
+        positionedPin.numberPosition = QPointF(1.0, 2.0);
+        positionedPin.numberRotation = 90.0;
+        positionedPin.hasNumberPosition = true;
+        positionedPin.direction = IR::PinDirection::Up;
+
+        const QList<AltiumSchText> positionedTexts =
+            AltiumSymbolPinTextConverter::convert(positionedPin, QStringLiteral("POSITIONED"), nullptr);
+        QCOMPARE(positionedTexts.size(), 1);
+        QCOMPARE(positionedTexts.first().text, QStringLiteral("1"));
+        QCOMPARE(positionedTexts.first().orientation, 0);
+        QCOMPARE(positionedTexts.first().locationX, AltiumCoord::mmToRaw(1.0));
+        QCOMPARE(positionedTexts.first().locationY, AltiumCoord::mmToRaw(2.0));
+        QVERIFY(!AltiumSymbolPinConverter::convert(positionedPin).showDesignator);
+
+        IR::SymbolPinIR fallbackPin = positionedPin;
+        fallbackPin.designator = QStringLiteral("2");
+        fallbackPin.position = QPointF(-4.0, 5.0);
+        fallbackPin.numberPosition = {};
+        fallbackPin.numberRotation = 270.0;
+        fallbackPin.hasNumberPosition = false;
+        fallbackPin.direction = IR::PinDirection::Down;
+
+        const QList<AltiumSchText> fallbackTexts =
+            AltiumSymbolPinTextConverter::convert(fallbackPin, QStringLiteral("FALLBACK"), nullptr);
+        QCOMPARE(fallbackTexts.size(), 1);
+        QCOMPARE(fallbackTexts.first().text, QStringLiteral("2"));
+        QCOMPARE(fallbackTexts.first().orientation, 0);
+        QCOMPARE(fallbackTexts.first().locationX, AltiumCoord::mmToRaw(-4.0));
+        QCOMPARE(fallbackTexts.first().locationY, AltiumCoord::mmToRaw(5.0));
+        QVERIFY(!AltiumSymbolPinConverter::convert(fallbackPin).showDesignator);
+
+        IR::SymbolComponentIR exportedSymbol;
+        exportedSymbol.name = QStringLiteral("HORIZONTAL_PIN_NUMBERS");
+        exportedSymbol.pins = {positionedPin, fallbackPin};
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        const QString libraryPath = tempDir.filePath(QStringLiteral("horizontal-pin-numbers.SchLib"));
+        ExporterAltiumSymbol exporter;
+        QVERIFY(exporter.exportSymbolLibrary(
+            {exportedSymbol}, QStringLiteral("horizontal-pin-numbers"), libraryPath, false, false));
+        QByteArray symbolData;
+        QVERIFY(readCfbStream(libraryPath, QStringLiteral("HORIZONTAL_PIN_NUMBERS/Data"), symbolData));
+        for (const QByteArray& designator : {QByteArrayLiteral("1"), QByteArrayLiteral("2")}) {
+            const int textOffset = symbolData.indexOf("Text=" + designator);
+            QVERIFY(textOffset > 0);
+            const int textRecordOffset = symbolData.lastIndexOf("|RECORD=4|", textOffset);
+            QVERIFY(textRecordOffset >= 0);
+            const int nextRecordOffset = symbolData.indexOf("|RECORD=", textOffset);
+            QVERIFY(nextRecordOffset > textOffset);
+            const QByteArray textRecord = symbolData.mid(textRecordOffset, nextRecordOffset - textRecordOffset);
+            QVERIFY(!textRecord.contains("Orientation=1"));
+            QVERIFY(!textRecord.contains("Orientation=2"));
+            QVERIFY(!textRecord.contains("Orientation=3"));
+        }
+        QVERIFY(!symbolData.contains("ShowDesignator=T"));
+    }
+
+    /**
+     * @brief 验证普通符号文本和可见参数统一排布在图形主体下方。
+     * @details 引脚标签属于引脚局部文本，不应被移动到符号底部或改变其原始位置。
+     */
+    void visibleSymbolFieldsArePlacedBelowGraphics() {
+        AltiumSchComponent component;
+        AltiumSchRectangle body;
+        body.locationX = -1000000;
+        body.locationY = -500000;
+        body.cornerX = 1000000;
+        body.cornerY = 500000;
+        component.rectangles.append(body);
+
+        AltiumSchText text;
+        text.locationX = 9000000;
+        text.locationY = 1000000;
+        text.orientation = 3;
+        component.texts.append(text);
+
+        AltiumSchText pinLabel;
+        pinLabel.locationX = 500000;
+        pinLabel.locationY = 500000;
+        pinLabel.isPinLabel = true;
+        component.texts.append(pinLabel);
+
+        AltiumSchParameter parameter;
+        parameter.locationX = 8000000;
+        parameter.locationY = 1000000;
+        parameter.isHidden = false;
+        parameter.orientation = 2;
+        component.parameters.append(parameter);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        const AltiumSchText& movedText = component.texts.first();
+        const AltiumSchText& preservedPinLabel = component.texts.at(1);
+        const AltiumSchParameter& movedParameter = component.parameters.first();
+        const AltiumSchRectangle& normalizedBody = component.rectangles.first();
+        const int graphicCenterX = (normalizedBody.locationX + normalizedBody.cornerX) / 2;
+        const int graphicMinY = qMin(normalizedBody.locationY, normalizedBody.cornerY);
+        QVERIFY(movedText.locationX == graphicCenterX);
+        QVERIFY(movedText.locationY < graphicMinY);
+        QCOMPARE(movedText.locationX, movedParameter.locationX);
+        QVERIFY(movedParameter.locationY < movedText.locationY);
+        QCOMPARE(movedText.orientation, 0);
+        QCOMPARE(movedParameter.orientation, 0);
+        QVERIFY(preservedPinLabel.locationX != movedText.locationX ||
+                preservedPinLabel.locationY != movedText.locationY);
+    }
+
+    /**
+     * @brief 验证缺少源编号坐标时编号文本跟随投影后的引脚主体端。
+     * @details 覆盖水平和垂直引脚，确保主体边界投影及连接点量化不会造成编号错位。
+     */
+    void fallbackPinNumbersFollowNormalizedPins() {
+        AltiumSchComponent component;
+        AltiumSchRectangle body;
+        body.locationX = -1000000;
+        body.locationY = -1000000;
+        body.cornerX = 1000000;
+        body.cornerY = 1000000;
+        component.rectangles.append(body);
+
+        AltiumSchPin horizontalPin;
+        horizontalPin.locationX = 4500000;
+        horizontalPin.locationY = 250000;
+        horizontalPin.length = 350000;
+        horizontalPin.orientation = AltiumModels::PinOrientation::Right;
+        component.pins.append(horizontalPin);
+        AltiumSchText horizontalNumber;
+        horizontalNumber.locationX = 4500000;
+        horizontalNumber.locationY = 250000;
+        horizontalNumber.isPinLabel = true;
+        horizontalNumber.isFallbackPinNumber = true;
+        horizontalNumber.sourcePinIndex = 0;
+        component.texts.append(horizontalNumber);
+
+        AltiumSchPin verticalPin;
+        verticalPin.locationX = -250000;
+        verticalPin.locationY = 4500000;
+        verticalPin.length = 350000;
+        verticalPin.orientation = AltiumModels::PinOrientation::Up;
+        component.pins.append(verticalPin);
+        AltiumSchText verticalNumber = horizontalNumber;
+        verticalNumber.locationX = -250000;
+        verticalNumber.locationY = 4500000;
+        verticalNumber.sourcePinIndex = 1;
+        component.texts.append(verticalNumber);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        QCOMPARE(component.texts.at(0).locationX, component.pins.at(0).locationX);
+        QCOMPARE(component.texts.at(0).locationY, component.pins.at(0).locationY);
+        QCOMPARE(component.texts.at(1).locationX, component.pins.at(1).locationX);
+        QCOMPARE(component.texts.at(1).locationY, component.pins.at(1).locationY);
     }
 
     /**

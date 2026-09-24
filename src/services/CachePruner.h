@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CacheSafety.h"
+
 #include <QString>
 #include <QtGlobal>
 
@@ -7,7 +9,8 @@ namespace EasyKiConverter {
 
 class CachePruner {
 public:
-    explicit CachePruner(const QString& cacheRoot);
+    explicit CachePruner(const QString& cacheRoot,
+                         const CacheSafety::TrashFunction& trash = CacheSafety::TrashFunction());
     ~CachePruner() = default;
 
     /**
@@ -29,6 +32,7 @@ public:
 
 private:
     QString m_cacheRoot;
+    CacheSafety::TrashFunction m_trash;
 };
 
 }  // namespace EasyKiConverter

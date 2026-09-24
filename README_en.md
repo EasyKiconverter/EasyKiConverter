@@ -18,7 +18,7 @@
 
 
 
-**EasyKiConverter** is a modern C++ desktop tool based on Qt 6 and MVVM architecture, designed for electronics engineers to efficiently convert component data from LCSC and EasyEDA into KiCad, Altium, or Xpedition ASCII library files. Supports both GUI and CLI modes.
+**EasyKiConverter** is a modern C++ desktop tool based on Qt 6 and MVVM architecture, designed for electronics engineers to convert LCSC and EasyEDA component data into symbol libraries, footprint libraries, and independent 3D model files for multiple EDA targets. It supports both GUI and CLI modes.
 
 ### Version and Capability Boundaries
 
@@ -28,7 +28,7 @@
 
 ## Key Features
 
-*   **Multiple Targets**: Supports KiCad symbols/footprints, Altium SchLib/PcbLib, and Xpedition ASCII symbol/footprint packages; Altium embeds STEP models, while Xpedition 3D model association is not currently written.
+*   **Multiple Targets**: Supports the implemented library export paths for KiCad, Altium, Xpedition, PADS, Eagle, P-CAD, and CADSTAR; each target's symbol, footprint, component-association, and 3D model scope is documented separately, and unsupported data produces diagnostics.
 *   **Multi-unit Symbols**: Support for multi-unit symbol conversion.
 *   **Efficient Batch Processing**: Multi-threaded parallel conversion and BOM file import support, fully utilizing multi-core performance.
 *   **Modern Experience**: Fluid UI based on Qt Quick, supporting dark/light theme switching.
@@ -42,7 +42,7 @@
 ### Installation
 Please visit the [Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) page to download the version for your platform:
 
-*   **Windows**: amd64 (the filenames use `x64`) and arm64 builds are available; download the matching `.exe` installer or `.zip` portable package for your device.
+*   **Windows**: x86_64 and arm64 builds are available. Intel/AMD 64-bit devices should use filenames containing `windows-x86_64`; Windows on Arm devices should use `windows-arm64`. Both architectures provide `.exe` installers, `.zip` portable packages, and `.msix` packages.
 *   **Linux**: Download the x86_64/ARM64 `.AppImage`. LoongArch64 currently requires separate build infrastructure and is not included in official release packages yet.
 *   **macOS**: Download `.dmg` image file.
 *   **Arch Linux**: `yay -S easykiconverter`

@@ -16,7 +16,13 @@ namespace EasyKiConverter {
 enum class TargetEdaFormat {
     KiCad = 0, /**< KiCad 格式（默认） */
     Altium = 1, /**< Altium Designer 格式 */
-    Xpedition = 2 /**< Xpedition ASCII 库格式 */
+    Xpedition = 2, /**< Xpedition ASCII 库格式 */
+    Allegro = 3, /**< Allegro 符号、封装和三维语义 Import Package */
+    Pads = 4, /**< PADS Parts Library ASCII 符号、器件关联和 PCB Decal */
+    Eagle = 5, /**< Eagle XML 组合库（符号、封装和器件关联） */
+    Pcad = 6, /**< P-CAD ASCII 符号库、器件库和 PCB 库 */
+    Cadstar = 7, /**< CADSTAR ASCII combined symbol and package library */
+    Orcad = 8 /**< OrCAD Capture XML symbol library */
 };
 
 /**
@@ -57,9 +63,11 @@ struct ExportOptions {
      * 为 Altium 获取并嵌入 STEP。
      */
     constexpr bool needsEmbeddedModel3DStep() const {
-        if (!exportModel3D || targetFormat == TargetEdaFormat::Xpedition)
+        if (!exportModel3D || targetFormat == TargetEdaFormat::Xpedition || targetFormat == TargetEdaFormat::Pads ||
+            targetFormat == TargetEdaFormat::Eagle || targetFormat == TargetEdaFormat::Pcad)
             return false;
-        return needsModel3DStep() || (targetFormat == TargetEdaFormat::Altium && exportModel3D);
+        return needsModel3DStep() || targetFormat == TargetEdaFormat::Altium ||
+               targetFormat == TargetEdaFormat::Allegro;
     }
 
     static constexpr int normalizePathMode(int mode) {

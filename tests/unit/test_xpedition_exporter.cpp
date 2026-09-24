@@ -283,6 +283,25 @@ private slots:
         QVERIFY(data.contains("b -100.0000 -50.0000 100.0000 50.0000"));
     }
 
+    /** @brief 验证 Xpedition 符号库直接接口拒绝未实现的追加和更新模式。 */
+    void symbolLibraryRejectsMergeModes() {
+        QTemporaryDir temporary;
+        QVERIFY(temporary.isValid());
+
+        IR::SymbolComponentIR symbol;
+        symbol.name = QStringLiteral("MERGE_GUARD");
+        symbol.partCount = 1;
+
+        ExporterXpeditionSymbol exporter;
+        const QString appendPath = temporary.filePath(QStringLiteral("append.zip"));
+        QVERIFY(!exporter.exportSymbolLibrary({symbol}, QStringLiteral("Library"), appendPath, true, false));
+        QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("不支持追加或更新")));
+
+        const QString updatePath = temporary.filePath(QStringLiteral("update.zip"));
+        QVERIFY(!exporter.exportSymbolLibrary({symbol}, QStringLiteral("Library"), updatePath, false, true));
+        QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("不支持追加或更新")));
+    }
+
     // 验证暂未支持的引脚装饰会生成诊断，并且不会静默改变符号正文。
     void unsupportedPinDecorationsAreReported() {
         QTemporaryDir tempDir;

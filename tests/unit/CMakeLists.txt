@@ -40,6 +40,50 @@ target_include_directories(test_cadstar_parser PRIVATE
 )
 add_test(NAME test_cadstar_parser COMMAND test_cadstar_parser)
 
+add_executable(test_cadstar_exporter test_cadstar_exporter.cpp)
+target_link_libraries(test_cadstar_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterCadstar
+)
+target_include_directories(test_cadstar_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_cadstar_exporter COMMAND test_cadstar_exporter)
+
+add_executable(test_allegro_exporter test_allegro_exporter.cpp)
+target_link_libraries(test_allegro_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterAllegro
+)
+target_include_directories(test_allegro_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_allegro_exporter COMMAND test_allegro_exporter)
+
+add_executable(test_pads_exporter test_pads_exporter.cpp)
+target_link_libraries(test_pads_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterPads
+)
+target_include_directories(test_pads_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_pads_exporter COMMAND test_pads_exporter)
+
+add_executable(test_eagle_exporter test_eagle_exporter.cpp)
+target_link_libraries(test_eagle_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterEagle
+)
+target_include_directories(test_eagle_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_eagle_exporter COMMAND test_eagle_exporter)
+
 add_executable(test_pcad_parser test_pcad_parser.cpp)
 target_link_libraries(test_pcad_parser PRIVATE
     Qt6::Test
@@ -51,6 +95,28 @@ target_include_directories(test_pcad_parser PRIVATE
     ${CMAKE_SOURCE_DIR}/tests
 )
 add_test(NAME test_pcad_parser COMMAND test_pcad_parser)
+
+add_executable(test_pcad_exporter test_pcad_exporter.cpp)
+target_link_libraries(test_pcad_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterPcad
+)
+target_include_directories(test_pcad_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_pcad_exporter COMMAND test_pcad_exporter)
+
+add_executable(test_orcad_exporter test_orcad_exporter.cpp)
+target_link_libraries(test_orcad_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterOrcad
+)
+target_include_directories(test_orcad_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_orcad_exporter COMMAND test_orcad_exporter)
 
 add_executable(test_parser_security test_parser_security.cpp)
 target_link_libraries(test_parser_security PRIVATE
@@ -109,6 +175,17 @@ target_include_directories(test_cache_pruner PRIVATE
     ${CMAKE_SOURCE_DIR}
 )
 add_test(NAME test_cache_pruner COMMAND test_cache_pruner)
+
+add_executable(test_cache_safety test_cache_safety.cpp)
+target_link_libraries(test_cache_safety PRIVATE
+    Qt6::Test
+    EasyKiConverterLib
+)
+target_include_directories(test_cache_safety PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_cache_safety COMMAND test_cache_safety)
 
 add_executable(test_core_utils test_core_utils.cpp)
 target_link_libraries(test_core_utils PRIVATE
@@ -361,6 +438,17 @@ target_include_directories(test_command_line_parser PRIVATE
     ${CMAKE_SOURCE_DIR}
 )
 add_test(NAME test_command_line_parser COMMAND test_command_line_parser)
+
+add_executable(test_target_format_options test_target_format_options.cpp)
+target_link_libraries(test_target_format_options PRIVATE
+    Qt6::Test
+    EasyKiConverter::Cli
+)
+target_include_directories(test_target_format_options PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_target_format_options COMMAND test_target_format_options)
 
 # 语言管理器测试
 add_executable(test_language_manager test_language_manager.cpp)

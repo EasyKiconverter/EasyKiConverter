@@ -14,22 +14,22 @@ EasyKiConverter `<version>` 改善了 EasyEDA 到 KiCad/Altium 的库转换质�
 
 | 平台 | 架构 | 格式 | 文件 |
 | --- | --- | --- | --- |
-| Windows | amd64 | MSIX | `EasyKiConverter-<version>-g<commit>-x64.msix` |
-| Windows | amd64 | 安装程序 | `EasyKiConverter-<version>-g<commit>-x64-setup.exe` |
-| Windows | amd64 | 便携版 | `EasyKiConverter-<version>-g<commit>-win64.zip` |
-| Windows | arm64 | MSIX | `EasyKiConverter-<version>-g<commit>-arm64.msix` |
-| Windows | arm64 | 安装程序 | `EasyKiConverter-<version>-g<commit>-arm64-setup.exe` |
-| Windows | arm64 | 便携版 | `EasyKiConverter-<version>-g<commit>-win64-arm64.zip` |
-| Linux | amd64 | AppImage | `EasyKiConverter-<version>-g<commit>.x86_64.AppImage` |
-| Linux | arm64 | AppImage | `EasyKiConverter-<version>-g<commit>.aarch64.AppImage` |
+| Windows | x86_64 | MSIX | `EasyKiConverter-<version>-windows-x86_64.msix` |
+| Windows | x86_64 | 安装程序 | `EasyKiConverter-<version>-windows-x86_64-installer.exe` |
+| Windows | x86_64 | 便携版 | `EasyKiConverter-<version>-windows-x86_64-portable.zip` |
+| Windows | arm64 | MSIX | `EasyKiConverter-<version>-windows-arm64.msix` |
+| Windows | arm64 | 安装程序 | `EasyKiConverter-<version>-windows-arm64-installer.exe` |
+| Windows | arm64 | 便携版 | `EasyKiConverter-<version>-windows-arm64-portable.zip` |
+| Linux | x86_64 | AppImage | `EasyKiConverter-<version>-linux-x86_64.AppImage` |
+| Linux | arm64 | AppImage | `EasyKiConverter-<version>-linux-aarch64.AppImage` |
 | Linux | amd64 | DEB/RPM/Arch | 对应架构安装包 |
 | Linux | arm64 | DEB/RPM/Arch | 对应架构安装包 |
-| macOS | intel | DMG | `EasyKiConverter-<version>-g<commit>-intel.dmg` |
-| macOS | arm64 | DMG | `EasyKiConverter-<version>-g<commit>-arm64.dmg` |
+| macOS | x86_64 | DMG | `EasyKiConverter-<version>-macos-x86_64.dmg` |
+| macOS | arm64 | DMG | `EasyKiConverter-<version>-macos-arm64.dmg` |
 
-> 每个发布制品都提供对应的 `.sha256sum` 文件。下载后建议先验证文件完整性，再执行安装或运行。
+> 每个发布制品都提供对应的 `.sha256sum` 文件，Release 还提供 `SHA256SUMS` 汇总清单。下载后建议先验证文件完整性，再执行安装或运行。
 >
-> Windows 架构使用 `amd64` 和 `arm64` 标识；文件名中的 `x64` 对应 `amd64`，`arm64` 文件对应 Windows on Arm。
+> Windows 文件名使用 `x86_64` 和 `arm64` 标识；`x86_64` 对应 Intel/AMD 64 位设备，`arm64` 对应 Windows on Arm。
 
 ## 重要变化
 
@@ -86,13 +86,13 @@ EasyKiConverter `<version>` 改善了 EasyEDA 到 KiCad/Altium 的库转换质�
 Linux/macOS 示例：
 
 ```bash
-sha256sum -c EasyKiConverter-<version>-g<commit>-x86_64.AppImage.sha256sum
+sha256sum -c EasyKiConverter-<version>-linux-x86_64.AppImage.sha256sum
 ```
 
 Windows PowerShell 示例：
 
 ```powershell
-Get-FileHash .\EasyKiConverter-<version>-g<commit>-x64-setup.exe -Algorithm SHA256
+Get-FileHash .\EasyKiConverter-<version>-windows-x86_64-installer.exe -Algorithm SHA256
 ```
 
 ## 已知问题

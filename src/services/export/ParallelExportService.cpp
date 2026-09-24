@@ -292,7 +292,7 @@ void ParallelExportService::registerStageAndStart(ExportTypeStage* stage,
             });
 
     if (typeName == QStringLiteral("Footprint") && m_options.exportModel3D &&
-        m_options.targetFormat == TargetEdaFormat::Altium) {
+        (m_options.targetFormat == TargetEdaFormat::Altium || m_options.targetFormat == TargetEdaFormat::Allegro)) {
         if (auto* footprintStage = qobject_cast<FootprintExportStage*>(stage)) {
             connect(footprintStage,
                     &FootprintExportStage::embeddedModel3DStatusChanged,
@@ -406,9 +406,11 @@ void ParallelExportService::onExportTypeProgressChanged(const QString& typeName,
         return;
     }
 
+    ExportTypeProgress normalizedProgress = progress;
+    normalizedProgress.typeName = typeName;
     {
         QMutexLocker locker(&m_progressMutex);
-        m_progress.exportTypeProgress[typeName] = progress;
+        m_progress.exportTypeProgress[typeName] = normalizedProgress;
     }
 
     updateOverallProgress();
@@ -470,7 +472,7 @@ void ParallelExportService::onExportItemStatusChanged(const QString& componentId
     // 只有在 3D 尚未收到独立结果时才使用封装状态兜底，避免封装成功覆盖
     // STEP 缺失等真实的 Model3D 失败状态。
     if (typeName == QStringLiteral("Footprint") && m_options.exportModel3D &&
-        m_options.targetFormat == TargetEdaFormat::Altium) {
+        (m_options.targetFormat == TargetEdaFormat::Altium || m_options.targetFormat == TargetEdaFormat::Allegro)) {
         const auto modelProgress = m_progress.exportTypeProgress.constFind(QStringLiteral("Model3D"));
         shouldMirrorAltiumModel3DStatus =
             modelProgress == m_progress.exportTypeProgress.cend() || !modelProgress->itemStatus.contains(componentId);
@@ -479,7 +481,7 @@ void ParallelExportService::onExportItemStatusChanged(const QString& componentId
     locker.unlock();
     emit itemStatusChanged(componentId, typeName, status);
 
-    // Altium 的 STEP 在 PcbLib 封装阶段写入并嵌入库中，没有独立的 Model3D stage。
+    // Altium 和 Allegro 的 STEP 都在封装阶段写入 Import Package，没有独立的 Model3D stage。
     // 将封装结果镜像到 Model3D，确保 UI 状态、成功率和总体完成判定一致。
     if (shouldMirrorAltiumModel3DStatus) {
         onExportItemStatusChanged(componentId, QStringLiteral("Model3D"), status);

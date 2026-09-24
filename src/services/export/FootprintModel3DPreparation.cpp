@@ -187,6 +187,12 @@ void prepare(FootprintData& footprint,
     if (componentData->model3DData() && !componentData->model3DData()->uuid().isEmpty()) {
         model3D.setUuid(componentData->model3DData()->uuid());
     }
+    if (model3D.name().isEmpty() && componentData->model3DData()) {
+        model3D.setName(componentData->model3DData()->name());
+    }
+    if (model3D.name().isEmpty()) {
+        model3D.setName(footprint.info().model3DName);
+    }
     if (model3D.uuid().isEmpty()) {
         return;
     }

@@ -2,6 +2,10 @@
 
 本文档将帮助您快速开始使用 EasyKiConverter。
 
+## 功能范围
+
+EasyKiConverter 可将 LCSC 和 EasyEDA 元件数据转换为多种 EDA 库输出。当前导出内容包括符号库、封装库、器件关联和 3D 模型文件，目标格式包括 KiCad、Altium、Xpedition、PADS、Eagle、P-CAD、CADSTAR 和 OrCAD Capture。不同目标的原生格式覆盖范围不同，请在导出前阅读对应的[格式能力矩阵](../project/UNIVERSAL_EDA_LIBRARY_CONVERTER.md)和目标格式说明；无法表达的数据会通过诊断报告提示。
+
 ## 环境要求
 
 ### 操作系统

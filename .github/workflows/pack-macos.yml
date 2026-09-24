@@ -37,11 +37,13 @@ jobs:
         dist:
           - {
               os: macos-14,
-              arch: arm64
+              arch: arm64,
+              arch_label: arm64
             }
           - {
               os: macos-15-intel,
-              arch: intel
+              arch: x86_64,
+              arch_label: x86_64
             }
     env:
       APP_NAME: EasyKiConverter
@@ -217,13 +219,13 @@ jobs:
           hdiutil create -volname EasyKiConverter \
             -srcfolder "${APP_NAME}.app" \
             -ov -format UDZO \
-            "${PRODUCT}-${VERSION}-g${{ env.GIT_HASH }}-${{ matrix.dist.arch }}.dmg"
+            "${PRODUCT}-${VERSION}-macos-${{ matrix.dist.arch_label }}.dmg"
 
       - name: 'Validate DMG'
         run: |
           set -euo pipefail
 
-          DMG="${PRODUCT}-${VERSION}-g${{ env.GIT_HASH }}-${{ matrix.dist.arch }}.dmg"
+          DMG="${PRODUCT}-${VERSION}-macos-${{ matrix.dist.arch_label }}.dmg"
           MOUNT_DIR="$(mktemp -d)"
           hdiutil verify "$DMG"
           hdiutil attach "$DMG" -readonly -nobrowse -mountpoint "$MOUNT_DIR"
@@ -237,13 +239,13 @@ jobs:
       - name: 'SHA256Sum of DMG'
         run: |
           cd "$GITHUB_WORKSPACE/" || { >&2 echo "Cannot cd to '$GITHUB_WORKSPACE/'!"; exit 11 ; }
-          shasum -a 256 "${PRODUCT}-${VERSION}-g${{ env.GIT_HASH }}-${{ matrix.dist.arch }}.dmg" | tee "${PRODUCT}-${VERSION}-g${{ env.GIT_HASH }}-${{ matrix.dist.arch }}.dmg.sha256sum"
+          shasum -a 256 "${PRODUCT}-${VERSION}-macos-${{ matrix.dist.arch_label }}.dmg" | tee "${PRODUCT}-${VERSION}-macos-${{ matrix.dist.arch_label }}.dmg.sha256sum"
 
       - name: 'Artifact Upload'
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.dist.arch }}.dmg
+          name: EasyKiConverter-${{ env.VERSION }}-macos-${{ matrix.dist.arch_label }}.dmg
           path: |
-            ${{ github.workspace }}/${{ env.PRODUCT }}-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.dist.arch }}.dmg
-            ${{ github.workspace }}/${{ env.PRODUCT }}-${{ env.VERSION }}-g${{ env.GIT_HASH }}-${{ matrix.dist.arch }}.dmg.sha256sum
+            ${{ github.workspace }}/${{ env.PRODUCT }}-${{ env.VERSION }}-macos-${{ matrix.dist.arch_label }}.dmg
+            ${{ github.workspace }}/${{ env.PRODUCT }}-${{ env.VERSION }}-macos-${{ matrix.dist.arch_label }}.dmg.sha256sum
           overwrite: true

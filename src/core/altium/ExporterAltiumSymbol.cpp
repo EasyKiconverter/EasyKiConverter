@@ -147,7 +147,13 @@ AltiumSchComponent ExporterAltiumSymbol::convertSymbol(const IR::SymbolComponent
             continue;
         }
         component.pins.append(convertPin(pin));
-        component.texts.append(AltiumSymbolPinTextConverter::convert(pin, data.name, &m_diagnostics));
+        QList<AltiumSchText> pinTexts = AltiumSymbolPinTextConverter::convert(pin, data.name, &m_diagnostics);
+        const int sourcePinIndex = component.pins.size() - 1;
+        for (AltiumSchText& pinText : pinTexts) {
+            if (pinText.isPinLabel)
+                pinText.sourcePinIndex = sourcePinIndex;
+        }
+        component.texts.append(pinTexts);
     }
 
     // 转换图形元素

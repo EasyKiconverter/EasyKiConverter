@@ -42,6 +42,7 @@ ExportProgressViewModel::ExportProgressViewModel(ParallelExportService* exportSe
     , m_isStopping(false)
     , m_hasCompletedExport(false)
     , m_exportSymbolEnabled(true)
+    , m_eagleCombinedLibrary(false)
     , m_exportFootprintEnabled(true)
     , m_exportModel3DEnabled(false)
     , m_exportPreviewEnabled(false)
@@ -158,6 +159,10 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
     }
 
     // Store component IDs
+    const TargetEdaFormat selectedFormat = static_cast<TargetEdaFormat>(targetFormat);
+    m_eagleCombinedLibrary = (selectedFormat == TargetEdaFormat::Eagle || selectedFormat == TargetEdaFormat::Cadstar ||
+                              selectedFormat == TargetEdaFormat::Allegro) &&
+                             exportSymbol && exportFootprint;
     m_exportSymbolEnabled = exportSymbol;
     m_exportFootprintEnabled = exportFootprint;
     m_exportModel3DEnabled = exportModel3D;
@@ -349,6 +354,11 @@ void ExportProgressViewModel::handleItemStatusChanged(const QString& componentId
                 break;
         }
         result[typeStatusKey(typeName)] = statusText;
+        if (m_eagleCombinedLibrary && typeName == QStringLiteral("Footprint")) {
+            // 组合目标在封装阶段同时写入符号；让符号状态跟随同一原子导出结果。
+            result["symbolSuccess"] = result["footprintSuccess"];
+            result["symbolStatus"] = statusText;
+        }
 
         updateOverallItemStatus(result);
 
@@ -559,6 +569,11 @@ void ExportProgressViewModel::clearCache() {
     }
     // 清空 L1 内存 + L2 磁盘缓存
     ComponentCacheService::instance()->clearAllCache();
+}
+
+// 返回已经通过所有权校验、可以安全移入回收站的条目数量。
+int ExportProgressViewModel::cacheEntryCount() const {
+    return ComponentCacheService::instance()->getOwnedCacheEntryCount();
 }
 
 /** @brief 重置导出结果、进度和过滤状态。 */

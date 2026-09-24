@@ -1,55 +1,57 @@
-# This file is used to ignore files which are generated
-# ----------------------------------------------------------------------------
-
-*~
-*.autosave
-*.a
-*.core
-*.moc
-*.o
-*.obj
-!tests/fixtures/easyeda/*.obj
-*.orig
-*.rej
+# Build and generated output
+/build*/
+tests/build/
+build.log
+flatpak-build.log
+flatpak-build-local.log
+aqtinstall.log
+Makefile*
+*.app
+*.dll
+*.exe
+*.msi
+*.msix
+*.res
+*.rc
 *.so
 *.so.*
-*_pch.h.cpp
-*_resource.rc
-# Qt Linguist
-# *.qm  # Uncomment to ignore .qm files, but we commit them for CI
-!resources/translations/*.qm  # Keep translation files in resources/translations
-.#*
-*.*#
+*.a
+*.o
+*.obj
+*.core
+*.debug
+*.moc
 core
 !core/
-tags
-.DS_Store
-.directory
-*.debug
-Makefile*
-*.prl
-*.app
+*_pch.h.cpp
+*_resource.rc
 moc_*.cpp
 ui_*.h
 qrc_*.cpp
-Thumbs.db
-*.res
-*.rc
+.moc/
+.obj/
+.pch/
+.rcc/
+.uic/
 /.qmake.cache
 /.qmake.stash
 
-# qtcreator generated files
+# Keep EasyEDA fixture OBJ files even though generated OBJ files are ignored.
+!tests/fixtures/easyeda/*.obj
+
+# Qt Creator and Qt project files
+.qtcreator
 *.pro.user*
 *.qbs.user*
 CMakeLists.txt.user*
+*.prl
 
-# xemacs temporary files
-*.flc
-
-# Vim temporary files
-.*.swp
-
-# Visual Studio generated files
+# IDE and editor files
+.vscode/*
+!.vscode/
+!.vscode/settings.json
+!.vscode/c_cpp_properties.json
+!.vscode/extensions.json
 *.ib_pdb_index
 *.idb
 *.ilk
@@ -63,102 +65,92 @@ CMakeLists.txt.user*
 *.opensdf
 *.vcxproj
 *vcxproj.*
-
-# MinGW generated files
 *.Debug
 *.Release
+tags
+.*.swp
+*~
+*.autosave
+*.orig
+*.rej
+.#*
+*.*#
+*.flc
 
-# Python byte code
+# Operating-system files
+.DS_Store
+.directory
+Thumbs.db
+
+# Python environment and bytecode
+.venv/
+.cache/
 *.pyc
 
-# vcpkg
-vcpkg.json.bak
+# CodeGraph generated state
+.codegraph/
+.format_cache.json
 
-# Binaries
-# --------
-*.dll
-*.exe
-*.msix
-*.msi
-
-# Directories with generated files
-.moc/
-.obj/
-.pch/
-.rcc/
-.uic/
-/build*/
-/.venv/
-
-
-
-test_date
-test_data/*
-EasyKiConverter_QT
-easyeda_convertlib.kicad_sym
-demo.kicad_sym
-SMB_L4.6-W3.5-LS5.3-BI.wrl
-SOD-123FL_L2.7-W1.8-LS3.8-BI.wrl
-SMB_L4.6-W3.5-LS5.3-BI.wrl
-SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.wrl
-.qtcreator
-.vscode/*
-!.vscode/
-!.vscode/settings.json
-!.vscode/c_cpp_properties.json
-!.vscode/extensions.json
-temp_project
-tests/build
-demo
-C414042_data.json
-pin_segment5_analysis.txt
-AGENTS.md
-gha-creds-*.json
-.gemini*
-.cache
-
-# Documentation build
+# Documentation build output
 docs/api/html/
 docs/api/latex/
 docs/api/xml/
 docs/api/doxygen_warnings.log
 docs/api/easykiconverter.tag
 site/
+
+# Packaging and deployment output
+flatpak-repo/
+flatpak-repo-local/
+flatpak-build-local.log
+.flatpak-builder/
+deploy/flatpak/.flatpak-builder/
+squashfs-root/*
+
+# Generated test data, demos, logs, and local analysis output
+test_date
+test_data/*
+tests/fixtures/altium/
+tests/fixtures/altium/常用AD元件库、封装库、3D封装库.rar
+demo
+temp_project
+temp.md
+log
+logs/*
+repo/*
 tools/python/respose/*
+tools/python/response/*
 tools/python/download_results.json
 tools/python/lceda_results.json
-
-tools/python/response/*
 tools/python/datasheet/*
 tools/python/imgs/*
-repo/*
-logs/*
-flatpak-repo/*
-.flatpak-builder/*
-flatpak-repo-local/*
-flatpak-build-local.log
-.gitignore
-flatpak-build.log
-build.log
-aqtinstall.log
-temp.md
-squashfs-root/*
-deploy/flatpak/.flatpak-builder/*
-.format_cache.json
-log
-CLAUDE.md
-/testbom.xlsx
-GEMINI.md
-.codex
-.codegraph/daemon.pid
-.codegraph/
-tests/fixtures/altium/常用AD元件库、封装库、3D封装库.rar
-opencode.json
-tests/fixtures/altium/
-PROJECT_INSTRUCTIONS.md
+pin_segment5_analysis.txt
+C414042_data.json
+testbom.xlsx
 
-# Large media files (use external hosting instead)
-*.mp4
+# Local application data and generated libraries
+EasyKiConverter_QT
+easyeda_convertlib.kicad_sym
+demo.kicad_sym
+SMB_L4.6-W3.5-LS5.3-BI.wrl
+SOD-123FL_L2.7-W1.8-LS3.8-BI.wrl
+SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95.wrl
+
+# Downloaded or large media assets
 *.rar
+*.mp4
 docs/submissions/北京开元工业软件研究/05-video.rar
-.venv
+
+# Local configuration, agent instructions, and credentials
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+PROJECT_INSTRUCTIONS.md
+opencode.json
+.codex
+.gemini*
+gha-creds-*.json
+vcpkg.json.bak
+
+# Translation sources are tracked; do not ignore compiled catalogs.
+# *.qm

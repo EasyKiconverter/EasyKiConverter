@@ -19,7 +19,6 @@
 │   └── security.yml       # 安全扫描工作流
 ├── CODE_OF_CONDUCT.md     # 行为准则
 ├── CONTRIBUTING.md        # 贡献指南
-├── FUNDING.yml            # 赞助配置
 ├── pull_request_template.md # Pull Request 模板
 ├── README.md              # .github 文件夹说明
 ├── SECURITY.md            # 安全政策
@@ -66,11 +65,7 @@ GitHub 会自动在以下位置显示此文件：
 - Pull Request 页面的 "Security" 链接
 - 专门的 Security 标签页
 
-### 7. 赞助配置 (FUNDING.yml)
-
-GitHub 会在项目页面显示赞助链接，支持用户赞助项目。
-
-### 8. GitHub Actions 工作流 (workflows/)
+### 7. GitHub Actions 工作流 (workflows/)
 
 自动化工作流程：
 
@@ -94,8 +89,7 @@ git push origin dev
 
 1. 访问项目的 Issues 页面，查看是否显示模板
 2. 访问项目的 Pull Requests 页面，查看是否显示 PR 模板
-3. 检查项目页面是否显示赞助链接
-4. 查看 Actions 标签页，确认工作流已加载
+3. 查看 Actions 标签页，确认工作流已加载
 
 ## 自定义
 
@@ -124,15 +118,6 @@ jobs:
       # 你的步骤
 ```
 
-### 修改赞助信息
-
-编辑 `FUNDING.yml` 文件：
-
-```yaml
-github: [你的用户名]
-custom: ["你的赞助链接"]
-```
-
 ## 注意事项
 
 1. **文件位置**: 所有文件必须在 `.github` 文件夹的根目录或子目录中
@@ -155,7 +140,6 @@ custom: ["你的赞助链接"]
 - 更新 Issue 模板以反映新的问题类型
 - 更新工作流以使用最新的 Actions 版本
 - 更新安全政策以反映新的安全实践
-- 更新赞助信息
 
 ## 反馈
 

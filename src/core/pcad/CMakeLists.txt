@@ -1,6 +1,10 @@
 # P-CAD ASCII PCB 专用模型到统一 IR 的适配模块。
 
 add_library(EasyKiConverterPcad STATIC
+    ExporterPcadFootprint.h
+    ExporterPcadFootprint.cpp
+    ExporterPcadSymbol.h
+    ExporterPcadSymbol.cpp
     PcadAdapter.h
     PcadAdapter.cpp
 )
@@ -16,4 +20,5 @@ target_link_libraries(EasyKiConverterPcad
         Qt6::Core
         EasyKiConverterIR
         EasyKiConverterParser
+        EasyKiConverterUtils
 )

@@ -23,7 +23,7 @@ easykiconverter convert batch -i <component_list_file> -o <output_dir> [options]
 | `--output` | `-o` | Output directory path | - |
 | `--lib-name` | | Export library name | EasyKiConverter |
 | `--component` | `-c` | LCSC component ID | - |
-| `--target-format` | | Target format (kicad/altium/xpedition) | kicad |
+| `--target-format` | | Target format (kicad/altium/xpedition/allegro/pads/eagle/pcad/cadstar) | kicad |
 | `--symbol` | | Export symbol library | true |
 | `--footprint` | | Export footprint library | true |
 | `--3d-model` | | Export 3D models (default WRL format) | false |
@@ -52,7 +52,11 @@ CLI mode exports the following by default:
 **Note**:
 - 3D models, preview images, and datasheets are not exported by default
 - Use `--3d-model` when needed; KiCad defaults to WRL, while Altium automatically converges to STEP and embeds it in PcbLib
-- Xpedition currently exports symbol and footprint ZIP packages only and does not support 3D model association; `--3d-model` records a warning and skips the 3D stage
+- Xpedition exports symbol and footprint ZIP packages and can emit standalone WRL/STEP model files through the independent stage; native Xpedition 3D associations are not written
+- PADS currently exports ASCII Schematic Decal symbols, Part Type device associations, and PCB Decal footprints; `--3d-model` emits WRL/STEP files through the independent model stage, while update, append, and retry modes are rejected
+- Eagle exports XML `.lbr` libraries containing symbols, packages, DeviceSets, and pin-to-pad connections; `--3d-model` emits WRL/STEP files through the independent model stage but does not fabricate managed `package3d` associations, while update, append, and retry modes are rejected
+- P-CAD export includes a separate ASCII schematic library (`_PCAD_SCH.lia`), PCB Library (`.lia`), and independent WRL/STEP model stage. Complex schematic primitives, update, append, and retry modes are rejected with diagnostics
+- CADSTAR currently exports a UTF-8 ASCII `.lib` containing Component, Package, Pad, and Part associations in complete mode; 3D models are emitted by the independent stage without unverified CADSTAR private model links, and update, append, and retry modes are rejected
 - Use `--datasheet` when datasheets are needed
 - Normal mode does not generate detailed reports; only in debug mode (`--debug`)
 
@@ -67,10 +71,11 @@ easykiconverter convert component -c C12345 -o ./output \
 ```
 
 Notes:
-- `--cache-dir` specifies the cache root directory for this run
+- `--cache-dir` specifies the cache root directory for this run; it must be empty or contain an EasyKiConverter ownership marker. Roots, the user home directory, and symbolic-link directories are rejected.
 - Valid range for `--cache-size-mb` is `1` to `1048576`
-- When modifying the cache directory in GUI, the app attempts to migrate old cache data to the new directory to reuse already-downloaded data; existing files with the same name are not overwritten
+- In the GUI, the path is validated and verified entries are migrated only after editing is complete; conflicts or migration failures preserve the source and keep the previous configuration.
 - 3D model cache is stored in the `model3d` subdirectory of the cache directory, excluded from LRU eviction by default to avoid frequent re-downloading of large files
+- Clear-cache only moves verified entries to the system trash; unknown content and entries that fail trash operations are preserved, with no permanent-delete fallback.
 
 ## Shell Completion
 

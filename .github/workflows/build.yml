@@ -323,20 +323,48 @@ jobs:
           $ctestProcess = Start-Process -FilePath "ctest" -ArgumentList $ctestArguments -NoNewWindow -Wait -PassThru
           $ctestExitCode = $ctestProcess.ExitCode
           if ($ctestExitCode -ne 0) {
-            # CTest 在 Windows 上可能不转发异常退出测试的标准输出，直接重跑当前已知失败的缓存测试。
-            # 该测试覆盖缓存目录迁移、异步写入和 3D 模型缓存，不能误诊为临时文件测试。
-            $diagnosticTests = @("test_component_cache_service", "test_temp_file_manager")
-            foreach ($testName in $diagnosticTests) {
-              $diagnosticTest = Join-Path $env:GITHUB_WORKSPACE "build\bin\${testName}.exe"
-              if (-not (Test-Path $diagnosticTest)) {
+            # 使用 CTest 记录的失败清单重跑实际失败项，避免硬编码无关测试掩盖真实断言。
+            $rerunStdout = Join-Path $env:RUNNER_TEMP "ctest-rerun-failed.stdout.log"
+            $rerunStderr = Join-Path $env:RUNNER_TEMP "ctest-rerun-failed.stderr.log"
+            $rerunArguments = @(
+              "--test-dir", "build",
+              "-C", "${{ env.BUILD_TYPE }}",
+              "--rerun-failed",
+              "--output-on-failure",
+              "--no-tests=error"
+            )
+            $rerunProcess = Start-Process -FilePath "ctest" -ArgumentList $rerunArguments -NoNewWindow -Wait -PassThru `
+              -RedirectStandardOutput $rerunStdout -RedirectStandardError $rerunStderr
+            Write-Host "ctest --rerun-failed exit code: $($rerunProcess.ExitCode)"
+            if (Test-Path $rerunStdout) { Get-Content $rerunStdout }
+            if (Test-Path $rerunStderr) { Get-Content $rerunStderr }
+
+            # CTest 可能只报告 ***Failed 而不转发 QtTest 输出，直接运行失败测试收集原始进程信息。
+            $failedTestsFile = Join-Path $env:GITHUB_WORKSPACE "build\Testing\Temporary\LastTestsFailed.log"
+            $failedTestNames = @()
+            if (Test-Path $failedTestsFile) {
+              $failedTestNames = @(
+                Get-Content $failedTestsFile | ForEach-Object {
+                  if ($_ -match '^\s*\d+:(?<name>[^\s]+)\s*$') {
+                    $Matches['name']
+                  }
+                } | Sort-Object -Unique
+              )
+            }
+            foreach ($testName in $failedTestNames) {
+              $testExecutable = Join-Path $env:GITHUB_WORKSPACE "build\bin\${testName}.exe"
+              if (-not (Test-Path $testExecutable)) {
+                Write-Warning "Failed test executable not found: $testExecutable"
                 continue
               }
 
               $testStdout = Join-Path $env:RUNNER_TEMP "${testName}.stdout.log"
               $testStderr = Join-Path $env:RUNNER_TEMP "${testName}.stderr.log"
-              $testProcess = Start-Process -FilePath $diagnosticTest -ArgumentList "-vs" -WorkingDirectory (Get-Location) -Wait -PassThru `
+              $testProcess = Start-Process -FilePath $testExecutable -ArgumentList "-vs" -WorkingDirectory (Get-Location) -Wait -PassThru `
                 -RedirectStandardOutput $testStdout -RedirectStandardError $testStderr
-              Write-Host "${testName}.exe exit code: $($testProcess.ExitCode)"
+              $unsignedExitCode = [uint32]$testProcess.ExitCode
+              $hexExitCode = "0x{0:X8}" -f $unsignedExitCode
+              Write-Host "${testName}.exe exit code: $($testProcess.ExitCode) ($hexExitCode)"
               if (Test-Path $testStdout) { Get-Content $testStdout }
               if (Test-Path $testStderr) { Get-Content $testStderr }
             }

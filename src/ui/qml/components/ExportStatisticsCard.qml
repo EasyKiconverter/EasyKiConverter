@@ -8,6 +8,17 @@ Card {
     // 外部依赖
     property var exportProgressController
     property var exportSettingsController
+    ConfirmDialog {
+        id: clearCacheDialog
+        title: qsTranslate("MainWindow", "确认清空缓存")
+        confirmText: qsTranslate("MainWindow", "移入回收站")
+        cancelText: qsTranslate("MainWindow", "取消")
+        message: qsTranslate("MainWindow", "将处理 %1 个已验证的 EasyKiConverter 缓存条目，并移入系统回收站。未知文件、目录和无法验证的内容会保留；如果回收站不可用，原数据不会被删除。是否继续？").arg(exportStatisticsCard.exportProgressController ? exportStatisticsCard.exportProgressController.cacheEntryCount() : 0)
+        onAccepted: {
+            if (exportStatisticsCard.exportProgressController)
+                exportStatisticsCard.exportProgressController.clearCache();
+        }
+    }
     title: qsTranslate("MainWindow", "导出统计")
     visible: exportStatisticsCard.exportProgressController ? exportStatisticsCard.exportProgressController.hasCompletedExport : false
     ColumnLayout {
@@ -143,9 +154,7 @@ Card {
                 hoverColor: AppStyle.colors.dangerDark
                 pressedColor: AppStyle.colors.danger
                 onClicked: {
-                    if (exportStatisticsCard.exportProgressController) {
-                        exportStatisticsCard.exportProgressController.clearCache();
-                    }
+                    clearCacheDialog.open();
                 }
             }
             // 打开缓存目录按钮（只在调试模式下显示）

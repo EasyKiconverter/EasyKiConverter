@@ -90,7 +90,7 @@ public:
      * @param cacheDir 缓存目录路径
      * @param migrateExistingCache 是否将旧缓存目录内容迁移到新目录
      */
-    void setCacheDir(const QString& cacheDir, bool migrateExistingCache = false);
+    bool setCacheDir(const QString& cacheDir, bool migrateExistingCache = false);
 
     /**
      * @brief 获取缓存根目录
@@ -444,6 +444,12 @@ public:
     qint64 getCacheSize() const;
 
     /**
+     * @brief 获取当前所有权可验证的缓存条目数量。
+     * @return 元器件缓存目录和三维模型文件的数量。
+     */
+    int getOwnedCacheEntryCount() const;
+
+    /**
      * @brief 获取L1内存缓存大小
      * @return qint64 字节数
      */
@@ -497,6 +503,9 @@ signals:
      * @brief L1内存缓存大小变化信号
      */
     void memoryCacheSizeChanged(qint64 newSize);
+
+    /** @brief 报告缓存路径验证、迁移或回收站操作警告。 */
+    void cacheMaintenanceWarning(const QString& message);
 
 private:
     friend class ComponentCacheCadDataWriter;

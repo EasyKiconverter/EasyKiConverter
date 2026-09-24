@@ -4,7 +4,7 @@ This guide will help you get started with EasyKiConverter quickly.
 
 ## Introduction
 
-EasyKiConverter is a powerful C++ desktop application for converting LCSC and EasyEDA components to KiCad or Altium formats. It provides complete conversion of symbols, footprints, and 3D models with a modern user interface and efficient conversion performance.
+EasyKiConverter is a C++ desktop application for converting LCSC and EasyEDA component data into multiple EDA library outputs. The current export pipeline covers symbols, footprints, device associations, and 3D model files for KiCad, Altium, Xpedition, PADS, Eagle, P-CAD, CADSTAR, and OrCAD Capture, with target-specific scope and diagnostics. Read the [format capability matrix](../project/UNIVERSAL_EDA_LIBRARY_CONVERTER_en.md) before choosing a target because native-format coverage differs between tools.
 
 ## Prerequisites
 
@@ -26,13 +26,10 @@ Before using EasyKiConverter, ensure you have:
 
 ### Option 1: Download Pre-built Binary
 
-1. Go to the [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) page
-2. Download the latest release for your operating system
-3. Extract the downloaded archive
-4. Run the application:
-   - Windows: Double-click `EasyKiConverter.exe`
-   - macOS: Double-click `EasyKiConverter.app`
-   - Linux: Run `./EasyKiConverter`
+1. Go to the [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) page.
+2. On Windows, choose `windows-x86_64` for Intel/AMD 64-bit devices or `windows-arm64` for Windows on Arm, then choose the installer, portable ZIP, or MSIX package.
+3. On macOS, choose `macos-x86_64.dmg` or `macos-arm64.dmg`; on Linux, choose `linux-x86_64.AppImage` or `linux-aarch64.AppImage`.
+4. Follow the platform-specific installation or launch instructions in the [User Guide](USER_GUIDE_en.md).
 
 ### Option 2: Build from Source
 

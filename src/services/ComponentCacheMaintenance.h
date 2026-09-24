@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CacheSafety.h"
+
 #include <QStringList>
 
 namespace EasyKiConverter {
@@ -14,7 +16,8 @@ class ComponentCacheService;
 class ComponentCacheMaintenance final {
 public:
     /** @brief 创建绑定到指定缓存服务的维护协调器。 */
-    explicit ComponentCacheMaintenance(ComponentCacheService& owner);
+    explicit ComponentCacheMaintenance(ComponentCacheService& owner,
+                                       const CacheSafety::TrashFunction& trash = CacheSafety::TrashFunction());
 
     /** @brief 删除指定元器件的一级和二级缓存。 */
     void remove(const QString& componentId);
@@ -33,6 +36,7 @@ public:
 
 private:
     ComponentCacheService& m_owner;
+    CacheSafety::TrashFunction m_trash;
 };
 
 }  // namespace EasyKiConverter

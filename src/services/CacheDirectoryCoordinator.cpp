@@ -1,6 +1,7 @@
 #include "CacheDirectoryCoordinator.h"
 
 #include "CacheDirectoryMigrator.h"
+#include "CacheSafety.h"
 #include "ComponentCacheService.h"
 #include "utils/logging/LogMacros.h"
 
@@ -16,8 +17,14 @@ CacheDirectoryCoordinator::CacheDirectoryCoordinator(ComponentCacheService& owne
  * @brief 在统一锁边界内完成缓存目录切换。
  * @details 切换目录会使旧代次写入失效，并清空没有目录归属信息的一级缓存。
  */
-void CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migrateExistingCache) {
-    const QString newCacheDir = QDir::cleanPath(cacheDir);
+bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migrateExistingCache) {
+    QString newCacheDir;
+    QString validationError;
+    if (!CacheSafety::validateSelection(cacheDir, &newCacheDir, &validationError) ||
+        !CacheSafety::ensureOwnedRoot(newCacheDir, &validationError)) {
+        emit m_owner.cacheMaintenanceWarning(validationError);
+        return false;
+    }
     QString oldCacheDir;
     {
         QMutexLocker locker(&m_owner.m_cacheDirMutex);
@@ -35,7 +42,16 @@ void CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migra
 
         // 迁移期间持有磁盘写锁，避免异步写入与目录迁移交错。
         if (migrateExistingCache && !oldCacheDir.isEmpty() && cacheDirChanged) {
-            CacheDirectoryMigrator::migrate(oldCacheDir, newCacheDir);
+            QString model3dError;
+            if (!CacheSafety::ensureOwnedModel3DDirectory(newCacheDir, &model3dError)) {
+                emit m_owner.cacheMaintenanceWarning(model3dError);
+                return false;
+            }
+            if (!CacheDirectoryMigrator::migrate(oldCacheDir, newCacheDir)) {
+                const QString error = QStringLiteral("缓存目录迁移失败，源目录已保留：%1").arg(oldCacheDir);
+                emit m_owner.cacheMaintenanceWarning(error);
+                return false;
+            }
         }
 
         // 目录创建也在锁内，确保切换期间读写使用完整的目录结构。
@@ -43,9 +59,10 @@ void CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migra
         if (!dir.exists(newCacheDir)) {
             dir.mkpath(newCacheDir);
         }
-        const QString model3dDir = newCacheDir + "/model3d";
-        if (!dir.exists(model3dDir)) {
-            dir.mkpath(model3dDir);
+        QString model3dError;
+        if (!CacheSafety::ensureOwnedModel3DDirectory(newCacheDir, &model3dError)) {
+            emit m_owner.cacheMaintenanceWarning(model3dError);
+            return false;
         }
 
         // 原子切换缓存目录指针。
@@ -65,6 +82,7 @@ void CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migra
 
     m_owner.selfHealCache();
     LOG_DEBUG(LogModule::Core, "Cache directory set to: {}", newCacheDir);
+    return true;
 }
 
 }  // namespace EasyKiConverter

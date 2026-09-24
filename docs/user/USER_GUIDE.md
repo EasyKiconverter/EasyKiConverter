@@ -24,21 +24,21 @@
 
 #### Windows
 
-1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载最新版本
-2. 解压下载的压缩包
-3. 双击 `EasyKiConverter.exe` 运行应用程序
+1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载与设备匹配的包。Intel/AMD 64 位设备选择文件名中的 `windows-x86_64`；Windows on Arm 选择 `windows-arm64`。
+2. 普通安装请选择 `-installer.exe`；免安装使用请选择 `-portable.zip` 并解压到新的目录；MSIX 用户请选择 `.msix` 包并按系统提示安装。
+3. 安装程序或 MSIX 安装完成后从开始菜单启动；便携版解压后运行目录中的 `easykiconverter.exe`。
 
 #### macOS
 
 1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载最新版本
-2. 解压下载的压缩包
-3. 双击 `EasyKiConverter.app` 运行应用程序
+2. Intel Mac 下载 `macos-x86_64.dmg`，Apple Silicon Mac 下载 `macos-arm64.dmg`
+3. 打开 DMG，将 `EasyKiConverter.app` 拖入“应用程序”文件夹后启动
 
 #### Linux
 
 1. 从 [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) 下载最新版本
-2. 解压下载的压缩包
-3. 运行 `./EasyKiConverter` 启动应用程序
+2. 根据 CPU 架构下载 `linux-x86_64.AppImage` 或 `linux-aarch64.AppImage`
+3. 为 AppImage 添加执行权限并运行：`chmod +x EasyKiConverter-*.AppImage && ./EasyKiConverter-*.AppImage`
 
 ## 界面介绍
 
@@ -116,7 +116,24 @@
    - 磁盘缓存上限：限制普通元件缓存占用空间，单位为 MB
 5. **注意**：所有设置修改后会即时自动保存，无需手动点击保存按钮。
 
-修改缓存目录时，应用会尝试把旧缓存迁移到新目录，以复用已下载数据。目标目录已有同名文件时不会覆盖；迁移未完成的文件会保留在旧目录中。
+缓存目录必须是空目录、应用默认缓存目录，或能够由缓存元数据完整识别的旧版缓存目录；文件系统根目录、用户主目录本身及其其他后代路径、符号链接目录会被拒绝（应用默认缓存目录是唯一例外）。编辑缓存路径时不会在每个字符输入后执行迁移，只有选择目录或编辑完成并通过校验后才会应用。
+
+缓存维护遵循以下边界：
+
+- 根目录和缓存条目必须通过所有权标记及元数据身份校验；升级前的旧缓存只有在其文件布局和元数据均可识别时才会被接管，未知文件、目录、符号链接和无法验证的旧缓存会保留。
+- 启动自愈、磁盘配额裁剪、目录迁移和“清空缓存”只处理可验证归属的条目。
+- 清空缓存前会显示待处理条目数量。确认后，条目会移动到系统回收站；回收站不可用或操作失败时保留原文件，不会永久删除。
+- 迁移发生冲突或失败时保留源目录和用户文件，当前配置不会切换到未完成的目标目录。
+
+```mermaid
+flowchart TD
+    Select[选择或编辑缓存目录] --> Validate{路径与所有权校验}
+    Validate -- 失败 --> Keep[保留当前配置并提示原因]
+    Validate -- 通过 --> Apply[确认后应用并迁移可验证条目]
+    Apply --> Maintain[自愈、配额裁剪或清空]
+    Maintain --> Trash[仅将已验证条目移入系统回收站]
+    Maintain --> Preserve[未知或失败条目保留]
+```
 
 ### 开始转换
 

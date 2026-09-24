@@ -58,7 +58,7 @@ AltiumSchText makePinText(const QString& value,
 
 }  // namespace
 
-/** @brief 按原有规则转换引脚名称和编号文本，并保留诊断信息。 */
+/** @brief 转换引脚名称和编号文本，并将编号统一输出为水平文本。 */
 QList<AltiumSchText> AltiumSymbolPinTextConverter::convert(const IR::SymbolPinIR& pin,
                                                            const QString& symbolName,
                                                            QStringList* diagnostics) {
@@ -81,22 +81,27 @@ QList<AltiumSchText> AltiumSymbolPinTextConverter::convert(const IR::SymbolPinIR
                                      diagnostics));
         }
     }
-    if (pin.hasNumberPosition && !pin.designator.isEmpty()) {
-        if (!std::isfinite(pin.numberFontSizeMm) || pin.numberFontSizeMm < 0.0 || !std::isfinite(pin.numberRotation) ||
-            !std::isfinite(pin.numberPosition.x()) || !std::isfinite(pin.numberPosition.y())) {
+    const bool showDesignator = pin.display.showDesignator || pin.showDesignator;
+    if (showDesignator && !pin.designator.isEmpty()) {
+        // 没有可靠的源编号坐标时使用 IR 提供的引脚位置，避免回退到 Altium 随引脚旋转的内置编号。
+        const QPointF numberPosition = pin.hasNumberPosition ? pin.numberPosition : pin.position;
+        if (!std::isfinite(pin.numberFontSizeMm) || pin.numberFontSizeMm < 0.0 || !std::isfinite(numberPosition.x()) ||
+            !std::isfinite(numberPosition.y())) {
             appendDiagnostic(
                 diagnostics,
                 QStringLiteral("符号 %1 引脚 %2 编号文本参数无效，已跳过").arg(symbolName).arg(pin.designator));
         } else {
-            texts.append(makePinText(pin.designator,
-                                     pin.numberPosition,
-                                     pin.numberFontSizeMm,
-                                     pin.numberRotation,
-                                     pin.numberAnchor,
-                                     symbolName,
-                                     QStringLiteral("引脚 %1 编号文本").arg(pin.designator),
-                                     pin,
-                                     diagnostics));
+            AltiumSchText numberText = makePinText(pin.designator,
+                                                   numberPosition,
+                                                   pin.numberFontSizeMm,
+                                                   0.0,
+                                                   pin.numberAnchor,
+                                                   symbolName,
+                                                   QStringLiteral("引脚 %1 编号文本").arg(pin.designator),
+                                                   pin,
+                                                   diagnostics);
+            numberText.isFallbackPinNumber = !pin.hasNumberPosition;
+            texts.append(numberText);
         }
     }
     return texts;

@@ -75,6 +75,30 @@ flowchart TD
 
 4. **缓存预热**: 导出前批量加载已缓存数据
 
+### 所有权与清理边界
+
+- 缓存根目录使用 `.easykiconverter-cache.json` 标记，`model3d` 子目录使用独立标记。
+- 元器件条目必须同时满足目录层级、`lcscId`、`cacheOwner` 和版本字段校验，旧格式或不完整条目不自动接管。
+- 自愈、配额裁剪、迁移和清空只枚举可验证条目；未知文件、目录和符号链接保留。
+- 清理使用 Qt 6.6 可用的 `QFile::moveToTrash()`。回收站失败时保留原数据，不回退到永久删除。
+
+```mermaid
+sequenceDiagram
+    participant User as 用户
+    participant Service as ComponentCacheService
+    participant Safety as CacheSafety
+    participant Trash as 系统回收站
+    User->>Service: 选择目录或确认清理
+    Service->>Safety: 校验路径、标记和条目身份
+    alt 校验失败
+        Safety-->>Service: 拒绝并保留原配置
+    else 校验通过
+        Service->>Trash: 移动已验证条目
+        Trash-->>Service: 成功或失败
+        Service-->>User: 报告结果，失败时保留原文件
+    end
+```
+
 ### 未使用但保留的代码
 
 `ComponentDataCache` 类（`src/services/export/ComponentDataCache.h`）:

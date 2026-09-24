@@ -87,8 +87,8 @@ private slots:
         QCOMPARE(plan.runningStageCount(), 5);
     }
 
-    // 验证 Xpedition 不会启动独立三维模型阶段，但仍保留导出选项之外的阶段计划。
-    void exportRunPlanSkipsXpeditionModelStage() {
+    // 验证 Xpedition 会输出独立三维模型，但不请求原生内嵌关联。
+    void exportRunPlanUsesStandaloneXpeditionModelStage() {
         ExportOptions options;
         options.targetFormat = TargetEdaFormat::Xpedition;
         options.exportSymbol = false;
@@ -97,10 +97,228 @@ private slots:
 
         const ExportRunPlan plan = buildExportRunPlan(options, {}, {});
 
-        QVERIFY(!plan.enableModel3D);
-        QVERIFY(!plan.runExternalModel3DStage);
-        QCOMPARE(plan.progressTypeNames(), QStringList{QStringLiteral("Footprint")});
+        QCOMPARE(plan.enableModel3D, true);
+        QCOMPARE(plan.runExternalModel3DStage, true);
+        QCOMPARE(plan.progressTypeNames(), QStringList({QStringLiteral("Footprint"), QStringLiteral("Model3D")}));
+        QCOMPARE(plan.runningStageCount(), 2);
+    }
+
+    // 验证仅导出独立三维模型时不会额外启动封装库阶段。
+    void exportRunPlanUsesOnlyStandaloneModelStage() {
+        ExportOptions options;
+        options.targetFormat = TargetEdaFormat::Xpedition;
+        options.exportSymbol = false;
+        options.exportFootprint = false;
+        options.exportModel3D = true;
+
+        const ExportRunPlan plan = buildExportRunPlan(options, {}, {});
+
+        QVERIFY(!plan.enableSymbol);
+        QVERIFY(!plan.enableFootprint);
+        QVERIFY(plan.enableModel3D);
+        QVERIFY(plan.runExternalModel3DStage);
+        QCOMPARE(plan.progressTypeNames(), QStringList({QStringLiteral("Model3D")}));
         QCOMPARE(plan.runningStageCount(), 1);
+    }
+
+    // 验证 OrCAD 的独立三维导出只启动模型阶段，不错误创建不存在的封装导出阶段。
+    void exportRunPlanKeepsOrcadModelIndependent() {
+        ExportOptions options;
+        options.targetFormat = TargetEdaFormat::Orcad;
+        options.exportSymbol = false;
+        options.exportFootprint = false;
+        options.exportModel3D = true;
+
+        auto component = QSharedPointer<ComponentData>::create();
+        component->setLcscId(QStringLiteral("C12399"));
+        component->setFootprintData(QSharedPointer<FootprintData>::create());
+
+        const ExportRunPlan plan =
+            buildExportRunPlan(options, {QStringLiteral("C12399")}, {{QStringLiteral("C12399"), component}});
+
+        QVERIFY(!plan.enableSymbol);
+        QVERIFY(!plan.enableFootprint);
+        QVERIFY(plan.enableModel3D);
+        QVERIFY(plan.runExternalModel3DStage);
+        QCOMPARE(plan.exportableComponentIds, QStringList{QStringLiteral("C12399")});
+        QCOMPARE(plan.progressTypeNames(), QStringList{QStringLiteral("Model3D")});
+        QCOMPARE(plan.runningStageCount(), 1);
+    }
+
+    // 验证独立三维模型可以在没有封装数据时单独导出，不被封装阶段的输入条件阻断。
+    void exportRunPlanAcceptsIndependentModelWithoutFootprint() {
+        ExportOptions options;
+        options.targetFormat = TargetEdaFormat::Xpedition;
+        options.exportSymbol = false;
+        options.exportFootprint = false;
+        options.exportModel3D = true;
+
+        auto component = QSharedPointer<ComponentData>::create();
+        component->setLcscId(QStringLiteral("C12400"));
+        component->setSymbolData(QSharedPointer<SymbolData>::create());
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("independent-model"));
+        model->setName(QStringLiteral("IndependentModel"));
+        component->setModel3DData(model);
+
+        const ExportRunPlan plan =
+            buildExportRunPlan(options, {QStringLiteral("C12400")}, {{QStringLiteral("C12400"), component}});
+
+        QVERIFY(!plan.enableSymbol);
+        QVERIFY(!plan.enableFootprint);
+        QVERIFY(plan.runExternalModel3DStage);
+        QCOMPARE(plan.exportableComponentIds, QStringList{QStringLiteral("C12400")});
+        QVERIFY(plan.missingDataComponentIds.isEmpty());
+    }
+
+    // 验证组合库目标会同时规划符号、封装和独立三维模型输出。
+    void exportRunPlanIncludesAllLibraryArtifacts() {
+        ExportOptions options;
+        options.exportSymbol = true;
+        options.exportFootprint = true;
+        options.exportModel3D = true;
+
+        options.targetFormat = TargetEdaFormat::Pcad;
+        ExportRunPlan pcadPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(pcadPlan.enableSymbol);
+        QVERIFY(pcadPlan.enableFootprint);
+        QVERIFY(pcadPlan.enableModel3D);
+        QVERIFY(pcadPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Eagle;
+        const ExportRunPlan eaglePlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(!eaglePlan.enableSymbol);
+        QVERIFY(eaglePlan.enableFootprint);
+        QVERIFY(eaglePlan.enableModel3D);
+        QVERIFY(eaglePlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Altium;
+        const ExportRunPlan altiumPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(altiumPlan.enableSymbol);
+        QVERIFY(altiumPlan.enableFootprint);
+        QVERIFY(altiumPlan.enableModel3D);
+        QVERIFY(!altiumPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Orcad;
+        const ExportRunPlan orcadPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(orcadPlan.enableSymbol);
+        QVERIFY(!orcadPlan.enableFootprint);
+        QVERIFY(orcadPlan.enableModel3D);
+        QVERIFY(orcadPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Xpedition;
+        const ExportRunPlan xpeditionPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(xpeditionPlan.enableSymbol);
+        QVERIFY(xpeditionPlan.enableFootprint);
+        QVERIFY(xpeditionPlan.enableModel3D);
+        QVERIFY(xpeditionPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Pads;
+        const ExportRunPlan padsPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(padsPlan.enableSymbol);
+        QVERIFY(padsPlan.enableFootprint);
+        QVERIFY(padsPlan.enableModel3D);
+        QVERIFY(padsPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Cadstar;
+        const ExportRunPlan cadstarPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(!cadstarPlan.enableSymbol);
+        QVERIFY(cadstarPlan.enableFootprint);
+        QVERIFY(cadstarPlan.enableModel3D);
+        QVERIFY(cadstarPlan.runExternalModel3DStage);
+
+        options.targetFormat = TargetEdaFormat::Allegro;
+        const ExportRunPlan allegroPlan = buildExportRunPlan(options, {}, {});
+        QVERIFY(!allegroPlan.enableSymbol);
+        QVERIFY(allegroPlan.enableFootprint);
+        QVERIFY(allegroPlan.enableModel3D);
+        QVERIFY(!allegroPlan.runExternalModel3DStage);
+    }
+
+    // 验证仅符号或仅封装的目标不会被另一类未启用数据错误阻断。
+    void exportRunPlanUsesOnlyRequiredLibraryData() {
+        auto symbolOnly = QSharedPointer<ComponentData>::create();
+        symbolOnly->setLcscId(QStringLiteral("C100"));
+        symbolOnly->setSymbolData(QSharedPointer<SymbolData>::create());
+
+        ExportOptions orcadOptions;
+        orcadOptions.targetFormat = TargetEdaFormat::Orcad;
+        orcadOptions.exportSymbol = true;
+        orcadOptions.exportFootprint = false;
+        orcadOptions.exportModel3D = false;
+        const ExportRunPlan orcadPlan =
+            buildExportRunPlan(orcadOptions, {QStringLiteral("C100")}, {{QStringLiteral("C100"), symbolOnly}});
+        QCOMPARE(orcadPlan.exportableComponentIds, QStringList{QStringLiteral("C100")});
+
+        auto footprintOnly = QSharedPointer<ComponentData>::create();
+        footprintOnly->setLcscId(QStringLiteral("C200"));
+        footprintOnly->setFootprintData(QSharedPointer<FootprintData>::create());
+
+        ExportOptions allegroOptions;
+        allegroOptions.targetFormat = TargetEdaFormat::Allegro;
+        allegroOptions.exportSymbol = false;
+        allegroOptions.exportFootprint = true;
+        allegroOptions.exportModel3D = false;
+        const ExportRunPlan allegroPlan =
+            buildExportRunPlan(allegroOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
+        QCOMPARE(allegroPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+
+        ExportOptions eagleOptions;
+        eagleOptions.targetFormat = TargetEdaFormat::Eagle;
+        eagleOptions.exportSymbol = false;
+        eagleOptions.exportFootprint = true;
+        const ExportRunPlan eaglePlan =
+            buildExportRunPlan(eagleOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
+        QCOMPARE(eaglePlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+
+        ExportOptions eagleSymbolOptions;
+        eagleSymbolOptions.targetFormat = TargetEdaFormat::Eagle;
+        eagleSymbolOptions.exportSymbol = true;
+        eagleSymbolOptions.exportFootprint = false;
+        auto eagleSymbolData = QSharedPointer<ComponentData>::create();
+        eagleSymbolData->setLcscId(QStringLiteral("C300"));
+        eagleSymbolData->setSymbolData(QSharedPointer<SymbolData>::create());
+        const ExportRunPlan eagleSymbolPlan = buildExportRunPlan(
+            eagleSymbolOptions, {QStringLiteral("C300")}, {{QStringLiteral("C300"), eagleSymbolData}});
+        QVERIFY(eagleSymbolPlan.enableFootprint);
+        QVERIFY(eagleSymbolPlan.symbolOnlyCombinedLibrary);
+        QCOMPARE(eagleSymbolPlan.progressTypeNames(), QStringList{QStringLiteral("Symbol")});
+        QCOMPARE(eagleSymbolPlan.exportableComponentIds, QStringList{QStringLiteral("C300")});
+        QVERIFY(eagleSymbolPlan.missingDataComponentIds.isEmpty());
+
+        ExportOptions cadstarOptions;
+        cadstarOptions.targetFormat = TargetEdaFormat::Cadstar;
+        cadstarOptions.exportSymbol = false;
+        cadstarOptions.exportFootprint = true;
+        const ExportRunPlan cadstarPlan =
+            buildExportRunPlan(cadstarOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
+        QCOMPARE(cadstarPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+
+        ExportOptions embeddedModelOptions;
+        embeddedModelOptions.targetFormat = TargetEdaFormat::Allegro;
+        embeddedModelOptions.exportSymbol = false;
+        embeddedModelOptions.exportFootprint = false;
+        embeddedModelOptions.exportModel3D = true;
+        const ExportRunPlan embeddedModelPlan = buildExportRunPlan(
+            embeddedModelOptions, {QStringLiteral("C200")}, {{QStringLiteral("C200"), footprintOnly}});
+        QVERIFY(embeddedModelPlan.enableFootprint);
+        QCOMPARE(embeddedModelPlan.exportableComponentIds, QStringList{QStringLiteral("C200")});
+
+        ExportOptions allegroSymbolOptions;
+        allegroSymbolOptions.targetFormat = TargetEdaFormat::Allegro;
+        allegroSymbolOptions.exportSymbol = true;
+        allegroSymbolOptions.exportFootprint = false;
+        auto allegroSymbolData = QSharedPointer<ComponentData>::create();
+        allegroSymbolData->setLcscId(QStringLiteral("C400"));
+        allegroSymbolData->setSymbolData(QSharedPointer<SymbolData>::create());
+        const ExportRunPlan allegroSymbolPlan = buildExportRunPlan(
+            allegroSymbolOptions, {QStringLiteral("C400")}, {{QStringLiteral("C400"), allegroSymbolData}});
+        QVERIFY(!allegroSymbolPlan.enableSymbol);
+        QVERIFY(allegroSymbolPlan.enableFootprint);
+        QVERIFY(allegroSymbolPlan.symbolOnlyCombinedLibrary);
+        QCOMPARE(allegroSymbolPlan.progressTypeNames(), QStringList{QStringLiteral("Symbol")});
+        QCOMPARE(allegroSymbolPlan.exportableComponentIds, QStringList{QStringLiteral("C400")});
+        QVERIFY(allegroSymbolPlan.missingDataComponentIds.isEmpty());
     }
 
     // 提供三维模型格式位掩码测试所需的参数组合。

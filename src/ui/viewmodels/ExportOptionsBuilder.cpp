@@ -31,6 +31,18 @@ static const char* targetFormatName(TargetEdaFormat format) {
         return "Altium";
     if (format == TargetEdaFormat::Xpedition)
         return "Xpedition";
+    if (format == TargetEdaFormat::Allegro)
+        return "Allegro";
+    if (format == TargetEdaFormat::Pads)
+        return "PADS";
+    if (format == TargetEdaFormat::Eagle)
+        return "Eagle";
+    if (format == TargetEdaFormat::Cadstar)
+        return "CADSTAR";
+    if (format == TargetEdaFormat::Pcad)
+        return "P-CAD";
+    if (format == TargetEdaFormat::Orcad)
+        return "OrCAD Capture";
     return "KiCad";
 }
 
@@ -63,9 +75,19 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
                                : TargetEdaFormat::KiCad;
     // Xpedition ZIP 只能完整替换，界面的“覆盖”选项不能被误传成更新模式。
     const bool xpeditionTarget = options.targetFormat == TargetEdaFormat::Xpedition;
+    const bool allegroTarget = options.targetFormat == TargetEdaFormat::Allegro;
+    const bool padsTarget = options.targetFormat == TargetEdaFormat::Pads;
+    const bool eagleTarget = options.targetFormat == TargetEdaFormat::Eagle;
+    const bool pcadTarget = options.targetFormat == TargetEdaFormat::Pcad;
+    const bool orcadTarget = options.targetFormat == TargetEdaFormat::Orcad;
+    if (allegroTarget)
+        options.exportSymbol = false;
+    if (orcadTarget)
+        options.exportFootprint = false;
     options.overwriteExistingFiles =
         viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
-    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget;
+    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget &&
+                         !eagleTarget && !pcadTarget && !orcadTarget;
 
     qInfo() << "Export options:" << "OutputPath:" << options.outputPath << "LibName:" << options.libName
             << "TargetFormat:" << targetFormatName(options.targetFormat) << "Symbol:" << options.exportSymbol

@@ -174,6 +174,21 @@ private slots:
         QCOMPARE(result.placements.size(), 1);
         QVERIFY(diagnostics.items().size() >= 3);
     }
+
+    // 验证未知 Pad Style 不会静默降级为矩形，而是保留可观察诊断。
+    void rejectsUnknownPadShapeWithoutSilentDowngrade() {
+        const PcadBoard board = PcadParser::parse(
+            QStringLiteral("(ACCEL_ASCII \"B\" (UNITS MM) (LIBRARY "
+                           "(PADSTYLEDEF \"UNKNOWN\" (PADSHAPE DIAMOND (SHAPEWIDTH 1) (SHAPEHEIGHT 1))) "
+                           "(PATTERNDEF \"K\" (PAD (PADNUM 1) (PADSTYLEREF \"UNKNOWN\") (PT 0 0)))) "
+                           "(PCBDESIGN))"),
+            QStringLiteral("unknown-shape.pcb"));
+        ParseDiagnostics diagnostics;
+        const PcadConversionResult result = PcadAdapter::toIR(board, &diagnostics);
+        QVERIFY(diagnostics.hasErrors() || !diagnostics.isEmpty());
+        QVERIFY(result.footprints.size() == 1);
+        QVERIFY(result.footprints.first().pads.isEmpty());
+    }
 };
 
 QTEST_GUILESS_MAIN(TestPcadParser)

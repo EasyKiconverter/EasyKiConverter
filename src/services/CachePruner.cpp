@@ -1,7 +1,6 @@
 #include "CachePruner.h"
 
 #include <QDir>
-#include <QFile>
 #include <QFileInfo>
 #include <QPair>
 #include <QString>
@@ -18,21 +17,22 @@ qint64 _calculateDirSize(const QString& dirPath) {
         return size;
     }
 
-    for (const QFileInfo& info : dir.entryInfoList(QDir::Files)) {
-        size += info.size();
+    for (const QFileInfo& info : dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot)) {
+        if (!info.isSymLink())
+            size += info.size();
     }
 
-    for (const QString& subDir : dir.entryList(QDir::Dirs)) {
-        if (subDir != "." && subDir != "..") {
-            size += _calculateDirSize(dirPath + "/" + subDir);
-        }
+    for (const QFileInfo& info : dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+        if (!info.isSymLink())
+            size += _calculateDirSize(info.absoluteFilePath());
     }
 
     return size;
 }
 }  // namespace
 
-CachePruner::CachePruner(const QString& cacheRoot) : m_cacheRoot(cacheRoot) {}
+CachePruner::CachePruner(const QString& cacheRoot, const CacheSafety::TrashFunction& trash)
+    : m_cacheRoot(cacheRoot), m_trash(trash) {}
 
 qint64 CachePruner::calculateDirSize(const QString& dirPath) const {
     return _calculateDirSize(dirPath);
@@ -40,18 +40,9 @@ qint64 CachePruner::calculateDirSize(const QString& dirPath) const {
 
 qint64 CachePruner::currentCacheSize() const {
     qint64 totalSize = 0;
-    QDir dir(m_cacheRoot);
-    for (const QString& entry : dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot)) {
-        if (entry == "model3d") {
-            continue;
-        }
-        const QString path = QDir::cleanPath(m_cacheRoot + "/" + entry);
-        QFileInfo info(path);
-        if (info.isDir()) {
-            totalSize += _calculateDirSize(path);
-        } else {
-            totalSize += info.size();
-        }
+    for (const QString& componentPath : CacheSafety::ownedComponentDirectories(m_cacheRoot)) {
+        for (const QString& filePath : CacheSafety::ownedComponentFiles(m_cacheRoot, componentPath))
+            totalSize += QFileInfo(filePath).size();
     }
     return totalSize;
 }
@@ -63,20 +54,15 @@ qint64 CachePruner::pruneTo(qint64 targetSizeBytes) {
         qint64 size;
     };
 
-    // 第一阶段：收集所有缓存条目信息（排除 model3d）
+    // 第一阶段：按文件收集可验证的缓存条目（排除 model3d 和未知文件）。
     QList<CacheEntry> cacheList;
     qint64 currentSize = 0;
 
-    {
-        QDir dir(m_cacheRoot);
-        for (const QString& entry : dir.entryList(QDir::AllEntries | QDir::NoDotAndDotDot)) {
-            if (entry == "model3d") {
-                continue;
-            }
-            const QString path = QDir::cleanPath(m_cacheRoot + "/" + entry);
-            QFileInfo info(path);
-            qint64 entrySize = info.isDir() ? _calculateDirSize(path) : info.size();
-            cacheList.append({entry, info.lastModified(), entrySize});
+    for (const QString& componentPath : CacheSafety::ownedComponentDirectories(m_cacheRoot)) {
+        for (const QString& path : CacheSafety::ownedComponentFiles(m_cacheRoot, componentPath)) {
+            const QFileInfo info(path);
+            const qint64 entrySize = info.size();
+            cacheList.append({path, info.lastModified(), entrySize});
             currentSize += entrySize;
         }
     }
@@ -96,15 +82,8 @@ qint64 CachePruner::pruneTo(qint64 targetSizeBytes) {
             break;
         }
 
-        const QString path = QDir::cleanPath(m_cacheRoot + "/" + entry.name);
-        QFileInfo info(path);
-
-        if (info.isDir()) {
-            QDir d(path);
-            if (d.removeRecursively()) {
-                currentSize -= entry.size;
-            }
-        } else if (QFile::remove(path)) {
+        QString error;
+        if (CacheSafety::moveToTrash(entry.name, &error, m_trash)) {
             currentSize -= entry.size;
         }
     }

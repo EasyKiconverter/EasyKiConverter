@@ -21,6 +21,8 @@ struct ExportRunPlan {
     bool enableSymbol{false};
     /** @brief 是否启用封装导出阶段。 */
     bool enableFootprint{false};
+    /** @brief 组合库目标是否正在执行仅符号导出。 */
+    bool symbolOnlyCombinedLibrary{false};
     /** @brief 是否启用三维模型统计项。 */
     bool enableModel3D{false};
     /** @brief 是否启动独立的三维模型导出阶段。 */

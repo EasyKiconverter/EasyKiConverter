@@ -24,21 +24,21 @@ This manual provides detailed instructions for using all features of EasyKiConve
 
 #### Windows
 
-1. Download the latest version from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases)
-2. Extract the downloaded archive
-3. Double-click `EasyKiConverter.exe` to run the application
+1. Download a matching package from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases). Intel/AMD 64-bit devices should use filenames containing `windows-x86_64`; Windows on Arm devices should use `windows-arm64`.
+2. Choose `-installer.exe` for a normal installation, `-portable.zip` for a portable copy, or `.msix` for MSIX installation.
+3. Start the installed application from the Start menu, or extract the portable ZIP to a new directory and run `easykiconverter.exe`.
 
 #### macOS
 
 1. Download the latest version from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases)
-2. Extract the downloaded archive
-3. Double-click `EasyKiConverter.app` to run the application
+2. Intel Macs should download `macos-x86_64.dmg`; Apple Silicon Macs should download `macos-arm64.dmg`.
+3. Open the DMG, drag `EasyKiConverter.app` to the Applications folder, and launch it.
 
 #### Linux
 
 1. Download the latest version from [GitHub Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases)
-2. Extract the downloaded archive
-3. Run `./EasyKiConverter` to launch the application
+2. Download `linux-x86_64.AppImage` or `linux-aarch64.AppImage` for your CPU architecture.
+3. Make the AppImage executable and run it: `chmod +x EasyKiConverter-*.AppImage && ./EasyKiConverter-*.AppImage`
 
 ## Interface Overview
 
@@ -112,6 +112,27 @@ Click the theme toggle button in the top right corner to switch between dark and
    - Overwrite existing files
    - Enable debug export (developers only)
 4. Click "Save" to save settings
+
+### Cache Directory Safety
+
+The cache directory must be empty, be the application default cache directory, or contain a legacy cache whose files and metadata can be fully identified. Filesystem roots, the user home directory itself, other descendants under it, and symbolic-link directories are rejected; the application default cache directory is the only exception. Editing a cache path does not migrate data on every keystroke; the path is applied only after folder selection or editing is completed and validation succeeds.
+
+Cache maintenance follows these boundaries:
+
+- The root and each cache entry must pass ownership-marker and metadata identity checks. Legacy caches are adopted only when their layout and metadata are identifiable; unknown files, directories, symbolic links, and unverifiable legacy entries are preserved.
+- Startup self-healing, quota pruning, directory migration, and “Clear cache” process only entries whose ownership can be verified.
+- The confirmation dialog shows the number of entries in scope. Confirmed entries are moved to the system trash; if trash is unavailable or an operation fails, the original data is kept and no permanent-delete fallback is used.
+- Migration conflicts or failures preserve the source directory and user files; the active configuration is not switched to an incomplete target.
+
+```mermaid
+flowchart TD
+    Select[Select or edit cache directory] --> Validate{Validate path and ownership}
+    Validate -- Reject --> Keep[Keep current configuration and show reason]
+    Validate -- Accept --> Apply[Apply after confirmation and migrate verified entries]
+    Apply --> Maintain[Self-heal, prune quota, or clear]
+    Maintain --> Trash[Move verified entries to system trash only]
+    Maintain --> Preserve[Preserve unknown or failed entries]
+```
 
 ### Starting Conversion
 

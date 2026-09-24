@@ -79,6 +79,18 @@ ExportOptions CliContext::createExportOptions() const {
         options.targetFormat = TargetEdaFormat::Altium;
     } else if (format == QStringLiteral("xpedition")) {
         options.targetFormat = TargetEdaFormat::Xpedition;
+    } else if (format == QStringLiteral("allegro")) {
+        options.targetFormat = TargetEdaFormat::Allegro;
+    } else if (format == QStringLiteral("pads")) {
+        options.targetFormat = TargetEdaFormat::Pads;
+    } else if (format == QStringLiteral("eagle")) {
+        options.targetFormat = TargetEdaFormat::Eagle;
+    } else if (format == QStringLiteral("pcad")) {
+        options.targetFormat = TargetEdaFormat::Pcad;
+    } else if (format == QStringLiteral("cadstar")) {
+        options.targetFormat = TargetEdaFormat::Cadstar;
+    } else if (format == QStringLiteral("orcad")) {
+        options.targetFormat = TargetEdaFormat::Orcad;
     } else {
         options.targetFormat = TargetEdaFormat::KiCad;
     }
@@ -87,9 +99,12 @@ ExportOptions CliContext::createExportOptions() const {
         // Altium PcbLib 仅可靠嵌入 STEP；CLI 即使收到 wrl/both 也自动收敛到 STEP。
         options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
     }
-    if (options.targetFormat == TargetEdaFormat::Xpedition && options.exportModel3D) {
-        qWarning() << "Xpedition 目标当前不支持 3D 模型关联，已忽略 --3d-model";
-        options.exportModel3D = false;
+    if (options.targetFormat == TargetEdaFormat::Allegro) {
+        if (options.exportModel3D)
+            options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
+    }
+    if (options.targetFormat == TargetEdaFormat::Orcad) {
+        options.exportFootprint = false;
     }
 
     return options;

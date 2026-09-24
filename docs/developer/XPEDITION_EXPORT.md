@@ -11,7 +11,7 @@
 | 封装几何保真 | 已实现 | 支持旋转矩形、圆弧折线近似，以及 TopOverlay/BottomOverlay 到对应丝印面的映射 |
 | 多部件符号 | 已实现 | 每个部件写入独立的符号条目 |
 | ZIP 打包 | 已实现 | 符号库和封装库分别生成独立的不压缩 ZIP 包 |
-| 3D 模型关联 | 未实现 | 当前不会写入 Xpedition 3D 模型关联；CLI 和 GUI 会明确提示并跳过该选项 |
+| 3D 模型输出 | 已实现（独立文件） | WRL/STEP 由独立阶段输出；当前不会写入 Xpedition 原生 3D 关联 |
 | 目标软件实机验证 | 未完成 | 当前环境没有可用的 Xpedition 实机或命令行读取工具；自动化测试验证文本结构、ZIP 完整性和回读规则 |
 
 ## 数据流
@@ -22,8 +22,10 @@ flowchart LR
     Importer --> IR[统一 IR]
     IR --> Symbol[ExporterXpeditionSymbol]
     IR --> Footprint[ExporterXpeditionFootprint]
+    IR --> Model3D[Model3DExportStage]
     Symbol --> SymbolZip[库名_Symbols.zip]
     Footprint --> FootprintZip[库名_Footprints.zip]
+    Model3D --> Models[独立 WRL/STEP 文件]
 ```
 
 Exporter 不重新解析 EasyEDA JSON。坐标、引脚语义、焊盘类型和封装图元均先由 IR Builder 归一化，再由 Xpedition 导出器完成单位和语法转换。
@@ -44,6 +46,7 @@ Exporter 不重新解析 EasyEDA JSON。坐标、引脚语义、焊盘类型和�
 
 - `<lib-name>_Symbols.zip`：文件名为 `<symbol-name>.<part-number>` 的 ASCII 符号条目。
 - `<lib-name>_Footprints.zip`：每个封装包含 `<name>_Pads.hkp` 和 `<name>_Cell.hkp`。
+- 独立三维模型目录：按配置输出 WRL、STEP 或两者；模型文件名与组件缓存中的模型标识保持关联。
 
 两个阶段不能共用同一个 `.zip` 路径，否则并行导出会发生提交冲突。因此扩展名方法分别返回 `_Symbols.zip` 和 `_Footprints.zip`。
 
@@ -55,7 +58,7 @@ Exporter 不重新解析 EasyEDA JSON。坐标、引脚语义、焊盘类型和�
 - 旋转矩形会先计算旋转后的四个顶点再写入 Cell；TopOverlay/BottomOverlay 会映射到对应面的丝印段。
 - 表面贴装和通孔焊盘会关联焊膏/阻焊层定义；IR 未提供阻焊扩展时使用 8 TH 的明确默认扩展值。
 - 文本镜像、文本路径、KeepOut 标志不一致、courtyard 自动生成和未知层等目标语义不能完整表达时会写入诊断。
-- 封装中的 3D 模型引用会写入未关联诊断。
+- 封装中的 3D 模型不会写入 Xpedition 原生关联；模型仍由独立阶段输出，并在结果诊断中说明需要在目标工具中手工关联。
 - 符号椭圆、扇形、椭圆弧、路径、Bézier、IEEE 图形、普通文本、文本框和图片仍会写入未写入诊断。
 - 重复封装名会追加序号，保证 ZIP 条目名称唯一。
 - 符号名称清理后的冲突会追加稳定序号；REFDES、VALUE、引脚名称和编号中的引号、反斜杠和换行会被转义。
@@ -71,7 +74,7 @@ Exporter 不重新解析 EasyEDA JSON。坐标、引脚语义、焊盘类型和�
 - Xpedition 符号和封装专项单元测试。
 - 通孔 Padstack 的孔定义引用测试。
 - 未支持封装图元的诊断测试。
-- 49 项全量 CTest 测试，并包含独立安装孔、焊盘形状、安全命名和已有库策略回归测试。
+- 当前全量 CTest 测试，并包含独立安装孔、焊盘形状、安全命名、已有库策略和独立三维模型阶段回归测试。
 - 曾使用项目测试 BOM 和已有缓存执行真实端到端导出；当前 EasyEDA 组件 API 对请求返回 HTTP 403，因此该外部网络验证不计为通过。
 - 在外部数据不可用时，使用固定 IR、ZIP 条目内容和项目内缓存路径完成可重复的本地验证。
 

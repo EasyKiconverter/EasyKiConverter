@@ -27,6 +27,8 @@ These documents help other developers understand the project, contribute, and ma
 - [Architecture](developer/ARCHITECTURE_en.md) - Project architecture design
 - [Conversion Layer and Mapping](developer/CONVERSION_MAPPING.md) - EasyEDA, IR, KiCad, Altium, and Xpedition mapping (Chinese)
 - [Format Parsing Architecture](developer/PARSER_ARCHITECTURE_en.md) - Shared text parsing infrastructure, diagnostics, and format support boundaries
+- [CADSTAR Export](developer/CADSTAR_EXPORT_en.md) - CADSTAR ASCII symbol, footprint, Pad, and Part export scope
+- [OrCAD Capture XML Symbol Export](developer/ORCAD_EXPORT_en.md) - OrCAD Capture XML symbol and footprint-name association scope
 - [EasyEDA API Raw Data](developer/EASYEDA_API_DATA.md) - Response structure, shape encoding, and field parsing (Chinese)
 - [Documentation Maintenance](developer/DOCUMENTATION_MAINTENANCE.md) - Documentation sources of truth and update checklist (Chinese)
 - [Testing Guide](developer/TESTING_GUIDE_en.md) - Testing architecture & Mocking strategy

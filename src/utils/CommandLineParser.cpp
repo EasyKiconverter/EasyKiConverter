@@ -40,11 +40,14 @@ CommandLineParser::CommandLineParser(int argc, char* argv[])
     , m_overwriteOption("no-overwrite", "不覆盖已存在的文件（默认: 覆盖）")
     , m_symbolDescriptionOption("symbol-description", "符号库描述文本", "text")
     , m_footprintDescriptionOption("footprint-description", "封装库描述文本", "text")
-    , m_targetFormatOption("target-format", "目标 EDA 格式 (kicad/altium/xpedition，默认: kicad)", "format", "kicad")
+    , m_targetFormatOption("target-format",
+                           "目标 EDA 格式 (kicad/altium/xpedition/allegro/pads/eagle/pcad/cadstar/orcad，默认: kicad)",
+                           "format",
+                           "kicad")
     , m_completionOption("completion", "生成 Shell 补全脚本 (bash/zsh/fish)", "shell")
     , m_completeOption("complete", "内部选项：输出动态补全数据", "type") {
     m_parser.setApplicationDescription(
-        QCoreApplication::translate("main", "EasyKiConverter - LCSC/EasyEDA 元件转 KiCad 库工具"));
+        QCoreApplication::translate("main", "EasyKiConverter - LCSC/EasyEDA 元件 EDA 库转换工具"));
 
     // Qt 内置的帮助和版本选项
     m_parser.addHelpOption();

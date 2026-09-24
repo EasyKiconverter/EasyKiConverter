@@ -156,14 +156,14 @@ VERSION=3.0.8 ./tools/linux/build-packages.sh all
 
 ```
 build/packages/
-├── EasyKiConverter-3.0.7-g34ba7df.x86_64.AppImage
-├── EasyKiConverter-3.0.7-g34ba7df.x86_64.AppImage.sha256sum
-├── EasyKiConverter-3.0.7-g34ba7df.amd64.deb
-├── EasyKiConverter-3.0.7-g34ba7df.amd64.deb.sha256sum
-├── EasyKiConverter-3.0.7-g34ba7df.aarch64.AppImage
-├── EasyKiConverter-3.0.7-g34ba7df.aarch64.AppImage.sha256sum
-├── EasyKiConverter-3.0.7-g34ba7df.arm64.deb
-└── EasyKiConverter-3.0.7-g34ba7df.arm64.deb.sha256sum
+├── EasyKiConverter-3.0.7-linux-x86_64.AppImage
+├── EasyKiConverter-3.0.7-linux-x86_64.AppImage.sha256sum
+├── EasyKiConverter-3.0.7-linux-amd64.deb
+├── EasyKiConverter-3.0.7-linux-amd64.deb.sha256sum
+├── EasyKiConverter-3.0.7-linux-aarch64.AppImage
+├── EasyKiConverter-3.0.7-linux-aarch64.AppImage.sha256sum
+├── EasyKiConverter-3.0.7-linux-arm64.deb
+└── EasyKiConverter-3.0.7-linux-arm64.deb.sha256sum
 ```
 
 ## 测试打包结果

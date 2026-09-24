@@ -108,6 +108,38 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     int successCount = 0;
     int skippedCount = 0;
 
+    // 库级导出只有一次 writer 调用，必须在提交前把每个组件的最终状态固化到阶段快照。
+    const auto finalizeProgress = [this, &componentIds, &collectedIds, &failedIds](bool librarySucceeded,
+                                                                                   const QString& errorMessage) {
+        ExportTypeProgress progressSnapshot;
+        {
+            QMutexLocker locker(&m_progressMutex);
+            for (const QString& componentId : componentIds) {
+                auto statusIt = m_progress.itemStatus.find(componentId);
+                if (statusIt == m_progress.itemStatus.end() || statusIt->isComplete()) {
+                    continue;
+                }
+
+                const bool failed =
+                    failedIds.contains(componentId) || (!librarySucceeded && collectedIds.contains(componentId));
+                statusIt->status = failed ? ExportItemStatus::Status::Failed : ExportItemStatus::Status::Success;
+                if (failed && !errorMessage.isEmpty()) {
+                    statusIt->errorMessage = errorMessage;
+                }
+                statusIt->endTime = QDateTime::currentDateTime();
+                ++m_progress.completedCount;
+                if (failed) {
+                    ++m_progress.failedCount;
+                } else {
+                    ++m_progress.successCount;
+                }
+                m_progress.inProgressCount = qMax(0, m_progress.inProgressCount - 1);
+            }
+            progressSnapshot = m_progress;
+        }
+        emit progressChanged(progressSnapshot);
+    };
+
     for (const QString& componentId : componentIds) {
         if (m_cancelled.load()) {
             qDebug() << "SymbolExportStage: Export cancelled during data collection";
@@ -188,6 +220,7 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     const auto abortExport = [&](const QString& errorMessage) {
         qCritical() << "SymbolExportStage:" << errorMessage;
         failCollectedSymbols(errorMessage);
+        finalizeProgress(false, errorMessage);
         {
             QMutexLocker locker(&m_progressMutex);
             if (!m_progress.diagnostics.contains(errorMessage))
@@ -298,9 +331,11 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     qDebug() << "SymbolExportStage: targetFormat:" << static_cast<int>(m_options.targetFormat);
 
     bool exportSuccess = false;
+    ISymbolExporter::CompanionFiles companionFiles;
     QString libraryDescription = m_options.symbolLibraryDescription;
     {
-        bool appendMode = !m_options.overwriteExistingFiles;
+        // 只有目标库已经存在且禁止覆盖时才表示追加；首次创建空库不能被误判为追加模式。
+        const bool appendMode = finalFileExists && !m_options.overwriteExistingFiles;
         // 转换旧类型列表到 IR 类型
         QList<IR::SymbolComponentIR> irSymbolList;
         irSymbolList.reserve(symbolList.size());
@@ -309,6 +344,7 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         }
         exportSuccess = exporter->exportSymbolLibrary(
             irSymbolList, libName, tempPath, appendMode, m_options.updateMode, libraryDescription);
+        companionFiles = exporter->companionFiles();
         const QStringList exporterDiagnostics = exporter->diagnostics();
         if (!exporterDiagnostics.isEmpty()) {
             QMutexLocker locker(&m_progressMutex);
@@ -335,8 +371,35 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
 
-    if (!m_tempManager.commitWithBackup(tempPath, finalPath)) {
-        abortExport(QStringLiteral("Failed to commit temp file"));
+    QVector<TempFileManager::CommitItem> commitItems;
+    commitItems.append({tempPath, finalPath, false});
+    for (auto it = companionFiles.cbegin(); it != companionFiles.cend(); ++it) {
+        const QString companionName = it.key();
+        if (companionName.isEmpty() || QFileInfo(companionName).fileName() != companionName ||
+            companionName == QFileInfo(finalPath).fileName()) {
+            abortExport(QStringLiteral("Invalid symbol companion file name: %1").arg(companionName));
+            return;
+        }
+        const QString companionFinalPath = QDir(outputDir).filePath(companionName);
+        // 主库不存在时没有可合并的旧内容，禁止覆盖残留的伴随文件，避免部分库被静默替换。
+        if (!finalFileExists && !m_options.overwriteExistingFiles && QFile::exists(companionFinalPath)) {
+            abortExport(QStringLiteral("Symbol companion file already exists and overwrite is disabled: %1")
+                            .arg(companionFinalPath));
+            return;
+        }
+        const QString companionTempPath = QDir(m_tempManager.tempDirectory()).filePath(companionName);
+        QFile companionFile(companionTempPath);
+        if (!companionFile.open(QIODevice::WriteOnly | QIODevice::Truncate) ||
+            companionFile.write(it.value()) != it.value().size()) {
+            abortExport(QStringLiteral("Failed to write symbol companion file: %1").arg(companionName));
+            return;
+        }
+        companionFile.close();
+        m_tempManager.registerTempFile(companionTempPath);
+        commitItems.append({companionTempPath, companionFinalPath, false});
+    }
+    if (!m_tempManager.commitBatch(commitItems)) {
+        abortExport(QStringLiteral("Failed to commit symbol library files"));
         return;
     }
     qDebug() << "SymbolExportStage: Successfully exported to:" << finalPath;
@@ -350,6 +413,8 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     // 避免与其他 Stage（如 FootprintExportStage）的临时文件冲突
 
     qDebug() << "SymbolExportStage: Completed. Success:" << successCount << "Failed:" << failedIds.size();
+
+    finalizeProgress(true, QString());
 
     m_isExporting.store(false);
     m_isRunning.store(false);

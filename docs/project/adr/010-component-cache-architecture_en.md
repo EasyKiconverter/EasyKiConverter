@@ -75,6 +75,30 @@ flowchart TD
 
 4. **Cache Preheating**: Pre-load cached data before export
 
+### Ownership and Cleanup Boundaries
+
+- The cache root uses `.easykiconverter-cache.json`; the `model3d` directory has its own marker.
+- A component entry must pass directory, `lcscId`, `cacheOwner`, and version checks. Legacy or incomplete entries are not implicitly adopted.
+- Self-healing, quota pruning, migration, and clear-cache enumerate only verifiable entries. Unknown files, directories, and symbolic links are preserved.
+- Cleanup uses `QFile::moveToTrash()`, available in the Qt 6.6 baseline. If the system trash operation fails, the original data is preserved and no permanent-delete fallback is used.
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Service as ComponentCacheService
+    participant Safety as CacheSafety
+    participant Trash as System Trash
+    User->>Service: Select directory or confirm cleanup
+    Service->>Safety: Validate path, markers, and entry identity
+    alt Validation fails
+        Safety-->>Service: Reject and keep current configuration
+    else Validation succeeds
+        Service->>Trash: Move verified entries
+        Trash-->>Service: Success or failure
+        Service-->>User: Report result and preserve data on failure
+    end
+```
+
 ### Unused but Retained Code
 
 `ComponentDataCache` class (`src/services/export/ComponentDataCache.h`):

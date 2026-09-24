@@ -3,6 +3,7 @@
 #include "FootprintModel3DPreparation.h"
 #include "KiCadLibraryTableManager.h"
 #include "core/ExporterFactory.h"
+#include "core/ir/ComponentDataConverter.h"
 #include "core/ir/FootprintDataConverter.h"
 #include "models/ComponentData.h"
 #include "services/ComponentCacheService.h"
@@ -104,6 +105,8 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     const uint64_t gen = ComponentCacheService::instance()->currentGeneration();
 
     QList<FootprintData> footprintList;
+    QList<IR::ComponentIR> componentIrList;
+    QList<IR::SymbolComponentIR> symbolList;
     QStringList collectedIds;
     QStringList failedIds;
     int successCount = 0;
@@ -141,9 +144,10 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         emit progressChanged(progressSnapshot);
     };
 
-    // Altium 将 3D 模型嵌入封装库，封装阶段提前失败时也必须结束对应的 3D 状态。
-    const auto publishAltiumModelFailure = [this](const QString& componentId, const QString& errorMessage) {
-        if (m_options.targetFormat != TargetEdaFormat::Altium || !m_options.exportModel3D) {
+    // Altium 和 Allegro 将 3D 模型写入封装输出，阶段提前失败时也必须结束对应状态。
+    const auto publishEmbeddedModelFailure = [this](const QString& componentId, const QString& errorMessage) {
+        if ((m_options.targetFormat != TargetEdaFormat::Altium && m_options.targetFormat != TargetEdaFormat::Allegro) ||
+            !m_options.exportModel3D) {
             return;
         }
         ExportItemStatus modelStatus;
@@ -167,46 +171,79 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
             status.status = ExportItemStatus::Status::Failed;
             status.errorMessage = "No component data";
             publishItemStatus(componentId, status);
-            publishAltiumModelFailure(componentId, QStringLiteral("No component data"));
+            publishEmbeddedModelFailure(componentId, QStringLiteral("No component data"));
             continue;
         }
 
         QSharedPointer<ComponentData> data = it.value();
 
-        if (!data->footprintData()) {
+        const bool combinedTarget = m_options.targetFormat == TargetEdaFormat::Eagle ||
+                                    m_options.targetFormat == TargetEdaFormat::Cadstar ||
+                                    m_options.targetFormat == TargetEdaFormat::Allegro;
+        const bool needsSymbol = combinedTarget && m_options.exportSymbol;
+        const bool needsFootprint = m_options.exportFootprint || m_options.exportModel3D;
+        if (needsSymbol && !data->symbolData()) {
+            qWarning() << "FootprintExportStage: No symbol data for component:" << componentId;
+            failedIds.append(componentId);
+            ExportItemStatus status;
+            status.status = ExportItemStatus::Status::Failed;
+            status.errorMessage = "No symbol data";
+            publishItemStatus(componentId, status);
+            publishEmbeddedModelFailure(componentId, QStringLiteral("No symbol data"));
+            continue;
+        }
+        if (needsFootprint && !data->footprintData()) {
             qWarning() << "FootprintExportStage: No footprint data for component:" << componentId;
             failedIds.append(componentId);
             ExportItemStatus status;
             status.status = ExportItemStatus::Status::Failed;
             status.errorMessage = "No footprint data";
             publishItemStatus(componentId, status);
-            publishAltiumModelFailure(componentId, QStringLiteral("No footprint data"));
+            publishEmbeddedModelFailure(componentId, QStringLiteral("No footprint data"));
             continue;
         }
 
-        FootprintData footprint = *data->footprintData();
-        if (m_options.needsEmbeddedModel3DStep()) {
+        FootprintData footprint;
+        if (data->footprintData()) {
+            footprint = *data->footprintData();
+        }
+        if (needsFootprint && m_options.needsEmbeddedModel3DStep()) {
             FootprintModel3DPreparation::prepare(footprint, data, componentId, gen);
         }
 
-        footprintList.append(footprint);
+        if (data->footprintData())
+            footprintList.append(footprint);
+        if (combinedTarget && data->symbolData()) {
+            // 组合库必须使用完成 STEP 准备后的封装副本，否则模型准备结果会在重新转换组件时丢失。
+            IR::ComponentIR componentIr = IR::toComponentIR(*data);
+            if (data->footprintData())
+                componentIr.footprint = IR::toFootprintIR(footprint);
+            componentIrList.append(componentIr);
+            symbolList.append(IR::toSymbolIR(*data->symbolData()));
+        }
         collectedIds.append(componentId);
         successCount++;
 
         ExportItemStatus status;
         status.status = ExportItemStatus::Status::Success;
-        status.diagnostics = footprint.validationErrors();
+        if (data->symbolData())
+            status.diagnostics.append(data->symbolData()->validationErrors());
+        if (data->footprintData())
+            status.diagnostics.append(footprint.validationErrors());
         if (!status.diagnostics.isEmpty())
             qWarning() << "FootprintExportStage: Input diagnostics for" << componentId << status.diagnostics;
         publishItemStatus(componentId, status);
 
-        if (m_options.targetFormat == TargetEdaFormat::Altium && m_options.exportModel3D) {
+        if ((m_options.targetFormat == TargetEdaFormat::Altium || m_options.targetFormat == TargetEdaFormat::Allegro) &&
+            m_options.exportModel3D && data->footprintData()) {
             ExportItemStatus modelStatus;
             if (!footprint.model3D().step().isEmpty()) {
                 modelStatus.status = ExportItemStatus::Status::Success;
             } else {
                 modelStatus.status = ExportItemStatus::Status::Failed;
-                modelStatus.errorMessage = QStringLiteral("STEP 3D model was not embedded in PcbLib");
+                modelStatus.errorMessage = m_options.targetFormat == TargetEdaFormat::Allegro
+                                               ? QStringLiteral("Allegro Import Package 缺少 STEP 3D 模型")
+                                               : QStringLiteral("STEP 3D model was not embedded in PcbLib");
             }
             emit embeddedModel3DStatusChanged(componentId, modelStatus);
         }
@@ -250,8 +287,8 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
 
-    if (footprintList.isEmpty()) {
-        qWarning() << "FootprintExportStage: No valid footprints to export";
+    if (footprintList.isEmpty() && componentIrList.isEmpty() && symbolList.isEmpty()) {
+        qWarning() << "FootprintExportStage: No valid library data to export";
         m_isExporting.store(false);
         m_isRunning.store(false);
         emit completed(0, componentIds.size(), 0);
@@ -259,28 +296,32 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     }
 
     // 标记所有已收集的封装为失败（参照 SymbolExportStage 的 failCollectedSymbols 模式）
-    const auto failCollectedFootprints =
-        [this, &collectedIds, &failedIds, &successCount, &publishItemStatus](const QString& errorMessage) {
-            for (const QString& componentId : collectedIds) {
-                failedIds.append(componentId);
-                ExportItemStatus status;
-                status.status = ExportItemStatus::Status::Failed;
-                status.errorMessage = errorMessage;
-                status.endTime = QDateTime::currentDateTime();
-                publishItemStatus(componentId, status);
+    const auto failCollectedFootprints = [this, &collectedIds, &failedIds, &successCount, &publishItemStatus](
+                                             const QString& errorMessage) {
+        for (const QString& componentId : collectedIds) {
+            failedIds.append(componentId);
+            ExportItemStatus status;
+            status.status = ExportItemStatus::Status::Failed;
+            status.errorMessage = errorMessage;
+            status.endTime = QDateTime::currentDateTime();
+            publishItemStatus(componentId, status);
 
-                // Altium 的 3D 状态可能已经在收集阶段报告成功，但最终 PcbLib
-                // 写入或提交失败时，模型实际上没有进入最终库，必须同步回写失败。
-                if (m_options.targetFormat == TargetEdaFormat::Altium && m_options.exportModel3D) {
-                    ExportItemStatus modelStatus;
-                    modelStatus.status = ExportItemStatus::Status::Failed;
-                    modelStatus.errorMessage = QStringLiteral("Altium PcbLib 导出失败，3D 模型未写入最终库");
-                    modelStatus.endTime = status.endTime;
-                    emit embeddedModel3DStatusChanged(componentId, modelStatus);
-                }
+            // Altium 的 3D 状态可能已经在收集阶段报告成功，但最终 PcbLib
+            // 写入或提交失败时，模型实际上没有进入最终库，必须同步回写失败。
+            if ((m_options.targetFormat == TargetEdaFormat::Altium ||
+                 m_options.targetFormat == TargetEdaFormat::Allegro) &&
+                m_options.exportModel3D) {
+                ExportItemStatus modelStatus;
+                modelStatus.status = ExportItemStatus::Status::Failed;
+                modelStatus.errorMessage = m_options.targetFormat == TargetEdaFormat::Allegro
+                                               ? QStringLiteral("Allegro Import Package 导出失败，3D 模型未写入最终包")
+                                               : QStringLiteral("Altium PcbLib 导出失败，3D 模型未写入最终库");
+                modelStatus.endTime = status.endTime;
+                emit embeddedModel3DStatusChanged(componentId, modelStatus);
             }
-            successCount = 0;
-        };
+        }
+        successCount = 0;
+    };
 
     // 统一的中止导出 lambda
     const auto abortExport = [&](const QString& errorMessage) {
@@ -349,6 +390,53 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
 
+    if (m_options.targetFormat == TargetEdaFormat::Allegro && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("Allegro Import Package 不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Allegro && QFile::exists(finalPath) &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("Allegro Import Package 已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
+
+    if (m_options.targetFormat == TargetEdaFormat::Pads && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("PADS ASCII 封装库不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Pads && QDir(finalPath).exists() &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("PADS ASCII 封装库已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Eagle && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("Eagle XML 封装库不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Eagle && QFile::exists(finalPath) &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("Eagle XML 封装库已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Pcad && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("P-CAD ASCII 封装库不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Pcad && QFile::exists(finalPath) &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("P-CAD ASCII 封装库已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Cadstar && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("CADSTAR ASCII 库不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Cadstar && QFile::exists(finalPath) &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("CADSTAR ASCII 库已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
+
     if (tempPath.isEmpty()) {
         abortExport(QStringLiteral("Failed to create temp path"));
         return;
@@ -389,16 +477,26 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         for (const FootprintData& fd : footprintList) {
             irFootprintList.append(IR::toFootprintIR(fd));
         }
-        exportSuccess =
-            exporter->exportFootprintLibrary(irFootprintList,
-                                             libName,
-                                             tempPath,
-                                             preferWrl,
-                                             exportStep,
-                                             libraryDescription,
-                                             libraryKeywords,
-                                             m_options.exportModel3DPathMode == ExportOptions::MODEL_3D_PATH_ABSOLUTE,
-                                             outputDir);
+        const bool combinedTarget = m_options.targetFormat == TargetEdaFormat::Eagle ||
+                                    m_options.targetFormat == TargetEdaFormat::Cadstar ||
+                                    m_options.targetFormat == TargetEdaFormat::Allegro;
+        if (combinedTarget && m_options.exportSymbol && m_options.exportFootprint) {
+            exportSuccess = exporter->exportComponentLibrary(
+                componentIrList, libName, tempPath, m_options.exportModel3D, outputDir);
+        } else if (combinedTarget && m_options.exportSymbol) {
+            exportSuccess = exporter->exportSymbolLibrary(symbolList, libName, tempPath);
+        } else {
+            exportSuccess = exporter->exportFootprintLibrary(
+                irFootprintList,
+                libName,
+                tempPath,
+                preferWrl,
+                exportStep,
+                libraryDescription,
+                libraryKeywords,
+                m_options.exportModel3DPathMode == ExportOptions::MODEL_3D_PATH_ABSOLUTE,
+                outputDir);
+        }
         const QStringList exporterDiagnostics = exporter->diagnostics();
         if (!exporterDiagnostics.isEmpty()) {
             QMutexLocker locker(&m_progressMutex);
@@ -439,7 +537,7 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     }
 
     // 目录输出模式下注册库（如 KiCad 库表）
-    if (isDirOutput && !libraryDescription.isEmpty()) {
+    if (isDirOutput && m_options.targetFormat == TargetEdaFormat::KiCad && !libraryDescription.isEmpty()) {
         KiCadLibraryTableManager::registerFootprintLibrary(outputDir, libName, finalPath, libraryDescription);
     }
 

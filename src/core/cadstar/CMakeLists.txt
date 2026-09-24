@@ -3,6 +3,8 @@
 add_library(EasyKiConverterCadstar STATIC
     CadstarAdapter.h
     CadstarAdapter.cpp
+    ExporterCadstarLibrary.h
+    ExporterCadstarLibrary.cpp
 )
 
 target_include_directories(EasyKiConverterCadstar
