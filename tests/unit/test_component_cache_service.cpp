@@ -8,6 +8,7 @@
 #include <QBuffer>
 #include <QDir>
 #include <QFile>
+#include <QFileInfo>
 #include <QImage>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -725,7 +726,7 @@ private slots:
         targetMetadata.close();
 
         QVERIFY(!m_cache->setCacheDir(targetCacheDir.path(), true));
-        QCOMPARE(m_cache->cacheDir(), m_tempDir.path());
+        QCOMPARE(QFileInfo(m_cache->cacheDir()).canonicalFilePath(), QFileInfo(m_tempDir.path()).canonicalFilePath());
         QVERIFY(QFileInfo::exists(m_tempDir.filePath(firstComponentId + QStringLiteral("/component.json"))));
         QVERIFY(QFileInfo::exists(m_tempDir.filePath(conflictingComponentId + QStringLiteral("/component.json"))));
         QVERIFY(QFileInfo::exists(targetMetadata.fileName()));

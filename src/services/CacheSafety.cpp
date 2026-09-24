@@ -36,6 +36,12 @@ bool isAncestorOrSame(const QString& ancestor, const QString& candidate) {
            (!relative.startsWith(QStringLiteral("..")) && !QDir::isAbsolutePath(relative));
 }
 
+// 判断路径是否位于系统临时目录下的隔离子目录中，避免接管整个临时目录。
+bool isUnderTemporaryDirectory(const QString& path) {
+    const QString temporaryRoot = canonicalOrCleanPath(QDir::tempPath());
+    return temporaryRoot != path && isAncestorOrSame(temporaryRoot, path);
+}
+
 // 返回旧版组件缓存允许迁移的文件名集合。
 const QSet<QString>& legacyComponentFileNames() {
     static const QSet<QString> names = {
@@ -159,7 +165,9 @@ bool CacheSafety::isSafePath(const QString& path, QString* normalizedPath, QStri
     const QString home = canonicalOrCleanPath(QDir::homePath());
     const QString defaultCache = canonicalOrCleanPath(
         QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/cache"));
-    if (normalized == root || (isAncestorOrSame(home, normalized) && normalized != defaultCache)) {
+    const bool isAllowedTemporaryPath = isUnderTemporaryDirectory(normalized);
+    if (normalized == root ||
+        (isAncestorOrSame(home, normalized) && normalized != defaultCache && !isAllowedTemporaryPath)) {
         if (error)
             *error = QStringLiteral("不能选择文件系统根目录或用户主目录及其上级目录");
         return false;
