@@ -64,7 +64,7 @@ void TestPadsExporter::writesAsciiDecal() {
 
     QFile file(QDir(temporary.path()).filePath(QStringLiteral("QFN_4.d")));
     QVERIFY(file.open(QIODevice::ReadOnly));
-    const QString content = QString::fromUtf8(file.readAll());
+    const QString content = QString::fromUtf8(file.readAll()).replace(QStringLiteral("\r\n"), QStringLiteral("\n"));
     QVERIFY(content.startsWith(QStringLiteral("QFN_4 I 0 0")));
     QVERIFY(content.contains(QStringLiteral("TIMESTAMP ")));
     QVERIFY(content.contains(QStringLiteral("CIRCLE ")));
@@ -137,7 +137,7 @@ void TestPadsExporter::writesSchematicDecal() {
 
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
-    const QString content = QString::fromUtf8(file.readAll());
+    const QString content = QString::fromUtf8(file.readAll()).replace(QStringLiteral("\r\n"), QStringLiteral("\n"));
     QVERIFY(content.startsWith(QStringLiteral("*PADS-LIBRARY-SCH-DECALS-V9*")));
     QVERIFY(content.contains(QStringLiteral("U_TEST 0 0")));
     QVERIFY(content.contains(QStringLiteral("U_TEST_P2 0 0")));
