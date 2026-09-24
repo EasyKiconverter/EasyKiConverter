@@ -338,6 +338,36 @@ jobs:
             Write-Host "ctest --rerun-failed exit code: $($rerunProcess.ExitCode)"
             if (Test-Path $rerunStdout) { Get-Content $rerunStdout }
             if (Test-Path $rerunStderr) { Get-Content $rerunStderr }
+
+            # CTest 可能只报告 ***Failed 而不转发 QtTest 输出，直接运行失败测试收集原始进程信息。
+            $failedTestsFile = Join-Path $env:GITHUB_WORKSPACE "build\Testing\Temporary\LastTestsFailed.log"
+            $failedTestNames = @()
+            if (Test-Path $failedTestsFile) {
+              $failedTestNames = @(
+                Get-Content $failedTestsFile | ForEach-Object {
+                  if ($_ -match '^\s*\d+:(?<name>[^\s]+)\s*$') {
+                    $Matches['name']
+                  }
+                } | Sort-Object -Unique
+              )
+            }
+            foreach ($testName in $failedTestNames) {
+              $testExecutable = Join-Path $env:GITHUB_WORKSPACE "build\bin\${testName}.exe"
+              if (-not (Test-Path $testExecutable)) {
+                Write-Warning "Failed test executable not found: $testExecutable"
+                continue
+              }
+
+              $testStdout = Join-Path $env:RUNNER_TEMP "${testName}.stdout.log"
+              $testStderr = Join-Path $env:RUNNER_TEMP "${testName}.stderr.log"
+              $testProcess = Start-Process -FilePath $testExecutable -ArgumentList "-vs" -WorkingDirectory (Get-Location) -Wait -PassThru `
+                -RedirectStandardOutput $testStdout -RedirectStandardError $testStderr
+              $unsignedExitCode = [uint32]$testProcess.ExitCode
+              $hexExitCode = "0x{0:X8}" -f $unsignedExitCode
+              Write-Host "${testName}.exe exit code: $($testProcess.ExitCode) ($hexExitCode)"
+              if (Test-Path $testStdout) { Get-Content $testStdout }
+              if (Test-Path $testStderr) { Get-Content $testStderr }
+            }
             exit $ctestExitCode
           }
 
