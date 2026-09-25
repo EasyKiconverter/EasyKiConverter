@@ -7,18 +7,43 @@ on:
       - 'LICENSE'
       - 'docs/**'
   pull_request:
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'docs/**'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
+  change-scope:
+    name: 'Determine CI change scope'
+    runs-on: ubuntu-24.04
+    outputs:
+      run_full: ${{ steps.scope.outputs.run_full }}
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: 'Classify changed files'
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python3 tools/python/classify_ci_changes.py \
+            --base "$BASE_SHA" \
+            --head "$HEAD_SHA" \
+            --github-output "$GITHUB_OUTPUT"
+
   clang-format:
     name: 'Check clang-format'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_full == 'true'
     runs-on: ubuntu-24.04
     steps:
       - name: 'Checkout Source code'
