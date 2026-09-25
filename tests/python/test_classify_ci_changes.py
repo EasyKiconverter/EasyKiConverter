@@ -19,6 +19,26 @@ class ClassifyCiChangesTest(unittest.TestCase):
             self.assertEqual(result["classification"], "docs-only")
             self.assertFalse(result["run_full"])
 
+    def test_classifier_only_does_not_request_full_build(self):
+        result = classify_paths(
+            ["tools/python/classify_ci_changes.py", "tests/python/test_classify_ci_changes.py"]
+        )
+        self.assertEqual(result["classification"], "classifier-only")
+        self.assertFalse(result["run_full"])
+        self.assertTrue(result["run_classifier_tests"])
+
+    def test_document_and_classifier_changes_stay_out_of_full_build(self):
+        result = classify_paths(["docs/developer/README.md", "tests/python/test_classify_ci_changes.py"])
+        self.assertEqual(result["classification"], "docs-and-classifier-only")
+        self.assertFalse(result["run_full"])
+        self.assertTrue(result["docs_changed"])
+        self.assertTrue(result["run_classifier_tests"])
+
+    def test_other_python_tests_and_tools_remain_full_validation(self):
+        for path in ("tests/python/test_other_tool.py", "tools/python/validate_ci_resources.py"):
+            result = classify_paths([path, "tests/python/test_classify_ci_changes.py"])
+            self.assertTrue(result["run_full"], path)
+
     def test_only_root_mkdocs_configuration_is_document_only(self):
         self.assertEqual(classify_paths(["mkdocs.yml"])["classification"], "docs-only")
         self.assertEqual(classify_paths(["mkdocs.yaml"])["classification"], "docs-only")

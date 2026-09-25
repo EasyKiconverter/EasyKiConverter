@@ -14,6 +14,10 @@ DOCUMENT_CONFIG_FILES = {"mkdocs.yml", "mkdocs.yaml"}
 STATIC_SUFFIXES = {".gif", ".ico", ".jpeg", ".jpg", ".png", ".svg", ".webp"}
 WORKFLOW_PREFIXES = (".github/workflows/", ".github/actions/")
 FULL_PREFIXES = ("src/", "tests/", "tools/", "deploy/")
+CI_CLASSIFIER_FILES = {
+    "tools/python/classify_ci_changes.py",
+    "tests/python/test_classify_ci_changes.py",
+}
 BUILD_FILE_NAMES = {
     "CMakeLists.txt",
     "CMakePresets.json",
@@ -107,6 +111,11 @@ def is_full_validation(path: str) -> bool:
     return False
 
 
+def is_ci_classifier_file(path: str) -> bool:
+    """判断路径是否只影响变更范围分类器及其回归测试。"""
+    return path.replace("\\", "/") in CI_CLASSIFIER_FILES
+
+
 def classify_paths(paths: list[str]) -> dict[str, str | bool | int]:
     """按最保守规则生成 CI 范围分类，无法判断时选择完整验证。"""
     if not paths:
@@ -115,6 +124,7 @@ def classify_paths(paths: list[str]) -> dict[str, str | bool | int]:
             "run_full": True,
             "run_ui": False,
             "run_resources": False,
+            "run_classifier_tests": False,
             "run_workflow": True,
             "docs_changed": False,
             "safe_fallback": True,
@@ -125,6 +135,8 @@ def classify_paths(paths: list[str]) -> dict[str, str | bool | int]:
     for path in paths:
         if not path or "\x00" in path:
             categories.add("full")
+        elif is_ci_classifier_file(path):
+            categories.add("classifier")
         elif is_document(path):
             categories.add("docs")
         elif is_qml(path):
@@ -138,6 +150,10 @@ def classify_paths(paths: list[str]) -> dict[str, str | bool | int]:
 
     if categories == {"docs"}:
         classification = "docs-only"
+    elif categories == {"classifier"}:
+        classification = "classifier-only"
+    elif categories <= {"docs", "classifier"}:
+        classification = "docs-and-classifier-only"
     elif categories == {"resources"}:
         classification = "resources-only"
     elif categories == {"qml"}:
@@ -152,6 +168,7 @@ def classify_paths(paths: list[str]) -> dict[str, str | bool | int]:
         "run_full": "full" in categories,
         "run_ui": "qml" in categories,
         "run_resources": "resources" in categories,
+        "run_classifier_tests": "classifier" in categories,
         "run_workflow": any(path.replace("\\", "/").startswith(WORKFLOW_PREFIXES) for path in paths),
         "docs_changed": "docs" in categories,
         "safe_fallback": False,
@@ -210,6 +227,7 @@ def main() -> int:
             run_full=True,
             run_ui=False,
             run_resources=False,
+            run_classifier_tests=False,
             run_workflow=True,
             docs_changed=False,
             safe_fallback=True,
