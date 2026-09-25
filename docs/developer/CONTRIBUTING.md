@@ -46,11 +46,16 @@ cd EasyKiConverter
 git remote add upstream https://github.com/EasyKiconverter/EasyKiConverter.git
 ```
 
-4. 创建新的分支：
+4. 从问题所属的版本分支创建工作分支：
 
 ```bash
-git checkout -b feature/your-feature-name
+git fetch origin
+git switch <version-branch>
+git pull --ff-only origin <version-branch>
+git switch -c <topic-branch>
 ```
+
+一个相对完整的问题或开发主题对应一个工作分支。一个工作分支可以包含该问题所需的多个相关修改和多个提交；不要为每个小改动、子任务或单个提交创建新分支。当前仓库没有发现强制的分支命名校验，`fix/cache-safety-v3.1.13`、`feat/allegro-export-v3.1.13` 等仅作为便于识别的命名建议。
 
 #### 代码规范
 
@@ -96,19 +101,20 @@ git checkout -b feature/your-feature-name
 - 阶段间通过线程安全的有界队列通信
 - 详见：[ADR-002: 流水线并行架构](../project/adr/002-pipeline-parallelism-for-export.md)
 
-#### 开发流程图
+#### 分支和 PR 流程
 
-以下流程图展示了完整的功能开发、发布和紧急修复流程：
+项目按问题或主题组织开发，不采用固定的 `feature/* → dev → master` 流程。工作分支应从该问题所属的版本分支创建，完成后 PR 必须回到创建它时对应的同一版本分支；不要直接向版本分支提交。
 
-![Git Workflow](../diagrams/Git_Workflow.svg)
+```mermaid
+flowchart LR
+    V[所属版本分支] --> W[问题或主题工作分支]
+    W --> C[多个相关提交]
+    C --> P[Pull Request 回到同一版本分支]
+    P --> R[审查与 CI]
+    R --> M[维护者合并]
+```
 
-**流程说明：**
-
-| 流程 | 分支策略 | 合并方式 |
-|------|----------|----------|
-| 功能开发 | `feature/*` → `dev` | 普通合并，保留提交历史 |
-| 发布 | `dev` → `master` | 普通合并，打版本标签 |
-| 紧急修复 | `hotfix/*` → `master` + `dev` | 双向合并，防止修复丢失 |
+版本分支由维护者根据发布计划确定，例如 `v3.1.13`。贡献者不应自行推断所有工作都应合并到 `master` 或 `dev`；创建分支前应确认目标版本分支。
 
 #### 提交流程
 
@@ -119,13 +125,13 @@ git add .
 git commit -m "feat: add your feature description"
 ```
 
-2. 推送到您的 Fork：
+2. 推送工作分支：
 
 ```bash
-git push origin feature/your-feature-name
+git push origin <topic-branch>
 ```
 
-3. 在 GitHub 上创建 Pull Request
+3. 在 GitHub 上创建 Pull Request：目标分支选择创建工作分支时对应的 `<version-branch>`，不要默认选择 `master`。
 
 #### 提交信息规范
 

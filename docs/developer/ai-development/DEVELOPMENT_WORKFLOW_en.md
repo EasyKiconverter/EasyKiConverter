@@ -22,7 +22,7 @@ git diff --stat
 git branch --show-current
 ```
 
-Preserve existing user changes. Do not use destructive reset or checkout commands to overwrite them. Start new work on a dedicated branch from the appropriate baseline rather than committing directly on a version branch.
+Preserve existing user changes. Do not use destructive reset or checkout commands to overwrite them. One reasonably complete issue or development theme maps to one topic branch; the branch may contain multiple related commits. Do not create a branch for every small edit, subtask, or individual commit. Create the topic branch from the version branch that owns the work, and open the Pull Request back to that same version branch instead of committing directly to it. No mandatory branch-name format was found in the repository; naming examples are only suggestions.
 
 ## 3. Implement within the architecture
 

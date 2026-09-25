@@ -41,15 +41,18 @@ Add the upstream repository:
 git remote add upstream https://github.com/EasyKiconverter/EasyKiConverter.git
 ```
 
-### 3. Create a Development Branch
+### 3. Create a Topic Branch from the Version Branch
 
-Create a new branch for your feature or bug fix:
+Create one topic branch for a reasonably complete issue or development theme, starting from the version branch that owns the work:
 
 ```bash
-git checkout -b feature/your-feature-name
-# or
-git checkout -b fix/your-bug-fix
+git fetch origin
+git switch <version-branch>
+git pull --ff-only origin <version-branch>
+git switch -c <topic-branch>
 ```
+
+A topic branch may contain multiple related changes and commits. Do not create a branch for every small edit, subtask, or individual commit. The repository has no detected mandatory branch-name validator; names such as `fix/cache-safety-v3.1.13` and `feat/allegro-export-v3.1.13` are suggestions for clarity, not required formats.
 
 ## Code Standards
 
@@ -160,19 +163,20 @@ Use the two-stage pipeline architecture (Fetch → Export):
 - **Export stage**: builds IR, converts formats, and writes files in parallel
 - See: [ADR-002: Pipeline Parallelism](../project/adr/002-pipeline-parallelism-for-export_en.md)
 
-## Development Workflow Diagram
+## Branch and Pull Request Workflow
 
-The following diagram illustrates the complete feature development, release, and hotfix workflow:
+The project organizes development by issue or theme; it does not use a fixed `feature/* → dev → master` flow. Create the topic branch from the version branch that owns the work, and open the Pull Request back to that same version branch. Do not commit directly to a version branch.
 
-![Git Workflow](../diagrams/Git_Workflow.svg)
+```mermaid
+flowchart LR
+    V[Owning version branch] --> W[Issue or theme topic branch]
+    W --> C[Multiple related commits]
+    C --> P[Pull Request to the same version branch]
+    P --> R[Review and CI]
+    R --> M[Maintainer merge]
+```
 
-**Workflow Summary:**
-
-| Process | Branch Strategy | Merge Method |
-|---------|-----------------|--------------|
-| Feature Development | `feature/*` → `dev` | Merge commit, preserve history |
-| Release | `dev` → `master` | Merge commit, tag version |
-| Hotfix | `hotfix/*` → `master` + `dev` | Bidirectional merge, prevent fix loss |
+The maintainer determines the version branch, such as `v3.1.13`. Contributors must confirm it before creating the branch and must not assume that every change targets `master` or `dev`.
 
 ## Development Workflow
 
@@ -237,14 +241,14 @@ Fixes #456
 ### 4. Push to Your Fork
 
 ```bash
-git push origin feature/your-feature-name
+git push origin <topic-branch>
 ```
 
 ### 5. Create Pull Request
 
 1. Go to the original repository on GitHub
 2. Click "New Pull Request"
-3. Select your branch
+3. Select your topic branch and the same version branch used as its starting point
 4. Fill in the PR template:
    - Description of changes
    - Related issues

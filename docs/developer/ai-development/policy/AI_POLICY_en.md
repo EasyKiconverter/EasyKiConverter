@@ -34,6 +34,9 @@ Project rule files may be ignored by `.gitignore` for local convenience, but Git
 ## Git operations
 
 - Normal development modifies only the local worktree: no commit, push, or pull request by default.
+- One reasonably complete issue or development theme maps to one topic branch; a topic branch may contain multiple related commits. Do not create a branch for every small edit, subtask, or individual commit.
+- Create the topic branch from the version branch that owns the issue, and open the Pull Request back to that same version branch; do not commit directly to a version branch.
+- No mandatory branch-name format was found in the repository; naming suggestions do not replace confirmation of the owning version branch.
 - When the user explicitly requests a commit or pull request, confirm the target branch, scope, and active account first, then use the repository's Chinese Conventional Commit rules.
 - Do not use destructive resets, force pushes, or removal of existing user changes.
 

@@ -39,13 +39,16 @@ cd EasyKiConverter
 git remote add upstream https://github.com/EasyKiconverter/EasyKiConverter.git
 ```
 
-4. **创建新的分支**：
+4. **从所属版本分支创建问题工作分支**：
 
 ```bash
-git checkout -b feature/your-feature-name
-# 或
-git checkout -b fix/your-bug-fix
+git fetch origin
+git switch <version-branch>
+git pull --ff-only origin <version-branch>
+git switch -c <topic-branch>
 ```
+
+一个相对完整的问题或主题对应一个工作分支；同一分支可以包含多个相关提交。不要为每个小改动、子任务或单个提交创建新分支。当前仓库没有发现强制的分支命名校验，`fix/cache-safety-v3.1.13` 等只是命名建议。完成后 PR 回到创建该分支时使用的同一版本分支，不要直接提交到版本分支，也不要默认将所有 PR 指向 `master`。
 
 #### 代码规范
 
@@ -96,13 +99,13 @@ git add .
 git commit -m "feat: add your feature description"
 ```
 
-2. **推送到您的 Fork**：
+2. **推送工作分支**：
 
 ```bash
-git push origin feature/your-feature-name
+git push origin <topic-branch>
 ```
 
-3. **在 GitHub 上创建 Pull Request**
+3. **在 GitHub 上创建 Pull Request**：目标分支选择创建工作分支时对应的 `<version-branch>`。
 
 使用 [Pull Request 模板](https://github.com/EasyKiconverter/EasyKiConverter/compare) 创建 PR。
 
