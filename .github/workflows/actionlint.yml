@@ -8,17 +8,58 @@ on:
       - '.github/actions/**'
   pull_request:
     branches: ['master', 'dev', 'ci_test', 'v*']
-    paths:
-      - '.github/workflows/**'
-      - '.github/actions/**'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
+  scope-tests:
+    name: 'Test CI change classifier'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Run classifier tests
+        run: python3 -m unittest discover -s tests/python -p 'test_*.py'
+
+  change-scope:
+    name: 'Determine CI change scope'
+    runs-on: ubuntu-24.04
+    outputs:
+      run_workflow: ${{ steps.scope.outputs.run_workflow }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: Classify changed files
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python3 tools/python/classify_ci_changes.py \
+            --base "$BASE_SHA" \
+            --head "$HEAD_SHA" \
+            --github-output "$GITHUB_OUTPUT"
+
   actionlint:
     name: 'Actionlint'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_workflow == 'true'
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout

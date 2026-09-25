@@ -9,10 +9,6 @@ on:
       - 'docs/**'
   pull_request:
     branches: ['master', 'dev', 'ci_test', 'v*']
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'docs/**'
   workflow_dispatch:
 
 concurrency:
@@ -30,8 +26,41 @@ env:
   CMAKE_VERSION: '3.22'
 
 jobs:
+  change-scope:
+    name: 'Determine CI change scope'
+    runs-on: ubuntu-24.04
+    outputs:
+      classification: ${{ steps.scope.outputs.classification }}
+      run_full: ${{ steps.scope.outputs.run_full }}
+      run_ui: ${{ steps.scope.outputs.run_ui }}
+      run_resources: ${{ steps.scope.outputs.run_resources }}
+      safe_fallback: ${{ steps.scope.outputs.safe_fallback }}
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: 'Classify changed files'
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python3 tools/python/classify_ci_changes.py \
+            --base "$BASE_SHA" \
+            --head "$HEAD_SHA" \
+            --github-output "$GITHUB_OUTPUT"
+
   linux-build:
     name: 'Build Linux (${{ matrix.dist.name }})'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_full == 'true'
     runs-on: ${{ matrix.dist.runner }}
     timeout-minutes: 60
     strategy:
@@ -154,6 +183,8 @@ jobs:
 
   windows-build:
     name: 'Build Windows (${{ matrix.name }})'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_full == 'true'
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 90
     env:
@@ -371,8 +402,73 @@ jobs:
             exit $ctestExitCode
           }
 
+  ui-check:
+    name: 'Check QML UI'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_ui == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+
+      - name: 'Setup build environment'
+        uses: ./.github/actions/setup-env
+        with:
+          cmake-version: ${{ env.CMAKE_VERSION }}
+          qt-version: ${{ env.QT_VERSION }}
+          qt-host: 'linux'
+          qt-target: 'desktop'
+          qt-arch: 'linux_gcc_64'
+          enable-ccache: 'false'
+          enable-sccache: 'false'
+
+      - name: 'Check QML format'
+        run: python3 tools/python/format_code.py --check --qml
+
+      - name: 'Configure UI test target'
+        run: |
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DEASYKICONVERTER_BUILD_TESTS=ON \
+            -DENABLE_SYMBOL_FOOTPRINT_DEBUG_EXPORT=OFF
+
+      - name: 'Build UI test target'
+        run: cmake --build build --target test_ui --parallel 4
+
+      - name: 'Run UI tests'
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --test-dir build -R '^test_ui$' --output-on-failure --no-tests=error
+
+  resource-check:
+    name: 'Check static resources'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_resources == 'true' && needs.change-scope.outputs.run_full != 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: 'Validate changed resources'
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: python3 tools/python/validate_ci_resources.py --base "$BASE_SHA" --head "$HEAD_SHA"
+
   macos-build:
     name: 'Build macOS'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_full == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
