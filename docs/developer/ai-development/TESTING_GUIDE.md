@@ -18,13 +18,16 @@
 
 ## 通用本地流程
 
+将 `PROJECT_QT_ROOT` 替换为本机的项目专用 Qt 6.6+ 安装目录；Windows/macOS 的目录结构和环境变量配置请参阅[构建指南](../BUILD.md)。
+
 ```bash
-export Qt6_DIR=/home/dennis/software/QT/6.10.2/gcc_64/lib/cmake/Qt6
-export CMAKE_PREFIX_PATH=/home/dennis/software/QT/6.10.2/gcc_64
-export PATH=/home/dennis/software/QT/6.10.2/gcc_64/bin:$PATH
+export PROJECT_QT_ROOT=/path/to/Qt/6.10.2/gcc_64
+export Qt6_DIR="$PROJECT_QT_ROOT/lib/cmake/Qt6"
+export CMAKE_PREFIX_PATH="$PROJECT_QT_ROOT"
+export PATH="$PROJECT_QT_ROOT/bin:$PATH"
 export QT_QPA_PLATFORM=offscreen
 
-.venv/bin/python tools/python/build_project.py --test -q /home/dennis/software/QT/6.10.2/gcc_64 -j 6
+.venv/bin/python tools/python/build_project.py -q "$PROJECT_QT_ROOT" -j 6
 QT_QPA_PLATFORM=offscreen ctest --test-dir build --output-on-failure
 .venv/bin/python tools/python/build_docs.py --mkdocs
 git diff --check

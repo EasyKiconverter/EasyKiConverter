@@ -18,13 +18,16 @@ This page helps an AI Agent select verification. The authoritative testing archi
 
 ## Common local flow
 
+Replace `PROJECT_QT_ROOT` with the project-specific Qt 6.6+ installation on this machine. See the [Build Guide](../BUILD_en.md) for Windows/macOS directory and environment details.
+
 ```bash
-export Qt6_DIR=/home/dennis/software/QT/6.10.2/gcc_64/lib/cmake/Qt6
-export CMAKE_PREFIX_PATH=/home/dennis/software/QT/6.10.2/gcc_64
-export PATH=/home/dennis/software/QT/6.10.2/gcc_64/bin:$PATH
+export PROJECT_QT_ROOT=/path/to/Qt/6.10.2/gcc_64
+export Qt6_DIR="$PROJECT_QT_ROOT/lib/cmake/Qt6"
+export CMAKE_PREFIX_PATH="$PROJECT_QT_ROOT"
+export PATH="$PROJECT_QT_ROOT/bin:$PATH"
 export QT_QPA_PLATFORM=offscreen
 
-.venv/bin/python tools/python/build_project.py --test -q /home/dennis/software/QT/6.10.2/gcc_64 -j 6
+.venv/bin/python tools/python/build_project.py -q "$PROJECT_QT_ROOT" -j 6
 QT_QPA_PLATFORM=offscreen ctest --test-dir build --output-on-failure
 .venv/bin/python tools/python/build_docs.py --mkdocs
 git diff --check
