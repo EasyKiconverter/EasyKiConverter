@@ -62,6 +62,7 @@ def verification_plan(data: dict[str, Any], classification: str) -> list[str]:
         "qml-only": ["qml"],
         "resources-only": ["documentation"],
         "full": ["unknown"],
+        "mixed": ["unknown"],
         "full-fallback": ["unknown"],
         "unknown": ["unknown"],
     }

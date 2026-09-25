@@ -94,6 +94,15 @@ class ValidateAiDevelopmentTest(unittest.TestCase):
         data = {"minimum_policy": {"unknown": ["missing_step"]}, "commands": {}}
         self.assertTrue(any("missing_step" in item for item in validate_policy(data)))
 
+    def test_full_and_fallback_plans_include_build_and_tests(self):
+        from verification_plan import load_policy, verification_plan
+
+        policy = load_policy(Path(__file__).resolve().parents[2])
+        for classification in ("full", "mixed", "full-fallback", "unknown"):
+            plan = "\n".join(verification_plan(policy, classification))
+            self.assertIn("build", plan, classification)
+            self.assertIn("full_validation", plan, classification)
+
     def test_optional_local_fixture_does_not_require_local_hash(self):
         from validate_ai_development import validate_fixture_manifest
 
