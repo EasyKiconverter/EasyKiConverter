@@ -2,7 +2,7 @@
 
 [中文版](TESTING_GUIDE.md)
 
-This page helps an AI Agent select verification. The authoritative testing architecture, mock policy, and test-writing rules remain in the [testing guide](../TESTING_GUIDE_en.md).
+This page helps an AI Agent select verification. The machine-readable [verification policy](verification-policy.json) defines the minimum set; the authoritative testing architecture, mock policy, and test-writing rules remain in the [testing guide](../TESTING_GUIDE_en.md).
 
 ## Change-to-verification matrix
 
@@ -43,6 +43,7 @@ Run format checks separately:
 ## Reporting rules
 
 - Distinguish executed, not executed, environment-blocked, and inferred results.
+- The change classifier selects CI scope; it does not replace the module-level verification required by this page and the [verification policy](verification-policy.json).
 - A local build does not prove Windows/macOS/ARM or commercial EDA validation.
 - Network tests must not access real services; use `tests/common/MockNetworkClient.hpp` or an existing fake.
 - New parser and exporter behavior requires a minimal regression test. If only manual validation is possible, record why and the remaining risk.

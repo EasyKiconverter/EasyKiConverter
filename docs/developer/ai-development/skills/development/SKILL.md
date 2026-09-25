@@ -10,6 +10,7 @@
 - `PROJECT_INSTRUCTIONS.md`
 - `CLAUDE.md`
 - `docs/developer/ai-development/PROJECT_CONTEXT.md`
+- `docs/developer/ai-development/policy/AI_POLICY.md`
 - 与任务相关的架构、格式、缓存、导出或 UI 文档
 
 仓库存在 `.codegraph/` 时，先运行 CodeGraph 查询相关符号和调用关系，再阅读具体文件。
@@ -17,12 +18,13 @@
 ## 执行步骤
 
 1. 运行 `git status --short --branch`，记录并保护已有修改。
-2. 明确任务边界、当前实现、目标行为和不在范围内的功能。
-3. 按 `QML → ViewModel → Service → Core/IR/Exporter` 追踪调用，不跨层塞入业务逻辑。
-4. 先补最小失败测试或 fixture，再实现代码；网络使用 Mock，文件测试使用临时目录。
-5. 公共 C++ 接口补简体中文 Doxygen，诊断不可静默丢失数据。
-6. 使用 [AI 测试指南](../../TESTING_GUIDE.md) 选择验证项。
-7. 检查 `git diff --check`、改动范围和工作区状态。
+2. 记录基线 ref/commit，并使用 `verification-policy.json` 确认最低验证范围。
+3. 明确任务边界、当前实现、目标行为和不在范围内的功能。
+4. 按 `QML → ViewModel → Service → Core/IR/Exporter` 追踪调用，不跨层塞入业务逻辑。
+5. 先补最小失败测试或 fixture，再实现代码；网络使用 Mock，文件测试使用临时目录。
+6. 公共 C++ 接口补简体中文 Doxygen，诊断不可静默丢失数据。
+7. 使用 [AI 测试指南](../../TESTING_GUIDE.md) 选择验证项。
+8. 检查 `git diff --check`、改动范围和工作区状态，并生成 Evidence Report。
 
 ## 停止条件
 

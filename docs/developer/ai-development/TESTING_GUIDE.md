@@ -2,7 +2,7 @@
 
 [English version](TESTING_GUIDE_en.md)
 
-本页是 AI 任务的验证选择表；详细测试架构、Mock 约束和测试编写规则以 [测试开发指南](../TESTING_GUIDE.md) 为准。
+本页是 AI 任务的验证选择表；最低验证集合以机器可读的[验证策略](verification-policy.json)为准，详细测试架构、Mock 约束和测试编写规则以 [测试开发指南](../TESTING_GUIDE.md) 为准。
 
 ## 变更到验证项
 
@@ -43,6 +43,7 @@ git diff --check
 ## 报告规则
 
 - 明确区分已执行、未执行、环境阻塞和推断结果。
+- 变更分类器只选择 CI 范围，不替代本表和[验证策略](verification-policy.json)定义的模块级验证。
 - 不能把本地构建通过写成 Windows/macOS/ARM 或商业 EDA 实机已验证。
 - 网络相关测试不得访问真实服务；使用 `tests/common/MockNetworkClient.hpp` 或项目已有 fake。
 - 解析器和导出器新增功能必须带最小回归测试；如果只能人工验证，要记录原因和剩余风险。

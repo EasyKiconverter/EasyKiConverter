@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "source_of_truth": "docs/developer/ai-development/verification-policy.json",
+  "minimum_policy": {
+    "cpp": ["cpp_format", "build", "focused_tests"],
+    "parser_or_importer": ["cpp_format", "fixture_tests", "invalid_input_tests"],
+    "exporter_or_ir": ["cpp_format", "structural_or_golden_tests", "diagnostic_tests"],
+    "qml": ["qml_format", "ui_tests"],
+    "python_tool": ["python_unittest", "failure_input_tests"],
+    "cmake_dependency_workflow": ["configuration_check", "build", "affected_tests"],
+    "documentation": ["ai_consistency_check", "mkdocs_build", "bilingual_link_check"],
+    "unknown": ["full_validation"]
+  },
+  "safety": {
+    "classification_failure": "full_validation",
+    "commercial_eda_validation": "separate_evidence_only",
+    "network_tests": "mock_only",
+    "headless_qt": "QT_QPA_PLATFORM=offscreen"
+  },
+  "commands": {
+    "python_unittest": ".venv/bin/python -m unittest discover -s tests/python -p 'test_*.py'",
+    "cpp_format": ".venv/bin/python tools/python/format_code.py --cpp --check",
+    "qml_format": ".venv/bin/python tools/python/format_code.py --qml --check",
+    "build": ".venv/bin/python tools/python/build_project.py --test",
+    "full_validation": "QT_QPA_PLATFORM=offscreen ctest --test-dir build --output-on-failure",
+    "mkdocs_build": ".venv/bin/python tools/python/build_docs.py --mkdocs",
+    "ai_consistency_check": ".venv/bin/python tools/python/validate_ai_development.py"
+  }
+}

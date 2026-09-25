@@ -4,9 +4,12 @@
 
 本流程用于代码、测试、CI 和文档任务。它不授权远端写入；提交、推送或创建 PR 必须由用户明确要求。
 
+开始前先读取[AI 协作政策](policy/AI_POLICY.md)，结束时使用[Evidence Report 模板](EVIDENCE_REPORT_TEMPLATE.md)记录实际证据。
+
 ## 1. 理解任务和边界
 
 - 先读取 `AGENTS.md`、`CLAUDE.md`、`PROJECT_INSTRUCTIONS.md` 和相关领域文档。
+- 根目录规则文件是工具适配层；AI 协作边界以仓库内[AI 协作政策](policy/AI_POLICY.md)为准。
 - 仓库存在 `.codegraph/` 时，先使用 CodeGraph 定位符号、调用关系和责任边界。
 - 先确认任务影响的是 Importer、IR、Exporter、Service、ViewModel、QML、工具、CI 还是文档。
 - 不把“规划中”“有类名”“有 UI 入口”当成已完成能力。
@@ -32,7 +35,7 @@ git branch --show-current
 
 ## 4. 按风险验证
 
-根据 [AI 测试指南](TESTING_GUIDE.md) 选择验证项。至少执行与改动直接相关的格式检查、定向测试和文档检查；涉及 C++、CMake、测试基础设施或 CI 时，执行构建和相应全量测试。
+根据 [AI 测试指南](TESTING_GUIDE.md) 和机器可读的[验证策略](verification-policy.json)选择验证项。至少执行与改动直接相关的格式检查、定向测试和文档检查；涉及 C++、CMake、测试基础设施或 CI 时，执行构建和相应全量测试。
 
 ## 5. 审查改动
 
@@ -43,6 +46,7 @@ git status --short --branch
 ```
 
 确认没有无关文件、系统 Qt、系统 Python、真实网络测试、误改应用身份或未记录的降级行为。商业 EDA、真实桌面窗口和跨平台 CI 只能在实际执行后报告为已验证。
+记录当前基线 ref/commit、实际执行命令及退出状态；未运行的验证必须写明原因。
 
 ## 6. 提交和 PR
 

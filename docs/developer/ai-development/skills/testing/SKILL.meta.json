@@ -1,0 +1,11 @@
+{
+  "id": "testing",
+  "purpose": "根据变更风险选择、执行并准确报告格式、构建、定向和全量验证。",
+  "triggers": ["运行测试", "验证构建", "报告 CI 或本地验证"],
+  "required_sources": ["docs/developer/ai-development/policy/AI_POLICY.md", "docs/developer/ai-development/verification-policy.json", "docs/developer/ai-development/TESTING_GUIDE.md"],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md"],
+  "side_effects": ["build-artifacts", "test-logs"],
+  "verification": ["verification-policy.json", "executed-command-status"],
+  "stop_conditions": ["测试需要真实网络或商业 EDA 软件", "构建失败且无法从证据定位"],
+  "evidence_outputs": ["commands-with-exit-status", "not-run-reasons", "environment-blockers"]
+}

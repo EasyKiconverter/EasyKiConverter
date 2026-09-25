@@ -4,9 +4,12 @@
 
 This workflow covers code, tests, CI, and documentation tasks. It does not authorize remote writes; commits, pushes, and PR creation require an explicit user request.
 
+Read the [AI Collaboration Policy](policy/AI_POLICY_en.md) first and use the [Evidence Report template](EVIDENCE_REPORT_TEMPLATE_en.md) to record actual evidence at the end.
+
 ## 1. Understand the task and boundary
 
 - Read `AGENTS.md`, `CLAUDE.md`, `PROJECT_INSTRUCTIONS.md`, and the relevant domain documents first.
+- Root rule files are tool adapters; the repository [AI Collaboration Policy](policy/AI_POLICY_en.md) defines AI collaboration boundaries.
 - When `.codegraph/` exists, use CodeGraph first to locate symbols, call paths, and ownership boundaries.
 - Identify whether the task affects importers, IR, exporters, services, view models, QML, tools, CI, or documentation.
 - Do not treat a plan, a class name, or a UI entry as proof that a capability is complete.
@@ -32,7 +35,7 @@ Preserve existing user changes. Do not use destructive reset or checkout command
 
 ## 4. Verify by risk
 
-Use the [AI testing guide](TESTING_GUIDE_en.md). Run format checks, focused tests, and documentation checks relevant to the change. Changes to C++, CMake, test infrastructure, or CI require a build and the applicable full tests.
+Use the [AI testing guide](TESTING_GUIDE_en.md) and the machine-readable [verification policy](verification-policy.json). Run format checks, focused tests, and documentation checks relevant to the change. Changes to C++, CMake, test infrastructure, or CI require a build and the applicable full tests.
 
 ## 5. Review the change
 
@@ -43,6 +46,7 @@ git status --short --branch
 ```
 
 Check for unrelated files, system Qt, system Python, real-network tests, accidental application-identity changes, and undocumented degradation. Report commercial EDA, real desktop, and cross-platform CI validation only when actually executed.
+Record the baseline ref/commit, actual commands with exit status, and a reason for every check not run.
 
 ## 6. Commit and PR
 
