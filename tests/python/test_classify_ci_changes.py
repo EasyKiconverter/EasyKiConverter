@@ -14,7 +14,7 @@ class ClassifyCiChangesTest(unittest.TestCase):
     """覆盖常见变更、异常路径以及删除和重命名场景。"""
 
     def test_document_only(self):
-        result = classify_paths(["README.md", "docs/user/FAQ_en.md"])
+        result = classify_paths(["README.md", "docs/user/FAQ_en.md", "mkdocs.yml"])
         self.assertEqual(result["classification"], "docs-only")
         self.assertFalse(result["run_full"])
 

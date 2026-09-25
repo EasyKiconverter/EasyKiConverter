@@ -10,6 +10,7 @@ from pathlib import Path
 
 
 DOC_SUFFIXES = {".md", ".mdx", ".rst"}
+DOCUMENT_CONFIG_FILES = {"mkdocs.yml", "mkdocs.yaml"}
 STATIC_SUFFIXES = {".gif", ".ico", ".jpeg", ".jpg", ".png", ".svg", ".webp"}
 WORKFLOW_PREFIXES = (".github/workflows/", ".github/actions/")
 FULL_PREFIXES = ("src/", "tests/", "tools/", "deploy/")
@@ -54,6 +55,8 @@ def is_document(path: str) -> bool:
     name = Path(normalized).name
     if normalized.startswith(WORKFLOW_PREFIXES):
         return False
+    if normalized in DOCUMENT_CONFIG_FILES:
+        return True
     if normalized.startswith("docs/") or normalized.startswith(".github/ISSUE_TEMPLATE/"):
         return normalized.endswith(tuple(DOC_SUFFIXES)) or name in {"LICENSE", "NOTICE"}
     return Path(name).suffix in DOC_SUFFIXES
