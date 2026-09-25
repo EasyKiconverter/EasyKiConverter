@@ -14,7 +14,6 @@ Item {
     property var exportProgressController
     property alias searchText: searchInput.text
     signal searchChanged
-
     /** @brief 清空搜索框并触发宿主过滤模型更新。 */
     function clearSearch() {
         searchInput.text = "";

@@ -14,7 +14,6 @@ Item {
     readonly property bool containsMouse: itemMouseArea.containsMouse
     /** @brief 用户完成复制操作后发出的信号。 */
     signal copyClicked
-
     MouseArea {
         id: itemMouseArea
         objectName: "listItemInteraction"

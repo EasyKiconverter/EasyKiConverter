@@ -11,7 +11,6 @@ ColumnLayout {
     id: allegroCard
     property var exportSettingsController
     spacing: AppStyle.spacing.md
-
     RowLayout {
         Layout.fillWidth: true
         spacing: AppStyle.spacing.lg

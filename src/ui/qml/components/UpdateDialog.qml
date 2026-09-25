@@ -13,7 +13,6 @@ SliderDialogBase {
     title: qsTranslate("MainWindow", "版本更新")
     message: updateChecker ? qsTranslate("MainWindow", "当前版本 %1").arg(updateChecker.currentVersion) : ""
     property var updateChecker
-
     buttonSpecs: [
         {
             text: updateChecker && updateChecker.statusText === "failed" ? qsTranslate("MainWindow", "重试") : qsTranslate("MainWindow", "检查更新"),
@@ -70,10 +69,8 @@ SliderDialogBase {
             }
         }
     ]
-
     mainContentSource: ColumnLayout {
         spacing: AppStyle.spacing.md
-
         Text {
             Layout.fillWidth: true
             text: {

@@ -78,7 +78,6 @@ Rectangle {
             ToolTip.visible: versionMouseArea.containsMouse
             ToolTip.text: qsTranslate("MainWindow", "版本更新")
             ToolTip.delay: 500
-
             MouseArea {
                 id: versionMouseArea
                 anchors.fill: parent
