@@ -25,7 +25,7 @@ git branch --show-current
 
 - 先读取实际文件，再修改；不要凭文件名猜测接口或配置。
 - 保持现有层次：QML → ViewModel → Service → Core/IR/Exporter。
-- 新格式遵循“原始数据 → 格式模型 → IR → Exporter”，无法表达的数据必须保留、降级并给出诊断。
+- 源格式导入遵循“原始文件 → 专用 Parser/Model → IR”；目标格式导出遵循“IR → 专用 Exporter/Writer → 目标文件”。无法表达的数据必须保留、降级并给出诊断。
 - 所有 HTTP 通过 `NetworkClient`；测试使用 Mock。
 - 公共 C++ 接口使用简体中文 Doxygen 注释，新增代码遵循现有格式和注释率要求。
 - 文档改动保持中英文同步；架构和流程图使用 Mermaid。

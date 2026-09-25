@@ -25,7 +25,7 @@ Preserve existing user changes. Do not use destructive reset or checkout command
 
 - Read the actual files before editing; do not infer interfaces or settings from filenames.
 - Preserve the existing layers: QML → ViewModel → Service → Core/IR/Exporter.
-- New formats follow “raw data → format model → IR → exporter”; data that cannot be expressed must be retained, degraded with a diagnostic, or explicitly rejected.
+- Source-format import follows “raw file → format-specific parser/model → IR”; target-format export follows “IR → target exporter/writer → target file”. Data that cannot be expressed must be retained, degraded with a diagnostic, or explicitly rejected.
 - Route all HTTP through `NetworkClient`; use mocks in tests.
 - Add Simplified Chinese Doxygen comments to public C++ interfaces and follow the existing comment-rate policy.
 - Keep Chinese and English documentation synchronized; use Mermaid for architecture and process diagrams.

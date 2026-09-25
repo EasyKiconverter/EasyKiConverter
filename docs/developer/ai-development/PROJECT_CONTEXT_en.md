@@ -58,11 +58,11 @@ sequenceDiagram
 
 ## Capability status
 
-- Implemented: EasyEDA/LCSC import, unified IR, and existing code paths for KiCad, Altium, Xpedition, Cadstar, P-CAD, PADS, Eagle, OrCAD, Allegro, and other targets. The publishable scope of each target must be taken from its format documentation and tests.
+- Code contains implementation entry points for EasyEDA/LCSC import, the unified IR, and partial target paths for KiCad, Altium, Xpedition, Cadstar, P-CAD, PADS, Eagle, OrCAD, Allegro, and other targets. These entry points do not automatically mean publishable support.
 - In progress: format parsing, target mapping, cross-platform packaging, and cache safety improvements.
 - Planned: formats or native-tool validation that do not yet have a complete source-to-output path in code and tests. Do not describe them as supported in contributions.
 
-The existence of an exporter class is not proof of compatibility with a commercial EDA application. Structural tests, automated tests, and real-tool validation must be reported separately.
+Before calling a format “supported”, check the relevant importer/exporter implementation, automated tests, capability documentation, and any record of validation in the commercial EDA application. The existence of an exporter class is not proof of compatibility. Structural tests, automated tests, and real-tool validation must be reported separately.
 
 ## Terms
 
@@ -71,3 +71,15 @@ The existence of an exporter class is not proof of compatibility with a commerci
 - Exporter: a writer that converts IR into a target format.
 - Companion file: an additional file committed with a main library file whose references must remain consistent.
 - Diagnostic: structured information about warnings, errors, skips, cancellation, and degradation.
+
+## Evidence priority
+
+When source, documentation, issues, or plans disagree, use this order:
+
+1. Source and tests on the current branch.
+2. Current workflow configuration and actual CI results.
+3. Current format, architecture, and build documentation.
+4. Reproductions and conclusions confirmed in Issues or PRs.
+5. Roadmaps and other planning material.
+
+Lower-priority material cannot override higher-priority facts. Reports must identify the branch and commit to which their conclusions apply.

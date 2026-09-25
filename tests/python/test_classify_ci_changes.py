@@ -14,9 +14,16 @@ class ClassifyCiChangesTest(unittest.TestCase):
     """覆盖常见变更、异常路径以及删除和重命名场景。"""
 
     def test_document_only(self):
-        result = classify_paths(["README.md", "docs/user/FAQ_en.md", "mkdocs.yml"])
-        self.assertEqual(result["classification"], "docs-only")
-        self.assertFalse(result["run_full"])
+        for path in ("mkdocs.yml", "mkdocs.yaml"):
+            result = classify_paths(["README.md", "docs/user/FAQ_en.md", path])
+            self.assertEqual(result["classification"], "docs-only")
+            self.assertFalse(result["run_full"])
+
+    def test_only_root_mkdocs_configuration_is_document_only(self):
+        self.assertEqual(classify_paths(["mkdocs.yml"])["classification"], "docs-only")
+        self.assertEqual(classify_paths(["mkdocs.yaml"])["classification"], "docs-only")
+        for path in ("config/mkdocs.yml", "docs/mkdocs.yml", "mkdocs-prod.yml", ".github/mkdocs.yml"):
+            self.assertTrue(classify_paths([path])["run_full"], path)
 
     def test_resource_only(self):
         result = classify_paths(["assets/logo.svg", "resources/icons/app.png"])
