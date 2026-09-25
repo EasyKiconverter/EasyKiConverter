@@ -15,93 +15,9 @@ Item {
         width: parent.width
         spacing: AppStyle.spacing.lg
         // ==================== 目标格式选择 ====================
-        ColumnLayout {
+        TargetFormatSelector {
             Layout.fillWidth: true
-            spacing: AppStyle.spacing.sm
-            visible: root.exportTargetModel !== null && root.exportTargetModel !== undefined
-            Text {
-                text: qsTranslate("MainWindow", "目标格式")
-                font.pixelSize: AppStyle.fontSizes.sm
-                font.bold: true
-                color: AppStyle.colors.textPrimary
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-                spacing: AppStyle.spacing.sm
-                Repeater {
-                    model: root.exportTargetModel ? root.exportTargetModel.availableTargets : []
-                    Rectangle {
-                        Layout.fillWidth: true
-                        Layout.minimumWidth: 0
-                        Layout.preferredHeight: 76
-                        radius: AppStyle.radius.md
-                        property bool isActive: root.exportTargetModel ? root.exportTargetModel.currentIndex === index : false
-                        property string targetId: modelData.id || ""
-                        color: isActive ? Qt.rgba(AppStyle.colors.primary.r, AppStyle.colors.primary.g, AppStyle.colors.primary.b, 0.12) : AppStyle.colors.surface
-                        border.color: isActive ? AppStyle.colors.primary : AppStyle.colors.border
-                        border.width: isActive ? 2 : 1
-                        Behavior on color {
-                            ColorAnimation {
-                                duration: AppStyle.durations.fast
-                            }
-                        }
-                        Behavior on border.color {
-                            ColorAnimation {
-                                duration: AppStyle.durations.fast
-                            }
-                        }
-
-                        ColumnLayout {
-                            anchors.fill: parent
-                            anchors.margins: AppStyle.spacing.sm
-                            spacing: 4
-                            Text {
-                                text: modelData.displayName || ""
-                                font.pixelSize: AppStyle.fontSizes.xs
-                                font.bold: true
-                                color: isActive ? AppStyle.colors.primary : AppStyle.colors.textPrimary
-                                Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignHCenter
-                                horizontalAlignment: Text.AlignHCenter
-                                elide: Text.ElideRight
-                            }
-
-                            Text {
-                                text: {
-                                    if (targetId === "kicad")
-                                        return ".kicad_sym";
-                                    if (targetId === "altium")
-                                        return ".SchLib";
-                                    if (targetId === "xpedition")
-                                        return "_Symbols.zip / _Footprints.zip";
-                                    if (targetId === "allegro")
-                                        return "Footprint Import Package";
-                                    return "";
-                                }
-                                font.pixelSize: 9
-                                color: AppStyle.colors.textSecondary
-                                Layout.fillWidth: true
-                                Layout.alignment: Qt.AlignHCenter
-                                horizontalAlignment: Text.AlignHCenter
-                                maximumLineCount: 2
-                                wrapMode: Text.WordWrap
-                                elide: Text.ElideRight
-                            }
-                        }
-
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                if (root.exportTargetModel) {
-                                    root.exportTargetModel.currentIndex = index;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            targetModel: root.exportTargetModel
         }
 
         // ==================== 导出路径与库名 ====================

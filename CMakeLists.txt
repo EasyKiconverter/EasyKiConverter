@@ -228,6 +228,7 @@ set(QML_FILES
     src/ui/qml/components/ComponentListView.qml
     src/ui/qml/components/ComponentPreviewPopup.qml
     src/ui/qml/components/ExportSettingsBaseCard.qml
+    src/ui/qml/components/TargetFormatSelector.qml
     src/ui/qml/components/KiCadSettingsCard.qml
     src/ui/qml/components/AltiumSettingsCard.qml
     src/ui/qml/components/AllegroSettingsCard.qml
