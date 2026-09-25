@@ -49,13 +49,13 @@ git remote add upstream https://github.com/EasyKiconverter/EasyKiConverter.git
 4. 从问题所属的版本分支创建工作分支：
 
 ```bash
-git fetch origin
-git switch <version-branch>
-git pull --ff-only origin <version-branch>
-git switch -c <topic-branch>
+git fetch upstream <version-branch>
+git switch -c <topic-branch> --track upstream/<version-branch>
 ```
 
 一个相对完整的问题或开发主题对应一个工作分支。一个工作分支可以包含该问题所需的多个相关修改和多个提交；不要为每个小改动、子任务或单个提交创建新分支。当前仓库没有发现强制的分支命名校验，`fix/cache-safety-v3.1.13`、`feat/allegro-export-v3.1.13` 等仅作为便于识别的命名建议。
+
+在 Fork 流程中，`upstream` 用于获取正式仓库的版本分支，`origin` 仅用于推送您的工作分支。
 
 #### 代码规范
 
@@ -122,7 +122,7 @@ flowchart LR
 
 ```bash
 git add .
-git commit -m "feat: add your feature description"
+git commit -m "feat(export): 修复封装解析"
 ```
 
 2. 推送工作分支：

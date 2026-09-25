@@ -46,13 +46,13 @@ git remote add upstream https://github.com/EasyKiconverter/EasyKiConverter.git
 Create one topic branch for a reasonably complete issue or development theme, starting from the version branch that owns the work:
 
 ```bash
-git fetch origin
-git switch <version-branch>
-git pull --ff-only origin <version-branch>
-git switch -c <topic-branch>
+git fetch upstream <version-branch>
+git switch -c <topic-branch> --track upstream/<version-branch>
 ```
 
 A topic branch may contain multiple related changes and commits. Do not create a branch for every small edit, subtask, or individual commit. The repository has no detected mandatory branch-name validator; names such as `fix/cache-safety-v3.1.13` and `feat/allegro-export-v3.1.13` are suggestions for clarity, not required formats.
+
+In the Fork workflow, use `upstream` to fetch the canonical repository's version branch and use `origin` only to push your topic branch.
 
 ## Code Standards
 
@@ -213,27 +213,25 @@ Follow the commit message format:
 **Examples**:
 
 ```
-feat(component): add smart extraction feature
+feat(export): 修复封装解析
 
-Add smart extraction feature to automatically extract component numbers
-from clipboard text.
+修复封装解析中的边界条件。
 
-- Implement extractComponentIdFromText() method
-- Add regex pattern matching for component IDs
-- Update UI to support paste functionality
+- 补充异常输入处理
+- 增加对应回归测试
+- 更新相关文档
 
 Closes #123
 ```
 
 ```
-fix(export): resolve footprint parsing error
+fix(export): 修复封装解析错误
 
-Fix footprint parsing error when processing components with
-custom-shaped pads.
+修复处理异形焊盘时的封装解析错误。
 
-- Update Type judgment logic
-- Add BBox complete parsing
-- Fix UUID extraction issue
+- 修正类型判断逻辑
+- 增加边界框解析
+- 修复标识提取问题
 
 Fixes #456
 ```
