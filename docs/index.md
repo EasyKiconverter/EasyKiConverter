@@ -40,6 +40,7 @@
 - [测试开发指南](developer/TESTING_GUIDE.md) - 测试架构与 Mock 策略
 - [开发者常见问题](developer/FAQ.md) - 技术问题、根因分析和回归预防
 - [国际化实现](developer/I18N_IMPLEMENTATION_SUMMARY.md) - 国际化支持说明
+- [AI 协作开发入口](developer/ai-development/README.md) - AI Agent 和开发者协作入口、规则导航与 Skills
 
 ### 面向项目决策 (project/)
 
@@ -79,6 +80,8 @@
 3. 阅读 [测试开发指南](developer/TESTING_GUIDE.md) 了解测试规范与 Mock 编写
 4. 阅读 [开发者常见问题](developer/FAQ.md) 解决开发中的已知问题
 5. 阅读 [贡献指南](developer/CONTRIBUTING.md) 了解如何贡献代码
+
+如果使用 AI Agent 开发，请先阅读 [AI 协作开发入口](developer/ai-development/README.md)。
 
 ### 如果您想了解项目规划
 
