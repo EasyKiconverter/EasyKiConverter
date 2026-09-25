@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools" / "python")
 from validate_ai_development import (
     validate_bilingual_pair,
     validate_capability_ledger,
+    validate_json_schema,
     validate_skill_metadata,
     validate_workflow_manifest,
     workflow_events,
@@ -60,6 +61,64 @@ class ValidateAiDevelopmentTest(unittest.TestCase):
             (skill_dir / "SKILL.meta.json").write_text(json.dumps(metadata), encoding="utf-8")
             errors = validate_skill_metadata(root, "demo")
             self.assertTrue(any("missing.md" in item for item in errors))
+
+    def test_skill_metadata_rejects_schema_type_and_extra_field(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            skill_dir = root / "docs/developer/ai-development/skills/demo"
+            skill_dir.mkdir(parents=True)
+            (skill_dir / "SKILL.md").write_text("# Demo\n", encoding="utf-8")
+            metadata = {
+                "id": "demo",
+                "purpose": ["wrong"],
+                "triggers": ["demo"],
+                "required_sources": ["docs.md"],
+                "side_effects": [],
+                "verification": ["check"],
+                "stop_conditions": ["stop"],
+                "evidence_outputs": ["evidence"],
+                "unexpected": True,
+            }
+            (skill_dir / "SKILL.meta.json").write_text(json.dumps(metadata), encoding="utf-8")
+            schema_dir = root / "docs/developer/ai-development/schemas"
+            schema_dir.mkdir(parents=True)
+            schema = Path(__file__).resolve().parents[2] / "docs/developer/ai-development/schemas/skill-metadata.schema.json"
+            (schema_dir / schema.name).write_text(schema.read_text(encoding="utf-8"), encoding="utf-8")
+            errors = validate_skill_metadata(root, "demo")
+            self.assertTrue(any("类型错误" in item for item in errors))
+            self.assertTrue(any("未声明字段" in item for item in errors))
+
+    def test_verification_plan_rejects_unmapped_minimum_step(self):
+        from verification_plan import validate_policy
+
+        data = {"minimum_policy": {"unknown": ["missing_step"]}, "commands": {}}
+        self.assertTrue(any("missing_step" in item for item in validate_policy(data)))
+
+    def test_optional_local_fixture_does_not_require_local_hash(self):
+        from validate_ai_development import validate_fixture_manifest
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            fixture = root / "tests/fixtures/local.bin"
+            fixture.parent.mkdir(parents=True)
+            fixture.write_bytes(b"local variation")
+            manifest = root / "docs/developer/ai-development/fixture-provenance.json"
+            manifest.parent.mkdir(parents=True)
+            manifest.write_text(
+                json.dumps({"fixtures": [{
+                    "path": "tests/fixtures/local.bin",
+                    "availability": "optional-local",
+                    "sha256": "not-verified",
+                    "source": "unknown",
+                    "acquisition": "local",
+                    "software_version": "unknown",
+                    "license": "unknown",
+                    "distribution_status": "unknown",
+                    "tests": [],
+                }]}),
+                encoding="utf-8",
+            )
+            self.assertEqual(validate_fixture_manifest(root), [])
 
     def test_real_workflow_manifest_and_events_are_consistent(self):
         repository = Path(__file__).resolve().parents[2]

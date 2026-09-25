@@ -38,6 +38,7 @@ This directory provides the policy entry point, AI navigation, and task procedur
 ## Machine-checkable control plane
 
 - The [verification policy](verification-policy.json) is the shared minimum-verification source for CI and the Testing Skill; the change classifier selects scope but does not replace module-level verification.
+- `tools/python/verification_plan.py` consumes this policy and runs in Docs Check to ensure every minimum step has an executable command or an explicit selector.
 - The [EDA capability ledger](eda-capabilities.json) separates code entry points, automated tests, structural checks, and commercial EDA validation.
 - [Fixture provenance](fixture-provenance.json) records local fixture hashes, test use, and unknown provenance without inferring facts from content.
 - [AI Agent regression evaluation](AGENT_EVAL_en.md) provides rule-boundary examples that do not call paid models.

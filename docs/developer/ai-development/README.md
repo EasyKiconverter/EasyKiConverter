@@ -38,6 +38,7 @@
 ## 机器可验证的控制面
 
 - [验证策略](verification-policy.json) 是 CI 与 Testing Skill 共用的最低验证事实来源；变更分类器只选择范围，不替代模块级验证。
+- `tools/python/verification_plan.py` 消费该策略并在 Docs Check 中校验每个最低验证项都有可执行命令或明确选择器。
 - [EDA 能力台账](eda-capabilities.json) 区分代码入口、自动测试、结构校验和商业 EDA 实机验证。
 - [Fixture provenance](fixture-provenance.json) 记录本地 fixture 的哈希、测试用途和未知来源，不从内容猜造来源。
 - [AI Agent 回归评测](AGENT_EVAL.md) 提供不调用付费模型的规则边界样例。

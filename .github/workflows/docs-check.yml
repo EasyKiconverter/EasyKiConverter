@@ -17,5 +17,7 @@ jobs:
           python-version: '3.12'
       - name: Validate AI development control plane
         run: python3 tools/python/validate_ai_development.py
+      - name: Validate verification plan
+        run: python3 tools/python/verification_plan.py --check
       - run: pip install mkdocs-material==9.6.18
       - run: mkdocs build

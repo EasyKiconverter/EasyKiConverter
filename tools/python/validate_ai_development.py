@@ -11,6 +11,8 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from verification_plan import validate_policy
+
 
 SKILLS = ("development", "testing", "code-review", "documentation")
 AI_ROOT = Path("docs/developer/ai-development")
@@ -82,6 +84,10 @@ def validate_skill_metadata(repo: Path, skill: str) -> list[str]:
     data = load_json(metadata_path, errors)
     if not isinstance(data, dict):
         return errors
+    schema_path = repo / AI_ROOT / "schemas/skill-metadata.schema.json"
+    schema = load_json(schema_path, errors)
+    if isinstance(schema, dict):
+        errors.extend(validate_json_schema(data, schema, metadata_path))
     required = {"id", "purpose", "triggers", "required_sources", "side_effects", "verification", "stop_conditions", "evidence_outputs"}
     missing = sorted(required - data.keys())
     if missing:
@@ -97,6 +103,47 @@ def validate_skill_metadata(repo: Path, skill: str) -> list[str]:
             errors.append(error(metadata_path, f"必读资料不存在：{source}"))
     if not (skill_dir / "SKILL.md").exists():
         errors.append(error(skill_dir / "SKILL.md", "Skill 正文不存在"))
+    return errors
+
+
+def validate_json_schema(value: Any, schema: dict[str, Any], path: Path, location: str = "$",) -> list[str]:
+    """校验 Skill 元数据使用的 JSON Schema 子集，并保留字段定位。"""
+    errors: list[str] = []
+    expected_type = schema.get("type")
+    type_matches = {
+        "object": isinstance(value, dict),
+        "array": isinstance(value, list),
+        "string": isinstance(value, str),
+    }
+    if expected_type in type_matches and not type_matches[expected_type]:
+        return [error(path, f"{location} 类型错误，期望 {expected_type}")]
+    if isinstance(value, dict):
+        for required in schema.get("required", []):
+            if required not in value:
+                errors.append(error(path, f"{location}.{required} 缺少必填字段"))
+        properties = schema.get("properties", {})
+        if schema.get("additionalProperties") is False:
+            for key in value:
+                if key not in properties:
+                    errors.append(error(path, f"{location}.{key} 是未声明字段"))
+        for key, child_schema in properties.items():
+            if key in value and isinstance(child_schema, dict):
+                errors.extend(validate_json_schema(value[key], child_schema, path, f"{location}.{key}"))
+    if isinstance(value, list):
+        minimum = schema.get("minItems")
+        if isinstance(minimum, int) and len(value) < minimum:
+            errors.append(error(path, f"{location} 至少需要 {minimum} 项"))
+        item_schema = schema.get("items")
+        if isinstance(item_schema, dict):
+            for index, item in enumerate(value):
+                errors.extend(validate_json_schema(item, item_schema, path, f"{location}[{index}]"))
+    if isinstance(value, str):
+        minimum = schema.get("minLength")
+        if isinstance(minimum, int) and len(value) < minimum:
+            errors.append(error(path, f"{location} 不能为空"))
+        pattern = schema.get("pattern")
+        if isinstance(pattern, str) and re.fullmatch(pattern, value) is None:
+            errors.append(error(path, f"{location} 不符合模式 {pattern}"))
     return errors
 
 
@@ -194,6 +241,8 @@ def validate_verification_policy(repo: Path) -> list[str]:
         for relative in re.findall(r"(?:tools|tests)/[A-Za-z0-9_./-]+", command):
             if not (repo / relative).exists():
                 errors.append(error(policy_path, f"命令 {command_name} 引用不存在路径：{relative}"))
+    for message in validate_policy(data):
+        errors.append(error(policy_path, message))
     return errors
 
 
@@ -217,9 +266,10 @@ def validate_fixture_manifest(repo: Path) -> list[str]:
         if not fixture.is_file():
             errors.append(error(manifest_path, f"登记的 fixture 不存在：{relative}"))
             continue
-        actual_hash = hashlib.sha256(fixture.read_bytes()).hexdigest()
-        if item.get("sha256") != actual_hash:
-            errors.append(error(manifest_path, f"fixture SHA-256 不匹配：{relative}"))
+        if item.get("availability") != "optional-local":
+            actual_hash = hashlib.sha256(fixture.read_bytes()).hexdigest()
+            if item.get("sha256") != actual_hash:
+                errors.append(error(manifest_path, f"fixture SHA-256 不匹配：{relative}"))
         for field in ("source", "acquisition", "software_version", "license", "distribution_status"):
             if not item.get(field):
                 errors.append(error(manifest_path, f"fixture {relative} 缺少字段：{field}"))
@@ -259,10 +309,20 @@ def validate_capability_ledger(repo: Path) -> list[str]:
             if not isinstance(details, dict):
                 errors.append(error(ledger_path, f"{format_entry.get('id')}/{artifact} 必须是对象"))
                 continue
+            if "code_entry" not in details:
+                errors.append(error(ledger_path, f"缺少实现入口字段：{format_entry.get('id')}/{artifact}"))
+            if "automated_tests" not in details:
+                errors.append(error(ledger_path, f"缺少自动测试字段：{format_entry.get('id')}/{artifact}"))
             code_entry = details.get("code_entry")
+            if code_entry is not None and not isinstance(code_entry, str):
+                errors.append(error(ledger_path, f"实现入口必须是字符串或 null：{format_entry.get('id')}/{artifact}"))
             if code_entry and not (repo / code_entry).exists():
                 errors.append(error(ledger_path, f"代码入口不存在：{code_entry}"))
-            for test in details.get("automated_tests", []):
+            automated_tests = details.get("automated_tests")
+            if not isinstance(automated_tests, list):
+                errors.append(error(ledger_path, f"自动测试必须是数组：{format_entry.get('id')}/{artifact}"))
+                automated_tests = []
+            for test in automated_tests:
                 if not (repo / test).exists():
                     errors.append(error(ledger_path, f"测试证据不存在：{test}"))
             for field in ("structural_validation", "commercial_eda_validation"):
