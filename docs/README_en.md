@@ -36,6 +36,7 @@ These documents help other developers (or your future self) understand the proje
 - [Performance Baseline](developer/performance_baseline_en.md) - Performance benchmarks
 - [i18n Implementation](developer/I18N_IMPLEMENTATION_SUMMARY.md) - Internationalization summary
 - [Flatpak Development](developer/FLATPAK_DEVELOPMENT.md) - Flatpak packaging guide
+- [AI-Assisted Development](developer/ai-development/README_en.md) - AI Agent and developer collaboration, rules, and Skills
 
 ### For Project & Strategy (project/)
 
@@ -78,6 +79,8 @@ Most documents are available in both Chinese and English:
 3. Read [Testing Guide](developer/TESTING_GUIDE_en.md) for testing standards and Mock implementation
 4. Read [Developer FAQ](developer/FAQ_en.md) for known development issues and regression prevention
 5. Read [Contributing Guide](developer/CONTRIBUTING_en.md) to learn how to contribute code
+
+If you use an AI Agent for development, start with the [AI-Assisted Development](developer/ai-development/README_en.md) entry point.
 
 ### If You Want to Understand Project Planning
 

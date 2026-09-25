@@ -52,8 +52,11 @@ flowchart TD
 - 仅 Markdown、文档目录或文档模板变更：保留文档构建，不运行平台 C++ 构建和 CTest。
 - 仅独立静态资源变更：运行资源完整性检查，不运行无关 C++ 构建。
 - 仅 `src/ui/qml/` 下的 QML 变更：运行 QML 格式检查和 Linux UI 定向测试。
-- C++、头文件、CMake、依赖、测试、Python 工具、打包配置或 `.github/workflows/**`、`.github/actions/**`
-  变更：运行完整平台构建和测试。
+- C++、头文件、CMake、依赖、一般测试、Python 工具、打包配置或 `.github/workflows/**`、`.github/actions/**`
+  变更：运行完整平台构建和测试。仅当变更严格限定为
+  `tools/python/classify_ci_changes.py` 和/或
+  `tests/python/test_classify_ci_changes.py` 时，运行分类器定向测试，不触发平台构建；这两个文件与其他代码、测试或工具
+  混合变更时仍回退到完整验证。
 - 跨类型变更：同时运行所有适用检查；只要包含无法安全分类的路径，就执行完整验证。
 
 `docs-check.yml`、`comment-policy.yml` 仍会为每个 PR 产生稳定状态；`build.yml`、`clang-format.yml` 和
