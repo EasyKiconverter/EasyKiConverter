@@ -11,7 +11,6 @@ import EasyKiconverter_Cpp_Version.src.ui.qml.styles 1.0
  */
 Popup {
     id: previewPopup
-
     property var imageSources: []
     property var currentItemData: null
     property int mainIndex: 0
@@ -33,7 +32,6 @@ Popup {
     readonly property int stripHeight: imageSources.length > 1 ? thumbSize : 0
     readonly property int galleryWidth: Math.max(mainImageSize, imageSources.length * thumbSize + Math.max(0, imageSources.length - 1) * thumbGap) + panelPadding * 2
     readonly property int galleryHeight: hasImages ? headerHeight + mainImageSize + stripHeight + panelPadding * 2 + (stripHeight > 0 ? AppStyle.spacing.sm : 0) : 184
-
     width: galleryWidth
     height: galleryHeight
     padding: 0
@@ -43,7 +41,6 @@ Popup {
     focus: false
     dim: false
     opacity: 1
-
     /** @brief 取消已经安排的延迟隐藏。 */
     function cancelHide() {
         popupHideTimer.stop();
@@ -158,7 +155,6 @@ Popup {
             anchors.margins: previewPopup.panelPadding
             spacing: previewPopup.stripHeight > 0 ? AppStyle.spacing.sm : 0
             visible: previewPopup.hasImages
-
             Rectangle {
                 width: parent.width
                 height: previewPopup.headerHeight

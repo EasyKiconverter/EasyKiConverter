@@ -16,7 +16,6 @@ Item {
     property string searchText: ""
     signal descriptionEditRequested(string componentId, string description)
     implicitHeight: listLayout.implicitHeight
-
     /** @brief 请求过滤模型重新计算当前显示项。 */
     function updateFilter() {
         visualModel.updateFilter();
@@ -113,7 +112,6 @@ Item {
             }
         }
     ]
-
     ColumnLayout {
         id: listLayout
         width: parent.width

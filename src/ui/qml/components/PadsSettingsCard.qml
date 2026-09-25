@@ -10,7 +10,6 @@ ColumnLayout {
     id: padsCard
     property var exportSettingsController
     spacing: AppStyle.spacing.md
-
     StyledCheckBox {
         text: qsTranslate("MainWindow", "PADS PCB Decal 封装")
         ToolTip.text: qsTranslate("MainWindow", "生成 PADS Parts Library ASCII .d 封装文件")
@@ -28,7 +27,6 @@ ColumnLayout {
         color: AppStyle.colors.surface
         border.color: AppStyle.colors.border
         border.width: 1
-
         Text {
             id: padsInfo
             anchors.fill: parent
