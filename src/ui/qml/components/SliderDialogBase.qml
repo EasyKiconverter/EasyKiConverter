@@ -22,6 +22,8 @@ import "../styles"
  */
 FocusScope {
     id: root
+    /** 关闭动画完成且组件已隐藏后发出。 */
+    signal closeAnimationFinished
     anchors.fill: parent
     visible: false
     z: 9999
@@ -617,6 +619,9 @@ FocusScope {
             target: root
             property: "visible"
             value: false
+        }
+        ScriptAction {
+            script: root.closeAnimationFinished()
         }
     }
 }
