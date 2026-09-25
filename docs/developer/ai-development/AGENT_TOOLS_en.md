@@ -20,7 +20,7 @@ Every result is JSON and uses the exit code to report `ok`. The tools do not acc
 | `query_capability` | Query code, tests, structural validation, and commercial-tool evidence for an artifact | Read-only |
 | `query_fixture` | Query fixture provenance, hash, test use, and invariants | Read-only |
 | `run_check` | Run fixed allowlisted formatting, docs, Python, build, or CTest checks | Allowlisted checks only |
-| `generate_evidence_report` | Generate a structured Evidence Report from actual supplied results | stdout by default; file output only with `--output` |
+| `generate_evidence_report` | Generate a structured Evidence Report from actual supplied results | stdout by default; `--output` writes inside the repository, and overwriting requires explicit `--force` |
 
 ## Security boundaries
 
@@ -28,6 +28,7 @@ Every result is JSON and uses the exit code to report `ok`. The tools do not acc
 - The tools do not access the network or commercial EDA software, and never convert automated tests into commercial compatibility claims.
 - Inspection, query, and validation tools are read-only; `run_check` may create build artifacts and logs.
 - `generate_evidence_report` does not invent missing facts; absent commercial EDA evidence remains `unknown`.
+- Evidence Report output must remain inside the repository; existing files are protected unless `--force` is explicitly provided.
 - The Python CLI is the current stable interface. An MCP exposure layer is a later phase and cross-Agent automatic discovery is not claimed.
 
 ## Examples

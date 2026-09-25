@@ -25,7 +25,11 @@ def emit(payload: dict[str, Any], output: str = "") -> int:
     """以稳定 JSON 输出结果，必要时写入明确指定的文件。"""
     text = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
     if output:
-        Path(output).write_text(text, encoding="utf-8")
+        try:
+            Path(output).write_text(text, encoding="utf-8")
+        except OSError as exc:
+            sys.stdout.write(json.dumps({"ok": False, "errors": [str(exc)]}, ensure_ascii=False) + "\n")
+            return 1
     else:
         sys.stdout.write(text)
     return 0 if payload.get("ok", False) else 1
@@ -251,6 +255,25 @@ def generate_evidence_report(input_path: str, output: str) -> dict[str, Any]:
     return {"ok": True, "tool": "generate_evidence_report", "report": report, "output": output or "stdout", "side_effects": "stdout-only unless output is explicitly provided"}
 
 
+def resolve_report_output(repository: Path, output: str, force: bool) -> tuple[str, str]:
+    """校验证据报告输出路径，拒绝仓库外路径和未确认的覆盖。"""
+    if not output:
+        return "", ""
+    candidate = Path(output)
+    if not candidate.is_absolute():
+        candidate = repository / candidate
+    candidate = candidate.resolve()
+    try:
+        candidate.relative_to(repository.resolve())
+    except ValueError:
+        return "", "输出路径必须位于仓库目录内"
+    if candidate.exists() and not force:
+        return "", "输出文件已存在；如需覆盖请显式传入 --force"
+    if not candidate.parent.is_dir():
+        return "", "输出文件的父目录不存在"
+    return str(candidate), ""
+
+
 def main() -> int:
     """解析 JSON CLI 子命令并保持所有输出结构化。"""
     parser = argparse.ArgumentParser(description=__doc__)
@@ -279,6 +302,7 @@ def main() -> int:
     report = subparsers.add_parser("generate_evidence_report")
     report.add_argument("--input", default="")
     report.add_argument("--output", default="")
+    report.add_argument("--force", action="store_true", help="允许覆盖仓库内已有输出文件")
 
     args = parser.parse_args()
     repository = args.repository.resolve()
@@ -295,8 +319,12 @@ def main() -> int:
     elif args.tool == "run_check":
         payload = run_check(repository, args.check_name)
     else:
-        payload = generate_evidence_report(args.input, args.output)
-    return emit(payload, args.output if args.tool == "generate_evidence_report" else "")
+        output, output_error = resolve_report_output(repository, args.output, args.force)
+        if output_error:
+            payload = {"ok": False, "tool": "generate_evidence_report", "errors": [output_error]}
+        else:
+            payload = generate_evidence_report(args.input, output)
+    return emit(payload, output if args.tool == "generate_evidence_report" and payload.get("ok") else "")
 
 
 if __name__ == "__main__":

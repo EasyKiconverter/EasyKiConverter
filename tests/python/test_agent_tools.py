@@ -17,6 +17,7 @@ from agent_tools import (
     plan_verification,
     query_capability,
     query_fixture,
+    resolve_report_output,
     run_check,
 )
 
@@ -74,6 +75,33 @@ class AgentToolsTest(unittest.TestCase):
             self.assertTrue(result["ok"])
             self.assertEqual(result["report"]["commercial_eda_validation"], "unknown")
             self.assertEqual(result["report"]["risks"], [])
+
+    def test_report_output_rejects_existing_file_without_force(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            existing = root / "evidence.json"
+            existing.write_text("existing", encoding="utf-8")
+            output, error = resolve_report_output(root, "evidence.json", False)
+            self.assertEqual(output, "")
+            self.assertIn("--force", error)
+
+    def test_report_output_rejects_paths_outside_repository(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output, error = resolve_report_output(root, "../evidence.json", True)
+            self.assertEqual(output, "")
+            self.assertIn("仓库目录内", error)
+
+    def test_report_output_allows_new_repository_file_and_explicit_force(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            output, error = resolve_report_output(root, "evidence.json", False)
+            self.assertTrue(output.endswith("evidence.json"))
+            self.assertEqual(error, "")
+            Path(output).write_text("old", encoding="utf-8")
+            forced_output, force_error = resolve_report_output(root, "evidence.json", True)
+            self.assertEqual(forced_output, output)
+            self.assertEqual(force_error, "")
 
 
 if __name__ == "__main__":

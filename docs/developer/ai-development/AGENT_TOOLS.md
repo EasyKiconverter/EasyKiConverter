@@ -20,7 +20,7 @@ python3 tools/python/agent_tools.py <tool> [arguments]
 | `query_capability` | 查询格式和 artifact 的代码、测试、结构验证和实机验证状态 | 只读 |
 | `query_fixture` | 查询 fixture 来源、哈希、测试用途和不变量 | 只读 |
 | `run_check` | 执行固定白名单中的格式、文档、Python、构建或 CTest 检查 | 仅白名单检查 |
-| `generate_evidence_report` | 根据实际输入结果生成结构化 Evidence Report | 默认 stdout；指定 `--output` 才写文件 |
+| `generate_evidence_report` | 根据实际输入结果生成结构化 Evidence Report | 默认 stdout；指定 `--output` 写入仓库内文件，覆盖已有文件必须显式使用 `--force` |
 
 ## 安全边界
 
@@ -28,6 +28,7 @@ python3 tools/python/agent_tools.py <tool> [arguments]
 - 工具不自动联网，不调用商业 EDA 软件，不把自动测试结果转换成商业软件兼容性结论。
 - `inspect_changes`、查询和校验工具只读；`run_check` 可能生成构建目录和日志。
 - `generate_evidence_report` 不补造缺失事实，未提供的商业 EDA 验证保持 `unknown`。
+- Evidence Report 输出路径必须位于仓库目录内；已有文件默认不会覆盖，只有显式 `--force` 才允许覆盖。
 - Python CLI 是当前稳定接口；MCP 暴露层属于后续阶段，当前不宣称已实现跨 Agent 自动发现。
 
 ## 示例
