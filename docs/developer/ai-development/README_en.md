@@ -13,6 +13,7 @@ This entry point is for contributors and AI Agents working on EasyKiConverter. I
 5. [Skills catalog](SKILLS_CATALOG_en.md) lists manually invokable task procedures.
 6. The [Evidence Report template](EVIDENCE_REPORT_TEMPLATE_en.md) standardizes baselines, commands, blockers, and commercial EDA evidence.
 7. [Agent adapter notes](ADAPTERS_en.md) explain the boundary between local entries and repository policy.
+8. [Agent JSON tools](AGENT_TOOLS_en.md) provide read-only queries, verification planning, and allowlisted checks.
 
 ## Authoritative rules and supporting material
 
