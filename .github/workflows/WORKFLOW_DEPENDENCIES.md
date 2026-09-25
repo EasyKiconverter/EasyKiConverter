@@ -18,11 +18,11 @@
 - `deploy-docs.yml` - 文档部署
 
 ### 自动化与辅助
-- `issue-triage.yaml` - Issue 自动分类
 - `label.yml` - PR 自动标签
-- `pr-review.yml` - PR 自动审查
 - `.github/actions/setup-env` - 环境配置 Composite Action
 - `.github/actions/get-version` - 版本号提取 Composite Action (新增)
+- `.github/actions/setup-msvc` - Windows MSVC 环境 Composite Action
+- `.github/actions/setup-vcpkg` - vcpkg 环境 Composite Action
 
 ## 全局策略
 
@@ -72,11 +72,13 @@ flowchart TD
 | actionlint.yml | ✓ | ✓ | ✗ | ✗ | ✓ |
 | clang-format.yml | ✓ | ✓ | ✗ | ✗ | ✓ |
 | comment-policy.yml | ✗ | ✓ | ✗ | ✗ | ✗ |
+| docs-check.yml | ✗ | ✓ | ✗ | ✗ | ✓ |
 | security.yml | ✗ | ✓ | ✗ | ✓ | ✗ |
-| pack-linux.yml | ✗ | ✗ | ✓ | ✗ | ✓ |
-| pack-macos.yml | ✗ | ✗ | ✓ | ✗ | ✓ |
-| pack-windows.yml | ✗ | ✗ | ✓ | ✗ | ✓ |
-| release.yml | ✗ | ✗ | ✓ | ✗ | ✓ |
+| label.yml | ✗ | ✓ | ✗ | ✗ | ✗ |
+| pack-linux.yml | ✗ | ✗ | ✗ | ✗ | ✓ |
+| pack-macos.yml | ✗ | ✗ | ✗ | ✗ | ✓ |
+| pack-windows.yml | ✗ | ✗ | ✗ | ✗ | ✓ |
+| release.yml | ✓ | ✗ | ✓ | ✗ | ✓ |
 | deploy-docs.yml | ✓ | ✗ | ✗ | ✗ | ✓ |
 
 ## 超时配置

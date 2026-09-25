@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "source_of_truth": "docs/developer/ai-development/eda-capabilities.json",
+  "status_vocabulary": ["code-entry", "automated-tested", "structurally-validated", "commercial-eda-validated", "unknown", "not-applicable", "golden-tests", "ole-reader-tests", "reader-tests", "text-and-zip-tests", "text-tests", "cadstar-parser-tests", "parser-tests", "xml-readback-tests", "import-package-tests", "manifest-tests"],
+  "status_dimensions": {
+    "implementation": {"field": "code_entry", "present": "code-entry", "absent": "unknown"},
+    "automated_testing": {"field": "automated_tests", "non_empty": "automated-tested", "empty": "unknown"},
+    "structural_validation": {"field": "structural_validation", "value_is_evidence_label": true},
+    "commercial_eda_validation": {"field": "commercial_eda_validation", "unknown_is_not_verified": true}
+  },
+  "artifacts": ["symbol", "footprint", "device-association", "model-3d", "board"],
+  "formats": [
+    {
+      "id": "easyeda",
+      "direction": "source",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/easyeda/EasyedaSymbolImporter.cpp", "automated_tests": ["tests/unit/test_easyeda_importer_fixtures.cpp"], "structural_validation": "unknown", "commercial_eda_validation": "not-applicable"},
+        "footprint": {"code_entry": "src/core/easyeda/EasyedaFootprintImporter.cpp", "automated_tests": ["tests/unit/test_easyeda_importer_fixtures.cpp"], "structural_validation": "unknown", "commercial_eda_validation": "not-applicable"},
+        "device-association": {"code_entry": "src/core/easyeda/EasyedaImporter.cpp", "automated_tests": ["tests/integration/test_fixture_to_kicad_export.cpp"], "structural_validation": "unknown", "commercial_eda_validation": "not-applicable"},
+        "model-3d": {"code_entry": "src/services/export/Model3DExportWorker.cpp", "automated_tests": ["tests/unit/test_exporter_3d_model.cpp"], "structural_validation": "unknown", "commercial_eda_validation": "not-applicable"}
+      },
+      "known_loss": "API response provenance and live-service behavior are not represented by local fixtures.",
+      "evidence": ["src/core/easyeda", "tests/unit/test_easyeda_importer_fixtures.cpp"]
+    },
+    {
+      "id": "kicad",
+      "direction": "target",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/kicad/ExporterSymbol.cpp", "automated_tests": ["tests/unit/test_kicad_exporter_golden.cpp"], "structural_validation": "golden-tests", "commercial_eda_validation": "unknown"},
+        "footprint": {"code_entry": "src/core/kicad/ExporterFootprint.cpp", "automated_tests": ["tests/unit/test_kicad_exporter_golden.cpp"], "structural_validation": "golden-tests", "commercial_eda_validation": "unknown"},
+        "device-association": {"code_entry": "src/core/kicad/ExporterSymbol.cpp", "automated_tests": ["tests/integration/test_fixture_to_kicad_export.cpp"], "structural_validation": "golden-tests", "commercial_eda_validation": "unknown"},
+        "model-3d": {"code_entry": "src/core/kicad/Exporter3DModel.cpp", "automated_tests": ["tests/unit/test_exporter_3d_model.cpp"], "structural_validation": "unknown", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "Target-version application behavior is not proven by repository tests.",
+      "evidence": ["docs/developer/ARCHITECTURE.md", "tests/unit/test_kicad_exporter_golden.cpp"]
+    },
+    {
+      "id": "altium",
+      "direction": "target",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/altium/ExporterAltiumSymbol.cpp", "automated_tests": ["tests/unit/test_altium_ole.cpp"], "structural_validation": "ole-reader-tests", "commercial_eda_validation": "unknown"},
+        "footprint": {"code_entry": "src/core/altium/ExporterAltiumFootprint.cpp", "automated_tests": ["tests/unit/test_easyeda_importer_fixtures.cpp"], "structural_validation": "reader-tests", "commercial_eda_validation": "unknown"},
+        "device-association": {"code_entry": "src/core/altium/ExporterAltiumSymbol.cpp", "automated_tests": ["tests/unit/test_altium_ole.cpp"], "structural_validation": "reader-tests", "commercial_eda_validation": "unknown"},
+        "model-3d": {"code_entry": "src/core/altium/ExporterAltiumFootprint.cpp", "automated_tests": ["tests/unit/test_exporter_3d_model.cpp"], "structural_validation": "unknown", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "Altium version-specific compatibility requires commercial application validation.",
+      "evidence": ["docs/developer/ALTIUM_SYMBOL_EXPORT.md", "tests/unit/test_altium_ole.cpp"]
+    },
+    {
+      "id": "xpedition",
+      "direction": "target",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/xpedition/ExporterXpeditionSymbol.cpp", "automated_tests": ["tests/unit/test_xpedition_exporter.cpp"], "structural_validation": "text-and-zip-tests", "commercial_eda_validation": "unknown"},
+        "footprint": {"code_entry": "src/core/xpedition/ExporterXpeditionFootprint.cpp", "automated_tests": ["tests/unit/test_xpedition_exporter.cpp"], "structural_validation": "text-and-zip-tests", "commercial_eda_validation": "unknown"},
+        "device-association": {"code_entry": "src/core/xpedition/XpeditionHkpAdapter.cpp", "automated_tests": ["tests/unit/test_xpedition_exporter.cpp"], "structural_validation": "text-tests", "commercial_eda_validation": "unknown"},
+        "model-3d": {"code_entry": "src/services/export/Model3DExportWorker.cpp", "automated_tests": ["tests/unit/test_exporter_3d_model.cpp"], "structural_validation": "unknown", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "Native Xpedition application round-trip is not verified.",
+      "evidence": ["docs/developer/XPEDITION_EXPORT.md", "tests/unit/test_xpedition_exporter.cpp"]
+    },
+    {
+      "id": "cadstar",
+      "direction": "target",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/cadstar/ExporterCadstarLibrary.cpp", "automated_tests": ["tests/unit/test_cadstar_exporter.cpp"], "structural_validation": "cadstar-parser-tests", "commercial_eda_validation": "unknown"},
+        "footprint": {"code_entry": "src/core/cadstar/ExporterCadstarLibrary.cpp", "automated_tests": ["tests/unit/test_cadstar_exporter.cpp"], "structural_validation": "cadstar-parser-tests", "commercial_eda_validation": "unknown"},
+        "device-association": {"code_entry": "src/core/cadstar/ExporterCadstarLibrary.cpp", "automated_tests": ["tests/unit/test_cadstar_exporter.cpp"], "structural_validation": "cadstar-parser-tests", "commercial_eda_validation": "unknown"},
+        "model-3d": {"code_entry": "src/services/export/Model3DExportStage.cpp", "automated_tests": ["tests/unit/test_exporter_3d_model.cpp"], "structural_validation": "unknown", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "CADSTAR application validation is not available in this repository evidence.",
+      "evidence": ["docs/developer/CADSTAR_EXPORT.md", "tests/unit/test_cadstar_parser.cpp"]
+    },
+    {
+      "id": "pcad",
+      "direction": "target",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/pcad/ExporterPcadSymbol.cpp", "automated_tests": ["tests/unit/test_pcad_exporter.cpp"], "structural_validation": "parser-tests", "commercial_eda_validation": "unknown"},
+        "footprint": {"code_entry": "src/core/pcad/ExporterPcadFootprint.cpp", "automated_tests": ["tests/unit/test_pcad_exporter.cpp"], "structural_validation": "parser-tests", "commercial_eda_validation": "unknown"},
+        "device-association": {"code_entry": "src/core/pcad/PcadAdapter.cpp", "automated_tests": ["tests/unit/test_pcad_parser.cpp"], "structural_validation": "parser-tests", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "P-CAD target-tool round-trip is not verified.",
+      "evidence": ["docs/developer/PCAD_EXPORT.md", "tests/unit/test_pcad_parser.cpp"]
+    },
+    {
+      "id": "pads",
+      "direction": "target",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/pads/ExporterPadsSymbol.cpp", "automated_tests": ["tests/unit/test_pads_exporter.cpp"], "structural_validation": "text-tests", "commercial_eda_validation": "unknown"},
+        "footprint": {"code_entry": "src/core/pads/ExporterPadsFootprint.cpp", "automated_tests": ["tests/unit/test_pads_exporter.cpp"], "structural_validation": "text-tests", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "PADS application round-trip is not verified.",
+      "evidence": ["docs/developer/PADS_EXPORT.md", "tests/unit/test_pads_exporter.cpp"]
+    },
+    {
+      "id": "eagle",
+      "direction": "target",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/eagle/ExporterEagleFootprint.cpp", "automated_tests": ["tests/unit/test_eagle_exporter.cpp"], "structural_validation": "xml-readback-tests", "commercial_eda_validation": "unknown"},
+        "footprint": {"code_entry": "src/core/eagle/ExporterEagleFootprint.cpp", "automated_tests": ["tests/unit/test_eagle_exporter.cpp"], "structural_validation": "xml-readback-tests", "commercial_eda_validation": "unknown"},
+        "device-association": {"code_entry": "src/core/eagle/ExporterEagleFootprint.cpp", "automated_tests": ["tests/unit/test_eagle_exporter.cpp"], "structural_validation": "xml-readback-tests", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "Eagle managed 3D URN association is intentionally not generated.",
+      "evidence": ["docs/developer/EAGLE_EXPORT.md", "tests/unit/test_eagle_exporter.cpp"]
+    },
+    {
+      "id": "allegro",
+      "direction": "target",
+      "artifacts": {
+        "footprint": {"code_entry": "src/core/allegro/ExporterAllegroFootprint.cpp", "automated_tests": ["tests/unit/test_allegro_exporter.cpp"], "structural_validation": "import-package-tests", "commercial_eda_validation": "unknown"},
+        "model-3d": {"code_entry": "src/core/allegro/ExporterAllegroFootprint.cpp", "automated_tests": ["tests/unit/test_allegro_exporter.cpp"], "structural_validation": "manifest-tests", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "This is an Allegro Import Package, not a native .dra/.psm/.pad writer; Cadence Allegro round-trip is unverified.",
+      "evidence": ["docs/developer/ALLEGRO_EXPORT.md", "tests/unit/test_allegro_exporter.cpp"]
+    },
+    {
+      "id": "orcad",
+      "direction": "target",
+      "artifacts": {
+        "symbol": {"code_entry": "src/core/orcad/ExporterOrcadSymbol.cpp", "automated_tests": ["tests/unit/test_orcad_exporter.cpp"], "structural_validation": "xml-readback-tests", "commercial_eda_validation": "unknown"},
+        "device-association": {"code_entry": "src/core/orcad/ExporterOrcadSymbol.cpp", "automated_tests": ["tests/unit/test_orcad_exporter.cpp"], "structural_validation": "xml-readback-tests", "commercial_eda_validation": "unknown"}
+      },
+      "known_loss": "The output is Capture XML exchange data, not a native .olb database; OrCAD application round-trip is unverified.",
+      "evidence": ["docs/developer/ORCAD_EXPORT.md", "tests/unit/test_orcad_exporter.cpp"]
+    }
+  ]
+}

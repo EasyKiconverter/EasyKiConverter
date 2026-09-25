@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["id", "purpose", "triggers", "required_sources", "side_effects", "verification", "stop_conditions", "evidence_outputs"],
+  "properties": {
+    "id": {"type": "string", "pattern": "^[a-z0-9-]+$"},
+    "purpose": {"type": "string", "minLength": 1},
+    "triggers": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "required_sources": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "optional_sources": {"type": "array", "items": {"type": "string"}},
+    "side_effects": {"type": "array", "items": {"type": "string"}},
+    "verification": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "stop_conditions": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "evidence_outputs": {"type": "array", "items": {"type": "string"}, "minItems": 1}
+  },
+  "additionalProperties": false
+}

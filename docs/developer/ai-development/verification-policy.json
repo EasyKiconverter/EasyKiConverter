@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "source_of_truth": "docs/developer/ai-development/verification-policy.json",
+  "minimum_policy": {
+    "cpp": ["cpp_format", "build", "focused_tests"],
+    "parser_or_importer": ["cpp_format", "fixture_tests", "invalid_input_tests"],
+    "exporter_or_ir": ["cpp_format", "structural_or_golden_tests", "diagnostic_tests"],
+    "qml": ["qml_format", "ui_tests"],
+    "python_tool": ["python_unittest", "failure_input_tests"],
+    "cmake_dependency_workflow": ["configuration_check", "build", "affected_tests"],
+    "documentation": ["ai_consistency_check", "mkdocs_build", "bilingual_link_check"],
+    "unknown": ["cpp_format", "build", "full_validation"]
+  },
+  "safety": {
+    "classification_failure": "full_validation",
+    "commercial_eda_validation": "separate_evidence_only",
+    "network_tests": "mock_only",
+    "headless_qt": "QT_QPA_PLATFORM=offscreen"
+  },
+  "commands": {
+    "focused_tests": "按变更分类和 TESTING_GUIDE 选择受影响的 CTest/定向测试；不存在统一的单条命令",
+    "fixture_tests": "按格式 fixture 的 tests 字段运行对应测试；由 fixture-provenance.json 维护映射",
+    "invalid_input_tests": "按解析器或导出器的无效输入测试选择对应测试；由 TESTING_GUIDE 维护具体入口",
+    "structural_or_golden_tests": "按目标格式选择结构回读或 golden 测试；由 eda-capabilities.json 维护证据",
+    "diagnostic_tests": "按 ConversionReport 和诊断回归测试选择对应测试；由 TESTING_GUIDE 维护具体入口",
+    "failure_input_tests": "按 Python 工具的失败输入回归测试选择对应测试；由测试文件维护具体入口",
+    "ui_tests": "QT_QPA_PLATFORM=offscreen ctest --test-dir build -L ui --output-on-failure",
+    "bilingual_link_check": "由 validate_ai_development.py 检查中英文文档存在、互链和仓库内相对链接",
+    "configuration_check": "按受影响的 CMake/依赖配置运行配置检查；无法缩小范围时执行 full_validation",
+    "affected_tests": "按变更分类和验证策略选择受影响测试；无法分类时执行 full_validation",
+    "python_unittest": ".venv/bin/python -m unittest discover -s tests/python -p 'test_*.py'",
+    "cpp_format": ".venv/bin/python tools/python/format_code.py --cpp --check",
+    "qml_format": ".venv/bin/python tools/python/format_code.py --qml --check",
+    "build": ".venv/bin/python tools/python/build_project.py --test",
+    "full_validation": "QT_QPA_PLATFORM=offscreen ctest --test-dir build --output-on-failure",
+    "mkdocs_build": ".venv/bin/python tools/python/build_docs.py --mkdocs",
+    "ai_consistency_check": ".venv/bin/python tools/python/validate_ai_development.py",
+    "verification_plan_check": ".venv/bin/python tools/python/verification_plan.py --check"
+  }
+}

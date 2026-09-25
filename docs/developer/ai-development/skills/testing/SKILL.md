@@ -9,18 +9,19 @@
 - `AGENTS.md`
 - `PROJECT_INSTRUCTIONS.md`
 - `docs/developer/ai-development/TESTING_GUIDE.md`
+- `docs/developer/ai-development/verification-policy.json`
 - `docs/developer/TESTING_GUIDE.md`
 - 与改动模块对应的测试和 workflow
 
 ## 执行步骤
 
 1. 读取 `git status --short --branch` 和 `git diff --stat`，确认测试范围。
-2. 根据改动类型选择最小验证；C++、CMake、测试基础设施或 CI 改动默认扩大到构建和全量 CTest。
+2. 依据 `verification-policy.json` 选择最低验证；C++、CMake、测试基础设施或 CI 改动默认扩大到构建和全量 CTest。
 3. 使用项目 `.venv` 和专用 Qt，测试前设置 `QT_QPA_PLATFORM=offscreen`。
 4. 优先运行定向测试，再运行完整构建和 `ctest --test-dir build --output-on-failure`。
 5. 文档改动运行 `.venv/bin/python tools/python/build_docs.py --mkdocs`。
 6. 运行适用的 C++/QML 格式检查和 `git diff --check`。
-7. 分开记录已执行、未执行、环境阻塞和推断结果。
+7. 分开记录已执行、未执行、环境阻塞和推断结果，并使用 Evidence Report 模板。
 
 ## 停止条件
 

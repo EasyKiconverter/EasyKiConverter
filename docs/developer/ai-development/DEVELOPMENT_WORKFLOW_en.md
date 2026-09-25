@@ -4,9 +4,12 @@
 
 This workflow covers code, tests, CI, and documentation tasks. It does not authorize remote writes; commits, pushes, and PR creation require an explicit user request.
 
+Read the [AI Collaboration Policy](policy/AI_POLICY_en.md) first and use the [Evidence Report template](EVIDENCE_REPORT_TEMPLATE_en.md) to record actual evidence at the end.
+
 ## 1. Understand the task and boundary
 
 - Read `AGENTS.md`, `CLAUDE.md`, `PROJECT_INSTRUCTIONS.md`, and the relevant domain documents first.
+- Root rule files are tool adapters; the repository [AI Collaboration Policy](policy/AI_POLICY_en.md) defines AI collaboration boundaries.
 - When `.codegraph/` exists, use CodeGraph first to locate symbols, call paths, and ownership boundaries.
 - Identify whether the task affects importers, IR, exporters, services, view models, QML, tools, CI, or documentation.
 - Do not treat a plan, a class name, or a UI entry as proof that a capability is complete.
@@ -19,7 +22,7 @@ git diff --stat
 git branch --show-current
 ```
 
-Preserve existing user changes. Do not use destructive reset or checkout commands to overwrite them. Start new work on a dedicated branch from the appropriate baseline rather than committing directly on a version branch.
+Preserve existing user changes. Do not use destructive reset or checkout commands to overwrite them. One reasonably complete issue or development theme maps to one topic branch; the branch may contain multiple related commits. Do not create a branch for every small edit, subtask, or individual commit. Create the topic branch from the version branch that owns the work, and open the Pull Request back to that same version branch instead of committing directly to it. No mandatory branch-name format was found in the repository; naming examples are only suggestions.
 
 ## 3. Implement within the architecture
 
@@ -32,7 +35,7 @@ Preserve existing user changes. Do not use destructive reset or checkout command
 
 ## 4. Verify by risk
 
-Use the [AI testing guide](TESTING_GUIDE_en.md). Run format checks, focused tests, and documentation checks relevant to the change. Changes to C++, CMake, test infrastructure, or CI require a build and the applicable full tests.
+Use the [AI testing guide](TESTING_GUIDE_en.md) and the machine-readable [verification policy](verification-policy.json). Run format checks, focused tests, and documentation checks relevant to the change. Changes to C++, CMake, test infrastructure, or CI require a build and the applicable full tests.
 
 ## 5. Review the change
 
@@ -43,6 +46,7 @@ git status --short --branch
 ```
 
 Check for unrelated files, system Qt, system Python, real-network tests, accidental application-identity changes, and undocumented degradation. Report commercial EDA, real desktop, and cross-platform CI validation only when actually executed.
+Record the baseline ref/commit, actual commands with exit status, and a reason for every check not run.
 
 ## 6. Commit and PR
 

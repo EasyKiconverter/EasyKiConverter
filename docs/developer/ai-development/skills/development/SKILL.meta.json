@@ -1,0 +1,11 @@
+{
+  "id": "development",
+  "purpose": "在保持 IR 和模块边界的前提下理解架构并实施受控代码变更。",
+  "triggers": ["新增功能", "修复代码问题", "需要追踪调用链"],
+  "required_sources": ["docs/developer/ai-development/policy/AI_POLICY.md", "docs/developer/ai-development/PROJECT_CONTEXT.md"],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md"],
+  "side_effects": ["worktree-files", "build-artifacts"],
+  "verification": ["verification-policy.json", "git diff --check"],
+  "stop_conditions": ["目标语义无法由仓库证据确认", "需要远端或破坏性 Git 操作"],
+  "evidence_outputs": ["changed-files", "tests-and-commands", "remaining-risks"]
+}

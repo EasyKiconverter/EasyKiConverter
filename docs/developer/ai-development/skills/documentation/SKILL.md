@@ -11,6 +11,7 @@
 - `docs/README.md` 和 `docs/README_en.md`
 - `docs/developer/DOCUMENTATION_MAINTENANCE.md`
 - `mkdocs.yml`
+- `docs/developer/ai-development/policy/AI_POLICY.md`
 - 对应源码、测试和 workflow
 
 ## 执行步骤
@@ -21,7 +22,8 @@
 4. 架构、流程、时序、依赖或数据流使用 Mermaid；正文说明图的范围和未实现部分。
 5. 更新必要的 `docs/README*`、`docs/index*` 和 `mkdocs.yml` 导航，避免孤立页面。
 6. 使用 `.venv/bin/python tools/python/build_docs.py --mkdocs` 构建文档，并运行 `git diff --check`。
-7. 检查旧链接、过期版本、应用身份和历史记录；历史事实不要机械改写。
+7. 运行 `tools/python/validate_ai_development.py`，确认路径、Skill 元数据、双语互链和能力/fixture 台账一致。
+8. 检查旧链接、过期版本、应用身份和历史记录；历史事实不要机械改写。
 
 ## 停止条件
 

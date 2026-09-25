@@ -1,0 +1,11 @@
+{
+  "id": "code-review",
+  "purpose": "对工作区、提交或 Pull Request 进行只读、按风险排序且基于证据的审查。",
+  "triggers": ["审查工作区", "审查提交", "审查 Pull Request"],
+  "required_sources": ["docs/developer/ai-development/policy/AI_POLICY.md", "docs/developer/ai-development/skills/code-review/SKILL.md"],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md"],
+  "side_effects": [],
+  "verification": ["recorded-base-and-head", "diff-and-test-evidence"],
+  "stop_conditions": ["审查期间 HEAD 改变且未重新核对", "证据不足以确认根因"],
+  "evidence_outputs": ["risk-findings", "review-head", "unverified-items"]
+}
