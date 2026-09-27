@@ -314,6 +314,13 @@ void ParallelExportService::startExport() {
 
 // 取消预加载或导出，并回收仍在运行的阶段。
 void ParallelExportService::cancelExport() {
+    // 空闲或已结束时没有可取消的任务，避免退出流程产生误导性的取消信号和报告。
+    const ExportOverallProgress progressSnapshot = getProgress();
+    const bool hasTrackedProgress = !progressSnapshot.exportTypeProgress.isEmpty();
+    if (!isRunning() && !hasTrackedProgress) {
+        return;
+    }
+
     qDebug() << "ParallelExportService: Cancelling export";
     ++m_activeRunGeneration;
     m_cancelRequested = true;

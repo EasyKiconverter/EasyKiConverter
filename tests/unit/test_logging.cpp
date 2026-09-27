@@ -211,9 +211,11 @@ void TestLogging::testPatternFormatterClone() {
 // ========== ConsoleAppender 测试 ==========
 
 void TestLogging::testConsoleAppenderCreation() {
+    const QByteArray termBefore = qgetenv("TERM");
     ConsoleAppender appender(true);
     // useColors() 可能返回 false，取决于控制台支持
     // 重要的是构造函数不会崩溃
+    QCOMPARE(qgetenv("TERM"), termBefore);
 
     ConsoleAppender appenderNoColor(false);
     QVERIFY(!appenderNoColor.useColors());

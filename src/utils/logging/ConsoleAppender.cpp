@@ -164,10 +164,16 @@ bool ConsoleAppender::supportsColors() {
 
     return supported;
 #else
-    // Unix/Linux/macOS 强制启用颜色支持
-    // 设置 TERM 环境变量以确保终端支持 ANSI 颜色
-    qputenv("TERM", "xterm-256color");
-    return true;
+    // Unix/Linux/macOS 根据实际输出设备判断 ANSI 颜色支持。
+    // 只有输出连接到真实终端时才启用颜色，管道、文件和测试捕获输出保持纯文本。
+    const bool stdoutIsTerminal = isatty(STDOUT_FILENO) == 1;
+    const bool stderrIsTerminal = isatty(STDERR_FILENO) == 1;
+    if (!stdoutIsTerminal && !stderrIsTerminal) {
+        return false;
+    }
+
+    // TERM=dumb 明确表示终端不支持 ANSI 控制序列，不应强行覆盖用户环境。
+    return qEnvironmentVariable("TERM") != QStringLiteral("dumb");
 #endif
 }
 
