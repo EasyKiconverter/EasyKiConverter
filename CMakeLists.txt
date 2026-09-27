@@ -246,6 +246,7 @@ set(QML_FILES
     src/ui/qml/components/WindowPersistenceManager.qml
     src/ui/qml/components/WindowStartupManager.qml
     src/ui/qml/components/ConfirmDialog.qml
+    src/ui/qml/components/CacheDirectoryErrorDialog.qml
     src/ui/qml/components/DescriptionEditDialog.qml
     src/ui/qml/components/WindowResizeHandles.qml
     src/ui/qml/components/ExitDialog.qml

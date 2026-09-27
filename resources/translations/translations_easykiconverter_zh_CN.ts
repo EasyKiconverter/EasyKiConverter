@@ -790,6 +790,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>缓存目录无法使用</source>
+        <translation>缓存目录无法使用</translation>
+    </message>
+    <message>
+        <source>所选目录未切换，当前缓存目录保持不变。</source>
+        <translation>所选目录未切换，当前缓存目录保持不变。</translation>
+    </message>
+    <message>
+        <source>选择路径</source>
+        <translation>选择路径</translation>
+    </message>
+    <message>
+        <source>拒绝原因</source>
+        <translation>拒绝原因</translation>
+    </message>
+    <message>
+        <source>可选目录条件</source>
+        <translation>可选目录条件</translation>
+    </message>
+    <message>
+        <source>空目录（应用会创建并写入所有权标记）；已包含 EasyKiConverter 所有权标记的目录；或可安全接管的旧缓存目录。主目录本身、文件系统根目录、包含符号链接的路径，以及非空且无法证明归属的目录不会被接受。</source>
+        <translation>空目录（应用会创建并写入所有权标记）；已包含 EasyKiConverter 所有权标记的目录；或可安全接管的旧缓存目录。主目录本身、文件系统根目录、包含符号链接的路径，以及非空且无法证明归属的目录不会被接受。</translation>
+    </message>
+    <message>
+        <source>重新选择</source>
+        <translation>重新选择</translation>
+    </message>
+    <message>
+        <source>关闭</source>
+        <translation>关闭</translation>
+    </message>
+    <message>
         <location filename="../../src/ui/qml/components/HeaderSection.qml" line="26"/>
         <source>将嘉立创EDA元器件转换为KiCad格式</source>
         <translation>将嘉立创EDA元器件转换为KiCad格式</translation>

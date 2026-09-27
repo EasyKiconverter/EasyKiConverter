@@ -1105,6 +1105,38 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>Select Cache Directory</translation>
     </message>
     <message>
+        <source>缓存目录无法使用</source>
+        <translation>Cache Directory Unavailable</translation>
+    </message>
+    <message>
+        <source>所选目录未切换，当前缓存目录保持不变。</source>
+        <translation>The selected directory was not applied. The current cache directory remains active.</translation>
+    </message>
+    <message>
+        <source>选择路径</source>
+        <translation>Selected Path</translation>
+    </message>
+    <message>
+        <source>拒绝原因</source>
+        <translation>Reason</translation>
+    </message>
+    <message>
+        <source>可选目录条件</source>
+        <translation>Allowed Directory Conditions</translation>
+    </message>
+    <message>
+        <source>空目录（应用会创建并写入所有权标记）；已包含 EasyKiConverter 所有权标记的目录；或可安全接管的旧缓存目录。主目录本身、文件系统根目录、包含符号链接的路径，以及非空且无法证明归属的目录不会被接受。</source>
+        <translation>An empty directory (the app creates it and writes an ownership marker), a directory with a valid EasyKiConverter ownership marker, or a recognizable legacy cache directory that can be safely adopted. The home directory itself, filesystem roots, paths containing symbolic links, and non-empty directories without verifiable ownership are not accepted.</translation>
+    </message>
+    <message>
+        <source>重新选择</source>
+        <translation>Choose Again</translation>
+    </message>
+    <message>
+        <source>关闭</source>
+        <translation>Close</translation>
+    </message>
+    <message>
         <location filename="../../src/ui/qml/components/ExportProgressCard.qml" line="26"/>
         <source>数据抓取</source>
         <translation>Data Fetch</translation>

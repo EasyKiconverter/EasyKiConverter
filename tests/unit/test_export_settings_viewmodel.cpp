@@ -63,6 +63,7 @@ void TestExportSettingsViewModel::testLoadsCacheSettingsFromConfig() {
 // 拒绝非空的未托管目录，并保留已经生效的缓存配置。
 void TestExportSettingsViewModel::testRejectsUnsafeCacheDirWithoutChangingConfig() {
     ExportSettingsViewModel viewModel(nullptr);
+    QSignalSpy rejectionSpy(&viewModel, &ExportSettingsViewModel::cacheDirChangeRejected);
     const QString originalPath = viewModel.cacheDir();
     const QString unsafePath = QDir(m_tempDir.path()).filePath(QStringLiteral("non-empty-cache"));
     QVERIFY(QDir().mkpath(unsafePath));
@@ -78,6 +79,9 @@ void TestExportSettingsViewModel::testRejectsUnsafeCacheDirWithoutChangingConfig
     QCOMPARE(ConfigService::instance()->getCacheDir(), originalPath);
     QVERIFY(QFile::exists(userFile.fileName()));
     QVERIFY(!viewModel.status().isEmpty());
+    QCOMPARE(rejectionSpy.count(), 1);
+    QCOMPARE(rejectionSpy.at(0).at(0).toString(), unsafePath);
+    QVERIFY(!rejectionSpy.at(0).at(1).toString().isEmpty());
 }
 
 // 验证合法的主目录子目录能够同步更新服务、配置和新建视图模型。
@@ -133,12 +137,16 @@ void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConf
     targetMetadata.close();
 
     ExportSettingsViewModel viewModel(nullptr);
+    QSignalSpy rejectionSpy(&viewModel, &ExportSettingsViewModel::cacheDirChangeRejected);
     viewModel.setCacheDir(targetPath);
 
     QCOMPARE(viewModel.cacheDir(), tempPath);
     QCOMPARE(cache->cacheDir(), tempPath);
     QCOMPARE(ConfigService::instance()->getCacheDir(), tempPath);
     QVERIFY(viewModel.status().contains(QStringLiteral("同名文件")));
+    QCOMPARE(rejectionSpy.count(), 1);
+    QCOMPARE(rejectionSpy.at(0).at(0).toString(), targetPath);
+    QVERIFY(rejectionSpy.at(0).at(1).toString().contains(QStringLiteral("同名文件")));
     QVERIFY(QFileInfo::exists(m_tempDir.filePath(QStringLiteral("C90001/component.json"))));
     QVERIFY(QFileInfo::exists(targetMetadata.fileName()));
 }
