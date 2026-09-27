@@ -306,7 +306,7 @@ void ExportSettingsViewModel::setCacheDir(const QString& path) {
     if (m_cacheDir == normalizedPath)
         return;
 
-    if (!ComponentCacheService::instance()->setCacheDir(normalizedPath, /*migrateExistingCache=*/true)) {
+    if (!ComponentCacheService::instance()->setCacheDir(normalizedPath, /*migrateExistingCache=*/true, &error)) {
         setStatus(QStringLiteral("缓存目录未切换：%1").arg(error.isEmpty() ? QStringLiteral("迁移失败") : error));
         return;
     }

@@ -17,9 +17,10 @@ public:
      * @brief 将旧缓存目录内容迁移到新目录。
      * @param oldCacheDir 旧缓存目录。
      * @param newCacheDir 新缓存目录。
+     * @param error 输出具体的预检、冲突或迁移失败原因。
      * @return 所有条目均迁移成功时返回 true。
      */
-    static bool migrate(const QString& oldCacheDir, const QString& newCacheDir);
+    static bool migrate(const QString& oldCacheDir, const QString& newCacheDir, QString* error = nullptr);
 
 private:
     /**

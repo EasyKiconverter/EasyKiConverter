@@ -88,9 +88,10 @@ public:
     /**
      * @brief 设置缓存根目录
      * @param cacheDir 缓存目录路径
-     * @param migrateExistingCache 是否将旧缓存目录内容迁移到新目录
+     * @param migrateExistingCache 是否将旧缓存目录内容迁移到新缓存目录
+     * @param error 输出具体的校验、创建或迁移失败原因
      */
-    bool setCacheDir(const QString& cacheDir, bool migrateExistingCache = false);
+    bool setCacheDir(const QString& cacheDir, bool migrateExistingCache = false, QString* error = nullptr);
 
     /**
      * @brief 获取缓存根目录

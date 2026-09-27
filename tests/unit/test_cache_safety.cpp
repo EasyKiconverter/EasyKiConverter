@@ -1,6 +1,7 @@
 #include "services/CacheSafety.h"
 #include "services/ConfigService.h"
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QTemporaryDir>
@@ -14,6 +15,8 @@ class TestCacheSafety : public QObject {
 private slots:
     void rejectsNonEmptyUnownedDirectory();
     void rejectsHomeDirectory();
+    void acceptsEmptyHomeChildDirectory();
+    void rejectsSymlinkParentDirectory();
     void acceptsApplicationDefaultCachePath();
     void adoptsRecognizableLegacyCacheRoot();
     void movesOwnedEntryThroughInjectedTrash();
@@ -44,10 +47,43 @@ void TestCacheSafety::rejectsHomeDirectory() {
     QString error;
     QVERIFY(!CacheSafety::validateSelection(QDir::homePath(), &normalized, &error));
     QVERIFY(!error.isEmpty());
-
-    const QString homeChild = QDir(QDir::homePath()).filePath(QStringLiteral("easykiconverter-cache-child"));
     error.clear();
-    QVERIFY(!CacheSafety::validateSelection(homeChild, &normalized, &error));
+    QVERIFY(!CacheSafety::validateSelection(QDir::rootPath(), &normalized, &error));
+    QVERIFY(!error.isEmpty());
+}
+
+// 验证用户主目录下的空子目录可以被选择并在接管后建立所有权标记。
+void TestCacheSafety::acceptsEmptyHomeChildDirectory() {
+    const QString homeChild =
+        QDir(QDir::homePath())
+            .filePath(QStringLiteral(".easykiconverter-cache-test-%1").arg(QCoreApplication::applicationPid()));
+    QDir(homeChild).removeRecursively();
+    QVERIFY(QDir().mkpath(homeChild));
+
+    QString normalized;
+    QString error;
+    QVERIFY2(CacheSafety::validateSelection(homeChild, &normalized, &error), qPrintable(error));
+    QVERIFY2(CacheSafety::ensureOwnedRoot(homeChild, &error), qPrintable(error));
+    QVERIFY(CacheSafety::isOwnedRoot(homeChild));
+
+    QVERIFY(QDir(homeChild).removeRecursively());
+}
+
+// 验证父级符号链接不能把缓存目录绕过真实路径安全边界。
+void TestCacheSafety::rejectsSymlinkParentDirectory() {
+    QTemporaryDir targetDir;
+    QTemporaryDir linkParent;
+    QVERIFY(targetDir.isValid());
+    QVERIFY(linkParent.isValid());
+
+    const QString linkPath = QDir(linkParent.path()).filePath(QStringLiteral("linked-cache-parent"));
+    if (!QFile::link(targetDir.path(), linkPath))
+        QSKIP("当前平台不支持创建目录符号链接");
+
+    QString normalized;
+    QString error;
+    const QString candidate = QDir(linkPath).filePath(QStringLiteral("child"));
+    QVERIFY(!CacheSafety::validateSelection(candidate, &normalized, &error));
     QVERIFY(!error.isEmpty());
 }
 

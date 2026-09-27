@@ -1,6 +1,9 @@
+#include "services/CacheSafety.h"
+#include "services/ComponentCacheService.h"
 #include "services/ConfigService.h"
 #include "ui/viewmodels/ExportSettingsViewModel.h"
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QSignalSpy>
@@ -16,6 +19,8 @@ private slots:
     void init();
     void testLoadsCacheSettingsFromConfig();
     void testRejectsUnsafeCacheDirWithoutChangingConfig();
+    void testAcceptsHomeChildAndPersistsCacheDir();
+    void testReportsMigrationFailureWithoutChangingConfig();
     void testDiskCacheLimitClamped();
     void testModel3DPathModeDefaultsAndPersists();
     void testNormalizePathMode();
@@ -33,6 +38,10 @@ void TestExportSettingsViewModel::init() {
     config->resetToDefaults();
     config->setCacheDir(QDir(m_tempDir.path()).filePath(QStringLiteral("configured-cache")));
     config->setDiskCacheLimitMB(4096);
+
+    ComponentCacheService* cache = ComponentCacheService::instance();
+    QString cacheError;
+    QVERIFY2(cache->setCacheDir(m_tempDir.path(), false, &cacheError), qPrintable(cacheError));
 }
 
 // 验证视图模型从配置服务加载缓存设置。
@@ -62,6 +71,66 @@ void TestExportSettingsViewModel::testRejectsUnsafeCacheDirWithoutChangingConfig
     QCOMPARE(ConfigService::instance()->getCacheDir(), originalPath);
     QVERIFY(QFile::exists(userFile.fileName()));
     QVERIFY(!viewModel.status().isEmpty());
+}
+
+// 验证合法的主目录子目录能够同步更新服务、配置和新建视图模型。
+void TestExportSettingsViewModel::testAcceptsHomeChildAndPersistsCacheDir() {
+    ComponentCacheService* cache = ComponentCacheService::instance();
+    QVERIFY(cache->setCacheDir(m_tempDir.path(), false));
+
+    const QString homeChild =
+        QDir(QDir::homePath())
+            .filePath(QStringLiteral(".easykiconverter-viewmodel-cache-%1").arg(QCoreApplication::applicationPid()));
+    QDir(homeChild).removeRecursively();
+
+    ExportSettingsViewModel viewModel(nullptr);
+    viewModel.setCacheDir(homeChild);
+
+    const QString normalized = QFileInfo(homeChild).absoluteFilePath();
+    QCOMPARE(viewModel.cacheDir(), normalized);
+    QCOMPARE(cache->cacheDir(), normalized);
+    QCOMPARE(ConfigService::instance()->getCacheDir(), normalized);
+
+    ExportSettingsViewModel reloadedViewModel(nullptr);
+    QCOMPARE(reloadedViewModel.cacheDir(), normalized);
+
+    QVERIFY(cache->setCacheDir(m_tempDir.path(), false));
+    ConfigService::instance()->setCacheDir(m_tempDir.path());
+    QVERIFY(QDir(homeChild).removeRecursively());
+}
+
+// 验证迁移失败时视图模型保留原路径并展示具体冲突原因。
+void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConfig() {
+    ComponentCacheService* cache = ComponentCacheService::instance();
+    QVERIFY(cache->setCacheDir(m_tempDir.path(), false));
+    ConfigService::instance()->setCacheDir(m_tempDir.path());
+
+    ComponentData data;
+    data.setLcscId(QStringLiteral("C90001"));
+    data.setName(QStringLiteral("Migration conflict"));
+    cache->saveComponentMetadata(QStringLiteral("C90001"), data);
+
+    QTemporaryDir targetDir;
+    QVERIFY(targetDir.isValid());
+    QString ownershipError;
+    QVERIFY2(CacheSafety::ensureOwnedRoot(targetDir.path(), &ownershipError), qPrintable(ownershipError));
+    const QString targetComponent = targetDir.filePath(QStringLiteral("C90001"));
+    QVERIFY(QDir().mkpath(targetComponent));
+    QFile targetMetadata(QDir(targetComponent).filePath(QStringLiteral("component.json")));
+    QVERIFY(targetMetadata.open(QIODevice::WriteOnly | QIODevice::Text));
+    QVERIFY(targetMetadata.write(QByteArrayLiteral(
+                "{\"lcscId\":\"C90001\",\"cacheOwner\":\"EasyKiConverter\",\"cacheEntryVersion\":1}")) > 0);
+    targetMetadata.close();
+
+    ExportSettingsViewModel viewModel(nullptr);
+    viewModel.setCacheDir(targetDir.path());
+
+    QCOMPARE(viewModel.cacheDir(), m_tempDir.path());
+    QCOMPARE(cache->cacheDir(), m_tempDir.path());
+    QCOMPARE(ConfigService::instance()->getCacheDir(), m_tempDir.path());
+    QVERIFY(viewModel.status().contains(QStringLiteral("同名文件")));
+    QVERIFY(QFileInfo::exists(m_tempDir.filePath(QStringLiteral("C90001/component.json"))));
+    QVERIFY(QFileInfo::exists(targetMetadata.fileName()));
 }
 
 // 验证磁盘缓存上限会被限制在配置服务允许的范围内。

@@ -66,9 +66,9 @@ ComponentCacheService* ComponentCacheService::instance() {
 }
 
 // 设置缓存目录，并按需迁移旧目录中的缓存内容。
-bool ComponentCacheService::setCacheDir(const QString& cacheDir, bool migrateExistingCache) {
+bool ComponentCacheService::setCacheDir(const QString& cacheDir, bool migrateExistingCache, QString* error) {
     CacheDirectoryCoordinator coordinator(*this);
-    return coordinator.setDirectory(cacheDir, migrateExistingCache);
+    return coordinator.setDirectory(cacheDir, migrateExistingCache, error);
 }
 
 // 获取当前缓存根目录。
