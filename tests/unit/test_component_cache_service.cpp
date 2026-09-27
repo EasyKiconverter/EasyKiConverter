@@ -699,7 +699,7 @@ private slots:
         const QSharedPointer<ComponentData> loadedData = m_cache->loadComponentData(componentId);
         QVERIFY(loadedData != nullptr);
         QCOMPARE(loadedData->name(), QStringLiteral("Legacy migrated component"));
-        QVERIFY(CacheSafety::isOwnedRoot(newCacheDir.path()));
+        QVERIFY(CacheSafety::isOwnedRoot(canonicalTempPath(newCacheDir)));
 
         // 清理该迁移场景之前由同一测试 fixture 产生的旧预览目录，避免无标记根目录被误判为用户目录。
         QVERIFY(QDir(m_tempDir.filePath(QStringLiteral("C54327"))).removeRecursively());
