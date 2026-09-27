@@ -2,6 +2,8 @@
 
 This document provides detailed instructions for building the EasyKiConverter project locally.
 
+VS Code users should first read the [VS Code setup guide](VSCODE_SETUP_en.md) for the boundary between shared repository settings and machine-specific settings.
+
 ## Prerequisites
 
 ### Operating System
