@@ -10,7 +10,6 @@
 #include <QJsonObject>
 #include <QSaveFile>
 #include <QSet>
-#include <QStandardPaths>
 
 namespace EasyKiConverter {
 
@@ -20,26 +19,35 @@ constexpr int kMarkerVersion = 1;
 
 // 为已存在路径解析真实位置，为尚不存在路径生成规范绝对路径。
 QString canonicalOrCleanPath(const QString& path) {
-    const QFileInfo info(path);
-    if (info.exists()) {
-        const QString canonical = info.canonicalFilePath();
-        if (!canonical.isEmpty())
-            return QDir::cleanPath(canonical);
+    QFileInfo info(QDir::cleanPath(QFileInfo(path).absoluteFilePath()));
+    QStringList missingComponents;
+    while (!info.exists() && info.absoluteFilePath() != info.absolutePath()) {
+        missingComponents.prepend(info.fileName());
+        info = QFileInfo(info.absolutePath());
     }
-    return QDir::cleanPath(QDir(path).absolutePath());
+    if (info.exists()) {
+        QString canonical = info.canonicalFilePath();
+        if (canonical.isEmpty())
+            canonical = info.absoluteFilePath();
+        for (const QString& component : missingComponents)
+            canonical = QDir(canonical).filePath(component);
+        return QDir::cleanPath(canonical);
+    }
+    return QDir::cleanPath(QFileInfo(path).absoluteFilePath());
 }
 
-// 判断候选路径是否位于指定祖先目录中，包含祖先自身。
-bool isAncestorOrSame(const QString& ancestor, const QString& candidate) {
-    const QString relative = QDir(ancestor).relativeFilePath(candidate);
-    return relative == QStringLiteral(".") ||
-           (!relative.startsWith(QStringLiteral("..")) && !QDir::isAbsolutePath(relative));
-}
-
-// 判断路径是否位于系统临时目录下的隔离子目录中，避免接管整个临时目录。
-bool isUnderTemporaryDirectory(const QString& path) {
-    const QString temporaryRoot = canonicalOrCleanPath(QDir::tempPath());
-    return temporaryRoot != path && isAncestorOrSame(temporaryRoot, path);
+// 检查现有路径分量，拒绝通过父级符号链接绕过缓存目录边界。
+bool containsSymlinkComponent(const QString& path) {
+    QFileInfo info(QDir::cleanPath(QFileInfo(path).absoluteFilePath()));
+    while (true) {
+        if (info.exists() && info.isSymLink())
+            return true;
+        const QString absolutePath = info.absoluteFilePath();
+        const QString parentPath = info.absolutePath();
+        if (absolutePath == parentPath)
+            return false;
+        info = QFileInfo(parentPath);
+    }
 }
 
 // 返回旧版组件缓存允许迁移的文件名集合。
@@ -155,21 +163,17 @@ bool CacheSafety::isSafePath(const QString& path, QString* normalizedPath, QStri
     }
 
     const QFileInfo info(trimmed);
-    if (info.exists() && info.isSymLink()) {
+    if (containsSymlinkComponent(trimmed)) {
         if (error)
-            *error = QStringLiteral("缓存目录不能是符号链接");
+            *error = QStringLiteral("缓存目录不能包含符号链接路径分量");
         return false;
     }
     const QString normalized = canonicalOrCleanPath(trimmed);
     const QString root = QDir::cleanPath(QDir::rootPath());
     const QString home = canonicalOrCleanPath(QDir::homePath());
-    const QString defaultCache = canonicalOrCleanPath(
-        QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QStringLiteral("/cache"));
-    const bool isAllowedTemporaryPath = isUnderTemporaryDirectory(normalized);
-    if (normalized == root ||
-        (isAncestorOrSame(home, normalized) && normalized != defaultCache && !isAllowedTemporaryPath)) {
+    if (normalized == root || normalized == home) {
         if (error)
-            *error = QStringLiteral("不能选择文件系统根目录或用户主目录及其上级目录");
+            *error = QStringLiteral("不能选择文件系统根目录或用户主目录");
         return false;
     }
     if (info.exists() && !info.isDir()) {

@@ -8,6 +8,12 @@
 
 using namespace EasyKiConverter;
 
+namespace {
+QString canonicalTempPath(const QTemporaryDir& tempDir) {
+    return QFileInfo(tempDir.path()).canonicalFilePath();
+}
+}  // namespace
+
 class TestCachePruner : public QObject {
     Q_OBJECT
 
@@ -30,10 +36,11 @@ void TestCachePruner::writeFile(const QString& path, qsizetype size) {
 void TestCachePruner::testModel3DExcludedFromSize() {
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
-    QVERIFY(CacheSafety::ensureOwnedRoot(tempDir.path()));
-    QVERIFY(CacheSafety::ensureOwnedModel3DDirectory(tempDir.path()));
+    const QString tempPath = canonicalTempPath(tempDir);
+    QVERIFY(CacheSafety::ensureOwnedRoot(tempPath));
+    QVERIFY(CacheSafety::ensureOwnedModel3DDirectory(tempPath));
 
-    QDir root(tempDir.path());
+    QDir root(tempPath);
     QVERIFY(root.mkpath(QStringLiteral("C123")));
     QVERIFY(root.mkpath(QStringLiteral("model3d")));
 
@@ -44,7 +51,7 @@ void TestCachePruner::testModel3DExcludedFromSize() {
     metadata.close();
     writeFile(root.filePath(QStringLiteral("model3d/model.step")), 1000);
 
-    CachePruner pruner(tempDir.path());
+    CachePruner pruner(tempPath);
     QCOMPARE(pruner.currentCacheSize(), QFileInfo(root.filePath(QStringLiteral("C123/component.json"))).size());
 }
 
@@ -52,10 +59,11 @@ void TestCachePruner::testModel3DExcludedFromSize() {
 void TestCachePruner::testPruneDoesNotDeleteModel3D() {
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
-    QVERIFY(CacheSafety::ensureOwnedRoot(tempDir.path()));
-    QVERIFY(CacheSafety::ensureOwnedModel3DDirectory(tempDir.path()));
+    const QString tempPath = canonicalTempPath(tempDir);
+    QVERIFY(CacheSafety::ensureOwnedRoot(tempPath));
+    QVERIFY(CacheSafety::ensureOwnedModel3DDirectory(tempPath));
 
-    QDir root(tempDir.path());
+    QDir root(tempPath);
     QVERIFY(root.mkpath(QStringLiteral("C123")));
     QVERIFY(root.mkpath(QStringLiteral("model3d")));
 
@@ -68,7 +76,7 @@ void TestCachePruner::testPruneDoesNotDeleteModel3D() {
     metadata.close();
     writeFile(modelPath, 1000);
 
-    CachePruner pruner(tempDir.path());
+    CachePruner pruner(tempPath);
     QCOMPARE(pruner.pruneTo(0), qint64(0));
 
     QVERIFY(!QFileInfo::exists(componentPath));

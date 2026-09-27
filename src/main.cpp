@@ -796,7 +796,7 @@ int main(int argc, char* argv[]) {
         qDebug() << "Application is about to quit, performing cleanup...";
 
         // 1. 取消导出服务（如果正在导出）
-        if (exportService) {
+        if (exportService && exportService->isRunning()) {
             qDebug() << "Cancelling export service...";
             exportService->cancelExport();
         }

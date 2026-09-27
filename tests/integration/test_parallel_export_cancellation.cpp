@@ -73,6 +73,18 @@ private slots:
         qRegisterMetaType<QList<ComponentData>>();
     }
 
+    // 验证空闲服务收到退出清理请求时不会伪造取消事件或取消报告。
+    void testIdleCancelIsNoOp() {
+        ParallelExportService service;
+        QSignalSpy cancelledSpy(&service, &ParallelExportService::cancelled);
+
+        service.cancelExport();
+
+        QCOMPARE(cancelledSpy.count(), 0);
+        QCOMPARE(service.getProgress().currentStage, ExportOverallProgress::Stage::Idle);
+        QVERIFY(!service.isRunning());
+    }
+
     // 验证实际夹具数据可以完成完整导出流程。
     void testFixtureDataCompletesExportPipeline() {
         QTemporaryDir tempDir;
@@ -1180,7 +1192,6 @@ private slots:
 
         service.cancelExport();
 
-        // cancelExport() 无条件将状态转为 Cancelled 并发射 cancelled 信号
         QCOMPARE(failedSpy.count(), 0);
         QCOMPARE(cancelledSpy.count(), 1);
         QCOMPARE(service.getProgress().currentStage, ExportOverallProgress::Stage::Cancelled);

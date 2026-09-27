@@ -17,6 +17,12 @@
 
 using namespace EasyKiConverter;
 
+namespace {
+QString canonicalTempPath(const QTemporaryDir& tempDir) {
+    return QFileInfo(tempDir.path()).canonicalFilePath();
+}
+}  // namespace
+
 class TestComponentCacheService : public QObject {
     Q_OBJECT
 
@@ -27,7 +33,7 @@ private slots:
         QVERIFY(m_tempDir.isValid());
         m_cache = ComponentCacheService::instance();
         QSignalSpy warningSpy(m_cache, &ComponentCacheService::cacheMaintenanceWarning);
-        const bool cacheDirSet = m_cache->setCacheDir(m_tempDir.path());
+        const bool cacheDirSet = m_cache->setCacheDir(canonicalTempPath(m_tempDir));
         const QString warning =
             warningSpy.isEmpty() ? QStringLiteral("未提供诊断") : warningSpy.constLast().at(0).toString();
         QVERIFY2(cacheDirSet, qPrintable(warning));
@@ -248,7 +254,7 @@ private slots:
                 callbackCompleted = true;
             });
 
-        m_cache->setCacheDir(newCacheDir.path(), false);
+        m_cache->setCacheDir(canonicalTempPath(newCacheDir), false);
 
         disconnect(connection);
         QVERIFY(callbackCompleted);
@@ -462,7 +468,7 @@ private slots:
         invalidModelFile.close();
         QVERIFY(QFileInfo::exists(invalidModelPath));
 
-        m_cache->setCacheDir(m_tempDir.path(), false);
+        m_cache->setCacheDir(canonicalTempPath(m_tempDir), false);
 
         QVERIFY(!QFileInfo::exists(previewFile.fileName()));
         QVERIFY(!QFileInfo::exists(datasheetFile.fileName()));
@@ -669,7 +675,7 @@ private slots:
         QTemporaryDir newCacheDir;
         QVERIFY(newCacheDir.isValid());
 
-        m_cache->setCacheDir(newCacheDir.path(), /*migrateExistingCache=*/true);
+        m_cache->setCacheDir(canonicalTempPath(newCacheDir), /*migrateExistingCache=*/true);
 
         QSharedPointer<ComponentData> loadedData = m_cache->loadComponentData(componentId);
         QVERIFY(loadedData != nullptr);
@@ -688,12 +694,12 @@ private slots:
 
         QTemporaryDir newCacheDir;
         QVERIFY(newCacheDir.isValid());
-        QVERIFY(m_cache->setCacheDir(newCacheDir.path(), /*migrateExistingCache=*/true));
+        QVERIFY(m_cache->setCacheDir(canonicalTempPath(newCacheDir), /*migrateExistingCache=*/true));
 
         const QSharedPointer<ComponentData> loadedData = m_cache->loadComponentData(componentId);
         QVERIFY(loadedData != nullptr);
         QCOMPARE(loadedData->name(), QStringLiteral("Legacy migrated component"));
-        QVERIFY(CacheSafety::isOwnedRoot(newCacheDir.path()));
+        QVERIFY(CacheSafety::isOwnedRoot(canonicalTempPath(newCacheDir)));
 
         // 清理该迁移场景之前由同一测试 fixture 产生的旧预览目录，避免无标记根目录被误判为用户目录。
         QVERIFY(QDir(m_tempDir.filePath(QStringLiteral("C54327"))).removeRecursively());
@@ -713,7 +719,8 @@ private slots:
         QTemporaryDir targetCacheDir;
         QVERIFY(targetCacheDir.isValid());
         QString ownershipError;
-        QVERIFY2(CacheSafety::ensureOwnedRoot(targetCacheDir.path(), &ownershipError), qPrintable(ownershipError));
+        QVERIFY2(CacheSafety::ensureOwnedRoot(canonicalTempPath(targetCacheDir), &ownershipError),
+                 qPrintable(ownershipError));
 
         const QString targetComponentDir = targetCacheDir.filePath(conflictingComponentId);
         QVERIFY(QDir().mkpath(targetComponentDir));
@@ -725,7 +732,7 @@ private slots:
         QVERIFY(targetMetadata.write(QJsonDocument(metadata).toJson(QJsonDocument::Compact)) > 0);
         targetMetadata.close();
 
-        QVERIFY(!m_cache->setCacheDir(targetCacheDir.path(), true));
+        QVERIFY(!m_cache->setCacheDir(canonicalTempPath(targetCacheDir), true));
         QCOMPARE(QFileInfo(m_cache->cacheDir()).canonicalFilePath(), QFileInfo(m_tempDir.path()).canonicalFilePath());
         QVERIFY(QFileInfo::exists(m_tempDir.filePath(firstComponentId + QStringLiteral("/component.json"))));
         QVERIFY(QFileInfo::exists(m_tempDir.filePath(conflictingComponentId + QStringLiteral("/component.json"))));
@@ -753,7 +760,7 @@ private slots:
 
         QTemporaryDir newCacheDir;
         QVERIFY(newCacheDir.isValid());
-        m_cache->setCacheDir(newCacheDir.path(), /*migrateExistingCache=*/true);
+        m_cache->setCacheDir(canonicalTempPath(newCacheDir), /*migrateExistingCache=*/true);
 
         const QStringList cachedIdsAfterMigration = m_cache->getCachedComponentIds();
         QVERIFY(cachedIdsAfterMigration.contains(firstComponentId));
@@ -769,7 +776,7 @@ private slots:
 
         QTemporaryDir newCacheDir;
         QVERIFY(newCacheDir.isValid());
-        m_cache->setCacheDir(newCacheDir.path(), /*migrateExistingCache=*/true);
+        m_cache->setCacheDir(canonicalTempPath(newCacheDir), /*migrateExistingCache=*/true);
 
         QVERIFY(m_cache->hasModel3DCached(uuid, QStringLiteral("obj")));
         QCOMPARE(m_cache->loadModel3D(uuid, QStringLiteral("obj")), objData);
@@ -787,7 +794,7 @@ private slots:
 
         QTemporaryDir newCacheDir;
         QVERIFY(newCacheDir.isValid());
-        m_cache->setCacheDir(newCacheDir.path());
+        m_cache->setCacheDir(canonicalTempPath(newCacheDir));
 
         QVERIFY(!m_cache->hasInMemoryCache(componentId));
         QCOMPARE(m_cache->getMemoryCacheSize(), qint64(0));
@@ -882,7 +889,7 @@ private slots:
         metadataFile.close();
 
         // 自愈流程应将无法验证的数据保留，避免误删用户内容。
-        m_cache->setCacheDir(m_tempDir.path());
+        m_cache->setCacheDir(canonicalTempPath(m_tempDir));
         QVERIFY(QFileInfo::exists(metadataPath));
         QVERIFY(!m_cache->hasCache(componentId));
         QVERIFY(m_cache->loadComponentData(componentId) == nullptr);

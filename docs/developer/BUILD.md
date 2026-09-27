@@ -2,6 +2,8 @@
 
 本文档介绍如何在本地编译 EasyKiConverter 项目。
 
+VS Code 用户请先阅读 [VS Code 配置指南](VSCODE_SETUP.md)，了解仓库共享配置与本机配置的边界。
+
 发布说明样例请参阅 [RELEASE_NOTES_TEMPLATE.md](RELEASE_NOTES_TEMPLATE.md)。
 
 ## 环境要求

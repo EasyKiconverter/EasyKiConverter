@@ -1,6 +1,9 @@
+#include "services/CacheSafety.h"
+#include "services/ComponentCacheService.h"
 #include "services/ConfigService.h"
 #include "ui/viewmodels/ExportSettingsViewModel.h"
 
+#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QSignalSpy>
@@ -9,6 +12,12 @@
 
 using namespace EasyKiConverter;
 
+namespace {
+QString canonicalTempPath(const QTemporaryDir& tempDir) {
+    return QFileInfo(tempDir.path()).canonicalFilePath();
+}
+}  // namespace
+
 class TestExportSettingsViewModel : public QObject {
     Q_OBJECT
 
@@ -16,6 +25,8 @@ private slots:
     void init();
     void testLoadsCacheSettingsFromConfig();
     void testRejectsUnsafeCacheDirWithoutChangingConfig();
+    void testAcceptsHomeChildAndPersistsCacheDir();
+    void testReportsMigrationFailureWithoutChangingConfig();
     void testDiskCacheLimitClamped();
     void testModel3DPathModeDefaultsAndPersists();
     void testNormalizePathMode();
@@ -28,11 +39,16 @@ private:
 // 为每个测试建立隔离配置和临时缓存路径。
 void TestExportSettingsViewModel::init() {
     QVERIFY(m_tempDir.isValid());
+    const QString tempPath = canonicalTempPath(m_tempDir);
 
     ConfigService* config = ConfigService::instance();
     config->resetToDefaults();
-    config->setCacheDir(QDir(m_tempDir.path()).filePath(QStringLiteral("configured-cache")));
+    config->setCacheDir(QDir(tempPath).filePath(QStringLiteral("configured-cache")));
     config->setDiskCacheLimitMB(4096);
+
+    ComponentCacheService* cache = ComponentCacheService::instance();
+    QString cacheError;
+    QVERIFY2(cache->setCacheDir(tempPath, false, &cacheError), qPrintable(cacheError));
 }
 
 // 验证视图模型从配置服务加载缓存设置。
@@ -40,7 +56,7 @@ void TestExportSettingsViewModel::testLoadsCacheSettingsFromConfig() {
     ExportSettingsViewModel viewModel(nullptr);
 
     QCOMPARE(viewModel.cacheDir(),
-             QDir::cleanPath(QDir(m_tempDir.path()).filePath(QStringLiteral("configured-cache"))));
+             QDir::cleanPath(QDir(canonicalTempPath(m_tempDir)).filePath(QStringLiteral("configured-cache"))));
     QCOMPARE(viewModel.diskCacheLimitMB(), 4096);
 }
 
@@ -62,6 +78,69 @@ void TestExportSettingsViewModel::testRejectsUnsafeCacheDirWithoutChangingConfig
     QCOMPARE(ConfigService::instance()->getCacheDir(), originalPath);
     QVERIFY(QFile::exists(userFile.fileName()));
     QVERIFY(!viewModel.status().isEmpty());
+}
+
+// 验证合法的主目录子目录能够同步更新服务、配置和新建视图模型。
+void TestExportSettingsViewModel::testAcceptsHomeChildAndPersistsCacheDir() {
+    ComponentCacheService* cache = ComponentCacheService::instance();
+    const QString tempPath = canonicalTempPath(m_tempDir);
+    QVERIFY(cache->setCacheDir(tempPath, false));
+
+    const QString homeChild =
+        QDir(QDir::homePath())
+            .filePath(QStringLiteral(".easykiconverter-viewmodel-cache-%1").arg(QCoreApplication::applicationPid()));
+    QDir(homeChild).removeRecursively();
+
+    ExportSettingsViewModel viewModel(nullptr);
+    viewModel.setCacheDir(homeChild);
+
+    const QString normalized = QFileInfo(homeChild).absoluteFilePath();
+    QCOMPARE(viewModel.cacheDir(), normalized);
+    QCOMPARE(cache->cacheDir(), normalized);
+    QCOMPARE(ConfigService::instance()->getCacheDir(), normalized);
+
+    ExportSettingsViewModel reloadedViewModel(nullptr);
+    QCOMPARE(reloadedViewModel.cacheDir(), normalized);
+
+    QVERIFY(cache->setCacheDir(tempPath, false));
+    ConfigService::instance()->setCacheDir(tempPath);
+    QVERIFY(QDir(homeChild).removeRecursively());
+}
+
+// 验证迁移失败时视图模型保留原路径并展示具体冲突原因。
+void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConfig() {
+    ComponentCacheService* cache = ComponentCacheService::instance();
+    const QString tempPath = canonicalTempPath(m_tempDir);
+    QVERIFY(cache->setCacheDir(tempPath, false));
+    ConfigService::instance()->setCacheDir(tempPath);
+
+    ComponentData data;
+    data.setLcscId(QStringLiteral("C90001"));
+    data.setName(QStringLiteral("Migration conflict"));
+    cache->saveComponentMetadata(QStringLiteral("C90001"), data);
+
+    QTemporaryDir targetDir;
+    QVERIFY(targetDir.isValid());
+    const QString targetPath = canonicalTempPath(targetDir);
+    QString ownershipError;
+    QVERIFY2(CacheSafety::ensureOwnedRoot(targetPath, &ownershipError), qPrintable(ownershipError));
+    const QString targetComponent = targetDir.filePath(QStringLiteral("C90001"));
+    QVERIFY(QDir().mkpath(targetComponent));
+    QFile targetMetadata(QDir(targetComponent).filePath(QStringLiteral("component.json")));
+    QVERIFY(targetMetadata.open(QIODevice::WriteOnly | QIODevice::Text));
+    QVERIFY(targetMetadata.write(QByteArrayLiteral(
+                "{\"lcscId\":\"C90001\",\"cacheOwner\":\"EasyKiConverter\",\"cacheEntryVersion\":1}")) > 0);
+    targetMetadata.close();
+
+    ExportSettingsViewModel viewModel(nullptr);
+    viewModel.setCacheDir(targetPath);
+
+    QCOMPARE(viewModel.cacheDir(), tempPath);
+    QCOMPARE(cache->cacheDir(), tempPath);
+    QCOMPARE(ConfigService::instance()->getCacheDir(), tempPath);
+    QVERIFY(viewModel.status().contains(QStringLiteral("同名文件")));
+    QVERIFY(QFileInfo::exists(m_tempDir.filePath(QStringLiteral("C90001/component.json"))));
+    QVERIFY(QFileInfo::exists(targetMetadata.fileName()));
 }
 
 // 验证磁盘缓存上限会被限制在配置服务允许的范围内。

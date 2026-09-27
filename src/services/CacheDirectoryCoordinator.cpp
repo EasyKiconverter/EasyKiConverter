@@ -17,13 +17,18 @@ CacheDirectoryCoordinator::CacheDirectoryCoordinator(ComponentCacheService& owne
  * @brief 在统一锁边界内完成缓存目录切换。
  * @details 切换目录会使旧代次写入失效，并清空没有目录归属信息的一级缓存。
  */
-bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migrateExistingCache) {
+bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migrateExistingCache, QString* error) {
+    const auto fail = [error](const QString& reason) {
+        if (error)
+            *error = reason;
+        return false;
+    };
     QString newCacheDir;
     QString validationError;
     if (!CacheSafety::validateSelection(cacheDir, &newCacheDir, &validationError) ||
         !CacheSafety::ensureOwnedRoot(newCacheDir, &validationError)) {
         emit m_owner.cacheMaintenanceWarning(validationError);
-        return false;
+        return fail(validationError);
     }
     QString oldCacheDir;
     {
@@ -45,12 +50,15 @@ bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migra
             QString model3dError;
             if (!CacheSafety::ensureOwnedModel3DDirectory(newCacheDir, &model3dError)) {
                 emit m_owner.cacheMaintenanceWarning(model3dError);
-                return false;
+                return fail(model3dError);
             }
-            if (!CacheDirectoryMigrator::migrate(oldCacheDir, newCacheDir)) {
-                const QString error = QStringLiteral("缓存目录迁移失败，源目录已保留：%1").arg(oldCacheDir);
-                emit m_owner.cacheMaintenanceWarning(error);
-                return false;
+            QString migrationError;
+            if (!CacheDirectoryMigrator::migrate(oldCacheDir, newCacheDir, &migrationError)) {
+                const QString message = migrationError.isEmpty()
+                                            ? QStringLiteral("缓存目录迁移失败，源目录已保留：%1").arg(oldCacheDir)
+                                            : migrationError;
+                emit m_owner.cacheMaintenanceWarning(message);
+                return fail(message);
             }
         }
 
@@ -62,7 +70,7 @@ bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migra
         QString model3dError;
         if (!CacheSafety::ensureOwnedModel3DDirectory(newCacheDir, &model3dError)) {
             emit m_owner.cacheMaintenanceWarning(model3dError);
-            return false;
+            return fail(model3dError);
         }
 
         // 原子切换缓存目录指针。

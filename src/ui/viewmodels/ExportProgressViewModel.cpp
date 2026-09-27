@@ -238,11 +238,17 @@ void ExportProgressViewModel::cancelExport() {
         return;
     }
 
+    const bool serviceWasRunning = m_exportService->isRunning();
     if (!m_isStopping) {
         m_isStopping = true;
         emit isStoppingChanged();
     }
     m_exportService->cancelExport();
+
+    // 预加载失败或已结束时，服务不会发出取消信号；界面仍需清理尚未完成的结果状态。
+    if (!serviceWasRunning) {
+        handleCancelled();
+    }
 }
 
 /** @brief 更新预览图和数据手册的导出状态。 */
