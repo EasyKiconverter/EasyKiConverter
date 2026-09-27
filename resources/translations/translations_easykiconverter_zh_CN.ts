@@ -750,6 +750,33 @@
     </message>
 </context>
 <context>
+    <name>CacheDirectoryErrors</name>
+    <message><source>缓存目录不能为空</source><translation>缓存目录不能为空</translation></message>
+    <message><source>缓存目录必须使用绝对路径</source><translation>缓存目录必须使用绝对路径</translation></message>
+    <message><source>缓存目录不能包含符号链接路径分量</source><translation>缓存目录不能包含符号链接路径分量</translation></message>
+    <message><source>不能选择文件系统根目录或用户主目录</source><translation>不能选择文件系统根目录或用户主目录</translation></message>
+    <message><source>缓存路径必须是目录</source><translation>缓存路径必须是目录</translation></message>
+    <message><source>缓存目录必须为空，或已经包含 EasyKiConverter 所有权标记</source><translation>缓存目录必须为空，或已经包含 EasyKiConverter 所有权标记</translation></message>
+    <message><source>迁移失败</source><translation>迁移失败</translation></message>
+    <message><source>无法创建缓存目录：%1</source><translation>无法创建缓存目录：%1</translation></message>
+    <message><source>缓存目录不是空目录且无法验证所有权：%1</source><translation>缓存目录不是空目录且无法验证所有权：%1</translation></message>
+    <message><source>无法写入缓存所有权标记：%1</source><translation>无法写入缓存所有权标记：%1</translation></message>
+    <message><source>无法升级旧缓存元数据：%1</source><translation>无法升级旧缓存元数据：%1</translation></message>
+    <message><source>缓存根目录没有有效所有权标记</source><translation>缓存根目录没有有效所有权标记</translation></message>
+    <message><source>无法创建三维模型缓存目录：%1</source><translation>无法创建三维模型缓存目录：%1</translation></message>
+    <message><source>三维模型缓存目录不是空目录且无法验证所有权：%1</source><translation>三维模型缓存目录不是空目录且无法验证所有权：%1</translation></message>
+    <message><source>缓存迁移目标已存在同名文件：%1</source><translation>缓存迁移目标已存在同名文件：%1</translation></message>
+    <message><source>缓存迁移目标已存在同名三维模型：%1</source><translation>缓存迁移目标已存在同名三维模型：%1</translation></message>
+    <message><source>旧缓存目录包含无法验证归属的数据，源目录已保留：%1</source><translation>旧缓存目录包含无法验证归属的数据，源目录已保留：%1</translation></message>
+    <message><source>缓存迁移目标没有有效所有权标记：%1</source><translation>缓存迁移目标没有有效所有权标记：%1</translation></message>
+    <message><source>缓存迁移目标包含未托管目录：%1</source><translation>缓存迁移目标包含未托管目录：%1</translation></message>
+    <message><source>无法创建缓存迁移目标目录：%1</source><translation>无法创建缓存迁移目标目录：%1</translation></message>
+    <message><source>无法创建缓存迁移目录：%1</source><translation>无法创建缓存迁移目录：%1</translation></message>
+    <message><source>无法迁移缓存文件：%1</source><translation>无法迁移缓存文件：%1</translation></message>
+    <message><source>缓存迁移失败，源目录已保留：%1</source><translation>缓存迁移失败，源目录已保留：%1</translation></message>
+    <message><source>缓存目录切换失败，请检查日志获取详细原因。</source><translation>缓存目录切换失败，请检查日志获取详细原因。</translation></message>
+</context>
+<context>
     <name>Main</name>
     <message>
         <location filename="../../src/ui/qml/Main.qml" line="21"/>
