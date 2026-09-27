@@ -9,6 +9,12 @@
 
 using namespace EasyKiConverter;
 
+namespace {
+QString canonicalTempPath(const QTemporaryDir& tempDir) {
+    return QFileInfo(tempDir.path()).canonicalFilePath();
+}
+}  // namespace
+
 class TestCacheSafety : public QObject {
     Q_OBJECT
 
@@ -28,7 +34,8 @@ private slots:
 void TestCacheSafety::rejectsNonEmptyUnownedDirectory() {
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
-    const QString filePath = QDir(tempDir.path()).filePath(QStringLiteral("user-data.txt"));
+    const QString tempPath = canonicalTempPath(tempDir);
+    const QString filePath = QDir(tempPath).filePath(QStringLiteral("user-data.txt"));
     QFile file(filePath);
     QVERIFY(file.open(QIODevice::WriteOnly));
     QVERIFY(file.write("user data") > 0);
@@ -36,7 +43,7 @@ void TestCacheSafety::rejectsNonEmptyUnownedDirectory() {
 
     QString normalized;
     QString error;
-    QVERIFY(!CacheSafety::validateSelection(tempDir.path(), &normalized, &error));
+    QVERIFY(!CacheSafety::validateSelection(tempPath, &normalized, &error));
     QVERIFY(!error.isEmpty());
     QVERIFY(QFileInfo::exists(filePath));
 }
@@ -79,6 +86,8 @@ void TestCacheSafety::rejectsSymlinkParentDirectory() {
     const QString linkPath = QDir(linkParent.path()).filePath(QStringLiteral("linked-cache-parent"));
     if (!QFile::link(targetDir.path(), linkPath))
         QSKIP("当前平台不支持创建目录符号链接");
+    if (!QFileInfo(linkPath).isDir() || !QFileInfo(linkPath).isSymLink())
+        QSKIP("当前平台未创建 Qt 可识别的目录符号链接");
 
     QString normalized;
     QString error;
@@ -98,14 +107,15 @@ void TestCacheSafety::acceptsApplicationDefaultCachePath() {
 void TestCacheSafety::adoptsRecognizableLegacyCacheRoot() {
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
-    const QString componentPath = QDir(tempDir.path()).filePath(QStringLiteral("C10003"));
+    const QString tempPath = canonicalTempPath(tempDir);
+    const QString componentPath = QDir(tempPath).filePath(QStringLiteral("C10003"));
     QVERIFY(QDir().mkpath(componentPath));
     QFile metadata(QDir(componentPath).filePath(QStringLiteral("component.json")));
     QVERIFY(metadata.open(QIODevice::WriteOnly));
     QVERIFY(metadata.write(QByteArrayLiteral("{\"lcscId\":\"C10003\"}")) > 0);
     metadata.close();
 
-    const QString modelPath = QDir(tempDir.path()).filePath(QStringLiteral("model3d/model.step"));
+    const QString modelPath = QDir(tempPath).filePath(QStringLiteral("model3d/model.step"));
     QVERIFY(QDir().mkpath(QFileInfo(modelPath).absolutePath()));
     QFile model(modelPath);
     QVERIFY(model.open(QIODevice::WriteOnly));
@@ -113,20 +123,21 @@ void TestCacheSafety::adoptsRecognizableLegacyCacheRoot() {
     model.close();
 
     QString error;
-    QVERIFY(CacheSafety::canAdoptLegacyRoot(tempDir.path()));
-    QVERIFY(CacheSafety::ensureOwnedRoot(tempDir.path(), &error));
-    QVERIFY2(CacheSafety::ensureOwnedModel3DDirectory(tempDir.path(), &error), qPrintable(error));
-    QVERIFY(CacheSafety::isOwnedRoot(tempDir.path()));
-    QVERIFY(CacheSafety::isOwnedComponentDirectory(tempDir.path(), componentPath));
-    QVERIFY(CacheSafety::isOwnedModel3DFile(tempDir.path(), modelPath));
+    QVERIFY(CacheSafety::canAdoptLegacyRoot(tempPath));
+    QVERIFY(CacheSafety::ensureOwnedRoot(tempPath, &error));
+    QVERIFY2(CacheSafety::ensureOwnedModel3DDirectory(tempPath, &error), qPrintable(error));
+    QVERIFY(CacheSafety::isOwnedRoot(tempPath));
+    QVERIFY(CacheSafety::isOwnedComponentDirectory(tempPath, componentPath));
+    QVERIFY(CacheSafety::isOwnedModel3DFile(tempPath, modelPath));
 }
 
 // 验证已托管缓存条目通过可注入回收站移动，并且原路径消失。
 void TestCacheSafety::movesOwnedEntryThroughInjectedTrash() {
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
-    QVERIFY(CacheSafety::ensureOwnedRoot(tempDir.path()));
-    const QString entryPath = QDir(tempDir.path()).filePath(QStringLiteral("C10000"));
+    const QString tempPath = canonicalTempPath(tempDir);
+    QVERIFY(CacheSafety::ensureOwnedRoot(tempPath));
+    const QString entryPath = QDir(tempPath).filePath(QStringLiteral("C10000"));
     QVERIFY(QDir().mkpath(entryPath));
     QFile metadata(QDir(entryPath).filePath(QStringLiteral("component.json")));
     QVERIFY(metadata.open(QIODevice::WriteOnly));
@@ -137,13 +148,13 @@ void TestCacheSafety::movesOwnedEntryThroughInjectedTrash() {
     QStringList moved;
     const CacheSafety::TrashFunction trash = [&](const QString& path, QString*) {
         moved.append(path);
-        return QDir(tempDir.path()).rename(QFileInfo(path).fileName(), QStringLiteral("trashed-entry"));
+        return QDir(tempPath).rename(QFileInfo(path).fileName(), QStringLiteral("trashed-entry"));
     };
     QString error;
     QVERIFY(CacheSafety::moveToTrash(entryPath, &error, trash));
     QCOMPARE(moved, QStringList{entryPath});
     QVERIFY(!QFileInfo::exists(entryPath));
-    QVERIFY(QFileInfo::exists(QDir(tempDir.path()).filePath(QStringLiteral("trashed-entry/component.json"))));
+    QVERIFY(QFileInfo::exists(QDir(tempPath).filePath(QStringLiteral("trashed-entry/component.json"))));
 }
 
 // 验证回收站失败时原始缓存条目仍然保留。
@@ -171,8 +182,9 @@ void TestCacheSafety::preservesEntryWhenTrashFails() {
 void TestCacheSafety::ignoresUnknownAndSymlinkEntries() {
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
-    QVERIFY(CacheSafety::ensureOwnedRoot(tempDir.path()));
-    const QString ownedPath = QDir(tempDir.path()).filePath(QStringLiteral("C10001"));
+    const QString tempPath = canonicalTempPath(tempDir);
+    QVERIFY(CacheSafety::ensureOwnedRoot(tempPath));
+    const QString ownedPath = QDir(tempPath).filePath(QStringLiteral("C10001"));
     QVERIFY(QDir().mkpath(ownedPath));
     QFile metadata(QDir(ownedPath).filePath(QStringLiteral("component.json")));
     QVERIFY(metadata.open(QIODevice::WriteOnly));
@@ -180,12 +192,12 @@ void TestCacheSafety::ignoresUnknownAndSymlinkEntries() {
                 "{\"lcscId\":\"C10001\",\"cacheOwner\":\"EasyKiConverter\",\"cacheEntryVersion\":1}")) > 0);
     metadata.close();
 
-    const QString unknownPath = QDir(tempDir.path()).filePath(QStringLiteral("user-dir"));
+    const QString unknownPath = QDir(tempPath).filePath(QStringLiteral("user-dir"));
     QVERIFY(QDir().mkpath(unknownPath));
-    const QString linkPath = QDir(tempDir.path()).filePath(QStringLiteral("C10002"));
+    const QString linkPath = QDir(tempPath).filePath(QStringLiteral("C10002"));
     QVERIFY(QFile::link(ownedPath, linkPath));
 
-    const QStringList owned = CacheSafety::ownedComponentDirectories(tempDir.path());
+    const QStringList owned = CacheSafety::ownedComponentDirectories(tempPath);
     QCOMPARE(owned, QStringList{ownedPath});
     QVERIFY(QFileInfo::exists(unknownPath));
     QVERIFY(QFileInfo::exists(linkPath));

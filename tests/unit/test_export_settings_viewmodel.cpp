@@ -12,6 +12,12 @@
 
 using namespace EasyKiConverter;
 
+namespace {
+QString canonicalTempPath(const QTemporaryDir& tempDir) {
+    return QFileInfo(tempDir.path()).canonicalFilePath();
+}
+}  // namespace
+
 class TestExportSettingsViewModel : public QObject {
     Q_OBJECT
 
@@ -33,15 +39,16 @@ private:
 // 为每个测试建立隔离配置和临时缓存路径。
 void TestExportSettingsViewModel::init() {
     QVERIFY(m_tempDir.isValid());
+    const QString tempPath = canonicalTempPath(m_tempDir);
 
     ConfigService* config = ConfigService::instance();
     config->resetToDefaults();
-    config->setCacheDir(QDir(m_tempDir.path()).filePath(QStringLiteral("configured-cache")));
+    config->setCacheDir(QDir(tempPath).filePath(QStringLiteral("configured-cache")));
     config->setDiskCacheLimitMB(4096);
 
     ComponentCacheService* cache = ComponentCacheService::instance();
     QString cacheError;
-    QVERIFY2(cache->setCacheDir(m_tempDir.path(), false, &cacheError), qPrintable(cacheError));
+    QVERIFY2(cache->setCacheDir(tempPath, false, &cacheError), qPrintable(cacheError));
 }
 
 // 验证视图模型从配置服务加载缓存设置。
@@ -49,7 +56,7 @@ void TestExportSettingsViewModel::testLoadsCacheSettingsFromConfig() {
     ExportSettingsViewModel viewModel(nullptr);
 
     QCOMPARE(viewModel.cacheDir(),
-             QDir::cleanPath(QDir(m_tempDir.path()).filePath(QStringLiteral("configured-cache"))));
+             QDir::cleanPath(QDir(canonicalTempPath(m_tempDir)).filePath(QStringLiteral("configured-cache"))));
     QCOMPARE(viewModel.diskCacheLimitMB(), 4096);
 }
 
@@ -76,7 +83,8 @@ void TestExportSettingsViewModel::testRejectsUnsafeCacheDirWithoutChangingConfig
 // 验证合法的主目录子目录能够同步更新服务、配置和新建视图模型。
 void TestExportSettingsViewModel::testAcceptsHomeChildAndPersistsCacheDir() {
     ComponentCacheService* cache = ComponentCacheService::instance();
-    QVERIFY(cache->setCacheDir(m_tempDir.path(), false));
+    const QString tempPath = canonicalTempPath(m_tempDir);
+    QVERIFY(cache->setCacheDir(tempPath, false));
 
     const QString homeChild =
         QDir(QDir::homePath())
@@ -94,16 +102,17 @@ void TestExportSettingsViewModel::testAcceptsHomeChildAndPersistsCacheDir() {
     ExportSettingsViewModel reloadedViewModel(nullptr);
     QCOMPARE(reloadedViewModel.cacheDir(), normalized);
 
-    QVERIFY(cache->setCacheDir(m_tempDir.path(), false));
-    ConfigService::instance()->setCacheDir(m_tempDir.path());
+    QVERIFY(cache->setCacheDir(tempPath, false));
+    ConfigService::instance()->setCacheDir(tempPath);
     QVERIFY(QDir(homeChild).removeRecursively());
 }
 
 // 验证迁移失败时视图模型保留原路径并展示具体冲突原因。
 void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConfig() {
     ComponentCacheService* cache = ComponentCacheService::instance();
-    QVERIFY(cache->setCacheDir(m_tempDir.path(), false));
-    ConfigService::instance()->setCacheDir(m_tempDir.path());
+    const QString tempPath = canonicalTempPath(m_tempDir);
+    QVERIFY(cache->setCacheDir(tempPath, false));
+    ConfigService::instance()->setCacheDir(tempPath);
 
     ComponentData data;
     data.setLcscId(QStringLiteral("C90001"));
@@ -112,8 +121,9 @@ void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConf
 
     QTemporaryDir targetDir;
     QVERIFY(targetDir.isValid());
+    const QString targetPath = canonicalTempPath(targetDir);
     QString ownershipError;
-    QVERIFY2(CacheSafety::ensureOwnedRoot(targetDir.path(), &ownershipError), qPrintable(ownershipError));
+    QVERIFY2(CacheSafety::ensureOwnedRoot(targetPath, &ownershipError), qPrintable(ownershipError));
     const QString targetComponent = targetDir.filePath(QStringLiteral("C90001"));
     QVERIFY(QDir().mkpath(targetComponent));
     QFile targetMetadata(QDir(targetComponent).filePath(QStringLiteral("component.json")));
@@ -123,11 +133,11 @@ void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConf
     targetMetadata.close();
 
     ExportSettingsViewModel viewModel(nullptr);
-    viewModel.setCacheDir(targetDir.path());
+    viewModel.setCacheDir(targetPath);
 
-    QCOMPARE(viewModel.cacheDir(), m_tempDir.path());
-    QCOMPARE(cache->cacheDir(), m_tempDir.path());
-    QCOMPARE(ConfigService::instance()->getCacheDir(), m_tempDir.path());
+    QCOMPARE(viewModel.cacheDir(), tempPath);
+    QCOMPARE(cache->cacheDir(), tempPath);
+    QCOMPARE(ConfigService::instance()->getCacheDir(), tempPath);
     QVERIFY(viewModel.status().contains(QStringLiteral("同名文件")));
     QVERIFY(QFileInfo::exists(m_tempDir.filePath(QStringLiteral("C90001/component.json"))));
     QVERIFY(QFileInfo::exists(targetMetadata.fileName()));
