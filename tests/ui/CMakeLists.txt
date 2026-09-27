@@ -32,6 +32,7 @@ set(QML_FILES
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/SidebarExportControls.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/UpdateBanner.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/UpdateDialog.qml
+    ${CMAKE_SOURCE_DIR}/src/ui/qml/components/CacheDirectoryErrorDialog.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/WindowController.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/WindowPersistenceManager.qml
     ${CMAKE_SOURCE_DIR}/src/ui/qml/components/WindowStartupManager.qml
@@ -59,6 +60,7 @@ set(QML_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/tst_ThemeBinding.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/tst_UpdateBanner.qml
     ${CMAKE_CURRENT_SOURCE_DIR}/tst_UpdateDialog.qml
+    ${CMAKE_CURRENT_SOURCE_DIR}/tst_CacheDirectoryErrorDialog.qml
 )
 
 set(QML_RESOURCES

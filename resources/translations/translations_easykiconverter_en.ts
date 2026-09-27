@@ -663,6 +663,34 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
     </message>
 </context>
 <context>
+    <name>CacheDirectoryErrors</name>
+    <message><source>缓存目录不能为空</source><translation>Cache directory cannot be empty</translation></message>
+    <message><source>缓存目录必须使用绝对路径</source><translation>Cache directory must be an absolute path</translation></message>
+    <message><source>缓存目录不能包含符号链接路径分量</source><translation>Cache directory cannot contain symbolic-link path components</translation></message>
+    <message><source>不能选择文件系统根目录或用户主目录</source><translation>The filesystem root or home directory cannot be selected</translation></message>
+    <message><source>缓存路径必须是目录</source><translation>Cache path must be a directory</translation></message>
+    <message><source>缓存目录必须为空，或已经包含 EasyKiConverter 所有权标记</source><translation>Cache directory must be empty or contain a valid EasyKiConverter ownership marker</translation></message>
+    <message><source>迁移失败</source><translation>Cache migration failed</translation></message>
+    <message><source>无法创建缓存目录：%1</source><translation>Unable to create cache directory: %1</translation></message>
+    <message><source>缓存目录不是空目录且无法验证所有权：%1</source><translation>Cache directory is non-empty and ownership cannot be verified: %1</translation></message>
+    <message><source>无法写入缓存所有权标记：%1</source><translation>Unable to write the cache ownership marker: %1</translation></message>
+    <message><source>无法升级旧缓存元数据：%1</source><translation>Unable to upgrade legacy cache metadata: %1</translation></message>
+    <message><source>缓存根目录没有有效所有权标记</source><translation>Cache root has no valid ownership marker</translation></message>
+    <message><source>无法创建三维模型缓存目录：%1</source><translation>Unable to create the 3D model cache directory: %1</translation></message>
+    <message><source>三维模型缓存目录不是空目录且无法验证所有权：%1</source><translation>3D model cache directory is non-empty and ownership cannot be verified: %1</translation></message>
+    <message><source>缓存迁移目标已存在同名文件：%1</source><translation>The cache migration target already contains a file with the same name: %1</translation></message>
+    <message><source>缓存迁移目标已存在同名三维模型：%1</source><translation>The cache migration target already contains a 3D model with the same name: %1</translation></message>
+    <message><source>缓存迁移遇到无法验证的组件内容：%1</source><translation>Cache migration found unverifiable component content: %1</translation></message>
+    <message><source>旧缓存目录包含无法验证归属的数据，源目录已保留：%1</source><translation>The legacy cache contains data with unverifiable ownership; the source directory was preserved: %1</translation></message>
+    <message><source>缓存迁移目标没有有效所有权标记：%1</source><translation>The cache migration target has no valid ownership marker: %1</translation></message>
+    <message><source>缓存迁移目标包含未托管目录：%1</source><translation>The cache migration target contains an unmanaged directory: %1</translation></message>
+    <message><source>无法创建缓存迁移目标目录：%1</source><translation>Unable to create the cache migration target directory: %1</translation></message>
+    <message><source>无法创建缓存迁移目录：%1</source><translation>Unable to create the cache migration directory: %1</translation></message>
+    <message><source>无法迁移缓存文件：%1</source><translation>Unable to migrate cache file: %1</translation></message>
+    <message><source>缓存迁移失败，源目录已保留：%1</source><translation>Cache migration failed; the source directory was preserved: %1</translation></message>
+    <message><source>缓存目录切换失败，请检查日志获取详细原因。</source><translation>Unable to change the cache directory. Check the log for details.</translation></message>
+</context>
+<context>
     <name>Main</name>
     <message>
         <location filename="../../src/ui/qml/Main.qml" line="21"/>
@@ -1103,6 +1131,38 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <location filename="../../src/ui/qml/MainWindow.qml" line="207"/>
         <source>选择缓存目录</source>
         <translation>Select Cache Directory</translation>
+    </message>
+    <message>
+        <source>缓存目录无法使用</source>
+        <translation>Cache Directory Unavailable</translation>
+    </message>
+    <message>
+        <source>所选目录未切换，当前缓存目录保持不变。</source>
+        <translation>The selected directory was not applied. The current cache directory remains active.</translation>
+    </message>
+    <message>
+        <source>选择路径</source>
+        <translation>Selected Path</translation>
+    </message>
+    <message>
+        <source>拒绝原因</source>
+        <translation>Reason</translation>
+    </message>
+    <message>
+        <source>可选目录条件</source>
+        <translation>Allowed Directory Conditions</translation>
+    </message>
+    <message>
+        <source>空目录（应用会创建并写入所有权标记）；已包含 EasyKiConverter 所有权标记的目录；或可安全接管的旧缓存目录。主目录本身、文件系统根目录、包含符号链接的路径，以及非空且无法证明归属的目录不会被接受。</source>
+        <translation>An empty directory (the app creates it and writes an ownership marker), a directory with a valid EasyKiConverter ownership marker, or a recognizable legacy cache directory that can be safely adopted. The home directory itself, filesystem roots, paths containing symbolic links, and non-empty directories without verifiable ownership are not accepted.</translation>
+    </message>
+    <message>
+        <source>重新选择</source>
+        <translation>Choose Again</translation>
+    </message>
+    <message>
+        <source>关闭</source>
+        <translation>Close</translation>
     </message>
     <message>
         <location filename="../../src/ui/qml/components/ExportProgressCard.qml" line="26"/>

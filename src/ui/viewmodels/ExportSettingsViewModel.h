@@ -224,6 +224,12 @@ signals:
     void footprintLibraryDescriptionChanged();
     void footprintLibraryKeywordsChanged();
     void cacheDirChanged();
+    /**
+     * @brief 缓存目录切换被拒绝时通知界面显示具体原因。
+     * @param path 用户刚提交的目录路径。
+     * @param reason 安全校验或迁移失败的具体原因。
+     */
+    void cacheDirChangeRejected(const QString& path, const QString& reason);
     void diskCacheLimitMBChanged();
     void isExportingChanged();
     void statusChanged();

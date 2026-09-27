@@ -182,7 +182,10 @@ bool CacheDirectoryMigrator::migrate(const QString& oldCacheDir, const QString& 
         if (!collectComponentEntries(sourcePath, targetPath, &migrationEntries, &componentError)) {
             if (error)
                 *error = componentError;
-            LOG_WARN(LogModule::Core, "Refusing cache migration because source contains unknown data: {}", sourcePath);
+            LOG_WARN(LogModule::Core,
+                     "Refusing cache migration because source contains unknown data: {} ({})",
+                     sourcePath,
+                     componentError);
             return false;
         }
     }

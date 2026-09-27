@@ -34,7 +34,11 @@ ColumnLayout {
                     fieldRoot.textEdited(text);
                 }
             }
-            onEditingFinished: fieldRoot.editingFinished(text)
+            onEditingFinished: {
+                fieldRoot.editingFinished(text);
+                // 提交失败时恢复当前已生效路径，避免输入框保留未保存的危险路径。
+                text = fieldRoot.text;
+            }
             background: Rectangle {
                 color: AppStyle.colors.surface
                 border.color: tf.focus ? AppStyle.colors.primary : AppStyle.colors.border

@@ -20,6 +20,61 @@
 
 namespace EasyKiConverter {
 
+namespace {
+
+// 将缓存服务的稳定诊断映射为当前界面的语言，避免英文界面直接显示中文后端错误。
+QString translateCacheDirectoryError(const QString& error) {
+    const auto translate = [](const char* source) {
+        return QCoreApplication::translate("CacheDirectoryErrors", source);
+    };
+    const auto translateWithSuffix = [&error, &translate](const QString& prefix, const char* source) {
+        return translate(source).arg(error.mid(prefix.size()));
+    };
+
+    const QStringList exactMessages = {
+        QStringLiteral("缓存目录不能为空"),
+        QStringLiteral("缓存目录必须使用绝对路径"),
+        QStringLiteral("缓存目录不能包含符号链接路径分量"),
+        QStringLiteral("不能选择文件系统根目录或用户主目录"),
+        QStringLiteral("缓存路径必须是目录"),
+        QStringLiteral("缓存目录必须为空，或已经包含 EasyKiConverter 所有权标记"),
+        QStringLiteral("迁移失败"),
+    };
+    if (exactMessages.contains(error))
+        return translate(error.toUtf8().constData());
+
+    const QList<QPair<QString, const char*>> prefixedMessages = {
+        {QStringLiteral("无法创建缓存目录："), "无法创建缓存目录：%1"},
+        {QStringLiteral("缓存目录不是空目录且无法验证所有权："), "缓存目录不是空目录且无法验证所有权：%1"},
+        {QStringLiteral("无法写入缓存所有权标记："), "无法写入缓存所有权标记：%1"},
+        {QStringLiteral("无法升级旧缓存元数据："), "无法升级旧缓存元数据：%1"},
+        {QStringLiteral("缓存根目录没有有效所有权标记"), "缓存根目录没有有效所有权标记"},
+        {QStringLiteral("无法创建三维模型缓存目录："), "无法创建三维模型缓存目录：%1"},
+        {QStringLiteral("三维模型缓存目录不是空目录且无法验证所有权："),
+         "三维模型缓存目录不是空目录且无法验证所有权：%1"},
+        {QStringLiteral("缓存迁移目标已存在同名文件："), "缓存迁移目标已存在同名文件：%1"},
+        {QStringLiteral("缓存迁移目标已存在同名三维模型："), "缓存迁移目标已存在同名三维模型：%1"},
+        {QStringLiteral("缓存迁移遇到无法验证的组件内容："), "缓存迁移遇到无法验证的组件内容：%1"},
+        {QStringLiteral("旧缓存目录包含无法验证归属的数据，源目录已保留："),
+         "旧缓存目录包含无法验证归属的数据，源目录已保留：%1"},
+        {QStringLiteral("缓存迁移目标没有有效所有权标记："), "缓存迁移目标没有有效所有权标记：%1"},
+        {QStringLiteral("缓存迁移目标包含未托管目录："), "缓存迁移目标包含未托管目录：%1"},
+        {QStringLiteral("无法创建缓存迁移目标目录："), "无法创建缓存迁移目标目录：%1"},
+        {QStringLiteral("无法创建缓存迁移目录："), "无法创建缓存迁移目录：%1"},
+        {QStringLiteral("无法迁移缓存文件："), "无法迁移缓存文件：%1"},
+        {QStringLiteral("缓存迁移失败，源目录已保留："), "缓存迁移失败，源目录已保留：%1"},
+    };
+    for (const auto& message : prefixedMessages) {
+        if (error.startsWith(message.first))
+            return translateWithSuffix(message.first, message.second);
+    }
+
+    // 未知诊断不能把中文原文泄漏到英文界面；详细原文仍会写入日志。
+    return translate("缓存目录切换失败，请检查日志获取详细原因。");
+}
+
+}  // namespace
+
 ExportSettingsViewModel::ExportSettingsViewModel(ParallelExportService* exportService, QObject* parent)
     : QObject(parent)
     , m_exportService(exportService)
@@ -300,14 +355,18 @@ void ExportSettingsViewModel::setCacheDir(const QString& path) {
     QString normalizedPath;
     QString error;
     if (!CacheSafety::validateSelection(path, &normalizedPath, &error)) {
-        setStatus(error);
+        const QString localizedError = translateCacheDirectoryError(error);
+        setStatus(localizedError);
+        emit cacheDirChangeRejected(path, localizedError);
         return;
     }
     if (m_cacheDir == normalizedPath)
         return;
 
     if (!ComponentCacheService::instance()->setCacheDir(normalizedPath, /*migrateExistingCache=*/true, &error)) {
-        setStatus(QStringLiteral("缓存目录未切换：%1").arg(error.isEmpty() ? QStringLiteral("迁移失败") : error));
+        const QString reason = translateCacheDirectoryError(error.isEmpty() ? QStringLiteral("迁移失败") : error);
+        setStatus(QStringLiteral("缓存目录未切换：%1").arg(reason));
+        emit cacheDirChangeRejected(path, reason);
         return;
     }
 
