@@ -54,6 +54,7 @@ QString translateCacheDirectoryError(const QString& error) {
          "三维模型缓存目录不是空目录且无法验证所有权：%1"},
         {QStringLiteral("缓存迁移目标已存在同名文件："), "缓存迁移目标已存在同名文件：%1"},
         {QStringLiteral("缓存迁移目标已存在同名三维模型："), "缓存迁移目标已存在同名三维模型：%1"},
+        {QStringLiteral("缓存迁移遇到无法验证的组件内容："), "缓存迁移遇到无法验证的组件内容：%1"},
         {QStringLiteral("旧缓存目录包含无法验证归属的数据，源目录已保留："),
          "旧缓存目录包含无法验证归属的数据，源目录已保留：%1"},
         {QStringLiteral("缓存迁移目标没有有效所有权标记："), "缓存迁移目标没有有效所有权标记：%1"},

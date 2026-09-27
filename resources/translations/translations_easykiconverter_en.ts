@@ -680,6 +680,7 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
     <message><source>三维模型缓存目录不是空目录且无法验证所有权：%1</source><translation>3D model cache directory is non-empty and ownership cannot be verified: %1</translation></message>
     <message><source>缓存迁移目标已存在同名文件：%1</source><translation>The cache migration target already contains a file with the same name: %1</translation></message>
     <message><source>缓存迁移目标已存在同名三维模型：%1</source><translation>The cache migration target already contains a 3D model with the same name: %1</translation></message>
+    <message><source>缓存迁移遇到无法验证的组件内容：%1</source><translation>Cache migration found unverifiable component content: %1</translation></message>
     <message><source>旧缓存目录包含无法验证归属的数据，源目录已保留：%1</source><translation>The legacy cache contains data with unverifiable ownership; the source directory was preserved: %1</translation></message>
     <message><source>缓存迁移目标没有有效所有权标记：%1</source><translation>The cache migration target has no valid ownership marker: %1</translation></message>
     <message><source>缓存迁移目标包含未托管目录：%1</source><translation>The cache migration target contains an unmanaged directory: %1</translation></message>

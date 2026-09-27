@@ -27,6 +27,7 @@ private slots:
     void testRejectsUnsafeCacheDirWithoutChangingConfig();
     void testAcceptsHomeChildAndPersistsCacheDir();
     void testReportsMigrationFailureWithoutChangingConfig();
+    void testReportsUnverifiableMigrationEntry();
     void testDiskCacheLimitClamped();
     void testModel3DPathModeDefaultsAndPersists();
     void testNormalizePathMode();
@@ -149,6 +150,42 @@ void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConf
     QVERIFY(rejectionSpy.at(0).at(1).toString().contains(QStringLiteral("同名文件")));
     QVERIFY(QFileInfo::exists(m_tempDir.filePath(QStringLiteral("C90001/component.json"))));
     QVERIFY(QFileInfo::exists(targetMetadata.fileName()));
+}
+
+// 验证迁移遇到未验证组件内容时保留条目路径并传递具体诊断。
+void TestExportSettingsViewModel::testReportsUnverifiableMigrationEntry() {
+    ComponentCacheService* cache = ComponentCacheService::instance();
+    const QString sourcePath = canonicalTempPath(m_tempDir);
+    QVERIFY(cache->setCacheDir(sourcePath, false));
+    ConfigService::instance()->setCacheDir(sourcePath);
+
+    ComponentData data;
+    data.setLcscId(QStringLiteral("C90002"));
+    data.setName(QStringLiteral("Unverifiable migration entry"));
+    cache->saveComponentMetadata(QStringLiteral("C90002"), data);
+
+    const QString unknownPath = QDir(sourcePath).filePath(QStringLiteral("C90002/user-data.bin"));
+    QFile unknownFile(unknownPath);
+    QVERIFY(unknownFile.open(QIODevice::WriteOnly));
+    QVERIFY(unknownFile.write("user data") > 0);
+    unknownFile.close();
+
+    QTemporaryDir targetDir;
+    QVERIFY(targetDir.isValid());
+    const QString targetPath = canonicalTempPath(targetDir);
+    QString ownershipError;
+    QVERIFY2(CacheSafety::ensureOwnedRoot(targetPath, &ownershipError), qPrintable(ownershipError));
+
+    ExportSettingsViewModel viewModel(nullptr);
+    QSignalSpy rejectionSpy(&viewModel, &ExportSettingsViewModel::cacheDirChangeRejected);
+    viewModel.setCacheDir(targetPath);
+
+    QCOMPARE(viewModel.cacheDir(), sourcePath);
+    QCOMPARE(ConfigService::instance()->getCacheDir(), sourcePath);
+    QCOMPARE(rejectionSpy.count(), 1);
+    QVERIFY(rejectionSpy.at(0).at(1).toString().contains(QStringLiteral("缓存迁移遇到无法验证的组件内容")));
+    QVERIFY(rejectionSpy.at(0).at(1).toString().contains(unknownPath));
+    QVERIFY(QFileInfo::exists(unknownPath));
 }
 
 // 验证磁盘缓存上限会被限制在配置服务允许的范围内。
