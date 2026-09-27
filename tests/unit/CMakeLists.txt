@@ -413,6 +413,18 @@ target_include_directories(test_export_settings_viewmodel PRIVATE
 )
 add_test(NAME test_export_settings_viewmodel COMMAND test_export_settings_viewmodel)
 
+add_executable(test_export_target_model test_export_target_model.cpp)
+target_link_libraries(test_export_target_model PRIVATE
+    Qt6::Test
+    Qt6::Gui
+    EasyKiConverterLib
+)
+target_include_directories(test_export_target_model PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_export_target_model COMMAND test_export_target_model)
+
 # 日志系统测试
 add_executable(test_logging test_logging.cpp)
 target_link_libraries(test_logging PRIVATE

@@ -5,6 +5,8 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include <algorithm>
+
 namespace EasyKiConverter {
 
 /**
@@ -59,6 +61,11 @@ QVariantList ExportTargetModel::availableTargets() const {
     return m_availableTargetsCache;
 }
 
+bool ExportTargetModel::isUserVisibleTarget(const QString& targetId) {
+    // GUI 只展示当前已完成发布级验证的格式；其他格式保留内部/CLI 入口，待验证完成后再开放。
+    return targetId == QStringLiteral("kicad") || targetId == QStringLiteral("altium");
+}
+
 /**
  * @brief 从 JSON 文件加载插件配置
  */
@@ -89,10 +96,16 @@ void ExportTargetModel::loadPlugins(const QString& configPath) {
         info.displayName = obj["displayName"].toString();
         info.icon = obj["icon"].toString();
         info.optionsComponent = obj["optionsComponent"].toString();
-        if (!info.id.isEmpty() && !info.displayName.isEmpty()) {
+        if (isUserVisibleTarget(info.id) && !info.displayName.isEmpty()) {
             m_targets.append(info);
         }
     }
+
+    // 下拉索引会直接映射到 TargetEdaFormat，必须与枚举顺序保持一致，不能依赖配置文件顺序。
+    std::sort(m_targets.begin(), m_targets.end(), [](const TargetInfo& left, const TargetInfo& right) {
+        const auto targetOrder = [](const QString& id) { return id == QStringLiteral("kicad") ? 0 : 1; };
+        return targetOrder(left.id) < targetOrder(right.id);
+    });
 
     // 重建缓存
     m_availableTargetsCache.clear();
