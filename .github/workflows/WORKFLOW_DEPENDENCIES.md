@@ -3,7 +3,7 @@
 ## 工作流分类
 
 ### 持续集成 (CI)
-- `build.yml` - 构建和测试 (所有平台)
+- `build.yml` - 变更范围分类、统一验证计划、分类器回归测试，以及按范围选择的多平台构建和测试
 - `docs-check.yml` - MkDocs 文档构建检查
 - `actionlint.yml` - GitHub Actions 工作流检查
 - `clang-format.yml` - 代码格式检查

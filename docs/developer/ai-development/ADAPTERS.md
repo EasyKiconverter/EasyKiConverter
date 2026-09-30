@@ -15,5 +15,6 @@
 1. 读取 [AI 协作入口](README.md)。
 2. 读取 [AI 协作政策](policy/AI_POLICY.md)。
 3. 按 [Skills 目录](SKILLS_CATALOG.md) 选择 Skill，并读取正文和 `SKILL.meta.json`。
+4. 先读取 [Skill 机器索引](skill-index.json)，确认 Skill 目录、正文和元数据均来自当前 checkout。
 
-维护者若要启用某个 Agent 的自动发现，应在不复制规则的前提下，将其本地入口改为指向上述入口，并通过 docs-check 验证引用；在完成前不得宣称跨 Agent 自动发现已经实现。
+维护者若要启用某个 Agent 的自动发现，应在不复制规则的前提下，将其本地入口改为指向上述入口，并通过 docs-check 验证引用。Skill 索引提供仓库级发现契约，但不替代各 Agent 自己支持的加载机制；不得宣称跨 Agent 自动加载已经实现。

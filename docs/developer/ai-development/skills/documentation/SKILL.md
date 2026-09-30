@@ -1,3 +1,8 @@
+---
+name: documentation
+description: 维护 EasyKiConverter 的双语项目文档、导航、相对链接和 Mermaid 内容，并以源码和 CI 事实为依据。
+---
+
 # Documentation Skill
 
 ## 适用场景

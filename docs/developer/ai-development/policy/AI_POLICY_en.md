@@ -23,6 +23,16 @@ Project rule files may be ignored by `.gitignore` for local convenience, but Git
 - Do not infer complete format support from a code entry point. Record automated tests, structural validation, and commercial EDA validation separately.
 - By default, do not change unrelated runtime behavior, application identities, release artifacts, remote settings, or branch protection.
 
+## Evidence ladder and Skill combinations
+
+Use evidence in this order, and never let weaker evidence override stronger facts: current-branch source and tests → current fixtures/golden files → current logs and output files → focused tools or tests → trusted format references or version-pinned third-party research → commercial EDA round-trip in a fixed environment. If a fact remains unconfirmed, record `unknown` and request the required sample, log, or application result.
+
+Keep Skill boundaries explicit: use `code-review` alone for read-only reviews; use `development` followed by `testing` for implementation; use `documentation` for bilingual documentation; use `format-research` for format research, then `parser-development` or `exporter-development` when implementation begins. Do not modify the reviewed object during a review phase.
+
+## Standard evidence report
+
+Use the [Evidence Report template](../EVIDENCE_REPORT_TEMPLATE_en.md) for code tasks. Record at least the baseline ref/commit, task boundary, read files, modified files, actual commands and exit status, unexecuted checks, environment blockers, commercial EDA validation status, and remaining risks. The CI classifier selects change scope; it does not replace module-level tests or format-semantic validation. Minimum verification steps come from [`verification-policy.json`](../verification-policy.json).
+
 ## Code, documentation, and verification
 
 - Public C++ interfaces use Simplified Chinese Doxygen comments. Maintain Chinese/English documentation pairs.

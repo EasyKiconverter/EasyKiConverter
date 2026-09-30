@@ -14,10 +14,10 @@ from typing import Any
 from verification_plan import validate_policy
 
 
-SKILLS = ("development", "testing", "code-review", "documentation")
 AI_ROOT = Path("docs/developer/ai-development")
 PAIR_RE = re.compile(r"\[[^\]]+\]\(([^)]+)\)")
 MUTABLE_RULE_LINK_RE = re.compile(r"github\.com/[^/]+/[^/]+/blob/(?:master|main)/(?:AGENTS|CLAUDE|PROJECT_INSTRUCTIONS)\.md")
+FRONTMATTER_RE = re.compile(r"\A---\n(?P<body>.*?)\n---(?:\n|\Z)", re.DOTALL)
 
 
 def error(path: Path, message: str, line: int | None = None) -> str:
@@ -103,6 +103,86 @@ def validate_skill_metadata(repo: Path, skill: str) -> list[str]:
             errors.append(error(metadata_path, f"必读资料不存在：{source}"))
     if not (skill_dir / "SKILL.md").exists():
         errors.append(error(skill_dir / "SKILL.md", "Skill 正文不存在"))
+    else:
+        errors.extend(validate_skill_document(repo, skill, skill_dir / "SKILL.md"))
+    return errors
+
+
+def discover_skills(repo: Path) -> list[str]:
+    """从实际 Skill 目录发现 Skill，不硬编码目录数量。"""
+    skills_dir = repo / AI_ROOT / "skills"
+    if not skills_dir.is_dir():
+        return []
+    return sorted(item.name for item in skills_dir.iterdir() if item.is_dir() and not item.name.startswith("."))
+
+
+def validate_skill_document(repo: Path, skill: str, document: Path) -> list[str]:
+    """验证 Agent Skill 的标准 YAML front matter 和名称边界。"""
+    errors: list[str] = []
+    try:
+        text = document.read_text(encoding="utf-8")
+    except OSError as exc:
+        return [error(document, f"Skill 正文无法读取：{exc}")]
+    match = FRONTMATTER_RE.match(text)
+    if not match:
+        return [error(document, "缺少以 --- 包围的 YAML front matter")]
+    fields: dict[str, str] = {}
+    for line_number, line in enumerate(match.group("body").splitlines(), 2):
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if ":" not in line or line.startswith((" ", "\t")):
+            errors.append(error(document, "front matter 只能包含简单的 name/description 字段", line_number))
+            continue
+        key, value = line.split(":", 1)
+        fields[key.strip()] = value.strip().strip("\"'")
+    if fields.get("name") != skill:
+        errors.append(error(document, f"front matter name 必须为 {skill}"))
+    if not fields.get("description"):
+        errors.append(error(document, "front matter description 不能为空"))
+    return errors
+
+
+def validate_skill_index(repo: Path, skills: list[str]) -> list[str]:
+    """确保机器可读 Skill 索引与实际目录和正文保持一致。"""
+    path = repo / AI_ROOT / "skill-index.json"
+    errors: list[str] = []
+    data = load_json(path, errors)
+    if not isinstance(data, dict) or not isinstance(data.get("skills"), list):
+        errors.append(error(path, "skills 必须是数组"))
+        return errors
+    if data.get("source_of_truth") != str(AI_ROOT / "skill-index.json"):
+        errors.append(error(path, "source_of_truth 必须指向当前 Skill 索引"))
+    indexed: dict[str, dict[str, Any]] = {}
+    for item in data["skills"]:
+        if not isinstance(item, dict) or not isinstance(item.get("id"), str):
+            errors.append(error(path, "每个 Skill 索引项必须包含字符串 id"))
+            continue
+        skill_id = item["id"]
+        if skill_id in indexed:
+            errors.append(error(path, f"Skill id 重复：{skill_id}"))
+        indexed[skill_id] = item
+        relative = item.get("path")
+        if not isinstance(relative, str) or not (repo / relative).is_file():
+            errors.append(error(path, f"Skill 正文路径不存在：{relative!r}"))
+        elif Path(relative).parent.name != skill_id:
+            errors.append(error(path, f"Skill 正文路径与 id 不一致：{skill_id}"))
+        metadata = item.get("metadata")
+        if not isinstance(metadata, str) or not (repo / metadata).is_file():
+            errors.append(error(path, f"Skill 元数据路径不存在：{metadata!r}"))
+        elif Path(metadata).parent.name != skill_id:
+            errors.append(error(path, f"Skill 元数据路径与 id 不一致：{skill_id}"))
+    for skill in sorted(set(skills) - set(indexed)):
+        errors.append(error(path, f"实际 Skill 未登记：{skill}"))
+    for skill in sorted(set(indexed) - set(skills)):
+        errors.append(error(path, f"索引登记了不存在的 Skill：{skill}"))
+    for catalog_name in ("SKILLS_CATALOG.md", "SKILLS_CATALOG_en.md"):
+        catalog = repo / AI_ROOT / catalog_name
+        if not catalog.is_file():
+            errors.append(error(catalog, "Skill Catalog 不存在"))
+            continue
+        listed = set(re.findall(r"skills/([a-z0-9-]+)/SKILL\.md", catalog.read_text(encoding="utf-8")))
+        if listed != set(skills):
+            errors.append(error(catalog, "Catalog 中的 Skill 与实际目录不一致"))
     return errors
 
 
@@ -243,6 +323,17 @@ def validate_verification_policy(repo: Path) -> list[str]:
                 errors.append(error(policy_path, f"命令 {command_name} 引用不存在路径：{relative}"))
     for message in validate_policy(data):
         errors.append(error(policy_path, message))
+    profiles = data.get("classification_profiles")
+    if not isinstance(profiles, dict):
+        errors.append(error(policy_path, "classification_profiles 必须是对象"))
+    else:
+        for classification, profile_names in profiles.items():
+            if not isinstance(profile_names, list) or not profile_names:
+                errors.append(error(policy_path, f"分类 {classification} 必须映射到非空 profile 数组"))
+                continue
+            for profile in profile_names:
+                if profile not in data.get("minimum_policy", {}):
+                    errors.append(error(policy_path, f"分类 {classification} 引用了不存在的 profile：{profile}"))
     return errors
 
 
@@ -287,6 +378,9 @@ def validate_capability_ledger(repo: Path) -> list[str]:
     if not isinstance(data, dict) or not isinstance(data.get("formats"), list):
         errors.append(error(ledger_path, "formats 必须是数组"))
         return errors
+    verification = data.get("verified_at")
+    if not isinstance(verification, dict) or not verification.get("ref") or not verification.get("commit"):
+        errors.append(error(ledger_path, "verified_at 必须包含 ref 和 commit，未知时应明确填写 unknown"))
     dimensions = data.get("status_dimensions")
     required_dimensions = {
         "implementation",
@@ -346,8 +440,12 @@ def validate_repo(repo: Path) -> list[str]:
         for line_number, line in enumerate(document.read_text(encoding="utf-8").splitlines(), 1):
             if MUTABLE_RULE_LINK_RE.search(line):
                 errors.append(error(document, "AI 文档不得链接到可变分支中的规则文件", line_number))
-    for skill in SKILLS:
+    skills = discover_skills(repo)
+    if not skills:
+        errors.append(error(repo / AI_ROOT / "skills", "没有发现任何 Skill 目录"))
+    for skill in skills:
         errors.extend(validate_skill_metadata(repo, skill))
+    errors.extend(validate_skill_index(repo, skills))
     errors.extend(validate_verification_policy(repo))
     errors.extend(validate_workflow_manifest(repo))
     errors.extend(validate_fixture_manifest(repo))

@@ -1,3 +1,8 @@
+---
+name: code-review
+description: 对 EasyKiConverter 的工作区、提交或 Pull Request 进行只读、按风险排序且基于当前证据的审查。
+---
+
 # Code Review Skill
 
 ## 适用场景

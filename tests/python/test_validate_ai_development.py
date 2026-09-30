@@ -11,9 +11,12 @@ import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools" / "python"))
 
 from validate_ai_development import (
+    discover_skills,
     validate_bilingual_pair,
     validate_capability_ledger,
     validate_json_schema,
+    validate_skill_document,
+    validate_skill_index,
     validate_skill_metadata,
     validate_workflow_manifest,
     workflow_events,
@@ -62,6 +65,29 @@ class ValidateAiDevelopmentTest(unittest.TestCase):
             errors = validate_skill_metadata(root, "demo")
             self.assertTrue(any("missing.md" in item for item in errors))
 
+    def test_skill_document_requires_matching_frontmatter(self):
+        with tempfile.TemporaryDirectory() as directory:
+            document = Path(directory) / "SKILL.md"
+            document.write_text("# Demo\n", encoding="utf-8")
+            errors = validate_skill_document(Path(directory), "demo", document)
+            self.assertTrue(any("front matter" in item for item in errors))
+
+    def test_real_skill_index_matches_discovered_directories(self):
+        repository = Path(__file__).resolve().parents[2]
+        skills = discover_skills(repository)
+        self.assertGreaterEqual(len(skills), 7)
+        self.assertEqual(validate_skill_index(repository, skills), [])
+
+    def test_skill_index_rejects_missing_skill(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            index = root / "docs/developer/ai-development/skill-index.json"
+            index.parent.mkdir(parents=True)
+            index.write_text(json.dumps({"skills": [{"id": "missing", "path": "missing/SKILL.md"}]}), encoding="utf-8")
+            errors = validate_skill_index(root, ["actual"])
+            self.assertTrue(any("路径不存在" in item for item in errors))
+            self.assertTrue(any("实际 Skill 未登记" in item for item in errors))
+
     def test_skill_metadata_rejects_schema_type_and_extra_field(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
@@ -93,6 +119,12 @@ class ValidateAiDevelopmentTest(unittest.TestCase):
 
         data = {"minimum_policy": {"unknown": ["missing_step"]}, "commands": {}}
         self.assertTrue(any("missing_step" in item for item in validate_policy(data)))
+
+    def test_verification_plan_requires_classification_mapping(self):
+        from verification_plan import validate_policy
+
+        data = {"minimum_policy": {"unknown": ["step"]}, "commands": {"step": "selector"}}
+        self.assertTrue(any("classification_profiles" in item for item in validate_policy(data)))
 
     def test_full_and_fallback_plans_include_build_and_tests(self):
         from verification_plan import load_policy, verification_plan
@@ -143,6 +175,15 @@ class ValidateAiDevelopmentTest(unittest.TestCase):
             ledger.write_text(json.dumps({"formats": [], "status_vocabulary": []}), encoding="utf-8")
             errors = validate_capability_ledger(root)
             self.assertTrue(any("status_dimensions" in item for item in errors))
+
+    def test_capability_ledger_requires_verification_baseline(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            ledger = root / "docs/developer/ai-development/eda-capabilities.json"
+            ledger.parent.mkdir(parents=True)
+            ledger.write_text(json.dumps({"formats": [], "status_vocabulary": [], "status_dimensions": {}}), encoding="utf-8")
+            errors = validate_capability_ledger(root)
+            self.assertTrue(any("verified_at" in item for item in errors))
 
     def test_real_capability_ledger_is_machine_readable(self):
         repository = Path(__file__).resolve().parents[2]

@@ -14,6 +14,7 @@
 6. [Evidence Report 模板](EVIDENCE_REPORT_TEMPLATE.md) 统一记录基线、命令、阻塞项和商业 EDA 验证边界。
 7. [Agent 适配层说明](ADAPTERS.md) 说明本地入口与仓库规则的边界。
 8. [Agent JSON 工具](AGENT_TOOLS.md) 提供只读查询、验证规划和白名单检查接口。
+9. [Skill 机器索引](skill-index.json) 列出当前 checkout 中实际存在的 Skill 和入口路径。
 
 ## 权威规则与辅助资料
 
@@ -34,7 +35,7 @@
 
 - Skill 适用于需要重复执行、边界明确的开发辅助任务。
 - Skill 不会自动改变项目规则，也不会替代代码、测试或商业 EDA 工具的实际验证。
-- 当前仓库没有统一的跨 Agent Skill 自动发现配置；调用方应按 [Skills 目录](SKILLS_CATALOG.md) 选择并读取对应的 `SKILL.md` 和 `SKILL.meta.json`。
+- 仓库提供 [Skill 机器索引](skill-index.json) 作为发现入口；它不声称所有 Agent 都会自动加载 Skill，调用方仍应按自身机制读取对应的 `SKILL.md` 和 `SKILL.meta.json`。
 
 ## 机器可验证的控制面
 
@@ -43,6 +44,7 @@
 - [EDA 能力台账](eda-capabilities.json) 区分代码入口、自动测试、结构校验和商业 EDA 实机验证。
 - [Fixture provenance](fixture-provenance.json) 记录本地 fixture 的哈希、测试用途和未知来源，不从内容猜造来源。
 - [AI Agent 回归评测](AGENT_EVAL.md) 提供不调用付费模型的规则边界样例。
+- EDA 任务按 [Skills 目录](SKILLS_CATALOG.md) 选择 `format-research`、`parser-development` 或 `exporter-development`，三者不替代通用 `development` 和 `testing`。
 
 ## 维护要求
 
