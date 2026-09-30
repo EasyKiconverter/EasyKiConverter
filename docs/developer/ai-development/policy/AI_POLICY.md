@@ -24,6 +24,16 @@
 - 不凭代码入口推断完整格式支持；必须分别记录自动测试、结构校验和商业 EDA 实机验证。
 - 默认不修改运行时无关内容，不修改应用身份、发布产物、远端设置或分支保护。
 
+## 证据阶梯与 Skill 组合
+
+证据按以下顺序逐级增强，低等级证据不能覆盖高等级事实：当前分支源码和测试 → 当前 fixture/golden → 当前日志和输出文件 → 定向工具或测试结果 → 可信格式资料或精确版本的第三方研究 → 固定版本商业 EDA 实机结果。仍无法确认时，必须记录 `unknown` 并请求样本、日志或实机结果。
+
+任务组合遵循边界：只审查时使用 `code-review` 且只读；实现时使用 `development` 后使用 `testing`；双语文档使用 `documentation`；格式研究使用 `format-research`，进入 Parser 或 Exporter 实现后分别使用 `parser-development` 或 `exporter-development`。审查阶段不得顺手修改被审查对象。
+
+## 标准证据报告
+
+代码任务结束时使用 [Evidence Report 模板](../EVIDENCE_REPORT_TEMPLATE.md)，至少记录基线 ref/commit、任务边界、读取文件、修改文件、实际命令及退出状态、未执行验证、环境阻塞、商业 EDA 实机验证状态和剩余风险。CI 分类器只决定变更范围，不能替代模块级测试或格式语义验证；最低验证步骤以 [`verification-policy.json`](../verification-policy.json) 为准。
+
 ## 代码、文档与验证
 
 - 公共 C++ 接口使用简体中文 Doxygen 注释；保持现有格式和中文/英文文档成对维护。

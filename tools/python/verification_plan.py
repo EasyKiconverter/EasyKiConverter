@@ -22,6 +22,17 @@ REQUIRED_PROFILES = {
     "documentation",
     "unknown",
 }
+REQUIRED_CLASSIFICATIONS = {
+    "docs-only",
+    "classifier-only",
+    "docs-and-classifier-only",
+    "qml-only",
+    "resources-only",
+    "full",
+    "mixed",
+    "full-fallback",
+    "unknown",
+}
 
 
 def load_policy(repository: Path) -> dict[str, Any]:
@@ -50,23 +61,26 @@ def validate_policy(data: dict[str, Any]) -> list[str]:
         description = commands.get(item)
         if not isinstance(description, str) or not description.strip():
             errors.append(f"验证步骤 {item} 没有可执行命令或可解释选择器")
+    classifications = data.get("classification_profiles")
+    if not isinstance(classifications, dict):
+        errors.append("classification_profiles 必须是对象")
+    else:
+        missing_classifications = sorted(REQUIRED_CLASSIFICATIONS - classifications.keys())
+        errors.extend(f"classification_profiles 缺少配置：{classification}" for classification in missing_classifications)
+        for classification, profiles in classifications.items():
+            if not isinstance(profiles, list) or not profiles:
+                errors.append(f"分类 {classification} 必须映射到非空 profile 数组")
+                continue
+            for profile in profiles:
+                if profile not in minimum_policy:
+                    errors.append(f"分类 {classification} 引用了不存在的 profile：{profile}")
     return errors
 
 
 def verification_plan(data: dict[str, Any], classification: str) -> list[str]:
     """根据 CI 分类映射到策略 profile，供日志和 Agent 证据报告使用。"""
-    mapping = {
-        "docs-only": ["documentation"],
-        "classifier-only": ["python_tool"],
-        "docs-and-classifier-only": ["documentation", "python_tool"],
-        "qml-only": ["qml"],
-        "resources-only": ["documentation"],
-        "full": ["unknown"],
-        "mixed": ["unknown"],
-        "full-fallback": ["unknown"],
-        "unknown": ["unknown"],
-    }
-    profiles = mapping.get(classification, ["unknown"])
+    mapping = data.get("classification_profiles", {})
+    profiles = mapping.get(classification, mapping.get("unknown", ["unknown"]))
     return [f"profile={profile} steps={','.join(data['minimum_policy'][profile])}" for profile in profiles]
 
 

@@ -15,5 +15,6 @@ The reproducible entry point is therefore:
 1. Read the [AI development entry point](README_en.md).
 2. Read the [AI Collaboration Policy](policy/AI_POLICY_en.md).
 3. Select a Skill from the [Skills catalog](SKILLS_CATALOG_en.md), then read its body and `SKILL.meta.json`.
+4. Read the [machine-readable Skill index](skill-index.json) first to confirm that the Skill body and metadata come from this checkout.
 
-If maintainers enable automatic discovery for a particular Agent, its local entry should point to the entry point above without copying policy text, and docs-check should validate the reference. Until then, do not claim cross-Agent automatic discovery is implemented.
+If maintainers enable automatic discovery for a particular Agent, its local entry should point to the entry point above without copying policy text, and docs-check should validate the reference. The Skill index is a repository-level discovery contract, but it does not replace each Agent's supported loading mechanism; do not claim cross-Agent automatic loading is implemented.

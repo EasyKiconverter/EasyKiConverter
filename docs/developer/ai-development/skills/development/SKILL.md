@@ -1,3 +1,8 @@
+---
+name: development
+description: 在 EasyKiConverter 中按现有架构实施受控代码、解析器或导出器变更，并保持证据和验证边界清晰。
+---
+
 # Development Skill
 
 ## 适用场景

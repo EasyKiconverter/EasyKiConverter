@@ -34,6 +34,7 @@ jobs:
       run_full: ${{ steps.scope.outputs.run_full }}
       run_ui: ${{ steps.scope.outputs.run_ui }}
       run_resources: ${{ steps.scope.outputs.run_resources }}
+      run_classifier_tests: ${{ steps.scope.outputs.run_classifier_tests }}
       safe_fallback: ${{ steps.scope.outputs.safe_fallback }}
     steps:
       - name: 'Checkout source code'
@@ -56,6 +57,30 @@ jobs:
             --base "$BASE_SHA" \
             --head "$HEAD_SHA" \
             --github-output "$GITHUB_OUTPUT"
+
+      - name: 'Validate unified verification plan'
+        env:
+          CLASSIFICATION: ${{ steps.scope.outputs.classification }}
+        run: python3 tools/python/verification_plan.py --classification "$CLASSIFICATION"
+
+  classifier-tests:
+    name: 'Test CI change classifier'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_classifier_tests == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 1
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: 'Run classifier regression tests'
+        run: python3 -m unittest discover -s tests/python -p 'test_classify_ci_changes.py'
 
   linux-build:
     name: 'Build Linux (${{ matrix.dist.name }})'

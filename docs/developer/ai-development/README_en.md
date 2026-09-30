@@ -14,6 +14,7 @@ This entry point is for contributors and AI Agents working on EasyKiConverter. I
 6. The [Evidence Report template](EVIDENCE_REPORT_TEMPLATE_en.md) standardizes baselines, commands, blockers, and commercial EDA evidence.
 7. [Agent adapter notes](ADAPTERS_en.md) explain the boundary between local entries and repository policy.
 8. [Agent JSON tools](AGENT_TOOLS_en.md) provide read-only queries, verification planning, and allowlisted checks.
+9. [Machine-readable Skill index](skill-index.json) lists the Skills and entry paths present in this checkout.
 
 ## Authoritative rules and supporting material
 
@@ -34,7 +35,7 @@ This directory provides the policy entry point, AI navigation, and task procedur
 
 - Skills are for repeatable, bounded tasks with clear side effects.
 - A Skill does not replace project rules, tests, or validation in commercial EDA applications.
-- The repository has no unified cross-Agent Skill discovery configuration. Select and read the relevant `SKILL.md` and `SKILL.meta.json` through the [Skills catalog](SKILLS_CATALOG_en.md).
+- The repository provides a [machine-readable Skill index](skill-index.json); it does not claim that every Agent loads Skills automatically, so callers must still read the relevant `SKILL.md` and `SKILL.meta.json` through their supported mechanism.
 
 ## Machine-checkable control plane
 
@@ -43,6 +44,7 @@ This directory provides the policy entry point, AI navigation, and task procedur
 - The [EDA capability ledger](eda-capabilities.json) separates code entry points, automated tests, structural checks, and commercial EDA validation.
 - [Fixture provenance](fixture-provenance.json) records local fixture hashes, test use, and unknown provenance without inferring facts from content.
 - [AI Agent regression evaluation](AGENT_EVAL_en.md) provides rule-boundary examples that do not call paid models.
+- For EDA work, use the [Skills catalog](SKILLS_CATALOG_en.md) to choose `format-research`, `parser-development`, or `exporter-development`; these complement rather than replace the general `development` and `testing` Skills.
 
 ## Maintenance rules
 

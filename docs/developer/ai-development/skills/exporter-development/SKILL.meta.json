@@ -1,0 +1,11 @@
+{
+  "id": "exporter-development",
+  "purpose": "实现确定性的 IR 到目标 EDA 格式导出，并验证字段映射、引用完整性和降级诊断。",
+  "triggers": ["新增导出器", "修复 Writer", "处理图层映射", "验证导出包"],
+  "required_sources": ["docs/developer/ai-development/policy/AI_POLICY.md", "docs/developer/ai-development/PROJECT_CONTEXT.md", "docs/developer/ai-development/verification-policy.json", "docs/developer/ai-development/eda-capabilities.json"],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md"],
+  "side_effects": ["source-files", "test-files", "fixture-files", "build-artifacts"],
+  "verification": ["exporter-focused-tests", "structural-or-golden-tests", "diagnostic-tests", "cpp-format", "build"],
+  "stop_conditions": ["目标格式语义无法确认", "缺少商业 EDA 环境", "关键引用无法保证"],
+  "evidence_outputs": ["mapping-and-invariants", "diagnostic-results", "structural-validation-boundary"]
+}

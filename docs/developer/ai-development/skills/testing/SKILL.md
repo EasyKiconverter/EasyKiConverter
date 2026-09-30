@@ -1,3 +1,8 @@
+---
+name: testing
+description: 根据 EasyKiConverter 的变更风险选择、执行并报告格式检查、构建、定向测试、全量测试和文档验证。
+---
+
 # Testing Skill
 
 ## 适用场景
