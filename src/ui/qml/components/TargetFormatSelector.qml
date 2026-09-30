@@ -13,6 +13,8 @@ ColumnLayout {
             return qsTranslate("MainWindow", ".kicad_sym / .kicad_mod");
         if (targetId === "altium")
             return qsTranslate("MainWindow", ".SchLib / .PcbLib");
+        if (targetId === "horizon")
+            return qsTranslate("MainWindow", ".pool Horizon EDA source library");
         if (targetId === "xpedition")
             return qsTranslate("MainWindow", "_Symbols.zip / _Footprints.zip");
         if (targetId === "pads")

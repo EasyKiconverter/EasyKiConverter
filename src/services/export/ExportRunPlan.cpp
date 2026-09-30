@@ -37,15 +37,21 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
     ExportRunPlan plan;
     const bool combinedTarget = options.targetFormat == TargetEdaFormat::Eagle ||
                                 options.targetFormat == TargetEdaFormat::Cadstar ||
-                                options.targetFormat == TargetEdaFormat::Allegro;
-    const bool embeddedModelTarget =
-        options.targetFormat == TargetEdaFormat::Altium || options.targetFormat == TargetEdaFormat::Allegro;
+                                options.targetFormat == TargetEdaFormat::Allegro ||
+                                options.targetFormat == TargetEdaFormat::LibrePcb ||
+                                options.targetFormat == TargetEdaFormat::Horizon;
+    const bool embeddedModelTarget = options.targetFormat == TargetEdaFormat::Altium ||
+                                     options.targetFormat == TargetEdaFormat::Allegro ||
+                                     options.targetFormat == TargetEdaFormat::LibrePcb ||
+                                     options.targetFormat == TargetEdaFormat::Horizon;
     // 仅符号模式仍由组合库写入阶段负责，但进度需要展示为 Symbol。
     plan.symbolOnlyCombinedLibrary = combinedTarget && options.exportSymbol && !options.exportFootprint;
     // Eagle/CADSTAR 的组合库由封装阶段统一写入，符号单独导出也复用同一文件事务。
     plan.enableSymbol = options.exportSymbol && options.targetFormat != TargetEdaFormat::Allegro &&
                         options.targetFormat != TargetEdaFormat::Eagle &&
-                        options.targetFormat != TargetEdaFormat::Cadstar;
+                        options.targetFormat != TargetEdaFormat::Cadstar &&
+                        options.targetFormat != TargetEdaFormat::LibrePcb &&
+                        options.targetFormat != TargetEdaFormat::Horizon;
     // OrCAD Capture XML 只承载符号和封装名称属性，PCB 封装几何由其他目标库负责。
     // 独立三维导出不应顺带生成封装库；只有目标格式需要把模型关联写入库时，才保留封装阶段。
     plan.enableFootprint = (options.exportFootprint && options.targetFormat != TargetEdaFormat::Orcad) ||
@@ -53,7 +59,9 @@ ExportRunPlan buildExportRunPlan(const ExportOptions& options,
     // 目标格式没有经过本项目验证的原生模型关联时，仍输出独立模型文件并保留诊断。
     plan.enableModel3D = options.exportModel3D;
     plan.runExternalModel3DStage = plan.enableModel3D && options.targetFormat != TargetEdaFormat::Altium &&
-                                   options.targetFormat != TargetEdaFormat::Allegro;
+                                   options.targetFormat != TargetEdaFormat::Allegro &&
+                                   options.targetFormat != TargetEdaFormat::LibrePcb &&
+                                   options.targetFormat != TargetEdaFormat::Horizon;
     plan.enablePreview = options.exportPreviewImages;
     plan.enableDatasheet = options.exportDatasheet;
 

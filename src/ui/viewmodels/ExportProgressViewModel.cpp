@@ -160,9 +160,11 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
 
     // Store component IDs
     const TargetEdaFormat selectedFormat = static_cast<TargetEdaFormat>(targetFormat);
-    m_eagleCombinedLibrary = (selectedFormat == TargetEdaFormat::Eagle || selectedFormat == TargetEdaFormat::Cadstar ||
-                              selectedFormat == TargetEdaFormat::Allegro) &&
-                             exportSymbol && exportFootprint;
+    m_eagleCombinedLibrary =
+        (selectedFormat == TargetEdaFormat::Eagle || selectedFormat == TargetEdaFormat::Cadstar ||
+         selectedFormat == TargetEdaFormat::Allegro || selectedFormat == TargetEdaFormat::LibrePcb ||
+         selectedFormat == TargetEdaFormat::Horizon) &&
+        exportSymbol && exportFootprint;
     m_exportSymbolEnabled = exportSymbol;
     m_exportFootprintEnabled = exportFootprint;
     m_exportModel3DEnabled = exportModel3D;
