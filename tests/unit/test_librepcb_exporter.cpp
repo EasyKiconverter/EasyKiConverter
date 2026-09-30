@@ -31,6 +31,8 @@ private slots:
     void writesSlottedThroughHole();
     /** @brief 在提供官方 CLI 时验证完整库的打开、保存和严格检查流程。 */
     void validatesWithLibrePcbCli();
+    /** @brief 验证代表性 IR golden 场景均产生预期结构或明确拒绝。 */
+    void validatesRepresentativeGoldenCases();
 };
 
 static IR::ComponentIR makeComponent() {
@@ -76,6 +78,114 @@ static IR::ComponentIR makeComponent() {
     model.setName(QStringLiteral("Test Model"));
     model.setStepData(QByteArrayLiteral("ISO-10303-21;\nHEADER;\nENDSEC;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
     component.footprint.models3d.append(model);
+    return component;
+}
+
+/**
+ * @brief 根据编号构造代表性 LibrePCB golden 场景。
+ * @param index 场景编号，范围为 1 到 12。
+ * @return 由统一 IR 构造的测试组件。
+ */
+static IR::ComponentIR makeGoldenComponent(int index) {
+    IR::ComponentIR component = makeComponent();
+    component.name = QStringLiteral("Golden %1").arg(index);
+    component.symbol.name = QStringLiteral("Golden Symbol %1").arg(index);
+    component.footprint.name = QStringLiteral("Golden Package %1").arg(index);
+    component.manufacturerPart = QStringLiteral("GOLDEN-%1").arg(index);
+
+    switch (index) {
+        case 2: {
+            component.name = QStringLiteral("Diode");
+            IR::SymbolCircleIR circle;
+            circle.center = QPointF(0.0, 0.0);
+            circle.radius = 1.0;
+            circle.strokeWidth = 0.15;
+            component.symbol.circles.append(circle);
+            break;
+        }
+        case 3: {
+            component.name = QStringLiteral("Transistor");
+            IR::SymbolPinIR pin = component.symbol.pins.constLast();
+            pin.name = QStringLiteral("3");
+            pin.designator = QStringLiteral("3");
+            pin.position = QPointF(0.0, 2.54);
+            pin.direction = IR::PinDirection::Up;
+            component.symbol.pins.append(pin);
+            break;
+        }
+        case 4:
+        case 6: {
+            component.name = index == 4 ? QStringLiteral("DIP") : QStringLiteral("Through Hole");
+            for (auto& pad : component.footprint.pads) {
+                pad.padType = IR::PadType::ThroughHole;
+                pad.holeSize = 0.8;
+                pad.isPlated = true;
+            }
+            break;
+        }
+        case 5:
+            component.name = QStringLiteral("SOP QFP");
+            for (int number = 3; number <= 8; ++number) {
+                IR::FootprintPadIR pad = component.footprint.pads.constFirst();
+                pad.number = QString::number(number);
+                pad.position = QPointF(-1.0 + (number - 3) * 0.4, 1.0);
+                component.footprint.pads.append(pad);
+            }
+            break;
+        case 7:
+            component.name = QStringLiteral("SMD");
+            break;
+        case 8: {
+            component.name = QStringLiteral("Symbol Arc");
+            IR::SymbolArcIR arc;
+            arc.startPoint = QPointF(-1.27, 0.0);
+            arc.midPoint = QPointF(0.0, 1.27);
+            arc.endPoint = QPointF(1.27, 0.0);
+            arc.strokeWidth = 0.15;
+            component.symbol.arcs.append(arc);
+            break;
+        }
+        case 9: {
+            component.name = QStringLiteral("Symbol Polygon");
+            IR::SymbolPolygonIR polygon;
+            polygon.points = {QPointF(-1.27, -1.27), QPointF(1.27, -1.27), QPointF(0.0, 1.27)};
+            polygon.strokeWidth = 0.15;
+            polygon.isFilled = true;
+            component.symbol.polygons.append(polygon);
+            break;
+        }
+        case 10: {
+            component.name = QStringLiteral("Complex Graphics");
+            IR::FootprintCircleIR circle;
+            circle.center = QPointF(0.0, 0.0);
+            circle.radius = 1.0;
+            circle.strokeWidth = 0.15;
+            component.footprint.circles.append(circle);
+            IR::FootprintTrackIR track;
+            track.points = {QPointF(-1.0, -1.0), QPointF(1.0, 1.0)};
+            track.width = 0.15;
+            component.footprint.tracks.append(track);
+            IR::FootprintTextIR text;
+            text.text = QStringLiteral("COMPLEX");
+            text.position = QPointF(0.0, 2.0);
+            text.fontSize = 1.0;
+            component.footprint.texts.append(text);
+            break;
+        }
+        case 11:
+            component.name = QStringLiteral("Mapped Pins");
+            component.symbol.pins[0].designator = QStringLiteral("2");
+            component.symbol.pins[1].designator = QStringLiteral("1");
+            component.footprint.pads[0].number = QStringLiteral("2");
+            component.footprint.pads[1].number = QStringLiteral("1");
+            break;
+        case 12:
+            component.name = QStringLiteral("Multiple Units");
+            component.symbol.partCount = 2;
+            break;
+        default:
+            break;
+    }
     return component;
 }
 
@@ -257,6 +367,59 @@ void TestLibrePcbExporter::writesSlottedThroughHole() {
     const QByteArray packageData = packageFile.readAll();
     QVERIFY(packageData.contains("(position -0.6 0 "));
     QVERIFY(packageData.contains("(position 0.6 0 "));
+}
+
+void TestLibrePcbExporter::validatesRepresentativeGoldenCases() {
+    struct GoldenCase {
+        int index;
+        QString fileName;
+        bool succeeds;
+    };
+
+    const QList<GoldenCase> cases = {
+        {1, QStringLiteral("representative-01.txt"), true},
+        {2, QStringLiteral("representative-02.txt"), true},
+        {3, QStringLiteral("representative-03.txt"), true},
+        {4, QStringLiteral("representative-04.txt"), true},
+        {5, QStringLiteral("representative-05.txt"), true},
+        {6, QStringLiteral("representative-06.txt"), true},
+        {7, QStringLiteral("representative-07.txt"), true},
+        {8, QStringLiteral("representative-08.txt"), true},
+        {9, QStringLiteral("representative-09.txt"), true},
+        {10, QStringLiteral("representative-10.txt"), true},
+        {11, QStringLiteral("representative-11.txt"), true},
+        {12, QStringLiteral("representative-12.txt"), false},
+    };
+
+    for (const GoldenCase& goldenCase : cases) {
+        QTemporaryDir temporary;
+        QVERIFY(temporary.isValid());
+        QFile goldenFile(Test::TestPaths::goldenPath(QStringLiteral("librepcb/%1").arg(goldenCase.fileName)));
+        QVERIFY(goldenFile.open(QIODevice::ReadOnly));
+        const QByteArray expectedToken = goldenFile.readAll().trimmed();
+        QVERIFY(!expectedToken.isEmpty());
+        const IR::ComponentIR component = makeGoldenComponent(goldenCase.index);
+        ExporterLibrePcbLibrary exporter;
+        const QString outputPath =
+            QDir(temporary.path()).filePath(QStringLiteral("golden-%1.lplib").arg(goldenCase.index));
+        const bool succeeded = exporter.exportComponentLibrary(
+            {component}, QStringLiteral("Golden %1").arg(goldenCase.index), outputPath, true);
+        QCOMPARE(succeeded, goldenCase.succeeds);
+        const QString diagnostics = exporter.diagnostics().join('\n');
+        if (!goldenCase.succeeds) {
+            QVERIFY(diagnostics.toUtf8().contains(expectedToken));
+            continue;
+        }
+
+        QDirIterator iterator(outputPath, QDir::Files, QDirIterator::Subdirectories);
+        QByteArray serialized;
+        while (iterator.hasNext()) {
+            QFile file(iterator.next());
+            if (file.open(QIODevice::ReadOnly))
+                serialized.append(file.readAll());
+        }
+        QVERIFY2(serialized.contains(expectedToken), expectedToken.constData());
+    }
 }
 
 void TestLibrePcbExporter::validatesWithLibrePcbCli() {
