@@ -876,9 +876,8 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         SExpr& node = fp.list(QStringLiteral("pad"));
         node.token(padUuid);
         node.list(QStringLiteral("side"))
-            .token(pad.isThroughHole()
-                       ? QStringLiteral("tht")
-                       : (pad.layer == IR::LayerType::BottomCopper ? QStringLiteral("bottom") : QStringLiteral("top")))
+            // LibrePCB 的 through-hole 属性由 hole 节点表达，side 仍只能是 top 或 bottom。
+            .token(pad.layer == IR::LayerType::BottomCopper ? QStringLiteral("bottom") : QStringLiteral("top"))
             .close();
         const QString shape = padShape(
             pad.shape, pad.size, pad.customShapePoints, diagnostics, footprint.name + QStringLiteral("/") + pad.number);
@@ -890,7 +889,9 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         node.list(QStringLiteral("size")).token(number(pad.size.width())).token(number(pad.size.height())).close();
         node.list(QStringLiteral("radius")).token(QStringLiteral("0")).close();
         node.list(QStringLiteral("stop_mask")).token(QStringLiteral("auto")).close();
-        node.list(QStringLiteral("solder_paste")).token(QStringLiteral("auto")).close();
+        node.list(QStringLiteral("solder_paste"))
+            .token(pad.isThroughHole() ? QStringLiteral("off") : QStringLiteral("auto"))
+            .close();
         node.list(QStringLiteral("clearance")).token(QStringLiteral("0")).close();
         node.list(QStringLiteral("function")).token(QStringLiteral("standard")).close();
         node.list(QStringLiteral("package_pad")).token(padUuids.value(pad.number.trimmed())).close();
@@ -908,13 +909,10 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
             }
         }
         if (pad.isThroughHole()) {
-            node.list(QStringLiteral("hole"))
-                .token(uuidFor(QStringLiteral("pad-hole"), footprint.name, index))
-                .list(QStringLiteral("diameter"))
-                .token(number(pad.holeSize > 0 ? pad.holeSize : 0.3))
-                .close()
-                .list(QStringLiteral("path"))
-                .list(QStringLiteral("vertex"))
+            SExpr& hole = node.list(QStringLiteral("hole"));
+            hole.token(uuidFor(QStringLiteral("pad-hole"), footprint.name, index));
+            hole.list(QStringLiteral("diameter")).token(number(pad.holeSize > 0 ? pad.holeSize : 0.3)).close();
+            hole.list(QStringLiteral("vertex"))
                 .list(QStringLiteral("position"))
                 .token(number(pad.holeLength > 0 ? -pad.holeLength / 2.0 : 0))
                 .token(QStringLiteral("0"))
@@ -924,7 +922,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
                 .close()
                 .close();
             if (pad.holeLength > 0) {
-                node.list(QStringLiteral("vertex"))
+                hole.list(QStringLiteral("vertex"))
                     .list(QStringLiteral("position"))
                     .token(number(pad.holeLength / 2.0))
                     .token(QStringLiteral("0"))
@@ -934,7 +932,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
                     .close()
                     .close();
             }
-            node.close().close();
+            hole.close();
             if (!pad.isPlated)
                 diagnostics.append(
                     QStringLiteral("LibrePCB: 封装 %1 的非镀通孔无法在 PadHole 中保留镀层语义").arg(footprint.name));

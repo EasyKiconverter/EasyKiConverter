@@ -116,21 +116,31 @@ static IR::ComponentIR makeGoldenComponent(int index) {
         case 4:
         case 6: {
             component.name = index == 4 ? QStringLiteral("DIP") : QStringLiteral("Through Hole");
-            for (auto& pad : component.footprint.pads) {
+            for (int padIndex = 0; padIndex < component.footprint.pads.size(); ++padIndex) {
+                auto& pad = component.footprint.pads[padIndex];
                 pad.padType = IR::PadType::ThroughHole;
+                pad.size = QSizeF(2.0, 2.0);
+                pad.position = QPointF(-2.0 + padIndex * 4.0, 0.0);
                 pad.holeSize = 0.8;
                 pad.isPlated = true;
             }
+            component.footprint.rectangles.clear();
             break;
         }
         case 5:
             component.name = QStringLiteral("SOP QFP");
+            component.footprint.pads[0].size = QSizeF(0.5, 0.8);
+            component.footprint.pads[0].position = QPointF(-3.2, 0.0);
+            component.footprint.pads[1].size = QSizeF(0.5, 0.8);
+            component.footprint.pads[1].position = QPointF(3.2, 0.0);
             for (int number = 3; number <= 8; ++number) {
                 IR::FootprintPadIR pad = component.footprint.pads.constFirst();
                 pad.number = QString::number(number);
-                pad.position = QPointF(-1.0 + (number - 3) * 0.4, 1.0);
+                pad.size = QSizeF(0.5, 0.8);
+                pad.position = QPointF(-2.0 + (number - 3) * 0.8, 0.0);
                 component.footprint.pads.append(pad);
             }
+            component.footprint.rectangles.clear();
             break;
         case 7:
             component.name = QStringLiteral("SMD");
@@ -448,6 +458,37 @@ void TestLibrePcbExporter::validatesWithLibrePcbCli() {
                      QStringLiteral("--strict"),
                      path}),
              0);
+
+    // 代表性成功场景也必须经过同一套官方解析、保存和严格检查流程。
+    for (int index = 1; index <= 11; ++index) {
+        QTemporaryDir goldenTemporary;
+        QVERIFY(goldenTemporary.isValid());
+        const QString goldenPath = QDir(goldenTemporary.path()).filePath(QStringLiteral("golden-%1.lplib").arg(index));
+        ExporterLibrePcbLibrary goldenExporter;
+        QVERIFY(goldenExporter.exportComponentLibrary(
+            {makeGoldenComponent(index)}, QStringLiteral("Golden %1").arg(index), goldenPath, true));
+        const auto runGoldenCli = [&cli, &goldenPath, index](const QStringList& arguments) {
+            QProcess process;
+            process.start(cli, arguments);
+            if (!process.waitForFinished(30000))
+                return -1;
+            if (process.exitCode() != 0)
+                qWarning() << "LibrePCB CLI golden case failed" << index << process.readAllStandardError();
+            return process.exitCode();
+        };
+        QCOMPARE(runGoldenCli(
+                     {QStringLiteral("open-library"), QStringLiteral("--all"), QStringLiteral("--save"), goldenPath}),
+                 0);
+        QCOMPARE(runGoldenCli(
+                     {QStringLiteral("open-library"), QStringLiteral("--all"), QStringLiteral("--check"), goldenPath}),
+                 0);
+        QCOMPARE(runGoldenCli({QStringLiteral("open-library"),
+                               QStringLiteral("--all"),
+                               QStringLiteral("--check"),
+                               QStringLiteral("--strict"),
+                               goldenPath}),
+                 0);
+    }
 }
 
 QTEST_MAIN(TestLibrePcbExporter)
