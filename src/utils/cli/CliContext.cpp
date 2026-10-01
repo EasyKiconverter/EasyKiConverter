@@ -91,6 +91,10 @@ ExportOptions CliContext::createExportOptions() const {
         options.targetFormat = TargetEdaFormat::Cadstar;
     } else if (format == QStringLiteral("orcad")) {
         options.targetFormat = TargetEdaFormat::Orcad;
+    } else if (format == QStringLiteral("librepcb")) {
+        options.targetFormat = TargetEdaFormat::LibrePcb;
+    } else if (format == QStringLiteral("horizon")) {
+        options.targetFormat = TargetEdaFormat::Horizon;
     } else {
         options.targetFormat = TargetEdaFormat::KiCad;
     }

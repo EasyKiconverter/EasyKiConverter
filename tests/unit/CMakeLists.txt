@@ -84,6 +84,28 @@ target_include_directories(test_eagle_exporter PRIVATE
 )
 add_test(NAME test_eagle_exporter COMMAND test_eagle_exporter)
 
+add_executable(test_librepcb_exporter test_librepcb_exporter.cpp)
+target_link_libraries(test_librepcb_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterLibrePcb
+)
+target_include_directories(test_librepcb_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_librepcb_exporter COMMAND test_librepcb_exporter)
+
+add_executable(test_horizon_exporter test_horizon_exporter.cpp)
+target_link_libraries(test_horizon_exporter PRIVATE
+    Qt6::Test
+    EasyKiConverterHorizon
+)
+target_include_directories(test_horizon_exporter PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}
+)
+add_test(NAME test_horizon_exporter COMMAND test_horizon_exporter)
+
 add_executable(test_pcad_parser test_pcad_parser.cpp)
 target_link_libraries(test_pcad_parser PRIVATE
     Qt6::Test
@@ -742,6 +764,7 @@ set(EASYKICONVERTER_UNIT_TESTS
     test_validation_state_manager
     test_update_checker_service
     test_librepcb_exporter
+    test_horizon_exporter
 )
 
 set_tests_properties(${EASYKICONVERTER_UNIT_TESTS}

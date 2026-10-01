@@ -8,12 +8,12 @@ namespace EasyKiConverter {
 /**
  * @brief 导出目标模型
  * @details 管理已向用户开放的目标列表、当前选择、目标元数据。
- *          从 export_plugins.json 读取配置，但只向 GUI 暴露经过发布级验证的目标格式。
- *          其他导出器仍可由内部管线和 CLI 使用，直到完成验证前不会出现在 GUI 下拉框中。
+ *          从 export_plugins.json 读取配置，并向 GUI 暴露已接入导出流程的目标格式。
  */
 class ExportTargetModel : public QObject {
     Q_OBJECT
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentTargetChanged)
+    Q_PROPERTY(int currentTargetFormat READ currentTargetFormat NOTIFY currentTargetChanged)
     Q_PROPERTY(QString currentTargetId READ currentTargetId NOTIFY currentTargetChanged)
     Q_PROPERTY(QString currentDisplayName READ currentDisplayName NOTIFY currentTargetChanged)
     Q_PROPERTY(QString currentIcon READ currentIcon NOTIFY currentTargetChanged)
@@ -26,6 +26,9 @@ public:
 
     /** @brief 获取当前选中索引 */
     int currentIndex() const;
+
+    /** @brief 获取与当前可见目标对应的稳定目标枚举值。 */
+    int currentTargetFormat() const;
 
     /** @brief 设置当前选中索引 */
     void setCurrentIndex(int index);
@@ -60,7 +63,7 @@ signals:
 
 private:
     /**
-     * @brief 判断目标格式是否可以显示给 GUI 用户
+     * @brief 判断目标格式是否向 GUI 暴露
      * @param targetId 目标格式标识符
      * @return true 表示该格式已达到当前 GUI 的发布验证门槛
      */

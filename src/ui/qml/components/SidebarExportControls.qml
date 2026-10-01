@@ -47,7 +47,7 @@ Rectangle {
                     var sc = root.exportSettingsController;
                     var lc = root.componentListController;
                     var tm = root.exportTargetModel;
-                    var tf = tm ? tm.currentIndex : 0;
+                    var tf = tm ? tm.currentTargetFormat : 0;
                     if (pc && pc.failureCount > 0) {
                         pc.retryFailedComponents();
                     } else if (pc && sc && lc) {

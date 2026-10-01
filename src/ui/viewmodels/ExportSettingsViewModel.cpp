@@ -165,7 +165,7 @@ void ExportSettingsViewModel::setLibName(const QString& name) {
 
 // 设置是否导出符号库。
 void ExportSettingsViewModel::setExportSymbol(bool enabled) {
-    if (enabled && m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro))
+    if (enabled && m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Allegro))
         enabled = false;
     if (m_exportSymbol != enabled) {
         m_exportSymbol = enabled;
@@ -176,7 +176,7 @@ void ExportSettingsViewModel::setExportSymbol(bool enabled) {
 
 // 设置是否导出封装库。
 void ExportSettingsViewModel::setExportFootprint(bool enabled) {
-    if (enabled && m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+    if (enabled && m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Orcad))
         enabled = false;
     if (m_exportFootprint != enabled) {
         m_exportFootprint = enabled;
@@ -283,27 +283,27 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
     m_targetModel = model;
     if (m_targetModel) {
         connect(m_targetModel, &ExportTargetModel::currentTargetChanged, this, [this]() {
-            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro)) {
+            if (m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Allegro)) {
                 setExportSymbol(false);
                 if (m_exportModel3D)
                     setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
             }
-            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+            if (m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Orcad))
                 setExportFootprint(false);
-            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Altium) &&
+            if (m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Altium) &&
                 (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
                 // Altium PcbLib 只能可靠嵌入 STEP，切换目标时移除 WRL 位。
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
             }
         });
-        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro)) {
+        if (m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Allegro)) {
             setExportSymbol(false);
             if (m_exportModel3D)
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
         }
-        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+        if (m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Orcad))
             setExportFootprint(false);
-        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Altium) &&
+        if (m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Altium) &&
             (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
             setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
         }

@@ -129,7 +129,7 @@ ColumnLayout {
                     var idList = exportButtonsSection.componentListController ? exportButtonsSection.componentListController.getAllComponentIds() : [];
                     var settingsController = exportButtonsSection.exportSettingsController;
                     var targetModel = exportButtonsSection.exportTargetModel;
-                    var targetFormat = targetModel ? targetModel.currentIndex : 0;
+                    var targetFormat = targetModel ? targetModel.currentTargetFormat : 0;
                     if (progressController && settingsController) {
                         progressController.startExport(idList, settingsController.outputPath || "", settingsController.libName || "", settingsController.exportSymbol || false, settingsController.exportFootprint || false, settingsController.exportModel3D || false, settingsController.exportModel3DFormat || 3, settingsController.exportModel3DPathMode || 0, settingsController.exportPreviewImages || false, settingsController.exportDatasheet || false, settingsController.overwriteExistingFiles || false, (settingsController.exportMode || 0) === 1, settingsController.debugMode || false, settingsController.symbolLibraryDescription || "", settingsController.footprintLibraryDescription || "", settingsController.footprintLibraryKeywords || "", targetFormat);
                     }

@@ -43,6 +43,10 @@ static const char* targetFormatName(TargetEdaFormat format) {
         return "P-CAD";
     if (format == TargetEdaFormat::Orcad)
         return "OrCAD Capture";
+    if (format == TargetEdaFormat::LibrePcb)
+        return "LibrePCB";
+    if (format == TargetEdaFormat::Horizon)
+        return "Horizon EDA";
     return "KiCad";
 }
 
@@ -71,7 +75,7 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     options.footprintLibraryDescription = viewModel.m_footprintLibraryDescription;
     options.footprintLibraryKeywords = viewModel.m_footprintLibraryKeywords;
     options.targetFormat = viewModel.m_targetModel
-                               ? static_cast<TargetEdaFormat>(viewModel.m_targetModel->currentIndex())
+                               ? static_cast<TargetEdaFormat>(viewModel.m_targetModel->currentTargetFormat())
                                : TargetEdaFormat::KiCad;
     // Xpedition ZIP 只能完整替换，界面的“覆盖”选项不能被误传成更新模式。
     const bool xpeditionTarget = options.targetFormat == TargetEdaFormat::Xpedition;
@@ -80,6 +84,8 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     const bool eagleTarget = options.targetFormat == TargetEdaFormat::Eagle;
     const bool pcadTarget = options.targetFormat == TargetEdaFormat::Pcad;
     const bool orcadTarget = options.targetFormat == TargetEdaFormat::Orcad;
+    const bool librePcbTarget = options.targetFormat == TargetEdaFormat::LibrePcb;
+    const bool horizonTarget = options.targetFormat == TargetEdaFormat::Horizon;
     if (allegroTarget)
         options.exportSymbol = false;
     if (orcadTarget)
@@ -87,7 +93,7 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     options.overwriteExistingFiles =
         viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
     options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget &&
-                         !eagleTarget && !pcadTarget && !orcadTarget;
+                         !eagleTarget && !pcadTarget && !orcadTarget && !librePcbTarget && !horizonTarget;
 
     qInfo() << "Export options:" << "OutputPath:" << options.outputPath << "LibName:" << options.libName
             << "TargetFormat:" << targetFormatName(options.targetFormat) << "Symbol:" << options.exportSymbol

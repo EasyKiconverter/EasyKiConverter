@@ -63,7 +63,7 @@ Item {
             title: qsTranslate("MainWindow", "导出内容")
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "符号库")
-                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 8)
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentTargetId === "orcad")
                 checked: root.exportSettingsController ? root.exportSettingsController.exportSymbol : false
                 onToggled: val => {
                     if (root.exportSettingsController)
@@ -73,7 +73,7 @@ Item {
 
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "封装库")
-                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 8)
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentTargetId === "orcad")
                 checked: root.exportSettingsController ? root.exportSettingsController.exportFootprint : false
                 onToggled: val => {
                     if (root.exportSettingsController)
@@ -82,7 +82,7 @@ Item {
             }
 
             Text {
-                visible: root.exportTargetModel && root.exportTargetModel.currentIndex === 8
+                visible: root.exportTargetModel && root.exportTargetModel.currentTargetId === "orcad"
                 Layout.fillWidth: true
                 Layout.leftMargin: AppStyle.spacing.lg
                 text: qsTranslate("MainWindow", "OrCAD Capture XML 只保存符号和封装名称关联，PCB 封装几何需要单独导出")
@@ -98,7 +98,7 @@ Item {
                 SidebarToggleRow {
                     id: model3dToggle
                     label: qsTranslate("MainWindow", "3D 模型")
-                    property bool isAllegroTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 3
+                    property bool isAllegroTarget: root.exportTargetModel && root.exportTargetModel.currentTargetId === "allegro"
                     checked: root.exportSettingsController ? root.exportSettingsController.exportModel3D : false
                     onToggled: val => {
                         if (root.exportSettingsController)
@@ -232,7 +232,7 @@ Item {
                                     Layout.fillWidth: true
                                     height: 30
                                     radius: AppStyle.radius.sm
-                                    property bool isAltiumTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 1
+                                    property bool isAltiumTarget: root.exportTargetModel && root.exportTargetModel.currentTargetId === "altium"
                                     color: AppStyle.isDarkMode ? Qt.rgba(255, 255, 255, 0.06) : Qt.rgba(0, 0, 0, 0.06)
                                     property int currentFormatIndex: {
                                         if (!root.exportSettingsController)
@@ -417,7 +417,7 @@ Item {
         // ==================== Altium 导出说明（仅 Altium 格式显示，带动画） ====================
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 1 ? altiumInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "altium" ? altiumInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
             clip: true
             Behavior on Layout.preferredHeight {
                 NumberAnimation {
@@ -436,9 +436,9 @@ Item {
                 color: AppStyle.colors.surface
                 border.color: AppStyle.colors.border
                 border.width: 1
-                opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 1) ? 1 : 0
-                scale: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 1) ? 1 : 0.97
-                y: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 1) ? 0 : 20
+                opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 1 : 0
+                scale: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 1 : 0.97
+                y: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 0 : 20
                 Behavior on opacity {
                     NumberAnimation {
                         duration: 500
@@ -474,7 +474,7 @@ Item {
         // ==================== Xpedition 导出说明（仅 Xpedition 格式显示，带动画） ====================
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 2 ? xpeditionInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "xpedition" ? xpeditionInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
             clip: true
             Behavior on Layout.preferredHeight {
                 NumberAnimation {
@@ -493,9 +493,9 @@ Item {
                 color: AppStyle.colors.surface
                 border.color: AppStyle.colors.border
                 border.width: 1
-                opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 2) ? 1 : 0
-                scale: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 2) ? 1 : 0.97
-                y: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 2) ? 0 : 20
+                opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 1 : 0
+                scale: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 1 : 0.97
+                y: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 0 : 20
                 Behavior on opacity {
                     NumberAnimation {
                         duration: 500
@@ -531,7 +531,7 @@ Item {
         // ==================== Allegro 导出说明（符号、封装和三维语义包） ====================
         Item {
             Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "allegro" ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
             clip: true
             Behavior on Layout.preferredHeight {
                 NumberAnimation {
@@ -550,7 +550,7 @@ Item {
                 color: AppStyle.colors.surface
                 border.color: AppStyle.colors.border
                 border.width: 1
-                opacity: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? 1 : 0
+                opacity: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "allegro" ? 1 : 0
                 Text {
                     id: allegroInfoText
                     anchors.fill: parent
@@ -656,7 +656,7 @@ Item {
         // ==================== 库信息（短窗口时自动隐藏，仅 KiCad 格式显示） ====================
         SidebarSection {
             title: qsTranslate("MainWindow", "库信息 (可选)")
-            visible: !ResponsiveHelper.isShortWindow && (root.exportTargetModel === null || root.exportTargetModel === undefined || root.exportTargetModel.currentIndex === 0)
+            visible: !ResponsiveHelper.isShortWindow && (root.exportTargetModel === null || root.exportTargetModel === undefined || root.exportTargetModel.currentTargetId === "kicad")
             SidebarTextField {
                 label: qsTranslate("MainWindow", "符号库描述")
                 text: root.exportSettingsController ? root.exportSettingsController.symbolLibraryDescription : ""

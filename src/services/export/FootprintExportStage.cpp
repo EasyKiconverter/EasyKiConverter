@@ -144,9 +144,11 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         emit progressChanged(progressSnapshot);
     };
 
-    // Altium 和 Allegro 将 3D 模型写入封装输出，阶段提前失败时也必须结束对应状态。
+    // Altium、Allegro、LibrePCB 和 Horizon 将 3D 模型写入封装输出，阶段提前失败时也必须结束对应状态。
     const auto publishEmbeddedModelFailure = [this](const QString& componentId, const QString& errorMessage) {
-        if ((m_options.targetFormat != TargetEdaFormat::Altium && m_options.targetFormat != TargetEdaFormat::Allegro) ||
+        if ((m_options.targetFormat != TargetEdaFormat::Altium && m_options.targetFormat != TargetEdaFormat::Allegro &&
+             m_options.targetFormat != TargetEdaFormat::LibrePcb &&
+             m_options.targetFormat != TargetEdaFormat::Horizon) ||
             !m_options.exportModel3D) {
             return;
         }
@@ -177,9 +179,10 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
 
         QSharedPointer<ComponentData> data = it.value();
 
-        const bool combinedTarget = m_options.targetFormat == TargetEdaFormat::Eagle ||
-                                    m_options.targetFormat == TargetEdaFormat::Cadstar ||
-                                    m_options.targetFormat == TargetEdaFormat::Allegro;
+        const bool combinedTarget =
+            m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar ||
+            m_options.targetFormat == TargetEdaFormat::Allegro || m_options.targetFormat == TargetEdaFormat::LibrePcb ||
+            m_options.targetFormat == TargetEdaFormat::Horizon;
         const bool needsSymbol = combinedTarget && m_options.exportSymbol;
         const bool needsFootprint = m_options.exportFootprint || m_options.exportModel3D;
         if (needsSymbol && !data->symbolData()) {
@@ -234,7 +237,9 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
             qWarning() << "FootprintExportStage: Input diagnostics for" << componentId << status.diagnostics;
         publishItemStatus(componentId, status);
 
-        if ((m_options.targetFormat == TargetEdaFormat::Altium || m_options.targetFormat == TargetEdaFormat::Allegro) &&
+        if ((m_options.targetFormat == TargetEdaFormat::Altium || m_options.targetFormat == TargetEdaFormat::Allegro ||
+             m_options.targetFormat == TargetEdaFormat::LibrePcb ||
+             m_options.targetFormat == TargetEdaFormat::Horizon) &&
             m_options.exportModel3D && data->footprintData()) {
             ExportItemStatus modelStatus;
             if (!footprint.model3D().step().isEmpty()) {
@@ -243,6 +248,10 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
                 modelStatus.status = ExportItemStatus::Status::Failed;
                 modelStatus.errorMessage = m_options.targetFormat == TargetEdaFormat::Allegro
                                                ? QStringLiteral("Allegro Import Package 缺少 STEP 3D 模型")
+                                           : m_options.targetFormat == TargetEdaFormat::LibrePcb
+                                               ? QStringLiteral("LibrePCB 库缺少 STEP 3D 模型")
+                                           : m_options.targetFormat == TargetEdaFormat::Horizon
+                                               ? QStringLiteral("Horizon Pool 缺少 STEP 3D 模型")
                                                : QStringLiteral("STEP 3D model was not embedded in PcbLib");
             }
             emit embeddedModel3DStatusChanged(componentId, modelStatus);
@@ -309,12 +318,18 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
             // Altium 的 3D 状态可能已经在收集阶段报告成功，但最终 PcbLib
             // 写入或提交失败时，模型实际上没有进入最终库，必须同步回写失败。
             if ((m_options.targetFormat == TargetEdaFormat::Altium ||
-                 m_options.targetFormat == TargetEdaFormat::Allegro) &&
+                 m_options.targetFormat == TargetEdaFormat::Allegro ||
+                 (m_options.targetFormat == TargetEdaFormat::LibrePcb ||
+                  m_options.targetFormat == TargetEdaFormat::Horizon)) &&
                 m_options.exportModel3D) {
                 ExportItemStatus modelStatus;
                 modelStatus.status = ExportItemStatus::Status::Failed;
                 modelStatus.errorMessage = m_options.targetFormat == TargetEdaFormat::Allegro
                                                ? QStringLiteral("Allegro Import Package 导出失败，3D 模型未写入最终包")
+                                           : m_options.targetFormat == TargetEdaFormat::LibrePcb
+                                               ? QStringLiteral("LibrePCB 导出失败，3D 模型未写入最终库")
+                                           : m_options.targetFormat == TargetEdaFormat::Horizon
+                                               ? QStringLiteral("Horizon Pool 导出失败，3D 模型未写入最终库")
                                                : QStringLiteral("Altium PcbLib 导出失败，3D 模型未写入最终库");
                 modelStatus.endTime = status.endTime;
                 emit embeddedModel3DStatusChanged(componentId, modelStatus);
@@ -436,6 +451,24 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         abortExport(QStringLiteral("CADSTAR ASCII 库已存在且当前禁止覆盖: %1").arg(finalPath));
         return;
     }
+    if (m_options.targetFormat == TargetEdaFormat::LibrePcb && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("LibrePCB 原生库暂不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::LibrePcb && QDir(finalPath).exists() &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("LibrePCB 原生库已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Horizon && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("Horizon Pool 暂不支持更新或重试模式，请选择完整覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Horizon && QDir(finalPath).exists() &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("Horizon Pool 已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
 
     if (tempPath.isEmpty()) {
         abortExport(QStringLiteral("Failed to create temp path"));
@@ -477,9 +510,10 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         for (const FootprintData& fd : footprintList) {
             irFootprintList.append(IR::toFootprintIR(fd));
         }
-        const bool combinedTarget = m_options.targetFormat == TargetEdaFormat::Eagle ||
-                                    m_options.targetFormat == TargetEdaFormat::Cadstar ||
-                                    m_options.targetFormat == TargetEdaFormat::Allegro;
+        const bool combinedTarget =
+            m_options.targetFormat == TargetEdaFormat::Eagle || m_options.targetFormat == TargetEdaFormat::Cadstar ||
+            m_options.targetFormat == TargetEdaFormat::Allegro || m_options.targetFormat == TargetEdaFormat::LibrePcb ||
+            m_options.targetFormat == TargetEdaFormat::Horizon;
         if (combinedTarget && m_options.exportSymbol && m_options.exportFootprint) {
             exportSuccess = exporter->exportComponentLibrary(
                 componentIrList, libName, tempPath, m_options.exportModel3D, outputDir);

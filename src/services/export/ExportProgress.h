@@ -22,7 +22,9 @@ enum class TargetEdaFormat {
     Eagle = 5, /**< Eagle XML 组合库（符号、封装和器件关联） */
     Pcad = 6, /**< P-CAD ASCII 符号库、器件库和 PCB 库 */
     Cadstar = 7, /**< CADSTAR ASCII combined symbol and package library */
-    Orcad = 8 /**< OrCAD Capture XML symbol library */
+    Orcad = 8, /**< OrCAD Capture XML symbol library */
+    LibrePcb = 9, /**< LibrePCB 2 native library */
+    Horizon = 10 /**< Horizon EDA Pool source library */
 };
 
 /**
@@ -58,16 +60,17 @@ struct ExportOptions {
     /**
      * @brief 判断当前目标是否必须嵌入 STEP 三维模型
      *
-     * Altium PcbLib 不使用 KiCad 的外部 WRL/STEP 文件引用，三维模型必须
-     * 以 STEP 形式嵌入封装库。因此即使调用方传入了 WRL-only 配置，也必须
-     * 为 Altium 获取并嵌入 STEP。
+     * Altium、LibrePCB 和 Horizon 原生库不使用本项目的独立模型阶段，三维模型
+     * 必须在封装库阶段写入。因此即使调用方传入了 WRL-only 配置，也必须为
+     * 这些目标获取并嵌入 STEP。
      */
     constexpr bool needsEmbeddedModel3DStep() const {
         if (!exportModel3D || targetFormat == TargetEdaFormat::Xpedition || targetFormat == TargetEdaFormat::Pads ||
             targetFormat == TargetEdaFormat::Eagle || targetFormat == TargetEdaFormat::Pcad)
             return false;
         return needsModel3DStep() || targetFormat == TargetEdaFormat::Altium ||
-               targetFormat == TargetEdaFormat::Allegro;
+               targetFormat == TargetEdaFormat::Allegro || targetFormat == TargetEdaFormat::LibrePcb ||
+               targetFormat == TargetEdaFormat::Horizon;
     }
 
     static constexpr int normalizePathMode(int mode) {

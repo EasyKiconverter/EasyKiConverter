@@ -28,6 +28,7 @@
 - [转换层与映射关系](developer/CONVERSION_MAPPING.md) - EasyEDA、IR、KiCad、Altium、Xpedition 的算法与字段映射
 - [Xpedition 导出能力](developer/XPEDITION_EXPORT.md) - Xpedition ASCII 符号和封装导出范围、限制与验证
 - [CADSTAR 导出能力](developer/CADSTAR_EXPORT.md) - CADSTAR ASCII 符号、封装、Pad 和 Part 导出范围、限制与验证
+- [LibrePCB 导出能力](developer/LIBREPCB_EXPORT.md) - LibrePCB 2.1.1 原生库目录导出进展、限制与验证边界
 - [OrCAD Capture XML 符号库导出](developer/ORCAD_EXPORT.md) - OrCAD Capture XML 符号和封装名称关联导出范围、限制与验证
 - [格式解析架构](developer/PARSER_ARCHITECTURE.md) - 通用文本解析基础设施、诊断模型和格式支持边界
 - [EasyEDA API 原始数据说明](developer/EASYEDA_API_DATA.md) - API 响应结构、shape 编码和字段解析

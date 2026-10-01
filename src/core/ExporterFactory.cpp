@@ -5,9 +5,11 @@
 #include "core/altium/ExporterAltiumSymbol.h"
 #include "core/cadstar/ExporterCadstarLibrary.h"
 #include "core/eagle/ExporterEagleFootprint.h"
+#include "core/horizon/ExporterHorizonLibrary.h"
 #include "core/kicad/Exporter3DModel.h"
 #include "core/kicad/ExporterFootprint.h"
 #include "core/kicad/ExporterSymbol.h"
+#include "core/librepcb/ExporterLibrePcbLibrary.h"
 #include "core/orcad/ExporterOrcadSymbol.h"
 #include "core/pads/ExporterPadsFootprint.h"
 #include "core/pads/ExporterPadsSymbol.h"
@@ -42,6 +44,10 @@ std::unique_ptr<ISymbolExporter> ExporterFactory::createSymbolExporter(TargetEda
             return std::make_unique<ExporterEagleFootprint>();
         case TargetEdaFormat::Cadstar:
             return std::make_unique<ExporterCadstarLibrary>();
+        case TargetEdaFormat::LibrePcb:
+            return std::make_unique<ExporterLibrePcbLibrary>();
+        case TargetEdaFormat::Horizon:
+            return std::make_unique<ExporterHorizonLibrary>();
         default:
             return nullptr;
     }
@@ -69,6 +75,10 @@ std::unique_ptr<IFootprintExporter> ExporterFactory::createFootprintExporter(Tar
             return std::make_unique<ExporterPcadFootprint>();
         case TargetEdaFormat::Cadstar:
             return std::make_unique<ExporterCadstarLibrary>();
+        case TargetEdaFormat::LibrePcb:
+            return std::make_unique<ExporterLibrePcbLibrary>();
+        case TargetEdaFormat::Horizon:
+            return std::make_unique<ExporterHorizonLibrary>();
         default:
             return nullptr;
     }
@@ -92,6 +102,8 @@ std::unique_ptr<IModel3DExporter> ExporterFactory::createModel3DExporter(TargetE
         case TargetEdaFormat::Pcad:
         case TargetEdaFormat::Cadstar:
         case TargetEdaFormat::Orcad:
+        case TargetEdaFormat::LibrePcb:
+        case TargetEdaFormat::Horizon:
             return std::unique_ptr<IModel3DExporter>(new Exporter3DModel(parent));
         default:
             return nullptr;

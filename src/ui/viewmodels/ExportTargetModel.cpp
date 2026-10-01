@@ -22,6 +22,31 @@ int ExportTargetModel::currentIndex() const {
     return m_currentIndex;
 }
 
+int ExportTargetModel::currentTargetFormat() const {
+    const QString id = currentTargetId();
+    if (id == QStringLiteral("altium"))
+        return 1;
+    if (id == QStringLiteral("xpedition"))
+        return 2;
+    if (id == QStringLiteral("allegro"))
+        return 3;
+    if (id == QStringLiteral("pads"))
+        return 4;
+    if (id == QStringLiteral("eagle"))
+        return 5;
+    if (id == QStringLiteral("pcad"))
+        return 6;
+    if (id == QStringLiteral("cadstar"))
+        return 7;
+    if (id == QStringLiteral("orcad"))
+        return 8;
+    if (id == QStringLiteral("librepcb"))
+        return 9;
+    if (id == QStringLiteral("horizon"))
+        return 10;
+    return 0;
+}
+
 /**
  * @brief 设置当前选中的目标索引
  * @param index 目标在可见目标列表中的索引
@@ -90,13 +115,14 @@ QVariantList ExportTargetModel::availableTargets() const {
 }
 
 /**
- * @brief 判断目标格式是否达到 GUI 的发布验证门槛
+ * @brief 判断目标格式是否向 GUI 暴露
  * @param targetId 目标格式标识符
  * @return true 表示目标格式可以显示给 GUI 用户
  */
 bool ExportTargetModel::isUserVisibleTarget(const QString& targetId) {
-    // GUI 只展示当前已完成发布级验证的格式；其他格式保留内部/CLI 入口，待验证完成后再开放。
-    return targetId == QStringLiteral("kicad") || targetId == QStringLiteral("altium");
+    // 仅将已完成 GUI 导出流程接入的格式放入选择器。
+    return targetId == QStringLiteral("kicad") || targetId == QStringLiteral("altium") ||
+           targetId == QStringLiteral("horizon") || targetId == QStringLiteral("librepcb");
 }
 
 /**
@@ -136,7 +162,17 @@ void ExportTargetModel::loadPlugins(const QString& configPath) {
 
     // 下拉索引会直接映射到 TargetEdaFormat，必须与枚举顺序保持一致，不能依赖配置文件顺序。
     std::sort(m_targets.begin(), m_targets.end(), [](const TargetInfo& left, const TargetInfo& right) {
-        const auto targetOrder = [](const QString& id) { return id == QStringLiteral("kicad") ? 0 : 1; };
+        const auto targetOrder = [](const QString& id) {
+            if (id == QStringLiteral("kicad"))
+                return 0;
+            if (id == QStringLiteral("altium"))
+                return 1;
+            if (id == QStringLiteral("horizon"))
+                return 2;
+            if (id == QStringLiteral("librepcb"))
+                return 3;
+            return 4;
+        };
         return targetOrder(left.id) < targetOrder(right.id);
     });
 

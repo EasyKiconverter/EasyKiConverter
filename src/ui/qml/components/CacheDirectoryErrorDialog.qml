@@ -14,12 +14,10 @@ SliderDialogBase {
     property string selectedPath: ""
     property string rejectionReason: ""
     signal retrySelection
-
     title: qsTranslate("MainWindow", "缓存目录无法使用")
     message: qsTranslate("MainWindow", "所选目录未切换，当前缓存目录保持不变。")
     mainContentSource: ColumnLayout {
         spacing: AppStyle.spacing.sm
-
         Text {
             Layout.fillWidth: true
             text: qsTranslate("MainWindow", "选择路径")
