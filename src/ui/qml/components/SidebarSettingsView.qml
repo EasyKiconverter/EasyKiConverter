@@ -232,14 +232,14 @@ Item {
                                     Layout.fillWidth: true
                                     height: 30
                                     radius: AppStyle.radius.sm
-                                    property bool isAltiumTarget: root.exportTargetModel && root.exportTargetModel.currentTargetId === "altium"
+                                    property bool isStepOnlyTarget: root.exportTargetModel && (root.exportTargetModel.currentTargetId === "altium" || root.exportTargetModel.currentTargetId === "librepcb" || root.exportTargetModel.currentTargetId === "horizon")
                                     color: AppStyle.isDarkMode ? Qt.rgba(255, 255, 255, 0.06) : Qt.rgba(0, 0, 0, 0.06)
                                     property int currentFormatIndex: {
                                         if (!root.exportSettingsController)
                                             return 0;
-                                        // Altium 只允许 STEP，指示器也必须固定在 STEP，
+                                        // 这些原生库只允许 STEP，指示器也必须固定在 STEP，
                                         // 避免旧配置值让滑块视觉上移动到 WRL/Both。
-                                        if (isAltiumTarget)
+                                        if (isStepOnlyTarget)
                                             return 1;
                                         var fmt = root.exportSettingsController.exportModel3DFormat;
                                         if (fmt === 3)
@@ -273,8 +273,8 @@ Item {
                                             Item {
                                                 width: parent.width / 3
                                                 height: parent.height
-                                                // Altium PcbLib 仅支持嵌入 STEP，WRL 和 Both 都不可选。
-                                                opacity: parent.parent.isAltiumTarget && index !== 1 ? 0.4 : 1
+                                                // 这些原生库仅支持嵌入 STEP，WRL 和 Both 都不可选。
+                                                opacity: parent.parent.isStepOnlyTarget && index !== 1 ? 0.4 : 1
                                                 Text {
                                                     anchors.centerIn: parent
                                                     text: modelData
@@ -290,7 +290,7 @@ Item {
 
                                                 MouseArea {
                                                     anchors.fill: parent
-                                                    enabled: !(parent.parent.isAltiumTarget && index !== 1)
+                                                    enabled: !(parent.parent.isStepOnlyTarget && index !== 1)
                                                     cursorShape: Qt.PointingHandCursor
                                                     onClicked: {
                                                         if (!root.exportSettingsController)
@@ -564,10 +564,45 @@ Item {
             }
         }
 
+        // ==================== LibrePCB 导出说明（仅 LibrePCB 格式显示） ====================
+        Item {
+            Layout.fillWidth: true
+            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "librepcb" ? librePcbInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+            clip: true
+            Behavior on Layout.preferredHeight {
+                NumberAnimation {
+                    duration: 400
+                    easing.type: Easing.OutQuart
+                }
+            }
+
+            Rectangle {
+                id: librePcbInfoBox
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.top: parent.top
+                implicitHeight: librePcbInfoText.implicitHeight + AppStyle.spacing.md * 2
+                radius: AppStyle.radius.sm
+                color: AppStyle.colors.surface
+                border.color: AppStyle.colors.border
+                border.width: 1
+                Text {
+                    id: librePcbInfoText
+                    anchors.fill: parent
+                    anchors.margins: AppStyle.spacing.md
+                    text: qsTranslate("MainWindow", "LibrePCB 导出说明：\n" + "- 原生库只支持完整覆盖导出\n" + "- 不支持追加、更新或失败重试\n" + "- 符号必须是单部件，缺失或重复引脚编号会拒绝导出\n" + "- 不可表达的焊盘和图元会产生诊断或拒绝导出\n" + "- 三维模型使用 IR 中的 STEP 数据，WRL 选项不可用")
+                    font.pixelSize: AppStyle.fontSizes.xs
+                    color: AppStyle.colors.textSecondary
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.4
+                }
+            }
+        }
+
         // ==================== 运行策略（滑块式导出模式选择） ====================
         SidebarSection {
             title: qsTranslate("MainWindow", "运行策略")
-            // 导出模式：滑块式二选一
+            // 导出模式：滑块式三选一
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 2
@@ -585,14 +620,14 @@ Item {
                     // 滑块指示器
                     Rectangle {
                         id: modeSlider
-                        width: parent.width / 2
+                        width: parent.width / 3
                         height: parent.height - 4
                         anchors.verticalCenter: parent.verticalCenter
                         radius: AppStyle.radius.sm - 1
                         color: AppStyle.colors.surface
                         border.width: AppStyle.borderWidths.thin
                         border.color: AppStyle.colors.border
-                        x: (root.exportSettingsController ? root.exportSettingsController.exportMode : 0) === 0 ? 2 : parent.width / 2
+                        x: (root.exportSettingsController ? root.exportSettingsController.exportMode : 0) * parent.width / 3 + 2
                         Behavior on x {
                             NumberAnimation {
                                 duration: 200
@@ -605,10 +640,12 @@ Item {
                         anchors.fill: parent
                         anchors.margins: 2
                         Repeater {
-                            model: [qsTranslate("MainWindow", "追加"), qsTranslate("MainWindow", "覆盖")]
+                            model: root.exportSettingsController && root.exportSettingsController.requiresFullReplacement ? [qsTranslate("MainWindow", "追加（不支持）"), qsTranslate("MainWindow", "更新（不支持）"), qsTranslate("MainWindow", "完整覆盖")] : [qsTranslate("MainWindow", "追加"), qsTranslate("MainWindow", "更新"), qsTranslate("MainWindow", "覆盖")]
                             Item {
-                                width: parent.width / 2
+                                width: parent.width / 3
                                 height: parent.height
+                                enabled: !(root.exportSettingsController && root.exportSettingsController.requiresFullReplacement && index !== 2)
+                                opacity: enabled ? 1 : 0.45
                                 Text {
                                     anchors.centerIn: parent
                                     text: modelData
@@ -624,6 +661,7 @@ Item {
 
                                 MouseArea {
                                     anchors.fill: parent
+                                    enabled: parent.enabled
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
                                         if (root.exportSettingsController)
@@ -636,10 +674,22 @@ Item {
                 }
 
                 Text {
-                    text: (root.exportSettingsController ? root.exportSettingsController.exportMode : 0) === 0 ? qsTranslate("MainWindow", "保留已有元器件，追加新的") : qsTranslate("MainWindow", "覆盖已有元器件，追加新的")
+                    Layout.fillWidth: true
+                    text: {
+                        var mode = root.exportSettingsController ? root.exportSettingsController.exportMode : 0;
+                        if (root.exportSettingsController && root.exportSettingsController.requiresFullReplacement)
+                            return qsTranslate("MainWindow", "覆盖：重新生成完整库；当前目标不支持追加、更新或失败重试");
+                        if (mode === 0)
+                            return qsTranslate("MainWindow", "追加：保留已有库内容，只加入新的元器件；已有同名内容不会被覆盖");
+                        if (mode === 1)
+                            return qsTranslate("MainWindow", "更新：在已有库基础上处理缺失或变化内容，并保留未参与本次导出的内容");
+                        return qsTranslate("MainWindow", "覆盖：重新生成完整库并替换已有输出，请确认旧库可以被替换");
+                    }
                     font.pixelSize: AppStyle.fontSizes.xs - 1
                     color: AppStyle.colors.textSecondary
                     opacity: 0.7
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.25
                 }
             }
 

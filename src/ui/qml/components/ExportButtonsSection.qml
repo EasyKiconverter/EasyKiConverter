@@ -80,7 +80,7 @@ ColumnLayout {
                 if (progressController && progressController.isExporting)
                     return qsTranslate("MainWindow", "正在转换...");
                 if (progressController && progressController.failureCount > 0)
-                    return qsTranslate("MainWindow", "重试失败项");
+                    return progressController.retrySupported ? qsTranslate("MainWindow", "重试失败项") : qsTranslate("MainWindow", "不支持重试，请重新导出");
                 return qsTranslate("MainWindow", "开始转换");
             }
 
@@ -118,6 +118,8 @@ ColumnLayout {
                     return false;
                 if (!settingsController)
                     return false;
+                if (progressController && progressController.failureCount > 0 && !progressController.retrySupported)
+                    return false;
                 return settingsController.exportSymbol || settingsController.exportFootprint || settingsController.exportModel3D;
             }
             onClicked: {
@@ -131,7 +133,7 @@ ColumnLayout {
                     var targetModel = exportButtonsSection.exportTargetModel;
                     var targetFormat = targetModel ? targetModel.currentTargetFormat : 0;
                     if (progressController && settingsController) {
-                        progressController.startExport(idList, settingsController.outputPath || "", settingsController.libName || "", settingsController.exportSymbol || false, settingsController.exportFootprint || false, settingsController.exportModel3D || false, settingsController.exportModel3DFormat || 3, settingsController.exportModel3DPathMode || 0, settingsController.exportPreviewImages || false, settingsController.exportDatasheet || false, settingsController.overwriteExistingFiles || false, (settingsController.exportMode || 0) === 1, settingsController.debugMode || false, settingsController.symbolLibraryDescription || "", settingsController.footprintLibraryDescription || "", settingsController.footprintLibraryKeywords || "", targetFormat);
+                        progressController.startExport(idList, settingsController.outputPath || "", settingsController.libName || "", settingsController.exportSymbol || false, settingsController.exportFootprint || false, settingsController.exportModel3D || false, settingsController.exportModel3DFormat || 3, settingsController.exportModel3DPathMode || 0, settingsController.exportPreviewImages || false, settingsController.exportDatasheet || false, (settingsController.overwriteExistingFiles || false) || (settingsController.exportMode || 0) === 2, (settingsController.exportMode || 0) === 1, settingsController.debugMode || false, settingsController.symbolLibraryDescription || "", settingsController.footprintLibraryDescription || "", settingsController.footprintLibraryKeywords || "", targetFormat);
                     }
                 }
             }

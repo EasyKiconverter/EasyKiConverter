@@ -249,14 +249,31 @@ void ExportSettingsViewModel::setWeakNetworkSupport(bool enabled) {
     }
 }
 
-// 设置库导出的追加或更新模式。
+// 设置库导出的追加、更新或覆盖模式。
 void ExportSettingsViewModel::setExportMode(int mode) {
+    if (mode < 0 || mode > 2)
+        mode = 0;
+    if (requiresFullReplacement() && mode != 2) {
+        qWarning() << "The selected target only supports full replacement export";
+        mode = 2;
+    }
     if (m_exportMode != mode) {
         m_exportMode = mode;
         m_configService->setExportMode(mode);
         emit exportModeChanged();
-        qDebug() << "Export mode changed to:" << mode << "(0=append, 1=update)";
+        qDebug() << "Export mode changed to:" << mode << "(0=append, 1=update, 2=overwrite)";
     }
+}
+
+bool ExportSettingsViewModel::requiresFullReplacement() const {
+    if (!m_targetModel)
+        return false;
+
+    const auto target = static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
+    return target == TargetEdaFormat::Xpedition || target == TargetEdaFormat::Allegro ||
+           target == TargetEdaFormat::Pads || target == TargetEdaFormat::Eagle || target == TargetEdaFormat::Pcad ||
+           target == TargetEdaFormat::Cadstar || target == TargetEdaFormat::Orcad ||
+           target == TargetEdaFormat::LibrePcb || target == TargetEdaFormat::Horizon;
 }
 
 // 设置调试模式，环境变量存在时由环境变量优先控制。
@@ -283,30 +300,40 @@ void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
     m_targetModel = model;
     if (m_targetModel) {
         connect(m_targetModel, &ExportTargetModel::currentTargetChanged, this, [this]() {
-            if (m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Allegro)) {
+            if (requiresFullReplacement() && m_exportMode != 2)
+                setExportMode(2);
+            const auto targetFormat = static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
+            if (targetFormat == TargetEdaFormat::Allegro) {
                 setExportSymbol(false);
                 if (m_exportModel3D)
                     setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
             }
-            if (m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Orcad))
+            if (targetFormat == TargetEdaFormat::Orcad)
                 setExportFootprint(false);
-            if (m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Altium) &&
+            if ((targetFormat == TargetEdaFormat::Altium || targetFormat == TargetEdaFormat::LibrePcb ||
+                 targetFormat == TargetEdaFormat::Horizon) &&
                 (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
-                // Altium PcbLib 只能可靠嵌入 STEP，切换目标时移除 WRL 位。
+                // 这些原生库只接受 STEP，切换目标时移除 WRL 位。
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
             }
+            emit requiresFullReplacementChanged();
         });
-        if (m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Allegro)) {
+        if (requiresFullReplacement() && m_exportMode != 2)
+            setExportMode(2);
+        const auto targetFormat = static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
+        if (targetFormat == TargetEdaFormat::Allegro) {
             setExportSymbol(false);
             if (m_exportModel3D)
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
         }
-        if (m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Orcad))
+        if (targetFormat == TargetEdaFormat::Orcad)
             setExportFootprint(false);
-        if (m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Altium) &&
+        if ((targetFormat == TargetEdaFormat::Altium || targetFormat == TargetEdaFormat::LibrePcb ||
+             targetFormat == TargetEdaFormat::Horizon) &&
             (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
             setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
         }
+        emit requiresFullReplacementChanged();
     }
 }
 
@@ -563,7 +590,7 @@ void ExportSettingsViewModel::loadFromConfig() {
     m_exportDatasheet = m_configService->getExportDatasheet();
     m_overwriteExistingFiles = m_configService->getOverwriteExistingFiles();
     m_weakNetworkSupport = m_configService->getWeakNetworkSupport();
-    m_exportMode = m_configService->getExportMode();
+    m_exportMode = qBound(0, m_configService->getExportMode(), 2);
     const QString configuredCacheDir = m_configService->getCacheDir();
     QString normalizedCacheDir;
     if (CacheSafety::validateSelection(configuredCacheDir, &normalizedCacheDir, nullptr))

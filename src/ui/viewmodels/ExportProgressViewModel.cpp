@@ -160,6 +160,13 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
 
     // Store component IDs
     const TargetEdaFormat selectedFormat = static_cast<TargetEdaFormat>(targetFormat);
+    const bool oldRetrySupported = m_retrySupported;
+    m_retrySupported = selectedFormat != TargetEdaFormat::Xpedition && selectedFormat != TargetEdaFormat::Allegro &&
+                       selectedFormat != TargetEdaFormat::Pads && selectedFormat != TargetEdaFormat::Eagle &&
+                       selectedFormat != TargetEdaFormat::Pcad && selectedFormat != TargetEdaFormat::Cadstar &&
+                       selectedFormat != TargetEdaFormat::LibrePcb && selectedFormat != TargetEdaFormat::Horizon;
+    if (m_retrySupported != oldRetrySupported)
+        emit retrySupportedChanged();
     m_eagleCombinedLibrary =
         (selectedFormat == TargetEdaFormat::Eagle || selectedFormat == TargetEdaFormat::Cadstar ||
          selectedFormat == TargetEdaFormat::Allegro || selectedFormat == TargetEdaFormat::LibrePcb ||
@@ -217,7 +224,7 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
         selectedFormat == TargetEdaFormat::Pads || selectedFormat == TargetEdaFormat::Eagle ||
         selectedFormat == TargetEdaFormat::Pcad || selectedFormat == TargetEdaFormat::Cadstar ||
         selectedFormat == TargetEdaFormat::LibrePcb || selectedFormat == TargetEdaFormat::Horizon;
-    options.overwriteExistingFiles = overwriteExistingFiles || (requiresFullReplacement && updateMode);
+    options.overwriteExistingFiles = overwriteExistingFiles || requiresFullReplacement;
     options.updateMode = updateMode && !requiresFullReplacement;
     options.debugMode = debugMode;
     options.exportSymbolDescription = true;

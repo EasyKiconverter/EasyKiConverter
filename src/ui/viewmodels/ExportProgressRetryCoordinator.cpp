@@ -12,6 +12,11 @@ namespace EasyKiConverter {
 void ExportProgressRetryCoordinator::retryComponent(ExportProgressViewModel& owner, const QString& componentId) {
     qDebug() << "Retry requested for component:" << componentId;
 
+    if (!owner.m_retrySupported) {
+        qWarning() << "Retry is not supported for the selected target format";
+        return;
+    }
+
     if (!owner.m_idToIndexMap.contains(componentId)) {
         qWarning() << "Component not found in results:" << componentId;
         return;
@@ -41,6 +46,11 @@ void ExportProgressRetryCoordinator::retryComponent(ExportProgressViewModel& own
 /** @brief 重试所有失败组件。 */
 void ExportProgressRetryCoordinator::retryFailedComponents(ExportProgressViewModel& owner) {
     qDebug() << "Retry requested for all failed components";
+
+    if (!owner.m_retrySupported) {
+        qWarning() << "Retry is not supported for the selected target format";
+        return;
+    }
 
     // Collect all failed component IDs
     QStringList failedIds;

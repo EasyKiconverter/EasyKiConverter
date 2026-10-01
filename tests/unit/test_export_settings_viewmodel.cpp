@@ -32,6 +32,7 @@ private slots:
     void testModel3DPathModeDefaultsAndPersists();
     void testNormalizePathMode();
     void testConfigServiceModel3DPathMode();
+    void testFullReplacementTargetDisablesAppendMode();
 
 private:
     QTemporaryDir m_tempDir;
@@ -243,6 +244,39 @@ void TestExportSettingsViewModel::testConfigServiceModel3DPathMode() {
 
     config->setExportModel3DPathMode(42);
     QCOMPARE(config->getExportModel3DPathMode(), ExportOptions::MODEL_3D_PATH_RELATIVE);
+}
+
+// 验证 LibrePCB 等完整重建目标不会接受追加模式。
+void TestExportSettingsViewModel::testFullReplacementTargetDisablesAppendMode() {
+    ExportTargetModel targetModel;
+    const QString pluginConfigPath = m_tempDir.filePath(QStringLiteral("export_plugins.json"));
+    QFile pluginConfig(pluginConfigPath);
+    QVERIFY(pluginConfig.open(QIODevice::WriteOnly | QIODevice::Text));
+    QVERIFY(pluginConfig.write(QByteArrayLiteral(
+                R"({"plugins":[{"id":"kicad","displayName":"KiCad"},{"id":"librepcb","displayName":"LibrePCB"}]})")) >
+            0);
+    pluginConfig.close();
+    targetModel.loadPlugins(pluginConfigPath);
+    const QVariantList targets = targetModel.availableTargets();
+    int librePcbIndex = -1;
+    for (int i = 0; i < targets.size(); ++i) {
+        if (targets.at(i).toMap().value(QStringLiteral("id")).toString() == QStringLiteral("librepcb")) {
+            librePcbIndex = i;
+            break;
+        }
+    }
+    QVERIFY(librePcbIndex >= 0);
+
+    ExportSettingsViewModel viewModel(nullptr);
+    viewModel.setTargetModel(&targetModel);
+    targetModel.setCurrentIndex(librePcbIndex);
+
+    QVERIFY(viewModel.requiresFullReplacement());
+    QCOMPARE(viewModel.exportMode(), 2);
+    viewModel.setExportMode(0);
+    QCOMPARE(viewModel.exportMode(), 2);
+    viewModel.setExportMode(1);
+    QCOMPARE(viewModel.exportMode(), 2);
 }
 
 QTEST_GUILESS_MAIN(TestExportSettingsViewModel)

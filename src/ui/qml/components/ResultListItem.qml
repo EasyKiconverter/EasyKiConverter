@@ -24,6 +24,7 @@ Rectangle {
     property string model3DStatus: "pending"
     property string previewStatus: "pending"
     property string datasheetStatus: "pending"
+    property bool retryEnabled: true
     signal retryClicked
     signal copyClicked
     signal deleteClicked
@@ -301,6 +302,7 @@ Rectangle {
             id: retryButton
             objectName: "retryResultButton"
             visible: status === "failed"
+            opacity: retryEnabled ? 1 : 0.45
             Layout.preferredWidth: 28
             Layout.preferredHeight: 28
             Layout.alignment: Qt.AlignVCenter
@@ -328,6 +330,7 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton
+                enabled: item.retryEnabled
                 onClicked: item.retryClicked()
             }
         }

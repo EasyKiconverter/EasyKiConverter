@@ -33,6 +33,7 @@ class ExportSettingsViewModel : public QObject {
     Q_PROPERTY(
         bool weakNetworkSupport READ weakNetworkSupport WRITE setWeakNetworkSupport NOTIFY weakNetworkSupportChanged)
     Q_PROPERTY(int exportMode READ exportMode WRITE setExportMode NOTIFY exportModeChanged)
+    Q_PROPERTY(bool requiresFullReplacement READ requiresFullReplacement NOTIFY requiresFullReplacementChanged)
     Q_PROPERTY(bool debugMode READ debugMode WRITE setDebugMode NOTIFY debugModeChanged)
     Q_PROPERTY(bool exportSymbolDescription READ exportSymbolDescription WRITE setExportSymbolDescription NOTIFY
                    exportSymbolDescriptionChanged)
@@ -119,6 +120,9 @@ public:
     int exportMode() const {
         return m_exportMode;
     }
+
+    /** @brief 判断当前目标是否只支持完整覆盖导出。 */
+    bool requiresFullReplacement() const;
 
     /** @brief 获取调试模式开关。 */
     bool debugMode() const {
@@ -217,6 +221,8 @@ signals:
     void overwriteExistingFilesChanged();
     void weakNetworkSupportChanged();
     void exportModeChanged();
+    /** @brief 当前目标的导出模式限制发生变化。 */
+    void requiresFullReplacementChanged();
     void debugModeChanged();
     void exportSymbolDescriptionChanged();
     void exportFootprintDescriptionChanged();
@@ -268,7 +274,7 @@ private:
     bool m_exportDatasheet;
     bool m_overwriteExistingFiles;
     bool m_weakNetworkSupport;
-    int m_exportMode;  // 0 = 追加模式, 1 = 更新模式
+    int m_exportMode;  // 0 = 追加模式, 1 = 更新模式, 2 = 覆盖模式
     bool m_debugMode;
     bool m_exportSymbolDescription;
     bool m_exportFootprintDescription;

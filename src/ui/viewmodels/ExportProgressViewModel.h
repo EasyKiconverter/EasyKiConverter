@@ -47,6 +47,7 @@ class ExportProgressViewModel : public QObject {
     Q_PROPERTY(bool isStopping READ isStopping NOTIFY isStoppingChanged)
     Q_PROPERTY(int statisticsTotal READ statisticsTotal NOTIFY totalCountChanged)
     Q_PROPERTY(bool hasCompletedExport READ hasCompletedExport NOTIFY hasCompletedExportChanged)
+    Q_PROPERTY(bool retrySupported READ retrySupported NOTIFY retrySupportedChanged)
     Q_PROPERTY(QString cacheDirUrl READ cacheDirUrl CONSTANT)
     Q_PROPERTY(int symbolSuccessCount READ symbolSuccessCount NOTIFY resultsListChanged)
     Q_PROPERTY(int footprintSuccessCount READ footprintSuccessCount NOTIFY resultsListChanged)
@@ -136,6 +137,11 @@ public:
         return m_hasCompletedExport;
     }
 
+    /** @brief 返回当前目标是否支持失败项重试。 */
+    bool retrySupported() const {
+        return m_retrySupported;
+    }
+
     int symbolSuccessCount() const;
     int footprintSuccessCount() const;
     int model3DSuccessCount() const;
@@ -191,6 +197,8 @@ signals:
     void isExportingChanged();
     void isStoppingChanged();
     void hasCompletedExportChanged();
+    /** @brief 当前目标的重试能力发生变化。 */
+    void retrySupportedChanged();
     void successCountChanged();
     void failureCountChanged();
     void totalCountChanged();
@@ -253,6 +261,7 @@ private:
     int m_writeProgress;
     bool m_isStopping;
     bool m_hasCompletedExport;
+    bool m_retrySupported = true;
     bool m_exportSymbolEnabled;
     bool m_eagleCombinedLibrary;
     bool m_exportFootprintEnabled;

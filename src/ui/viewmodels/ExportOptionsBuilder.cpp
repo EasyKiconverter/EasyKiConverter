@@ -86,14 +86,15 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     const bool orcadTarget = options.targetFormat == TargetEdaFormat::Orcad;
     const bool librePcbTarget = options.targetFormat == TargetEdaFormat::LibrePcb;
     const bool horizonTarget = options.targetFormat == TargetEdaFormat::Horizon;
+    const bool requiresFullReplacement = xpeditionTarget || allegroTarget || padsTarget || eagleTarget || pcadTarget ||
+                                         orcadTarget || librePcbTarget || horizonTarget ||
+                                         options.targetFormat == TargetEdaFormat::Cadstar;
     if (allegroTarget)
         options.exportSymbol = false;
     if (orcadTarget)
         options.exportFootprint = false;
-    options.overwriteExistingFiles =
-        viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
-    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget &&
-                         !eagleTarget && !pcadTarget && !orcadTarget && !librePcbTarget && !horizonTarget;
+    options.overwriteExistingFiles = viewModel.m_overwriteExistingFiles || viewModel.m_exportMode == 2;
+    options.updateMode = viewModel.m_exportMode == 1 && !requiresFullReplacement;
 
     qInfo() << "Export options:" << "OutputPath:" << options.outputPath << "LibName:" << options.libName
             << "TargetFormat:" << targetFormatName(options.targetFormat) << "Symbol:" << options.exportSymbol
