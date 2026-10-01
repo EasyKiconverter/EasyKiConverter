@@ -23,6 +23,8 @@ private slots:
     void rejectsUnrepresentablePadShape();
     /** @brief 验证不在 LibrePCB 原理图栅格上的引脚会被明确拒绝。 */
     void rejectsOffGridSymbolPin();
+    /** @brief 验证接近栅格的引脚会被自动对齐并保留诊断。 */
+    void snapsNearGridSymbolPin();
     /** @brief 验证追加和更新模式不会覆盖现有 LibrePCB 原生库。 */
     void rejectsAppendAndUpdateModes();
     /** @brief 验证不完整组件不会生成缺少绑定关系的原生器件库。 */
@@ -319,6 +321,18 @@ void TestLibrePcbExporter::rejectsOffGridSymbolPin() {
     QVERIFY(!exporter.exportComponentLibrary(
         {component}, QStringLiteral("off-grid"), QDir(temporary.path()).filePath(QStringLiteral("off-grid.lplib"))));
     QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("不在 2.54 mm 栅格")));
+}
+
+void TestLibrePcbExporter::snapsNearGridSymbolPin() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component = makeComponent();
+    component.symbol.pins[1].position = QPointF(3.81, 0.0);
+    ExporterLibrePcbLibrary exporter;
+    QVERIFY(exporter.exportComponentLibrary({component},
+                                            QStringLiteral("snap-near-grid"),
+                                            QDir(temporary.path()).filePath(QStringLiteral("library.lplib"))));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("已自动对齐到 2.54 mm 栅格")));
 }
 
 void TestLibrePcbExporter::rejectsAppendAndUpdateModes() {

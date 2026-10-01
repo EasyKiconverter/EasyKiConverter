@@ -8,6 +8,7 @@
 #include <QHash>
 #include <QSaveFile>
 #include <QSet>
+#include <QTransform>
 #include <QtMath>
 
 #include <cmath>
@@ -150,6 +151,14 @@ QString layerForFootprint(IR::LayerType layer) {
             return QStringLiteral("top_legend");
         case IR::LayerType::TopAssembly:
             return QStringLiteral("top_documentation");
+        case IR::LayerType::UserDefined:
+            // EasyEDA 的 Document/UserDefined 图层在 IR 中无法进一步区分。
+            // LibrePCB 没有对应的通用用户层，保守降级到 Documentation，避免误写入铜层。
+            return QStringLiteral("top_documentation");
+        case IR::LayerType::KeepOut:
+            // EasyEDA 的 ComponentShapeLayer（99）在 IR 中暂存为 KeepOut，
+            // 对封装而言应表达为装配边界，而不是板级铜箔禁布区。
+            return QStringLiteral("top_courtyard");
         case IR::LayerType::EdgeCuts:
             return QStringLiteral("top_package_outlines");
         case IR::LayerType::BottomSilk:
@@ -178,6 +187,10 @@ bool isAssemblyLayer(IR::LayerType layer) {
     return layer == IR::LayerType::TopAssembly || layer == IR::LayerType::BottomAssembly;
 }
 
+bool isUserDefinedLayer(IR::LayerType layer) {
+    return layer == IR::LayerType::UserDefined;
+}
+
 /**
  * @brief 检查符号引脚是否落在 LibrePCB 固定的 2.54 mm 原理图栅格上。
  * @param value 坐标值，单位为毫米。
@@ -186,6 +199,82 @@ bool isAssemblyLayer(IR::LayerType layer) {
 bool isOnLibrePcbGrid(double value) {
     constexpr double kGridMm = 2.54;
     return qAbs(value - qRound(value / kGridMm) * kGridMm) < 1e-6;
+}
+
+/**
+ * @brief 将接近 LibrePCB 栅格的坐标对齐到最近栅格点。
+ * @param value 原始坐标，单位为毫米。
+ * @param snapped 输出的对齐坐标，单位为毫米。
+ * @return 坐标在允许的微小误差范围内时返回 true。
+ */
+bool snapToLibrePcbGrid(double value, double& snapped) {
+    constexpr double kGridMm = 2.54;
+    constexpr double kMaxSnapDistanceMm = 1.27 + 1e-6;
+    snapped = qRound(value / kGridMm) * kGridMm;
+    return qAbs(value - snapped) <= kMaxSnapDistanceMm;
+}
+
+/**
+ * @brief 将符号引脚连接端对齐到 LibrePCB 栅格并补偿引脚长度。
+ * @param pin 原始统一 IR 引脚。
+ * @param position 输出的栅格化连接端位置。
+ * @param length 输出的补偿后引脚长度，单位为毫米。
+ * @return 引脚偏差不超过半个栅格时返回 true。
+ */
+bool alignSymbolPinToGrid(const IR::SymbolPinIR& pin, QPointF& position, double& length) {
+    constexpr double kGridMm = 2.54;
+    constexpr double kMaxExtensionMm = kGridMm / 2.0;
+    position = pin.position;
+    length = pin.length;
+
+    double snappedX = position.x();
+    double snappedY = position.y();
+    if (!snapToLibrePcbGrid(position.x(), snappedX) || !snapToLibrePcbGrid(position.y(), snappedY))
+        return false;
+
+    switch (pin.direction) {
+        case IR::PinDirection::Right:
+            snappedX = qCeil(position.x() / kGridMm - 1e-9) * kGridMm;
+            if (snappedX - position.x() > kMaxExtensionMm + 1e-6)
+                return false;
+            length += snappedX - position.x();
+            break;
+        case IR::PinDirection::Left:
+            snappedX = qFloor(position.x() / kGridMm + 1e-9) * kGridMm;
+            if (position.x() - snappedX > kMaxExtensionMm + 1e-6)
+                return false;
+            length += position.x() - snappedX;
+            break;
+        case IR::PinDirection::Up:
+            snappedY = qCeil(position.y() / kGridMm - 1e-9) * kGridMm;
+            if (snappedY - position.y() > kMaxExtensionMm + 1e-6)
+                return false;
+            length += snappedY - position.y();
+            break;
+        case IR::PinDirection::Down:
+            snappedY = qFloor(position.y() / kGridMm + 1e-9) * kGridMm;
+            if (position.y() - snappedY > kMaxExtensionMm + 1e-6)
+                return false;
+            length += position.y() - snappedY;
+            break;
+    }
+    position = QPointF(snappedX, snappedY);
+    return true;
+}
+
+/**
+ * @brief 将符号引脚名称的全局坐标转换为 LibrePCB 的引脚局部坐标。
+ * @param pin 统一 IR 引脚。
+ * @param pinLength 对齐后引脚长度。
+ * @param rotation LibrePCB 引脚旋转角度。
+ * @return LibrePCB 引脚名称相对于连接端的局部位置。
+ */
+QPointF symbolPinNamePosition(const IR::SymbolPinIR& pin, double pinLength, double rotation) {
+    if (!pin.hasNamePosition)
+        return QPointF(pinLength + 1.27, 0.0);
+
+    const QPointF worldOffset = pin.namePosition - pin.position;
+    return QTransform().rotate(-rotation).map(worldOffset);
 }
 
 QString symbolLayer(IR::LayerType layer) {
@@ -553,26 +642,37 @@ bool writeSymbol(const IR::SymbolComponentIR& symbol, const QString& rootPath, Q
             diagnostics.append(QStringLiteral("LibrePCB: 符号 %1 存在重复引脚编号：%2").arg(symbol.name, designator));
             return false;
         }
+        QPointF pinPosition;
+        double pinLength = 0.0;
+        if (!alignSymbolPinToGrid(pin, pinPosition, pinLength)) {
+            diagnostics.append(QStringLiteral("LibrePCB: 符号 %1 的引脚 %2 不在 2.54 mm 栅格上（坐标 %3, %4）")
+                                   .arg(symbol.name, designator)
+                                   .arg(number(pin.position.x()), number(pin.position.y())));
+            return false;
+        }
         if (!isOnLibrePcbGrid(pin.position.x()) || !isOnLibrePcbGrid(pin.position.y())) {
             diagnostics.append(
-                QStringLiteral("LibrePCB: 符号 %1 的引脚 %2 不在 2.54 mm 栅格上").arg(symbol.name, designator));
-            return false;
+                QStringLiteral("LibrePCB: 符号 %1 的引脚 %2 已自动对齐到 2.54 mm 栅格").arg(symbol.name, designator));
         }
         designators.insert(designator);
         SExpr& node = root.list(QStringLiteral("pin"));
         node.token(uuidFor(QStringLiteral("symbol-pin"), symbol.name, i));
         node.list(QStringLiteral("name")).atom(pin.name).close();
-        node.list(QStringLiteral("position")).token(number(pin.position.x())).token(number(pin.position.y())).close();
+        node.list(QStringLiteral("position")).token(number(pinPosition.x())).token(number(pinPosition.y())).close();
         node.list(QStringLiteral("rotation"))
             .token(QString::number(pin.direction == IR::PinDirection::Left   ? 180
                                    : pin.direction == IR::PinDirection::Up   ? 90
                                    : pin.direction == IR::PinDirection::Down ? 270
                                                                              : 0))
             .close();
-        node.list(QStringLiteral("length")).token(number(pin.length)).close();
+        node.list(QStringLiteral("length")).token(number(pinLength)).close();
+        const double rotation = pin.direction == IR::PinDirection::Left   ? 180
+                                : pin.direction == IR::PinDirection::Up   ? 90
+                                : pin.direction == IR::PinDirection::Down ? 270
+                                                                          : 0;
         node.list(QStringLiteral("name_position"))
-            .token(number(pin.hasNamePosition ? pin.namePosition.x() : pin.position.x()))
-            .token(number(pin.hasNamePosition ? pin.namePosition.y() : pin.position.y()))
+            .token(number(symbolPinNamePosition(pin, pinLength, rotation).x()))
+            .token(number(symbolPinNamePosition(pin, pinLength, rotation).y()))
             .close();
         node.list(QStringLiteral("name_rotation")).token(QStringLiteral("0")).close();
         node.list(QStringLiteral("name_height"))
@@ -982,6 +1082,9 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         }
         if (isAssemblyLayer(circle.layer))
             diagnostics.append(QStringLiteral("LibrePCB: 装配层圆形已映射到 Documentation 层"));
+        else if (isUserDefinedLayer(circle.layer))
+            diagnostics.append(
+                QStringLiteral("LibrePCB: 封装 %1 的用户定义圆形已降级到 Documentation 层").arg(footprint.name));
         SExpr& node = fp.list(QStringLiteral("circle"));
         node.token(uuidFor(QStringLiteral("footprint-circle"), footprint.name, index++));
         node.list(QStringLiteral("layer")).token(layer).close();
@@ -1031,16 +1134,14 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
     }
     for (int regionIndex = 0; regionIndex < footprint.regions.size(); ++regionIndex) {
         const auto& region = footprint.regions.at(regionIndex);
-        if (region.isKeepOut) {
-            diagnostics.append(
-                QStringLiteral("LibrePCB: 封装 %1 的 KeepOut 区域无法由 LibrePCB Package 表达").arg(footprint.name));
-            return false;
-        }
         const QString layer = layerForFootprint(region.layer);
         if (layer.isEmpty() || region.vertices.size() < 3) {
             diagnostics.append(QStringLiteral("LibrePCB: 封装区域无法映射或顶点不足：%1").arg(footprint.name));
             return false;
         }
+        if (region.isKeepOut || region.layer == IR::LayerType::KeepOut)
+            diagnostics.append(QStringLiteral("LibrePCB: 封装 %1 的 KeepOut/ComponentShape 区域已映射到 Courtyard 层")
+                                   .arg(footprint.name));
         appendPolygon(fp,
                       uuidFor(QStringLiteral("footprint-region"), footprint.name, regionIndex),
                       layer,

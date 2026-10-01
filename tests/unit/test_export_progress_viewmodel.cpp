@@ -17,6 +17,33 @@ private slots:
         qRegisterMetaType<ExportItemStatus>();
     }
 
+    void fullReplacementTargetsNormalizeUpdateMode() {
+        ParallelExportService service;
+        ExportProgressViewModel viewModel(&service, nullptr, nullptr);
+
+        viewModel.startExport({"C2040"},
+                              "/tmp/easykiconverter-test",
+                              "testlib",
+                              false,
+                              true,
+                              false,
+                              0,
+                              0,
+                              false,
+                              false,
+                              false,
+                              true,
+                              false,
+                              QString(),
+                              QString(),
+                              QString(),
+                              static_cast<int>(TargetEdaFormat::LibrePcb));
+
+        const ExportOptions options = service.options();
+        QVERIFY(options.overwriteExistingFiles);
+        QVERIFY(!options.updateMode);
+    }
+
     void stageProgressRespectsPipelineOrdering() {
         ParallelExportService service;
         ExportProgressViewModel viewModel(&service, nullptr, nullptr);

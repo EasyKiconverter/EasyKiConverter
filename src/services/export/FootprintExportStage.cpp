@@ -18,6 +18,94 @@
 
 namespace EasyKiConverter {
 
+namespace {
+
+QString librePcbProjectRoot(const QString& outputPath) {
+    QFileInfo outputInfo(outputPath);
+    QString candidate = outputInfo.isFile() ? outputInfo.absolutePath() : outputInfo.absoluteFilePath();
+    candidate = QDir::cleanPath(candidate);
+    for (int level = 0; level < 2; ++level) {
+        const QFileInfo marker(QDir(candidate).filePath(QStringLiteral(".librepcb-project")));
+        if (marker.isFile())
+            return marker.absolutePath();
+        if (QFileInfo(candidate).fileName() != QStringLiteral("library"))
+            break;
+        candidate = QDir(candidate).filePath(QStringLiteral(".."));
+        candidate = QDir::cleanPath(candidate);
+    }
+    return QString();
+}
+
+QString librePcbWorkspaceRoot(const QString& projectRoot) {
+    QString candidate = QDir::cleanPath(projectRoot);
+    for (int level = 0; level < 6; ++level) {
+        const QDir workspace(candidate);
+        const QString librariesPath = workspace.filePath(QStringLiteral("data/libraries"));
+        const QString projectsPath = workspace.filePath(QStringLiteral("projects"));
+        if (QFileInfo(librariesPath).isDir() && QFileInfo(projectsPath).isDir())
+            return candidate;
+
+        const QString parent = QDir(candidate).filePath(QStringLiteral(".."));
+        const QString normalizedParent = QDir::cleanPath(parent);
+        if (normalizedParent == candidate)
+            break;
+        candidate = normalizedParent;
+    }
+    return QString();
+}
+
+QString librePcbWorkspaceLibraryPath(const QString& workspaceRoot, const QString& libraryName) {
+    QString safeName = QFileInfo(libraryName.trimmed()).fileName();
+    if (safeName.isEmpty() || safeName == QStringLiteral(".") || safeName == QStringLiteral(".."))
+        safeName = QStringLiteral("EasyKiConverter");
+    if (!safeName.endsWith(QStringLiteral(".lplib"), Qt::CaseInsensitive))
+        safeName += QStringLiteral(".lplib");
+    return QDir(workspaceRoot).filePath(QStringLiteral("data/libraries/local/%1").arg(safeName));
+}
+
+bool copyDirectoryTree(const QString& sourcePath, const QString& targetPath) {
+    const QDir source(sourcePath);
+    if (!source.exists())
+        return true;
+    if (!QDir().mkpath(targetPath))
+        return false;
+
+    const QFileInfoList entries =
+        source.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries | QDir::Hidden | QDir::System);
+    for (const QFileInfo& entry : entries) {
+        if (entry.isSymLink())
+            return false;
+
+        const QString target = QDir(targetPath).filePath(entry.fileName());
+        if (entry.isDir()) {
+            if (!copyDirectoryTree(entry.absoluteFilePath(), target))
+                return false;
+        } else {
+            if (QFile::exists(target) && !QFile::remove(target))
+                return false;
+            if (!QFile::copy(entry.absoluteFilePath(), target))
+                return false;
+        }
+    }
+    return true;
+}
+
+bool mergeLibrePcbLibrary(const QString& generatedPath, const QString& projectLibraryPath, const QString& mergedPath) {
+    if (!copyDirectoryTree(projectLibraryPath, mergedPath))
+        return false;
+
+    for (const QString& kind :
+         {QStringLiteral("cmp"), QStringLiteral("dev"), QStringLiteral("pkg"), QStringLiteral("sym")}) {
+        const QString source = QDir(generatedPath).filePath(kind);
+        const QString target = QDir(mergedPath).filePath(kind);
+        if (!copyDirectoryTree(source, target))
+            return false;
+    }
+    return true;
+}
+
+}  // namespace
+
 // 初始化封装导出阶段，限制并发以保证库级写入顺序稳定。
 FootprintExportStage::FootprintExportStage(QObject* parent)
     // 使用单并发写入，避免同一库文件的并发修改。
@@ -362,8 +450,20 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         outputDir = QDir::currentPath() + QStringLiteral("/export");
     }
 
+    const QString librePcbRoot =
+        m_options.targetFormat == TargetEdaFormat::LibrePcb ? librePcbProjectRoot(outputDir) : QString();
+    const bool exportIntoLibrePcbProject = !librePcbRoot.isEmpty();
+    const QString librePcbWorkspace = exportIntoLibrePcbProject ? librePcbWorkspaceRoot(librePcbRoot) : QString();
+    const QString librePcbWorkspaceLibrary =
+        !librePcbWorkspace.isEmpty() ? librePcbWorkspaceLibraryPath(librePcbWorkspace, libName) : QString();
+    const QString librePcbProjectLibrary =
+        exportIntoLibrePcbProject ? QDir(librePcbRoot).filePath(QStringLiteral("library")) : QString();
+    const QString effectiveOutputDir = exportIntoLibrePcbProject ? librePcbProjectLibrary : outputDir;
+    if (exportIntoLibrePcbProject)
+        m_tempManager.setOutputPath(librePcbRoot);
+
     QDir dir;
-    if (!dir.mkpath(outputDir)) {
+    if (!dir.mkpath(effectiveOutputDir)) {
         abortExport(QStringLiteral("Failed to create output directory: %1").arg(outputDir));
         return;
     }
@@ -382,7 +482,8 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     QString finalPath;
     QString tempPath;
     if (isDirOutput) {
-        finalPath = outputDir + QDir::separator() + libName + fileExt;
+        finalPath =
+            exportIntoLibrePcbProject ? librePcbProjectLibrary : outputDir + QDir::separator() + libName + fileExt;
         tempPath = m_tempManager.createTempDirectoryPath(libName + fileExt);
     } else {
         finalPath = outputDir + QDir::separator() + libName + fileExt;
@@ -460,6 +561,11 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         abortExport(QStringLiteral("LibrePCB 原生库已存在且当前禁止覆盖: %1").arg(finalPath));
         return;
     }
+    if (exportIntoLibrePcbProject && !librePcbWorkspaceLibrary.isEmpty() && QDir(librePcbWorkspaceLibrary).exists() &&
+        !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("LibrePCB 工作区库已存在且当前禁止覆盖: %1").arg(librePcbWorkspaceLibrary));
+        return;
+    }
     if (m_options.targetFormat == TargetEdaFormat::Horizon && (m_options.updateMode || m_options.retryMode)) {
         abortExport(QStringLiteral("Horizon Pool 暂不支持更新或重试模式，请选择完整覆盖导出"));
         return;
@@ -499,6 +605,7 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     qDebug() << "FootprintExportStage: fileExt:" << fileExt << "isDirOutput:" << isDirOutput;
 
     bool exportSuccess = false;
+    QStringList exporterDiagnostics;
     QString libraryDescription = m_options.footprintLibraryDescription;
     {
         const bool preferWrl = m_options.needsModel3DWrl() && m_options.targetFormat != TargetEdaFormat::Altium;
@@ -531,7 +638,7 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
                 m_options.exportModel3DPathMode == ExportOptions::MODEL_3D_PATH_ABSOLUTE,
                 outputDir);
         }
-        const QStringList exporterDiagnostics = exporter->diagnostics();
+        exporterDiagnostics = exporter->diagnostics();
         if (!exporterDiagnostics.isEmpty()) {
             QMutexLocker locker(&m_progressMutex);
             for (const QString& diagnostic : exporterDiagnostics) {
@@ -551,13 +658,44 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     }
 
     if (!exportSuccess) {
-        abortExport(QStringLiteral("Failed to export footprint library"));
+        QString errorMessage = QStringLiteral("Failed to export footprint library");
+        if (!exporterDiagnostics.isEmpty())
+            errorMessage += QStringLiteral(": ") + exporterDiagnostics.join(QStringLiteral("; "));
+        abortExport(errorMessage);
         return;
+    }
+
+    QString workspaceTempPath;
+    if (exportIntoLibrePcbProject && !librePcbWorkspaceLibrary.isEmpty()) {
+        workspaceTempPath = m_tempManager.createTempDirectoryPath(libName + QStringLiteral("-workspace-library"));
+        if (workspaceTempPath.isEmpty() || !copyDirectoryTree(tempPath, workspaceTempPath)) {
+            abortExport(
+                QStringLiteral("LibrePCB 工作区库准备失败，未修改项目或工作区库: %1").arg(librePcbWorkspaceLibrary));
+            return;
+        }
+    } else if (exportIntoLibrePcbProject) {
+        qWarning() << "FootprintExportStage: LibrePCB workspace root not found for project:" << librePcbRoot;
+    }
+
+    if (exportIntoLibrePcbProject) {
+        const QString mergedTempPath =
+            m_tempManager.createTempDirectoryPath(libName + QStringLiteral("-project-library"));
+        if (mergedTempPath.isEmpty() || !mergeLibrePcbLibrary(tempPath, finalPath, mergedTempPath)) {
+            abortExport(QStringLiteral("LibrePCB 项目库合并失败，已保留原项目库: %1").arg(finalPath));
+            return;
+        }
+        tempPath = mergedTempPath;
     }
 
     // 提交临时文件/目录到最终路径
     bool commitSuccess = false;
-    if (!isDirOutput) {
+    if (exportIntoLibrePcbProject) {
+        QVector<TempFileManager::CommitItem> commitItems;
+        commitItems.append({tempPath, finalPath, true});
+        if (!workspaceTempPath.isEmpty())
+            commitItems.append({workspaceTempPath, librePcbWorkspaceLibrary, true});
+        commitSuccess = m_tempManager.commitBatch(commitItems);
+    } else if (!isDirOutput) {
         commitSuccess = m_tempManager.commitWithBackup(tempPath, finalPath);
     } else {
         commitSuccess = m_tempManager.commitDirectoryWithBackup(tempPath, finalPath);
@@ -565,6 +703,8 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
 
     if (commitSuccess) {
         qDebug() << "FootprintExportStage: Successfully exported to:" << finalPath;
+        if (!librePcbWorkspaceLibrary.isEmpty())
+            qDebug() << "FootprintExportStage: Installed LibrePCB workspace library to:" << librePcbWorkspaceLibrary;
     } else {
         abortExport(QStringLiteral("Failed to commit temp path"));
         return;

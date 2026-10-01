@@ -211,8 +211,14 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
     options.exportModel3DPathMode = ExportOptions::normalizePathMode(exportModel3DPathMode);
     options.exportPreviewImages = exportPreviewImages;
     options.exportDatasheet = exportDatasheet;
-    options.overwriteExistingFiles = overwriteExistingFiles;
-    options.updateMode = updateMode;
+    // 这些目标格式只能完整重建库；界面的“覆盖”选项不能作为更新模式传入。
+    const bool requiresFullReplacement =
+        selectedFormat == TargetEdaFormat::Xpedition || selectedFormat == TargetEdaFormat::Allegro ||
+        selectedFormat == TargetEdaFormat::Pads || selectedFormat == TargetEdaFormat::Eagle ||
+        selectedFormat == TargetEdaFormat::Pcad || selectedFormat == TargetEdaFormat::Cadstar ||
+        selectedFormat == TargetEdaFormat::LibrePcb || selectedFormat == TargetEdaFormat::Horizon;
+    options.overwriteExistingFiles = overwriteExistingFiles || (requiresFullReplacement && updateMode);
+    options.updateMode = updateMode && !requiresFullReplacement;
     options.debugMode = debugMode;
     options.exportSymbolDescription = true;
     options.exportFootprintDescription = true;
