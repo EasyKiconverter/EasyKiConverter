@@ -741,6 +741,7 @@ set(EASYKICONVERTER_UNIT_TESTS
     test_component_list_viewmodel
     test_validation_state_manager
     test_update_checker_service
+    test_librepcb_exporter
 )
 
 set_tests_properties(${EASYKICONVERTER_UNIT_TESTS}
