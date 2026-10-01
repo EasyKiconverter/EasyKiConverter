@@ -20,6 +20,9 @@ private slots:
     void outputIsDeterministic();
     void rejectsMissingPinPadAssociation();
     void rejectsDuplicatePadNumber();
+    void rejectsSanitizedSymbolNameCollision();
+    void rejectsSanitizedFootprintNameCollision();
+    void rejectsSanitizedComponentNameCollision();
     void keepsPinReferencesWhenComponentAndSymbolNamesDiffer();
     void convertsCommonGeometryWithExplicitApproximationDiagnostics();
     void writesEmbeddedModelAndPlacement();
@@ -159,6 +162,50 @@ void TestHorizonExporter::rejectsDuplicatePadNumber() {
     QVERIFY(!exporter.exportComponentLibrary(
         {component}, QStringLiteral("duplicate"), QDir(temporary.path()).filePath("pool")));
     QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("重复焊盘编号")));
+}
+
+void TestHorizonExporter::rejectsSanitizedSymbolNameCollision() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    const IR::SymbolComponentIR source = fixture().symbol;
+    IR::SymbolComponentIR first = source;
+    IR::SymbolComponentIR second = source;
+    first.name = QStringLiteral("A/B");
+    second.name = QStringLiteral("A:B");
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY(!exporter.exportSymbolLibrary({first, second}, QStringLiteral("collision"), root));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("名称清洗后输出路径冲突")));
+    QVERIFY(!QFileInfo::exists(QDir(root).filePath(QStringLiteral("pool.json"))));
+}
+
+void TestHorizonExporter::rejectsSanitizedFootprintNameCollision() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    const IR::FootprintComponentIR source = fixture().footprint;
+    IR::FootprintComponentIR first = source;
+    IR::FootprintComponentIR second = source;
+    first.name = QStringLiteral("A/B");
+    second.name = QStringLiteral("A:B");
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY(!exporter.exportFootprintLibrary({first, second}, QStringLiteral("collision"), root));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("名称清洗后输出路径冲突")));
+    QVERIFY(!QFileInfo::exists(QDir(root).filePath(QStringLiteral("pool.json"))));
+}
+
+void TestHorizonExporter::rejectsSanitizedComponentNameCollision() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR first = fixture();
+    IR::ComponentIR second = fixture();
+    first.name = QStringLiteral("A/B");
+    second.name = QStringLiteral("A:B");
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY(!exporter.exportComponentLibrary({first, second}, QStringLiteral("collision"), root));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("名称清洗后输出路径冲突")));
+    QVERIFY(!QFileInfo::exists(QDir(root).filePath(QStringLiteral("pool.json"))));
 }
 
 void TestHorizonExporter::keepsPinReferencesWhenComponentAndSymbolNamesDiffer() {

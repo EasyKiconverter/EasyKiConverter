@@ -53,6 +53,28 @@ QString safeName(QString value) {
     return result.isEmpty() ? QStringLiteral("unnamed") : result.left(120);
 }
 
+bool validateSanitizedName(QHash<QString, QString>& owners,
+                           const QString& sanitizedName,
+                           const QString& rawName,
+                           const QString& kind,
+                           QStringList& diagnostics) {
+    const auto existing = owners.constFind(sanitizedName);
+    if (existing != owners.cend() && existing.value() != rawName) {
+        diagnostics.append(QStringLiteral("Horizon: %1 名称清洗后输出路径冲突：%2（%3 与 %4）")
+                               .arg(kind, sanitizedName, existing.value(), rawName));
+        return false;
+    }
+    owners.insert(sanitizedName, rawName);
+    return true;
+}
+
+bool validateSafeName(QHash<QString, QString>& owners,
+                      const QString& rawName,
+                      const QString& kind,
+                      QStringList& diagnostics) {
+    return validateSanitizedName(owners, safeName(rawName), rawName, kind, diagnostics);
+}
+
 QJsonArray point(double x, double y) {
     return {HorizonUnits::mm(x), HorizonUnits::mm(y)};
 }
@@ -896,6 +918,25 @@ bool validatePadIdentifiers(const IR::FootprintComponentIR& footprint, QStringLi
     return valid;
 }
 
+bool validateFootprintOutputNames(const QList<IR::FootprintComponentIR>& footprints, QStringList& diagnostics) {
+    QHash<QString, QString> footprintNameOwners;
+    QHash<QString, QString> padstackNameOwners;
+    for (const auto& footprint : footprints) {
+        if (!validateSafeName(footprintNameOwners, footprint.name, QStringLiteral("封装"), diagnostics))
+            return false;
+        for (const auto& pad : footprint.pads) {
+            const QString rawPadstackName = footprint.name + QStringLiteral("/") + pad.number;
+            if (!validateSanitizedName(padstackNameOwners,
+                                       safeName(footprint.name) + QStringLiteral("-") + safeName(pad.number),
+                                       rawPadstackName,
+                                       QStringLiteral("焊盘"),
+                                       diagnostics))
+                return false;
+        }
+    }
+    return true;
+}
+
 bool writeModels(const QList<IR::Model3DIR>& models,
                  const QString& root,
                  const QString& packageUuid,
@@ -1147,6 +1188,8 @@ bool ExporterHorizonLibrary::exportFootprint(const IR::FootprintComponentIR& foo
                                              const QString& model3DPath) {
     Q_UNUSED(model3DPath);
     m_diagnostics.clear();
+    if (!validateFootprintOutputNames({footprint}, m_diagnostics))
+        return false;
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, footprint.name, m_diagnostics))
         return false;
     return writeFootprintFiles(footprint, filePath, m_diagnostics);
@@ -1166,6 +1209,8 @@ bool ExporterHorizonLibrary::exportFootprintLibrary(const QList<IR::FootprintCom
         m_diagnostics.append(QStringLiteral("Horizon: 没有可导出的封装"));
         return false;
     }
+    if (!validateFootprintOutputNames(footprints, m_diagnostics))
+        return false;
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, libName, m_diagnostics))
         return false;
     for (const auto& footprint : footprints) {
@@ -1190,13 +1235,18 @@ bool ExporterHorizonLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
         m_diagnostics.append(QStringLiteral("Horizon: 没有可导出的符号"));
         return false;
     }
-    if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, libName, m_diagnostics))
-        return false;
+    QHash<QString, QString> symbolNameOwners;
     for (const auto& symbol : symbols) {
         if (symbol.name.trimmed().isEmpty()) {
             m_diagnostics.append(QStringLiteral("Horizon: 符号名称为空"));
             return false;
         }
+        if (!validateSafeName(symbolNameOwners, symbol.name, QStringLiteral("符号"), m_diagnostics))
+            return false;
+    }
+    if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, libName, m_diagnostics))
+        return false;
+    for (const auto& symbol : symbols) {
         QJsonObject gates;
         for (int part = 0; part < qMax(1, symbol.partCount); ++part) {
             const QString baseKey = symbol.name;
@@ -1249,6 +1299,17 @@ bool ExporterHorizonLibrary::exportComponentLibrary(const QList<IR::ComponentIR>
         m_diagnostics.append(QStringLiteral("Horizon: 没有可导出的完整组件"));
         return false;
     }
+    QHash<QString, QString> componentNameOwners;
+    QList<IR::FootprintComponentIR> footprints;
+    footprints.reserve(components.size());
+    for (const auto& component : components) {
+        const QString baseKey = component.name.isEmpty() ? component.symbol.name : component.name;
+        if (!validateSafeName(componentNameOwners, baseKey, QStringLiteral("组件"), m_diagnostics))
+            return false;
+        footprints.append(component.footprint);
+    }
+    if (!validateFootprintOutputNames(footprints, m_diagnostics))
+        return false;
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, libName, m_diagnostics))
         return false;
     for (const auto& component : components) {
