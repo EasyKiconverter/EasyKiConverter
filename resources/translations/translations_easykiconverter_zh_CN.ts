@@ -1204,10 +1204,6 @@
         <translation type="vanished">保留已经存在的元器件数据，并追加新的元器件</translation>
     </message>
     <message>
-        <source>更新</source>
-        <translation type="vanished">更新</translation>
-    </message>
-    <message>
         <source>覆盖已经存在的元器件数据，并追加新的元器件</source>
         <translation type="vanished">覆盖已经存在的元器件数据，并追加新的元器件</translation>
     </message>
@@ -1862,6 +1858,102 @@
 - 不支持更新和重试模式
 - Place Bound 缺失时会在诊断中说明回退策略</translation>
     </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="42"/>
+        <source>LibrePCB：选择项目根目录或项目的 library 目录可自动安装到项目和 Workspace 本地库；选择普通目录时，将生成 .lplib 目录，需手动复制到 Workspace/data/libraries/local/。</source>
+        <translation>LibrePCB：选择项目根目录或项目的 library 目录可自动安装到项目和 Workspace 本地库；选择普通目录时，将生成 .lplib 目录，需手动复制到 Workspace/data/libraries/local/。</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="97"/>
+        <source>LibrePCB：项目根目录或 project/library 可自动安装；普通目录需将生成的 .lplib 复制到 Workspace/data/libraries/local/。</source>
+        <translation>LibrePCB：项目根目录或 project/library 可自动安装；普通目录需将生成的 .lplib 复制到 Workspace/data/libraries/local/。</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="369"/>
+        <source>追加模式（不支持）</source>
+        <translation>追加模式（不支持）</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="436"/>
+        <source>完整覆盖</source>
+        <translation>完整覆盖</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="485"/>
+        <source>当前目标仅支持覆盖模式；追加和更新不可用</source>
+        <translation>当前目标仅支持覆盖模式；追加和更新不可用</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="654"/>
+        <source>追加（不支持）</source>
+        <translation>追加（不支持）</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="654"/>
+        <source>更新（不支持）</source>
+        <translation>更新（不支持）</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="487"/>
+        <source>追加：保留已有库内容，只加入新的元器件；已有同名内容不会被覆盖</source>
+        <translation>追加：保留已有库内容，只加入新的元器件；已有同名内容不会被覆盖</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="695"/>
+        <source>更新：在已有库基础上处理缺失或变化内容，并保留未参与本次导出的内容</source>
+        <translation>更新：在已有库基础上处理缺失或变化内容，并保留未参与本次导出的内容</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="490"/>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="697"/>
+        <source>覆盖：重新生成完整库并替换已有输出，请确认输出路径中的旧库可以被替换</source>
+        <translation>覆盖：重新生成完整库并替换已有输出，请确认输出路径中的旧库可以被替换</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="692"/>
+        <source>覆盖：重新生成完整库；当前目标不支持追加、更新或失败重试</source>
+        <translation>覆盖：重新生成完整库；当前目标不支持追加、更新或失败重试</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="604"/>
+        <source>LibrePCB 导出说明：
+- 原生库只支持完整覆盖导出
+- 不支持追加、更新或失败重试
+- 符号必须是单部件，缺失或重复引脚编号会拒绝导出
+- 不可表达的焊盘和图元会产生诊断或拒绝导出
+- 三维模型使用 IR 中的 STEP 数据，WRL 选项不可用</source>
+        <translation>LibrePCB 导出说明：
+- 原生库只支持完整覆盖导出
+- 不支持追加、更新或失败重试
+- 符号必须是单部件，缺失或重复引脚编号会拒绝导出
+- 不可表达的焊盘和图元会产生诊断或拒绝导出
+- 三维模型使用 IR 中的 STEP 数据，WRL 选项不可用</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/TargetFormatSelector.qml" line="17"/>
+        <source>.pool Horizon EDA source library</source>
+        <translation>.pool Horizon EDA 源库</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportButtonsSection.qml" line="83"/>
+        <source>不支持重试，请重新导出</source>
+        <translation>不支持重试，请重新导出</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="407"/>
+        <source>更新</source>
+        <translation>更新</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="445"/>
+        <source>覆盖模式</source>
+        <translation>覆盖模式</translation>
+    </message>
+    <message>
+        <location filename="../../src/ui/qml/components/SidebarSettingsView.qml" line="697"/>
+        <source>覆盖：重新生成完整库并替换已有输出，请确认旧库可以被替换</source>
+        <translation>覆盖：重新生成完整库并替换已有输出，请确认旧库可以被替换</translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -2065,7 +2157,7 @@
     <message>
         <location filename="../../src/ui/qml/components/TitleBar.qml" line="73"/>
         <source>v%1</source>
-        <translation type="unfinished"></translation>
+        <translation>v%1</translation>
     </message>
 </context>
 <context>

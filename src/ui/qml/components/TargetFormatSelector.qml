@@ -7,6 +7,7 @@ import EasyKiconverter_Cpp_Version.src.ui.qml.styles 1.0
 ColumnLayout {
     id: root
     property var targetModel
+    property string currentDescription: targetModel ? descriptionFor(targetModel.currentTargetId) : ""
     spacing: AppStyle.spacing.sm
     function descriptionFor(targetId) {
         if (targetId === "kicad")
@@ -154,7 +155,7 @@ ColumnLayout {
     RowLayout {
         Layout.fillWidth: true
         spacing: AppStyle.spacing.sm
-        visible: targetModel && targetModel.currentIndex >= 0 && targetModel.currentTargetId.length > 0
+        visible: root.currentDescription.length > 0
         Rectangle {
             Layout.preferredWidth: 3
             Layout.fillHeight: true
@@ -165,7 +166,7 @@ ColumnLayout {
 
         Text {
             Layout.fillWidth: true
-            text: root.targetModel ? root.descriptionFor(root.targetModel.currentTargetId) : ""
+            text: root.currentDescription
             font.pixelSize: AppStyle.fontSizes.xs
             color: AppStyle.colors.textSecondary
             wrapMode: Text.WordWrap

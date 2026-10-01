@@ -91,6 +91,15 @@ Card {
                         onClicked: baseCard.openOutputFolderDialog()
                     }
                 }
+                Text {
+                    visible: baseCard.exportTargetModel && baseCard.exportTargetModel.currentTargetId === "librepcb"
+                    Layout.fillWidth: true
+                    text: qsTranslate("MainWindow", "LibrePCB：项目根目录或 project/library 可自动安装；普通目录需将生成的 .lplib 复制到 Workspace/data/libraries/local/。")
+                    font.pixelSize: AppStyle.fontSizes.xs
+                    color: AppStyle.colors.textSecondary
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.25
+                }
             }
 
             // 库名称

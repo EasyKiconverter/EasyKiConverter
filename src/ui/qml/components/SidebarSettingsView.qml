@@ -35,6 +35,17 @@ Item {
                 onBrowseClicked: root.openOutputFolderDialog()
             }
 
+            Text {
+                visible: root.exportTargetModel && root.exportTargetModel.currentTargetId === "librepcb"
+                Layout.fillWidth: true
+                Layout.leftMargin: AppStyle.spacing.lg
+                text: qsTranslate("MainWindow", "LibrePCB：选择项目根目录或项目的 library 目录可自动安装到项目和 Workspace 本地库；选择普通目录时，将生成 .lplib 目录，需手动复制到 Workspace/data/libraries/local/。")
+                color: AppStyle.colors.textSecondary
+                font.pixelSize: AppStyle.fontSizes.xs
+                wrapMode: Text.WordWrap
+                lineHeight: 1.25
+            }
+
             SidebarTextField {
                 label: qsTranslate("MainWindow", "库名称")
                 text: root.exportSettingsController ? root.exportSettingsController.libName : ""
@@ -414,187 +425,193 @@ Item {
             }
         }
 
-        // ==================== Altium 导出说明（仅 Altium 格式显示，带动画） ====================
-        Item {
+        // ==================== 目标格式说明（单容器避免隐藏项重复占用间距） ====================
+        ColumnLayout {
+            id: targetInfoStack
             Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "altium" ? altiumInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
-            clip: true
-            Behavior on Layout.preferredHeight {
-                NumberAnimation {
-                    duration: 400
-                    easing.type: Easing.OutQuart
-                }
-            }
-
-            Rectangle {
-                id: altiumInfoBox
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                implicitHeight: altiumInfoText.implicitHeight + AppStyle.spacing.md * 2
-                radius: AppStyle.radius.sm
-                color: AppStyle.colors.surface
-                border.color: AppStyle.colors.border
-                border.width: 1
-                opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 1 : 0
-                scale: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 1 : 0.97
-                y: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 0 : 20
-                Behavior on opacity {
+            spacing: 0
+            // ==================== Altium 导出说明（仅 Altium 格式显示，带动画） ====================
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "altium" ? altiumInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+                clip: true
+                Behavior on Layout.preferredHeight {
                     NumberAnimation {
-                        duration: 500
-                        easing.type: Easing.OutCubic
-                    }
-                }
-                Behavior on scale {
-                    NumberAnimation {
-                        duration: 500
-                        easing.type: Easing.OutQuart
-                    }
-                }
-                Behavior on y {
-                    NumberAnimation {
-                        duration: 500
+                        duration: 400
                         easing.type: Easing.OutQuart
                     }
                 }
 
-                Text {
-                    id: altiumInfoText
-                    anchors.fill: parent
-                    anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Altium 导出说明：\n" + "- 符号库导出为 .SchLib 格式\n" + "- 封装库导出为 .PcbLib 格式\n" + "- 3D 模型以 STEP 格式嵌入封装\n" + "- 生成的文件可直接在 Altium Designer 中打开")
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    color: AppStyle.colors.textSecondary
-                    wrapMode: Text.WordWrap
-                    lineHeight: 1.4
-                }
-            }
-        }
+                Rectangle {
+                    id: altiumInfoBox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    implicitHeight: altiumInfoText.implicitHeight + AppStyle.spacing.md * 2
+                    radius: AppStyle.radius.sm
+                    color: AppStyle.colors.surface
+                    border.color: AppStyle.colors.border
+                    border.width: 1
+                    opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 1 : 0
+                    scale: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 1 : 0.97
+                    y: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 0 : 20
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+                    Behavior on scale {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutQuart
+                        }
+                    }
+                    Behavior on y {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutQuart
+                        }
+                    }
 
-        // ==================== Xpedition 导出说明（仅 Xpedition 格式显示，带动画） ====================
-        Item {
-            Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "xpedition" ? xpeditionInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
-            clip: true
-            Behavior on Layout.preferredHeight {
-                NumberAnimation {
-                    duration: 400
-                    easing.type: Easing.OutQuart
-                }
-            }
-
-            Rectangle {
-                id: xpeditionInfoBox
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                implicitHeight: xpeditionInfoText.implicitHeight + AppStyle.spacing.md * 2
-                radius: AppStyle.radius.sm
-                color: AppStyle.colors.surface
-                border.color: AppStyle.colors.border
-                border.width: 1
-                opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 1 : 0
-                scale: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 1 : 0.97
-                y: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 0 : 20
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: 500
-                        easing.type: Easing.OutCubic
+                    Text {
+                        id: altiumInfoText
+                        anchors.fill: parent
+                        anchors.margins: AppStyle.spacing.md
+                        text: qsTranslate("MainWindow", "Altium 导出说明：\n" + "- 符号库导出为 .SchLib 格式\n" + "- 封装库导出为 .PcbLib 格式\n" + "- 3D 模型以 STEP 格式嵌入封装\n" + "- 生成的文件可直接在 Altium Designer 中打开")
+                        font.pixelSize: AppStyle.fontSizes.xs
+                        color: AppStyle.colors.textSecondary
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.4
                     }
                 }
-                Behavior on scale {
+            }
+
+            // ==================== Xpedition 导出说明（仅 Xpedition 格式显示，带动画） ====================
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "xpedition" ? xpeditionInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+                clip: true
+                Behavior on Layout.preferredHeight {
                     NumberAnimation {
-                        duration: 500
+                        duration: 400
                         easing.type: Easing.OutQuart
                     }
                 }
-                Behavior on y {
+
+                Rectangle {
+                    id: xpeditionInfoBox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    implicitHeight: xpeditionInfoText.implicitHeight + AppStyle.spacing.md * 2
+                    radius: AppStyle.radius.sm
+                    color: AppStyle.colors.surface
+                    border.color: AppStyle.colors.border
+                    border.width: 1
+                    opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 1 : 0
+                    scale: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 1 : 0.97
+                    y: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 0 : 20
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+                    Behavior on scale {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutQuart
+                        }
+                    }
+                    Behavior on y {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutQuart
+                        }
+                    }
+
+                    Text {
+                        id: xpeditionInfoText
+                        anchors.fill: parent
+                        anchors.margins: AppStyle.spacing.md
+                        text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
+                        font.pixelSize: AppStyle.fontSizes.xs
+                        color: AppStyle.colors.textSecondary
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.4
+                    }
+                }
+            }
+
+            // ==================== Allegro 导出说明（符号、封装和三维语义包） ====================
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "allegro" ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+                clip: true
+                Behavior on Layout.preferredHeight {
                     NumberAnimation {
-                        duration: 500
+                        duration: 400
                         easing.type: Easing.OutQuart
                     }
                 }
 
-                Text {
-                    id: xpeditionInfoText
-                    anchors.fill: parent
-                    anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    color: AppStyle.colors.textSecondary
-                    wrapMode: Text.WordWrap
-                    lineHeight: 1.4
-                }
-            }
-        }
-
-        // ==================== Allegro 导出说明（符号、封装和三维语义包） ====================
-        Item {
-            Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "allegro" ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
-            clip: true
-            Behavior on Layout.preferredHeight {
-                NumberAnimation {
-                    duration: 400
-                    easing.type: Easing.OutQuart
-                }
-            }
-
-            Rectangle {
-                id: allegroInfoBox
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                implicitHeight: allegroInfoText.implicitHeight + AppStyle.spacing.md * 2
-                radius: AppStyle.radius.sm
-                color: AppStyle.colors.surface
-                border.color: AppStyle.colors.border
-                border.width: 1
-                opacity: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "allegro" ? 1 : 0
-                Text {
-                    id: allegroInfoText
-                    anchors.fill: parent
-                    anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- Import Package 包含规范化 Symbol、Footprint、Pin-Pad 关联和 STEP 数据\n" + "- 不生成原生 Allegro Symbol、OLB、.dra/.psm/.pad\n" + "- 需要在 Cadence Allegro 环境中继续生成目标库\n" + "- 不支持更新和重试模式\n" + "- Place Bound 缺失时会在诊断中说明回退策略")
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    color: AppStyle.colors.textSecondary
-                    wrapMode: Text.WordWrap
-                    lineHeight: 1.4
-                }
-            }
-        }
-
-        // ==================== LibrePCB 导出说明（仅 LibrePCB 格式显示） ====================
-        Item {
-            Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "librepcb" ? librePcbInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
-            clip: true
-            Behavior on Layout.preferredHeight {
-                NumberAnimation {
-                    duration: 400
-                    easing.type: Easing.OutQuart
+                Rectangle {
+                    id: allegroInfoBox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    implicitHeight: allegroInfoText.implicitHeight + AppStyle.spacing.md * 2
+                    radius: AppStyle.radius.sm
+                    color: AppStyle.colors.surface
+                    border.color: AppStyle.colors.border
+                    border.width: 1
+                    opacity: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "allegro" ? 1 : 0
+                    Text {
+                        id: allegroInfoText
+                        anchors.fill: parent
+                        anchors.margins: AppStyle.spacing.md
+                        text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- Import Package 包含规范化 Symbol、Footprint、Pin-Pad 关联和 STEP 数据\n" + "- 不生成原生 Allegro Symbol、OLB、.dra/.psm/.pad\n" + "- 需要在 Cadence Allegro 环境中继续生成目标库\n" + "- 不支持更新和重试模式\n" + "- Place Bound 缺失时会在诊断中说明回退策略")
+                        font.pixelSize: AppStyle.fontSizes.xs
+                        color: AppStyle.colors.textSecondary
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.4
+                    }
                 }
             }
 
-            Rectangle {
-                id: librePcbInfoBox
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                implicitHeight: librePcbInfoText.implicitHeight + AppStyle.spacing.md * 2
-                radius: AppStyle.radius.sm
-                color: AppStyle.colors.surface
-                border.color: AppStyle.colors.border
-                border.width: 1
-                Text {
-                    id: librePcbInfoText
-                    anchors.fill: parent
-                    anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "LibrePCB 导出说明：\n" + "- 原生库只支持完整覆盖导出\n" + "- 不支持追加、更新或失败重试\n" + "- 符号必须是单部件，缺失或重复引脚编号会拒绝导出\n" + "- 不可表达的焊盘和图元会产生诊断或拒绝导出\n" + "- 三维模型使用 IR 中的 STEP 数据，WRL 选项不可用")
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    color: AppStyle.colors.textSecondary
-                    wrapMode: Text.WordWrap
-                    lineHeight: 1.4
+            // ==================== LibrePCB 导出说明（仅 LibrePCB 格式显示） ====================
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "librepcb" ? librePcbInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+                clip: true
+                Behavior on Layout.preferredHeight {
+                    NumberAnimation {
+                        duration: 400
+                        easing.type: Easing.OutQuart
+                    }
+                }
+
+                Rectangle {
+                    id: librePcbInfoBox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    implicitHeight: librePcbInfoText.implicitHeight + AppStyle.spacing.md * 2
+                    radius: AppStyle.radius.sm
+                    color: AppStyle.colors.surface
+                    border.color: AppStyle.colors.border
+                    border.width: 1
+                    Text {
+                        id: librePcbInfoText
+                        anchors.fill: parent
+                        anchors.margins: AppStyle.spacing.md
+                        text: qsTranslate("MainWindow", "LibrePCB 导出说明：\n" + "- 原生库只支持完整覆盖导出\n" + "- 不支持追加、更新或失败重试\n" + "- 符号必须是单部件，缺失或重复引脚编号会拒绝导出\n" + "- 不可表达的焊盘和图元会产生诊断或拒绝导出\n" + "- 三维模型使用 IR 中的 STEP 数据，WRL 选项不可用")
+                        font.pixelSize: AppStyle.fontSizes.xs
+                        color: AppStyle.colors.textSecondary
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.4
+                    }
                 }
             }
         }

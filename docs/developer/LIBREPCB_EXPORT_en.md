@@ -31,6 +31,15 @@ flowchart LR
 - When 3D export is enabled and the IR contains STEP/OBJ data, copies the model into `pkg/<package-uuid>/` and writes package/footprint references. OBJ output is warning-level only and still requires target validation.
 - Emits explicit diagnostics for net names, lock state, hidden parameters, aliases, and graphic order which cannot be represented as LibrePCB library semantics, instead of silently fabricating target data.
 
+## Output Paths and Library Discovery
+
+The output is a directory-based library, and the directory name must end with `.lplib`. The output path has two behaviors:
+
+- If the selected path is a LibrePCB project root or its `library/` directory, the exporter detects the project marker and writes the project library. If it can also find a Workspace containing `data/libraries/` and `projects/`, it installs a copy into `data/libraries/local/`.
+- If the selected path is an ordinary directory, the exporter only creates `<output directory>/<library name>.lplib/` and does not modify any Workspace. To use it in LibrePCB, copy the complete `.lplib` directory into the Workspace's `data/libraries/local/` directory or add it through the LibrePCB library manager.
+
+After export, LibrePCB may need to build its library index in the background. The library or devices may not appear in selectors until indexing completes. Exporting only a Package does not create a Component/Device available in the “Add Component” dialog; a complete device requires the symbol, package, and association data to be exported together.
+
 ## Explicit limitations
 
 - The current IR does not retain a pad corner radius, so `RoundRect` is rejected rather than silently flattened to a rectangle.

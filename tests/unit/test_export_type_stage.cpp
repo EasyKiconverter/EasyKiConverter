@@ -266,6 +266,55 @@ private slots:
         QVERIFY(QFile::exists(prettyDir + QDir::separator() + QStringLiteral("NewPackage.kicad_mod")));
     }
 
+    /**
+     * @brief 验证 LibrePCB 项目路径会同时安装项目库和 Workspace 本地库。
+     */
+    void librePcbProjectExportInstallsWorkspaceLibrary() {
+        QTemporaryDir temporary;
+        QVERIFY(temporary.isValid());
+
+        const QString workspaceRoot = QDir(temporary.path()).filePath(QStringLiteral("workspace"));
+        const QString projectRoot = QDir(workspaceRoot).filePath(QStringLiteral("projects/Example"));
+        QVERIFY(QDir().mkpath(QDir(workspaceRoot).filePath(QStringLiteral("data/libraries/local"))));
+        QVERIFY(QDir().mkpath(QDir(workspaceRoot).filePath(QStringLiteral("projects"))));
+        QVERIFY(QDir().mkpath(projectRoot));
+
+        QFile projectMarker(QDir(projectRoot).filePath(QStringLiteral(".librepcb-project")));
+        QVERIFY(projectMarker.open(QIODevice::WriteOnly));
+        projectMarker.write("2\n");
+        projectMarker.close();
+
+        FootprintExportStage stage;
+        ExportOptions options;
+        options.outputPath = projectRoot;
+        options.libName = QStringLiteral("GeneratedParts");
+        options.targetFormat = TargetEdaFormat::LibrePcb;
+        options.exportSymbol = false;
+        options.exportFootprint = true;
+        options.overwriteExistingFiles = true;
+        stage.setOptions(options);
+
+        const QString componentId = QStringLiteral("C2040");
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData[componentId] = makeFootprintComponent(componentId, QStringLiteral("C2040_Package"));
+
+        QSignalSpy completedSpy(&stage, &FootprintExportStage::completed);
+        stage.start({componentId}, cachedData);
+
+        QVERIFY2(completedSpy.wait(3000), "LibrePCB project export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        const QString projectLibrary = QDir(projectRoot).filePath(QStringLiteral("library"));
+        const QString workspaceLibrary =
+            QDir(workspaceRoot).filePath(QStringLiteral("data/libraries/local/GeneratedParts.lplib"));
+        QVERIFY(QFileInfo(projectLibrary).isDir());
+        QVERIFY(QFileInfo(workspaceLibrary).isDir());
+        QVERIFY(QFileInfo(QDir(projectLibrary).filePath(QStringLiteral("pkg"))).isDir());
+        QVERIFY(QFileInfo(QDir(workspaceLibrary).filePath(QStringLiteral(".librepcb-lib"))).isFile());
+    }
+
     // 验证封装导出可以生成绝对路径的三维模型引用。
     void footprintLibraryExportCanUseAbsolute3DModelPaths() {
         QTemporaryDir tempDir;

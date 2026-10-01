@@ -31,6 +31,15 @@ flowchart LR
 - 当启用三维导出且 IR 中有 STEP/OBJ 数据时，将模型复制到对应 `pkg/<package-uuid>/` 目录并写入包与 footprint 关联；OBJ 仅作兼容性警告，目标环境是否接受仍需验证。
 - 对无法进入 LibrePCB 库语义的网络名、锁定状态、隐藏参数、别名和图元顺序输出明确诊断，不静默伪造目标数据。
 
+## 输出路径与库发现
+
+导出结果是目录型库，目录名称必须以 `.lplib` 结尾。输出路径有两种行为：
+
+- 选择 LibrePCB 项目根目录，或该项目的 `library/` 目录：程序会识别项目标记，并写入项目库；如果能继续找到包含 `data/libraries/` 和 `projects/` 的 Workspace，还会将库安装到 `data/libraries/local/`。
+- 选择普通目录：程序只生成 `<输出目录>/<库名称>.lplib/`，不会修改任何 Workspace。要在 LibrePCB 中使用它，请将整个 `.lplib` 目录复制到 Workspace 的 `data/libraries/local/`，或通过 LibrePCB 库管理器添加本地库。
+
+导出后 LibrePCB 可能需要后台建立库索引。索引完成前，库或器件可能暂时不会出现在选择列表中。只导出 Package 不会产生可用于“添加元器件”的 Component/Device，完整器件需要同时导出符号、封装和关联数据。
+
 ## 明确限制
 
 - 当前 IR 没有圆角半径，`RoundRect` 不会静默降级为矩形，而是拒绝导出。
