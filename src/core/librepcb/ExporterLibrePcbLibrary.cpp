@@ -263,6 +263,26 @@ bool alignSymbolPinToGrid(const IR::SymbolPinIR& pin, QPointF& position, double&
 }
 
 /**
+ * @brief 将统一 IR 引脚方向转换为 LibrePCB 的引脚旋转角度。
+ * @param direction 统一 IR 引脚方向。
+ * @return LibrePCB 引脚旋转角度，单位为度。
+ * @details LibrePCB 的引脚位置是连接端，线段从该位置沿旋转方向指向符号图形。
+ */
+double librePcbPinRotation(IR::PinDirection direction) {
+    switch (direction) {
+        case IR::PinDirection::Right:
+            return 180.0;
+        case IR::PinDirection::Left:
+            return 0.0;
+        case IR::PinDirection::Up:
+            return 270.0;
+        case IR::PinDirection::Down:
+            return 90.0;
+    }
+    return 0.0;
+}
+
+/**
  * @brief 将符号引脚名称的全局坐标转换为 LibrePCB 的引脚局部坐标。
  * @param pin 统一 IR 引脚。
  * @param pinLength 对齐后引脚长度。
@@ -275,6 +295,56 @@ QPointF symbolPinNamePosition(const IR::SymbolPinIR& pin, double pinLength, doub
 
     const QPointF worldOffset = pin.namePosition - pin.position;
     return QTransform().rotate(-rotation).map(worldOffset);
+}
+
+/**
+ * @brief 计算符号图形和引脚的整体边界。
+ * @param symbol 统一 IR 符号。
+ * @return 包含已知图形及引脚位置的边界框。
+ */
+QRectF symbolBounds(const IR::SymbolComponentIR& symbol) {
+    double minX = 0.0;
+    double minY = 0.0;
+    double maxX = 0.0;
+    double maxY = 0.0;
+    bool initialized = false;
+    const auto include = [&minX, &minY, &maxX, &maxY, &initialized](const QPointF& point) {
+        if (!initialized) {
+            minX = maxX = point.x();
+            minY = maxY = point.y();
+            initialized = true;
+        } else {
+            minX = qMin(minX, point.x());
+            minY = qMin(minY, point.y());
+            maxX = qMax(maxX, point.x());
+            maxY = qMax(maxY, point.y());
+        }
+    };
+    const auto includePoints = [&include](const QList<QPointF>& points) {
+        for (const QPointF& point : points)
+            include(point);
+    };
+
+    for (const auto& rectangle : symbol.rectangles) {
+        include(QPointF(rectangle.x0, rectangle.y0));
+        include(QPointF(rectangle.x1, rectangle.y1));
+    }
+    for (const auto& polygon : symbol.polygons)
+        includePoints(polygon.points);
+    for (const auto& polyline : symbol.polylines)
+        includePoints(polyline.points);
+    for (const auto& pin : symbol.pins)
+        include(pin.position);
+    for (const auto& circle : symbol.circles) {
+        include(circle.center + QPointF(-circle.radius, -circle.radius));
+        include(circle.center + QPointF(circle.radius, circle.radius));
+    }
+    for (const auto& ellipse : symbol.ellipses) {
+        include(ellipse.center + QPointF(-ellipse.radiusX, -ellipse.radiusY));
+        include(ellipse.center + QPointF(ellipse.radiusX, ellipse.radiusY));
+    }
+
+    return initialized ? QRectF(QPointF(minX, minY), QPointF(maxX, maxY)) : QRectF(-5.0, -5.0, 10.0, 10.0);
 }
 
 QString symbolLayer(IR::LayerType layer) {
@@ -464,7 +534,37 @@ QRectF footprintBounds(const IR::FootprintComponentIR& footprint, bool& valid) {
         for (const QPointF& point : outline.points)
             include(point);
     }
+    for (const auto& track : footprint.tracks) {
+        for (const QPointF& point : track.points)
+            include(point);
+    }
+    for (const auto& arc : footprint.arcs) {
+        for (const QPointF& point : sampleArc(arc.center, arc.radius, arc.startAngle, arc.endAngle))
+            include(point);
+    }
+    for (const auto& region : footprint.regions) {
+        for (const QPointF& point : region.vertices)
+            include(point);
+    }
+    for (const auto& hole : footprint.holes) {
+        include(hole.center - QPointF(hole.radius, hole.radius));
+        include(hole.center + QPointF(hole.radius, hole.radius));
+    }
     return bounds;
+}
+
+/**
+ * @brief 将封装图元坐标平移到 LibrePCB 封装原点。
+ * @param points 原始坐标序列。
+ * @param origin 封装原点在输入 IR 中的坐标。
+ * @return 以封装原点为基准的坐标序列。
+ */
+QList<QPointF> localizeFootprintPoints(const QList<QPointF>& points, const QPointF& origin) {
+    QList<QPointF> localized;
+    localized.reserve(points.size());
+    for (const QPointF& point : points)
+        localized.append(point - origin);
+    return localized;
 }
 
 void appendStrokeText(SExpr& root,
@@ -659,17 +759,9 @@ bool writeSymbol(const IR::SymbolComponentIR& symbol, const QString& rootPath, Q
         node.token(uuidFor(QStringLiteral("symbol-pin"), symbol.name, i));
         node.list(QStringLiteral("name")).atom(pin.name).close();
         node.list(QStringLiteral("position")).token(number(pinPosition.x())).token(number(pinPosition.y())).close();
-        node.list(QStringLiteral("rotation"))
-            .token(QString::number(pin.direction == IR::PinDirection::Left   ? 180
-                                   : pin.direction == IR::PinDirection::Up   ? 90
-                                   : pin.direction == IR::PinDirection::Down ? 270
-                                                                             : 0))
-            .close();
+        const double rotation = librePcbPinRotation(pin.direction);
+        node.list(QStringLiteral("rotation")).token(number(rotation)).close();
         node.list(QStringLiteral("length")).token(number(pinLength)).close();
-        const double rotation = pin.direction == IR::PinDirection::Left   ? 180
-                                : pin.direction == IR::PinDirection::Up   ? 90
-                                : pin.direction == IR::PinDirection::Down ? 270
-                                                                          : 0;
         node.list(QStringLiteral("name_position"))
             .token(number(symbolPinNamePosition(pin, pinLength, rotation).x()))
             .token(number(symbolPinNamePosition(pin, pinLength, rotation).y()))
@@ -797,14 +889,28 @@ bool writeSymbol(const IR::SymbolComponentIR& symbol, const QString& rootPath, Q
         node.list(QStringLiteral("position")).token(number(circle.center.x())).token(number(circle.center.y())).close();
         node.close();
     }
+    const QRectF bounds = symbolBounds(symbol);
+    const QRectF visibleTextArea = bounds.adjusted(-25.4, -25.4, 25.4, 25.4);
+    int relocatedTextIndex = 0;
     for (const auto& text : symbol.texts) {
+        if (!text.visible)
+            continue;
+        QPointF textPosition = text.position;
+        double textRotation = text.rotation;
+        if (!visibleTextArea.contains(text.position)) {
+            textPosition = QPointF(0.0, qMin(bounds.top(), bounds.bottom()) - 4.0 - relocatedTextIndex * 2.0);
+            textRotation = 0.0;
+            ++relocatedTextIndex;
+            diagnostics.append(QStringLiteral("LibrePCB: 符号 %1 的文本“%2”超出图形边界，已移动到图形下方")
+                                   .arg(symbol.name, text.text));
+        }
         SExpr& node = root.list(QStringLiteral("text"));
         node.token(uuidFor(QStringLiteral("symbol-text"), symbol.name, geometryIndex++));
         node.list(QStringLiteral("layer")).token(QStringLiteral("sym_values")).close();
         node.list(QStringLiteral("height")).token(number(text.fontSizeMm > 0 ? text.fontSizeMm : 1.5)).close();
         node.list(QStringLiteral("align")).token(QStringLiteral("center")).token(QStringLiteral("center")).close();
-        node.list(QStringLiteral("position")).token(number(text.position.x())).token(number(text.position.y())).close();
-        node.list(QStringLiteral("rotation")).token(number(text.rotation)).close();
+        node.list(QStringLiteral("position")).token(number(textPosition.x())).token(number(textPosition.y())).close();
+        node.list(QStringLiteral("rotation")).token(number(textRotation)).close();
         node.list(QStringLiteral("lock")).token(QStringLiteral("false")).close();
         node.list(QStringLiteral("value")).atom(text.text).close();
         node.close();
@@ -815,6 +921,15 @@ bool writeSymbol(const IR::SymbolComponentIR& symbol, const QString& rootPath, Q
                 QStringLiteral("LibrePCB: 符号 %1 的隐藏参数未写入原生库：%2").arg(symbol.name, parameter.name));
             continue;
         }
+        QPointF parameterPosition = parameter.position;
+        double parameterRotation = parameter.rotation;
+        if (!visibleTextArea.contains(parameter.position)) {
+            parameterPosition = QPointF(0.0, qMin(bounds.top(), bounds.bottom()) - 4.0 - relocatedTextIndex * 2.0);
+            parameterRotation = 0.0;
+            ++relocatedTextIndex;
+            diagnostics.append(QStringLiteral("LibrePCB: 符号 %1 的参数“%2”超出图形边界，已移动到图形下方")
+                                   .arg(symbol.name, parameter.name));
+        }
         SExpr& node = root.list(QStringLiteral("text"));
         node.token(uuidFor(QStringLiteral("symbol-parameter"), symbol.name, geometryIndex++));
         node.list(QStringLiteral("layer")).token(QStringLiteral("sym_values")).close();
@@ -823,10 +938,10 @@ bool writeSymbol(const IR::SymbolComponentIR& symbol, const QString& rootPath, Q
             .close();
         node.list(QStringLiteral("align")).token(QStringLiteral("center")).token(QStringLiteral("center")).close();
         node.list(QStringLiteral("position"))
-            .token(number(parameter.position.x()))
-            .token(number(parameter.position.y()))
+            .token(number(parameterPosition.x()))
+            .token(number(parameterPosition.y()))
             .close();
-        node.list(QStringLiteral("rotation")).token(number(parameter.rotation)).close();
+        node.list(QStringLiteral("rotation")).token(number(parameterRotation)).close();
         node.list(QStringLiteral("lock")).token(boolValue(parameter.readOnly)).close();
         node.list(QStringLiteral("value")).atom(parameter.value).close();
         node.close();
@@ -838,6 +953,9 @@ bool writeSymbol(const IR::SymbolComponentIR& symbol, const QString& rootPath, Q
         hasValueText = hasValueText || text.text == QStringLiteral("{{VALUE}}");
     }
     // LibrePCB 将器件名称和值作为符号必需字段；源数据缺失时仍生成可编辑的默认占位文本。
+    // QRectF 的 top/bottom 语义容易与 EDA 坐标系的视觉上下方向混淆，显式取最小 Y，
+    // 确保默认字段始终位于符号图形的视觉下方，而不是落到图形顶部。
+    const double fieldBaseY = qMin(bounds.top(), bounds.bottom()) - 2.54;
     const auto appendDefaultText = [&root, &geometryIndex, &symbol](
                                        const QString& layer, const QString& value, double y) {
         SExpr& node = root.list(QStringLiteral("text"));
@@ -852,9 +970,9 @@ bool writeSymbol(const IR::SymbolComponentIR& symbol, const QString& rootPath, Q
         node.close();
     };
     if (!hasNameText)
-        appendDefaultText(QStringLiteral("sym_names"), QStringLiteral("{{NAME}}"), -4.0);
+        appendDefaultText(QStringLiteral("sym_names"), QStringLiteral("{{NAME}}"), fieldBaseY);
     if (!hasValueText)
-        appendDefaultText(QStringLiteral("sym_values"), QStringLiteral("{{VALUE}}"), -5.5);
+        appendDefaultText(QStringLiteral("sym_values"), QStringLiteral("{{VALUE}}"), fieldBaseY - 2.0);
     root.close();
     return writeElement(rootPath,
                         QStringLiteral("sym"),
@@ -884,6 +1002,16 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         .close();
     root.list(QStringLiteral("grid_interval")).token(QStringLiteral("0.1")).close();
     root.list(QStringLiteral("min_copper_clearance")).token(QStringLiteral("0.2")).close();
+
+    bool sourceBoundsValid = false;
+    const QRectF sourceBounds = footprintBounds(footprint, sourceBoundsValid);
+    const QPointF footprintOrigin = sourceBoundsValid ? sourceBounds.center() : QPointF(0.0, 0.0);
+    if (sourceBoundsValid && !qFuzzyIsNull(footprintOrigin.x()) && !qFuzzyIsNull(footprintOrigin.y()))
+        diagnostics.append(QStringLiteral("LibrePCB: 封装 %1 已将绝对坐标归一化到封装原点").arg(footprint.name));
+    const auto localPoint = [&footprintOrigin](const QPointF& point) { return point - footprintOrigin; };
+    const auto localPoints = [&footprintOrigin](const QList<QPointF>& points) {
+        return localizeFootprintPoints(points, footprintOrigin);
+    };
 
     struct ModelFile {
         QString uuid;
@@ -959,8 +1087,8 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
     const IR::Model3DVec3 modelRotation =
         footprint.models3d.isEmpty() ? IR::Model3DVec3() : footprint.models3d.first().rotation();
     fp.list(QStringLiteral("3d_position"))
-        .token(number(modelPosition.x + modelOffset.x))
-        .token(number(modelPosition.y + modelOffset.y))
+        .token(number(modelPosition.x + modelOffset.x - footprintOrigin.x()))
+        .token(number(modelPosition.y + modelOffset.y - footprintOrigin.y()))
         .token(number(modelPosition.z + modelOffset.z))
         .close();
     fp.list(QStringLiteral("3d_rotation"))
@@ -984,7 +1112,8 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         if (shape.isEmpty())
             return false;
         node.list(QStringLiteral("shape")).token(shape).close();
-        node.list(QStringLiteral("position")).token(number(pad.position.x())).token(number(pad.position.y())).close();
+        const QPointF padPosition = localPoint(pad.position);
+        node.list(QStringLiteral("position")).token(number(padPosition.x())).token(number(padPosition.y())).close();
         node.list(QStringLiteral("rotation")).token(number(pad.rotation)).close();
         node.list(QStringLiteral("size")).token(number(pad.size.width())).token(number(pad.size.height())).close();
         node.list(QStringLiteral("radius")).token(QStringLiteral("0")).close();
@@ -1053,7 +1182,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         appendPolygon(fp,
                       uuidFor(QStringLiteral("footprint-rectangle"), footprint.name, index++),
                       layer,
-                      rectanglePoints(rectangle.bounds, rectangle.rotation),
+                      localPoints(rectanglePoints(rectangle.bounds, rectangle.rotation)),
                       rectangle.strokeWidth,
                       false);
     }
@@ -1070,7 +1199,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         appendPolygon(fp,
                       uuidFor(QStringLiteral("footprint-outline"), footprint.name, index++),
                       layer,
-                      outline.points,
+                      localPoints(outline.points),
                       outline.strokeWidth,
                       false);
     }
@@ -1092,7 +1221,11 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         node.list(QStringLiteral("fill")).token(QStringLiteral("false")).close();
         node.list(QStringLiteral("grab_area")).token(QStringLiteral("false")).close();
         node.list(QStringLiteral("diameter")).token(number(circle.radius * 2)).close();
-        node.list(QStringLiteral("position")).token(number(circle.center.x())).token(number(circle.center.y())).close();
+        const QPointF circlePosition = localPoint(circle.center);
+        node.list(QStringLiteral("position"))
+            .token(number(circlePosition.x()))
+            .token(number(circlePosition.y()))
+            .close();
         node.close();
     }
     for (int trackIndex = 0; trackIndex < footprint.tracks.size(); ++trackIndex) {
@@ -1105,7 +1238,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         appendPolygon(fp,
                       uuidFor(QStringLiteral("footprint-track"), footprint.name, trackIndex),
                       layer,
-                      track.points,
+                      localPoints(track.points),
                       track.width,
                       false);
         if (!track.netName.isEmpty())
@@ -1123,7 +1256,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         appendPolygon(fp,
                       uuidFor(QStringLiteral("footprint-arc"), footprint.name, arcIndex),
                       layer,
-                      sampleArc(arc.center, arc.radius, arc.startAngle, arc.endAngle),
+                      localPoints(sampleArc(arc.center, arc.radius, arc.startAngle, arc.endAngle)),
                       arc.width,
                       false);
         diagnostics.append(QStringLiteral("LibrePCB: 封装 %1 的圆弧已离散为折线").arg(footprint.name));
@@ -1145,7 +1278,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         appendPolygon(fp,
                       uuidFor(QStringLiteral("footprint-region"), footprint.name, regionIndex),
                       layer,
-                      region.vertices,
+                      localPoints(region.vertices),
                       0,
                       true);
         if (region.isLocked)
@@ -1160,7 +1293,8 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         SExpr& node = fp.list(QStringLiteral("hole"));
         node.token(uuidFor(QStringLiteral("footprint-hole"), footprint.name, holeIndex));
         node.list(QStringLiteral("diameter")).token(number(hole.radius * 2.0)).close();
-        node.list(QStringLiteral("position")).token(number(hole.center.x())).token(number(hole.center.y())).close();
+        const QPointF holePosition = localPoint(hole.center);
+        node.list(QStringLiteral("position")).token(number(holePosition.x())).token(number(holePosition.y())).close();
         node.close();
         if (hole.isLocked)
             diagnostics.append(QStringLiteral("LibrePCB: 封装安装孔锁定属性不会写入库定义：%1").arg(footprint.name));
@@ -1181,7 +1315,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
                          uuidFor(QStringLiteral("footprint-text"), footprint.name, textIndex),
                          layer,
                          text.text,
-                         text.position,
+                         localPoint(text.position),
                          text.rotation,
                          text.fontSize,
                          text.strokeWidth,
@@ -1207,7 +1341,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         appendPolygon(fp,
                       uuidFor(QStringLiteral("fallback-outline"), footprint.name),
                       QStringLiteral("top_package_outlines"),
-                      rectanglePoints(bounds, 0),
+                      localPoints(rectanglePoints(bounds, 0)),
                       0.1,
                       false);
         diagnostics.append(QStringLiteral("LibrePCB: 封装 %1 缺少可靠外形，已根据 IR 图元生成 Package Outlines 回退")
@@ -1217,7 +1351,7 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
         appendPolygon(fp,
                       uuidFor(QStringLiteral("fallback-courtyard"), footprint.name),
                       QStringLiteral("top_courtyard"),
-                      rectanglePoints(bounds.adjusted(-0.25, -0.25, 0.25, 0.25), 0),
+                      localPoints(rectanglePoints(bounds.adjusted(-0.25, -0.25, 0.25, 0.25), 0)),
                       0.05,
                       false);
         diagnostics.append(
@@ -1228,13 +1362,13 @@ bool writePackage(const IR::FootprintComponentIR& footprint,
                          uuidFor(QStringLiteral("fallback-name"), footprint.name),
                          QStringLiteral("top_names"),
                          QStringLiteral("{{NAME}}"),
-                         QPointF(bounds.center().x(), bounds.bottom() + 1.0));
+                         localPoint(QPointF(bounds.center().x(), bounds.bottom() + 1.0)));
     if (boundsValid && !hasValueText)
         appendStrokeText(fp,
                          uuidFor(QStringLiteral("fallback-value"), footprint.name),
                          QStringLiteral("top_values"),
                          QStringLiteral("{{VALUE}}"),
-                         QPointF(bounds.center().x(), bounds.top() - 1.0));
+                         localPoint(QPointF(bounds.center().x(), bounds.top() - 1.0)));
     fp.close();
     root.close();
     if (!writeElement(

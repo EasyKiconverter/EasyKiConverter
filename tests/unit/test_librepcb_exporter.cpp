@@ -17,6 +17,8 @@ class TestLibrePcbExporter final : public QObject {
 private slots:
     /** @brief 验证完整组件库的四类元素、版本标记和 UUID 引用均已生成。 */
     void writesCompleteLibrary();
+    /** @brief 验证绝对输入坐标会归一化到 LibrePCB 封装原点。 */
+    void normalizesAbsoluteFootprintCoordinates();
     /** @brief 验证重复焊盘编号会阻止生成不可关联的 LibrePCB 封装。 */
     void rejectsDuplicatePadNumbers();
     /** @brief 验证目标格式不能表达的椭圆长圆焊盘不会静默降级。 */
@@ -25,6 +27,8 @@ private slots:
     void rejectsOffGridSymbolPin();
     /** @brief 验证接近栅格的引脚会被自动对齐并保留诊断。 */
     void snapsNearGridSymbolPin();
+    /** @brief 验证符号引脚连接方向、默认字段位置和异常文本坐标。 */
+    void normalizesSymbolPinConnectionsAndTextBounds();
     /** @brief 验证追加和更新模式不会覆盖现有 LibrePCB 原生库。 */
     void rejectsAppendAndUpdateModes();
     /** @brief 验证不完整组件不会生成缺少绑定关系的原生器件库。 */
@@ -278,6 +282,35 @@ void TestLibrePcbExporter::writesCompleteLibrary() {
     }
 }
 
+void TestLibrePcbExporter::normalizesAbsoluteFootprintCoordinates() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::FootprintComponentIR footprint;
+    footprint.name = QStringLiteral("Absolute Coordinates");
+    for (int index = 0; index < 2; ++index) {
+        IR::FootprintPadIR pad;
+        pad.number = QString::number(index + 1);
+        pad.position = QPointF(1000.0 + index * 2.0, 765.0);
+        pad.size = QSizeF(1.0, 1.0);
+        footprint.pads.append(pad);
+    }
+    footprint.rectangles.append({QRectF(999.0, 764.0, 4.0, 2.0), 0.15, IR::LayerType::TopSilk, 0.0, false});
+
+    ExporterLibrePcbLibrary exporter;
+    const QString path = QDir(temporary.path()).filePath(QStringLiteral("absolute.lplib"));
+    QVERIFY(exporter.exportFootprintLibrary({footprint}, QStringLiteral("absolute"), path));
+
+    QDirIterator iterator(path, {QStringLiteral("package.lp")}, QDir::Files, QDirIterator::Subdirectories);
+    QVERIFY(iterator.hasNext());
+    QFile packageFile(iterator.next());
+    QVERIFY(packageFile.open(QIODevice::ReadOnly));
+    const QByteArray packageData = packageFile.readAll();
+    QVERIFY(packageData.contains("(position -1.0 0.0 )"));
+    QVERIFY(packageData.contains("(position 1.0 0.0 )"));
+    QVERIFY(!packageData.contains("1000.0"));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("归一化到封装原点")));
+}
+
 void TestLibrePcbExporter::rejectsDuplicatePadNumbers() {
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
@@ -333,6 +366,33 @@ void TestLibrePcbExporter::snapsNearGridSymbolPin() {
                                             QStringLiteral("snap-near-grid"),
                                             QDir(temporary.path()).filePath(QStringLiteral("library.lplib"))));
     QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("已自动对齐到 2.54 mm 栅格")));
+}
+
+void TestLibrePcbExporter::normalizesSymbolPinConnectionsAndTextBounds() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component = makeComponent();
+    IR::SymbolTextIR outlier;
+    outlier.text = QStringLiteral("orphan source text");
+    outlier.position = QPointF(-101.6, -25.4);
+    component.symbol.texts.append(outlier);
+
+    ExporterLibrePcbLibrary exporter;
+    const QString path = QDir(temporary.path()).filePath(QStringLiteral("normalized.lplib"));
+    QVERIFY(exporter.exportComponentLibrary({component}, QStringLiteral("normalized"), path));
+
+    QDirIterator iterator(path, {QStringLiteral("symbol.lp")}, QDir::Files, QDirIterator::Subdirectories);
+    QVERIFY(iterator.hasNext());
+    QFile symbolFile(iterator.next());
+    QVERIFY(symbolFile.open(QIODevice::ReadOnly));
+    const QByteArray symbolData = symbolFile.readAll();
+
+    QVERIFY(symbolData.contains("(rotation 0.0 )"));
+    QVERIFY(symbolData.contains("(rotation 180.0 )"));
+    QVERIFY(symbolData.contains("(position 0 -5.08 )"));
+    QVERIFY(!symbolData.contains("-101.6 -25.4"));
+    QVERIFY(symbolData.contains("orphan source text"));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("超出图形边界")));
 }
 
 void TestLibrePcbExporter::rejectsAppendAndUpdateModes() {
