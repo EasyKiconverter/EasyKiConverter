@@ -14,6 +14,7 @@ TestCase {
         property bool isExporting: false
         property bool isStopping: false
         property bool hasCompletedExport: false
+        property bool retrySupported: true
         property int failureCount: 0
         property int startExportCallCount: 0
         property int cancelExportCallCount: 0
@@ -113,6 +114,7 @@ TestCase {
         progressController.isExporting = false
         progressController.isStopping = false
         progressController.hasCompletedExport = false
+        progressController.retrySupported = true
         progressController.failureCount = 0
         progressController.startExportCallCount = 0
         progressController.cancelExportCallCount = 0
