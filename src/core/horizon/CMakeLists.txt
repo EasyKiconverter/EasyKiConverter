@@ -1,6 +1,8 @@
 add_library(EasyKiConverterHorizon STATIC
     ExporterHorizonLibrary.h
     ExporterHorizonLibrary.cpp
+    HorizonPoolIntegration.h
+    HorizonPoolIntegration.cpp
     HorizonUuid.h
     HorizonUnits.h
 )

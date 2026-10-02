@@ -32,9 +32,13 @@ UUIDs, JSON ordering, paths, and diagnostics must be deterministic within EasyKi
 ## Current export boundary
 
 - Circles, ellipses, arcs, pies, and common package graphics are converted to Horizon polylines or polygons with approximation diagnostics.
-- Custom pad polygons are written to Padstack `polygons`; a rounded rectangle is degraded to a rectangle when no corner radius is available.
+- SMD Padstacks write copper, solder-mask, and paste shapes; custom pad polygons are written to the corresponding Padstack `polygons`.
+- Standalone mounting holes are written as mechanical Padstacks referenced by Package Pads. The current IR expresses standalone holes as round holes; slot length still requires source data that provides it.
+- KeepOut uses Package `polygons` plus `keepouts` usage objects and is not mapped to the courtyard layer.
+- A round rectangle without a radius is downgraded to a rectangle and reported in diagnostics.
 - STEP/OBJ data is written under `3d_models/`; Package model placement combines `translation` and `stepOffsetMm`.
-- Pictures and mechanical mounting holes are currently omitted with explicit diagnostics; Bézier and some curves use polyline approximation.
+- Pictures are currently omitted with an explicit diagnostic; Bézier and some curves use polyline approximation.
+- The exporter currently writes Pool source files only. `pool.db`, desktop PoolManager registration, and PoolUpdater must be performed by the fixed-version official Horizon tools. This repository does not copy the official SQLite schema or claim automatic registration without that tool.
 
 ## Validation status
 

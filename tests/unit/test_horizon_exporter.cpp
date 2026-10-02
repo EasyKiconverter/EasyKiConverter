@@ -28,6 +28,7 @@ private slots:
     void writesEmbeddedModelAndPlacement();
     void keepsUnitsAndUuidDeterministic();
     void writesMultipartGatesAndPins();
+    void writesPasteMountingHoleAndKeepoutSemantics();
 };
 
 static IR::ComponentIR fixture() {
@@ -330,6 +331,53 @@ void TestHorizonExporter::writesMultipartGatesAndPins() {
     ++secondMapping;
     QVERIFY(firstMapping.value().toObject().value(QStringLiteral("gate")).toString() !=
             secondMapping.value().toObject().value(QStringLiteral("gate")).toString());
+}
+
+void TestHorizonExporter::writesPasteMountingHoleAndKeepoutSemantics() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component = fixture();
+
+    IR::FootprintHoleIR hole;
+    hole.center = QPointF(2.0, 1.0);
+    hole.radius = 1.25;
+    component.footprint.holes.append(hole);
+
+    IR::FootprintRegionIR keepout;
+    keepout.layer = IR::LayerType::KeepOut;
+    keepout.isKeepOut = true;
+    keepout.vertices = {QPointF(-2.0, -2.0), QPointF(2.0, -2.0), QPointF(2.0, 2.0), QPointF(-2.0, 2.0)};
+    component.footprint.regions.append(keepout);
+
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY2(exporter.exportComponentLibrary({component}, QStringLiteral("fixture"), root),
+             qPrintable(exporter.diagnostics().join('\n')));
+
+    const QJsonObject package =
+        QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("packages/R0603/package.json")))).object();
+    const QJsonObject pads = package.value(QStringLiteral("pads")).toObject();
+    QCOMPARE(pads.size(), 3);
+    const QJsonObject keepouts = package.value(QStringLiteral("keepouts")).toObject();
+    QCOMPARE(keepouts.size(), 1);
+    const QString polygonUuid = keepouts.constBegin().value().toObject().value(QStringLiteral("polygon")).toString();
+    QVERIFY(package.value(QStringLiteral("polygons")).toObject().contains(polygonUuid));
+
+    const QJsonObject holePadstack =
+        QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("padstacks/R0603-MH1.json")))).object();
+    QCOMPARE(holePadstack.value(QStringLiteral("padstack_type")).toString(), QStringLiteral("mechanical"));
+    QCOMPARE(holePadstack.value(QStringLiteral("holes")).toObject().size(), 1);
+
+    const QJsonObject smdPadstack =
+        QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("padstacks/R0603-1.json")))).object();
+    bool hasPaste = false;
+    for (const QJsonValue& shapeValue : smdPadstack.value(QStringLiteral("shapes")).toObject()) {
+        if (shapeValue.toObject().value(QStringLiteral("parameter_class")).toString() == QStringLiteral("paste")) {
+            hasPaste = true;
+            break;
+        }
+    }
+    QVERIFY(hasPaste);
 }
 
 QTEST_GUILESS_MAIN(TestHorizonExporter)

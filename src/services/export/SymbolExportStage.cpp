@@ -3,6 +3,7 @@
 #include "DebugExportHelper.h"
 #include "KiCadLibraryTableManager.h"
 #include "core/ExporterFactory.h"
+#include "core/horizon/HorizonPoolIntegration.h"
 #include "core/ir/SymbolDataConverter.h"
 #include "models/ComponentData.h"
 
@@ -403,6 +404,15 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
     qDebug() << "SymbolExportStage: Successfully exported to:" << finalPath;
+
+    if (m_options.targetFormat == TargetEdaFormat::Horizon) {
+        QStringList horizonDiagnostics;
+        if (!HorizonPoolIntegration::updateAndRegister(finalPath, horizonDiagnostics)) {
+            abortExport(QStringLiteral("Horizon Pool 已生成，但官方更新或注册失败：%1")
+                            .arg(horizonDiagnostics.join(QStringLiteral("; "))));
+            return;
+        }
+    }
 
     // KiCad 特有：生成 sym-lib-table 并注册库
     if (m_options.targetFormat == TargetEdaFormat::KiCad && !libraryDescription.isEmpty()) {

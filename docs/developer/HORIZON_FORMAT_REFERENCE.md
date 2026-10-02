@@ -32,9 +32,13 @@
 ## 当前导出边界
 
 - 圆、椭圆、圆弧、扇形和常见封装图元转换为 Horizon 折线或多边形，并记录近似诊断。
-- 自定义焊盘多边形写入 Padstack 的 `polygons`；圆角半径缺失时圆角矩形降级为矩形。
+- SMD Padstack 同时写入铜、阻焊和锡膏图形；自定义焊盘多边形写入对应的 Padstack `polygons`。
+- 独立安装孔写入机械 Padstack，并由 Package Pad 引用；当前 IR 的独立孔仅表达圆孔，槽孔仍需源数据提供槽长。
+- KeepOut 使用 Package 的 `polygons` 与 `keepouts` 关联对象，不能当作 courtyard 使用。
+- 圆角半径缺失时圆角矩形降级为矩形并记录诊断。
 - STEP/OBJ 写入 `3d_models/`，Package 的模型位置合并 `translation` 与 `stepOffsetMm`。
-- 图片和安装孔目前不写入目标图元，并输出明确诊断；Bezier 和部分曲线采用折线近似。
+- 图片目前不写入目标图元并输出明确诊断；Bezier 和部分曲线采用折线近似。
+- 导出器目前只写 Pool source files。`pool.db`、桌面应用的 PoolManager 注册和 PoolUpdater 必须由固定版本的官方 Horizon 工具完成；本仓库未复制官方 SQLite schema，也不会伪造“已自动注册”。
 
 ## 验证状态
 

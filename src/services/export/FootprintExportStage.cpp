@@ -3,6 +3,7 @@
 #include "FootprintModel3DPreparation.h"
 #include "KiCadLibraryTableManager.h"
 #include "core/ExporterFactory.h"
+#include "core/horizon/HorizonPoolIntegration.h"
 #include "core/ir/ComponentDataConverter.h"
 #include "core/ir/FootprintDataConverter.h"
 #include "models/ComponentData.h"
@@ -708,6 +709,15 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
     } else {
         abortExport(QStringLiteral("Failed to commit temp path"));
         return;
+    }
+
+    if (m_options.targetFormat == TargetEdaFormat::Horizon) {
+        QStringList horizonDiagnostics;
+        if (!HorizonPoolIntegration::updateAndRegister(finalPath, horizonDiagnostics)) {
+            abortExport(QStringLiteral("Horizon Pool 已生成，但官方更新或注册失败：%1")
+                            .arg(horizonDiagnostics.join(QStringLiteral("; "))));
+            return;
+        }
     }
 
     // 目录输出模式下注册库（如 KiCad 库表）
