@@ -11,6 +11,8 @@
 #include <QUuid>
 #include <QtTest>
 
+#include <functional>
+
 using namespace EasyKiConverter;
 
 class TestHorizonExporter final : public QObject {
@@ -27,6 +29,8 @@ private slots:
     void rejectsSanitizedComponentNameCollision();
     void keepsPinReferencesWhenComponentAndSymbolNamesDiffer();
     void convertsCommonGeometryWithExplicitApproximationDiagnostics();
+    void rejectsGenericKeepOutGeometryInsteadOfWritingCopper();
+    void ignoresHiddenKeepOutText();
     void preservesRoundRectCustomOutline();
     void writesBottomCustomPadstackLayers();
     void rejectsInvalid3dModelData();
@@ -290,6 +294,97 @@ void TestHorizonExporter::convertsCommonGeometryWithExplicitApproximationDiagnos
     QVERIFY(!package.value(QStringLiteral("texts")).toObject().isEmpty());
     QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("近似")));
     QVERIFY(!exporter.diagnostics().join('\n').contains(QStringLiteral("线宽未保留")));
+}
+
+void TestHorizonExporter::rejectsGenericKeepOutGeometryInsteadOfWritingCopper() {
+    struct KeepOutCase {
+        QString name;
+        std::function<void(IR::FootprintComponentIR&)> add;
+    };
+
+    const QList<KeepOutCase> cases = {
+        {QStringLiteral("pad"),
+         [](IR::FootprintComponentIR& footprint) { footprint.pads[0].layer = IR::LayerType::KeepOut; }},
+        {QStringLiteral("outline"),
+         [](IR::FootprintComponentIR& footprint) { footprint.outlines[0].layer = IR::LayerType::KeepOut; }},
+        {QStringLiteral("track"),
+         [](IR::FootprintComponentIR& footprint) {
+             IR::FootprintTrackIR track;
+             track.points = {QPointF(-1.0, 0.0), QPointF(1.0, 0.0)};
+             track.layer = IR::LayerType::KeepOut;
+             footprint.tracks.append(track);
+         }},
+        {QStringLiteral("circle"),
+         [](IR::FootprintComponentIR& footprint) {
+             IR::FootprintCircleIR circle;
+             circle.layer = IR::LayerType::KeepOut;
+             circle.radius = 1.0;
+             footprint.circles.append(circle);
+         }},
+        {QStringLiteral("rectangle"),
+         [](IR::FootprintComponentIR& footprint) {
+             IR::FootprintRectangleIR rectangle;
+             rectangle.layer = IR::LayerType::KeepOut;
+             rectangle.bounds = QRectF(-1.0, -1.0, 2.0, 2.0);
+             footprint.rectangles.append(rectangle);
+         }},
+        {QStringLiteral("arc"),
+         [](IR::FootprintComponentIR& footprint) {
+             IR::FootprintArcIR arc;
+             arc.layer = IR::LayerType::KeepOut;
+             arc.radius = 1.0;
+             arc.endAngle = 90.0;
+             footprint.arcs.append(arc);
+         }},
+        {QStringLiteral("text"),
+         [](IR::FootprintComponentIR& footprint) {
+             IR::FootprintTextIR text;
+             text.layer = IR::LayerType::KeepOut;
+             text.text = QStringLiteral("KO");
+             text.isDisplayed = true;
+             footprint.texts.append(text);
+         }},
+    };
+
+    for (const KeepOutCase& testCase : cases) {
+        QTemporaryDir temporary;
+        QVERIFY(temporary.isValid());
+        IR::ComponentIR component = fixture();
+        testCase.add(component.footprint);
+        ExporterHorizonLibrary exporter;
+        const QString root = QDir(temporary.path()).filePath(testCase.name);
+        QVERIFY2(!exporter.exportComponentLibrary({component}, QStringLiteral("keepout"), root),
+                 qPrintable(testCase.name));
+        const QString diagnostics = exporter.diagnostics().join('\n');
+        QVERIFY2(
+            diagnostics.contains(QStringLiteral("KeepOut 层")) && diagnostics.contains(QStringLiteral("已拒绝导出")),
+            qPrintable(diagnostics));
+        QVERIFY2(diagnostics.contains(testCase.name, Qt::CaseInsensitive), qPrintable(diagnostics));
+    }
+}
+
+void TestHorizonExporter::ignoresHiddenKeepOutText() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component = fixture();
+
+    IR::FootprintTextIR text;
+    text.layer = IR::LayerType::KeepOut;
+    text.text = QStringLiteral("HIDDEN");
+    text.isDisplayed = false;
+    component.footprint.texts.append(text);
+
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY2(exporter.exportComponentLibrary({component}, QStringLiteral("hidden-keepout"), root),
+             qPrintable(exporter.diagnostics().join('\n')));
+
+    const QJsonObject package =
+        QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("packages/R0603/package.json")))).object();
+    const QJsonObject texts = package.value(QStringLiteral("texts")).toObject();
+    for (const QJsonValue& value : texts)
+        QVERIFY(value.toObject().value(QStringLiteral("text")).toString() != QStringLiteral("HIDDEN"));
+    QVERIFY(!exporter.diagnostics().join('\n').contains(QStringLiteral("KeepOut")));
 }
 
 void TestHorizonExporter::preservesRoundRectCustomOutline() {

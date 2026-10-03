@@ -15,6 +15,7 @@
 #include <QtMath>
 
 #include <algorithm>
+#include <limits>
 
 namespace EasyKiConverter {
 namespace {
@@ -36,6 +37,7 @@ constexpr int kBottomPackage = -140;
 constexpr int kTopAssembly = 50;
 constexpr int kBottomAssembly = -150;
 constexpr int kOutline = 100;
+constexpr int kInvalidPackageLayer = std::numeric_limits<int>::min();
 
 QString safeName(QString value) {
     value = value.trimmed();
@@ -177,14 +179,62 @@ int packageLayer(IR::LayerType layer, QStringList& diagnostics, const QString& c
             return kBottomAssembly;
         case IR::LayerType::KeepOut:
             diagnostics.append(
-                QStringLiteral("Horizon: KeepOut 必须通过原生 keepouts 对象输出，不能作为普通图层：%1").arg(context));
-            return kTopCopper;
+                QStringLiteral("Horizon: KeepOut 图元不能映射为普通封装图层；仅支持区域图元的原生 keepouts：%1")
+                    .arg(context));
+            return kInvalidPackageLayer;
         case IR::LayerType::EdgeCuts:
             return kOutline;
         default:
             diagnostics.append(QStringLiteral("Horizon: 不支持的层降级为 top package：%1").arg(context));
             return kTopPackage;
     }
+}
+
+bool validateGenericKeepOutLayers(const IR::FootprintComponentIR& footprint, QStringList& diagnostics) {
+    const auto reject = [&diagnostics, &footprint](const QString& primitive, int index) {
+        diagnostics.append(
+            QStringLiteral(
+                "Horizon: 封装 %1 的第 %2 个 %3 使用 KeepOut 层；该图元没有等价的原生 keepout 表达，已拒绝导出")
+                .arg(footprint.name)
+                .arg(index + 1)
+                .arg(primitive));
+        return false;
+    };
+    for (int i = 0; i < footprint.pads.size(); ++i) {
+        if (footprint.pads.at(i).layer == IR::LayerType::KeepOut)
+            return reject(QStringLiteral("Pad"), i);
+    }
+    for (int i = 0; i < footprint.outlines.size(); ++i) {
+        if (footprint.outlines.at(i).layer == IR::LayerType::KeepOut)
+            return reject(QStringLiteral("Outline"), i);
+    }
+    for (int i = 0; i < footprint.tracks.size(); ++i) {
+        if (footprint.tracks.at(i).layer == IR::LayerType::KeepOut)
+            return reject(QStringLiteral("Track"), i);
+    }
+    for (int i = 0; i < footprint.circles.size(); ++i) {
+        if (footprint.circles.at(i).layer == IR::LayerType::KeepOut)
+            return reject(QStringLiteral("Circle"), i);
+    }
+    for (int i = 0; i < footprint.rectangles.size(); ++i) {
+        if (footprint.rectangles.at(i).layer == IR::LayerType::KeepOut)
+            return reject(QStringLiteral("Rectangle"), i);
+    }
+    for (int i = 0; i < footprint.arcs.size(); ++i) {
+        if (footprint.arcs.at(i).layer == IR::LayerType::KeepOut)
+            return reject(QStringLiteral("Arc"), i);
+    }
+    for (int i = 0; i < footprint.texts.size(); ++i) {
+        const auto& text = footprint.texts.at(i);
+        if (text.isDisplayed && text.layer == IR::LayerType::KeepOut)
+            return reject(QStringLiteral("Text"), i);
+    }
+    for (int i = 0; i < footprint.regions.size(); ++i) {
+        const auto& region = footprint.regions.at(i);
+        if (!region.isKeepOut && region.layer == IR::LayerType::KeepOut)
+            return reject(QStringLiteral("Region"), i);
+    }
+    return true;
 }
 
 QJsonObject emptyMaps() {
@@ -719,6 +769,8 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
     QJsonObject parameterSet;
     QStringList parameterProgram;
     const int layer = packageLayer(pad.layer, diagnostics, context);
+    if (layer == kInvalidPackageLayer)
+        return {};
     const bool hasCustomPolygon = (pad.shape == IR::PadShape::Polygon || pad.shape == IR::PadShape::RoundRect ||
                                    pad.shape == IR::PadShape::Trapezoid) &&
                                   pad.customShapePoints.size() >= 3;
@@ -1053,6 +1105,8 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     for (int i = 0; i < footprint.outlines.size(); ++i) {
         const auto& outline = footprint.outlines.at(i);
         const int layer = packageLayer(outline.layer, diagnostics, footprint.name);
+        if (layer == kInvalidPackageLayer)
+            return {};
         for (int j = 1; j < outline.points.size(); ++j)
             addLine(lines,
                     junctions,
@@ -1067,6 +1121,8 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
         const QString semantic = footprint.name + QStringLiteral("/region/") + QString::number(i);
         const QString polygonUuid = HorizonUuid::make(QStringLiteral("polygon"), semantic);
         const int regionLayer = region.isKeepOut ? kTopCopper : packageLayer(region.layer, diagnostics, footprint.name);
+        if (regionLayer == kInvalidPackageLayer)
+            return {};
         addPolygon(polygons, semantic, region.vertices, regionLayer);
         if (region.isKeepOut) {
             keepouts.insert(HorizonUuid::make(QStringLiteral("package-keepout"), semantic),
@@ -1085,21 +1141,27 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     }
     for (int i = 0; i < footprint.tracks.size(); ++i) {
         const auto& track = footprint.tracks.at(i);
+        const int layer = packageLayer(track.layer, diagnostics, footprint.name);
+        if (layer == kInvalidPackageLayer)
+            return {};
         addPolyline(lines,
                     junctions,
                     footprint.name + QStringLiteral("/track/") + QString::number(i),
                     track.points,
-                    packageLayer(track.layer, diagnostics, footprint.name),
+                    layer,
                     track.width);
     }
     for (int i = 0; i < footprint.circles.size(); ++i) {
         const auto& circle = footprint.circles.at(i);
+        const int layer = packageLayer(circle.layer, diagnostics, footprint.name);
+        if (layer == kInvalidPackageLayer)
+            return {};
         addCircle(arcs,
                   junctions,
                   footprint.name + QStringLiteral("/circle/") + QString::number(i),
                   circle.center,
                   circle.radius,
-                  packageLayer(circle.layer, diagnostics, footprint.name),
+                  layer,
                   circle.strokeWidth);
     }
     for (int i = 0; i < footprint.rectangles.size(); ++i) {
@@ -1110,6 +1172,8 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
         for (QPointF& item : points)
             item = rotateAround(item, center, rectangle.rotation);
         const int layer = packageLayer(rectangle.layer, diagnostics, footprint.name);
+        if (layer == kInvalidPackageLayer)
+            return {};
         for (int j = 0; j < points.size(); ++j)
             addLine(lines,
                     junctions,
@@ -1122,11 +1186,14 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     }
     for (int i = 0; i < footprint.arcs.size(); ++i) {
         const auto& arc = footprint.arcs.at(i);
+        const int layer = packageLayer(arc.layer, diagnostics, footprint.name);
+        if (layer == kInvalidPackageLayer)
+            return {};
         addPolyline(lines,
                     junctions,
                     footprint.name + QStringLiteral("/arc/") + QString::number(i),
                     ellipsePoints(arc.center, arc.radius, arc.radius, arc.startAngle, arc.endAngle, 24),
-                    packageLayer(arc.layer, diagnostics, footprint.name),
+                    layer,
                     arc.width);
     }
     for (int i = 0; i < footprint.texts.size(); ++i) {
@@ -1134,6 +1201,8 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
         if (!text.isDisplayed)
             continue;
         const int layer = packageLayer(text.layer, diagnostics, footprint.name);
+        if (layer == kInvalidPackageLayer)
+            return {};
         texts.insert(HorizonUuid::make(QStringLiteral("package-text"), footprint.name + QString::number(i)),
                      QJsonObject{{QStringLiteral("origin"), QStringLiteral("center")},
                                  {QStringLiteral("font"), QStringLiteral("simplex")},
@@ -1254,6 +1323,8 @@ bool writeComponent(const IR::ComponentIR& component,
     }
     if (!validatePadIdentifiers(component.footprint, diagnostics))
         return false;
+    if (!validateGenericKeepOutLayers(component.footprint, diagnostics))
+        return false;
     const IR::SymbolComponentIR& symbol = component.symbol;
     const QString baseKey = component.name.isEmpty() ? symbol.name : component.name;
     const QString entityUuid = HorizonUuid::make(QStringLiteral("entity"), baseKey);
@@ -1309,6 +1380,8 @@ bool writeComponent(const IR::ComponentIR& component,
         models.append(component.footprint.models3d);
     }
     const QJsonObject package = packageJson(component.footprint, packageUuid, models, padUuids, diagnostics);
+    if (package.isEmpty())
+        return false;
     const QString packageDir = QDir(root).filePath(QStringLiteral("packages/") + safeName(component.footprint.name));
     if (!QDir().mkpath(packageDir) ||
         !writeJson(QDir(packageDir).filePath(QStringLiteral("package.json")), package, diagnostics))
@@ -1320,9 +1393,12 @@ bool writeComponent(const IR::ComponentIR& component,
         const QString padStem = padFileStem(pad, i);
         const QString padstackUuid =
             HorizonUuid::make(QStringLiteral("padstack"), component.footprint.name + QStringLiteral("/") + padStem);
+        const QJsonObject padstack = padstackJson(pad, padstackUuid, diagnostics);
+        if (padstack.isEmpty())
+            return false;
         if (!writeJson(QDir(root).filePath(QStringLiteral("padstacks/") + safeName(component.footprint.name) +
                                            QStringLiteral("-") + padStem + QStringLiteral(".json")),
-                       padstackJson(pad, padstackUuid, diagnostics),
+                       padstack,
                        diagnostics))
             return false;
     }
@@ -1454,13 +1530,17 @@ bool writeFootprintFiles(const IR::FootprintComponentIR& footprint,
                          QStringList& diagnostics) {
     if (!validatePadIdentifiers(footprint, diagnostics))
         return false;
+    if (!validateGenericKeepOutLayers(footprint, diagnostics))
+        return false;
     QHash<QString, QString> padUuids;
     const QString packageUuid = HorizonUuid::make(QStringLiteral("package"), footprint.name);
     const QString packageDir = QDir(root).filePath(QStringLiteral("packages/") + safeName(footprint.name));
     const QList<IR::Model3DIR> models = exportModel3D ? footprint.models3d : QList<IR::Model3DIR>{};
-    if (!QDir().mkpath(packageDir) || !writeJson(QDir(packageDir).filePath(QStringLiteral("package.json")),
-                                                 packageJson(footprint, packageUuid, models, padUuids, diagnostics),
-                                                 diagnostics))
+    const QJsonObject package = packageJson(footprint, packageUuid, models, padUuids, diagnostics);
+    if (package.isEmpty())
+        return false;
+    if (!QDir().mkpath(packageDir) ||
+        !writeJson(QDir(packageDir).filePath(QStringLiteral("package.json")), package, diagnostics))
         return false;
     if (!writeModels(models, root, packageUuid, diagnostics))
         return false;
@@ -1469,9 +1549,12 @@ bool writeFootprintFiles(const IR::FootprintComponentIR& footprint,
         const QString padStem = padFileStem(pad, i);
         const QString uuid =
             HorizonUuid::make(QStringLiteral("padstack"), footprint.name + QStringLiteral("/") + padStem);
+        const QJsonObject padstack = padstackJson(pad, uuid, diagnostics);
+        if (padstack.isEmpty())
+            return false;
         if (!writeJson(QDir(root).filePath(QStringLiteral("padstacks/") + safeName(footprint.name) +
                                            QStringLiteral("-") + padStem + QStringLiteral(".json")),
-                       padstackJson(pad, uuid, diagnostics),
+                       padstack,
                        diagnostics))
             return false;
     }
