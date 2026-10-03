@@ -194,7 +194,7 @@ struct LayerDefinition {
     QString color;  // 层颜色（#RRGGBB）
     bool isVisible;  // 是否可见
     bool isUsedForManufacturing;  // 是否用于制
-    double expansion;  // 扩展值（如阻焊层扩展
+    double expansion = 0.0;  // 扩展值（如阻焊层扩展
 };
 
 // ==================== 对象可见性配====================

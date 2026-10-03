@@ -35,8 +35,6 @@ constexpr int kTopPackage = 40;
 constexpr int kBottomPackage = -140;
 constexpr int kTopAssembly = 50;
 constexpr int kBottomAssembly = -150;
-constexpr int kTopCourtyard = 60;
-constexpr int kBottomCourtyard = -160;
 constexpr int kOutline = 100;
 
 QString safeName(QString value) {
@@ -51,6 +49,16 @@ QString safeName(QString value) {
     }
     result = result.simplified();
     return result.isEmpty() ? QStringLiteral("unnamed") : result.left(120);
+}
+
+bool isMechanicalHolePad(const IR::FootprintPadIR& pad) {
+    return pad.isThroughHole() && !pad.isPlated;
+}
+
+QString padFileStem(const IR::FootprintPadIR& pad, int index) {
+    if (isMechanicalHolePad(pad) && pad.number.trimmed().isEmpty())
+        return QStringLiteral("NPTH%1").arg(index + 1);
+    return safeName(pad.number);
 }
 
 bool validateSanitizedName(QHash<QString, QString>& owners,
@@ -168,8 +176,9 @@ int packageLayer(IR::LayerType layer, QStringList& diagnostics, const QString& c
         case IR::LayerType::BottomAssembly:
             return kBottomAssembly;
         case IR::LayerType::KeepOut:
-            diagnostics.append(QStringLiteral("Horizon: KeepOut 降级为 top courtyard：%1").arg(context));
-            return kTopCourtyard;
+            diagnostics.append(
+                QStringLiteral("Horizon: KeepOut 必须通过原生 keepouts 对象输出，不能作为普通图层：%1").arg(context));
+            return kTopCopper;
         case IR::LayerType::EdgeCuts:
             return kOutline;
         default:
@@ -243,6 +252,52 @@ void addLine(QJsonObject& lines,
                              {QStringLiteral("to"), toUuid},
                              {QStringLiteral("width"), HorizonUnits::mm(width)},
                              {QStringLiteral("layer"), layer}});
+}
+
+void addArc(QJsonObject& arcs,
+            QJsonObject& junctions,
+            const QString& semantic,
+            const QPointF& from,
+            const QPointF& to,
+            const QPointF& center,
+            int layer,
+            double width) {
+    const QString fromUuid = HorizonUuid::make(QStringLiteral("junction"), semantic + QStringLiteral("/from"));
+    const QString toUuid = HorizonUuid::make(QStringLiteral("junction"), semantic + QStringLiteral("/to"));
+    const QString centerUuid = HorizonUuid::make(QStringLiteral("junction"), semantic + QStringLiteral("/center"));
+    const QString arcUuid = HorizonUuid::make(QStringLiteral("arc"), semantic);
+    junctions.insert(fromUuid, QJsonObject{{QStringLiteral("position"), point(from)}});
+    junctions.insert(toUuid, QJsonObject{{QStringLiteral("position"), point(to)}});
+    junctions.insert(centerUuid, QJsonObject{{QStringLiteral("position"), point(center)}});
+    arcs.insert(arcUuid,
+                QJsonObject{{QStringLiteral("from"), fromUuid},
+                            {QStringLiteral("to"), toUuid},
+                            {QStringLiteral("center"), centerUuid},
+                            {QStringLiteral("width"), HorizonUnits::mm(width)},
+                            {QStringLiteral("layer"), layer}});
+}
+
+void addCircle(QJsonObject& arcs,
+               QJsonObject& junctions,
+               const QString& semantic,
+               const QPointF& center,
+               double radius,
+               int layer,
+               double width) {
+    const QList<QPointF> points = {center + QPointF(radius, 0.0),
+                                   center + QPointF(0.0, radius),
+                                   center + QPointF(-radius, 0.0),
+                                   center + QPointF(0.0, -radius)};
+    for (int i = 0; i < points.size(); ++i) {
+        addArc(arcs,
+               junctions,
+               semantic + QStringLiteral("/") + QString::number(i),
+               points.at(i),
+               points.at((i + 1) % points.size()),
+               center,
+               layer,
+               width);
+    }
 }
 
 void addPolygon(QJsonObject& polygons, const QString& semantic, const QList<QPointF>& points, int layer) {
@@ -661,9 +716,20 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
     const QString context = pad.number;
     QJsonObject shapes;
     QJsonObject polygons;
+    QJsonObject parameterSet;
+    QStringList parameterProgram;
     const int layer = packageLayer(pad.layer, diagnostics, context);
-    const bool hasCustomPolygon = (pad.shape == IR::PadShape::Polygon || pad.shape == IR::PadShape::Trapezoid) &&
+    const bool hasCustomPolygon = (pad.shape == IR::PadShape::Polygon || pad.shape == IR::PadShape::RoundRect ||
+                                   pad.shape == IR::PadShape::Trapezoid) &&
                                   pad.customShapePoints.size() >= 3;
+    QList<QPointF> rotatedCustomPoints;
+    if (hasCustomPolygon) {
+        rotatedCustomPoints.reserve(pad.customShapePoints.size());
+        for (const QPointF& item : pad.customShapePoints)
+            rotatedCustomPoints.append(rotateAround(item, {}, pad.rotation));
+    }
+    const QList<int> throughCopperLayers = {
+        kTopCopper, kInnerCopper1, kInnerCopper2, kInnerCopper3, kInnerCopper4, kBottomCopper};
     QString form = QStringLiteral("rectangle");
     QJsonArray params{HorizonUnits::mm(pad.size.width()), HorizonUnits::mm(pad.size.height())};
     if (pad.shape == IR::PadShape::Ellipse) {
@@ -675,12 +741,134 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
         }
     } else if (pad.shape == IR::PadShape::Oval) {
         form = QStringLiteral("obround");
-    } else if (pad.shape == IR::PadShape::RoundRect) {
+    } else if (pad.shape == IR::PadShape::RoundRect && !hasCustomPolygon) {
         diagnostics.append(QStringLiteral("Horizon: IR 未提供圆角半径，Pad %1 按 rectangle 输出").arg(context));
-    } else if (pad.shape == IR::PadShape::Polygon || pad.shape == IR::PadShape::Trapezoid) {
+    } else if (pad.shape == IR::PadShape::Polygon || pad.shape == IR::PadShape::RoundRect ||
+               pad.shape == IR::PadShape::Trapezoid) {
         if (pad.customShapePoints.size() < 3)
             diagnostics.append(QStringLiteral("Horizon: Pad %1 的自定义形状缺少至少 3 个顶点").arg(context));
         else {
+            QJsonArray vertices;
+            for (const QPointF& item : rotatedCustomPoints)
+                vertices.append(QJsonObject{{QStringLiteral("type"), QStringLiteral("line")},
+                                            {QStringLiteral("position"), point(item)},
+                                            {QStringLiteral("arc_center"), point(0.0, 0.0)},
+                                            {QStringLiteral("arc_reverse"), false}});
+            const auto addPolygonForLayer = [&polygons, &vertices, &uuid](const QString& semantic, int polygonLayer) {
+                polygons.insert(
+                    HorizonUuid::make(QStringLiteral("padstack-polygon"), uuid + semantic),
+                    QJsonObject{{QStringLiteral("vertices"), vertices}, {QStringLiteral("layer"), polygonLayer}});
+            };
+            if (pad.isThroughHole()) {
+                for (const int copperLayer : throughCopperLayers)
+                    addPolygonForLayer(QStringLiteral("/copper/") + QString::number(copperLayer), copperLayer);
+            } else {
+                addPolygonForLayer(QStringLiteral("/copper"), layer);
+            }
+            diagnostics.append(QStringLiteral("Horizon: Pad %1 的自定义轮廓已写入 padstack polygon").arg(context));
+        }
+    }
+
+    const auto appendParameterValue = [&parameterSet](const QString& name, double value) {
+        parameterSet.insert(name, HorizonUnits::mm(value));
+    };
+    const auto dimensionLiteral = [](double value) {
+        return QString::number(static_cast<double>(HorizonUnits::mm(value)) / 1000000.0, 'f', 6) + QStringLiteral("mm");
+    };
+    const auto appendShapeProgram = [&parameterProgram, &dimensionLiteral, &pad, &form](
+                                        const QString& parameterClass, const QString& parameterName, bool contraction) {
+        if (form == QStringLiteral("circle")) {
+            parameterProgram.append(dimensionLiteral(pad.size.width()));
+            parameterProgram.append(
+                QStringLiteral("get-parameter [ %1 ] %2").arg(parameterName, contraction ? "2 * -" : "2 * +"));
+            parameterProgram.append(QStringLiteral("set-shape [ %1 circle ]").arg(parameterClass));
+        } else {
+            parameterProgram.append(dimensionLiteral(pad.size.width()) + QStringLiteral(" ") +
+                                    dimensionLiteral(pad.size.height()));
+            parameterProgram.append(
+                QStringLiteral("get-parameter [ %1 ] %2").arg(parameterName, contraction ? "2 * -xy" : "2 * +xy"));
+            parameterProgram.append(QStringLiteral("set-shape [ %1 %2 ]").arg(parameterClass, form));
+        }
+    };
+    const auto appendPolygonProgram = [&parameterProgram](const QString& parameterClass,
+                                                          const QString& parameterName,
+                                                          bool contraction,
+                                                          const QList<QPointF>& points) {
+        if (contraction)
+            parameterProgram.append(QStringLiteral("0 get-parameter [ %1 ] -").arg(parameterName));
+        else
+            parameterProgram.append(QStringLiteral("get-parameter [ %1 ]").arg(parameterName));
+        QString line = QStringLiteral("expand-polygon [ ") + parameterClass;
+        for (const QPointF& item : points)
+            line += QStringLiteral(" %1 %2").arg(HorizonUnits::mm(item.x())).arg(HorizonUnits::mm(item.y()));
+        line += QStringLiteral(" ]");
+        parameterProgram.append(line);
+    };
+    if (!hasCustomPolygon) {
+        const QString parameterClass = pad.isSmd() ? QStringLiteral("pad") : QStringLiteral("copper");
+        const auto addShapeForLayer = [&shapes, &uuid, &form, &params, &pad, &parameterClass](const QString& semantic,
+                                                                                              int shapeLayer) {
+            shapes.insert(HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + semantic),
+                          QJsonObject{{QStringLiteral("form"), form},
+                                      {QStringLiteral("layer"), shapeLayer},
+                                      {QStringLiteral("parameter_class"), parameterClass},
+                                      {QStringLiteral("params"), params},
+                                      {QStringLiteral("placement"), placement({}, pad.rotation)}});
+        };
+        if (pad.isThroughHole()) {
+            for (const int copperLayer : throughCopperLayers)
+                addShapeForLayer(QStringLiteral("/copper/") + QString::number(copperLayer), copperLayer);
+        } else {
+            addShapeForLayer(QStringLiteral("/copper"), layer);
+        }
+    }
+    if (pad.isSmd() && !hasCustomPolygon) {
+        const int maskLayer = layer == kBottomCopper ? kBottomMask : kTopMask;
+        const int pasteLayer = layer == kBottomCopper ? kBottomPaste : kTopPaste;
+        if (pad.solderMaskEnabled) {
+            const QString maskUuid =
+                HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + QStringLiteral("/mask"));
+            shapes.insert(maskUuid,
+                          QJsonObject{{QStringLiteral("form"), form},
+                                      {QStringLiteral("layer"), maskLayer},
+                                      {QStringLiteral("parameter_class"), QStringLiteral("mask")},
+                                      {QStringLiteral("params"), params},
+                                      {QStringLiteral("placement"), placement({}, pad.rotation)}});
+        }
+        if (pad.pasteMaskEnabled) {
+            const QString pasteUuid =
+                HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + QStringLiteral("/paste"));
+            shapes.insert(pasteUuid,
+                          QJsonObject{{QStringLiteral("form"), form},
+                                      {QStringLiteral("layer"), pasteLayer},
+                                      {QStringLiteral("parameter_class"), QStringLiteral("paste")},
+                                      {QStringLiteral("params"), params},
+                                      {QStringLiteral("placement"), placement({}, pad.rotation)}});
+        }
+    } else if (pad.isSmd() && hasCustomPolygon) {
+        const int maskLayer = layer == kBottomCopper ? kBottomMask : kTopMask;
+        const int pasteLayer = layer == kBottomCopper ? kBottomPaste : kTopPaste;
+        for (const auto& entry :
+             {qMakePair(QStringLiteral("mask"), maskLayer), qMakePair(QStringLiteral("paste"), pasteLayer)}) {
+            if ((entry.first == QStringLiteral("mask") && !pad.solderMaskEnabled) ||
+                (entry.first == QStringLiteral("paste") && !pad.pasteMaskEnabled))
+                continue;
+            QJsonArray vertices;
+            for (const QPointF& item : pad.customShapePoints)
+                vertices.append(QJsonObject{{QStringLiteral("type"), QStringLiteral("line")},
+                                            {QStringLiteral("position"), point(rotateAround(item, {}, pad.rotation))},
+                                            {QStringLiteral("arc_center"), point(0.0, 0.0)},
+                                            {QStringLiteral("arc_reverse"), false}});
+            polygons.insert(
+                HorizonUuid::make(QStringLiteral("padstack-polygon"), uuid + QStringLiteral("/") + entry.first),
+                QJsonObject{{QStringLiteral("vertices"), vertices},
+                            {QStringLiteral("layer"), entry.second},
+                            {QStringLiteral("parameter_class"), entry.first}});
+        }
+    } else if (pad.isThroughHole()) {
+        const int topMaskLayer = kTopMask;
+        const int bottomMaskLayer = kBottomMask;
+        if (hasCustomPolygon && pad.solderMaskEnabled) {
             QList<QPointF> points;
             points.reserve(pad.customShapePoints.size());
             for (const QPointF& item : pad.customShapePoints)
@@ -691,51 +879,50 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
                                             {QStringLiteral("position"), point(item)},
                                             {QStringLiteral("arc_center"), point(0.0, 0.0)},
                                             {QStringLiteral("arc_reverse"), false}});
-            polygons.insert(HorizonUuid::make(QStringLiteral("padstack-polygon"), uuid),
-                            QJsonObject{{QStringLiteral("vertices"), vertices}, {QStringLiteral("layer"), layer}});
-            diagnostics.append(QStringLiteral("Horizon: Pad %1 的自定义多边形已写入 padstack polygon").arg(context));
+            for (const auto& entry : {qMakePair(QStringLiteral("/mask/top"), topMaskLayer),
+                                      qMakePair(QStringLiteral("/mask/bottom"), bottomMaskLayer)}) {
+                polygons.insert(HorizonUuid::make(QStringLiteral("padstack-polygon"), uuid + entry.first),
+                                QJsonObject{{QStringLiteral("vertices"), vertices},
+                                            {QStringLiteral("layer"), entry.second},
+                                            {QStringLiteral("parameter_class"), QStringLiteral("mask")}});
+            }
+        } else if (pad.solderMaskEnabled) {
+            for (const auto& entry : {qMakePair(QStringLiteral("/mask/top"), topMaskLayer),
+                                      qMakePair(QStringLiteral("/mask/bottom"), bottomMaskLayer)}) {
+                shapes.insert(HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + entry.first),
+                              QJsonObject{{QStringLiteral("form"), form},
+                                          {QStringLiteral("layer"), entry.second},
+                                          {QStringLiteral("parameter_class"), QStringLiteral("mask")},
+                                          {QStringLiteral("params"), params},
+                                          {QStringLiteral("placement"), placement({}, pad.rotation)}});
+            }
         }
     }
-    if (!hasCustomPolygon) {
-        const QString shapeUuid = HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + QStringLiteral("/copper"));
-        shapes.insert(shapeUuid,
-                      QJsonObject{{QStringLiteral("form"), form},
-                                  {QStringLiteral("layer"), layer},
-                                  {QStringLiteral("parameter_class"), QStringLiteral("copper")},
-                                  {QStringLiteral("params"), params},
-                                  {QStringLiteral("placement"), placement({}, pad.rotation)}});
-    }
-    if (pad.isSmd() && !hasCustomPolygon) {
-        const int maskLayer = layer == kBottomCopper ? kBottomMask : kTopMask;
-        const QString maskUuid = HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + QStringLiteral("/mask"));
-        shapes.insert(maskUuid,
-                      QJsonObject{{QStringLiteral("form"), form},
-                                  {QStringLiteral("layer"), maskLayer},
-                                  {QStringLiteral("parameter_class"), QStringLiteral("mask")},
-                                  {QStringLiteral("params"), params},
-                                  {QStringLiteral("placement"), placement({}, pad.rotation)}});
-        const int pasteLayer = layer == kBottomCopper ? kBottomPaste : kTopPaste;
-        const QString pasteUuid = HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + QStringLiteral("/paste"));
-        shapes.insert(pasteUuid,
-                      QJsonObject{{QStringLiteral("form"), form},
-                                  {QStringLiteral("layer"), pasteLayer},
-                                  {QStringLiteral("parameter_class"), QStringLiteral("paste")},
-                                  {QStringLiteral("params"), params},
-                                  {QStringLiteral("placement"), placement({}, pad.rotation)}});
-    } else if (pad.isSmd() && hasCustomPolygon) {
-        const int maskLayer = layer == kBottomCopper ? kBottomMask : kTopMask;
-        const int pasteLayer = layer == kBottomCopper ? kBottomPaste : kTopPaste;
-        for (const auto& entry :
-             {qMakePair(QStringLiteral("mask"), maskLayer), qMakePair(QStringLiteral("paste"), pasteLayer)}) {
-            QJsonArray vertices;
-            for (const QPointF& item : pad.customShapePoints)
-                vertices.append(QJsonObject{{QStringLiteral("type"), QStringLiteral("line")},
-                                            {QStringLiteral("position"), point(rotateAround(item, {}, pad.rotation))},
-                                            {QStringLiteral("arc_center"), point(0.0, 0.0)},
-                                            {QStringLiteral("arc_reverse"), false}});
-            polygons.insert(
-                HorizonUuid::make(QStringLiteral("padstack-polygon"), uuid + QStringLiteral("/") + entry.first),
-                QJsonObject{{QStringLiteral("vertices"), vertices}, {QStringLiteral("layer"), entry.second}});
+    if (pad.isSmd()) {
+        if (pad.solderMaskEnabled) {
+            appendParameterValue(QStringLiteral("solder_mask_expansion"), pad.solderMaskExpansionMm);
+            if (hasCustomPolygon)
+                appendPolygonProgram(
+                    QStringLiteral("mask"), QStringLiteral("solder_mask_expansion"), false, rotatedCustomPoints);
+            else
+                appendShapeProgram(QStringLiteral("mask"), QStringLiteral("solder_mask_expansion"), false);
+        }
+        if (pad.pasteMaskEnabled) {
+            appendParameterValue(QStringLiteral("paste_mask_contraction"), pad.pasteMaskContractionMm);
+            if (hasCustomPolygon)
+                appendPolygonProgram(
+                    QStringLiteral("paste"), QStringLiteral("paste_mask_contraction"), true, rotatedCustomPoints);
+            else
+                appendShapeProgram(QStringLiteral("paste"), QStringLiteral("paste_mask_contraction"), true);
+        }
+    } else if (pad.isThroughHole() && (pad.solderMaskEnabled || pad.pasteMaskEnabled)) {
+        if (pad.solderMaskEnabled) {
+            appendParameterValue(QStringLiteral("solder_mask_expansion"), pad.solderMaskExpansionMm);
+            if (hasCustomPolygon)
+                appendPolygonProgram(
+                    QStringLiteral("mask"), QStringLiteral("solder_mask_expansion"), false, rotatedCustomPoints);
+            else
+                appendShapeProgram(QStringLiteral("mask"), QStringLiteral("solder_mask_expansion"), false);
         }
     }
     QJsonObject holes;
@@ -758,8 +945,8 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
                        {QStringLiteral("uuid"), uuid},
                        {QStringLiteral("name"), QStringLiteral("Pad ") + pad.number},
                        {QStringLiteral("padstack_type"), padstackType},
-                       {QStringLiteral("parameter_program"), QString()},
-                       {QStringLiteral("parameter_set"), QJsonObject{}},
+                       {QStringLiteral("parameter_program"), parameterProgram.join(QLatin1Char('\n'))},
+                       {QStringLiteral("parameter_set"), parameterSet},
                        {QStringLiteral("parameters_required"), QJsonArray{}},
                        {QStringLiteral("polygons"), polygons},
                        {QStringLiteral("holes"), holes},
@@ -767,9 +954,18 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
 }
 
 QJsonObject holePadstackJson(const IR::FootprintHoleIR& hole, const QString& uuid) {
-    const QString shapeUuid = HorizonUuid::make(QStringLiteral("hole-shape"), uuid);
     const QString holeUuid = HorizonUuid::make(QStringLiteral("hole"), uuid);
     const qint64 diameter = HorizonUnits::mm(hole.radius * 2.0);
+    const QString topMaskUuid = HorizonUuid::make(QStringLiteral("hole-mask"), uuid + QStringLiteral("/top"));
+    const QString bottomMaskUuid = HorizonUuid::make(QStringLiteral("hole-mask"), uuid + QStringLiteral("/bottom"));
+    const QJsonObject maskShape = QJsonObject{{QStringLiteral("form"), QStringLiteral("circle")},
+                                              {QStringLiteral("parameter_class"), QStringLiteral("mask")},
+                                              {QStringLiteral("params"), QJsonArray{diameter}},
+                                              {QStringLiteral("placement"), placement()}};
+    QJsonObject topMask = maskShape;
+    topMask.insert(QStringLiteral("layer"), kTopMask);
+    QJsonObject bottomMask = maskShape;
+    bottomMask.insert(QStringLiteral("layer"), kBottomMask);
     return QJsonObject{{QStringLiteral("type"), QStringLiteral("padstack")},
                        {QStringLiteral("uuid"), uuid},
                        {QStringLiteral("name"), QStringLiteral("Mounting hole")},
@@ -786,13 +982,7 @@ QJsonObject holePadstackJson(const IR::FootprintHoleIR& hole, const QString& uui
                                                  {QStringLiteral("placement"), placement()},
                                                  {QStringLiteral("plated"), false},
                                                  {QStringLiteral("shape"), QStringLiteral("round")}}}}},
-                       {QStringLiteral("shapes"),
-                        QJsonObject{{shapeUuid,
-                                     QJsonObject{{QStringLiteral("form"), QStringLiteral("circle")},
-                                                 {QStringLiteral("layer"), kTopCopper},
-                                                 {QStringLiteral("parameter_class"), QStringLiteral("hole")},
-                                                 {QStringLiteral("params"), QJsonArray{diameter}},
-                                                 {QStringLiteral("placement"), placement()}}}}}};
+                       {QStringLiteral("shapes"), QJsonObject{{topMaskUuid, topMask}, {bottomMaskUuid, bottomMask}}}};
 }
 
 QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
@@ -831,29 +1021,32 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     }
     for (int i = 0; i < footprint.pads.size(); ++i) {
         const auto& pad = footprint.pads.at(i);
-        if (pad.number.trimmed().isEmpty()) {
+        if (pad.number.trimmed().isEmpty() && !isMechanicalHolePad(pad)) {
             diagnostics.append(QStringLiteral("Horizon: 封装 %1 存在空焊盘编号").arg(footprint.name));
             continue;
         }
-        if (padUuids.contains(pad.number)) {
+        if (!pad.number.trimmed().isEmpty() && padUuids.contains(pad.number)) {
             diagnostics.append(QStringLiteral("Horizon: 封装 %1 存在重复焊盘编号 %2").arg(footprint.name, pad.number));
             continue;
         }
+        const QString padName = padFileStem(pad, i);
         const QString padUuid =
-            HorizonUuid::make(QStringLiteral("package-pad"), footprint.name + QStringLiteral("/") + pad.number);
+            HorizonUuid::make(QStringLiteral("package-pad"), footprint.name + QStringLiteral("/") + padName);
         const QString padstackUuid =
-            HorizonUuid::make(QStringLiteral("padstack"), footprint.name + QStringLiteral("/") + pad.number);
-        padUuids.insert(pad.number, padUuid);
+            HorizonUuid::make(QStringLiteral("padstack"), footprint.name + QStringLiteral("/") + padName);
+        if (!isMechanicalHolePad(pad))
+            padUuids.insert(pad.number, padUuid);
         pads.insert(padUuid,
                     QJsonObject{{QStringLiteral("padstack"), padstackUuid},
                                 {QStringLiteral("placement"), placement(pad.position, pad.rotation)},
-                                {QStringLiteral("name"), pad.number},
+                                {QStringLiteral("name"), padName},
                                 {QStringLiteral("parameter_set"), QJsonObject{}}});
     }
     result.insert(QStringLiteral("pads"), pads);
 
     QJsonObject junctions = result[QStringLiteral("junctions")].toObject();
     QJsonObject lines = result[QStringLiteral("lines")].toObject();
+    QJsonObject arcs = result[QStringLiteral("arcs")].toObject();
     QJsonObject texts = result[QStringLiteral("texts")].toObject();
     QJsonObject polygons = result[QStringLiteral("polygons")].toObject();
     QJsonObject keepouts = result[QStringLiteral("keepouts")].toObject();
@@ -901,13 +1094,13 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     }
     for (int i = 0; i < footprint.circles.size(); ++i) {
         const auto& circle = footprint.circles.at(i);
-        addPolygon(polygons,
-                   footprint.name + QStringLiteral("/circle/") + QString::number(i),
-                   ellipsePoints(circle.center, circle.radius, circle.radius, 0.0, 360.0),
-                   packageLayer(circle.layer, diagnostics, footprint.name));
-        if (circle.strokeWidth > 0)
-            diagnostics.append(
-                QStringLiteral("Horizon: 封装 %1 的圆形边框已按填充多边形近似，线宽未保留").arg(footprint.name));
+        addCircle(arcs,
+                  junctions,
+                  footprint.name + QStringLiteral("/circle/") + QString::number(i),
+                  circle.center,
+                  circle.radius,
+                  packageLayer(circle.layer, diagnostics, footprint.name),
+                  circle.strokeWidth);
     }
     for (int i = 0; i < footprint.rectangles.size(); ++i) {
         const auto& rectangle = footprint.rectangles.at(i);
@@ -916,13 +1109,16 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
         QList<QPointF> points = {bounds.topLeft(), bounds.topRight(), bounds.bottomRight(), bounds.bottomLeft()};
         for (QPointF& item : points)
             item = rotateAround(item, center, rectangle.rotation);
-        addPolygon(polygons,
-                   footprint.name + QStringLiteral("/rectangle/") + QString::number(i),
-                   points,
-                   packageLayer(rectangle.layer, diagnostics, footprint.name));
-        if (rectangle.strokeWidth > 0)
-            diagnostics.append(
-                QStringLiteral("Horizon: 封装 %1 的矩形边框已按填充多边形近似，线宽未保留").arg(footprint.name));
+        const int layer = packageLayer(rectangle.layer, diagnostics, footprint.name);
+        for (int j = 0; j < points.size(); ++j)
+            addLine(lines,
+                    junctions,
+                    footprint.name + QStringLiteral("/rectangle/") + QString::number(i) + QStringLiteral("/") +
+                        QString::number(j),
+                    points.at(j),
+                    points.at((j + 1) % points.size()),
+                    layer,
+                    rectangle.strokeWidth);
     }
     for (int i = 0; i < footprint.arcs.size(); ++i) {
         const auto& arc = footprint.arcs.at(i);
@@ -949,6 +1145,7 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     }
     result.insert(QStringLiteral("junctions"), junctions);
     result.insert(QStringLiteral("lines"), lines);
+    result.insert(QStringLiteral("arcs"), arcs);
     result.insert(QStringLiteral("texts"), texts);
     result.insert(QStringLiteral("polygons"), polygons);
     result.insert(QStringLiteral("keepouts"), keepouts);
@@ -957,7 +1154,7 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
         const IR::Model3DIR& model = models.at(i);
         const QString modelUuid =
             HorizonUuid::make(QStringLiteral("package-model"), packageUuid + QStringLiteral("/") + QString::number(i));
-        const QString suffix = model.hasStepData() ? QStringLiteral(".step") : QStringLiteral(".obj");
+        const QString suffix = QStringLiteral(".step");
         const QString filename = QStringLiteral("3d_models/") + modelUuid + suffix;
         const auto translation = model.translation();
         const auto stepOffset = model.stepOffsetMm();
@@ -972,9 +1169,12 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                                         {QStringLiteral("yaw"), qRound(rotation.z)}});
     }
     result.insert(QStringLiteral("models"), modelObjects);
-    result.insert(QStringLiteral("default_model"),
-                  modelObjects.isEmpty() ? QStringLiteral("00000000-0000-0000-0000-000000000000")
-                                         : modelObjects.keys().constFirst());
+    const QString defaultModelUuid =
+        models.isEmpty() ? QString()
+                         : HorizonUuid::make(QStringLiteral("package-model"), packageUuid + QStringLiteral("/0"));
+    result.insert(
+        QStringLiteral("default_model"),
+        defaultModelUuid.isEmpty() ? QStringLiteral("00000000-0000-0000-0000-000000000000") : defaultModelUuid);
     return result;
 }
 
@@ -983,8 +1183,10 @@ bool validatePadIdentifiers(const IR::FootprintComponentIR& footprint, QStringLi
     bool valid = true;
     for (const auto& pad : footprint.pads) {
         if (pad.number.trimmed().isEmpty()) {
-            diagnostics.append(QStringLiteral("Horizon: 封装 %1 存在空焊盘编号").arg(footprint.name));
-            valid = false;
+            if (!isMechanicalHolePad(pad)) {
+                diagnostics.append(QStringLiteral("Horizon: 封装 %1 存在空焊盘编号").arg(footprint.name));
+                valid = false;
+            }
         } else if (identifiers.contains(pad.number)) {
             diagnostics.append(QStringLiteral("Horizon: 封装 %1 存在重复焊盘编号 %2").arg(footprint.name, pad.number));
             valid = false;
@@ -1001,10 +1203,12 @@ bool validateFootprintOutputNames(const QList<IR::FootprintComponentIR>& footpri
     for (const auto& footprint : footprints) {
         if (!validateSafeName(footprintNameOwners, footprint.name, QStringLiteral("封装"), diagnostics))
             return false;
-        for (const auto& pad : footprint.pads) {
-            const QString rawPadstackName = footprint.name + QStringLiteral("/") + pad.number;
+        for (int i = 0; i < footprint.pads.size(); ++i) {
+            const auto& pad = footprint.pads.at(i);
+            const QString padStem = padFileStem(pad, i);
+            const QString rawPadstackName = footprint.name + QStringLiteral("/") + padStem;
             if (!validateSanitizedName(padstackNameOwners,
-                                       safeName(footprint.name) + QStringLiteral("-") + safeName(pad.number),
+                                       safeName(footprint.name) + QStringLiteral("-") + padStem,
                                        rawPadstackName,
                                        QStringLiteral("焊盘"),
                                        diagnostics))
@@ -1020,10 +1224,19 @@ bool writeModels(const QList<IR::Model3DIR>& models,
                  QStringList& diagnostics) {
     for (int i = 0; i < models.size(); ++i) {
         const IR::Model3DIR& model = models.at(i);
+        if (!model.isValid()) {
+            diagnostics.append(QStringLiteral("Horizon: 第 %1 个 3D 模型没有有效的 STEP 或 OBJ 数据").arg(i + 1));
+            return false;
+        }
+        if (!model.hasStepData()) {
+            diagnostics.append(
+                QStringLiteral("Horizon: 第 %1 个 3D 模型只有 OBJ 数据；当前 Horizon 仅支持 STEP 模型").arg(i + 1));
+            return false;
+        }
         const QString uuid =
             HorizonUuid::make(QStringLiteral("package-model"), packageUuid + QStringLiteral("/") + QString::number(i));
-        const QString suffix = model.hasStepData() ? QStringLiteral(".step") : QStringLiteral(".obj");
-        const QByteArray data = model.hasStepData() ? model.stepData() : model.rawObj().toUtf8();
+        const QString suffix = QStringLiteral(".step");
+        const QByteArray data = model.stepData();
         if (!writeBinary(QDir(root).filePath(QStringLiteral("3d_models/") + uuid + suffix), data, diagnostics))
             return false;
     }
@@ -1102,11 +1315,13 @@ bool writeComponent(const IR::ComponentIR& component,
         return false;
     if (!writeModels(models, root, packageUuid, diagnostics))
         return false;
-    for (const auto& pad : component.footprint.pads) {
+    for (int i = 0; i < component.footprint.pads.size(); ++i) {
+        const auto& pad = component.footprint.pads.at(i);
+        const QString padStem = padFileStem(pad, i);
         const QString padstackUuid =
-            HorizonUuid::make(QStringLiteral("padstack"), component.footprint.name + QStringLiteral("/") + pad.number);
+            HorizonUuid::make(QStringLiteral("padstack"), component.footprint.name + QStringLiteral("/") + padStem);
         if (!writeJson(QDir(root).filePath(QStringLiteral("padstacks/") + safeName(component.footprint.name) +
-                                           QStringLiteral("-") + safeName(pad.number) + QStringLiteral(".json")),
+                                           QStringLiteral("-") + padStem + QStringLiteral(".json")),
                        padstackJson(pad, padstackUuid, diagnostics),
                        diagnostics))
             return false;
@@ -1140,6 +1355,8 @@ bool writeComponent(const IR::ComponentIR& component,
         }
     }
     for (const auto& pad : component.footprint.pads) {
+        if (isMechanicalHolePad(pad))
+            continue;
         if (!padUuids.contains(pad.number))
             continue;
         const IR::SymbolPinIR* matched = nullptr;
@@ -1168,7 +1385,7 @@ bool writeComponent(const IR::ComponentIR& component,
             continue;
         bool foundPad = false;
         for (const auto& pad : component.footprint.pads) {
-            if (pad.number == pin.designator) {
+            if (!isMechanicalHolePad(pad) && pad.number == pin.designator) {
                 foundPad = true;
                 break;
             }
@@ -1231,24 +1448,29 @@ bool writePoolInfo(const QString& root, const QString& name, QStringList& diagno
            writeJson(QDir(root).filePath(QStringLiteral("padstacks/default-via.json")), via, diagnostics);
 }
 
-bool writeFootprintFiles(const IR::FootprintComponentIR& footprint, const QString& root, QStringList& diagnostics) {
+bool writeFootprintFiles(const IR::FootprintComponentIR& footprint,
+                         const QString& root,
+                         bool exportModel3D,
+                         QStringList& diagnostics) {
     if (!validatePadIdentifiers(footprint, diagnostics))
         return false;
     QHash<QString, QString> padUuids;
     const QString packageUuid = HorizonUuid::make(QStringLiteral("package"), footprint.name);
     const QString packageDir = QDir(root).filePath(QStringLiteral("packages/") + safeName(footprint.name));
-    if (!QDir().mkpath(packageDir) ||
-        !writeJson(QDir(packageDir).filePath(QStringLiteral("package.json")),
-                   packageJson(footprint, packageUuid, footprint.models3d, padUuids, diagnostics),
-                   diagnostics))
+    const QList<IR::Model3DIR> models = exportModel3D ? footprint.models3d : QList<IR::Model3DIR>{};
+    if (!QDir().mkpath(packageDir) || !writeJson(QDir(packageDir).filePath(QStringLiteral("package.json")),
+                                                 packageJson(footprint, packageUuid, models, padUuids, diagnostics),
+                                                 diagnostics))
         return false;
-    if (!writeModels(footprint.models3d, root, packageUuid, diagnostics))
+    if (!writeModels(models, root, packageUuid, diagnostics))
         return false;
-    for (const auto& pad : footprint.pads) {
+    for (int i = 0; i < footprint.pads.size(); ++i) {
+        const auto& pad = footprint.pads.at(i);
+        const QString padStem = padFileStem(pad, i);
         const QString uuid =
-            HorizonUuid::make(QStringLiteral("padstack"), footprint.name + QStringLiteral("/") + pad.number);
+            HorizonUuid::make(QStringLiteral("padstack"), footprint.name + QStringLiteral("/") + padStem);
         if (!writeJson(QDir(root).filePath(QStringLiteral("padstacks/") + safeName(footprint.name) +
-                                           QStringLiteral("-") + safeName(pad.number) + QStringLiteral(".json")),
+                                           QStringLiteral("-") + padStem + QStringLiteral(".json")),
                        padstackJson(pad, uuid, diagnostics),
                        diagnostics))
             return false;
@@ -1289,14 +1511,14 @@ bool ExporterHorizonLibrary::exportFootprint(const IR::FootprintComponentIR& foo
         return false;
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, footprint.name, m_diagnostics))
         return false;
-    return writeFootprintFiles(footprint, filePath, m_diagnostics);
+    return writeFootprintFiles(footprint, filePath, true, m_diagnostics);
 }
 
 bool ExporterHorizonLibrary::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                     const QString& libName,
                                                     const QString& filePath,
                                                     bool,
-                                                    bool,
+                                                    bool exportStep,
                                                     const QString&,
                                                     const QString&,
                                                     bool,
@@ -1311,7 +1533,7 @@ bool ExporterHorizonLibrary::exportFootprintLibrary(const QList<IR::FootprintCom
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, libName, m_diagnostics))
         return false;
     for (const auto& footprint : footprints) {
-        if (!writeFootprintFiles(footprint, filePath, m_diagnostics))
+        if (!writeFootprintFiles(footprint, filePath, exportStep, m_diagnostics))
             return false;
     }
     return true;

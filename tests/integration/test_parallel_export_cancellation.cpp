@@ -139,6 +139,92 @@ private slots:
         QVERIFY(footprintContent.contains(QStringLiteral("(pad 1 smd rect")));
     }
 
+    // 验证 Horizon 符号-only 导出使用目录事务提交，并完成官方 Pool 更新。
+    void testHorizonSymbolOnlyPipelineCommitsPoolDirectory() {
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        const QString moduleDir = tempDir.filePath(QStringLiteral("horizon-python"));
+        QVERIFY(QDir().mkpath(moduleDir));
+        QFile module(QDir(moduleDir).filePath(QStringLiteral("horizon.py")));
+        QVERIFY(module.open(QIODevice::WriteOnly | QIODevice::Text));
+        const QByteArray moduleSource =
+            "import json, os\n"
+            "class Pool:\n"
+            "    @staticmethod\n"
+            "    def update(path):\n"
+            "        open(os.path.join(path, 'pool.db'), 'wb').write(b'updated')\n"
+            "class PoolManager:\n"
+            "    pools = {}\n"
+            "    @staticmethod\n"
+            "    def get_pools():\n"
+            "        return dict(PoolManager.pools)\n"
+            "    @staticmethod\n"
+            "    def add_pool(path):\n"
+            "        with open(os.path.join(path, 'pool.json'), encoding='utf-8') as f:\n"
+            "            PoolManager.pools[os.path.abspath(path)] = json.load(f)['uuid']\n";
+        QVERIFY(module.write(moduleSource) == moduleSource.size());
+        module.close();
+
+        const QByteArray previousPython = qgetenv("EASYKICONVERTER_HORIZON_PYTHON");
+        const QByteArray previousPythonPath = qgetenv("EASYKICONVERTER_HORIZON_PYTHONPATH");
+        qputenv("EASYKICONVERTER_HORIZON_PYTHON", "python3");
+        qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", moduleDir.toLocal8Bit());
+
+        ParallelExportService service;
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("HorizonSymbolsOnly"));
+        options.targetFormat = TargetEdaFormat::Horizon;
+        options.exportFootprint = false;
+        options.exportSymbol = true;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        const QString componentId = QStringLiteral("C91006");
+        QList<ComponentData> componentData = makeFixtureComponents({componentId});
+        QVERIFY(componentData.size() == 1);
+        // 仅保留 Horizon 测试需要的矩形和引脚，避免把 EasyEDA 图片等无关图元带入阶段测试。
+        const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        auto symbol = QSharedPointer<SymbolData>::create();
+        symbol->setInfo(sourceSymbol->info());
+        symbol->setBbox(sourceSymbol->bbox());
+        symbol->setPins(sourceSymbol->pins());
+        symbol->setRectangles(sourceSymbol->rectangles());
+        componentData.first().setSymbolData(symbol);
+        service.startPreload({componentId});
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+        const bool completed = completedSpy.wait(30000);
+
+        if (previousPython.isNull())
+            qunsetenv("EASYKICONVERTER_HORIZON_PYTHON");
+        else
+            qputenv("EASYKICONVERTER_HORIZON_PYTHON", previousPython);
+        if (previousPythonPath.isNull())
+            qunsetenv("EASYKICONVERTER_HORIZON_PYTHONPATH");
+        else
+            qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", previousPythonPath);
+
+        QVERIFY2(completed, "Horizon symbol-only export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        const QString poolPath = tempDir.filePath(QStringLiteral("HorizonSymbolsOnly.pool"));
+        QVERIFY(QDir(poolPath).exists());
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("pool.json"))));
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("pool.db"))));
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("units/CANCEL_SYM_0-1.json"))));
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("symbols/CANCEL_SYM_0-1.json"))));
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("entities/CANCEL_SYM_0.json"))));
+    }
+
     // 验证完整导出流程同时生成符号库、封装库和独立三维模型关联。
     void testPipelineExportsSymbolFootprintAndModel() {
         QTemporaryDir tempDir;

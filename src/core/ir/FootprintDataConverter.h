@@ -182,6 +182,14 @@ inline SvgArcResult parseSvgArcPath(const QString& pathStr, double scaleFactor =
 inline FootprintComponentIR toFootprintIR(const FootprintData& data) {
     FootprintComponentIR ir;
 
+    const auto layerExpansion = [&data](int layerId) {
+        for (const LayerDefinition& layer : data.layers()) {
+            if (layer.layerId == layerId)
+                return layer.expansion;
+        }
+        return 0.0;
+    };
+
     // 通用元数据
     ir.name = data.info().name;
     ir.description = data.info().description;
@@ -201,6 +209,13 @@ inline FootprintComponentIR toFootprintIR(const FootprintData& data) {
         pir.isPlated = pad.isPlated;
         pir.isLocked = pad.isLocked;
         pir.padType = (pad.holeRadius > 0) ? PadType::ThroughHole : PadType::Smd;
+        if (pir.isSmd()) {
+            const bool bottom = pir.layer == LayerType::BottomCopper;
+            pir.solderMaskExpansionMm = layerExpansion(bottom ? 8 : 7);
+            // EasyEDA layer records expose paste expansion separately when present;
+            // absent values intentionally remain zero instead of being inferred.
+            pir.pasteMaskContractionMm = layerExpansion(bottom ? 6 : 5);
+        }
 
         // 异形焊盘自定义形状
         if (pir.shape == PadShape::Polygon && !pad.points.isEmpty()) {

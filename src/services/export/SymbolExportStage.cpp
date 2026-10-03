@@ -260,25 +260,39 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
 
-    const bool finalFileExists = QFile::exists(finalPath);
+    const bool isDirOutput = exporter->isDirectoryOutput();
+    const bool finalOutputExists = QFileInfo::exists(finalPath);
 
     if (m_options.targetFormat == TargetEdaFormat::Xpedition && (m_options.updateMode || m_options.retryMode)) {
         abortExport(QStringLiteral("Xpedition 符号 ZIP 暂不支持更新或重试模式，请选择覆盖导出"));
         return;
     }
-    if (m_options.targetFormat == TargetEdaFormat::Xpedition && finalFileExists && !m_options.overwriteExistingFiles) {
+    if (m_options.targetFormat == TargetEdaFormat::Xpedition && finalOutputExists &&
+        !m_options.overwriteExistingFiles) {
         abortExport(QStringLiteral("Xpedition 符号 ZIP 已存在且当前禁止覆盖: %1").arg(finalPath));
         return;
     }
 
-    QString tempPath = m_tempManager.createSymbolTempPath(libName, fileExt);
+    if (m_options.targetFormat == TargetEdaFormat::Horizon && (m_options.updateMode || m_options.retryMode)) {
+        abortExport(QStringLiteral("Horizon 符号 Pool 暂不支持更新或重试模式，请选择覆盖导出"));
+        return;
+    }
+    if (m_options.targetFormat == TargetEdaFormat::Horizon && finalOutputExists && !m_options.overwriteExistingFiles) {
+        abortExport(QStringLiteral("Horizon 符号 Pool 已存在且当前禁止覆盖: %1").arg(finalPath));
+        return;
+    }
+
+    QString tempPath = isDirOutput ? m_tempManager.createTempDirectoryPath(fileName)
+                                   : m_tempManager.createSymbolTempPath(libName, fileExt);
     if (tempPath.isEmpty()) {
-        abortExport(QStringLiteral("Failed to create temp file path"));
+        abortExport(isDirOutput ? QStringLiteral("Failed to create temp directory path")
+                                : QStringLiteral("Failed to create temp file path"));
         return;
     }
 
     // 追加/更新到现有符号库时，先把最终文件复制到临时文件，再在临时文件上执行 merge。
-    if (finalFileExists && (!m_options.overwriteExistingFiles || m_options.updateMode || m_options.retryMode)) {
+    if (!isDirOutput && finalOutputExists &&
+        (!m_options.overwriteExistingFiles || m_options.updateMode || m_options.retryMode)) {
         const QString tempDirPath = QFileInfo(tempPath).absolutePath();
         if (!QDir().mkpath(tempDirPath)) {
             abortExport(QStringLiteral("Failed to create temp symbol library directory: %1").arg(tempDirPath));
@@ -336,7 +350,7 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
     QString libraryDescription = m_options.symbolLibraryDescription;
     {
         // 只有目标库已经存在且禁止覆盖时才表示追加；首次创建空库不能被误判为追加模式。
-        const bool appendMode = finalFileExists && !m_options.overwriteExistingFiles;
+        const bool appendMode = finalOutputExists && !m_options.overwriteExistingFiles;
         // 转换旧类型列表到 IR 类型
         QList<IR::SymbolComponentIR> irSymbolList;
         irSymbolList.reserve(symbolList.size());
@@ -372,9 +386,21 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         return;
     }
 
+    QStringList horizonDiagnostics;
+    if (m_options.targetFormat == TargetEdaFormat::Horizon &&
+        !HorizonPoolIntegration::updatePool(tempPath, horizonDiagnostics)) {
+        abortExport(QStringLiteral("Horizon Pool 官方更新失败，原有库未修改：%1")
+                        .arg(horizonDiagnostics.join(QStringLiteral("; "))));
+        return;
+    }
+
     QVector<TempFileManager::CommitItem> commitItems;
-    commitItems.append({tempPath, finalPath, false});
+    commitItems.append({tempPath, finalPath, isDirOutput});
     for (auto it = companionFiles.cbegin(); it != companionFiles.cend(); ++it) {
+        if (isDirOutput) {
+            abortExport(QStringLiteral("目录型符号库不支持伴随文件: %1").arg(it.key()));
+            return;
+        }
         const QString companionName = it.key();
         if (companionName.isEmpty() || QFileInfo(companionName).fileName() != companionName ||
             companionName == QFileInfo(finalPath).fileName()) {
@@ -383,7 +409,7 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         }
         const QString companionFinalPath = QDir(outputDir).filePath(companionName);
         // 主库不存在时没有可合并的旧内容，禁止覆盖残留的伴随文件，避免部分库被静默替换。
-        if (!finalFileExists && !m_options.overwriteExistingFiles && QFile::exists(companionFinalPath)) {
+        if (!finalOutputExists && !m_options.overwriteExistingFiles && QFile::exists(companionFinalPath)) {
             abortExport(QStringLiteral("Symbol companion file already exists and overwrite is disabled: %1")
                             .arg(companionFinalPath));
             return;
@@ -399,16 +425,17 @@ void SymbolExportStage::doLibraryExport(const QStringList& componentIds,
         m_tempManager.registerTempFile(companionTempPath);
         commitItems.append({companionTempPath, companionFinalPath, false});
     }
-    if (!m_tempManager.commitBatch(commitItems)) {
+    const bool commitSuccess = isDirOutput ? m_tempManager.commitDirectoryWithBackup(tempPath, finalPath)
+                                           : m_tempManager.commitBatch(commitItems);
+    if (!commitSuccess) {
         abortExport(QStringLiteral("Failed to commit symbol library files"));
         return;
     }
     qDebug() << "SymbolExportStage: Successfully exported to:" << finalPath;
 
     if (m_options.targetFormat == TargetEdaFormat::Horizon) {
-        QStringList horizonDiagnostics;
-        if (!HorizonPoolIntegration::updateAndRegister(finalPath, horizonDiagnostics)) {
-            abortExport(QStringLiteral("Horizon Pool 已生成，但官方更新或注册失败：%1")
+        if (!HorizonPoolIntegration::registerPool(finalPath, horizonDiagnostics)) {
+            abortExport(QStringLiteral("Horizon Pool 已生成，但官方注册失败：%1")
                             .arg(horizonDiagnostics.join(QStringLiteral("; "))));
             return;
         }

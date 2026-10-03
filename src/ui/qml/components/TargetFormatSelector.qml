@@ -15,7 +15,7 @@ ColumnLayout {
         if (targetId === "altium")
             return qsTranslate("MainWindow", ".SchLib / .PcbLib");
         if (targetId === "horizon")
-            return qsTranslate("MainWindow", ".pool Horizon EDA source library");
+            return qsTranslate("MainWindow", "Horizon EDA 原生 Pool：导出后自动更新官方索引并注册到 Horizon；已运行的 Horizon 需要重新加载或重启。");
         if (targetId === "xpedition")
             return qsTranslate("MainWindow", "_Symbols.zip / _Footprints.zip");
         if (targetId === "pads")

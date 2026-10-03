@@ -48,6 +48,15 @@ struct FootprintPadIR {
     bool isPlated = true;  ///< 是否镀铜（仅通孔）
     bool isLocked = false;  ///< 是否锁定
 
+    /** @brief 阻焊扩展量（mm，正值表示向外扩展） */
+    double solderMaskExpansionMm = 0.0;
+    /** @brief 锡膏收缩量（mm，正值表示向内收缩） */
+    double pasteMaskContractionMm = 0.0;
+    /** @brief 是否生成阻焊层图形 */
+    bool solderMaskEnabled = true;
+    /** @brief 是否生成锡膏层图形 */
+    bool pasteMaskEnabled = true;
+
     /** @brief 异形焊盘的自定义形状顶点（已解析，单位 mm） */
     QList<QPointF> customShapePoints;
 

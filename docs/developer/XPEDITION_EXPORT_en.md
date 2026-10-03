@@ -56,7 +56,7 @@ IR data that cannot be safely represented is not silently reported as exported:
 
 - Footprint arcs are approximated as polylines with a maximum 15-degree step and produce an approximation diagnostic; text, filled regions, and standalone holes are written to the Cell.
 - Rotated rectangles are serialized from their rotated vertices; TopOverlay/BottomOverlay are mapped to the corresponding silkscreen side.
-- SMD and through-hole pads reference solder paste/mask definitions; when IR has no mask expansion field, an explicit 8 TH default expansion is used.
+- SMD and through-hole pads reference solder paste/mask definitions; the current Xpedition writer still uses an explicit 8 TH solder-mask expansion and does not yet consume the IR's independent solder-mask/paste process fields.
 - Text mirroring, text paths, inconsistent KeepOut flags, courtyard generation, and unknown layers produce diagnostics when the target cannot express them completely.
 - Xpedition native 3D associations are not written; models are emitted by the independent stage and the result diagnostics explain that manual association in the target tool is required.
 - Symbol ellipses, pies, elliptical arcs, paths, Bézier curves, IEEE graphics, ordinary text, text frames, and images still produce unsupported-element diagnostics.

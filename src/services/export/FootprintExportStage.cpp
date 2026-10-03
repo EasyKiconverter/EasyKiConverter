@@ -4,6 +4,7 @@
 #include "KiCadLibraryTableManager.h"
 #include "core/ExporterFactory.h"
 #include "core/horizon/HorizonPoolIntegration.h"
+#include "core/interfaces/ISymbolExporter.h"
 #include "core/ir/ComponentDataConverter.h"
 #include "core/ir/FootprintDataConverter.h"
 #include "models/ComponentData.h"
@@ -567,14 +568,9 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
         abortExport(QStringLiteral("LibrePCB 工作区库已存在且当前禁止覆盖: %1").arg(librePcbWorkspaceLibrary));
         return;
     }
-    if (m_options.targetFormat == TargetEdaFormat::Horizon && (m_options.updateMode || m_options.retryMode)) {
-        abortExport(QStringLiteral("Horizon Pool 暂不支持更新或重试模式，请选择完整覆盖导出"));
-        return;
-    }
     if (m_options.targetFormat == TargetEdaFormat::Horizon && QDir(finalPath).exists() &&
         !m_options.overwriteExistingFiles) {
-        abortExport(QStringLiteral("Horizon Pool 已存在且当前禁止覆盖: %1").arg(finalPath));
-        return;
+        qInfo() << "FootprintExportStage: Horizon append/update will preserve existing Pool entries:" << finalPath;
     }
 
     if (tempPath.isEmpty()) {
@@ -584,6 +580,14 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
 
     // 目录输出时：追加/更新封装库，先将已有文件复制到临时目录
     if (isDirOutput) {
+        if (m_options.targetFormat == TargetEdaFormat::Horizon && QDir(finalPath).exists() &&
+            (!m_options.overwriteExistingFiles || m_options.updateMode || m_options.retryMode)) {
+            if (!copyDirectoryTree(finalPath, tempPath)) {
+                abortExport(
+                    QStringLiteral("Horizon Pool 现有内容无法安全复制到临时目录，已保留原库: %1").arg(finalPath));
+                return;
+            }
+        }
         const bool preserveExistingFootprints =
             QDir(finalPath).exists() &&
             (!m_options.overwriteExistingFiles || m_options.updateMode || m_options.retryMode);
@@ -592,13 +596,15 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
                 abortExport(QStringLiteral("Failed to create temp dir for merge: %1").arg(tempPath));
                 return;
             }
-            const QStringList existingFiles = QDir(finalPath).entryList({"*.kicad_mod"}, QDir::Files);
-            for (const QString& file : existingFiles) {
-                if (!QFile::copy(finalPath + QDir::separator() + file, tempPath + QDir::separator() + file)) {
-                    qWarning() << "FootprintExportStage: Failed to copy existing footprint:" << file;
+            if (m_options.targetFormat != TargetEdaFormat::Horizon) {
+                const QStringList existingFiles = QDir(finalPath).entryList({"*.kicad_mod"}, QDir::Files);
+                for (const QString& file : existingFiles) {
+                    if (!QFile::copy(finalPath + QDir::separator() + file, tempPath + QDir::separator() + file)) {
+                        qWarning() << "FootprintExportStage: Failed to copy existing footprint:" << file;
+                    }
                 }
+                qDebug() << "FootprintExportStage: Preserved" << existingFiles.size() << "existing footprints";
             }
-            qDebug() << "FootprintExportStage: Preserved" << existingFiles.size() << "existing footprints";
         }
     }
 
@@ -626,7 +632,13 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
             exportSuccess = exporter->exportComponentLibrary(
                 componentIrList, libName, tempPath, m_options.exportModel3D, outputDir);
         } else if (combinedTarget && m_options.exportSymbol) {
-            exportSuccess = exporter->exportSymbolLibrary(symbolList, libName, tempPath);
+            auto* symbolExporter = dynamic_cast<ISymbolExporter*>(exporter.get());
+            if (!symbolExporter) {
+                exporterDiagnostics.append(QStringLiteral("目标格式未提供组合库符号导出器"));
+            } else {
+                exportSuccess = symbolExporter->exportSymbolLibrary(
+                    symbolList, libName, tempPath, false, m_options.updateMode, libraryDescription);
+            }
         } else {
             exportSuccess = exporter->exportFootprintLibrary(
                 irFootprintList,
@@ -639,7 +651,11 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
                 m_options.exportModel3DPathMode == ExportOptions::MODEL_3D_PATH_ABSOLUTE,
                 outputDir);
         }
-        exporterDiagnostics = exporter->diagnostics();
+        const QStringList exporterReportedDiagnostics = exporter->diagnostics();
+        for (const QString& diagnostic : exporterReportedDiagnostics) {
+            if (!exporterDiagnostics.contains(diagnostic))
+                exporterDiagnostics.append(diagnostic);
+        }
         if (!exporterDiagnostics.isEmpty()) {
             QMutexLocker locker(&m_progressMutex);
             for (const QString& diagnostic : exporterDiagnostics) {
@@ -664,6 +680,15 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
             errorMessage += QStringLiteral(": ") + exporterDiagnostics.join(QStringLiteral("; "));
         abortExport(errorMessage);
         return;
+    }
+
+    if (m_options.targetFormat == TargetEdaFormat::Horizon) {
+        QStringList horizonDiagnostics;
+        if (!HorizonPoolIntegration::updatePool(tempPath, horizonDiagnostics)) {
+            abortExport(QStringLiteral("Horizon Pool 官方更新失败，原有库未修改：%1")
+                            .arg(horizonDiagnostics.join(QStringLiteral("; "))));
+            return;
+        }
     }
 
     QString workspaceTempPath;
@@ -713,10 +738,22 @@ void FootprintExportStage::doLibraryExport(const QStringList& componentIds,
 
     if (m_options.targetFormat == TargetEdaFormat::Horizon) {
         QStringList horizonDiagnostics;
-        if (!HorizonPoolIntegration::updateAndRegister(finalPath, horizonDiagnostics)) {
-            abortExport(QStringLiteral("Horizon Pool 已生成，但官方更新或注册失败：%1")
+        if (!HorizonPoolIntegration::registerPool(finalPath, horizonDiagnostics)) {
+            abortExport(QStringLiteral("Horizon Pool 已生成，但官方注册失败：%1")
                             .arg(horizonDiagnostics.join(QStringLiteral("; "))));
             return;
+        }
+        if (!horizonDiagnostics.isEmpty()) {
+            QMutexLocker locker(&m_progressMutex);
+            for (const QString& diagnostic : std::as_const(horizonDiagnostics)) {
+                if (!m_progress.diagnostics.contains(diagnostic))
+                    m_progress.diagnostics.append(diagnostic);
+            }
+            const ExportTypeProgress progressSnapshot = m_progress;
+            locker.unlock();
+            emit progressChanged(progressSnapshot);
+            for (const QString& diagnostic : std::as_const(horizonDiagnostics))
+                qWarning() << "FootprintExportStage:" << diagnostic;
         }
     }
 

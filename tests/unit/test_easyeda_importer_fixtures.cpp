@@ -16,6 +16,8 @@
 #include <QTemporaryDir>
 #include <QTest>
 
+#include <algorithm>
+
 using namespace EasyKiConverter;
 using namespace EasyKiConverter::Test;
 
@@ -717,6 +719,14 @@ private slots:
         QCOMPARE(footprint->model3D().name(), QStringLiteral("R0603"));
         QVERIFY(footprint->pads().size() >= 2);
         QVERIFY(footprint->outlines().size() >= 1);
+
+        const IR::FootprintComponentIR footprintIr = IR::toFootprintIR(*footprint);
+        QVERIFY(!footprintIr.pads.isEmpty());
+        const auto smdPad = std::find_if(
+            footprintIr.pads.cbegin(), footprintIr.pads.cend(), [](const auto& pad) { return pad.isSmd(); });
+        QVERIFY(smdPad != footprintIr.pads.cend());
+        QCOMPARE(smdPad->solderMaskExpansionMm, 0.3);
+        QCOMPARE(smdPad->pasteMaskContractionMm, 0.0);
     }
 
     // 验证缺少三维 UUID 时仍能从轮廓数据导入模型信息。

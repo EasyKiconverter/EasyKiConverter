@@ -841,6 +841,11 @@ Output: Symbols %1 · Footprints %2 · 3D %3</translation>
         <translation>.pool Horizon EDA source library</translation>
     </message>
     <message>
+        <location filename="../../src/ui/qml/components/TargetFormatSelector.qml" line="17"/>
+        <source>Horizon EDA 原生 Pool：导出后自动更新官方索引并注册到 Horizon；已运行的 Horizon 需要重新加载或重启。</source>
+        <translation>Horizon EDA native Pool: the official index is updated and the Pool is registered automatically; a running Horizon instance must reload or restart.</translation>
+    </message>
+    <message>
         <location filename="../../src/ui/qml/components/ExportSettingsBaseCard.qml" line="96"/>
         <source>_Symbols.zip / _Footprints.zip</source>
         <translation>_Symbols.zip / _Footprints.zip</translation>

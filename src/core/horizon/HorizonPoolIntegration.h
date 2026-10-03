@@ -15,6 +15,22 @@ namespace EasyKiConverter {
 class HorizonPoolIntegration final {
 public:
     /**
+     * @brief 使用 Horizon 官方 PoolUpdater 更新临时 Pool。
+     * @param poolPath Pool 根目录，必须包含 pool.json。
+     * @param diagnostics 追加可展示的错误或警告信息。
+     * @return 官方更新成功并生成有效 pool.db 时返回 true。
+     */
+    static bool updatePool(const QString& poolPath, QStringList& diagnostics);
+
+    /**
+     * @brief 使用 Horizon 官方 PoolManager 注册已更新的 Pool。
+     * @param poolPath 已提交的 Pool 根目录，必须包含 pool.json 和 pool.db。
+     * @param diagnostics 追加可展示的错误或警告信息。
+     * @return 官方注册并回读注册表成功时返回 true。
+     */
+    static bool registerPool(const QString& poolPath, QStringList& diagnostics);
+
+    /**
      * @brief 更新 Pool 数据库并将 Pool 注册到 Horizon。
      * @param poolPath Pool 根目录，必须包含 pool.json。
      * @param diagnostics 追加可展示的错误或警告信息。

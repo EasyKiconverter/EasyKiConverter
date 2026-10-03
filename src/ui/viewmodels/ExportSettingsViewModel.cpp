@@ -273,7 +273,7 @@ bool ExportSettingsViewModel::requiresFullReplacement() const {
     return target == TargetEdaFormat::Xpedition || target == TargetEdaFormat::Allegro ||
            target == TargetEdaFormat::Pads || target == TargetEdaFormat::Eagle || target == TargetEdaFormat::Pcad ||
            target == TargetEdaFormat::Cadstar || target == TargetEdaFormat::Orcad ||
-           target == TargetEdaFormat::LibrePcb || target == TargetEdaFormat::Horizon;
+           target == TargetEdaFormat::LibrePcb;
 }
 
 // 设置调试模式，环境变量存在时由环境变量优先控制。

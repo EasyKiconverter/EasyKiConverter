@@ -1,4 +1,5 @@
 #include "core/horizon/ExporterHorizonLibrary.h"
+#include "core/horizon/HorizonPoolIntegration.h"
 #include "core/horizon/HorizonUnits.h"
 #include "core/horizon/HorizonUuid.h"
 
@@ -17,6 +18,7 @@ class TestHorizonExporter final : public QObject {
 
 private slots:
     void writesCompletePoolAndReferences();
+    void writesSymbolOnlyPoolDirectory();
     void outputIsDeterministic();
     void rejectsMissingPinPadAssociation();
     void rejectsDuplicatePadNumber();
@@ -25,10 +27,17 @@ private slots:
     void rejectsSanitizedComponentNameCollision();
     void keepsPinReferencesWhenComponentAndSymbolNamesDiffer();
     void convertsCommonGeometryWithExplicitApproximationDiagnostics();
+    void preservesRoundRectCustomOutline();
+    void writesBottomCustomPadstackLayers();
+    void rejectsInvalid3dModelData();
+    void rejectsObjOnlyModel();
     void writesEmbeddedModelAndPlacement();
+    void respectsFootprintModelExportOption();
     void keepsUnitsAndUuidDeterministic();
     void writesMultipartGatesAndPins();
     void writesPasteMountingHoleAndKeepoutSemantics();
+    void rejectsPoolRegistrationWithoutOfficialPool();
+    void invokesInjectedPoolIntegrationContract();
 };
 
 static IR::ComponentIR fixture() {
@@ -125,6 +134,23 @@ void TestHorizonExporter::writesCompletePoolAndReferences() {
         QVERIFY(
             unit.value(QStringLiteral("pins")).toObject().contains(mapping.value(QStringLiteral("pin")).toString()));
     }
+}
+
+void TestHorizonExporter::writesSymbolOnlyPoolDirectory() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+
+    ExporterHorizonLibrary exporter;
+    QVERIFY(exporter.isDirectoryOutput());
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("symbols.pool"));
+    const IR::SymbolComponentIR symbol = fixture().symbol;
+    QVERIFY2(exporter.exportSymbolLibrary({symbol}, QStringLiteral("symbols"), root, false, false),
+             qPrintable(exporter.diagnostics().join('\n')));
+    QVERIFY(QDir(root).exists());
+    QVERIFY(QFileInfo::exists(QDir(root).filePath(QStringLiteral("pool.json"))));
+    QVERIFY(QFileInfo::exists(QDir(root).filePath(QStringLiteral("units/R10K-1.json"))));
+    QVERIFY(QFileInfo::exists(QDir(root).filePath(QStringLiteral("symbols/R10K-1.json"))));
+    QVERIFY(QFileInfo::exists(QDir(root).filePath(QStringLiteral("entities/R10K.json"))));
 }
 
 void TestHorizonExporter::outputIsDeterministic() {
@@ -239,7 +265,12 @@ void TestHorizonExporter::convertsCommonGeometryWithExplicitApproximationDiagnos
     IR::FootprintCircleIR footprintCircle;
     footprintCircle.center = QPointF(0.0, 0.0);
     footprintCircle.radius = 1.5;
+    footprintCircle.strokeWidth = 0.1;
     component.footprint.circles.append(footprintCircle);
+    IR::FootprintRectangleIR footprintRectangle;
+    footprintRectangle.bounds = QRectF(-2.0, -1.0, 4.0, 2.0);
+    footprintRectangle.strokeWidth = 0.1;
+    component.footprint.rectangles.append(footprintRectangle);
     IR::FootprintTextIR footprintText;
     footprintText.text = QStringLiteral("REF");
     footprintText.position = QPointF(0.0, 0.0);
@@ -254,9 +285,86 @@ void TestHorizonExporter::convertsCommonGeometryWithExplicitApproximationDiagnos
     const QJsonObject package =
         QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("packages/R0603/package.json")))).object();
     QVERIFY(!symbol.value(QStringLiteral("polygons")).toObject().isEmpty());
-    QVERIFY(!package.value(QStringLiteral("polygons")).toObject().isEmpty());
+    QVERIFY(!package.value(QStringLiteral("arcs")).toObject().isEmpty());
+    QVERIFY(package.value(QStringLiteral("lines")).toObject().size() >= 4);
     QVERIFY(!package.value(QStringLiteral("texts")).toObject().isEmpty());
     QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("近似")));
+    QVERIFY(!exporter.diagnostics().join('\n').contains(QStringLiteral("线宽未保留")));
+}
+
+void TestHorizonExporter::preservesRoundRectCustomOutline() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component = fixture();
+    component.footprint.pads[0].shape = IR::PadShape::RoundRect;
+    component.footprint.pads[0].customShapePoints = {
+        QPointF(-0.4, -0.45), QPointF(0.4, -0.45), QPointF(0.4, 0.45), QPointF(-0.4, 0.45)};
+
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY2(exporter.exportComponentLibrary({component}, QStringLiteral("fixture"), root),
+             qPrintable(exporter.diagnostics().join('\n')));
+    const QJsonObject padstack =
+        QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("padstacks/R0603-1.json")))).object();
+    QVERIFY(!padstack.value(QStringLiteral("polygons")).toObject().isEmpty());
+    const QString parameterProgram = padstack.value(QStringLiteral("parameter_program")).toString();
+    QVERIFY(parameterProgram.contains(QStringLiteral("expand-polygon [ mask")));
+    QVERIFY(parameterProgram.contains(QStringLiteral("expand-polygon [ paste")));
+    QVERIFY(parameterProgram.contains(QStringLiteral("solder_mask_expansion")));
+    QVERIFY(parameterProgram.contains(QStringLiteral("paste_mask_contraction")));
+    QVERIFY(!parameterProgram.contains(QStringLiteral("nm")));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("自定义轮廓")));
+    QVERIFY(!exporter.diagnostics().join('\n').contains(QStringLiteral("按 rectangle 输出")));
+}
+
+void TestHorizonExporter::writesBottomCustomPadstackLayers() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component = fixture();
+    component.footprint.pads[0].shape = IR::PadShape::Polygon;
+    component.footprint.pads[0].layer = IR::LayerType::BottomCopper;
+    component.footprint.pads[0].customShapePoints = {
+        QPointF(-0.4, -0.45), QPointF(0.4, -0.45), QPointF(0.4, 0.45), QPointF(-0.4, 0.45)};
+
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY2(exporter.exportComponentLibrary({component}, QStringLiteral("fixture"), root),
+             qPrintable(exporter.diagnostics().join('\n')));
+    const QJsonObject padstack =
+        QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("padstacks/R0603-1.json")))).object();
+    const QJsonObject polygons = padstack.value(QStringLiteral("polygons")).toObject();
+    QSet<int> layers;
+    for (const QJsonValue& polygonValue : polygons)
+        layers.insert(polygonValue.toObject().value(QStringLiteral("layer")).toInt());
+    QCOMPARE(layers, QSet<int>({-100, -110, -130}));
+}
+
+void TestHorizonExporter::rejectsInvalid3dModelData() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component = fixture();
+    component.footprint.models3d.append(IR::Model3DIR{});
+
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY(!exporter.exportComponentLibrary({component}, QStringLiteral("fixture"), root, true));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("没有有效的 STEP 或 OBJ 数据")));
+}
+
+void TestHorizonExporter::rejectsObjOnlyModel() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::ComponentIR component = fixture();
+    IR::Model3DIR model;
+    model.setName(QStringLiteral("body.obj"));
+    model.setRawObj(QStringLiteral("v 0 0 0\n"));
+    component.footprint.models3d.append(model);
+
+    ExporterHorizonLibrary exporter;
+    const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY(!exporter.exportComponentLibrary({component}, QStringLiteral("fixture"), root, true));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("只有 OBJ 数据")));
+    QVERIFY(exporter.diagnostics().join('\n').contains(QStringLiteral("仅支持 STEP")));
 }
 
 void TestHorizonExporter::writesEmbeddedModelAndPlacement() {
@@ -264,12 +372,18 @@ void TestHorizonExporter::writesEmbeddedModelAndPlacement() {
     QVERIFY(temporary.isValid());
     IR::ComponentIR component = fixture();
     IR::Model3DIR model;
-    model.setName(QStringLiteral("body.obj"));
-    model.setRawObj(QStringLiteral("v 0 0 0\n"));
+    model.setName(QStringLiteral("body.step"));
+    model.setStepData("ISO-10303-21;\n");
     model.setTranslation({1.0, 2.0, 3.0});
     model.setStepOffsetMm({0.1, 0.2, 0.3});
     model.setRotation({10.0, 20.0, 30.0});
     component.footprint.models3d.append(model);
+    IR::Model3DIR secondModel;
+    secondModel.setName(QStringLiteral("detail.step"));
+    secondModel.setStepData("ISO-10303-21;\n");
+    secondModel.setTranslation({-1.0, -2.0, -3.0});
+    secondModel.setRotation({-10.0, 5.0, 90.0});
+    component.footprint.models3d.append(secondModel);
 
     ExporterHorizonLibrary exporter;
     const QString root = QDir(temporary.path()).filePath(QStringLiteral("pool"));
@@ -278,12 +392,52 @@ void TestHorizonExporter::writesEmbeddedModelAndPlacement() {
     const QJsonObject package =
         QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("packages/R0603/package.json")))).object();
     const QJsonObject models = package.value(QStringLiteral("models")).toObject();
-    QCOMPARE(models.size(), 1);
-    const QJsonObject modelObject = models.constBegin().value().toObject();
+    QCOMPARE(models.size(), 2);
+    const QString defaultModel = package.value(QStringLiteral("default_model")).toString();
+    QVERIFY(models.contains(defaultModel));
+    const QJsonObject modelObject = models.value(defaultModel).toObject();
     QCOMPARE(modelObject.value(QStringLiteral("x")).toInteger(), 1100000);
     QCOMPARE(modelObject.value(QStringLiteral("y")).toInteger(), 2200000);
     QCOMPARE(modelObject.value(QStringLiteral("z")).toInteger(), 3300000);
     QVERIFY(QFileInfo::exists(QDir(root).filePath(modelObject.value(QStringLiteral("filename")).toString())));
+    int modelFiles = 0;
+    for (const QJsonValue& modelValue : models) {
+        if (QFileInfo::exists(QDir(root).filePath(modelValue.toObject().value(QStringLiteral("filename")).toString())))
+            ++modelFiles;
+    }
+    QCOMPARE(modelFiles, 2);
+}
+
+void TestHorizonExporter::respectsFootprintModelExportOption() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    IR::FootprintComponentIR footprint = fixture().footprint;
+    IR::Model3DIR model;
+    model.setName(QStringLiteral("body.step"));
+    model.setStepData("ISO-10303-21;\n");
+    footprint.models3d.append(model);
+
+    ExporterHorizonLibrary exporter;
+    const QString withoutModels = QDir(temporary.path()).filePath(QStringLiteral("without-models"));
+    QVERIFY2(exporter.exportFootprintLibrary({footprint}, QStringLiteral("fixture"), withoutModels, true, false),
+             qPrintable(exporter.diagnostics().join('\n')));
+    const QJsonObject packageWithoutModels =
+        QJsonDocument::fromJson(read(QDir(withoutModels).filePath(QStringLiteral("packages/R0603/package.json"))))
+            .object();
+    QCOMPARE(packageWithoutModels.value(QStringLiteral("models")).toObject().size(), 0);
+    QCOMPARE(packageWithoutModels.value(QStringLiteral("default_model")).toString(),
+             QStringLiteral("00000000-0000-0000-0000-000000000000"));
+    const QDir withoutModelDir(QDir(withoutModels).filePath(QStringLiteral("3d_models")));
+    QVERIFY(!withoutModelDir.exists() || withoutModelDir.entryList(QDir::Files).isEmpty());
+
+    const QString withModels = QDir(temporary.path()).filePath(QStringLiteral("with-models"));
+    QVERIFY2(exporter.exportFootprintLibrary({footprint}, QStringLiteral("fixture"), withModels, true, true),
+             qPrintable(exporter.diagnostics().join('\n')));
+    const QJsonObject packageWithModels =
+        QJsonDocument::fromJson(read(QDir(withModels).filePath(QStringLiteral("packages/R0603/package.json"))))
+            .object();
+    QCOMPARE(packageWithModels.value(QStringLiteral("models")).toObject().size(), 1);
+    QVERIFY(QDir(QDir(withModels).filePath(QStringLiteral("3d_models"))).exists());
 }
 
 void TestHorizonExporter::keepsUnitsAndUuidDeterministic() {
@@ -370,6 +524,11 @@ void TestHorizonExporter::writesPasteMountingHoleAndKeepoutSemantics() {
 
     const QJsonObject smdPadstack =
         QJsonDocument::fromJson(read(QDir(root).filePath(QStringLiteral("padstacks/R0603-1.json")))).object();
+    const QString smdParameterProgram = smdPadstack.value(QStringLiteral("parameter_program")).toString();
+    QVERIFY(smdParameterProgram.contains(QStringLiteral("solder_mask_expansion")));
+    QVERIFY(smdParameterProgram.contains(QStringLiteral("paste_mask_contraction")));
+    QVERIFY(smdParameterProgram.contains(QStringLiteral("mm")));
+    QVERIFY(!smdParameterProgram.contains(QStringLiteral("nm")));
     bool hasPaste = false;
     for (const QJsonValue& shapeValue : smdPadstack.value(QStringLiteral("shapes")).toObject()) {
         if (shapeValue.toObject().value(QStringLiteral("parameter_class")).toString() == QStringLiteral("paste")) {
@@ -378,6 +537,191 @@ void TestHorizonExporter::writesPasteMountingHoleAndKeepoutSemantics() {
         }
     }
     QVERIFY(hasPaste);
+    const QJsonObject holeShapes = holePadstack.value(QStringLiteral("shapes")).toObject();
+    QCOMPARE(holeShapes.size(), 2);
+    for (const QJsonValue& shapeValue : holeShapes)
+        QCOMPARE(shapeValue.toObject().value(QStringLiteral("parameter_class")).toString(), QStringLiteral("mask"));
+
+    component.footprint.pads[0].padType = IR::PadType::ThroughHole;
+    component.footprint.pads[0].holeSize = 0.4;
+    component.footprint.pads[0].holeLength = 0.8;
+    component.footprint.pads[0].isPlated = true;
+    ExporterHorizonLibrary throughHoleExporter;
+    const QString throughRoot = QDir(temporary.path()).filePath(QStringLiteral("through-pool"));
+    QVERIFY2(throughHoleExporter.exportComponentLibrary({component}, QStringLiteral("fixture"), throughRoot),
+             qPrintable(throughHoleExporter.diagnostics().join('\n')));
+    const QJsonObject throughPadstack =
+        QJsonDocument::fromJson(read(QDir(throughRoot).filePath(QStringLiteral("padstacks/R0603-1.json")))).object();
+    QCOMPARE(throughPadstack.value(QStringLiteral("padstack_type")).toString(), QStringLiteral("through"));
+    QCOMPARE(throughPadstack.value(QStringLiteral("holes")).toObject().size(), 1);
+    int copperShapeCount = 0;
+    int maskShapeCount = 0;
+    for (const QJsonValue& shapeValue : throughPadstack.value(QStringLiteral("shapes")).toObject()) {
+        const QString parameterClass = shapeValue.toObject().value(QStringLiteral("parameter_class")).toString();
+        copperShapeCount += parameterClass == QStringLiteral("copper");
+        maskShapeCount += parameterClass == QStringLiteral("mask");
+    }
+    QCOMPARE(copperShapeCount, 6);
+    QCOMPARE(maskShapeCount, 2);
+
+    IR::ComponentIR npthComponent = fixture();
+    IR::FootprintPadIR npth;
+    npth.position = QPointF(3.0, 0.0);
+    npth.padType = IR::PadType::ThroughHole;
+    npth.shape = IR::PadShape::Ellipse;
+    npth.size = QSizeF(2.0, 2.0);
+    npth.holeSize = 1.0;
+    npth.isPlated = false;
+    npthComponent.footprint.pads.append(npth);
+    ExporterHorizonLibrary npthExporter;
+    const QString npthRoot = QDir(temporary.path()).filePath(QStringLiteral("npth-pool"));
+    QVERIFY2(npthExporter.exportComponentLibrary({npthComponent}, QStringLiteral("fixture"), npthRoot),
+             qPrintable(npthExporter.diagnostics().join('\n')));
+    const QJsonObject npthPart =
+        QJsonDocument::fromJson(read(QDir(npthRoot).filePath(QStringLiteral("parts/R10K.json")))).object();
+    QCOMPARE(npthPart.value(QStringLiteral("pad_map")).toObject().size(), 2);
+    QVERIFY(QFileInfo::exists(QDir(npthRoot).filePath(QStringLiteral("padstacks/R0603-NPTH3.json"))));
+}
+
+void TestHorizonExporter::rejectsPoolRegistrationWithoutOfficialPool() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    QStringList diagnostics;
+    QVERIFY(!HorizonPoolIntegration::updateAndRegister(temporary.path(), diagnostics));
+    QVERIFY(!diagnostics.isEmpty());
+    QVERIFY(diagnostics.constFirst().contains(QStringLiteral("pool.json")));
+}
+
+void TestHorizonExporter::invokesInjectedPoolIntegrationContract() {
+    QTemporaryDir temporary;
+    QVERIFY(temporary.isValid());
+    const QString poolPath = QDir(temporary.path()).filePath(QStringLiteral("pool"));
+    QVERIFY(QDir().mkpath(poolPath));
+    QFile poolInfo(QDir(poolPath).filePath(QStringLiteral("pool.json")));
+    QVERIFY(poolInfo.open(QIODevice::WriteOnly | QIODevice::Text));
+    QVERIFY(poolInfo.write(
+                QJsonDocument(QJsonObject{{QStringLiteral("uuid"), QUuid::createUuid().toString(QUuid::WithoutBraces)}})
+                    .toJson()) > 0);
+    poolInfo.close();
+
+    const QString moduleDir = QDir(temporary.path()).filePath(QStringLiteral("python"));
+    QVERIFY(QDir().mkpath(moduleDir));
+    QFile module(QDir(moduleDir).filePath(QStringLiteral("horizon.py")));
+    QVERIFY(module.open(QIODevice::WriteOnly | QIODevice::Text));
+    const QByteArray moduleSource =
+        "import os\n"
+        "class Pool:\n"
+        "    @staticmethod\n"
+        "    def update(path):\n"
+        "        open(os.path.join(path, 'pool.db'), 'wb').write(b'updated')\n"
+        "class PoolManager:\n"
+        "    pools = {}\n"
+        "    @staticmethod\n"
+        "    def get_pools():\n"
+        "        return dict(PoolManager.pools)\n"
+        "    @staticmethod\n"
+        "    def add_pool(path):\n"
+        "        PoolManager.pools[os.path.abspath(path)] = 'pool-uuid'\n";
+    QVERIFY(module.write(moduleSource) == moduleSource.size());
+    module.close();
+
+    const QByteArray previousPython = qgetenv("EASYKICONVERTER_HORIZON_PYTHON");
+    const QByteArray previousPythonPath = qgetenv("EASYKICONVERTER_HORIZON_PYTHONPATH");
+    qputenv("EASYKICONVERTER_HORIZON_PYTHON", "python3");
+    qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", moduleDir.toLocal8Bit());
+
+    QStringList diagnostics;
+    const bool success = HorizonPoolIntegration::updateAndRegister(poolPath, diagnostics);
+
+    if (previousPython.isNull())
+        qunsetenv("EASYKICONVERTER_HORIZON_PYTHON");
+    else
+        qputenv("EASYKICONVERTER_HORIZON_PYTHON", previousPython);
+    if (previousPythonPath.isNull())
+        qunsetenv("EASYKICONVERTER_HORIZON_PYTHONPATH");
+    else
+        qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", previousPythonPath);
+
+    QVERIFY2(success, qPrintable(diagnostics.join('\n')));
+    QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("pool.db"))));
+    QVERIFY(diagnostics.join('\n').contains(QStringLiteral("手动重新加载或重启 Horizon")));
+
+    const QString relativeModuleDir = QDir::current().relativeFilePath(moduleDir);
+    qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", relativeModuleDir.toLocal8Bit());
+    diagnostics.clear();
+    QVERIFY2(HorizonPoolIntegration::updateAndRegister(poolPath, diagnostics), qPrintable(diagnostics.join('\n')));
+
+    const QString conflictPoolPath = QDir(temporary.path()).filePath(QStringLiteral("conflict-pool"));
+    QVERIFY(QDir().mkpath(conflictPoolPath));
+    QFile conflictPoolInfo(QDir(conflictPoolPath).filePath(QStringLiteral("pool.json")));
+    QVERIFY(conflictPoolInfo.open(QIODevice::WriteOnly | QIODevice::Text));
+    QVERIFY(conflictPoolInfo.write(
+                QJsonDocument(QJsonObject{{QStringLiteral("uuid"), QUuid::createUuid().toString(QUuid::WithoutBraces)}})
+                    .toJson()) > 0);
+    conflictPoolInfo.close();
+    QVERIFY(module.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text));
+    const QByteArray conflictingModuleSource =
+        "import os\n"
+        "class Pool:\n"
+        "    @staticmethod\n"
+        "    def update(path):\n"
+        "        open(os.path.join(path, 'pool.db'), 'wb').write(b'updated')\n"
+        "class PoolManager:\n"
+        "    @staticmethod\n"
+        "    def get_pools():\n"
+        "        return {os.path.abspath(os.environ['HORIZON_CONFLICT_PATH']): 'different-uuid'}\n"
+        "    @staticmethod\n"
+        "    def add_pool(path):\n"
+        "        pass\n";
+    QVERIFY(module.write(conflictingModuleSource) == conflictingModuleSource.size());
+    module.close();
+    const QByteArray previousConflictPath = qgetenv("HORIZON_CONFLICT_PATH");
+    qputenv("HORIZON_CONFLICT_PATH", conflictPoolPath.toLocal8Bit());
+    diagnostics.clear();
+    QVERIFY(!HorizonPoolIntegration::updateAndRegister(conflictPoolPath, diagnostics));
+    QVERIFY(diagnostics.join('\n').contains(QStringLiteral("different UUID")));
+    if (previousConflictPath.isNull())
+        qunsetenv("HORIZON_CONFLICT_PATH");
+    else
+        qputenv("HORIZON_CONFLICT_PATH", previousConflictPath);
+
+    const QString failedPoolPath = QDir(temporary.path()).filePath(QStringLiteral("failed-pool"));
+    QVERIFY(QDir().mkpath(failedPoolPath));
+    QFile failedPoolInfo(QDir(failedPoolPath).filePath(QStringLiteral("pool.json")));
+    QVERIFY(failedPoolInfo.open(QIODevice::WriteOnly | QIODevice::Text));
+    QVERIFY(failedPoolInfo.write(
+                QJsonDocument(QJsonObject{{QStringLiteral("uuid"), QUuid::createUuid().toString(QUuid::WithoutBraces)}})
+                    .toJson()) > 0);
+    failedPoolInfo.close();
+    QVERIFY(module.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text));
+    const QByteArray failingModuleSource =
+        "class Pool:\n"
+        "    @staticmethod\n"
+        "    def update(path):\n"
+        "        pass\n"
+        "class PoolManager:\n"
+        "    @staticmethod\n"
+        "    def get_pools():\n"
+        "        return {}\n"
+        "    @staticmethod\n"
+        "    def add_pool(path):\n"
+        "        pass\n";
+    QVERIFY(module.write(failingModuleSource) == failingModuleSource.size());
+    module.close();
+    qputenv("EASYKICONVERTER_HORIZON_PYTHON", "python3");
+    qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", moduleDir.toLocal8Bit());
+    diagnostics.clear();
+    QVERIFY(!HorizonPoolIntegration::updateAndRegister(failedPoolPath, diagnostics));
+    QVERIFY(diagnostics.join('\n').contains(QStringLiteral("pool.db")));
+    QVERIFY(!QFileInfo::exists(QDir(failedPoolPath).filePath(QStringLiteral("pool.db"))));
+    if (previousPython.isNull())
+        qunsetenv("EASYKICONVERTER_HORIZON_PYTHON");
+    else
+        qputenv("EASYKICONVERTER_HORIZON_PYTHON", previousPython);
+    if (previousPythonPath.isNull())
+        qunsetenv("EASYKICONVERTER_HORIZON_PYTHONPATH");
+    else
+        qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", previousPythonPath);
 }
 
 QTEST_GUILESS_MAIN(TestHorizonExporter)

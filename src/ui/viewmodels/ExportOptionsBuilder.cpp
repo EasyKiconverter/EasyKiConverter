@@ -85,9 +85,8 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     const bool pcadTarget = options.targetFormat == TargetEdaFormat::Pcad;
     const bool orcadTarget = options.targetFormat == TargetEdaFormat::Orcad;
     const bool librePcbTarget = options.targetFormat == TargetEdaFormat::LibrePcb;
-    const bool horizonTarget = options.targetFormat == TargetEdaFormat::Horizon;
     const bool requiresFullReplacement = xpeditionTarget || allegroTarget || padsTarget || eagleTarget || pcadTarget ||
-                                         orcadTarget || librePcbTarget || horizonTarget ||
+                                         orcadTarget || librePcbTarget ||
                                          options.targetFormat == TargetEdaFormat::Cadstar;
     if (allegroTarget)
         options.exportSymbol = false;

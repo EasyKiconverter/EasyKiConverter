@@ -1935,6 +1935,11 @@
         <translation>.pool Horizon EDA 源库</translation>
     </message>
     <message>
+        <location filename="../../src/ui/qml/components/TargetFormatSelector.qml" line="17"/>
+        <source>Horizon EDA 原生 Pool：导出后自动更新官方索引并注册到 Horizon；已运行的 Horizon 需要重新加载或重启。</source>
+        <translation>Horizon EDA 原生 Pool：导出后自动更新官方索引并注册到 Horizon；已运行的 Horizon 需要重新加载或重启。</translation>
+    </message>
+    <message>
         <location filename="../../src/ui/qml/components/ExportButtonsSection.qml" line="83"/>
         <source>不支持重试，请重新导出</source>
         <translation>不支持重试，请重新导出</translation>
