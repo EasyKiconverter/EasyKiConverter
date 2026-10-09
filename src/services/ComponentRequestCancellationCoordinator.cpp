@@ -9,7 +9,10 @@
 
 namespace EasyKiConverter {
 
-/** @brief 取消全部网络、媒体请求并清理正在获取的元器件状态。 */
+/**
+ * @brief 取消全部网络、媒体请求并清理正在获取的元器件状态。
+ * @param service 持有请求状态和媒体服务的组件服务。
+ */
 void ComponentRequestCancellationCoordinator::cancelAll(ComponentService& service) {
     qDebug() << "ComponentService: Cancelling all pending component data requests";
 
@@ -33,10 +36,14 @@ void ComponentRequestCancellationCoordinator::cancelAll(ComponentService& servic
     qDebug() << "ComponentService: All pending requests cancelled";
 }
 
-/** @brief 清理指定元器件状态并取消对应 API 与媒体请求。 */
+/**
+ * @brief 清理指定元器件状态并取消对应 API 与媒体请求。
+ * @param service 持有请求状态和媒体服务的组件服务。
+ * @param componentId 待取消的元器件编号。
+ */
 void ComponentRequestCancellationCoordinator::cancelForComponent(ComponentService& service,
                                                                  const QString& componentId) {
-    const QString normalizedId = componentId.toUpper();
+    const QString normalizedId = componentId.toUpper();  // 规范化后的元器件编号。
     qDebug() << "ComponentService: Cancelling request for component" << normalizedId;
 
     // 先移除状态，避免取消操作期间到达的响应重新写入已删除的请求。
