@@ -10,12 +10,21 @@
 
 namespace EasyKiConverter {
 
+/**
+ * @brief 创建单元件转换器。
+ * @param context CLI 上下文。
+ * @param parent Qt 对象父级。
+ */
 ComponentConverter::ComponentConverter(CliContext* context, QObject* parent) : BaseConverter(context, parent) {}
 
+/**
+ * @brief 执行单个元器件的预加载和导出。
+ * @return 导出成功时返回 true。
+ */
 bool ComponentConverter::execute() {
     printMessage(QCoreApplication::translate("CliConverter", "开始转换单个元器件..."));
 
-    QString componentId = context()->parser().componentId();
+    QString componentId = context()->parser().componentId();  // 当前待转换的 LCSC 编号。
     if (componentId.isEmpty()) {
         setError(QCoreApplication::translate("CliConverter", "未指定元器件编号"));
         return false;
@@ -77,6 +86,11 @@ bool ComponentConverter::execute() {
     return m_exportSuccess;
 }
 
+/**
+ * @brief 处理导出完成信号。
+ * @param successCount 成功数量。
+ * @param failedCount 失败数量。
+ */
 void ComponentConverter::onExportCompleted(int successCount, int failedCount) {
     m_successCount = successCount;
     m_failedCount = failedCount;
@@ -84,6 +98,10 @@ void ComponentConverter::onExportCompleted(int successCount, int failedCount) {
     m_exportFinished = true;
 }
 
+/**
+ * @brief 处理导出失败信号。
+ * @param error 导出错误信息。
+ */
 void ComponentConverter::onExportFailed(const QString& error) {
     setError(error);
     m_exportSuccess = false;

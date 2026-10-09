@@ -40,14 +40,22 @@ NetworkClient::~NetworkClient() {
     m_networkThread.wait();
 }
 
-// static
+/**
+ * @brief 判断响应数据是否为 Gzip 压缩数据。
+ * @param data 待检查的响应数据。
+ * @return 数据带有 Gzip 标识时返回 true。
+ */
 bool NetworkClient::isGzipCompressed(const QByteArray& data) {
     return GzipUtils::isGzipped(data);
 }
 
-// static
+/**
+ * @brief 解压 Gzip 响应数据。
+ * @param data Gzip 压缩数据。
+ * @return 解压后的数据，解压失败时返回空数据。
+ */
 QByteArray NetworkClient::decompressGzip(const QByteArray& data) {
-    GzipUtils::DecompressResult decompResult = GzipUtils::decompress(data);
+    GzipUtils::DecompressResult decompResult = GzipUtils::decompress(data);  // Gzip 解压结果。
     if (!decompResult.success) {
         qWarning() << "Gzip decompression failed";
         return QByteArray();
@@ -55,21 +63,46 @@ QByteArray NetworkClient::decompressGzip(const QByteArray& data) {
     return decompResult.data;
 }
 
-/** @brief 发送使用默认资源类型的同步 GET 请求。 */
+/**
+ * @brief 发送使用默认资源类型的同步 GET 请求。
+ * @param url 请求地址。
+ * @param policy 重试策略。
+ * @return 网络请求结果。
+ */
 NetworkResult NetworkClient::get(const QUrl& url, const RetryPolicy& policy) {
     return executeRequest(url, QByteArray(), ResourceType::Unknown, policy);
 }
 
-/** @brief 发送带资源类型的同步 GET 请求。 */
+/**
+ * @brief 发送带资源类型的同步 GET 请求。
+ * @param url 请求地址。
+ * @param resourceType 资源类型。
+ * @param policy 重试策略。
+ * @return 网络请求结果。
+ */
 NetworkResult NetworkClient::get(const QUrl& url, ResourceType resourceType, const RetryPolicy& policy) {
     return executeRequest(url, QByteArray(), resourceType, policy);
 }
 
-/** @brief 发送使用默认资源类型的同步 POST 请求。 */
+/**
+ * @brief 发送使用默认资源类型的同步 POST 请求。
+ * @param url 请求地址。
+ * @param body POST 请求体。
+ * @param policy 重试策略。
+ * @return 网络请求结果。
+ */
 NetworkResult NetworkClient::post(const QUrl& url, const QByteArray& body, const RetryPolicy& policy) {
     return executeRequest(url, body, ResourceType::Unknown, policy);
 }
 
+/**
+ * @brief 发送带资源类型的同步 POST 请求。
+ * @param url 请求地址。
+ * @param body POST 请求体。
+ * @param resourceType 资源类型。
+ * @param policy 重试策略。
+ * @return 网络请求结果。
+ */
 NetworkResult NetworkClient::post(const QUrl& url,
                                   const QByteArray& body,
                                   ResourceType resourceType,
@@ -77,13 +110,16 @@ NetworkResult NetworkClient::post(const QUrl& url,
     return executeRequest(url, body, resourceType, policy);
 }
 
-/** @brief 获取当前网络请求运行统计。 */
+/**
+ * @brief 获取当前网络请求运行统计。
+ * @return 当前网络请求统计快照。
+ */
 NetworkRuntimeStats NetworkClient::runtimeStats() const {
-    NetworkRuntimeStats stats;
+    NetworkRuntimeStats stats;  // 汇总后的网络运行统计。
 
     QMutexLocker locker(&m_asyncQueueMutex);
     for (auto it = m_resourceStats.cbegin(); it != m_resourceStats.cend(); ++it) {
-        const NetworkResourceStats& snapshot = it.value().snapshot;
+        const NetworkResourceStats& snapshot = it.value().snapshot;  // 当前资源统计快照。
         stats.totalQueuedRequests += snapshot.queuedRequests;
         stats.totalActiveRequests += snapshot.activeRequests;
         stats.totalStartedRequests += snapshot.startedRequests;
@@ -101,10 +137,13 @@ NetworkRuntimeStats NetworkClient::runtimeStats() const {
     return stats;
 }
 
-/** @brief 将网络请求运行统计格式化为诊断文本。 */
+/**
+ * @brief 将网络请求运行统计格式化为诊断文本。
+ * @return 可读的网络请求统计文本。
+ */
 QString NetworkClient::formatRuntimeStats() const {
-    const NetworkRuntimeStats stats = runtimeStats();
-    QStringList lines;
+    const NetworkRuntimeStats stats = runtimeStats();  // 当前网络运行统计。
+    QStringList lines;  // 格式化后的诊断文本行。
     lines << QStringLiteral(
                  "NetworkRuntimeStats total{queued=%1 active=%2 started=%3 completed=%4 ok=%5 fail=%6 "
                  "cancelled=%7 timeout=%8 rateLimited=%9 retries=%10 backpressure=%11}")
@@ -150,11 +189,25 @@ QString NetworkClient::formatRuntimeStats() const {
     return lines.join(QLatin1Char('\n'));
 }
 
-/** @brief 创建异步 GET 请求并加入调度队列。 */
+/**
+ * @brief 创建异步 GET 请求并加入调度队列。
+ * @param url 请求地址。
+ * @param resourceType 资源类型。
+ * @param policy 重试策略。
+ * @return 创建的异步请求对象。
+ */
 AsyncNetworkRequest* NetworkClient::getAsync(const QUrl& url, ResourceType resourceType, const RetryPolicy& policy) {
     return enqueueAsyncRequest(url, QByteArray(), resourceType, policy);
 }
 
+/**
+ * @brief 创建异步 POST 请求并加入调度队列。
+ * @param url 请求地址。
+ * @param body POST 请求体。
+ * @param resourceType 资源类型。
+ * @param policy 重试策略。
+ * @return 创建的异步请求对象。
+ */
 AsyncNetworkRequest* NetworkClient::postAsync(const QUrl& url,
                                               const QByteArray& body,
                                               ResourceType resourceType,
@@ -162,7 +215,12 @@ AsyncNetworkRequest* NetworkClient::postAsync(const QUrl& url,
     return enqueueAsyncRequest(url, body, resourceType, policy);
 }
 
-/** @brief 填充网络请求诊断中的 URL、主机和资源类型。 */
+/**
+ * @brief 填充网络请求诊断中的 URL、主机和资源类型。
+ * @param diag 待填充的诊断对象。
+ * @param url 请求地址。
+ * @param resourceType 资源类型。
+ */
 void NetworkClient::populateDiagnostic(NetworkDiagnostic& diag, const QUrl& url, ResourceType resourceType) {
     diag.url = url.toString();
     diag.host = url.host();
@@ -170,6 +228,14 @@ void NetworkClient::populateDiagnostic(NetworkDiagnostic& diag, const QUrl& url,
     diag.profileName = RequestProfiles::fromType(resourceType).name;
 }
 
+/**
+ * @brief 执行同步网络请求并等待异步结果。
+ * @param url 请求地址。
+ * @param body 请求体。
+ * @param resourceType 资源类型。
+ * @param policy 重试策略。
+ * @return 网络请求结果。
+ */
 NetworkResult NetworkClient::executeRequest(const QUrl& url,
                                             const QByteArray& body,
                                             ResourceType resourceType,
@@ -177,10 +243,10 @@ NetworkResult NetworkClient::executeRequest(const QUrl& url,
     // 同步路径：在创建 request 前做 URL 校验，避免白名单拒绝后死锁
     // （QWaitCondition::wait() 不处理事件循环，queued 完成信号无法到达）
     {
-        QString errorMsg;
+        QString errorMsg;  // URL 白名单校验错误。
         if (!UrlUtils::isAllowedUrl(url, resourceType, &errorMsg)) {
             qWarning() << "NetworkClient: URL rejected by whitelist (sync):" << errorMsg;
-            NetworkResult result;
+            NetworkResult result;  // URL 被拒绝时返回的失败结果。
             populateDiagnostic(result.diagnostic, url, resourceType);
             result.error = errorMsg;
             result.success = false;
@@ -190,9 +256,9 @@ NetworkResult NetworkClient::executeRequest(const QUrl& url,
         }
     }
 
-    auto* request = enqueueAsyncRequest(url, body, resourceType, policy);
+    auto* request = enqueueAsyncRequest(url, body, resourceType, policy);  // 创建的异步请求对象。
     if (!request) {
-        NetworkResult result;
+        NetworkResult result;  // 创建请求失败时返回的失败结果。
         populateDiagnostic(result.diagnostic, url, resourceType);
         result.error = QStringLiteral("Failed to create async request");
         result.success = false;
@@ -201,7 +267,7 @@ NetworkResult NetworkClient::executeRequest(const QUrl& url,
         return result;
     }
 
-    auto context = std::make_shared<BlockingRequestContext>();
+    auto context = std::make_shared<BlockingRequestContext>();  // 同步等待异步结果的上下文。
     QObject::connect(
         request,
         &AsyncNetworkRequest::finished,
@@ -209,11 +275,19 @@ NetworkResult NetworkClient::executeRequest(const QUrl& url,
         [context](const NetworkResult& result) { context->complete(result); },
         Qt::DirectConnection);
 
-    const NetworkResult result = context->wait();
+    const NetworkResult result = context->wait();  // 异步请求完成后的结果。
     QMetaObject::invokeMethod(request, &QObject::deleteLater, Qt::QueuedConnection);
     return result;
 }
 
+/**
+ * @brief 校验并将异步请求加入调度队列。
+ * @param url 请求地址。
+ * @param body 请求体。
+ * @param resourceType 资源类型。
+ * @param policy 重试策略。
+ * @return 排队的异步请求对象，拒绝时返回已完成的失败请求。
+ */
 AsyncNetworkRequest* NetworkClient::enqueueAsyncRequest(const QUrl& url,
                                                         const QByteArray& body,
                                                         ResourceType resourceType,
@@ -224,11 +298,11 @@ AsyncNetworkRequest* NetworkClient::enqueueAsyncRequest(const QUrl& url,
 
     // URL 白名单校验：拒绝非预期的 scheme 或 host
     {
-        QString errorMsg;
+        QString errorMsg;  // URL 白名单校验错误。
         if (!UrlUtils::isAllowedUrl(url, resourceType, &errorMsg)) {
             qWarning() << "NetworkClient: URL rejected by whitelist:" << errorMsg;
             // 返回已完成的失败 request，避免调用方需处理 nullptr
-            NetworkResult failResult;
+            NetworkResult failResult;  // URL 被拒绝时返回的失败请求结果。
             failResult.success = false;
             failResult.wasCancelled = false;
             failResult.error = errorMsg;
@@ -242,13 +316,14 @@ AsyncNetworkRequest* NetworkClient::enqueueAsyncRequest(const QUrl& url,
         }
     }
 
-    auto* request = new AsyncNetworkRequest(url, m_asyncNetworkManager, resourceType, policy, body, nullptr);
+    auto* request =  // 新建的异步网络请求对象。
+        new AsyncNetworkRequest(url, m_asyncNetworkManager, resourceType, policy, body, nullptr);
     request->moveToThread(&m_networkThread);
 
-    const RequestProfile profile = RequestProfiles::fromType(resourceType);
+    const RequestProfile profile = RequestProfiles::fromType(resourceType);  // 当前资源的调度配置。
     {
         QMutexLocker locker(&m_asyncQueueMutex);
-        PendingAsyncRequest pending;
+        PendingAsyncRequest pending;  // 待调度请求记录。
         pending.request = request;
         pending.resourceType = resourceType;
         pending.priority = profile.priority;
@@ -277,9 +352,11 @@ AsyncNetworkRequest* NetworkClient::enqueueAsyncRequest(const QUrl& url,
     return request;
 }
 
-/** @brief 安排异步请求队列的下一次调度。 */
+/**
+ * @brief 安排异步请求队列的下一次调度。
+ */
 void NetworkClient::scheduleAsyncPump() {
-    bool shouldSchedule = false;
+    bool shouldSchedule = false;  // 是否需要向事件队列提交调度任务。
     {
         QMutexLocker locker(&m_asyncQueueMutex);
         if (!m_asyncPumpScheduled) {
@@ -293,33 +370,38 @@ void NetworkClient::scheduleAsyncPump() {
     }
 }
 
-/** @brief 按并发和优先级限制启动等待中的异步请求。 */
+/**
+ * @brief 按并发和优先级限制启动等待中的异步请求。
+ */
 void NetworkClient::pumpAsyncQueue() {
     while (true) {
-        QPointer<AsyncNetworkRequest> requestToStart;
-        ResourceType resourceType = ResourceType::Unknown;
+        QPointer<AsyncNetworkRequest> requestToStart;  // 本轮选中的异步请求。
+        ResourceType resourceType = ResourceType::Unknown;  // 本轮请求的资源类型。
 
         {
             QMutexLocker locker(&m_asyncQueueMutex);
-            int bestIndex = -1;
-            int bestPriority = std::numeric_limits<int>::max();
-            quint64 bestSequence = std::numeric_limits<quint64>::max();
+            int bestIndex = -1;  // 当前可启动请求在队列中的索引。
+            int bestPriority = std::numeric_limits<int>::max();  // 当前候选请求的最低优先级值。
+            quint64 bestSequence = std::numeric_limits<quint64>::max();  // 当前候选请求的最早入队序号。
 
             for (int i = m_pendingAsyncRequests.size() - 1; i >= 0; --i) {
-                const PendingAsyncRequest& pending = m_pendingAsyncRequests.at(i);
+                const PendingAsyncRequest& pending =  // 反向清理阶段的待调度请求记录。
+                    m_pendingAsyncRequests.at(i);
                 if (!pending.request || pending.request->isFinished()) {
                     m_pendingAsyncRequests.removeAt(i);
                 }
             }
 
             for (int i = 0; i < m_pendingAsyncRequests.size(); ++i) {
-                const PendingAsyncRequest& pending = m_pendingAsyncRequests.at(i);
+                const PendingAsyncRequest& pending =  // 当前优先级选择阶段的待调度请求记录。
+                    m_pendingAsyncRequests.at(i);
                 if (!pending.request || pending.request->isFinished()) {
                     continue;
                 }
 
-                const RequestProfile profile = RequestProfiles::fromType(pending.resourceType);
-                const int activeCount = m_activeAsyncRequestsByType.value(static_cast<int>(pending.resourceType), 0);
+                const RequestProfile profile = RequestProfiles::fromType(pending.resourceType);  // 候选请求调度配置。
+                const int activeCount =  // 候选请求资源类型当前活动数量。
+                    m_activeAsyncRequestsByType.value(static_cast<int>(pending.resourceType), 0);
                 if (activeCount >= profile.maxConcurrent) {
                     continue;
                 }
@@ -337,12 +419,13 @@ void NetworkClient::pumpAsyncQueue() {
                 break;
             }
 
-            PendingAsyncRequest pending = m_pendingAsyncRequests.takeAt(bestIndex);
+            PendingAsyncRequest pending = m_pendingAsyncRequests.takeAt(bestIndex);  // 取出的待调度请求记录。
             requestToStart = pending.request;
             resourceType = pending.resourceType;
             m_activeAsyncRequestsByType[static_cast<int>(resourceType)] =
                 m_activeAsyncRequestsByType.value(static_cast<int>(resourceType), 0) + 1;
-            const qint64 queueDelayMs = qMax<qint64>(0, QDateTime::currentMSecsSinceEpoch() - pending.enqueuedAtMs);
+            const qint64 queueDelayMs =  // 请求从入队到启动前的等待时长。
+                qMax<qint64>(0, QDateTime::currentMSecsSinceEpoch() - pending.enqueuedAtMs);
             updateStatsForDequeuedRequest(resourceType, queueDelayMs);
             updateStatsForStartedRequest(resourceType);
         }
@@ -363,9 +446,11 @@ void NetworkClient::pumpAsyncQueue() {
     }
 }
 
-/** @brief 取消队列中和运行中的全部异步请求。 */
+/**
+ * @brief 取消队列中和运行中的全部异步请求。
+ */
 void NetworkClient::cancelAllRequests() {
-    QList<QPointer<AsyncNetworkRequest>> requestsToCancel;
+    QList<QPointer<AsyncNetworkRequest>> requestsToCancel;  // 待取消的异步请求快照。
     {
         QMutexLocker locker(&m_asyncQueueMutex);
         requestsToCancel = m_liveAsyncRequests;
@@ -390,12 +475,15 @@ void NetworkClient::cancelAllRequests() {
     }
 }
 
-/** @brief 收敛异步请求完成后的活动计数并继续调度。 */
+/**
+ * @brief 收敛异步请求完成后的活动计数并继续调度。
+ * @param resourceType 已完成请求的资源类型。
+ */
 void NetworkClient::onAsyncRequestFinished(ResourceType resourceType) {
     {
         QMutexLocker locker(&m_asyncQueueMutex);
-        const int key = static_cast<int>(resourceType);
-        const int activeCount = m_activeAsyncRequestsByType.value(key, 0);
+        const int key = static_cast<int>(resourceType);  // 资源类型对应的统计键。
+        const int activeCount = m_activeAsyncRequestsByType.value(key, 0);  // 当前资源活动请求数量。
         if (activeCount <= 1) {
             m_activeAsyncRequestsByType.remove(key);
         } else {
@@ -407,11 +495,14 @@ void NetworkClient::onAsyncRequestFinished(ResourceType resourceType) {
     scheduleAsyncPump();
 }
 
-/** @brief 记录请求入队后的资源统计。 */
+/**
+ * @brief 记录请求入队后的资源统计。
+ * @param resourceType 请求的资源类型。
+ */
 void NetworkClient::updateStatsForEnqueuedRequest(ResourceType resourceType) {
-    const int key = static_cast<int>(resourceType);
-    MutableResourceStats& stats = m_resourceStats[key];
-    const RequestProfile profile = RequestProfiles::fromType(resourceType);
+    const int key = static_cast<int>(resourceType);  // 资源类型对应的统计键。
+    MutableResourceStats& stats = m_resourceStats[key];  // 当前资源可变统计对象。
+    const RequestProfile profile = RequestProfiles::fromType(resourceType);  // 当前资源调度配置。
     stats.snapshot.resourceType = resourceType;
     stats.snapshot.profileName = profile.name;
     stats.snapshot.maxConcurrent = profile.maxConcurrent;
@@ -421,11 +512,15 @@ void NetworkClient::updateStatsForEnqueuedRequest(ResourceType resourceType) {
     refreshDynamicStatsLocked(resourceType);
 }
 
-/** @brief 记录请求离开等待队列时的延迟统计。 */
+/**
+ * @brief 记录请求离开等待队列时的延迟统计。
+ * @param resourceType 请求的资源类型。
+ * @param queueDelayMs 请求在队列中的等待时长。
+ */
 void NetworkClient::updateStatsForDequeuedRequest(ResourceType resourceType, qint64 queueDelayMs) {
-    const int key = static_cast<int>(resourceType);
-    MutableResourceStats& stats = m_resourceStats[key];
-    const RequestProfile profile = RequestProfiles::fromType(resourceType);
+    const int key = static_cast<int>(resourceType);  // 资源类型对应的统计键。
+    MutableResourceStats& stats = m_resourceStats[key];  // 当前资源可变统计对象。
+    const RequestProfile profile = RequestProfiles::fromType(resourceType);  // 当前资源调度配置。
     stats.snapshot.resourceType = resourceType;
     stats.snapshot.profileName = profile.name;
     stats.snapshot.maxConcurrent = profile.maxConcurrent;
@@ -439,11 +534,14 @@ void NetworkClient::updateStatsForDequeuedRequest(ResourceType resourceType, qin
     refreshDynamicStatsLocked(resourceType);
 }
 
-/** @brief 记录请求开始执行时的资源统计。 */
+/**
+ * @brief 记录请求开始执行时的资源统计。
+ * @param resourceType 请求的资源类型。
+ */
 void NetworkClient::updateStatsForStartedRequest(ResourceType resourceType) {
-    const int key = static_cast<int>(resourceType);
-    MutableResourceStats& stats = m_resourceStats[key];
-    const RequestProfile profile = RequestProfiles::fromType(resourceType);
+    const int key = static_cast<int>(resourceType);  // 资源类型对应的统计键。
+    MutableResourceStats& stats = m_resourceStats[key];  // 当前资源可变统计对象。
+    const RequestProfile profile = RequestProfiles::fromType(resourceType);  // 当前资源调度配置。
     stats.snapshot.resourceType = resourceType;
     stats.snapshot.profileName = profile.name;
     stats.snapshot.maxConcurrent = profile.maxConcurrent;
@@ -455,12 +553,16 @@ void NetworkClient::updateStatsForStartedRequest(ResourceType resourceType) {
     refreshDynamicStatsLocked(resourceType);
 }
 
-/** @brief 根据请求结果更新完成、失败和重试统计。 */
+/**
+ * @brief 根据请求结果更新完成、失败和重试统计。
+ * @param resourceType 请求的资源类型。
+ * @param result 请求结果。
+ */
 void NetworkClient::updateStatsForCompletedRequest(ResourceType resourceType, const NetworkResult& result) {
-    QMutexLocker locker(&m_asyncQueueMutex);
-    const int key = static_cast<int>(resourceType);
-    MutableResourceStats& stats = m_resourceStats[key];
-    const RequestProfile profile = RequestProfiles::fromType(resourceType);
+    QMutexLocker locker(&m_asyncQueueMutex);  // 保护资源统计的互斥锁。
+    const int key = static_cast<int>(resourceType);  // 资源类型对应的统计键。
+    MutableResourceStats& stats = m_resourceStats[key];  // 当前资源可变统计对象。
+    const RequestProfile profile = RequestProfiles::fromType(resourceType);  // 当前资源调度配置。
     stats.snapshot.resourceType = resourceType;
     stats.snapshot.profileName = profile.name;
     stats.snapshot.maxConcurrent = profile.maxConcurrent;
@@ -491,11 +593,14 @@ void NetworkClient::updateStatsForCompletedRequest(ResourceType resourceType, co
     refreshDynamicStatsLocked(resourceType);
 }
 
-/** @brief 在持有统计锁时刷新指定资源的动态计数。 */
+/**
+ * @brief 在持有统计锁时刷新指定资源的动态计数。
+ * @param resourceType 请求的资源类型。
+ */
 void NetworkClient::refreshDynamicStatsLocked(ResourceType resourceType) {
-    const int key = static_cast<int>(resourceType);
-    MutableResourceStats& stats = m_resourceStats[key];
-    int queuedCount = 0;
+    const int key = static_cast<int>(resourceType);  // 资源类型对应的统计键。
+    MutableResourceStats& stats = m_resourceStats[key];  // 当前资源的可变统计对象。
+    int queuedCount = 0;  // 当前资源仍在等待队列中的请求数量。
     for (const PendingAsyncRequest& pending : std::as_const(m_pendingAsyncRequests)) {
         if (pending.request && !pending.request->isFinished() && pending.resourceType == resourceType) {
             ++queuedCount;
@@ -508,18 +613,31 @@ void NetworkClient::refreshDynamicStatsLocked(ResourceType resourceType) {
     stats.snapshot.peakActiveRequests = qMax(stats.snapshot.peakActiveRequests, stats.snapshot.activeRequests);
 }
 
-/** @brief 计算重试次数对应的退避时长。 */
+/**
+ * @brief 计算重试次数对应的退避时长。
+ * @param retryCount 当前重试次数。
+ * @param policy 重试策略。
+ * @return 本次重试等待的毫秒数。
+ */
 int NetworkClient::calculateRetryDelay(int retryCount, const RetryPolicy& policy) {
     if (retryCount >= static_cast<int>(policy.delays.size())) {
         return policy.delays.back();
     }
-    int baseDelay = policy.delays[retryCount];
+    int baseDelay = policy.delays[retryCount];  // 当前重试次数对应的基础延迟。
 
-    int jitterRange = static_cast<int>(baseDelay * policy.jitterFactor);
-    int jitter = QRandomGenerator::global()->bounded(-jitterRange, jitterRange + 1);
+    int jitterRange = static_cast<int>(baseDelay * policy.jitterFactor);  // 随机抖动范围。
+    int jitter = QRandomGenerator::global()->bounded(-jitterRange, jitterRange + 1);  // 本次随机抖动。
     return baseDelay + jitter;
 }
 
+/**
+ * @brief 判断请求失败是否应进入重试流程。
+ * @param statusCode HTTP 状态码。
+ * @param error Qt 网络错误类型。
+ * @param retryCount 当前重试次数。
+ * @param policy 重试策略。
+ * @return 满足重试条件时返回 true。
+ */
 bool NetworkClient::shouldRetry(int statusCode,
                                 QNetworkReply::NetworkError error,
                                 int retryCount,

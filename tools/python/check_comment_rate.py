@@ -115,6 +115,7 @@ def inspect_file(path: Path) -> tuple[int, int, list[str]]:
             FUNCTION_START_RE.match(line)
             and not line.lstrip().startswith("return ")
             and not line.lstrip().startswith(":")
+            and "<<" not in line
             and ("{" in line or ";" not in line)
         ):
             name = FUNCTION_START_RE.match(line).group(0).split("(", 1)[0].strip().split()[-1]
@@ -348,6 +349,7 @@ def inspect_doxygen_comments(path: Path) -> tuple[int, int, list[str]]:
             FUNCTION_START_RE.match(line)
             and not line.lstrip().startswith("return ")
             and not line.lstrip().startswith(":")
+            and "<<" not in line
             and ("{" in line or ";" not in line)
         ):
             name = FUNCTION_START_RE.match(line).group(0).split("(", 1)[0].strip().split()[-1]

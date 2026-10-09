@@ -9,11 +9,22 @@
 
 namespace EasyKiConverter {
 
+/**
+ * @brief 创建元器件处理工作线程。
+ * @param status 当前元器件导出状态。
+ * @param parent Qt 对象父级。
+ */
 ProcessWorker::ProcessWorker(QSharedPointer<ComponentExportStatus> status, QObject* parent)
     : QObject(parent), m_status(status), m_isAborted(0) {}
 
+/**
+ * @brief 销毁元器件处理工作线程。
+ */
 ProcessWorker::~ProcessWorker() {}
 
+/**
+ * @brief 执行元器件信息、CAD 和三维模型数据处理。
+ */
 void ProcessWorker::run() {
     // 检查是否已被取消 (v3.0.5+)
     if (m_isAborted.loadRelaxed()) {
@@ -26,13 +37,13 @@ void ProcessWorker::run() {
     }
 
     // 启动计时器
-    QElapsedTimer processTimer;
+    QElapsedTimer processTimer;  // 当前元器件处理耗时计时器。
     processTimer.start();
 
     m_status->addDebugLog(QString("ProcessWorker started for component: %1").arg(m_status->componentId));
 
     // 创建导入器
-    EasyedaImporter importer;
+    EasyedaImporter importer;  // EasyEDA 数据导入器。
 
     // 解析组件信息
     if (!parseComponentInfo(*m_status)) {
@@ -101,6 +112,11 @@ void ProcessWorker::run() {
     emit processCompleted(m_status);
 }
 
+/**
+ * @brief 解析元器件基础信息 JSON。
+ * @param status 当前元器件导出状态。
+ * @return 元器件信息解析成功时返回 true。
+ */
 bool ProcessWorker::parseComponentInfo(ComponentExportStatus& status) {
     if (status.componentInfoRaw.isEmpty()) {
         status.componentData = QSharedPointer<ComponentData>::create();
@@ -108,14 +124,14 @@ bool ProcessWorker::parseComponentInfo(ComponentExportStatus& status) {
         return true;
     }
 
-    QJsonParseError parseError;
-    QJsonDocument doc = QJsonDocument::fromJson(status.componentInfoRaw, &parseError);
+    QJsonParseError parseError;  // 元器件信息 JSON 解析错误。
+    QJsonDocument doc = QJsonDocument::fromJson(status.componentInfoRaw, &parseError);  // 解析后的元器件文档。
     if (parseError.error != QJsonParseError::NoError) {
         status.addDebugLog(QString("ERROR: Failed to parse component info JSON: %1").arg(parseError.errorString()));
         return false;
     }
 
-    QJsonObject obj = doc.object();
+    QJsonObject obj = doc.object();  // 元器件信息 JSON 对象。
     status.componentData = QSharedPointer<ComponentData>::create();
     status.componentData->setLcscId(status.componentId);
 
@@ -126,22 +142,27 @@ bool ProcessWorker::parseComponentInfo(ComponentExportStatus& status) {
     return true;
 }
 
+/**
+ * @brief 解析 CAD JSON 并导入符号和封装数据。
+ * @param status 当前元器件导出状态。
+ * @return CAD 数据解析和导入成功时返回 true。
+ */
 bool ProcessWorker::parseCadData(ComponentExportStatus& status) {
     if (status.cadDataRaw.isEmpty()) {
         return true;
     }
 
-    QJsonParseError parseError;
-    QJsonDocument doc = QJsonDocument::fromJson(status.cadDataRaw, &parseError);
+    QJsonParseError parseError;  // CAD JSON 解析错误。
+    QJsonDocument doc = QJsonDocument::fromJson(status.cadDataRaw, &parseError);  // 解析后的 CAD 文档。
     if (parseError.error != QJsonParseError::NoError) {
         status.addDebugLog(QString("ERROR: Failed to parse CAD data JSON: %1").arg(parseError.errorString()));
         return false;
     }
 
-    QJsonObject rootObj = doc.object();
+    QJsonObject rootObj = doc.object();  // CAD JSON 根对象。
 
     // API 返回的数据在 result 字段中，需要提取出来
-    QJsonObject obj;
+    QJsonObject obj;  // 供导入器消费的 CAD 数据对象。
     if (rootObj.contains("result") && rootObj["result"].isObject()) {
         obj = rootObj["result"].toObject();
         status.addDebugLog("Extracted CAD data from 'result' field");
@@ -154,10 +175,10 @@ bool ProcessWorker::parseCadData(ComponentExportStatus& status) {
     status.addDebugLog("=== ProcessWorker CAD Data Structure ===");
     status.addDebugLog(QString("Top-level keys: %1").arg(obj.keys().join(", ")));
     if (obj.contains("dataStr")) {
-        QJsonObject dataStr = obj["dataStr"].toObject();
+        QJsonObject dataStr = obj["dataStr"].toObject();  // CAD 图形数据对象。
         status.addDebugLog(QString("dataStr keys: %1").arg(dataStr.keys().join(", ")));
         if (dataStr.contains("shape")) {
-            QJsonArray shapes = dataStr["shape"].toArray();
+            QJsonArray shapes = dataStr["shape"].toArray();  // CAD 图形描述数组。
             status.addDebugLog(QString("dataStr.shape size: %1").arg(shapes.size()));
             if (!shapes.isEmpty()) {
                 status.addDebugLog(QString("First shape: %1").arg(shapes[0].toString().left(100)));
@@ -171,7 +192,7 @@ bool ProcessWorker::parseCadData(ComponentExportStatus& status) {
     status.addDebugLog("==========================================");
 
     // 使用EasyedaImporter导入符号和封装数据
-    EasyedaImporter importer;
+    EasyedaImporter importer;  // EasyEDA CAD 数据导入器。
 
     // 导入符号数据
     status.symbolData = importer.importSymbolData(obj);
@@ -201,16 +222,21 @@ bool ProcessWorker::parseCadData(ComponentExportStatus& status) {
     return true;
 }
 
+/**
+ * @brief 解析已获取的 OBJ 三维模型并恢复元数据。
+ * @param status 当前元器件导出状态。
+ * @return 三维模型数据为空或解析成功时返回 true。
+ */
 bool ProcessWorker::parse3DModelData(ComponentExportStatus& status) {
     if (status.model3DObjRaw.isEmpty()) {
         return true;
     }
 
     // 保存已有 model3DData 的属性（如果有的话）
-    QString existingUuid;
-    QString existingName;
-    Model3DBase existingTranslation;
-    Model3DBase existingRotation;
+    QString existingUuid;  // 预加载三维模型 UUID。
+    QString existingName;  // 预加载三维模型名称。
+    Model3DBase existingTranslation;  // 预加载三维模型位移。
+    Model3DBase existingRotation;  // 预加载三维模型旋转。
     if (status.model3DData) {
         existingUuid = status.model3DData->uuid();
         existingName = status.model3DData->name();
@@ -253,6 +279,9 @@ bool ProcessWorker::parse3DModelData(ComponentExportStatus& status) {
     return true;
 }
 
+/**
+ * @brief 请求中止当前元器件处理。
+ */
 void ProcessWorker::abort() {
     m_isAborted.storeRelaxed(1);
     m_status->addDebugLog(QString("ProcessWorker abort requested for component: %1").arg(m_status->componentId));

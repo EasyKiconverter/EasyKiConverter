@@ -265,11 +265,16 @@ void ExportSettingsViewModel::setExportMode(int mode) {
     }
 }
 
+/**
+ * @brief 判断当前目标格式是否只支持完整替换导出。
+ * @return 当前目标不支持追加和更新时返回 true。
+ */
 bool ExportSettingsViewModel::requiresFullReplacement() const {
     if (!m_targetModel)
         return false;
 
-    const auto target = static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
+    const auto target =  // 当前目标格式枚举值。
+        static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
     return target == TargetEdaFormat::Xpedition || target == TargetEdaFormat::Allegro ||
            target == TargetEdaFormat::Pads || target == TargetEdaFormat::Eagle || target == TargetEdaFormat::Pcad ||
            target == TargetEdaFormat::Cadstar || target == TargetEdaFormat::Orcad ||
