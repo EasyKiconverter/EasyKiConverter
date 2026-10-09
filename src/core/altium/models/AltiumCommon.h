@@ -36,11 +36,11 @@ enum class PinOrientation : uint8_t {
 
 /** @brief 字体表条目 */
 struct FontEntry {
-    QString name = "Times New Roman";
-    int size = 10;
-    bool bold = false;
-    bool italic = false;
-    bool underline = false;
+    QString name = "Times New Roman";  ///< 字体名称。
+    int size = 10;  ///< 字体大小。
+    bool bold = false;  ///< 是否使用粗体。
+    bool italic = false;  ///< 是否使用斜体。
+    bool underline = false;  ///< 是否添加下划线。
 };
 
 /** @brief 焊盘模式 */

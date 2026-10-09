@@ -22,8 +22,8 @@ struct AltiumPcbPad {
     int32_t sizeBotX = 0, sizeBotY = 0;  ///< 底层尺寸
     int32_t holeSize = 0;  ///< 孔径
     uint8_t shapeTop = 1;  ///< 顶层形状 (1=Round, 2=Rect, 3=Oct, 9=RndRect)
-    uint8_t shapeMid = 1;
-    uint8_t shapeBot = 1;
+    uint8_t shapeMid = 1;  ///< 中间层焊盘形状。
+    uint8_t shapeBot = 1;  ///< 底层焊盘形状。
     double rotation = 0.0;  ///< 旋转角度
     bool isPlated = true;  ///< 是否电镀
     uint8_t layer = 1;  ///< 所在层 (1=Top, 32=Bottom)
@@ -78,13 +78,13 @@ struct AltiumPcbArc {
  * @brief Altium PCB 文本
  */
 struct AltiumPcbText {
-    int32_t locationX = 0, locationY = 0;
+    int32_t locationX = 0, locationY = 0;  ///< 文本位置坐标（PCB 原始单位）。
     int32_t height = 60000;  ///< 文字高度（默认 6mil）
     int32_t strokeWidth = 10000;  ///< 笔画宽度（默认 1mil）
-    double rotation = 0.0;
-    bool isMirrored = false;
+    double rotation = 0.0;  ///< 文本旋转角度。
+    bool isMirrored = false;  ///< 是否镜像文本。
     uint8_t layer = 33;  ///< 默认 Top Overlay
-    QString text;
+    QString text;  ///< 文本内容。
 };
 
 /**
@@ -104,9 +104,9 @@ struct AltiumPcbFill {
 struct AltiumPcbRegion {
     QList<QPointF> vertices;  ///< 顶点（double 精度，PCB 原始单位）
     QList<QList<QPointF>> holes;  ///< 孔洞轮廓
-    uint8_t layer = 1;
-    bool isBoardCutout = false;
-    int kind = 0;
+    uint8_t layer = 1;  ///< 区域所在层。
+    bool isBoardCutout = false;  ///< 是否为板框切割区域。
+    int kind = 0;  ///< 区域类型编码。
     QString v7LayerName;  ///< V7 层名称（如 "MECHANICAL1", "TOP"）
     QString net;  ///< 网络名称
     QString uniqueId;  ///< 唯一标识
@@ -133,10 +133,10 @@ struct AltiumPcbComponentBody {
     QString layerName = "MECHANICAL1";  ///< 所在层名称
     QString name = "__BODY__";  ///< 体名称
     int kind = 0;  ///< 体类型（0=Extruded, 1=Sphere, 2=Cylinder）
-    int subpolyIndex = -1;
-    int unionIndex = 0;
+    int subpolyIndex = -1;  ///< 所属子多边形索引。
+    int unionIndex = 0;  ///< 所属联合体索引。
     int32_t arcResolutionRaw = 5000;  ///< 弧线分辨率（0.5mil）
-    bool isShapeBased = false;
+    bool isShapeBased = false;  ///< 是否由轮廓形状定义实体。
     int32_t cavityHeightRaw = 0;  ///< 腔体高度
     int32_t standoffHeightRaw = 0;  ///< 支架高度
     int32_t overallHeightRaw = 0;  ///< 总高度
@@ -145,7 +145,7 @@ struct AltiumPcbComponentBody {
     int bodyProjection = 0;  ///< 投影方式
     QString modelId;  ///< 模型 ID（GUID）
     bool modelEmbed = true;  ///< 是否嵌入模型
-    double model2dRotX = 0, model2dRotY = 0;  ///< 2D 模型位置
+    double model2dRotX = 0, model2dRotY = 0;  ///< 2D 模型绕 X/Y 轴的旋转角度。
     double model2dRotation = 0.0;  ///< 2D 模型旋转
     double model3dRotX = 0, model3dRotY = 0, model3dRotZ = 0;  ///< 3D 旋转
     int32_t model3dDzRaw = 0;  ///< 3D Z 偏移
@@ -165,12 +165,12 @@ struct AltiumPcbComponent {
     QString description;  ///< 封装描述
     double height = 0.0;  ///< 元件高度（mil）
 
-    QList<AltiumPcbPad> pads;
-    QList<AltiumPcbTrack> tracks;
-    QList<AltiumPcbArc> arcs;
-    QList<AltiumPcbText> texts;
-    QList<AltiumPcbFill> fills;
-    QList<AltiumPcbRegion> regions;
+    QList<AltiumPcbPad> pads;  ///< 封装焊盘列表。
+    QList<AltiumPcbTrack> tracks;  ///< 封装走线列表。
+    QList<AltiumPcbArc> arcs;  ///< 封装弧线列表。
+    QList<AltiumPcbText> texts;  ///< 封装文本列表。
+    QList<AltiumPcbFill> fills;  ///< 封装填充区域列表。
+    QList<AltiumPcbRegion> regions;  ///< 封装区域列表。
     QList<AltiumPcbComponentBody> bodies;  ///< 3D 元件体列表
     QList<AltiumPcbExtendedPrimitiveInfo> extendedPrimitives;  ///< 图元扩展信息
 
@@ -184,7 +184,7 @@ struct AltiumPcbComponent {
         double dz = 0;  ///< Z 偏移（mil）
     };
 
-    QList<Model3D> models;
+    QList<Model3D> models;  ///< 封装关联的 3D 模型列表。
 };
 
 }  // namespace EasyKiConverter
