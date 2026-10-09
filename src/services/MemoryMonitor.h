@@ -16,7 +16,12 @@ public:
     MemoryMonitor() = delete;
     ~MemoryMonitor() = delete;
     MemoryMonitor(const MemoryMonitor&) = delete;
-    MemoryMonitor& operator=(const MemoryMonitor&) = delete;
+    /**
+     * @brief 禁止复制赋值。
+     * @param other 不使用的复制源对象。
+     * @return 不返回，因为该操作被删除。
+     */
+    MemoryMonitor& operator=(const MemoryMonitor& other) = delete;
 
     /**
      * @brief 获取当前进程内存使用量（字节）
@@ -41,7 +46,7 @@ public:
     static void resetPeak();
 
 private:
-    static qint64 s_peakUsage;
+    static qint64 s_peakUsage;  ///< 进程历史峰值内存使用量（字节）。
 };
 
 }  // namespace EasyKiConverter
