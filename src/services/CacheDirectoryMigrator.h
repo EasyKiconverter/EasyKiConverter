@@ -25,6 +25,12 @@ public:
 private:
     /**
      * @brief 迁移目录中的全部缓存条目。
+     * @param sourceRoot 源缓存根目录。
+     * @param sourceDir 当前源组件目录。
+     * @param targetRoot 目标缓存根目录。
+     * @param targetDir 当前目标组件目录。
+     * @param legacySource 是否按旧版未标记缓存规则迁移。
+     * @return 目录内容全部迁移成功时返回 true。
      */
     static bool moveDirectoryContents(const QString& sourceRoot,
                                       const QString& sourceDir,
@@ -34,6 +40,9 @@ private:
 
     /**
      * @brief 迁移单个缓存文件或目录条目。
+     * @param sourcePath 源条目路径。
+     * @param targetPath 目标条目路径。
+     * @return 条目迁移成功时返回 true。
      */
     static bool moveCacheEntry(const QString& sourcePath, const QString& targetPath);
 };
