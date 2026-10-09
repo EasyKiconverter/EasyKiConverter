@@ -16,10 +16,10 @@ namespace EasyKiConverter::Parser {
 
 /** @brief 文本词法单元。 */
 struct TextToken {
-    QString text;
-    int line = 0;
-    int column = 0;
-    bool quoted = false;
+    QString text;  ///< 词法单元文本。
+    int line = 0;  ///< 源文件行号，从 1 开始。
+    int column = 0;  ///< 源文件列号，从 1 开始。
+    bool quoted = false;  ///< 是否来自引号包围的文本。
 };
 
 /**
@@ -38,20 +38,20 @@ public:
 
 /** @brief 点缩进或空白缩进文本中的一层节点。 */
 struct SectionNode {
-    QString keyword;
-    QString value;
-    QList<SectionNode> children;
-    int line = 0;
-    int depth = 0;
+    QString keyword;  ///< 节点关键字。
+    QString value;  ///< 节点值文本。
+    QList<SectionNode> children;  ///< 嵌套子节点。
+    int line = 0;  ///< 源文件行号。
+    int depth = 0;  ///< 点号表示的缩进深度。
 };
 
 /** @brief 使用 END* 终止符的分段文本节点。 */
 struct DelimitedSectionNode {
-    QString keyword;
-    QStringList arguments;
-    QList<DelimitedSectionNode> children;
-    int line = 0;
-    bool closed = false;
+    QString keyword;  ///< 分段关键字。
+    QStringList arguments;  ///< 分段参数列表。
+    QList<DelimitedSectionNode> children;  ///< 嵌套子分段。
+    int line = 0;  ///< 起始行号。
+    bool closed = false;  ///< 是否遇到了对应的结束标记。
 };
 
 /**
@@ -84,17 +84,21 @@ public:
      */
     static QList<DelimitedSectionNode> parse(const QString& content,
                                              const QStringList& leafKeywords = {},
+                                             // 可选诊断接收器。
                                              ParseDiagnostics* diagnostics = nullptr);
 };
 
 /** @brief S-expression 节点，支持嵌套列表和带引号原子。 */
 struct SExpressionNode {
-    QString atom;
-    QList<SExpressionNode> children;
-    int line = 0;
-    bool listNode = false;
+    QString atom;  ///< 原子文本。
+    QList<SExpressionNode> children;  ///< 嵌套子节点。
+    int line = 0;  ///< 源文件行号。
+    bool listNode = false;  ///< 是否由括号包围形成列表节点。
 
-    /** @brief 判断节点是否为列表节点。 */
+    /**
+     * @brief 判断节点是否为列表节点。
+     * @return 节点由括号包围时返回 true。
+     */
     bool isList() const {
         return listNode;
     }
