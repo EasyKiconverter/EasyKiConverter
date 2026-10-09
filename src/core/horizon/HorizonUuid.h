@@ -5,7 +5,9 @@
 
 namespace EasyKiConverter {
 
-/** @brief Horizon 对象的确定性 UUID 生成器（独立实现，不复制 Horizon GPL 代码）。 */
+/**
+ * @brief Horizon 对象的确定性 UUID 生成器（独立实现，不复制 Horizon GPL 代码）。
+ */
 class HorizonUuid final {
 public:
     static QString make(const QString& kind, const QString& semanticKey) {

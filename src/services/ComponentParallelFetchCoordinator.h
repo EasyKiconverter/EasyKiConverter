@@ -17,16 +17,32 @@ class ComponentService;
  */
 class ComponentParallelFetchCoordinator final {
 public:
-    /** @brief 记录成功结果并释放一个并行请求槽位。 */
+    /**
+     * @brief 记录成功结果并释放一个并行请求槽位。
+     * @param service 组件服务实例。
+     * @param componentId 元器件编号。
+     * @param data 组件数据。
+     */
     static void handleDataCollected(ComponentService& service, const QString& componentId, const ComponentData& data);
 
-    /** @brief 记录失败结果并释放一个并行请求槽位。 */
+    /**
+     * @brief 记录失败结果并释放一个并行请求槽位。
+     * @param service 组件服务实例。
+     * @param componentId 元器件编号。
+     * @param error 错误信息。
+     */
     static void handleFetchError(ComponentService& service, const QString& componentId, const QString& error);
 
-    /** @brief 处理批量请求超时并发布已经收集的数据。 */
+    /**
+     * @brief 处理批量请求超时并发布已经收集的数据。
+     * @param service 组件服务实例。
+     */
     static void handleQueueTimeout(ComponentService& service);
 
-    /** @brief 停止队列并清理并行请求上下文。 */
+    /**
+     * @brief 停止队列并清理并行请求上下文。
+     * @param service 组件服务实例。
+     */
     static void reset(ComponentService& service);
 };
 

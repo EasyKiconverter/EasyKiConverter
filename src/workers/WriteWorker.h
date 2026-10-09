@@ -28,16 +28,18 @@ class WriteWorker : public QObject, public QRunnable {
 public:
     /**
      * @brief 构造函数
-         * @param status 导出状态（使用 QSharedPointer 避免拷贝）
-         * @param
-     * outputPath 输出路径
+     * @param status 导出状态（使用 QSharedPointer 避免拷贝）
+     * @param outputPath 输出路径
      * @param libName 库名称
-         * @param exportSymbol 是否导出符号
+     * @param exportSymbol 是否导出符号
      * @param exportFootprint 是否导出封装
-     * @param exportModel3D 是否导出3D模型
+     * @param exportModel3D 是否导出三维模型
+     * @param exportPreviewImages 是否导出预览图
+     * @param exportDatasheet 是否导出数据手册
      * @param debugMode 是否启用调试模式
-     * @param parent 父对象
-         */
+     * @param tempDir 临时目录路径
+     * @param parent Qt 对象父级，可为空
+     */
     explicit WriteWorker(QSharedPointer<ComponentExportStatus> status,
                          const QString& outputPath,
                          const QString& libName,
@@ -81,7 +83,9 @@ signals:
     void itemWriteCompleted(const QString& componentId, int itemType, bool success);
 
 private:
-    /** @brief 允许调试数据协作者复用输出目录策略和路径状态。 */
+    /**
+     * @brief 允许调试数据协作者复用输出目录策略和路径状态。
+     */
     friend class WriteWorkerDebugExporter;
 
     /**
@@ -134,26 +138,26 @@ private:
     bool exportDebugData(ComponentExportStatus& status);
 
 private:
-    QSharedPointer<ComponentExportStatus> m_status;
-    QString m_outputPath;
-    QString m_libName;
-    bool m_exportSymbol;
-    bool m_exportFootprint;
-    bool m_exportModel3D;
-    bool m_exportPreviewImages;
-    bool m_exportDatasheet;
-    bool m_debugMode;
-    QString m_tempDir;
+    QSharedPointer<ComponentExportStatus> m_status;  ///< 线程共享的导出状态。
+    QString m_outputPath;  ///< 导出输出目录。
+    QString m_libName;  ///< 目标库名称。
+    bool m_exportSymbol;  ///< 是否导出符号库。
+    bool m_exportFootprint;  ///< 是否导出封装库。
+    bool m_exportModel3D;  ///< 是否导出三维模型。
+    bool m_exportPreviewImages;  ///< 是否导出预览图。
+    bool m_exportDatasheet;  ///< 是否导出数据手册。
+    bool m_debugMode;  ///< 是否启用调试数据输出。
+    QString m_tempDir;  ///< 导出事务使用的临时目录。
 
-    ExporterSymbol m_symbolExporter;
-    ExporterFootprint m_footprintExporter;
-    Exporter3DModel m_model3DExporter;
-    QAtomicInt m_isAborted;  // 取消标志 (v3.0.5+)
+    ExporterSymbol m_symbolExporter;  ///< 符号文件导出器。
+    ExporterFootprint m_footprintExporter;  ///< 封装文件导出器。
+    Exporter3DModel m_model3DExporter;  ///< 三维模型导出器。
+    QAtomicInt m_isAborted;  ///< 取消标志（v3.0.5+）。
 
     // 导出器互斥锁（确保线程安全）
-    QMutex m_symbolMutex;
-    QMutex m_footprintMutex;
-    QMutex m_model3DMutex;
+    QMutex m_symbolMutex;  ///< 保护符号导出器状态的互斥量。
+    QMutex m_footprintMutex;  ///< 保护封装导出器状态的互斥量。
+    QMutex m_model3DMutex;  ///< 保护三维模型导出器状态的互斥量。
 };
 
 }  // namespace EasyKiConverter

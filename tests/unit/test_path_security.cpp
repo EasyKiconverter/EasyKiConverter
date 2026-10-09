@@ -13,6 +13,9 @@ class TestPathSecurity : public QObject {
 private slots:
 
     // 验证路径组件会拒绝空值、遍历片段和非法字符。
+    /**
+     * @brief 验证 validatesPathComponents 测试场景。
+     */
     void validatesPathComponents() {
         QVERIFY(PathSecurity::isValidPathComponent(QStringLiteral("R0603")));
         QVERIFY(!PathSecurity::isValidPathComponent(QString()));
@@ -32,13 +35,20 @@ private slots:
     }
 
     // 验证目标路径检查能够阻止离开基准目录的访问。
+    /**
+     * @brief 验证 detectsPathsOutsideBaseDirectory 测试场景。
+     */
     void detectsPathsOutsideBaseDirectory() {
+        // baseDir：测试使用的文件系统路径。
         QTemporaryDir baseDir;
+        // outsideDir：测试使用的文件系统路径。
         QTemporaryDir outsideDir;
         QVERIFY(baseDir.isValid());
         QVERIFY(outsideDir.isValid());
 
+        // childPath：测试使用的文件系统路径。
         const QString childPath = QDir(baseDir.path()).filePath(QStringLiteral("child/file.txt"));
+        // traversalPath：测试使用的文件系统路径。
         const QString traversalPath = QDir(baseDir.path()).filePath(QStringLiteral("../outside.txt"));
 
         QVERIFY(PathSecurity::isSafePath(baseDir.path(), baseDir.path()));
@@ -49,6 +59,9 @@ private slots:
     }
 
     // 验证文件名清洗会替换非法字符并处理保留名称。
+    /**
+     * @brief 验证 sanitizesFilenames 测试场景。
+     */
     void sanitizesFilenames() {
         QCOMPARE(PathSecurity::sanitizeFilename(QStringLiteral("foo/bar:baz*?.kicad_mod")),
                  QStringLiteral("foo_bar_baz__.kicad_mod"));
@@ -59,7 +72,11 @@ private slots:
     }
 
     // 验证递归删除会遵守文件数量上限并清理目标目录。
+    /**
+     * @brief 验证 safeRemoveRecursivelyHonorsFileLimit 测试场景。
+     */
     void safeRemoveRecursivelyHonorsFileLimit() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
         QDir dir(tempDir.path());
@@ -75,6 +92,7 @@ private slots:
         second.write("2");
         second.close();
 
+        // targetPath：测试使用的文件系统路径。
         const QString targetPath = dir.filePath(QStringLiteral("target"));
         QVERIFY(!PathSecurity::safeRemoveRecursively(targetPath, 1));
         QVERIFY(QDir(targetPath).exists());

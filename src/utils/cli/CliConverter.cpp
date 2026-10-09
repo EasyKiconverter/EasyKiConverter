@@ -67,7 +67,9 @@ QString CliConverter::errorMessage() const {
  * @return 对应转换器；模式未知时返回 nullptr。
  */
 BaseConverter* CliConverter::createConverter(CommandLineParser::CliMode mode) {
-    /** @brief 按 CLI 模式选择具体转换器。 */
+    /**
+     * @brief 按 CLI 模式选择具体转换器。
+     */
     switch (mode) {
         case CommandLineParser::CliMode::ConvertBom:
             return new BomConverter(m_context, this);

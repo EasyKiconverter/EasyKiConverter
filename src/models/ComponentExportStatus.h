@@ -262,7 +262,9 @@ public:
      */
     explicit ScopedDataClearer(QSharedPointer<ComponentExportStatus> status) : m_status(status) {}
 
-    /** @brief 析构时清理仍然存活的状态对象中间数据。 */
+    /**
+     * @brief 析构时清理仍然存活的状态对象中间数据。
+     */
     ~ScopedDataClearer() {
         if (auto status = m_status.toStrongRef()) {  // 尝试获取强引用
             status->clearIntermediateData(false);

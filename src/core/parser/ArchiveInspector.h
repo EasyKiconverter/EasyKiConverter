@@ -13,7 +13,9 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief ZIP 归档检查限制。 */
+/**
+ * @brief ZIP 归档检查限制。
+ */
 struct ArchiveLimits {
     qsizetype maxEntries = 10000;  ///< 允许的最大条目数量。
     qint64 maxEntryUncompressedBytes = 256LL * 1024 * 1024;  ///< 单个条目允许的最大展开大小。
@@ -21,7 +23,9 @@ struct ArchiveLimits {
     double maxCompressionRatio = 1000.0;  ///< 允许的最大压缩比。
 };
 
-/** @brief 一个已通过结构检查的 ZIP 条目。 */
+/**
+ * @brief 一个已通过结构检查的 ZIP 条目。
+ */
 struct ArchiveEntry {
     QString path;  ///< ZIP 内的相对路径。
     quint32 compressedSize = 0;  ///< 压缩后大小。
@@ -30,7 +34,9 @@ struct ArchiveEntry {
     bool directory = false;  ///< 是否为目录条目。
 };
 
-/** @brief ZIP 检查结果。 */
+/**
+ * @brief ZIP 检查结果。
+ */
 struct ArchiveInspectionResult {
     QList<ArchiveEntry> entries;  ///< 通过结构检查的条目。
     qint64 totalUncompressedBytes = 0;  ///< 所有条目的展开大小总和。

@@ -41,7 +41,9 @@ private:
      */
     static void writeUInt32(QByteArray& buffer, int& offset, uint32_t value);
 
-    /** @brief 被编码的 OLE 写入器。 */
+    /**
+     * @brief 被编码的 OLE 写入器。
+     */
     const OLECompoundWriter& m_owner;
 };
 

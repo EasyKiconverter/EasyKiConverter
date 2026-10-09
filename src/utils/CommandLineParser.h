@@ -338,51 +338,51 @@ private:
     void setupCliOptions();
 
     // 存储命令行参数（在 QCoreApplication 创建前获取）
-    int m_argc = 0;
-    char** m_argv = nullptr;
+    int m_argc = 0;  ///< 保存初始化阶段传入的命令行参数数量。
+    char** m_argv = nullptr;  ///< 保存初始化阶段传入的命令行参数数组。
 
-    QCommandLineParser m_parser;
-    QCommandLineOption m_debugOption;
-    QCommandLineOption m_logLevelOption;
-    QCommandLineOption m_logFileOption;
-    QCommandLineOption m_configOption;
-    QCommandLineOption m_languageOption;
-    QCommandLineOption m_themeOption;
-    QCommandLineOption m_portableOption;
-    QCommandLineOption m_syncLoggingOption;
-    QCommandLineOption m_cacheDirOption;
-    QCommandLineOption m_diskCacheLimitOption;
+    QCommandLineParser m_parser;  ///< Qt 命令行参数解析器。
+    QCommandLineOption m_debugOption;  ///< 调试模式选项。
+    QCommandLineOption m_logLevelOption;  ///< 日志级别选项。
+    QCommandLineOption m_logFileOption;  ///< 日志文件路径选项。
+    QCommandLineOption m_configOption;  ///< 配置文件路径选项。
+    QCommandLineOption m_languageOption;  ///< 界面语言选项。
+    QCommandLineOption m_themeOption;  ///< 界面主题选项。
+    QCommandLineOption m_portableOption;  ///< 便携模式选项。
+    QCommandLineOption m_syncLoggingOption;  ///< 同步日志选项。
+    QCommandLineOption m_cacheDirOption;  ///< 缓存目录选项。
+    QCommandLineOption m_diskCacheLimitOption;  ///< 磁盘缓存上限选项。
 
     // CLI 模式选项
-    QCommandLineOption m_inputOption;
-    QCommandLineOption m_outputOption;
-    QCommandLineOption m_libNameOption;
-    QCommandLineOption m_componentOption;
-    QCommandLineOption m_symbolOption;
-    QCommandLineOption m_footprintOption;
-    QCommandLineOption m_3dModelOption;
-    QCommandLineOption m_3dModelFormatOption;
-    QCommandLineOption m_datasheetOption;
-    QCommandLineOption m_previewOption;
-    QCommandLineOption m_progressOption;
-    QCommandLineOption m_quietOption;
-    QCommandLineOption m_weakNetworkOption;
-    QCommandLineOption m_updateModeOption;
-    QCommandLineOption m_3dPathModeOption;
-    QCommandLineOption m_overwriteOption;
-    QCommandLineOption m_symbolDescriptionOption;
-    QCommandLineOption m_footprintDescriptionOption;
-    QCommandLineOption m_targetFormatOption;
+    QCommandLineOption m_inputOption;  ///< 输入文件或数据源选项。
+    QCommandLineOption m_outputOption;  ///< 输出目录选项。
+    QCommandLineOption m_libNameOption;  ///< 库名称选项。
+    QCommandLineOption m_componentOption;  ///< 元器件编号列表选项。
+    QCommandLineOption m_symbolOption;  ///< 符号库导出选项。
+    QCommandLineOption m_footprintOption;  ///< 封装库导出选项。
+    QCommandLineOption m_3dModelOption;  ///< 三维模型导出选项。
+    QCommandLineOption m_3dModelFormatOption;  ///< 三维模型格式选项。
+    QCommandLineOption m_datasheetOption;  ///< 数据手册导出选项。
+    QCommandLineOption m_previewOption;  ///< 预览图导出选项。
+    QCommandLineOption m_progressOption;  ///< 进度输出选项。
+    QCommandLineOption m_quietOption;  ///< 静默输出选项。
+    QCommandLineOption m_weakNetworkOption;  ///< 弱网络策略选项。
+    QCommandLineOption m_updateModeOption;  ///< 导出更新模式选项。
+    QCommandLineOption m_3dPathModeOption;  ///< 三维模型路径模式选项。
+    QCommandLineOption m_overwriteOption;  ///< 覆盖已有文件选项。
+    QCommandLineOption m_symbolDescriptionOption;  ///< 符号库描述选项。
+    QCommandLineOption m_footprintDescriptionOption;  ///< 封装库描述选项。
+    QCommandLineOption m_targetFormatOption;  ///< 目标格式选项。
 
     // 补全选项
-    QCommandLineOption m_completionOption;
-    QCommandLineOption m_completeOption;
+    QCommandLineOption m_completionOption;  ///< Shell 补全脚本生成选项。
+    QCommandLineOption m_completeOption;  ///< 动态补全数据请求选项。
 
-    CliMode m_cliMode = CliMode::None;
-    bool m_hasConvertCommand = false;
-    bool m_hasBomSubcommand = false;
-    bool m_hasComponentSubcommand = false;
-    bool m_hasBatchSubcommand = false;
+    CliMode m_cliMode = CliMode::None;  ///< 当前解析得到的 CLI 模式。
+    bool m_hasConvertCommand = false;  ///< 是否出现 convert 命令。
+    bool m_hasBomSubcommand = false;  ///< 是否出现 BOM 子命令。
+    bool m_hasComponentSubcommand = false;  ///< 是否出现 component 子命令。
+    bool m_hasBatchSubcommand = false;  ///< 是否出现 batch 子命令。
 };
 
 }  // namespace EasyKiConverter

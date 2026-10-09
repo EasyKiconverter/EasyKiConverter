@@ -62,119 +62,168 @@ public:
     void setTargetModel(ExportTargetModel* model);
 
     // Getter 方法
+    /**
+     * @brief 获取导出输出目录。
+     */
     QString outputPath() const {
         return m_outputPath;
     }
 
-    /** @brief 获取库名称。 */
+    /**
+     * @brief 获取库名称。
+     */
     QString libName() const {
         return m_libName;
     }
 
-    /** @brief 获取符号导出开关。 */
+    /**
+     * @brief 获取符号导出开关。
+     */
     bool exportSymbol() const {
         return m_exportSymbol;
     }
 
-    /** @brief 获取封装导出开关。 */
+    /**
+     * @brief 获取封装导出开关。
+     */
     bool exportFootprint() const {
         return m_exportFootprint;
     }
 
-    /** @brief 获取三维模型导出开关。 */
+    /**
+     * @brief 获取三维模型导出开关。
+     */
     bool exportModel3D() const {
         return m_exportModel3D;
     }
 
-    // 3D模型格式(位掩码): 0=NONE, 1=WRL, 2=STEP, 3=BOTH
+    /**
+     * @brief 获取三维模型格式位掩码。
+     */
     int exportModel3DFormat() const {
         return m_exportModel3DFormat;
     }
 
-    /** @brief 获取三维模型路径模式。 */
+    /**
+     * @brief 获取三维模型路径模式。
+     */
     int exportModel3DPathMode() const {
         return m_exportModel3DPathMode;
     }
 
-    /** @brief 获取预览图片导出开关。 */
+    /**
+     * @brief 获取预览图片导出开关。
+     */
     bool exportPreviewImages() const {
         return m_exportPreviewImages;
     }
 
-    /** @brief 获取数据手册导出开关。 */
+    /**
+     * @brief 获取数据手册导出开关。
+     */
     bool exportDatasheet() const {
         return m_exportDatasheet;
     }
 
-    /** @brief 获取覆盖已有文件开关。 */
+    /**
+     * @brief 获取覆盖已有文件开关。
+     */
     bool overwriteExistingFiles() const {
         return m_overwriteExistingFiles;
     }
 
-    /** @brief 获取弱网络适配开关。 */
+    /**
+     * @brief 获取弱网络适配开关。
+     */
     bool weakNetworkSupport() const {
         return m_weakNetworkSupport;
     }
 
-    /** @brief 获取导出模式。 */
+    /**
+     * @brief 获取导出模式。
+     */
     int exportMode() const {
         return m_exportMode;
     }
 
-    /** @brief 判断当前目标是否只支持完整覆盖导出。 */
+    /**
+     * @brief 判断当前目标是否只支持完整覆盖导出。
+     */
     bool requiresFullReplacement() const;
 
-    /** @brief 获取调试模式开关。 */
+    /**
+     * @brief 获取调试模式开关。
+     */
     bool debugMode() const {
         return m_debugMode;
     }
 
-    /** @brief 获取符号描述导出开关。 */
+    /**
+     * @brief 获取符号描述导出开关。
+     */
     bool exportSymbolDescription() const {
         return m_exportSymbolDescription;
     }
 
-    /** @brief 获取封装描述导出开关。 */
+    /**
+     * @brief 获取封装描述导出开关。
+     */
     bool exportFootprintDescription() const {
         return m_exportFootprintDescription;
     }
 
-    /** @brief 获取符号库描述。 */
+    /**
+     * @brief 获取符号库描述。
+     */
     QString symbolLibraryDescription() const {
         return m_symbolLibraryDescription;
     }
 
-    /** @brief 获取封装库描述。 */
+    /**
+     * @brief 获取封装库描述。
+     */
     QString footprintLibraryDescription() const {
         return m_footprintLibraryDescription;
     }
 
-    /** @brief 获取封装库关键词。 */
+    /**
+     * @brief 获取封装库关键词。
+     */
     QString footprintLibraryKeywords() const {
         return m_footprintLibraryKeywords;
     }
 
-    /** @brief 获取缓存目录。 */
+    /**
+     * @brief 获取缓存目录。
+     */
     QString cacheDir() const {
         return m_cacheDir;
     }
 
-    /** @brief 获取磁盘缓存上限。 */
+    /**
+     * @brief 获取磁盘缓存上限。
+     */
     int diskCacheLimitMB() const {
         return m_diskCacheLimitMB;
     }
 
-    /** @brief 获取允许的最大磁盘缓存上限。 */
+    /**
+     * @brief 获取允许的最大磁盘缓存上限。
+     */
     int maxDiskCacheLimitMB() const {
         return ConfigService::MAX_DISK_CACHE_LIMIT_MB;
     }
 
-    /** @brief 获取当前是否正在导出。 */
+    /**
+     * @brief 获取当前是否正在导出。
+     */
     bool isExporting() const {
         return m_isExporting;
     }
 
-    /** @brief 获取当前状态文本。 */
+    /**
+     * @brief 获取当前状态文本。
+     */
     QString status() const {
         return m_status;
     }
@@ -221,7 +270,9 @@ signals:
     void overwriteExistingFilesChanged();
     void weakNetworkSupportChanged();
     void exportModeChanged();
-    /** @brief 当前目标的导出模式限制发生变化。 */
+    /**
+     * @brief 当前目标的导出模式限制发生变化。
+     */
     void requiresFullReplacementChanged();
     void debugModeChanged();
     void exportSymbolDescriptionChanged();
@@ -260,32 +311,32 @@ private:
     void setStatus(const QString& status);
 
 private:
-    ParallelExportService* m_exportService;
-    ConfigService* m_configService;
+    ParallelExportService* m_exportService;  ///< 保存导出服务引用。
+    ConfigService* m_configService;  ///< 保存配置服务引用。
     ExportTargetModel* m_targetModel = nullptr;  ///< 导出目标模型引用（非拥有）
-    QString m_outputPath;
-    QString m_libName;
-    bool m_exportSymbol;
-    bool m_exportFootprint;
-    bool m_exportModel3D;
-    int m_exportModel3DFormat;  // bitmask: 1=WRL, 2=STEP, 3=Both
-    int m_exportModel3DPathMode;  // 0=relative, 1=absolute
-    bool m_exportPreviewImages;
-    bool m_exportDatasheet;
-    bool m_overwriteExistingFiles;
-    bool m_weakNetworkSupport;
-    int m_exportMode;  // 0 = 追加模式, 1 = 更新模式, 2 = 覆盖模式
-    bool m_debugMode;
-    bool m_exportSymbolDescription;
-    bool m_exportFootprintDescription;
-    QString m_symbolLibraryDescription;
-    QString m_footprintLibraryDescription;
-    QString m_footprintLibraryKeywords;
-    QString m_cacheDir;
-    int m_diskCacheLimitMB;
-    bool m_isExporting;
-    QString m_status;
-    QStringList m_pendingComponentIds;
+    QString m_outputPath;  ///< 保存导出输出目录。
+    QString m_libName;  ///< 保存导出库名称。
+    bool m_exportSymbol;  ///< 标记是否导出符号库。
+    bool m_exportFootprint;  ///< 标记是否导出封装库。
+    bool m_exportModel3D;  ///< 标记是否导出三维模型。
+    int m_exportModel3DFormat;  ///< 保存三维模型格式位掩码。
+    int m_exportModel3DPathMode;  ///< 保存三维模型路径模式。
+    bool m_exportPreviewImages;  ///< 标记是否导出预览图。
+    bool m_exportDatasheet;  ///< 标记是否导出数据手册。
+    bool m_overwriteExistingFiles;  ///< 标记是否覆盖已有文件。
+    bool m_weakNetworkSupport;  ///< 标记是否启用弱网模式。
+    int m_exportMode;  ///< 保存追加、更新或覆盖导出模式。
+    bool m_debugMode;  ///< 标记是否启用调试模式。
+    bool m_exportSymbolDescription;  ///< 标记是否导出符号库描述。
+    bool m_exportFootprintDescription;  ///< 标记是否导出封装库描述。
+    QString m_symbolLibraryDescription;  ///< 保存符号库描述。
+    QString m_footprintLibraryDescription;  ///< 保存封装库描述。
+    QString m_footprintLibraryKeywords;  ///< 保存封装库关键词。
+    QString m_cacheDir;  ///< 保存已验证的缓存目录。
+    int m_diskCacheLimitMB;  ///< 保存磁盘缓存大小上限。
+    bool m_isExporting;  ///< 标记是否正在执行导出。
+    QString m_status;  ///< 保存界面状态文本。
+    QStringList m_pendingComponentIds;  ///< 保存等待导出的元器件编号。
 };
 
 }  // namespace EasyKiConverter

@@ -13,9 +13,9 @@ namespace EasyKiConverter {
  * @details 只保留当前服务需要的制造商料号、数据手册地址和预览图地址，避免业务层依赖原始 JSON 结构。
  */
 struct LcscProductInfo {
-    QString manufacturerPart;
-    QString datasheetUrl;
-    QStringList imageUrls;
+    QString manufacturerPart;  ///< 制造商料号。
+    QString datasheetUrl;  ///< 数据手册下载地址。
+    QStringList imageUrls;  ///< 规范化后的预览图地址列表。
 };
 
 /**

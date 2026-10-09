@@ -85,10 +85,14 @@ static void computeBBox(const IR::FootprintComponentIR& footprint,
     }
 }
 
-/** @brief 创建 KiCad 封装导出器。 */
+/**
+ * @brief 创建 KiCad 封装导出器。
+ */
 ExporterFootprint::ExporterFootprint() {}
 
-/** @brief 销毁 KiCad 封装导出器。 */
+/**
+ * @brief 销毁 KiCad 封装导出器。
+ */
 ExporterFootprint::~ExporterFootprint() {}
 
 /**

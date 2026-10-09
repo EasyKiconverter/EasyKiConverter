@@ -15,7 +15,9 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief 一个格式导入器的能力描述和保守探测函数。 */
+/**
+ * @brief 一个格式导入器的能力描述和保守探测函数。
+ */
 struct ImporterDescriptor {
     QString id;  ///< 稳定的导入器唯一标识。
     QString displayName;  ///< 面向用户显示的格式名称。
@@ -44,10 +46,14 @@ public:
      */
     bool registerBuiltInImporters();
 
-    /** @brief 清空当前注册的导入器。 */
+    /**
+     * @brief 清空当前注册的导入器。
+     */
     void clear();
 
-    /** @brief 返回全部注册描述，顺序与注册顺序一致。 */
+    /**
+     * @brief 返回全部注册描述，顺序与注册顺序一致。
+     */
     const QList<ImporterDescriptor>& importers() const;
 
     /**

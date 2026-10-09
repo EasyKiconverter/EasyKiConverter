@@ -10,7 +10,10 @@ class ComponentListViewModel;
  */
 class ComponentListTimerCoordinator final {
 public:
-    /** @brief 创建并连接组件列表所需的全部定时器。 */
+    /**
+     * @brief 创建并连接组件列表所需的全部定时器。
+     * @param owner 所属组件列表视图模型。
+     */
     static void initialize(ComponentListViewModel& owner);
 };
 

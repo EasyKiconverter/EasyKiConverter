@@ -10,7 +10,9 @@
 
 namespace EasyKiConverter {
 
-/** @brief 保存组件存储写入器所属的 SchLib 写入器。 */
+/**
+ * @brief 保存组件存储写入器所属的 SchLib 写入器。
+ */
 AltiumSchComponentStorageWriter::AltiumSchComponentStorageWriter(AltiumSchLibWriter& owner) : m_owner(owner) {}
 
 /**

@@ -10,6 +10,7 @@ EasyKiConverter 代码注释覆盖率检查工具。
 4. 使用 --check-variables 时，检查可识别的简单变量声明是否有中文注释。
 5. 使用 --check-params 时，检查函数 Doxygen 是否覆盖全部参数。
 6. 使用 --check-doxygen 时，检查每个函数定义是否紧邻多行 Doxygen 注释，并包含规范的 ``@brief``。
+7. 使用 --forbid-generic-comments 时，拒绝已知的占位式注释，避免以无语义文本满足覆盖率检查。
 
 检查结果称为“逻辑代码注释率”。它统计已经识别的函数和控制流逻辑单元，
 阈值默认是 90%，用于约束新增和改动代码中的可维护性说明。
@@ -54,6 +55,17 @@ MULTILINE_VARIABLE_START_RE = re.compile(
 FORBIDDEN_REFERENCE_RE = re.compile(
     r"(?:参考\s*(?:其他)?项目|参考\s*(?:其他)?实现|reference\s+implementation)",
     re.IGNORECASE,
+)
+
+# 这些文本无法说明变量或接口的真实语义，不能作为注释覆盖率的合格说明。
+GENERIC_COMMENT_PATTERNS = (
+    re.compile(r"函数处理的.*参数"),
+    re.compile(r"参数值。?$"),
+    re.compile(r"保存.*流程中的"),
+    re.compile(r"测试场景使用的参数。?$"),
+    re.compile(r"测试场景中的局部数据。?$"),
+    re.compile(r"当前测试场景使用的局部数据。?$"),
+    re.compile(r"用于本测试场景的 .* 数据。?$"),
 )
 
 
@@ -276,6 +288,14 @@ def inspect_parameter_comments(path: Path) -> tuple[int, int, list[str]]:
         signature = " ".join(signature_lines)
         if "{" in signature:
             signature = signature.split("{", 1)[0]
+        # 构造函数初始化列表中的类型名和字符串不是函数参数，不能参与参数识别。
+        closing_parenthesis = signature.rfind(")")
+        initializer_colon = signature.find(":", signature.find(")") + 1)
+        if initializer_colon >= 0:
+            signature = signature[:initializer_colon].rstrip()
+            closing_parenthesis = signature.rfind(")")
+        if closing_parenthesis >= 0:
+            signature = signature[: closing_parenthesis + 1]
         names = function_parameter_names(signature)
         if not names:
             index = end + 1
@@ -396,6 +416,38 @@ def find_forbidden_references(path: Path) -> list[str]:
     return locations
 
 
+def find_generic_comments(path: Path) -> list[str]:
+    """查找缺少真实语义的占位式注释，并返回带行号的位置。"""
+    lines = path.read_text(encoding="utf-8").splitlines()
+    locations: list[str] = []
+    in_block_comment = False
+    for index, line in enumerate(lines):
+        comment_text = ""
+        cursor = 0
+        while cursor < len(line):
+            if in_block_comment:
+                end = line.find("*/", cursor)
+                if end < 0:
+                    comment_text += line[cursor:]
+                    break
+                comment_text += line[cursor:end]
+                cursor = end + 2
+                in_block_comment = False
+                continue
+            block_start = line.find("/*", cursor)
+            line_start = line.find("//", cursor)
+            if line_start >= 0 and (block_start < 0 or line_start < block_start):
+                comment_text += line[line_start + 2 :]
+                break
+            if block_start < 0:
+                break
+            cursor = block_start + 2
+            in_block_comment = True
+        if any(pattern.search(comment_text) for pattern in GENERIC_COMMENT_PATTERNS):
+            locations.append(f"{path}:{index + 1}")
+    return locations
+
+
 def main() -> int:
     """解析参数并以 90% 作为默认门槛执行检查。"""
     parser = argparse.ArgumentParser(description="检查 C++ 逻辑代码注释覆盖率")
@@ -421,12 +473,18 @@ def main() -> int:
         action="store_true",
         help="检查函数 Doxygen 注释块是否使用多行格式并包含 @brief",
     )
+    parser.add_argument(
+        "--forbid-generic-comments",
+        action="store_true",
+        help="拒绝缺少真实语义的占位式注释",
+    )
     args = parser.parse_args()
 
     total = 0
     documented = 0
     missing: list[str] = []
     forbidden_references: list[str] = []
+    generic_comments: list[str] = []
     variable_total = 0
     variable_documented = 0
     missing_variables: list[str] = []
@@ -443,6 +501,8 @@ def main() -> int:
         missing.extend(file_missing)
         if args.forbid_external_references:
             forbidden_references.extend(find_forbidden_references(path))
+        if args.forbid_generic_comments:
+            generic_comments.extend(find_generic_comments(path))
         if args.check_variables:
             file_total, file_documented, file_missing = inspect_variable_comments(path)
             variable_total += file_total
@@ -469,6 +529,10 @@ def main() -> int:
         print("检测到外部项目引用注释:")
         for location in forbidden_references:
             print(f"- {location}")
+    if generic_comments:
+        print("检测到占位式泛化注释:")
+        for location in generic_comments:
+            print(f"- {location}")
     if args.check_variables:
         variable_rate = 100.0 if variable_total == 0 else variable_documented * 100.0 / variable_total
         print(f"变量注释率: {variable_rate:.1f}% ({variable_documented}/{variable_total})")
@@ -478,6 +542,8 @@ def main() -> int:
                 print(f"- {location}")
     failed = rate + 1e-9 < args.threshold
     if forbidden_references:
+        failed = True
+    if generic_comments:
         failed = True
     if args.check_variables and variable_documented < variable_total:
         failed = True

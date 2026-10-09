@@ -59,7 +59,9 @@ public:
     bool copyToFile(const QString& uuid, const QString& extension, const QString& destinationPath) const;
 
 private:
-    /** @brief 保存所属的缓存服务，用于复用统一锁和路径策略。 */
+    /**
+     * @brief 保存所属的缓存服务，用于复用统一锁和路径策略。
+     */
     ComponentCacheService& m_owner;
 };
 

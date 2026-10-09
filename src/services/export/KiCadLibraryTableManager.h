@@ -5,10 +5,14 @@
 
 namespace EasyKiConverter {
 
-/** @brief 管理导出库在 KiCad 工程库表中的登记。 */
+/**
+ * @brief 管理导出库在 KiCad 工程库表中的登记。
+ */
 class KiCadLibraryTableManager {
 public:
-    /** @brief 符号库或封装库登记结果。 */
+    /**
+     * @brief 符号库或封装库登记结果。
+     */
     enum class RegistrationResult {
         Registered,  ///< 已写入目标工程库表。
         ImportGuideWritten,  ///< 未找到工程，已生成手动导入指南。

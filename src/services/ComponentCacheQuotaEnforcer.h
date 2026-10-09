@@ -26,7 +26,9 @@ public:
     void enforce(bool bypassCooldown = false);
 
 private:
-    /** @brief 保存协作者所属的缓存服务。 */
+    /**
+     * @brief 保存协作者所属的缓存服务。
+     */
     ComponentCacheService& m_owner;
 };
 

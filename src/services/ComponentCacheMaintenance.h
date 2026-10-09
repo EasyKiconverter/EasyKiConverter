@@ -29,10 +29,14 @@ public:
      */
     void remove(const QString& componentId);
 
-    /** @brief 清空一级和二级缓存，并使旧异步写入失效。 */
+    /**
+     * @brief 清空一级和二级缓存，并使旧异步写入失效。
+     */
     void clearAll();
 
-    /** @brief 清空一级内存缓存并使旧异步写入失效。 */
+    /**
+     * @brief 清空一级内存缓存并使旧异步写入失效。
+     */
     void clearMemory();
 
     /**

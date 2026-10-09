@@ -14,14 +14,18 @@ namespace EasyKiConverter {
  */
 class AltiumSchLibReader {
 public:
-    /** @brief SchLib 组件目录项 */
+    /**
+     * @brief SchLib 组件目录项
+     */
     struct ComponentInfo {
         QString name;  ///< 组件名称。
         QString sectionKey;  ///< 组件在 OLE 文档中的节名称。
         int partCount = 1;  ///< 可见部件数量，不包含公共 Part 0
     };
 
-    /** @brief SchLib Data 中的原始记录块 */
+    /**
+     * @brief SchLib Data 中的原始记录块
+     */
     struct Record {
         quint8 flags = 0;  ///< 记录块标志位。
         QByteArray payload;  ///< 去除块头后的原始载荷。
@@ -35,14 +39,18 @@ public:
         int fontId = -1;  ///< FONTID，按 FileHeader 中的 FontID 顺序，从 1 开始
     };
 
-    /** @brief SchLib /Storage 中的嵌入图片条目 */
+    /**
+     * @brief SchLib /Storage 中的嵌入图片条目
+     */
     struct ImageStorageEntry {
         quint8 flags = 0;  ///< 图片条目标志位。
         QString name;  ///< 图片文件名。
         QByteArray compressedData;  ///< 图片压缩数据。
     };
 
-    /** @brief SchLib FileHeader 中的字体表条目 */
+    /**
+     * @brief SchLib FileHeader 中的字体表条目
+     */
     struct FontInfo {
         QString name;  ///< 字体名称。
         int size = 0;  ///< 字体大小。

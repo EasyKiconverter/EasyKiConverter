@@ -15,7 +15,9 @@
 namespace EasyKiConverter {
 namespace IR {
 
-/** @brief 向后兼容别名，新代码请使用 IR::EASYEDA_PX_TO_MM */
+/**
+ * @brief 向后兼容别名，新代码请使用 IR::EASYEDA_PX_TO_MM
+ */
 constexpr double MODEL3D_PX_TO_MM = EASYEDA_PX_TO_MM;  ///< 3D 模型 EasyEDA 像素单位到毫米的换算系数。
 
 /**

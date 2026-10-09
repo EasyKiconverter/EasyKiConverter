@@ -181,7 +181,7 @@ bool OLECompoundReader::open(const QString& filePath) {
                 return true;
             if (byteCount > static_cast<quint64>(std::numeric_limits<int>::max()))
                 return false;
-            quint32 current = start;  ///< 当前值。
+            quint32 current = start;  ///< 当前正在遍历的扇区索引。
             QSet<quint32> visited;  ///< 访问集合。
             while (result->size() < static_cast<qsizetype>(byteCount)) {
                 if (current >= static_cast<quint32>(table.size()) || current == kEndOfChain || current == kFreeSector ||
@@ -271,7 +271,7 @@ bool OLECompoundReader::open(const QString& filePath) {
             return true;
         if (entry.streamSize > static_cast<quint64>(std::numeric_limits<int>::max()) || miniFat.isEmpty())
             return false;
-        quint32 current = entry.startSector;  ///< 当前值。
+        quint32 current = entry.startSector;  ///< 当前目录项正在遍历的扇区索引。
         QSet<quint32> visited;  ///< 访问集合。
         while (result->size() < static_cast<qsizetype>(entry.streamSize)) {
             if (current >= static_cast<quint32>(miniFat.size()) || visited.contains(current))

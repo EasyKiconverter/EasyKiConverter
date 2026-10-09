@@ -81,10 +81,14 @@ public:
      */
     qint64 removeComponent(const QString& componentId);
 
-    /** @brief 清空全部一级缓存。 */
+    /**
+     * @brief 清空全部一级缓存。
+     */
     void clear();
 
-    /** @brief 返回当前一级缓存成本。 */
+    /**
+     * @brief 返回当前一级缓存成本。
+     */
     qint64 totalCost() const;
 
     /**
@@ -93,7 +97,9 @@ public:
      */
     void setMaxCost(int maxCost);
 
-    /** @brief 返回一级缓存最大成本。 */
+    /**
+     * @brief 返回一级缓存最大成本。
+     */
     int maxCost() const;
 
 private:

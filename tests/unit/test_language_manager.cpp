@@ -14,6 +14,9 @@ private slots:
     void testLanguageFromConfig();
 };
 
+/**
+ * @brief 验证 testForceOverrideDuringInitialization 测试场景。
+ */
 void TestLanguageManager::testForceOverrideDuringInitialization() {
     // 设置配置文件语言为中文
     ConfigService::instance()->setLanguage("zh_CN");
@@ -27,6 +30,9 @@ void TestLanguageManager::testForceOverrideDuringInitialization() {
     QCOMPARE(lang->currentLanguage(), QStringLiteral("en"));
 }
 
+/**
+ * @brief 验证 testLanguageFromConfig 测试场景。
+ */
 void TestLanguageManager::testLanguageFromConfig() {
     // 设置配置文件语言为英文
     ConfigService::instance()->setLanguage("en");

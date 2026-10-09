@@ -14,7 +14,9 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief 文本词法单元。 */
+/**
+ * @brief 文本词法单元。
+ */
 struct TextToken {
     QString text;  ///< 词法单元文本。
     int line = 0;  ///< 源文件行号，从 1 开始。
@@ -36,7 +38,9 @@ public:
     static QList<TextToken> tokenize(const QString& content, ParseDiagnostics* diagnostics = nullptr);
 };
 
-/** @brief 点缩进或空白缩进文本中的一层节点。 */
+/**
+ * @brief 点缩进或空白缩进文本中的一层节点。
+ */
 struct SectionNode {
     QString keyword;  ///< 节点关键字。
     QString value;  ///< 节点值文本。
@@ -45,7 +49,9 @@ struct SectionNode {
     int depth = 0;  ///< 点号表示的缩进深度。
 };
 
-/** @brief 使用 END* 终止符的分段文本节点。 */
+/**
+ * @brief 使用 END* 终止符的分段文本节点。
+ */
 struct DelimitedSectionNode {
     QString keyword;  ///< 分段关键字。
     QStringList arguments;  ///< 分段参数列表。
@@ -88,7 +94,9 @@ public:
                                              ParseDiagnostics* diagnostics = nullptr);
 };
 
-/** @brief S-expression 节点，支持嵌套列表和带引号原子。 */
+/**
+ * @brief S-expression 节点，支持嵌套列表和带引号原子。
+ */
 struct SExpressionNode {
     QString atom;  ///< 原子文本。
     QList<SExpressionNode> children;  ///< 嵌套子节点。
@@ -118,7 +126,9 @@ public:
     static QList<SExpressionNode> parse(const QString& content, ParseDiagnostics* diagnostics = nullptr);
 };
 
-/** @brief 可识别的输入格式。 */
+/**
+ * @brief 可识别的输入格式。
+ */
 enum class DetectedFormat {
     Unknown,
     EasyedaJson,

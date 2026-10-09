@@ -12,12 +12,17 @@ class TestProcessWorker : public QObject {
 
 private slots:
 
+    /**
+     * @brief 验证 runParsesRealCadFixture 测试场景。
+     */
     void runParsesRealCadFixture() {
+        // status：测试用状态对象。
         auto status = QSharedPointer<ComponentExportStatus>::create();
         status->componentId = QStringLiteral("C23186");
         status->fetchSuccess = true;
         status->componentInfoRaw = QByteArrayLiteral(R"({"name":"0603 resistor"})");
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
         status->cadDataRaw =
             TestPaths::readBytes(TestPaths::fixturePath(QStringLiteral("easyeda/cad_basic.json")), &error);
@@ -42,7 +47,11 @@ private slots:
         QVERIFY(status->componentInfoRaw.isEmpty());
     }
 
+    /**
+     * @brief 验证 runFailsOnInvalidComponentInfoJson 测试场景。
+     */
     void runFailsOnInvalidComponentInfoJson() {
+        // status：测试用状态对象。
         auto status = QSharedPointer<ComponentExportStatus>::create();
         status->componentId = QStringLiteral("C_BAD");
         status->fetchSuccess = true;
@@ -58,7 +67,11 @@ private slots:
         QVERIFY(!status->isCancelled);
     }
 
+    /**
+     * @brief 验证 runFailsOnInvalidCadJson 测试场景。
+     */
     void runFailsOnInvalidCadJson() {
+        // status：测试用状态对象。
         auto status = QSharedPointer<ComponentExportStatus>::create();
         status->componentId = QStringLiteral("C_BAD_CAD");
         status->fetchSuccess = true;
@@ -73,7 +86,11 @@ private slots:
         QCOMPARE(status->processMessage, QStringLiteral("Failed to parse CAD data"));
     }
 
+    /**
+     * @brief 验证 abortBeforeRunEmitsCancelledStatus 测试场景。
+     */
     void abortBeforeRunEmitsCancelledStatus() {
+        // status：测试用状态对象。
         auto status = QSharedPointer<ComponentExportStatus>::create();
         status->componentId = QStringLiteral("C_CANCEL");
 

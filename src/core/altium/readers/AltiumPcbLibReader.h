@@ -17,20 +17,26 @@ namespace EasyKiConverter {
  */
 class AltiumPcbLibReader {
 public:
-    /** @brief PcbLib 封装目录项 */
+    /**
+     * @brief PcbLib 封装目录项
+     */
     struct ComponentInfo {
         QString name;  ///< 封装名称。
         QString sectionKey;  ///< 封装在 OLE 文档中的节名称。
     };
 
-    /** @brief PcbLib Data 中的已知图元块 */
+    /**
+     * @brief PcbLib Data 中的已知图元块
+     */
     struct PrimitiveBlock {
         quint8 flags = 0;  ///< 子块标志位。
         QByteArray payload;  ///< 去除块头后的原始载荷。
         QByteArray encoded;  ///< 包含块头的完整编码数据。
     };
 
-    /** @brief PcbLib 走线公共字段之后的结构化数据 */
+    /**
+     * @brief PcbLib 走线公共字段之后的结构化数据
+     */
     struct TrackFields {
         qint32 startX = 0;  ///< 起点 X 坐标。
         qint32 startY = 0;  ///< 起点 Y 坐标。
@@ -41,7 +47,9 @@ public:
         quint8 componentIndex = 0;  ///< 关联元件索引。
     };
 
-    /** @brief PcbLib 弧线公共字段之后的结构化数据 */
+    /**
+     * @brief PcbLib 弧线公共字段之后的结构化数据
+     */
     struct ArcFields {
         qint32 centerX = 0;  ///< 圆心 X 坐标。
         qint32 centerY = 0;  ///< 圆心 Y 坐标。
@@ -51,7 +59,9 @@ public:
         qint32 width = 0;  ///< 弧线宽度。
     };
 
-    /** @brief PcbLib 文本主块的结构化数据 */
+    /**
+     * @brief PcbLib 文本主块的结构化数据
+     */
     struct TextFields {
         qint32 locationX = 0;  ///< 文本 X 坐标。
         qint32 locationY = 0;  ///< 文本 Y 坐标。
@@ -69,7 +79,9 @@ public:
         quint32 v7LayerId = 0;  ///< V7 层标识。
     };
 
-    /** @brief PcbLib 焊盘主块和扩展块的结构化数据 */
+    /**
+     * @brief PcbLib 焊盘主块和扩展块的结构化数据
+     */
     struct PadFields {
         qint32 locationX = 0;  ///< 焊盘 X 坐标。
         qint32 locationY = 0;  ///< 焊盘 Y 坐标。
@@ -108,7 +120,9 @@ public:
         quint8 cornerRadiusPercentage = 0;  ///< 圆角半径百分比。
     };
 
-    /** @brief PcbLib 填充图元的结构化数据 */
+    /**
+     * @brief PcbLib 填充图元的结构化数据
+     */
     struct FillFields {
         qint32 corner1X = 0;  ///< 第一个角点 X 坐标。
         qint32 corner1Y = 0;  ///< 第一个角点 Y 坐标。
@@ -121,7 +135,9 @@ public:
         quint8 keepoutRestrictions = 0;  ///< 禁止区限制标志。
     };
 
-    /** @brief PcbLib 区域图元的结构化数据 */
+    /**
+     * @brief PcbLib 区域图元的结构化数据
+     */
     struct RegionFields {
         quint32 reserved = 0;  ///< 协议保留字段。
         quint8 reservedByte = 0;  ///< 协议保留字节。
@@ -129,7 +145,9 @@ public:
         QVector<QPointF> vertices;  ///< 区域轮廓顶点。
     };
 
-    /** @brief PcbLib 三维元件体图元的结构化数据 */
+    /**
+     * @brief PcbLib 三维元件体图元的结构化数据
+     */
     struct ComponentBodyFields {
         quint32 reserved = 0;  ///< 协议保留字段。
         quint8 reservedByte = 0;  ///< 协议保留字节。

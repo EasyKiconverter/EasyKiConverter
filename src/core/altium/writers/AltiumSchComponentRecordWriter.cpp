@@ -11,7 +11,9 @@ namespace EasyKiConverter {
 
 namespace {
 
-/** @brief 表示一个待写入 SchLib RECORD=41 的参数字段。 */
+/**
+ * @brief 表示一个待写入 SchLib RECORD=41 的参数字段。
+ */
 struct ParameterField {
     QString name;  ///< 参数名称。
     QString value;  ///< 参数显示值。

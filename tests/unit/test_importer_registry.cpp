@@ -11,7 +11,11 @@ class TestImporterRegistry : public QObject {
 private slots:
 
     // 验证注册表拒绝无效描述和重复 ID，并保留合法注册顺序。
+    /**
+     * @brief 验证 registersUniqueImporters 测试场景。
+     */
     void registersUniqueImporters() {
+        // registry：导入器注册表。
         ImporterRegistry registry;
         const ImporterDescriptor descriptor{
             QStringLiteral("pcad"),
@@ -28,7 +32,11 @@ private slots:
     }
 
     // 验证内置导入器覆盖当前已有解析器，且重复初始化不会注册重复项。
+    /**
+     * @brief 验证 registersBuiltInImporters 测试场景。
+     */
     void registersBuiltInImporters() {
+        // registry：导入器注册表。
         ImporterRegistry registry;
         QVERIFY(registry.registerBuiltInImporters());
         QCOMPARE(registry.importers().size(), 4);
@@ -46,13 +54,18 @@ private slots:
     }
 
     // 验证报告可以合并解析诊断、记录进度，并保留取消后的部分成功状态。
+    /**
+     * @brief 验证 reportsPartialProgressAndCancellation 测试场景。
+     */
     void reportsPartialProgressAndCancellation() {
+        // report：测试生成的诊断报告。
         ConversionReport report;
         report.setProgress(2, 5, QStringLiteral("part-2"));
         QCOMPARE(report.progress().completed, 2);
         QCOMPARE(report.progress().total, 5);
         QCOMPARE(report.status(), ConversionStatus::Ok);
 
+        // warning：导入器检测过程产生的警告信息。
         ParseDiagnostic warning;
         warning.severity = ParseSeverity::Warning;
         warning.scope = ParseScope::Component;

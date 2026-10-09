@@ -101,24 +101,24 @@ public:
 
     /**
      * @brief 重置配置为默认
-         */
+     */
     void resetToDefaults();
 
 signals:
     /**
      * @brief 配置已更改信
-         */
+     */
     void configChanged();
 
 private:
     /**
      * @brief 初始化默认配
-         */
+     */
     void initDefaults();
 
 private:
-    QSettings* m_settings;
-    QJsonObject m_config;
+    QSettings* m_settings;  ///< 保存配置文件读写对象。
+    QJsonObject m_config;  ///< 保存当前配置项。
 };
 
 }  // namespace EasyKiConverter

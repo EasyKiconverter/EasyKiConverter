@@ -74,12 +74,18 @@ private:
     // Helper: 构建 argc/argv 并构造 CommandLineParser
     CommandLineParser* makeParser(const QStringList& args);
 
+    // m_argc：命令行参数数量。
     int m_argc = 0;
+    // m_argv：命令行参数列表。
     char** m_argv = nullptr;
     QList<QByteArray> m_argStorage;  // 存储字符串数据（生命周期与 parser 同长）
     QList<char*> m_argvPtrs;  // argv 指针数组（指向 m_argStorage）
 };
 
+/**
+ * @brief 验证 makeParser 测试场景。
+ * @param args 命令行参数列表。
+ */
 CommandLineParser* TestCommandLineParser::makeParser(const QStringList& args) {
     // 清理上一次的 argv
     m_argStorage.clear();
@@ -102,10 +108,14 @@ CommandLineParser* TestCommandLineParser::makeParser(const QStringList& args) {
 
 // ========== CLI 模式检测 ==========
 
+/**
+ * @brief 验证 testParseStoredArgv 测试场景。
+ */
 void TestCommandLineParser::testParseStoredArgv() {
     // 验证 parse() 使用存储的 argv 而非 QCoreApplication::arguments()
     // 构造一个带有明确标记的 argv，parse() 解析后检查状态
     QStringList args = {"easykiconverter", "convert", "bom", "-i", "input.xlsx", "-o", "output"};
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser(args);
 
     QVERIFY(parser->parse());
@@ -117,7 +127,11 @@ void TestCommandLineParser::testParseStoredArgv() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testParseConvertBom 测试场景。
+ */
 void TestCommandLineParser::testParseConvertBom() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "bom.xlsx", "-o", "out"});
     QVERIFY(parser->parse());
     QVERIFY(parser->isCliMode());
@@ -126,7 +140,11 @@ void TestCommandLineParser::testParseConvertBom() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testParseConvertComponent 测试场景。
+ */
 void TestCommandLineParser::testParseConvertComponent() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "component", "-c", "C12345", "-o", "out"});
     QVERIFY(parser->parse());
     QVERIFY(parser->isCliMode());
@@ -135,7 +153,11 @@ void TestCommandLineParser::testParseConvertComponent() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testParseConvertBatch 测试场景。
+ */
 void TestCommandLineParser::testParseConvertBatch() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "batch", "-i", "list.txt", "-o", "out"});
     QVERIFY(parser->parse());
     QVERIFY(parser->isCliMode());
@@ -144,6 +166,9 @@ void TestCommandLineParser::testParseConvertBatch() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testParseConvertInvalid 测试场景。
+ */
 void TestCommandLineParser::testParseConvertInvalid() {
     // 关键回归测试：convert 后面跟无效子命令，hasConvertCommand=true 但 isCliMode=false
     auto* parser = makeParser({"easykiconverter", "convert", "bmo", "-o", "out"});
@@ -155,13 +180,20 @@ void TestCommandLineParser::testParseConvertInvalid() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testLibNameDefault 测试场景。
+ */
 void TestCommandLineParser::testLibNameDefault() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "bom.xlsx", "-o", "out"});
     parser->parse();
     QCOMPARE(parser->libName(), QStringLiteral("EasyKiConverter"));
     delete parser;
 }
 
+/**
+ * @brief 验证 testLibNameExplicit 测试场景。
+ */
 void TestCommandLineParser::testLibNameExplicit() {
     auto* parser =
         makeParser({"easykiconverter", "convert", "bom", "-i", "bom.xlsx", "-o", "out", "--lib-name", "my_lib"});
@@ -172,6 +204,9 @@ void TestCommandLineParser::testLibNameExplicit() {
 
 // ========== 导出选项默认语义 ==========
 
+/**
+ * @brief 验证 testExportSymbolDefaultTrue 测试场景。
+ */
 void TestCommandLineParser::testExportSymbolDefaultTrue() {
     // --symbol 未传时默认为 true（核心产物默认开启）
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
@@ -181,6 +216,9 @@ void TestCommandLineParser::testExportSymbolDefaultTrue() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testExportFootprintDefaultTrue 测试场景。
+ */
 void TestCommandLineParser::testExportFootprintDefaultTrue() {
     // --footprint 未传时默认为 true（核心产物默认开启）
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
@@ -189,6 +227,9 @@ void TestCommandLineParser::testExportFootprintDefaultTrue() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testExport3dModelDefaultFalse 测试场景。
+ */
 void TestCommandLineParser::testExport3dModelDefaultFalse() {
     // --3d-model 未传时默认为 false（opt-in，不默认导出 3D）
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
@@ -197,6 +238,9 @@ void TestCommandLineParser::testExport3dModelDefaultFalse() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testExportSymbolExplicitTrue 测试场景。
+ */
 void TestCommandLineParser::testExportSymbolExplicitTrue() {
     // --symbol 显式设置 true
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--symbol"});
@@ -205,6 +249,9 @@ void TestCommandLineParser::testExportSymbolExplicitTrue() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testExport3dModelExplicitTrue 测试场景。
+ */
 void TestCommandLineParser::testExport3dModelExplicitTrue() {
     // --3d-model 显式启用
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--3d-model"});
@@ -213,7 +260,11 @@ void TestCommandLineParser::testExport3dModelExplicitTrue() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testModel3DFormatDefaultWrl 测试场景。
+ */
 void TestCommandLineParser::testModel3DFormatDefaultWrl() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--3d-model"});
     parser->parse();
     QVERIFY(parser->validate());
@@ -221,7 +272,11 @@ void TestCommandLineParser::testModel3DFormatDefaultWrl() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testModel3DFormatBoth 测试场景。
+ */
 void TestCommandLineParser::testModel3DFormatBoth() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser(
         {"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--3d-model", "--3d-model-format", "both"});
     parser->parse();
@@ -230,7 +285,11 @@ void TestCommandLineParser::testModel3DFormatBoth() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testModel3DFormatInvalid 测试场景。
+ */
 void TestCommandLineParser::testModel3DFormatInvalid() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser(
         {"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--3d-model", "--3d-model-format", "obj"});
     parser->parse();
@@ -239,7 +298,11 @@ void TestCommandLineParser::testModel3DFormatInvalid() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testCacheOptions 测试场景。
+ */
 void TestCommandLineParser::testCacheOptions() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter",
                                "convert",
                                "component",
@@ -260,6 +323,9 @@ void TestCommandLineParser::testCacheOptions() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testCacheSizeInvalid 测试场景。
+ */
 void TestCommandLineParser::testCacheSizeInvalid() {
     auto* parser =
         makeParser({"easykiconverter", "convert", "component", "-c", "C12345", "-o", "out", "--cache-size-mb", "0"});
@@ -269,25 +335,32 @@ void TestCommandLineParser::testCacheSizeInvalid() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testCliRequiredOptionValidation 测试场景。
+ */
 void TestCommandLineParser::testCliRequiredOptionValidation() {
+    // missingBomInput：缺失 BOM 输入的错误结果。
     auto* missingBomInput = makeParser({"easykiconverter", "convert", "bom", "-o", "out"});
     missingBomInput->parse();
     QVERIFY(!missingBomInput->validate());
     QVERIFY(missingBomInput->validationError().contains(QStringLiteral("BOM 表转换必须指定输入文件")));
     delete missingBomInput;
 
+    // missingComponentId：测试使用的元器件标识或名称。
     auto* missingComponentId = makeParser({"easykiconverter", "convert", "component", "-o", "out"});
     missingComponentId->parse();
     QVERIFY(!missingComponentId->validate());
     QVERIFY(missingComponentId->validationError().contains(QStringLiteral("单个元器件转换必须指定 LCSC 编号")));
     delete missingComponentId;
 
+    // missingBatchInput：缺失批处理输入的错误结果。
     auto* missingBatchInput = makeParser({"easykiconverter", "convert", "batch", "-o", "out"});
     missingBatchInput->parse();
     QVERIFY(!missingBatchInput->validate());
     QVERIFY(missingBatchInput->validationError().contains(QStringLiteral("批量转换必须指定输入文件")));
     delete missingBatchInput;
 
+    // missingOutput：测试得到的实际结果数据。
     auto* missingOutput = makeParser({"easykiconverter", "convert", "component", "-c", "C12345"});
     missingOutput->parse();
     QVERIFY(!missingOutput->validate());
@@ -295,19 +368,25 @@ void TestCommandLineParser::testCliRequiredOptionValidation() {
     delete missingOutput;
 }
 
+/**
+ * @brief 验证 testGlobalOptionValidation 测试场景。
+ */
 void TestCommandLineParser::testGlobalOptionValidation() {
+    // invalidLogLevel：测试使用的元器件标识或名称。
     auto* invalidLogLevel = makeParser({"easykiconverter", "--log-level", "verbose"});
     invalidLogLevel->parse();
     QVERIFY(!invalidLogLevel->validate());
     QVERIFY(invalidLogLevel->validationError().contains(QStringLiteral("无效的日志级别")));
     delete invalidLogLevel;
 
+    // invalidLanguage：测试使用的元器件标识或名称。
     auto* invalidLanguage = makeParser({"easykiconverter", "--language", "fr"});
     invalidLanguage->parse();
     QVERIFY(!invalidLanguage->validate());
     QVERIFY(invalidLanguage->validationError().contains(QStringLiteral("无效的语言设置")));
     delete invalidLanguage;
 
+    // invalidTheme：测试使用的元器件标识或名称。
     auto* invalidTheme = makeParser({"easykiconverter", "--theme", "blue"});
     invalidTheme->parse();
     QVERIFY(!invalidTheme->validate());
@@ -317,10 +396,15 @@ void TestCommandLineParser::testGlobalOptionValidation() {
 
 // ========== 补全脚本契约 ==========
 
+/**
+ * @brief 验证 testCompletionScriptNoHelpVersionSubcommands 测试场景。
+ */
 void TestCommandLineParser::testCompletionScriptNoHelpVersionSubcommands() {
     // 验证补全脚本不再暴露 help/version 子命令（它们是 --help/--version 选项）
     QString bashScript = CompletionGenerator::generate(CompletionGenerator::Shell::Bash);
+    // zshScript：Zsh 测试脚本内容。
     QString zshScript = CompletionGenerator::generate(CompletionGenerator::Shell::Zsh);
+    // fishScript：Fish 测试脚本内容。
     QString fishScript = CompletionGenerator::generate(CompletionGenerator::Shell::Fish);
 
     // Bash: subcommands 变量应只包含 "convert"
@@ -335,10 +419,15 @@ void TestCommandLineParser::testCompletionScriptNoHelpVersionSubcommands() {
     QVERIFY2(!fishScript.contains("'__fish_use_subcommand' -a version"), "Fish 补全不应暴露 version 子命令");
 }
 
+/**
+ * @brief 验证 testCompletionScriptNoBoolValueHints 测试场景。
+ */
 void TestCommandLineParser::testCompletionScriptNoBoolValueHints() {
     // 验证补全脚本不再为 --symbol/--footprint/--3d-model 补全 true/false
     QString bashScript = CompletionGenerator::generate(CompletionGenerator::Shell::Bash);
+    // zshScript：Zsh 测试脚本内容。
     QString zshScript = CompletionGenerator::generate(CompletionGenerator::Shell::Zsh);
+    // fishScript：Fish 测试脚本内容。
     QString fishScript = CompletionGenerator::generate(CompletionGenerator::Shell::Fish);
 
     // Bash: --symbol|--footprint|--3d-model 后不应跟 compgen -W "true false"
@@ -353,6 +442,9 @@ void TestCommandLineParser::testCompletionScriptNoBoolValueHints() {
 
 // ========== 辅助方法 ==========
 
+/**
+ * @brief 验证 testHasConvertCommand 测试场景。
+ */
 void TestCommandLineParser::testHasConvertCommand() {
     // 有 convert 命令（无论子命令是否有效）
     auto* p1 = makeParser({"easykiconverter", "convert", "-o", "out"});
@@ -369,21 +461,33 @@ void TestCommandLineParser::testHasConvertCommand() {
 
 // ========== 新增 CLI 标志：默认值 ==========
 
+/**
+ * @brief 验证 testWeakNetworkDefaultFalse 测试场景。
+ */
 void TestCommandLineParser::testWeakNetworkDefaultFalse() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
     parser->parse();
     QVERIFY2(parser->weakNetworkSupport() == false, "--weak-network 未设置时默认关闭");
     delete parser;
 }
 
+/**
+ * @brief 验证 testUpdateModeDefaultFalse 测试场景。
+ */
 void TestCommandLineParser::testUpdateModeDefaultFalse() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
     parser->parse();
     QVERIFY2(parser->updateMode() == false, "--update-mode 未设置时默认关闭");
     delete parser;
 }
 
+/**
+ * @brief 验证 test3dPathModeDefaultRelative 测试场景。
+ */
 void TestCommandLineParser::test3dPathModeDefaultRelative() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
     parser->parse();
     QVERIFY(parser->validate());
@@ -391,21 +495,33 @@ void TestCommandLineParser::test3dPathModeDefaultRelative() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testOverwriteDefaultTrue 测试场景。
+ */
 void TestCommandLineParser::testOverwriteDefaultTrue() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
     parser->parse();
     QVERIFY2(parser->overwriteExistingFiles() == true, "--no-overwrite 未设置时默认 true");
     delete parser;
 }
 
+/**
+ * @brief 验证 testSymbolDescriptionDefaultEmpty 测试场景。
+ */
 void TestCommandLineParser::testSymbolDescriptionDefaultEmpty() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
     parser->parse();
     QVERIFY(parser->symbolDescription().isEmpty());
     delete parser;
 }
 
+/**
+ * @brief 验证 testFootprintDescriptionDefaultEmpty 测试场景。
+ */
 void TestCommandLineParser::testFootprintDescriptionDefaultEmpty() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
     parser->parse();
     QVERIFY(parser->footprintDescription().isEmpty());
@@ -414,20 +530,31 @@ void TestCommandLineParser::testFootprintDescriptionDefaultEmpty() {
 
 // ========== 新增 CLI 标志：显式值 ==========
 
+/**
+ * @brief 验证 testWeakNetworkExplicit 测试场景。
+ */
 void TestCommandLineParser::testWeakNetworkExplicit() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--weak-network"});
     parser->parse();
     QVERIFY(parser->weakNetworkSupport() == true);
     delete parser;
 }
 
+/**
+ * @brief 验证 testUpdateModeExplicit 测试场景。
+ */
 void TestCommandLineParser::testUpdateModeExplicit() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--update-mode"});
     parser->parse();
     QVERIFY(parser->updateMode() == true);
     delete parser;
 }
 
+/**
+ * @brief 验证 test3dPathModeAbsolute 测试场景。
+ */
 void TestCommandLineParser::test3dPathModeAbsolute() {
     auto* parser =
         makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--3d-path-mode", "absolute"});
@@ -437,6 +564,9 @@ void TestCommandLineParser::test3dPathModeAbsolute() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testNoOverwriteExplicit 测试场景。
+ */
 void TestCommandLineParser::testNoOverwriteExplicit() {
     // --no-overwrite 设置时，overwriteExistingFiles() 返回 false
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--no-overwrite"});
@@ -445,7 +575,11 @@ void TestCommandLineParser::testNoOverwriteExplicit() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testSymbolDescriptionExplicit 测试场景。
+ */
 void TestCommandLineParser::testSymbolDescriptionExplicit() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser(
         {"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--symbol-description", "My Symbol Lib"});
     parser->parse();
@@ -453,7 +587,11 @@ void TestCommandLineParser::testSymbolDescriptionExplicit() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testFootprintDescriptionExplicit 测试场景。
+ */
 void TestCommandLineParser::testFootprintDescriptionExplicit() {
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter",
                                "convert",
                                "bom",
@@ -470,6 +608,9 @@ void TestCommandLineParser::testFootprintDescriptionExplicit() {
 
 // ========== 新增 CLI 标志：验证 ==========
 
+/**
+ * @brief 验证 test3dPathModeInvalid 测试场景。
+ */
 void TestCommandLineParser::test3dPathModeInvalid() {
     auto* parser =
         makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--3d-path-mode", "relativee"});
@@ -481,9 +622,15 @@ void TestCommandLineParser::test3dPathModeInvalid() {
 
 // ========== 补全脚本包含新选项 ==========
 
+/**
+ * @brief 验证 testCompletionScriptContainsNewOptions 测试场景。
+ */
 void TestCommandLineParser::testCompletionScriptContainsNewOptions() {
+    // bashScript：Bash 补全脚本。
     QString bashScript = CompletionGenerator::generate(CompletionGenerator::Shell::Bash);
+    // zshScript：Zsh 测试脚本内容。
     QString zshScript = CompletionGenerator::generate(CompletionGenerator::Shell::Zsh);
+    // fishScript：Fish 测试脚本内容。
     QString fishScript = CompletionGenerator::generate(CompletionGenerator::Shell::Fish);
 
     // Bash: convert_opts 应包含新选项
@@ -537,9 +684,13 @@ void TestCommandLineParser::testCompletionScriptContainsNewOptions() {
 
 // ========== CLI 国际化测试 ==========
 
+/**
+ * @brief 验证 testValidationErrorTranslated 测试场景。
+ */
 void TestCommandLineParser::testValidationErrorTranslated() {
     // 安装英文翻译器
     ConfigService::instance()->setLanguage("en");
+    // lang：测试使用的语言代码。
     auto* lang = LanguageManager::instance();
     lang->setLanguage("en", /*force=*/true);
 
@@ -548,6 +699,7 @@ void TestCommandLineParser::testValidationErrorTranslated() {
         makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o", "--3d-model-format", "obj"});
     parser->parse();
     QVERIFY(!parser->validate());
+    // error：测试期间收集的错误或诊断信息。
     QString error = parser->validationError();
     // 无论语言，错误消息应包含格式标识 "3D" 和有效值列表
     QVERIFY2(error.contains("3D"), qPrintable("Expected '3D' in error, got: " + error));
@@ -555,15 +707,21 @@ void TestCommandLineParser::testValidationErrorTranslated() {
     delete parser;
 }
 
+/**
+ * @brief 验证 testCliHelpTextTranslated 测试场景。
+ */
 void TestCommandLineParser::testCliHelpTextTranslated() {
     // 安装英文翻译器
     ConfigService::instance()->setLanguage("en");
+    // lang：测试使用的语言代码。
     auto* lang = LanguageManager::instance();
     lang->setLanguage("en", /*force=*/true);
 
+    // parser：负责解析测试输入的解析器实例。
     auto* parser = makeParser({"easykiconverter", "convert", "bom", "-i", "b.xlsx", "-o", "o"});
     parser->parse();
 
+    // help：帮助文本。
     QString help = parser->cliHelpText();
     // 帮助文本应包含关键选项（无论语言）
     QVERIFY2(help.contains("--input"), qPrintable("Expected '--input' in help, got: " + help.left(200)));

@@ -8,7 +8,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools" / "python"))
 
-from check_comment_rate import inspect_doxygen_comments, inspect_file, inspect_parameter_comments, inspect_variable_comments
+from check_comment_rate import (
+    find_generic_comments,
+    inspect_doxygen_comments,
+    inspect_file,
+    inspect_parameter_comments,
+    inspect_variable_comments,
+)
 
 
 class CheckCommentRateTest(unittest.TestCase):
@@ -132,6 +138,37 @@ class CheckCommentRateTest(unittest.TestCase):
             )
             self.assertEqual(inspect_doxygen_comments(path), (1, 1, []))
             self.assertEqual(inspect_parameter_comments(path), (1, 1, []))
+
+    def test_constructor_initializer_list_is_not_treated_as_parameters(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "sample.cpp"
+            path.write_text(
+                "/**\n"
+                " * @brief 创建测试对象。\n"
+                " * @param value 初始化值。\n"
+                " */\n"
+                "explicit Sample(int value) : Base(\"base-name\", value) {}\n",
+                encoding="utf-8",
+            )
+            self.assertEqual(inspect_parameter_comments(path), (1, 1, []))
+
+    def test_generic_comment_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "sample.cpp"
+            path.write_text("int value = 0;  // 参数值。\n", encoding="utf-8")
+            self.assertEqual(find_generic_comments(path), [f"{path}:1"])
+
+    def test_semantic_comment_is_accepted(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "sample.cpp"
+            path.write_text("int value = 0;  // 当前请求的重试次数。\n", encoding="utf-8")
+            self.assertEqual(find_generic_comments(path), [])
+
+    def test_contextual_placeholder_comment_is_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "sample.cpp"
+            path.write_text("QString result;  // 用于本测试场景的 result 数据。\n", encoding="utf-8")
+            self.assertEqual(find_generic_comments(path), [f"{path}:1"])
 
     def test_doxygen_requires_brief(self):
         with tempfile.TemporaryDirectory() as directory:

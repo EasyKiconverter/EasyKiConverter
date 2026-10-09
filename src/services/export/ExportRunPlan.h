@@ -17,29 +17,51 @@ class ComponentData;
  * Stage 前验证目标格式、缓存完整性和进度统计范围。
  */
 struct ExportRunPlan {
-    /** @brief 是否启用符号导出阶段。 */
+    /**
+     * @brief 是否启用符号导出阶段。
+     */
     bool enableSymbol{false};
-    /** @brief 是否启用封装导出阶段。 */
+    /**
+     * @brief 是否启用封装导出阶段。
+     */
     bool enableFootprint{false};
-    /** @brief 组合库目标是否正在执行仅符号导出。 */
+    /**
+     * @brief 组合库目标是否正在执行仅符号导出。
+     */
     bool symbolOnlyCombinedLibrary{false};
-    /** @brief 是否启用三维模型统计项。 */
+    /**
+     * @brief 是否启用三维模型统计项。
+     */
     bool enableModel3D{false};
-    /** @brief 是否启动独立的三维模型导出阶段。 */
+    /**
+     * @brief 是否启动独立的三维模型导出阶段。
+     */
     bool runExternalModel3DStage{false};
-    /** @brief 是否启用预览图导出阶段。 */
+    /**
+     * @brief 是否启用预览图导出阶段。
+     */
     bool enablePreview{false};
-    /** @brief 是否启用数据手册导出阶段。 */
+    /**
+     * @brief 是否启用数据手册导出阶段。
+     */
     bool enableDatasheet{false};
-    /** @brief 通过预加载完整性检查、可以交给 Stage 的元件编号。 */
+    /**
+     * @brief 通过预加载完整性检查、可以交给 Stage 的元件编号。
+     */
     QStringList exportableComponentIds;
-    /** @brief 缺少完整预加载数据、需要标记失败的元件编号。 */
+    /**
+     * @brief 缺少完整预加载数据、需要标记失败的元件编号。
+     */
     QStringList missingDataComponentIds;
 
-    /** @brief 返回实际需要启动的外部 Stage 数量。 */
+    /**
+     * @brief 返回实际需要启动的外部 Stage 数量。
+     */
     int runningStageCount() const;
 
-    /** @brief 返回需要初始化进度表的导出类型名称。 */
+    /**
+     * @brief 返回需要初始化进度表的导出类型名称。
+     */
     QStringList progressTypeNames() const;
 };
 

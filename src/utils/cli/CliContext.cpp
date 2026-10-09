@@ -34,7 +34,9 @@ CliContext::CliContext(const CommandLineParser& parser) : m_parser(parser) {
     m_exportService->setComponentService(m_componentService);
 }
 
-/** @brief 销毁 CLI 上下文并停止导出服务。 */
+/**
+ * @brief 销毁 CLI 上下文并停止导出服务。
+ */
 CliContext::~CliContext() {
     if (m_exportService) {
         m_exportService->cancelExport();

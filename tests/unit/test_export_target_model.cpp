@@ -14,11 +14,15 @@ class TestExportTargetModel final : public QObject {
 
 private slots:
 
-    /** 验证 GUI 显示已通过当前验证门槛的目标格式。 */
+    /**
+     * @brief 验证 GUI 显示已通过当前验证门槛的目标格式。
+     */
     void exposesOnlyVerifiedTargets() {
+        // temporary：测试隔离环境中的临时对象。
         QTemporaryDir temporary;
         QVERIFY(temporary.isValid());
 
+        // plugins：已加载的插件集合。
         QJsonArray plugins;
         const auto addPlugin = [&plugins](const QString& id, const QString& displayName) {
             plugins.append(
@@ -35,15 +39,18 @@ private slots:
         addPlugin(QStringLiteral("allegro"), QStringLiteral("Allegro PCB"));
         addPlugin(QStringLiteral("eagle"), QStringLiteral("Eagle Library"));
 
+        // configPath：测试使用的文件系统路径。
         const QString configPath = temporary.filePath(QStringLiteral("export_plugins.json"));
         QFile config(configPath);
         QVERIFY(config.open(QIODevice::WriteOnly));
         QVERIFY(config.write(QJsonDocument(QJsonObject{{QStringLiteral("plugins"), plugins}}).toJson()) > 0);
         config.close();
 
+        // model：测试使用的配置值或状态。
         ExportTargetModel model;
         model.loadPlugins(configPath);
 
+        // targets：测试目标格式集合。
         const QVariantList targets = model.availableTargets();
         QCOMPARE(targets.size(), 4);
         QCOMPARE(targets.at(0).toMap().value(QStringLiteral("id")).toString(), QStringLiteral("kicad"));
@@ -54,8 +61,11 @@ private slots:
         QCOMPARE(model.currentTargetId(), QStringLiteral("kicad"));
     }
 
-    /** 验证可见下拉索引与稳定目标枚举值分离。 */
+    /**
+     * @brief 验证可见下拉索引与稳定目标枚举值分离。
+     */
     void keepsVerifiedTargetEnumIndices() {
+        // temporary：测试隔离环境中的临时对象。
         QTemporaryDir temporary;
         QVERIFY(temporary.isValid());
 
@@ -71,12 +81,14 @@ private slots:
             QJsonObject{{QStringLiteral("id"), QStringLiteral("pads")},
                         {QStringLiteral("displayName"), QStringLiteral("PADS Library")}},
         };
+        // configPath：测试使用的文件系统路径。
         const QString configPath = temporary.filePath(QStringLiteral("export_plugins.json"));
         QFile config(configPath);
         QVERIFY(config.open(QIODevice::WriteOnly));
         QVERIFY(config.write(QJsonDocument(QJsonObject{{QStringLiteral("plugins"), plugins}}).toJson()) > 0);
         config.close();
 
+        // model：测试使用的配置值或状态。
         ExportTargetModel model;
         model.loadPlugins(configPath);
 

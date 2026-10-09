@@ -68,7 +68,9 @@ private:
     int countPrimitives(const AltiumPcbComponent& component) const;
     QString buildLibraryMetadata(const QString& filePath) const;
 
-    /** @brief 允许图元写入器复用文件级校验、层映射和字符串状态。 */
+    /**
+     * @brief 允许图元写入器复用文件级校验、层映射和字符串状态。
+     */
     friend class AltiumPcbPrimitiveWriter;
     friend class AltiumPcbInputValidator;
 

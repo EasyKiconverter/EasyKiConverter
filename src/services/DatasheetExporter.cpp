@@ -15,7 +15,9 @@ namespace EasyKiConverter {
  */
 DatasheetExporter::DatasheetExporter(QObject* parent) : QObject(parent) {}
 
-/** @brief 销毁数据手册导出器。 */
+/**
+ * @brief 销毁数据手册导出器。
+ */
 DatasheetExporter::~DatasheetExporter() = default;
 
 /**

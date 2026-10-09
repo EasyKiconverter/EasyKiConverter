@@ -10,7 +10,10 @@
 
 namespace EasyKiConverter {
 
-/** @brief 创建验证、组件数据和预览图相关的服务信号连接。 */
+/**
+ * @brief 创建验证、组件数据和预览图相关的服务信号连接。
+ * @param owner 元件列表视图模型。
+ */
 void ComponentListServiceConnectionCoordinator::initialize(ComponentListViewModel& owner) {
     // 所有元件验证完成后再请求预览图，避免验证和媒体请求同时争抢资源。
     QObject::connect(owner.m_validationStateManager,
@@ -18,6 +21,7 @@ void ComponentListServiceConnectionCoordinator::initialize(ComponentListViewMode
                      &owner,
                      [&owner](const QStringList& validatedIds) {
                          qDebug() << "All validations completed, validated component count:" << validatedIds.size();
+                         // 获取当前列表中的元件总数。
                          const int totalCount = owner.componentCount();
                          owner.m_validationReadyHint = !validatedIds.isEmpty() && validatedIds.size() == totalCount;
                          owner.m_previewReadyHint = false;
@@ -47,6 +51,7 @@ void ComponentListServiceConnectionCoordinator::initialize(ComponentListViewMode
                              return;
                          }
 
+                         // 保存预览图编码前的 PNG 数据。
                          QByteArray byteArray;
                          QBuffer buffer(&byteArray);
                          if (!buffer.open(QIODevice::WriteOnly)) {

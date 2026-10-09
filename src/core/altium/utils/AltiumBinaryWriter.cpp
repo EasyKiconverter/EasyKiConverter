@@ -189,7 +189,7 @@ void AltiumBinaryWriter::writeCStringParameterBlock(const QMap<QString, QString>
         auto it = params.constFind(key);  // 当前参数迭代器。
         if (it == params.constEnd())
             continue;
-        QString value = it.value();  // 当前参数值。
+        QString value = it.value();  // 当前字段对应的文本值。
         value.replace('|', ' ');
         value.replace(QChar::Null, ' ');
         paramStr += "|" + it.key() + "=" + value;
@@ -230,10 +230,10 @@ void AltiumBinaryWriter::writeCStringParameterBlockUtf8(const QMap<QString, QStr
             continue;
         const QByteArray ansiKey = it.key().toLatin1();  // ANSI 参数键。
         const QByteArray utf8Key = it.key().toUtf8();  // UTF-8 参数键。
-        QString value = it.value();  // 当前参数值。
+        QString value = it.value();  // 当前字段对应的文本值。
         value.replace('|', ' ');
         value.replace(QChar::Null, ' ');
-        const QByteArray ansiValue = value.toLatin1();  // ANSI 编码后的参数值。
+        const QByteArray ansiValue = value.toLatin1();  // 当前字段转换后的 ANSI 字节序列。
         encoded += '|';
         encoded += ansiKey;
         encoded += '=';

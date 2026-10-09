@@ -14,15 +14,23 @@ class TestEasyedaApi : public QObject {
 
 private slots:
 
+    /**
+     * @brief 为测试用例初始化隔离环境。
+     */
     void init() {
         m_mockClient = std::make_unique<MockNetworkClient>();
         m_api = std::make_unique<EasyedaApi>(m_mockClient.get());
     }
 
+    /**
+     * @brief 验证 testFetchComponentInfo_Success 测试场景。
+     */
     void testFetchComponentInfo_Success() {
+        // lcscId：测试使用的元器件标识或名称。
         const QString lcscId = QStringLiteral("C12345");
         const QString expectedUrl = QStringLiteral("https://easyeda.com/api/products/C12345/components?version=6.5.51");
 
+        // mockResponse：模拟网络响应数据。
         QJsonObject mockResponse;
         mockResponse.insert(QStringLiteral("success"), true);
         mockResponse.insert(QStringLiteral("lcscId"), lcscId);
@@ -36,14 +44,20 @@ private slots:
         QCOMPARE(m_mockClient->lastUrl(), expectedUrl);
 
         QCOMPARE(spy.at(0).at(0).toString(), lcscId);
+        // result：测试得到的实际结果数据。
         const QJsonObject result = spy.at(0).at(1).toJsonObject();
         QCOMPARE(result.value(QStringLiteral("lcscId")).toString(), lcscId);
     }
 
+    /**
+     * @brief 验证 testFetchCadData_NoResult 测试场景。
+     */
     void testFetchCadData_NoResult() {
+        // lcscId：测试使用的元器件标识或名称。
         const QString lcscId = QStringLiteral("C2041");
         const QString expectedUrl = QStringLiteral("https://easyeda.com/api/products/C2041/components?version=6.5.51");
 
+        // mockResponse：模拟网络响应数据。
         QJsonObject mockResponse;
         mockResponse.insert(QStringLiteral("success"), true);
         m_mockClient->addJsonResponse(expectedUrl, mockResponse);
@@ -57,6 +71,9 @@ private slots:
         QCOMPARE(spy.at(0).at(1).toString(), QStringLiteral("No result"));
     }
 
+    /**
+     * @brief 验证 testFetchComponentInfo_InvalidId 测试场景。
+     */
     void testFetchComponentInfo_InvalidId() {
         QSignalSpy spy(m_api.get(), qOverload<const QString&>(&EasyedaApi::fetchError));
         m_api->fetchComponentInfo(QStringLiteral("INVALID"));
@@ -66,7 +83,9 @@ private slots:
     }
 
 private:
+    // m_mockClient：测试用模拟网络客户端。
     std::unique_ptr<MockNetworkClient> m_mockClient;
+    // m_api：测试用 EasyEDA API 客户端。
     std::unique_ptr<EasyedaApi> m_api;
 };
 

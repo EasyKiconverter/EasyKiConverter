@@ -11,7 +11,9 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief 解析源文件中常见的长度单位。 */
+/**
+ * @brief 解析源文件中常见的长度单位。
+ */
 enum class LengthUnit { Millimeter, Mil, Inch, Unknown };
 
 /**

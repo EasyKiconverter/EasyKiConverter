@@ -8,7 +8,10 @@
 
 namespace EasyKiConverter {
 
-/** @brief 创建并连接预览图、批处理和列表刷新定时器。 */
+/**
+ * @brief 创建并连接预览图、批处理和列表刷新定时器。
+ * @param owner 所属组件列表视图模型。
+ */
 void ComponentListTimerCoordinator::initialize(ComponentListViewModel& owner) {
     // 缓存预览图使用固定时间窗批量更新，保证图片可以渐进显示。
     owner.m_cachePreviewImageTimer = new QTimer(&owner);
@@ -28,7 +31,8 @@ void ComponentListTimerCoordinator::initialize(ComponentListViewModel& owner) {
     owner.m_batchUpdateTimer->setSingleShot(true);
     owner.m_batchUpdateTimer->setInterval(100);
     QObject::connect(owner.m_batchUpdateTimer, &QTimer::timeout, &owner, [&owner]() {
-        const QList<QPointer<ComponentListItemData>> items = owner.m_batchUpdateItems.take();
+        const QList<QPointer<ComponentListItemData>> items =
+            owner.m_batchUpdateItems.take();  // 待发送属性变更通知的列表项。
         for (const QPointer<ComponentListItemData>& item : items) {
             if (item) {
                 emit item->dataChanged();

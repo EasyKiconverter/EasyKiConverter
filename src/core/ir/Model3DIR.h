@@ -62,7 +62,9 @@ struct Model3DVec3 {
  */
 class Model3DIR {
 public:
-    /** @brief 创建空的三维模型中间表示。 */
+    /**
+     * @brief 创建空的三维模型中间表示。
+     */
     Model3DIR() = default;
 
     /**

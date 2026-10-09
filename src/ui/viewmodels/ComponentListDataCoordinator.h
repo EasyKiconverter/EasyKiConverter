@@ -19,25 +19,52 @@ class ComponentListViewModel;
  */
 class ComponentListDataCoordinator final {
 public:
-    /** @brief 合并组件基础信息到列表项。 */
+    /**
+     * @brief 合并组件基础信息到列表项。
+     * @param viewModel 列表视图模型。
+     * @param componentId 元器件编号。
+     * @param data 组件数据。
+     */
     static void handleComponentInfo(ComponentListViewModel& viewModel,
                                     const QString& componentId,
                                     const ComponentData& data);
 
-    /** @brief 合并 CAD 数据并推进验证状态。 */
+    /**
+     * @brief 合并 CAD 数据并推进验证状态。
+     * @param viewModel 列表视图模型。
+     * @param componentId 元器件编号。
+     * @param data 组件数据。
+     */
     static void handleCadData(ComponentListViewModel& viewModel, const QString& componentId, const ComponentData& data);
 
-    /** @brief 根据请求错误更新验证或预览状态。 */
+    /**
+     * @brief 根据请求错误更新验证或预览状态。
+     * @param viewModel 列表视图模型。
+     * @param componentId 元器件编号。
+     * @param error 错误信息。
+     */
     static void handleFetchError(ComponentListViewModel& viewModel, const QString& componentId, const QString& error);
 
-    /** @brief 合并 LCSC 返回的制造商、数据手册和图片信息。 */
+    /**
+     * @brief 合并 LCSC 返回的制造商、数据手册和图片信息。
+     * @param viewModel 列表视图模型。
+     * @param componentId 元器件编号。
+     * @param manufacturerPart 制造商料号。
+     * @param datasheetUrl 数据手册地址。
+     * @param imageUrls 预览图片地址列表。
+     */
     static void handleLcscData(ComponentListViewModel& viewModel,
                                const QString& componentId,
                                const QString& manufacturerPart,
                                const QString& datasheetUrl,
                                const QStringList& imageUrls);
 
-    /** @brief 保存数据手册内容并推断数据格式。 */
+    /**
+     * @brief 保存数据手册内容并推断数据格式。
+     * @param viewModel 列表视图模型。
+     * @param componentId 元器件编号。
+     * @param datasheetData 数据手册内容。
+     */
     static void handleDatasheet(ComponentListViewModel& viewModel,
                                 const QString& componentId,
                                 const QByteArray& datasheetData);

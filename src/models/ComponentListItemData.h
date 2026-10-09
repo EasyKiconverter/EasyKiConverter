@@ -46,9 +46,13 @@ public:
      * @param encodedImages 已编码的预览图列表。
      */
     void setEncodedPreviewImagesSilent(const QStringList& encodedImages);
-    /** @brief 暂停所有列表项的预览图通知。 */
+    /**
+     * @brief 暂停所有列表项的预览图通知。
+     */
     static void holdPreviewImageNotifications();
-    /** @brief 恢复列表项的预览图通知。 */
+    /**
+     * @brief 恢复列表项的预览图通知。
+     */
     static void flushPreviewImageNotifications();
 
     /**
@@ -83,10 +87,14 @@ public:
         return m_description;
     }
 
-    /** @brief 返回供 QML 使用的预览图列表。 */
+    /**
+     * @brief 返回供 QML 使用的预览图列表。
+     */
     QVariantList previewImages() const;
 
-    /** @brief 返回有效预览图数量。 */
+    /**
+     * @brief 返回有效预览图数量。
+     */
     int previewImageCount() const;
 
     /**
@@ -129,7 +137,9 @@ public:
         return m_retryable;
     }
 
-    /** @brief 返回数据手册地址。 */
+    /**
+     * @brief 返回数据手册地址。
+     */
     QString datasheetUrl() const;
 
     /**
@@ -250,7 +260,9 @@ public:
      * @param notify 是否立即发送变更通知。
      */
     void setEncodedPreviewImageAt(const QString& encodedImage, int index, bool notify = true);
-    /** @brief 通知界面预览图内容已变化。 */
+    /**
+     * @brief 通知界面预览图内容已变化。
+     */
     void notifyPreviewImagesChanged();
 
 signals:

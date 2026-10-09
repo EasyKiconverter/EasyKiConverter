@@ -13,7 +13,9 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief Xpedition HKP 文件类型。 */
+/**
+ * @brief Xpedition HKP 文件类型。
+ */
 enum class XpeditionHkpType { Unknown, PadstackLibrary, CellLibrary, PartsDatabase };
 
 /**

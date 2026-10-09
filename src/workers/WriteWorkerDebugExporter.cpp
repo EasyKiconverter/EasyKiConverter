@@ -12,7 +12,9 @@
 
 namespace EasyKiConverter {
 
-/** @brief 保存所属写入工作线程的引用。 */
+/**
+ * @brief 保存所属写入工作线程的引用。
+ */
 WriteWorkerDebugExporter::WriteWorkerDebugExporter(WriteWorker& owner) : m_owner(owner) {}
 
 /**

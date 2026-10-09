@@ -15,10 +15,14 @@ namespace EasyKiConverter {
  */
 class ExporterPcadFootprint final : public IFootprintExporter {
 public:
-    /** @brief 获取 P-CAD ASCII PCB Library 文件扩展名。 */
+    /**
+     * @brief 获取 P-CAD ASCII PCB Library 文件扩展名。
+     */
     QString libraryFileExtension() const override;
 
-    /** @brief P-CAD ASCII PCB Library 使用单文件输出。 */
+    /**
+     * @brief P-CAD ASCII PCB Library 使用单文件输出。
+     */
     bool isDirectoryOutput() const override;
 
     /**
@@ -55,7 +59,9 @@ public:
                                 bool useAbsolutePaths = false,
                                 const QString& model3DBaseDir = QString()) override;
 
-    /** @brief 获取最近一次导出的诊断信息。 */
+    /**
+     * @brief 获取最近一次导出的诊断信息。
+     */
     QStringList diagnostics() const override;
 
 private:

@@ -12,12 +12,18 @@ class TestWriteWorker : public QObject {
 
 private slots:
 
+    /**
+     * @brief 验证 runWritesSymbolFootprintPreviewAndDatasheet 测试场景。
+     */
     void runWritesSymbolFootprintPreviewAndDatasheet() {
+        // outputDir：测试使用的文件系统路径。
         QTemporaryDir outputDir;
         QVERIFY(outputDir.isValid());
+        // tempDir：测试使用的文件系统路径。
         const QString tempDir = QDir(outputDir.path()).filePath(QStringLiteral("tmp"));
         QVERIFY(QDir().mkpath(tempDir));
 
+        // status：测试用状态对象。
         auto status = makeReadyStatus();
         status->symbolData = makeSymbol();
         status->footprintData = makeFootprint();
@@ -42,10 +48,15 @@ private slots:
         QVERIFY(QFileInfo::exists(QDir(outputDir.path()).filePath(QStringLiteral("datasheets/C777.pdf"))));
     }
 
+    /**
+     * @brief 验证 runSkipsWhenPreviousStageFailed 测试场景。
+     */
     void runSkipsWhenPreviousStageFailed() {
+        // outputDir：测试使用的文件系统路径。
         QTemporaryDir outputDir;
         QVERIFY(outputDir.isValid());
 
+        // status：测试用状态对象。
         auto status = makeReadyStatus();
         status->fetchSuccess = false;
 
@@ -67,10 +78,15 @@ private slots:
         QCOMPARE(status->writeMessage, QStringLiteral("Skipped writing due to previous stage failure"));
     }
 
+    /**
+     * @brief 验证 abortBeforeRunEmitsCancelledStatus 测试场景。
+     */
     void abortBeforeRunEmitsCancelledStatus() {
+        // outputDir：测试使用的文件系统路径。
         QTemporaryDir outputDir;
         QVERIFY(outputDir.isValid());
 
+        // status：测试用状态对象。
         auto status = makeReadyStatus();
         WriteWorker worker(status,
                            outputDir.path(),
@@ -93,7 +109,11 @@ private slots:
     }
 
 private:
+    /**
+     * @brief 验证 makeReadyStatus 测试场景。
+     */
     QSharedPointer<ComponentExportStatus> makeReadyStatus() const {
+        // status：测试用状态对象。
         auto status = QSharedPointer<ComponentExportStatus>::create();
         status->componentId = QStringLiteral("C777");
         status->fetchSuccess = true;
@@ -101,8 +121,13 @@ private:
         return status;
     }
 
+    /**
+     * @brief 验证 makeSymbol 测试场景。
+     */
     QSharedPointer<SymbolData> makeSymbol() const {
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
+        // info：测试用元数据对象。
         SymbolInfo info;
         info.name = QStringLiteral("WORKER_SYMBOL");
         info.prefix = QStringLiteral("U");
@@ -112,8 +137,13 @@ private:
         return symbol;
     }
 
+    /**
+     * @brief 验证 makeFootprint 测试场景。
+     */
     QSharedPointer<FootprintData> makeFootprint() const {
+        // footprint：测试用封装数据。
         auto footprint = QSharedPointer<FootprintData>::create();
+        // info：测试用元数据对象。
         FootprintInfo info;
         info.name = QStringLiteral("WORKER_FP");
         footprint->setInfo(info);

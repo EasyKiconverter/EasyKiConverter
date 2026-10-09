@@ -44,7 +44,9 @@ public:
      */
     void remove(const QString& componentId);
 
-    /** @brief 清空全部索引。 */
+    /**
+     * @brief 清空全部索引。
+     */
     void clear();
 
     /**
@@ -53,11 +55,13 @@ public:
      */
     void rebuild(const QList<ComponentListItemData*>& items);
 
-    /** @brief 返回当前索引条目数量。 */
+    /**
+     * @brief 返回当前索引条目数量。
+     */
     int size() const;
 
 private:
-    QHash<QString, int> m_indices;
+    QHash<QString, int> m_indices;  ///< 保存元器件编号到列表索引的映射。
 };
 
 }  // namespace EasyKiConverter

@@ -10,7 +10,10 @@ class ComponentListViewModel;
  */
 class ComponentListServiceConnectionCoordinator final {
 public:
-    /** @brief 创建组件列表所需的全部服务信号连接。 */
+    /**
+     * @brief 创建组件列表所需的全部服务信号连接。
+     * @param owner 所属组件列表视图模型。
+     */
     static void initialize(ComponentListViewModel& owner);
 };
 

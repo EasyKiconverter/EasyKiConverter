@@ -16,7 +16,9 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief Xpedition 符号引脚及其显示属性。 */
+/**
+ * @brief Xpedition 符号引脚及其显示属性。
+ */
 struct XpeditionSymbolPin {
     int id = 0;  ///< 源格式引脚标识。
     QPointF start;  ///< 引脚图形起点。
@@ -34,28 +36,36 @@ struct XpeditionSymbolPin {
     int partIndex = 0;  ///< 所属器件单元索引。
 };
 
-/** @brief Xpedition 符号折线或多边形。 */
+/**
+ * @brief Xpedition 符号折线或多边形。
+ */
 struct XpeditionSymbolPolyline {
     QList<QPointF> points;  ///< 折线顶点。
     bool closed = false;  ///< 是否闭合为多边形。
     int partIndex = 0;  ///< 所属器件单元索引。
 };
 
-/** @brief Xpedition 符号矩形。 */
+/**
+ * @brief Xpedition 符号矩形。
+ */
 struct XpeditionSymbolRectangle {
     QPointF start;  ///< 矩形起点。
     QPointF end;  ///< 矩形对角点。
     int partIndex = 0;  ///< 所属器件单元索引。
 };
 
-/** @brief Xpedition 符号圆形。 */
+/**
+ * @brief Xpedition 符号圆形。
+ */
 struct XpeditionSymbolCircle {
     QPointF center;  ///< 圆心。
     double radius = 0.0;  ///< 半径。
     int partIndex = 0;  ///< 所属器件单元索引。
 };
 
-/** @brief Xpedition 符号圆弧的三点表示。 */
+/**
+ * @brief Xpedition 符号圆弧的三点表示。
+ */
 struct XpeditionSymbolArc {
     QPointF start;  ///< 圆弧起点。
     QPointF center;  ///< 圆弧中心。
@@ -63,7 +73,9 @@ struct XpeditionSymbolArc {
     int partIndex = 0;  ///< 所属器件单元索引。
 };
 
-/** @brief Xpedition 符号文本。 */
+/**
+ * @brief Xpedition 符号文本。
+ */
 struct XpeditionSymbolText {
     QPointF position;  ///< 文本基准位置。
     double size = 0.0;  ///< 文本字号。
@@ -95,12 +107,16 @@ struct XpeditionSymbolModel {
     QList<XpeditionSymbolText> texts;  ///< 文本图形。
 };
 
-/** @brief Xpedition 符号文本解析结果。 */
+/**
+ * @brief Xpedition 符号文本解析结果。
+ */
 struct XpeditionSymbolDocument {
     XpeditionSymbolModel model;  ///< 解析后的符号模型。
     ParseDiagnostics diagnostics;  ///< 解析过程中的结构化诊断。
 
-    /** @brief 判断文本是否包含可识别的 V54 符号头。 */
+    /**
+     * @brief 判断文本是否包含可识别的 V54 符号头。
+     */
     bool isRecognized() const;
 };
 

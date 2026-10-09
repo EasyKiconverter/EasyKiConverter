@@ -57,9 +57,13 @@ private slots:
     void testQtLogAdapter();
 
 private:
+    // m_tempLogPath：测试使用的文件系统路径。
     QString m_tempLogPath;
 };
 
+/**
+ * @brief 验证 initTestCase 测试场景。
+ */
 void TestLogging::initTestCase() {
     m_tempLogPath = QDir::tempPath() + "/easykiconverter_test.log";
 
@@ -67,6 +71,9 @@ void TestLogging::initTestCase() {
     QFile::remove(m_tempLogPath);
 }
 
+/**
+ * @brief 清理测试用例使用的资源。
+ */
 void TestLogging::cleanupTestCase() {
     // 清理测试文件
     QFile::remove(m_tempLogPath);
@@ -78,6 +85,9 @@ void TestLogging::cleanupTestCase() {
 
 // ========== LogLevel 测试 ==========
 
+/**
+ * @brief 验证 testLogLevelToString 测试场景。
+ */
 void TestLogging::testLogLevelToString() {
     QCOMPARE(logLevelToString(LogLevel::Trace), QString("TRACE"));
     QCOMPARE(logLevelToString(LogLevel::Debug), QString("DEBUG"));
@@ -88,6 +98,9 @@ void TestLogging::testLogLevelToString() {
     QCOMPARE(logLevelToString(LogLevel::Off), QString("OFF"));
 }
 
+/**
+ * @brief 验证 testLogLevelFromString 测试场景。
+ */
 void TestLogging::testLogLevelFromString() {
     QCOMPARE(logLevelFromString("TRACE"), LogLevel::Trace);
     QCOMPARE(logLevelFromString("debug"), LogLevel::Debug);
@@ -101,6 +114,9 @@ void TestLogging::testLogLevelFromString() {
 
 // ========== LogModule 测试 ==========
 
+/**
+ * @brief 验证 testLogModuleBitwise 测试场景。
+ */
 void TestLogging::testLogModuleBitwise() {
     // 测试位运算
     LogModule combined = LogModule::Network | LogModule::Export;
@@ -114,6 +130,9 @@ void TestLogging::testLogModuleBitwise() {
     QVERIFY(!hasModule(result, LogModule::Export));
 }
 
+/**
+ * @brief 验证 testLogModuleToString 测试场景。
+ */
 void TestLogging::testLogModuleToString() {
     QCOMPARE(logModuleToString(LogModule::Core), QString("Core"));
     QCOMPARE(logModuleToString(LogModule::Network), QString("Network"));
@@ -122,6 +141,9 @@ void TestLogging::testLogModuleToString() {
     QCOMPARE(logModuleToString(LogModule::All), QString("All"));
 }
 
+/**
+ * @brief 验证 testLogModuleFromString 测试场景。
+ */
 void TestLogging::testLogModuleFromString() {
     QCOMPARE(logModuleFromString("CORE"), LogModule::Core);
     QCOMPARE(logModuleFromString("network"), LogModule::Network);
@@ -131,16 +153,25 @@ void TestLogging::testLogModuleFromString() {
 
 // ========== LogRecord 测试 ==========
 
+/**
+ * @brief 验证 testLogRecordTimestamp 测试场景。
+ */
 void TestLogging::testLogRecordTimestamp() {
+    // record：当前回读的记录。
     LogRecord record;
     record.timestamp = QDateTime::currentMSecsSinceEpoch();
 
+    // formatted：格式化后的日志文本。
     QString formatted = record.formattedTimestamp();
     QVERIFY(formatted.contains("20"));  // 年份
     QVERIFY(formatted.contains(":"));  // 时间分隔符
 }
 
+/**
+ * @brief 验证 testLogRecordShortFileName 测试场景。
+ */
 void TestLogging::testLogRecordShortFileName() {
+    // record：当前回读的记录。
     LogRecord record;
 
     // Unix 路径
@@ -158,9 +189,14 @@ void TestLogging::testLogRecordShortFileName() {
 
 // ========== PatternFormatter 测试 ==========
 
+/**
+ * @brief 验证 testPatternFormatterBasic 测试场景。
+ */
 void TestLogging::testPatternFormatterBasic() {
+    // formatter：负责生成日志文本的格式化器。
     PatternFormatter formatter;
 
+    // record：当前回读的记录。
     LogRecord record;
     record.level = LogLevel::Info;
     record.module = LogModule::Network;
@@ -170,6 +206,7 @@ void TestLogging::testPatternFormatterBasic() {
     record.fileName = "test.cpp";
     record.line = 42;
 
+    // result：测试得到的实际结果数据。
     QString result = formatter.format(record);
     QVERIFY(result.contains("INFO"));
     QVERIFY(result.contains("Network"));
@@ -178,21 +215,30 @@ void TestLogging::testPatternFormatterBasic() {
     QVERIFY(result.contains("42"));
 }
 
+/**
+ * @brief 验证 testPatternFormatterPlaceholders 测试场景。
+ */
 void TestLogging::testPatternFormatterPlaceholders() {
     PatternFormatter formatter("%{level} - %{module} - %{message}");
 
+    // record：当前回读的记录。
     LogRecord record;
     record.level = LogLevel::Debug;
     record.module = LogModule::Export;
     record.message = "Hello World";
     record.timestamp = QDateTime::currentMSecsSinceEpoch();
 
+    // result：测试得到的实际结果数据。
     QString result = formatter.format(record);
     QCOMPARE(result, QString("DEBUG - Export - Hello World"));
 }
 
+/**
+ * @brief 验证 testPatternFormatterClone 测试场景。
+ */
 void TestLogging::testPatternFormatterClone() {
     PatternFormatter original("%{level} %{message}");
+    // cloned：复制得到的日志记录。
     auto cloned = original.clone();
 
     QVERIFY(cloned != nullptr);
@@ -203,14 +249,20 @@ void TestLogging::testPatternFormatterClone() {
     record.message = "Test";
     record.timestamp = QDateTime::currentMSecsSinceEpoch();
 
+    // originalResult：测试得到的实际结果数据。
     QString originalResult = original.format(record);
+    // clonedResult：测试得到的实际结果数据。
     QString clonedResult = cloned->format(record);
     QCOMPARE(originalResult, clonedResult);
 }
 
 // ========== ConsoleAppender 测试 ==========
 
+/**
+ * @brief 验证 testConsoleAppenderCreation 测试场景。
+ */
 void TestLogging::testConsoleAppenderCreation() {
+    // termBefore：变更颜色设置前的终端状态。
     const QByteArray termBefore = qgetenv("TERM");
     ConsoleAppender appender(true);
     // useColors() 可能返回 false，取决于控制台支持
@@ -221,6 +273,9 @@ void TestLogging::testConsoleAppenderCreation() {
     QVERIFY(!appenderNoColor.useColors());
 }
 
+/**
+ * @brief 验证 testConsoleAppenderColors 测试场景。
+ */
 void TestLogging::testConsoleAppenderColors() {
     ConsoleAppender appender(true);
 
@@ -239,6 +294,9 @@ void TestLogging::testConsoleAppenderColors() {
 
 // ========== FileAppender 测试 ==========
 
+/**
+ * @brief 验证 testFileAppenderCreation 测试场景。
+ */
 void TestLogging::testFileAppenderCreation() {
     FileAppender appender(m_tempLogPath, 1024, 3, false);
     QCOMPARE(appender.filePath(), m_tempLogPath);
@@ -247,13 +305,18 @@ void TestLogging::testFileAppenderCreation() {
     QVERIFY(!appender.isAsync());
 }
 
+/**
+ * @brief 验证 testFileAppenderWrite 测试场景。
+ */
 void TestLogging::testFileAppenderWrite() {
+    // testPath：测试使用的文件系统路径。
     QString testPath = QDir::tempPath() + "/test_write.log";
     QFile::remove(testPath);
 
     {
         FileAppender appender(testPath, 1024 * 1024, 1, false);
 
+        // record：当前回读的记录。
         LogRecord record;
         record.level = LogLevel::Info;
         record.message = "Test write";
@@ -265,6 +328,7 @@ void TestLogging::testFileAppenderWrite() {
     // 验证文件内容
     QFile file(testPath);
     QVERIFY(file.open(QIODevice::ReadOnly));
+    // content：测试使用的文本或数据内容。
     QString content = QString::fromUtf8(file.readAll());
     QVERIFY(content.contains("Test write message"));
     file.close();
@@ -272,7 +336,11 @@ void TestLogging::testFileAppenderWrite() {
     QFile::remove(testPath);
 }
 
+/**
+ * @brief 验证 testFileAppenderRollOver 测试场景。
+ */
 void TestLogging::testFileAppenderRollOver() {
+    // testPath：测试使用的文件系统路径。
     QString testPath = QDir::tempPath() + "/test_rollover.log";
     QFile::remove(testPath);
 
@@ -281,6 +349,7 @@ void TestLogging::testFileAppenderRollOver() {
 
     // 写入足够触发滚动的内容
     for (int i = 0; i < 20; ++i) {
+        // record：当前回读的记录。
         LogRecord record;
         record.level = LogLevel::Info;
         appender.append(record, QString("Test message number %1 with enough content").arg(i));
@@ -292,12 +361,20 @@ void TestLogging::testFileAppenderRollOver() {
 
 // ========== Logger 测试 ==========
 
+/**
+ * @brief 验证 testLoggerSingleton 测试场景。
+ */
 void TestLogging::testLoggerSingleton() {
+    // instance1：第一个日志实例。
     Logger* instance1 = Logger::instance();
+    // instance2：第二个日志实例。
     Logger* instance2 = Logger::instance();
     QCOMPARE(instance1, instance2);
 }
 
+/**
+ * @brief 验证 testLoggerGlobalLevel 测试场景。
+ */
 void TestLogging::testLoggerGlobalLevel() {
     Logger::instance()->setGlobalLevel(LogLevel::Debug);
     QCOMPARE(Logger::instance()->globalLevel(), LogLevel::Debug);
@@ -306,6 +383,9 @@ void TestLogging::testLoggerGlobalLevel() {
     QCOMPARE(Logger::instance()->globalLevel(), LogLevel::Info);
 }
 
+/**
+ * @brief 验证 testLoggerModuleLevel 测试场景。
+ */
 void TestLogging::testLoggerModuleLevel() {
     Logger::instance()->setModuleLevel(LogModule::Network, LogLevel::Warn);
     QCOMPARE(Logger::instance()->moduleLevel(LogModule::Network), LogLevel::Warn);
@@ -315,6 +395,9 @@ void TestLogging::testLoggerModuleLevel() {
     QCOMPARE(Logger::instance()->moduleLevel(LogModule::Network), Logger::instance()->globalLevel());
 }
 
+/**
+ * @brief 验证 testLoggerShouldLog 测试场景。
+ */
 void TestLogging::testLoggerShouldLog() {
     Logger::instance()->setGlobalLevel(LogLevel::Info);
 
@@ -333,6 +416,9 @@ void TestLogging::testLoggerShouldLog() {
     Logger::instance()->clearModuleLevel(LogModule::Network);
 }
 
+/**
+ * @brief 验证 testLoggerLogRecord 测试场景。
+ */
 void TestLogging::testLoggerLogRecord() {
     QSignalSpy spy(Logger::instance(), &Logger::logRecord);
 
@@ -342,12 +428,16 @@ void TestLogging::testLoggerLogRecord() {
     Logger::instance()->log(LogLevel::Info, LogModule::Core, "Test message");
 
     QCOMPARE(spy.count(), 1);
+    // record：当前回读的记录。
     LogRecord record = spy.at(0).at(0).value<LogRecord>();
     QCOMPARE(record.level, LogLevel::Info);
     QCOMPARE(record.module, LogModule::Core);
     QCOMPARE(record.message, QString("Test message"));
 }
 
+/**
+ * @brief 验证 testLoggerAppenderManagement 测试场景。
+ */
 void TestLogging::testLoggerAppenderManagement() {
     // 清除现有 appenders
     Logger::instance()->clearAppenders();
@@ -369,6 +459,9 @@ void TestLogging::testLoggerAppenderManagement() {
 
 // ========== 日志宏测试 ==========
 
+/**
+ * @brief 验证 testLogMacros 测试场景。
+ */
 void TestLogging::testLogMacros() {
     Logger::instance()->clearAppenders();
     Logger::instance()->setGlobalLevel(LogLevel::Trace);
@@ -393,6 +486,9 @@ void TestLogging::testLogMacros() {
 
 // ========== QtLogAdapter 测试 ==========
 
+/**
+ * @brief 验证 testQtLogAdapter 测试场景。
+ */
 void TestLogging::testQtLogAdapter() {
     Logger::instance()->clearAppenders();
     Logger::instance()->setGlobalLevel(LogLevel::Debug);

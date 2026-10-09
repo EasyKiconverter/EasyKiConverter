@@ -24,7 +24,9 @@ struct Model3DBase {
     double y;  ///< Y 轴坐标或旋转值。
     double z;  ///< Z 轴坐标或旋转值。
 
-    /** @brief 创建三个坐标均为零的值。 */
+    /**
+     * @brief 创建三个坐标均为零的值。
+     */
     Model3DBase() : x(0.0), y(0.0), z(0.0) {}
 
     /**
@@ -35,7 +37,9 @@ struct Model3DBase {
      */
     Model3DBase(double x, double y, double z) : x(x), y(y), z(z) {}
 
-    /** @brief 将坐标值序列化为 JSON 对象。 */
+    /**
+     * @brief 将坐标值序列化为 JSON 对象。
+     */
     QJsonObject toJson() const;
 
     /**
@@ -55,10 +59,14 @@ struct Model3DBase {
  */
 class Model3DData {
 public:
-    /** @brief 创建空的三维模型数据对象。 */
+    /**
+     * @brief 创建空的三维模型数据对象。
+     */
     Model3DData();
 
-    /** @brief 销毁三维模型数据对象。 */
+    /**
+     * @brief 销毁三维模型数据对象。
+     */
     ~Model3DData() = default;
 
     /**
@@ -166,7 +174,9 @@ public:
         m_stepOffsetMm = offset;
     }
 
-    /** @brief 将三维模型数据序列化为 JSON 对象。 */
+    /**
+     * @brief 将三维模型数据序列化为 JSON 对象。
+     */
     QJsonObject toJson() const;
 
     /**
@@ -176,7 +186,9 @@ public:
      */
     bool fromJson(const QJsonObject& json);
 
-    /** @brief 判断模型是否具备可用的最小数据。 */
+    /**
+     * @brief 判断模型是否具备可用的最小数据。
+     */
     bool isValid() const;
 
     /**
@@ -185,7 +197,9 @@ public:
      */
     QString validate() const;
 
-    /** @brief 清空名称、标识符、原始模型和变换数据。 */
+    /**
+     * @brief 清空名称、标识符、原始模型和变换数据。
+     */
     void clear();
 
 private:

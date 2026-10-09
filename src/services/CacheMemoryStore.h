@@ -22,7 +22,9 @@ public:
      */
     explicit CacheMemoryStore(int maxCost);
 
-    /** @brief 清空全部内存缓存。 */
+    /**
+     * @brief 清空全部内存缓存。
+     */
     void clear();
 
     /**
@@ -53,7 +55,9 @@ public:
      */
     qint64 remove(const QStringList& keys);
 
-    /** @brief 返回当前缓存总成本。 */
+    /**
+     * @brief 返回当前缓存总成本。
+     */
     qint64 totalCost() const;
 
     /**
@@ -62,7 +66,9 @@ public:
      */
     void setMaxCost(int maxCost);
 
-    /** @brief 返回缓存最大成本。 */
+    /**
+     * @brief 返回缓存最大成本。
+     */
     int maxCost() const;
 
 private:

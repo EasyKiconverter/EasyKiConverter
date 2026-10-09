@@ -18,13 +18,19 @@
 namespace EasyKiConverter {
 namespace IR {
 
-/** @deprecated 使用 GeometryNormalizer::parseFlatPointString */
+/**
+ * @deprecated 使用 GeometryNormalizer::parseFlatPointString
+ */
 using GeometryNormalizer::parseFlatPointString;
 
-/** @deprecated 使用 GeometryNormalizer::parseCommaSeparatedPoints */
+/**
+ * @deprecated 使用 GeometryNormalizer::parseCommaSeparatedPoints
+ */
 using GeometryNormalizer::parseCommaSeparatedPoints;
 
-/** @deprecated 使用 GeometryNormalizer::parseSimpleSvgPath */
+/**
+ * @deprecated 使用 GeometryNormalizer::parseSimpleSvgPath
+ */
 using GeometryNormalizer::parseSimpleSvgPath;
 
 }  // namespace IR

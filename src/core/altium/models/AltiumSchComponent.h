@@ -313,7 +313,7 @@ struct AltiumSchImage {
  */
 struct AltiumSchParameter {
     QString name;  ///< 参数名称
-    QString value;  ///< 参数值
+    QString value;  ///< 原理图元件属性对应的文本值。
     int locationX = 0;  ///< 参数位置 X（原始单位）
     int locationY = 0;  ///< 参数位置 Y（原始单位）
     int fontId = 1;  ///< Altium 字体编号
@@ -335,11 +335,17 @@ struct AltiumSchComponent {
     QString designatorPrefix = "?";  ///< 位号前缀（如 "R", "C", "U"）
     int partCount = 1;  ///< 部件数量
 
-    /** @brief 符号参数（如制造商、料号、Datasheet 和来源元数据） */
+    /**
+     * @brief 符号参数（如制造商、料号、Datasheet 和来源元数据）
+     */
     QMap<QString, QString> sourceMetadata;  ///< 来源元数据键值表。
-    /** @brief 显式参数字段 */
+    /**
+     * @brief 显式参数字段
+     */
     QList<AltiumSchParameter> parameters;  ///< 显式参数字段列表。
-    /** @brief 符号别名 */
+    /**
+     * @brief 符号别名
+     */
     QStringList aliases;  ///< 符号别名列表。
 
     QList<AltiumSchPin> pins;  ///< 符号引脚列表。
@@ -360,7 +366,9 @@ struct AltiumSchComponent {
     QList<AltiumSchImage> images;  ///< 图片图元列表。
     QList<AltiumSchGraphicOrder> graphicOrder;  ///< 原始图元绘制顺序。
 
-    /** @brief 封装链接（实现记录） */
+    /**
+     * @brief 封装链接（实现记录）
+     */
     struct Implementation {
         QString modelName;  ///< 封装名称
         QString modelType = "PCBLIB";  ///< 模型类型

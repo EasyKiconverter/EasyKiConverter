@@ -16,13 +16,19 @@ namespace EasyKiConverter {
  */
 class CacheSafety final {
 public:
-    /** @brief 系统回收站操作的可替换函数类型。 */
+    /**
+     * @brief 系统回收站操作的可替换函数类型。
+     */
     using TrashFunction = std::function<bool(const QString&, QString*)>;
 
-    /** @brief 返回缓存根目录所有权标记文件名。 */
+    /**
+     * @brief 返回缓存根目录所有权标记文件名。
+     */
     static QString ownershipMarkerName();
 
-    /** @brief 返回三维模型子目录所有权标记文件名。 */
+    /**
+     * @brief 返回三维模型子目录所有权标记文件名。
+     */
     static QString model3DMarkerName();
 
     /**
@@ -42,37 +48,75 @@ public:
      */
     static bool ensureOwnedRoot(const QString& path, QString* error = nullptr);
 
-    /** @brief 判断根目录是否包含有效的 EasyKiConverter 所有权标记。 */
+    /**
+     * @brief 判断根目录是否包含有效的 EasyKiConverter 所有权标记。
+     * @param path 缓存根目录路径。
+     */
     static bool isOwnedRoot(const QString& path);
 
-    /** @brief 确保应用拥有的三维模型子目录及其标记存在。 */
+    /**
+     * @brief 确保应用拥有的三维模型子目录及其标记存在。
+     * @param rootPath 缓存根目录路径。
+     * @param error 输出错误信息。
+     */
     static bool ensureOwnedModel3DDirectory(const QString& rootPath, QString* error = nullptr);
 
-    /** @brief 判断元器件缓存目录是否能通过元数据证明归应用所有。 */
+    /**
+     * @brief 判断元器件缓存目录是否能通过元数据证明归应用所有。
+     * @param rootPath 缓存根目录路径。
+     * @param path 元器件缓存目录路径。
+     */
     static bool isOwnedComponentDirectory(const QString& rootPath, const QString& path);
 
-    /** @brief 判断元器件缓存文件是否位于已验证目录且文件名属于缓存布局。 */
+    /**
+     * @brief 判断元器件缓存文件是否位于已验证目录且文件名属于缓存布局。
+     * @param rootPath 缓存根目录路径。
+     * @param path 元器件缓存文件路径。
+     */
     static bool isOwnedComponentFile(const QString& rootPath, const QString& path);
 
-    /** @brief 列出指定元器件目录中所有可验证归属的缓存文件。 */
+    /**
+     * @brief 列出指定元器件目录中所有可验证归属的缓存文件。
+     * @param rootPath 缓存根目录路径。
+     * @param componentPath 元器件缓存目录路径。
+     */
     static QStringList ownedComponentFiles(const QString& rootPath, const QString& componentPath);
 
-    /** @brief 判断目录是否符合旧版本缓存的可识别结构。 */
+    /**
+     * @brief 判断目录是否符合旧版本缓存的可识别结构。
+     * @param path 待检查的目录路径。
+     */
     static bool isLegacyComponentDirectory(const QString& path);
 
-    /** @brief 列出旧版本缓存中可安全迁移的元器件目录。 */
+    /**
+     * @brief 列出旧版本缓存中可安全迁移的元器件目录。
+     * @param rootPath 缓存根目录路径。
+     */
     static QStringList legacyComponentDirectories(const QString& rootPath);
 
-    /** @brief 判断未带新标记的旧缓存根目录是否可以安全升级。 */
+    /**
+     * @brief 判断未带新标记的旧缓存根目录是否可以安全升级。
+     * @param path 旧缓存根目录路径。
+     */
     static bool canAdoptLegacyRoot(const QString& path);
 
-    /** @brief 判断三维模型缓存文件是否属于已标记的模型缓存目录。 */
+    /**
+     * @brief 判断三维模型缓存文件是否属于已标记的模型缓存目录。
+     * @param rootPath 缓存根目录路径。
+     * @param path 三维模型缓存文件路径。
+     */
     static bool isOwnedModel3DFile(const QString& rootPath, const QString& path);
 
-    /** @brief 列出所有权可验证的元器件缓存目录。 */
+    /**
+     * @brief 列出所有权可验证的元器件缓存目录。
+     * @param rootPath 缓存根目录路径。
+     */
     static QStringList ownedComponentDirectories(const QString& rootPath);
 
-    /** @brief 列出所有权可验证的三维模型文件。 */
+    /**
+     * @brief 列出所有权可验证的三维模型文件。
+     * @param rootPath 缓存根目录路径。
+     */
     static QStringList ownedModel3DFiles(const QString& rootPath);
 
     /**

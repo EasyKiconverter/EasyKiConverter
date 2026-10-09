@@ -21,7 +21,9 @@ public:
         return QStringLiteral(".SchLib");
     }
 
-    /** @brief 获取最近一次 SchLib 导出的非致命诊断 */
+    /**
+     * @brief 获取最近一次 SchLib 导出的非致命诊断
+     */
     QStringList diagnostics() const override {
         return m_diagnostics;
     }

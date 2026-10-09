@@ -13,7 +13,10 @@ class ExportSettingsViewModel;
  */
 class ExportOptionsBuilder final {
 public:
-    /** @brief 根据当前界面设置构建导出选项。 */
+    /**
+     * @brief 根据当前界面设置构建导出选项。
+     * @param viewModel 导出设置视图模型。
+     */
     static ExportOptions build(const ExportSettingsViewModel& viewModel);
 };
 

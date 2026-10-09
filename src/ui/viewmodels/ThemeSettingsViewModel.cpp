@@ -13,7 +13,9 @@ ThemeSettingsViewModel::ThemeSettingsViewModel(QObject* parent)
     m_isDarkMode = m_configService->getDarkMode();
 }
 
-/** @brief 销毁主题设置视图模型。 */
+/**
+ * @brief 销毁主题设置视图模型。
+ */
 ThemeSettingsViewModel::~ThemeSettingsViewModel() {}
 
 /**

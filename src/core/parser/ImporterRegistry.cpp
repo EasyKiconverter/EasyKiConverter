@@ -76,7 +76,9 @@ void ImporterRegistry::clear() {
     m_importers.clear();
 }
 
-/** @brief 返回注册表的只读描述列表。 */
+/**
+ * @brief 返回注册表的只读描述列表。
+ */
 const QList<ImporterDescriptor>& ImporterRegistry::importers() const {
     return m_importers;
 }

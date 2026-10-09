@@ -16,19 +16,27 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief P-CAD 焊盘形状。 */
+/**
+ * @brief P-CAD 焊盘形状。
+ */
 enum class PcadPadShape { Round, Rectangle, Oval, RoundRectangle, Unknown };
 
-/** @brief P-CAD 图形类型。 */
+/**
+ * @brief P-CAD 图形类型。
+ */
 enum class PcadGraphicType { Line, Arc, Circle, Polygon, Text, Unknown };
 
-/** @brief P-CAD 层的统一来源描述。 */
+/**
+ * @brief P-CAD 层的统一来源描述。
+ */
 struct PcadLayer {
     int number = 0;  ///< 层编号。
     QString name;  ///< 层名称。
 };
 
-/** @brief P-CAD Pad Style 定义。 */
+/**
+ * @brief P-CAD Pad Style 定义。
+ */
 struct PcadPadStyle {
     QString name;  ///< Pad Style 名称。
     PcadPadShape shape = PcadPadShape::Unknown;  ///< Pad 形状。
@@ -38,7 +46,9 @@ struct PcadPadStyle {
     bool holePlated = true;  ///< 是否镀孔。
 };
 
-/** @brief P-CAD Pattern 中的焊盘实例。 */
+/**
+ * @brief P-CAD Pattern 中的焊盘实例。
+ */
 struct PcadPatternPad {
     QString number;  ///< 焊盘编号。
     QString padStyleName;  ///< 关联 Pad Style 名称。
@@ -46,7 +56,9 @@ struct PcadPatternPad {
     double rotation = 0.0;  ///< 焊盘旋转角度。
 };
 
-/** @brief P-CAD Pattern 或板级图形。 */
+/**
+ * @brief P-CAD Pattern 或板级图形。
+ */
 struct PcadGraphic {
     PcadGraphicType type = PcadGraphicType::Unknown;  ///< 图形类型。
     QList<QPointF> points;  ///< 图形顶点。
@@ -61,14 +73,18 @@ struct PcadGraphic {
     int layerNumber = 0;  ///< 所在层编号。
 };
 
-/** @brief P-CAD 封装 Pattern。 */
+/**
+ * @brief P-CAD 封装 Pattern。
+ */
 struct PcadPattern {
     QString name;  ///< Pattern 名称。
     QList<PcadPatternPad> pads;  ///< Pattern 焊盘实例。
     QList<PcadGraphic> graphics;  ///< Pattern 图形。
 };
 
-/** @brief P-CAD PCB 中的器件放置实例。 */
+/**
+ * @brief P-CAD PCB 中的器件放置实例。
+ */
 struct PcadPlacement {
     QString reference;  ///< 器件参考标号。
     QString patternName;  ///< 关联 Pattern 名称。
@@ -77,7 +93,9 @@ struct PcadPlacement {
     bool flipped = false;  ///< 是否镜像放置。
 };
 
-/** @brief P-CAD ASCII PCB 的完整格式模型。 */
+/**
+ * @brief P-CAD ASCII PCB 的完整格式模型。
+ */
 struct PcadBoard {
     QString name;  ///< 板级名称。
     LengthUnit unit = LengthUnit::Mil;  ///< 板级长度单位。
@@ -88,7 +106,9 @@ struct PcadBoard {
     QList<PcadGraphic> graphics;  ///< 板级图形。
     ParseDiagnostics diagnostics;  ///< 解析诊断。
 
-    /** @brief 判断输入是否包含可转换的 P-CAD PCB 定义。 */
+    /**
+     * @brief 判断输入是否包含可转换的 P-CAD PCB 定义。
+     */
     bool isRecognized() const;
 };
 

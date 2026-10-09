@@ -12,10 +12,14 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief 一次解析或转换任务的汇总状态。 */
+/**
+ * @brief 一次解析或转换任务的汇总状态。
+ */
 enum class ConversionStatus { Ok, Warning, Failed, Skipped };
 
-/** @brief 一次解析或转换任务的进度快照。 */
+/**
+ * @brief 一次解析或转换任务的进度快照。
+ */
 struct ConversionProgress {
     int total = 0;  ///< 任务总工作量。
     int completed = 0;  ///< 已完成的工作量。
@@ -41,10 +45,14 @@ public:
      */
     void append(const ParseDiagnostics& diagnostics);
 
-    /** @brief 返回任务产生的全部诊断。 */
+    /**
+     * @brief 返回任务产生的全部诊断。
+     */
     const QList<ParseDiagnostic>& diagnostics() const;
 
-    /** @brief 返回依据诊断和取消状态计算出的任务状态。 */
+    /**
+     * @brief 返回依据诊断和取消状态计算出的任务状态。
+     */
     ConversionStatus status() const;
 
     /**
@@ -55,13 +63,19 @@ public:
      */
     void setProgress(int completed, int total, const QString& currentItem = QString());
 
-    /** @brief 返回当前任务进度。 */
+    /**
+     * @brief 返回当前任务进度。
+     */
     const ConversionProgress& progress() const;
 
-    /** @brief 标记任务已取消，保留已经产生的部分结果和诊断。 */
+    /**
+     * @brief 标记任务已取消，保留已经产生的部分结果和诊断。
+     */
     void markCancelled();
 
-    /** @brief 判断任务是否已取消。 */
+    /**
+     * @brief 判断任务是否已取消。
+     */
     bool isCancelled() const;
 
 private:

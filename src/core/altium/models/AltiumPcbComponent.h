@@ -174,7 +174,9 @@ struct AltiumPcbComponent {
     QList<AltiumPcbComponentBody> bodies;  ///< 3D 元件体列表
     QList<AltiumPcbExtendedPrimitiveInfo> extendedPrimitives;  ///< 图元扩展信息
 
-    /** @brief 3D 模型信息 */
+    /**
+     * @brief 3D 模型信息
+     */
     struct Model3D {
         QString name;  ///< 模型文件名
         QString id;  ///< 与 ComponentBody 关联的稳定 GUID

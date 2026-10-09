@@ -571,7 +571,7 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
         if (index >= tokens.size())
             return false;
         bool ok = false;  // 数值转换是否成功。
-        const double value = tokens.at(index).toDouble(&ok);  // 待检查的参数值。
+        const double value = tokens.at(index).toDouble(&ok);  // 当前 SVG 数值标记的解析结果。
         return ok && std::isfinite(value);
     };
     auto readNumbers = [&](int& index, int count, QList<double>& values) {

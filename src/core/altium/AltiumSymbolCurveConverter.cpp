@@ -9,7 +9,9 @@ namespace EasyKiConverter {
 
 namespace {
 
-/** @brief 跨平台的圆周率常量，避免依赖非标准的 M_PI 宏。 */
+/**
+ * @brief 跨平台的圆周率常量，避免依赖非标准的 M_PI 宏。
+ */
 constexpr double kPi = 3.141592653589793238462643383279502884;
 
 using AltiumSymbolConversionUtils::finiteNonNegative;

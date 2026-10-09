@@ -44,7 +44,9 @@ bool isValidStrokeWidth(double width) {
     return std::isfinite(width) && width >= 0.0;
 }
 
-/** @brief 计算同一部件内图元的来源序号。 */
+/**
+ * @brief 计算同一部件内图元的来源序号。
+ */
 template <typename Values>
 /**
  * @brief 计算同一部件内图元的来源序号。

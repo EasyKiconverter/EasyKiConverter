@@ -54,23 +54,31 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    /** @brief 返回当前列表中的元件数量。 */
+    /**
+     * @brief 返回当前列表中的元件数量。
+     */
     int componentCount() const {
         QMutexLocker locker(&m_listMutex);
         return m_componentList.count();
     }
 
-    /** @brief 返回当前选择的 BOM 文件路径。 */
+    /**
+     * @brief 返回当前选择的 BOM 文件路径。
+     */
     QString bomFilePath() const {
         return m_bomFilePath;
     }
 
-    /** @brief 返回最近一次 BOM 解析结果。 */
+    /**
+     * @brief 返回最近一次 BOM 解析结果。
+     */
     QString bomResult() const {
         return m_bomResult;
     }
 
-    /** @brief 返回是否存在可重试的失败元件。 */
+    /**
+     * @brief 返回是否存在可重试的失败元件。
+     */
     bool hasInvalidComponents() const {
         return m_hasInvalidComponents;
     }
@@ -91,7 +99,9 @@ public slots:
     void fetchComponentData(const QString& componentId, bool fetch3DModel = true);
     void setOutputPath(const QString& path);
 
-    /** @brief 返回当前导出输出目录。 */
+    /**
+     * @brief 返回当前导出输出目录。
+     */
     QString outputPath() const {
         return m_outputPath;
     }
@@ -103,6 +113,9 @@ public slots:
     Q_INVOKABLE void setFilterMode(const QString& mode);
 
     // Getter 方法
+    /**
+     * @brief 返回当前列表筛选模式。
+     */
     QString filterMode() const {
         return m_stateTracker.filterMode();
     }
@@ -112,17 +125,23 @@ public slots:
     int validCount() const;
     int invalidCount() const;
 
-    /** @brief 返回列表是否正在滚动。 */
+    /**
+     * @brief 返回列表是否正在滚动。
+     */
     bool isScrolling() const {
         return m_isScrolling;
     }
 
-    /** @brief 返回验证完成提示是否可见。 */
+    /**
+     * @brief 返回验证完成提示是否可见。
+     */
     bool validationReadyHint() const {
         return m_validationReadyHint;
     }
 
-    /** @brief 返回预览图完成提示是否可见。 */
+    /**
+     * @brief 返回预览图完成提示是否可见。
+     */
     bool previewReadyHint() const {
         return m_previewReadyHint;
     }
@@ -199,58 +218,58 @@ private:
     void clearAttentionHints();
 
 private:
-    ComponentService* m_service;
-    QList<ComponentListItemData*> m_componentList;
-    ComponentListIndex m_componentIdIndex;
+    ComponentService* m_service;  ///< 组件数据服务引用。
+    QList<ComponentListItemData*> m_componentList;  ///< 当前列表项集合。
+    ComponentListIndex m_componentIdIndex;  ///< 元器件编号索引。
     mutable QMutex m_listMutex;  // 保护 m_componentList 和对应索引
-    QString m_outputPath;
-    QString m_bomFilePath;
-    QString m_bomResult;
-    bool m_hasInvalidComponents = false;
+    QString m_outputPath;  ///< 当前导出输出目录。
+    QString m_bomFilePath;  ///< 当前选择的 BOM 文件路径。
+    QString m_bomResult;  ///< 最近一次 BOM 解析结果。
+    bool m_hasInvalidComponents = false;  ///< 是否存在可重试的失败元件。
 
-    ValidationStateManager* m_validationStateManager;
+    ValidationStateManager* m_validationStateManager;  ///< 验证状态管理器。
 
-    int m_pendingValidationCount = 0;
-    QStringList m_validatedComponentIds;
+    int m_pendingValidationCount = 0;  ///< 尚未完成验证的元件数量。
+    QStringList m_validatedComponentIds;  ///< 已完成验证的元件编号。
 
-    ComponentListStateTracker m_stateTracker;
-    bool m_isScrolling = false;
+    ComponentListStateTracker m_stateTracker;  ///< 列表筛选与计数状态跟踪器。
+    bool m_isScrolling = false;  ///< 列表是否正在滚动。
 
-    ComponentValidationQueue m_validationQueue;
-    int m_validationPendingCount = 0;
-    int m_validationCompletedCount = 0;
-    int m_validationTotalCount = 0;
+    ComponentValidationQueue m_validationQueue;  ///< 待验证和验证中的元件队列。
+    int m_validationPendingCount = 0;  ///< 待启动验证的元件数量。
+    int m_validationCompletedCount = 0;  ///< 已完成验证的元件数量。
+    int m_validationTotalCount = 0;  ///< 本轮验证的元件总数量。
 
     // 缓存预览图批量更新（防抖）
     ComponentListPreviewUpdateBuffer m_previewUpdateBuffer;
-    QTimer* m_cachePreviewImageTimer;
+    QTimer* m_cachePreviewImageTimer;  ///< 缓存预览图批量更新定时器。
 
-    QStringList m_pendingComponentIds;
-    int m_pendingBatchValidationCount = 0;
-    QTimer* m_batchAddTimer;
+    QStringList m_pendingComponentIds;  ///< 等待批量加入并验证的元件编号。
+    int m_pendingBatchValidationCount = 0;  ///< 当前批量加入任务待验证数量。
+    QTimer* m_batchAddTimer;  ///< 批量加入任务调度定时器。
     // 批处理大小（BOM导入时增大以减少调度开销，配合m_bomImportMode降低UI更新频率）
     static constexpr int BATCH_ADD_SIZE = 50;
 
     // 批量更新模式（验证期间暂停 UI 更新）
-    ComponentListItemUpdateBuffer m_batchUpdateItems;
-    QTimer* m_batchUpdateTimer;
+    ComponentListItemUpdateBuffer m_batchUpdateItems;  ///< 待合并通知的列表项更新缓冲区。
+    QTimer* m_batchUpdateTimer;  ///< 列表项批量更新定时器。
 
     // 列表更新批处理（合并 componentCountChanged 和 filteredCountChanged）
-    bool m_batchListUpdateMode = false;
-    QTimer* m_batchListUpdateTimer;
+    bool m_batchListUpdateMode = false;  ///< 是否处于列表统计批量更新模式。
+    QTimer* m_batchListUpdateTimer;  ///< 列表统计批量更新定时器。
 
     // BOM 导入模式（限制 UI 更新频率）
-    bool m_bomImportMode = false;
-    QTimer* m_bomImportUpdateTimer;
-    int m_bomImportPendingUpdates = 0;  // BOM 导入模式下待处理的验证完成计数
-    bool m_listUpdatePending = false;  // 防抖标志，防止定时器级联重启
-    bool m_bomImportComplete = false;  // BOM 导入已完成（所有组件已启动验证）
+    bool m_bomImportMode = false;  ///< 是否处于 BOM 批量导入模式。
+    QTimer* m_bomImportUpdateTimer;  ///< BOM 导入模式更新定时器。
+    int m_bomImportPendingUpdates = 0;  ///< BOM 导入模式下待处理的验证完成计数。
+    bool m_listUpdatePending = false;  ///< 列表更新防抖标志，防止定时器级联重启。
+    bool m_bomImportComplete = false;  ///< 是否已为所有 BOM 元件启动验证。
 
     // 延迟获取预览图定时器（等待验证全部完成）
-    QTimer* m_delayedFetchPreviewTimer;
-    QSet<QString> m_pendingPreviewFetchIds;
-    bool m_validationReadyHint = false;
-    bool m_previewReadyHint = false;
+    QTimer* m_delayedFetchPreviewTimer;  ///< 等待验证完成后获取预览图的定时器。
+    QSet<QString> m_pendingPreviewFetchIds;  ///< 等待获取预览图的元件编号集合。
+    bool m_validationReadyHint = false;  ///< 是否显示验证完成提示。
+    bool m_previewReadyHint = false;  ///< 是否显示预览图完成提示。
 };
 
 }  // namespace EasyKiConverter

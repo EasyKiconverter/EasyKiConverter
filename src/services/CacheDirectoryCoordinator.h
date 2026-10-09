@@ -29,7 +29,9 @@ public:
     bool setDirectory(const QString& cacheDir, bool migrateExistingCache, QString* error = nullptr);
 
 private:
-    /** @brief 保存缓存服务引用，不负责其生命周期。 */
+    /**
+     * @brief 保存缓存服务引用，不负责其生命周期。
+     */
     ComponentCacheService& m_owner;
 };
 

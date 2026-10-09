@@ -16,7 +16,9 @@ namespace EasyKiConverter {
  */
 class ExporterPcadSymbol final : public ISymbolExporter {
 public:
-    /** @brief 返回 P-CAD 原理图库文件扩展名。 */
+    /**
+     * @brief 返回 P-CAD 原理图库文件扩展名。
+     */
     QString libraryFileExtension() const override;
 
     /**
@@ -44,7 +46,9 @@ public:
                              bool updateMode = false,
                              const QString& libraryDescription = QString()) override;
 
-    /** @brief 返回最近一次导出的诊断信息。 */
+    /**
+     * @brief 返回最近一次导出的诊断信息。
+     */
     QStringList diagnostics() const override;
 
 private:

@@ -14,14 +14,18 @@
 
 namespace EasyKiConverter {
 
-/** @brief Allegro Class/Subclass 的明确映射结果。 */
+/**
+ * @brief Allegro Class/Subclass 的明确映射结果。
+ */
 struct AllegroLayerAssignment {
     QString className;  ///< Allegro 对象类别名称。
     QString subclassName;  ///< Allegro 对象子类别名称。
     QString sourceSemantic;  ///< 源 IR 图层语义。
 };
 
-/** @brief 规范化的 Allegro Padstack 描述。 */
+/**
+ * @brief 规范化的 Allegro Padstack 描述。
+ */
 struct AllegroPadstackModel {
     QString name;  ///< Padstack 稳定名称。
     IR::PadShape shape = IR::PadShape::Rect;  ///< Pad 几何形状。
@@ -36,7 +40,9 @@ struct AllegroPadstackModel {
     QString canonicalKey;  ///< 用于稳定去重的规范化键。
 };
 
-/** @brief Allegro 封装引脚与 Padstack 的关联。 */
+/**
+ * @brief Allegro 封装引脚与 Padstack 的关联。
+ */
 struct AllegroPinModel {
     QString number;  ///< 引脚编号或机械焊盘标识。
     QString padstackName;  ///< 关联的 Padstack 名称。
@@ -45,7 +51,9 @@ struct AllegroPinModel {
     bool mechanical = false;  ///< 是否为机械引脚。
 };
 
-/** @brief Allegro 封装级几何图元的目标语义。 */
+/**
+ * @brief Allegro 封装级几何图元的目标语义。
+ */
 struct AllegroGeometryModel {
     QString primitive;  ///< 图元类型名称。
     AllegroLayerAssignment layer;  ///< Class/Subclass 映射结果。
@@ -58,7 +66,9 @@ struct AllegroGeometryModel {
     QString text;  ///< 文本内容。
 };
 
-/** @brief 可序列化的 Allegro 封装目标模型。 */
+/**
+ * @brief 可序列化的 Allegro 封装目标模型。
+ */
 struct AllegroPackageModel {
     QString name;  ///< 封装名称。
     QString description;  ///< 封装描述。

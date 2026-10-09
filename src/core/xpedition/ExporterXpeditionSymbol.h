@@ -10,9 +10,13 @@ namespace EasyKiConverter {
  */
 class ExporterXpeditionSymbol : public ISymbolExporter {
 public:
-    /** @brief 返回符号库压缩包扩展名。 */
+    /**
+     * @brief 返回符号库压缩包扩展名。
+     */
     QString libraryFileExtension() const override;
-    /** @brief 返回符号导出阶段收集的诊断信息。 */
+    /**
+     * @brief 返回符号导出阶段收集的诊断信息。
+     */
     QStringList diagnostics() const override;
     /**
      * @brief 导出单个符号到 Xpedition 符号库。

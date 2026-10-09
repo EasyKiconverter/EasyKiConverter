@@ -12,7 +12,10 @@ class ComponentListViewModel;
  */
 class ComponentListRetryCoordinator final {
 public:
-    /** @brief 重新请求所有当前未处理且允许重试的失败元件。 */
+    /**
+     * @brief 重新请求所有当前未处理且允许重试的失败元件。
+     * @param owner 所属组件列表视图模型。
+     */
     static void retryAllInvalid(ComponentListViewModel& owner);
 };
 

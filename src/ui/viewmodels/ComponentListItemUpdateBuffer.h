@@ -29,13 +29,19 @@ public:
      */
     QList<QPointer<ComponentListItemData>> take();
 
-    /** @brief 丢弃当前尚未发送通知的列表项。 */
+    /**
+     * @brief 丢弃当前尚未发送通知的列表项。
+     */
     void clear();
 
 private:
-    /** @brief 保护待刷新列表项集合的互斥锁。 */
+    /**
+     * @brief 保护待刷新列表项集合的互斥锁。
+     */
     mutable QMutex m_mutex;
-    /** @brief 保存待刷新列表项并避免同一对象重复加入。 */
+    /**
+     * @brief 保存待刷新列表项并避免同一对象重复加入。
+     */
     QList<QPointer<ComponentListItemData>> m_items;
 };
 

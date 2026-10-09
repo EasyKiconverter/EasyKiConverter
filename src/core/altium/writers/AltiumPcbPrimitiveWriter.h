@@ -80,7 +80,9 @@ private:
      */
     void writePadExtendedBlock(AltiumBinaryWriter& writer, const AltiumPcbPad& pad);
 
-    /** @brief 保存主写入器引用，不负责其生命周期。 */
+    /**
+     * @brief 保存主写入器引用，不负责其生命周期。
+     */
     AltiumPcbLibWriter& m_owner;
 };
 

@@ -84,11 +84,17 @@ public:
      */
     bool readBlock(QByteArray* payload, uint8_t* flags = nullptr);
 
-    /** @brief 读取 Pascal 短字符串 */
+    /**
+     * @brief 读取 Pascal 短字符串
+     */
     bool readPascalShortString(QString* value);
-    /** @brief 读取字符串块 */
+    /**
+     * @brief 读取字符串块
+     */
     bool readStringBlock(QString* value);
-    /** @brief 读取带额外 NUL 的 Pascal 字符串块 */
+    /**
+     * @brief 读取带额外 NUL 的 Pascal 字符串块
+     */
     bool readPascalString(QString* value);
 
     /**
@@ -106,13 +112,21 @@ public:
      */
     bool parseCStringParameterData(const QByteArray& data, QMap<QString, QString>* params);
 
-    /** @brief 获取当前读取位置 */
+    /**
+     * @brief 获取当前读取位置
+     */
     int position() const;
-    /** @brief 获取剩余字节数 */
+    /**
+     * @brief 获取剩余字节数
+     */
     int remaining() const;
-    /** @brief 获取是否发生读取错误 */
+    /**
+     * @brief 获取是否发生读取错误
+     */
     bool hasError() const;
-    /** @brief 获取读取错误说明 */
+    /**
+     * @brief 获取读取错误说明
+     */
     QString errorString() const;
 
 private:

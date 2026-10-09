@@ -7,7 +7,9 @@
 
 namespace EasyKiConverter {
 
-/** @brief Horizon 坐标单位转换；源码确认 1 unit = 1 nm。 */
+/**
+ * @brief Horizon 坐标单位转换；源码确认 1 unit = 1 nm。
+ */
 class HorizonUnits final {
 public:
     static qint64 mm(double value) {

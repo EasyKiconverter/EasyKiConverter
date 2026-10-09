@@ -4,7 +4,9 @@
 
 namespace EasyKiConverter {
 
-/** @brief 保存 OLE 写入器的只读状态引用。 */
+/**
+ * @brief 保存 OLE 写入器的只读状态引用。
+ */
 OLECompoundSerializer::OLECompoundSerializer(const OLECompoundWriter& owner) : m_owner(owner) {}
 
 /**

@@ -61,7 +61,10 @@
 
 namespace {
 
-/** @brief 根据命令行参数和环境变量判断是否启用调试模式。 */
+/**
+ * @brief 根据命令行参数和环境变量判断是否启用调试模式。
+ * @param parser 调试模式配置来源。
+ */
 bool isDebugMode(const EasyKiConverter::CommandLineParser& parser) {
     // 优先检查命令行参数
     if (parser.isDebugMode()) {
@@ -70,13 +73,17 @@ bool isDebugMode(const EasyKiConverter::CommandLineParser& parser) {
 
     // 检查环境变量（向后兼容）
     if (qEnvironmentVariableIsSet("EASYKICONVERTER_DEBUG_MODE")) {
+        // 调试模式环境变量值。
         QString debugValue = qEnvironmentVariable("EASYKICONVERTER_DEBUG_MODE", "false").toLower();
         return (debugValue == "true" || debugValue == "1" || debugValue == "yes");
     }
     return false;
 }
 
-/** @brief 解析命令行指定或便携模式使用的配置文件路径。 */
+/**
+ * @brief 解析命令行指定或便携模式使用的配置文件路径。
+ * @param parser 命令行配置。
+ */
 QString resolveConfigFilePath(const EasyKiConverter::CommandLineParser& parser) {
     if (!parser.configFile().isEmpty()) {
         return parser.configFile();
@@ -87,16 +94,23 @@ QString resolveConfigFilePath(const EasyKiConverter::CommandLineParser& parser) 
     return QString();
 }
 
-/** @brief 将命令行中的缓存目录和容量设置应用到缓存服务。 */
+/**
+ * @brief 将命令行中的缓存目录和容量设置应用到缓存服务。
+ * @param parser 命令行缓存配置。
+ */
 void applyCacheConfiguration(const EasyKiConverter::CommandLineParser& parser) {
+    // 配置服务实例。
     auto* configService = EasyKiConverter::ConfigService::instance();
+    // 缓存服务实例。
     auto* cacheService = EasyKiConverter::ComponentCacheService::instance();
 
+    // 缓存目录路径。
     QString cacheDir = configService->getCacheDir();
     if (parser.isCacheDirSet()) {
         cacheDir = QDir::cleanPath(parser.cacheDir());
     }
 
+    // 磁盘缓存上限（MB）。
     int diskCacheLimitMB = configService->getDiskCacheLimitMB();
     if (parser.isDiskCacheLimitSet()) {
         diskCacheLimitMB = parser.diskCacheLimitMB();
@@ -107,9 +121,17 @@ void applyCacheConfiguration(const EasyKiConverter::CommandLineParser& parser) {
 }
 
 #ifdef _WIN32
-/** @brief 在 Windows 调试控制台中重新打开标准输入输出流。 */
+/**
+ * @brief 在 Windows 调试控制台中重新打开标准输入输出流。
+ * @param stream 待重新打开的标准流。
+ * @param device 目标控制台设备。
+ * @param mode 文件打开模式。
+ * @param streamName 标准流名称。
+ */
 bool reopenConsoleStream(FILE* stream, const char* device, const char* mode, const char* streamName) {
+    // 是否重新打开应用。
     FILE* reopened = nullptr;
+    // 启动错误信息。
     errno_t err = freopen_s(&reopened, device, mode, stream);
     if (err != 0 || reopened == nullptr) {
         qCritical() << "Failed to reopen stream" << streamName << "to" << device << "error:" << err;
@@ -119,7 +141,13 @@ bool reopenConsoleStream(FILE* stream, const char* device, const char* mode, con
 }
 #endif
 
-/** @brief 初始化项目日志系统并配置平台相关的控制台输出。 */
+/**
+ * @brief 初始化项目日志系统并配置平台相关的控制台输出。
+ * @param debugMode 是否启用调试日志。
+ * @param logLevelStr 命令行指定的日志级别。
+ * @param logFilePath 日志文件路径。
+ * @param syncLogging 是否启用同步日志。
+ */
 void setupLogging(bool debugMode, const QString& logLevelStr, const QString& logFilePath, bool syncLogging) {
     using namespace EasyKiConverter;
 
@@ -139,6 +167,7 @@ void setupLogging(bool debugMode, const QString& logLevelStr, const QString& log
             // 启用 ANSI 转义序列支持（彩色输出）
             HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
             if (hOut != INVALID_HANDLE_VALUE) {
+                // 命令行或界面运行模式。
                 DWORD mode = 0;
                 if (GetConsoleMode(hOut, &mode)) {
                     mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
@@ -149,6 +178,7 @@ void setupLogging(bool debugMode, const QString& logLevelStr, const QString& log
     }
 #endif
 
+    // 日志记录器实例。
     auto logger = Logger::instance();
 
     // 解析日志级别
@@ -192,6 +222,7 @@ void setupLogging(bool debugMode, const QString& logLevelStr, const QString& log
     // 文件输出（仅在调试模式或明确指定日志文件路径时启用）
 
     if (debugMode || !logFilePath.isEmpty()) {
+        // 日志文件路径。
         QString logPath;
 
         if (!logFilePath.isEmpty()) {
@@ -230,7 +261,10 @@ void setupLogging(bool debugMode, const QString& logLevelStr, const QString& log
     QtLogAdapter::install();
 }
 
-/** @brief 规范化 AppImage 挂载目录或开发构建目录的路径层级。 */
+/**
+ * @brief 规范化 AppImage 挂载目录或开发构建目录的路径层级。
+ * @param appDir 待规范化的应用目录。
+ */
 QString normalizeMountedAppDir(QString appDir) {
     if (appDir.endsWith("/usr/bin")) {
         return appDir.chopped(8);  // 去掉 /usr/bin
@@ -241,7 +275,10 @@ QString normalizeMountedAppDir(QString appDir) {
     return appDir;
 }
 
-/** @brief 根据 AppImage 环境变量或应用路径解析运行时目录。 */
+/**
+ * @brief 根据 AppImage 环境变量或应用路径解析运行时目录。
+ * @param appImagePath AppImage 文件路径。
+ */
 QString resolveRuntimeAppDir(const QString& appImagePath) {
     if (!appImagePath.isEmpty()) {
         return QFileInfo(appImagePath).absolutePath();
@@ -249,7 +286,10 @@ QString resolveRuntimeAppDir(const QString& appImagePath) {
     return QCoreApplication::applicationDirPath();
 }
 
-/** @brief 从运行目录反推出项目根目录，供开发环境查找资源。 */
+/**
+ * @brief 从运行目录反推出项目根目录，供开发环境查找资源。
+ * @param appDir 应用运行目录。
+ */
 QString resolveProjectRootFromAppDir(QString appDir) {
     appDir = normalizeMountedAppDir(std::move(appDir));
     if (appDir.endsWith("/build/bin")) {
@@ -264,30 +304,46 @@ QString resolveProjectRootFromAppDir(QString appDir) {
     return appDir;
 }
 
-/** @brief 按当前主题和运行环境生成任务栏图标候选路径。 */
+/**
+ * @brief 按当前主题和运行环境生成任务栏图标候选路径。
+ * @param darkMode 是否使用深色主题。
+ */
 QStringList themedTaskbarIconPaths(bool darkMode) {
+    // 系统图标主题目录。
     const QString iconThemeDir = darkMode ? QStringLiteral("hicolor-dark") : QStringLiteral("hicolor");
+    // 备用图标主题目录。
     const QString fallbackIconThemeDir = QStringLiteral("hicolor");
+    // 主题图标对象。
     const QString themedAppIcon = darkMode ? QStringLiteral("app_icon_dark.png") : QStringLiteral("app_icon.png");
+    // AppImage 文件路径。
     const QString appImagePath = qgetenv("APPIMAGE");
+    // 运行时应用目录。
     const QString runtimeAppDir = resolveRuntimeAppDir(appImagePath);
+    // 挂载后的应用目录。
     const QString mountedAppDir = normalizeMountedAppDir(QCoreApplication::applicationDirPath());
+    // 项目根目录。
     const QString projectRoot = resolveProjectRootFromAppDir(mountedAppDir);
+    // 是否运行于 AppImage。
     const bool isAppImage = !appImagePath.isEmpty();
+    // 图标尺寸列表。
     const QStringList sizes = {"512x512", "256x256", "128x128", "64x64", "48x48", "32x32", "24x24", "16x16"};
 
     QStringList qrcIconPaths = {
         QStringLiteral(":/qt/qml/EasyKiconverter_Cpp_Version/resources/icons/") + themedAppIcon,
         QStringLiteral(":/resources/icons/") + themedAppIcon,
     };
+    // AppImage 图标路径列表。
     QStringList appImageIconPaths;
+    // 开发环境图标路径列表。
     QStringList devIconPaths;
     QStringList systemIconPaths = {
         QStringLiteral("io.github.tangsangsimida.easykiconverter"),
     };
 
     for (const QString& size : sizes) {
+        // 当前图标名称。
         const QString iconName = QStringLiteral("/apps/io.github.tangsangsimida.easykiconverter.png");
+        // 主题图标路径。
         const QString themedIconPath = iconThemeDir + "/" + size + iconName;
         qrcIconPaths << QStringLiteral(":/qt/qml/EasyKiconverter_Cpp_Version/resources/icons/") + themedIconPath
                      << QStringLiteral(":/resources/icons/") + themedIconPath;
@@ -298,6 +354,7 @@ QStringList themedTaskbarIconPaths(bool darkMode) {
         systemIconPaths << "/usr/share/icons/" + themedIconPath;
 
         if (darkMode) {
+            // 备用图标路径。
             const QString fallbackIconPath = fallbackIconThemeDir + "/" + size + iconName;
             qrcIconPaths << QStringLiteral(":/qt/qml/EasyKiconverter_Cpp_Version/resources/icons/") + fallbackIconPath
                          << QStringLiteral(":/resources/icons/") + fallbackIconPath;
@@ -321,6 +378,7 @@ QStringList themedTaskbarIconPaths(bool darkMode) {
         projectRoot + "/resources/icons/app_icon.png",
     };
 
+    // 待搜索的图标路径列表。
     QStringList iconPaths = isAppImage
                                 ? appImageIconPaths + qrcIconPaths + devIconPaths + genericPaths + systemIconPaths
                                 : qrcIconPaths + devIconPaths + appImageIconPaths + genericPaths + systemIconPaths;
@@ -328,16 +386,24 @@ QStringList themedTaskbarIconPaths(bool darkMode) {
     return iconPaths;
 }
 
-/** @brief 从候选路径中加载图标并应用到应用程序和窗口。 */
+/**
+ * @brief 从候选路径中加载图标并应用到应用程序和窗口。
+ * @param darkMode 是否使用深色主题。
+ * @param window 待设置图标的窗口。
+ * @param context 日志上下文名称。
+ */
 bool applyTaskbarIcon(bool darkMode, QWindow* window = nullptr, const char* context = "应用程序") {
+    // 待搜索的图标路径列表。
     const QStringList iconPaths = themedTaskbarIconPaths(darkMode);
 
     for (const QString& iconPath : iconPaths) {
+        // 是否可以尝试系统图标主题。
         const bool canTryIconTheme = !iconPath.contains('/');
         if (!canTryIconTheme && !QFile::exists(iconPath)) {
             continue;
         }
 
+        // 待使用的图标对象。
         const QIcon icon = canTryIconTheme ? QIcon::fromTheme(iconPath) : QIcon(iconPath);
         if (icon.isNull()) {
             continue;
@@ -362,8 +428,13 @@ bool applyTaskbarIcon(bool darkMode, QWindow* window = nullptr, const char* cont
 
 }  // anonymous namespace
 
-/** @brief 初始化应用程序、命令行模式和图形界面模式。 */
+/**
+ * @brief 初始化应用程序、命令行模式和图形界面模式。
+ * @param argc 命令行参数数量。
+ * @param argv 命令行参数数组。
+ */
 int main(int argc, char* argv[]) {
+    // 渲染表面格式。
     QSurfaceFormat surfaceFormat = QSurfaceFormat::defaultFormat();
     surfaceFormat.setAlphaBufferSize(8);
     QSurfaceFormat::setDefaultFormat(surfaceFormat);
@@ -386,9 +457,12 @@ int main(int argc, char* argv[]) {
 
     // 在 QApplication 构造函数之前检查命令行参数
     bool showHelp = false;
+    // 是否请求显示版本。
     bool showVersion = false;
+    // 是否请求 CLI 模式。
     bool cliModeRequested = false;
     for (int i = 1; i < argc; ++i) {
+        // 当前命令行参数。
         QString arg = QString::fromLocal8Bit(argv[i]);
         // 支持 Unix 风格（-h, --help）和 Windows 风格（/h, /help, /?, ?）的参数
         if (arg == "--help" || arg == "-h" || arg == "/h" || arg == "/help" || arg == "/?" || arg == "?") {
@@ -403,9 +477,13 @@ int main(int argc, char* argv[]) {
 
     // 早期解析：检查是否为纯 CLI 模式（不需要 GUI）
     bool parsed = cmdParser.parse();
+    // 是否处于补全模式。
     bool isCompletionMode = parsed && cmdParser.isCompletionRequested();
+    // 是否处于完整补全模式。
     bool isCompleteMode = parsed && cmdParser.isCompleteRequested();
+    // 是否处于 CLI 模式。
     bool isCliMode = parsed && cmdParser.isCliMode();
+    // 是否为转换命令。
     bool isConvertCommand = parsed && cmdParser.hasConvertCommand();
 
     // 纯 CLI 模式：--completion, --complete, --help, --version, convert 子命令
@@ -421,6 +499,7 @@ int main(int argc, char* argv[]) {
         app.setOrganizationDomain("easykiconverter.com");
 
         if (showHelp) {
+            // 帮助文本。
             QString helpText = cmdParser.helpText();
             QTextStream consoleOut(stdout);
             consoleOut << helpText;
@@ -428,6 +507,7 @@ int main(int argc, char* argv[]) {
         }
 
         if (showVersion) {
+            // 版本文本。
             QString versionText = "EasyKiConverter " + app.applicationVersion() + "\n";
             QTextStream consoleOut(stdout);
             consoleOut << versionText;
@@ -443,7 +523,9 @@ int main(int argc, char* argv[]) {
 
         // 尽早初始化语言管理器，使后续验证错误消息能正确翻译
         {
+            // 语言管理器实例。
             auto* langManager = EasyKiConverter::LanguageManager::instance();
+            // CLI 使用的语言。
             QString cliLang = cmdParser.language();
             if (!cliLang.isEmpty() && (cliLang == "zh_CN" || cliLang == "en")) {
                 langManager->setLanguage(cliLang, /*force=*/true);
@@ -458,6 +540,7 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
+        // 配置文件路径。
         const QString configFilePath = resolveConfigFilePath(cmdParser);
         EasyKiConverter::TempFileManager::recoverIncompleteTransactions();
         EasyKiConverter::ConfigService::instance()->loadConfig(configFilePath);
@@ -465,7 +548,9 @@ int main(int argc, char* argv[]) {
 
         // 处理补全请求
         if (isCompletionMode) {
+            // 命令行 Shell 名称。
             QString shell = cmdParser.completionShell();
+            // 命令行 Shell 类型。
             auto shellType = EasyKiConverter::CompletionGenerator::parseShell(shell);
             QTextStream out(stdout);
             out << EasyKiConverter::CompletionGenerator::generate(shellType);
@@ -474,6 +559,7 @@ int main(int argc, char* argv[]) {
 
         // 处理动态补全请求
         if (isCompleteMode) {
+            // 补全类型。
             QString completeType = cmdParser.completeType();
             QTextStream out(stdout);
 
@@ -481,6 +567,7 @@ int main(int argc, char* argv[]) {
                 // 输出缓存中的 LCSC ID 列表
                 auto* cache = EasyKiConverter::ComponentCacheService::instance();
                 if (cache) {
+                    // 元器件编号列表。
                     QStringList ids = cache->getCachedComponentIds();
                     for (const QString& id : ids) {
                         out << id << "\n";
@@ -508,6 +595,7 @@ int main(int argc, char* argv[]) {
 
             // 创建并执行 CLI 转换器
             EasyKiConverter::CliConverter cliConverter(cmdParser);
+            // 操作是否成功。
             bool success = cliConverter.execute();
 
             if (!success) {
@@ -517,6 +605,7 @@ int main(int argc, char* argv[]) {
 
             // 清理日志
             EasyKiConverter::QtLogAdapter::uninstall();
+            // 日志记录器实例。
             auto* logger = EasyKiConverter::Logger::instance();
             if (logger) {
                 logger->flush();
@@ -552,9 +641,13 @@ int main(int argc, char* argv[]) {
 
     // 自动检测并记录实际生效的渲染后端
     QTimer::singleShot(0, []() {
+        // 临时窗口对象。
         QQuickWindow tempWindow;
+        // API 名称。
         const char* apiName = "Unknown";
-        /** @brief 将 Qt 图形 API 枚举转换为日志中的可读名称。 */
+        /**
+ * @brief 将 Qt 图形 API 枚举转换为日志中的可读名称。
+ */
         switch (tempWindow.graphicsApi()) {
             case QSGRendererInterface::Unknown:
                 apiName = "Unknown";
@@ -609,6 +702,7 @@ int main(int argc, char* argv[]) {
 
     // 尝试设置应用程序图标（使用 QGuiApplication::setWindowIcon 确保可靠性）
     QString appImagePath = qgetenv("APPIMAGE");
+    // 应用程序目录。
     QString appDir = resolveRuntimeAppDir(appImagePath);
 
     qDebug() << "应用目录:" << appDir;
@@ -628,6 +722,7 @@ int main(int argc, char* argv[]) {
     // 处理命令行参数 - 调试模式设置（优先于环境变量）
     // 调试模式只通过命令行参数和环境变量控制，不会保存到配置文件
     if (cmdParser.isDebugMode()) {
+        // 配置服务实例。
         auto* configService = EasyKiConverter::ConfigService::instance();
         // 设置内存中的调试模式（不保存到配置文件）
         configService->setDebugMode(true, false);
@@ -636,7 +731,9 @@ int main(int argc, char* argv[]) {
 
     // 处理命令行参数 - 语言设置
     if (!cmdParser.language().isEmpty()) {
+        // 语言管理器实例。
         auto* langManager = EasyKiConverter::LanguageManager::instance();
+        // 当前语言。
         QString lang = cmdParser.language();
         if (lang == "zh_CN" || lang == "en") {
             langManager->setLanguage(lang);
@@ -651,7 +748,9 @@ int main(int argc, char* argv[]) {
 
     // 处理命令行参数 - 主题设置（仅在用户显式指定时应用）
     if (cmdParser.isThemeSet()) {
+        // 当前主题。
         QString theme = cmdParser.theme();
+        // 配置服务实例。
         auto* configService = EasyKiConverter::ConfigService::instance();
         if (theme == "dark") {
             configService->setDarkMode(true);
@@ -672,7 +771,9 @@ int main(int argc, char* argv[]) {
     (void)EasyKiConverter::ComponentCacheService::instance();
     // 预先初始化统一网络客户端，避免首次请求时的冷启动抖动
     (void)EasyKiConverter::NetworkClient::instance();
+    // 元器件服务实例。
     EasyKiConverter::ComponentService* componentService = new EasyKiConverter::ComponentService();
+    // 导出服务实例。
     EasyKiConverter::ParallelExportService* exportService = new EasyKiConverter::ParallelExportService();
     exportService->setComponentService(componentService);
 
@@ -689,8 +790,11 @@ int main(int argc, char* argv[]) {
         new EasyKiConverter::ExportSettingsViewModel(exportService);
     EasyKiConverter::ExportProgressViewModel* exportProgressViewModel =
         new EasyKiConverter::ExportProgressViewModel(exportService, componentService, componentListViewModel);
+    // 主题设置视图模型。
     EasyKiConverter::ThemeSettingsViewModel* themeSettingsViewModel = new EasyKiConverter::ThemeSettingsViewModel();
+    // 更新检查服务实例。
     EasyKiConverter::UpdateCheckerService* updateCheckerService = new EasyKiConverter::UpdateCheckerService();
+    // 导出目标模型。
     EasyKiConverter::ExportTargetModel* exportTargetModel = new EasyKiConverter::ExportTargetModel();
     exportTargetModel->loadPlugins(":/qt/qml/EasyKiconverter_Cpp_Version/src/resources/export_plugins.json");
     exportSettingsViewModel->setTargetModel(exportTargetModel);
@@ -749,6 +853,7 @@ int main(int argc, char* argv[]) {
     auto* rootObject = engine->rootObjects().first();
     if (auto* window = qobject_cast<QQuickWindow*>(rootObject)) {
         auto refreshTaskbarIcon = [window]() {
+            // 图标是否使用深色模式。
             const bool isDarkModeForIcon = EasyKiConverter::ConfigService::instance()->getDarkMode();
             applyTaskbarIcon(isDarkModeForIcon, window, "窗口");
         };
@@ -862,6 +967,7 @@ int main(int argc, char* argv[]) {
     // 6. 最后清理日志
     qDebug() << "Cleaning up logging...";
     EasyKiConverter::QtLogAdapter::uninstall();
+    // 日志记录器实例。
     auto* logger = EasyKiConverter::Logger::instance();
     if (logger) {
         logger->flush();

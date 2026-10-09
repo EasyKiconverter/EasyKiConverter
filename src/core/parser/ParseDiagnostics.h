@@ -10,10 +10,14 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief 解析诊断严重级别。 */
+/**
+ * @brief 解析诊断严重级别。
+ */
 enum class ParseSeverity { Info, Warning, Error, Skipped };
 
-/** @brief 诊断所关联的对象范围。 */
+/**
+ * @brief 诊断所关联的对象范围。
+ */
 enum class ParseScope { File, Component, Symbol, Footprint, Field };
 
 /**
@@ -57,7 +61,9 @@ public:
      */
     void setFilePath(const QString& filePath);
 
-    /** @brief 返回全部诊断，顺序与解析发生顺序一致。 */
+    /**
+     * @brief 返回全部诊断，顺序与解析发生顺序一致。
+     */
     const QList<ParseDiagnostic>& items() const;
 
     /**
@@ -66,13 +72,19 @@ public:
      */
     void append(const ParseDiagnostics& other);
 
-    /** @brief 判断是否存在错误诊断。 */
+    /**
+     * @brief 判断是否存在错误诊断。
+     */
     bool hasErrors() const;
 
-    /** @brief 判断是否为空。 */
+    /**
+     * @brief 判断是否为空。
+     */
     bool isEmpty() const;
 
-    /** @brief 清空当前诊断。 */
+    /**
+     * @brief 清空当前诊断。
+     */
     void clear();
 
 private:

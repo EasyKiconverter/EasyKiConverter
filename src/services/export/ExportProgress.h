@@ -14,17 +14,17 @@ namespace EasyKiConverter {
  *          枚举值用于持久化存储和 UI 下拉索引，从 0 递增。
  */
 enum class TargetEdaFormat {
-    KiCad = 0, /**< KiCad 格式（默认） */
-    Altium = 1, /**< Altium Designer 格式 */
-    Xpedition = 2, /**< Xpedition ASCII 库格式 */
-    Allegro = 3, /**< Allegro 符号、封装和三维语义 Import Package */
-    Pads = 4, /**< PADS Parts Library ASCII 符号、器件关联和 PCB Decal */
-    Eagle = 5, /**< Eagle XML 组合库（符号、封装和器件关联） */
-    Pcad = 6, /**< P-CAD ASCII 符号库、器件库和 PCB 库 */
-    Cadstar = 7, /**< CADSTAR ASCII combined symbol and package library */
-    Orcad = 8, /**< OrCAD Capture XML symbol library */
-    LibrePcb = 9, /**< LibrePCB 2 native library */
-    Horizon = 10 /**< Horizon EDA Pool source library */
+    KiCad = 0,  ///< KiCad 格式（默认）
+    Altium = 1,  ///< Altium Designer 格式
+    Xpedition = 2,  ///< Xpedition ASCII 库格式
+    Allegro = 3,  ///< Allegro 符号、封装和三维语义 Import Package
+    Pads = 4,  ///< PADS Parts Library ASCII 符号、器件关联和 PCB Decal
+    Eagle = 5,  ///< Eagle XML 组合库（符号、封装和器件关联）
+    Pcad = 6,  ///< P-CAD ASCII 符号库、器件库和 PCB 库
+    Cadstar = 7,  ///< CADSTAR ASCII combined symbol and package library
+    Orcad = 8,  ///< OrCAD Capture XML symbol library
+    LibrePcb = 9,  ///< LibrePCB 2 native library
+    Horizon = 10  ///< Horizon EDA Pool source library
 };
 
 /**
@@ -113,7 +113,9 @@ struct ExportOptions {
  * @endcode
  */
 struct ExportItemStatus {
-    /** @brief 导出项状态枚举 */
+    /**
+     * @brief 导出项状态枚举
+     */
     enum class Status {
         Pending,  ///< 等待中 - 尚未开始处理
         InProgress,  ///< 处理中 - 正在导出
@@ -252,7 +254,9 @@ struct PreloadProgress {
  * @endcode
  */
 struct ExportOverallProgress {
-    /** @brief 导出任务阶段枚举 */
+    /**
+     * @brief 导出任务阶段枚举
+     */
     enum class Stage {
         Idle,  ///< 空闲 - 导出任务未开始
         Preloading,  ///< 预加载 - 正在预加载元器件数据

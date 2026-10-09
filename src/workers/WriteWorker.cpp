@@ -56,7 +56,9 @@ WriteWorker::WriteWorker(QSharedPointer<ComponentExportStatus> status,
 
 WriteWorker::~WriteWorker() {}
 
-/** @brief 并行执行当前元件的各类文件写入任务并汇总结果。 */
+/**
+ * @brief 并行执行当前元件的各类文件写入任务并汇总结果。
+ */
 void WriteWorker::run() {
     if (!m_status) {
         qWarning() << "WriteWorker: null export status, skip run";
@@ -73,6 +75,7 @@ void WriteWorker::run() {
         return;
     }
 
+    // 记录当前元件写入阶段的耗时。
     QElapsedTimer writeTimer;
     writeTimer.start();
 
@@ -134,8 +137,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视符号写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取符号写入任务的结果。
             bool result = watcher->result();
             m_status->symbolWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::Symbol), result);
@@ -159,8 +164,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视封装写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取封装写入任务的结果。
             bool result = watcher->result();
             m_status->footprintWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::Footprint), result);
@@ -185,8 +192,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视三维模型写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取三维模型写入任务的结果。
             bool result = watcher->result();
             m_status->model3DWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::Model3D), result);
@@ -209,8 +218,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视预览图写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取预览图写入任务的结果。
             bool result = watcher->result();
             m_status->previewImageWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::PreviewImage), result);
@@ -233,8 +244,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视数据手册写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取数据手册写入任务的结果。
             bool result = watcher->result();
             m_status->datasheetWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::Datasheet), result);
@@ -265,16 +278,24 @@ void WriteWorker::run() {
     }
 
     // 根据用户请求的导出项和实际完成情况，决定最终的成功状态
+    // 计算符号写入是否满足用户请求。
     bool symbolSuccess = (!m_exportSymbol) || m_status->symbolWritten;
+    // 计算封装写入是否满足用户请求。
     bool footprintSuccess = (!m_exportFootprint) || m_status->footprintWritten;
+    // 计算三维模型写入是否满足用户请求。
     bool model3DSuccess = (!m_exportModel3D) || m_status->model3DWritten;
+    // 计算预览图写入是否满足用户请求。
     bool previewImageSuccess = (!m_exportPreviewImages) || m_status->previewImageWritten;
+    // 计算数据手册写入是否满足用户请求。
     bool datasheetSuccess = (!m_exportDatasheet) || m_status->datasheetWritten;
 
+    // 汇总所有已请求导出项的成功状态。
     bool overallSuccess =
         symbolSuccess && footprintSuccess && model3DSuccess && previewImageSuccess && datasheetSuccess;
 
+    // 收集成功和失败的导出项缩写，供诊断日志使用。
     QStringList successItems;
+    // 保存失败导出项的缩写。
     QStringList failedItems;
     if (m_exportSymbol) {
         symbolSuccess ? successItems.append("S") : failedItems.append("S");
@@ -319,7 +340,11 @@ void WriteWorker::run() {
     emit writeCompleted(m_status);
 }
 
-/** @brief 将符号 IR 原子写入临时目录中的 KiCad 符号文件。 */
+/**
+ * @brief 将符号 IR 原子写入临时目录中的 KiCad 符号文件。
+ * @param status 当前元件的导出状态。
+ * @return 写入成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::writeSymbolFile(ComponentExportStatus& status) {
     if (!status.symbolData) {
         return true;
@@ -334,10 +359,13 @@ bool WriteWorker::writeSymbolFile(ComponentExportStatus& status) {
         return false;
     }
 
+    // 构造符号文件的临时输出路径。
     QString finalFilePath = QString("%1/%2.kicad_sym").arg(m_tempDir, status.componentId);
 
+    // 通过临时文件写入并原子替换目标符号文件。
     bool success = AtomicFileWriter::writeAtomically(
         m_tempDir, finalFilePath, ".kicad_sym.tmp", [this, &status](const QString& tempPath) -> bool {
+            // 将组件模型转换为符号 IR。
             IR::SymbolComponentIR symbolIR = IR::toSymbolIR(*status.symbolData);
             return m_symbolExporter.exportSymbol(symbolIR, tempPath);
         });
@@ -352,7 +380,11 @@ bool WriteWorker::writeSymbolFile(ComponentExportStatus& status) {
     }
 }
 
-/** @brief 将封装 IR 和关联模型路径原子写入 KiCad 封装库。 */
+/**
+ * @brief 将封装 IR 和关联模型路径原子写入 KiCad 封装库。
+ * @param status 当前元件的导出状态。
+ * @return 写入成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
     if (!status.footprintData) {
         return true;
@@ -367,12 +399,14 @@ bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
         return false;
     }
 
+    // 构造 KiCad 封装库目录路径。
     QString footprintLibPath = QString("%1/%2.pretty").arg(m_outputPath, m_libName);
     if (!createOutputDirectory(footprintLibPath)) {
         status.addDebugLog(QString("ERROR: Failed to create footprint library directory: %1").arg(footprintLibPath));
         return false;
     }
 
+    // 构造三维模型输出目录路径。
     QString modelsDirPath = QString("%1/%2.3dmodels").arg(m_outputPath, m_libName);
     if (m_exportModel3D) {
         if (!createOutputDirectory(modelsDirPath)) {
@@ -380,10 +414,14 @@ bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
         }
     }
 
+    // 生成安全的封装名称和目标文件路径。
     QString footprintName = PathSecurity::sanitizeFilename(status.footprintData->info().name);
+    // 构造封装文件的完整输出路径。
     QString filePath = QString("%1/%2.kicad_mod").arg(footprintLibPath, footprintName);
 
+    // 保存封装文件中引用的 WRL 和 STEP 相对路径。
     QString model3DWrlPath;
+    // 保存封装中引用的 STEP 模型相对路径。
     QString model3DStepPath;
     if (m_exportModel3D && status.model3DData && !status.model3DData->uuid().isEmpty()) {
         model3DWrlPath = QString("../%1.3dmodels/%2.wrl").arg(m_libName, footprintName);
@@ -393,11 +431,13 @@ bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
         }
     }
 
+    // 通过临时文件写入并原子替换目标封装文件。
     bool success = AtomicFileWriter::writeAtomically(
         m_tempDir,
         filePath,
         ".kicad_mod.tmp",
         [this, &status, &model3DWrlPath, &model3DStepPath](const QString& tempPath) -> bool {
+            // 将组件模型转换为封装 IR。
             IR::FootprintComponentIR footprintIR = IR::toFootprintIR(*status.footprintData);
             if (!model3DStepPath.isEmpty()) {
                 return m_footprintExporter.exportFootprint(footprintIR, tempPath, model3DWrlPath, model3DStepPath);
@@ -418,11 +458,16 @@ bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
     }
 }
 
-/** @brief 写入或复制当前元件的 WRL 与 STEP 三维模型文件。 */
+/**
+ * @brief 写入或复制当前元件的 WRL 与 STEP 三维模型文件。
+ * @param status 当前元件的导出状态。
+ * @return 至少一个请求的三维模型文件成功写入时返回 true。
+ */
 bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
     // 如果既没有原始数据也没有缓存路径，则跳过
     const bool hasWrlData =
         status.model3DData && (!status.model3DData->rawObj().isEmpty() || !status.cachedModel3DWrlPath.isEmpty());
+    // 判断是否存在可写入的 STEP 模型数据。
     const bool hasStepData = !status.model3DStepRaw.isEmpty() || !status.cachedModel3DStepPath.isEmpty();
     if (!hasWrlData && !hasStepData) {
         return true;
@@ -438,22 +483,27 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
         return false;
     }
 
+    // 构造三维模型输出目录路径。
     QString modelsDirPath = QString("%1/%2.3dmodels").arg(m_outputPath, m_libName);
     if (!createOutputDirectory(modelsDirPath)) {
         status.addDebugLog(QString("ERROR: Failed to create 3D models directory: %1").arg(modelsDirPath));
         return false;
     }
 
+    // 使用封装名称作为模型文件名，缺少封装时回退到元器件编号。
     QString footprintName = status.footprintData ? status.footprintData->info().name : status.componentId;
     footprintName = PathSecurity::sanitizeFilename(footprintName);
 
+    // 记录 WRL 模型写入结果。
     bool wrlSuccess = false;
 
     // WRL 是 OBJ 派生文件；如果有 OBJ 原始数据，始终重新生成，避免旧 WRL 缓存携带过期坐标归一化。
     if (status.model3DData && !status.model3DData->rawObj().isEmpty()) {
+        // 构造 WRL 模型目标路径。
         QString wrlFilePath = QString("%1/%2.wrl").arg(modelsDirPath, footprintName);
         wrlSuccess = AtomicFileWriter::writeAtomically(
             m_tempDir, wrlFilePath, ".wrl.tmp", [this, &status](const QString& tempPath) -> bool {
+                // 将模型数据转换为统一的三维模型 IR。
                 IR::Model3DIR modelIR = IR::toModel3DIR(*status.model3DData);
                 return m_model3DExporter.exportToWrl(modelIR, tempPath);
             });
@@ -463,6 +513,7 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
             status.addDebugLog(QString("ERROR: Failed to write WRL file"));
         }
     } else if (hasWrlData && !status.cachedModel3DWrlPath.isEmpty()) {
+        // 构造缓存 WRL 模型的目标路径。
         QString wrlFilePath = QString("%1/%2.wrl").arg(modelsDirPath, footprintName);
         wrlSuccess = AtomicFileWriter::copyAtomically(status.cachedModel3DWrlPath, wrlFilePath, m_tempDir);
         if (wrlSuccess) {
@@ -473,8 +524,10 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
     }
 
     // STEP 文件保持服务器原始坐标系，避免破坏它与 WRL 模型原本一致的装配关系。
+    // 记录 STEP 模型写入结果。
     bool stepSuccess = false;
     if (!status.cachedModel3DStepPath.isEmpty()) {
+        // 构造缓存 STEP 模型的目标路径。
         QString stepFilePath = QString("%1/%2.step").arg(modelsDirPath, footprintName);
         stepSuccess = AtomicFileWriter::copyAtomically(status.cachedModel3DStepPath, stepFilePath, m_tempDir);
         if (stepSuccess) {
@@ -483,13 +536,16 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
             status.addDebugLog(QString("WARNING: Failed to copy STEP file from cache: %1").arg(stepFilePath));
         }
     } else if (!status.model3DStepRaw.isEmpty()) {
+        // 构造原始 STEP 模型的目标路径。
         QString stepFilePath = QString("%1/%2.step").arg(modelsDirPath, footprintName);
         stepSuccess = AtomicFileWriter::writeAtomically(
             m_tempDir, stepFilePath, ".step.tmp", [&status](const QString& tempPath) -> bool {
+                // 打开原子写入阶段使用的临时 STEP 文件。
                 QFile file(tempPath);
                 if (!file.open(QIODevice::WriteOnly)) {
                     return false;
                 }
+                // 记录实际写入的 STEP 字节数。
                 qint64 written = file.write(status.model3DStepRaw);
                 file.close();
                 return written == status.model3DStepRaw.size();
@@ -507,8 +563,13 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
     return status.model3DWritten;
 }
 
-/** @brief 确保指定输出目录存在。 */
+/**
+ * @brief 确保指定输出目录存在。
+ * @param path 待创建或检查的目录路径。
+ * @return 目录存在或创建成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::createOutputDirectory(const QString& path) {
+    // 使用目录对象检查并创建输出目录。
     QDir dir;
     if (!dir.exists(path)) {
         if (!dir.mkpath(path)) {
@@ -519,24 +580,37 @@ bool WriteWorker::createOutputDirectory(const QString& path) {
     return true;
 }
 
-/** @brief 将调试数据委托给独立的调试导出协作者。 */
+/**
+ * @brief 将调试数据委托给独立的调试导出协作者。
+ * @param status 当前元件的导出状态。
+ * @return 调试数据导出成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::exportDebugData(ComponentExportStatus& status) {
     return WriteWorkerDebugExporter(*this).exportData(status);
 }
 
-/** @brief 将预览图数据写入 images 目录。 */
+/**
+ * @brief 将预览图数据写入 images 目录。
+ * @param status 当前元件的导出状态。
+ * @return 所有非空预览图写入成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::writePreviewImageFile(ComponentExportStatus& status) {
+    // 定位当前导出的根目录。
     QDir outputDir(m_outputPath);
+    // 构造预览图输出目录路径。
     QString imagesDir = outputDir.filePath("images");
     if (!createOutputDirectory(imagesDir)) {
         status.addDebugLog(QString("ERROR: Failed to create images directory: %1").arg(imagesDir));
         return false;
     }
 
+    // 将元器件编号转换为安全文件名。
     QString safeName = status.componentId;
     safeName.replace(INVALID_FILENAME_CHARS, "_");
 
+    // 记录所有预览图是否均写入成功。
     bool allSuccess = true;
+    // 统计实际写入的预览图数量。
     int exportedCount = 0;
 
     for (int i = 0; i < status.previewImageDataList.size(); ++i) {
@@ -544,7 +618,9 @@ bool WriteWorker::writePreviewImageFile(ComponentExportStatus& status) {
             continue;
         }
 
+        // 构造当前预览图的文件名。
         QString filename = QString("%1_%2.jpg").arg(safeName).arg(i);
+        // 构造当前预览图的完整输出路径。
         QString filePath = QDir(imagesDir).filePath(filename);
 
         QFile file(filePath);
@@ -565,29 +641,39 @@ bool WriteWorker::writePreviewImageFile(ComponentExportStatus& status) {
     return allSuccess;
 }
 
-/** @brief 根据内容格式将数据手册写入 datasheets 目录。 */
+/**
+ * @brief 根据内容格式将数据手册写入 datasheets 目录。
+ * @param status 当前元件的导出状态。
+ * @return 数据手册写入成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::writeDatasheetFile(ComponentExportStatus& status) {
     if (status.datasheetData.isEmpty()) {
         return true;
     }
 
+    // 定位当前导出的根目录。
     QDir outputDir(m_outputPath);
+    // 构造数据手册输出目录路径。
     QString datasheetsDir = outputDir.filePath("datasheets");
     if (!createOutputDirectory(datasheetsDir)) {
         status.addDebugLog(QString("ERROR: Failed to create datasheets directory: %1").arg(datasheetsDir));
         return false;
     }
 
+    // 将元器件编号转换为安全文件名。
     QString safeName = status.componentId;
     safeName.replace(INVALID_FILENAME_CHARS, "_");
 
     // 根据数据内容判断格式
+    // 默认按 PDF 保存，检测到 HTML 时切换扩展名。
     QString extension = "pdf";
     if (status.datasheetData.startsWith("<!DOCTYPE html") || status.datasheetData.startsWith("<html")) {
         extension = "html";
     }
 
+    // 构造数据手册文件名。
     QString filename = QString("%1.%2").arg(safeName).arg(extension);
+    // 构造数据手册的完整输出路径。
     QString filePath = QDir(datasheetsDir).filePath(filename);
 
     QFile file(filePath);
@@ -603,7 +689,9 @@ bool WriteWorker::writeDatasheetFile(ComponentExportStatus& status) {
     return false;
 }
 
-/** @brief 设置取消标志并记录当前元件的取消请求。 */
+/**
+ * @brief 设置取消标志并记录当前元件的取消请求。
+ */
 void WriteWorker::abort() {
     m_isAborted.storeRelaxed(1);
     m_status->addDebugLog(QString("WriteWorker abort requested for component: %1").arg(m_status->componentId));

@@ -20,7 +20,10 @@ class ComponentCacheService;
  */
 class PreviewImageDownloadService final {
 public:
-    /** @brief 创建绑定到指定缓存服务的预览图下载器。 */
+    /**
+     * @brief 创建绑定到指定缓存服务的预览图下载器。
+     * @param owner 所属缓存服务，不由本对象管理其生命周期
+     */
     explicit PreviewImageDownloadService(ComponentCacheService& owner);
 
     /**
@@ -43,7 +46,9 @@ public:
                         uint64_t expectedGeneration);
 
 private:
-    /** @brief 保存缓存服务引用，不负责其生命周期。 */
+    /**
+     * @brief 保存缓存服务引用，不负责其生命周期。
+     */
     ComponentCacheService& m_owner;
 };
 

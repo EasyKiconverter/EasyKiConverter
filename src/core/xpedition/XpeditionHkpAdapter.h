@@ -14,7 +14,9 @@
 
 namespace EasyKiConverter {
 
-/** @brief Xpedition HKP 转换后的封装和顶层组件结果。 */
+/**
+ * @brief Xpedition HKP 转换后的封装和顶层组件结果。
+ */
 struct XpeditionHkpConversionResult {
     QList<IR::FootprintComponentIR> footprints;  ///< 转换后的封装列表。
     QList<IR::ComponentIR> components;  ///< 转换后的顶层组件列表。

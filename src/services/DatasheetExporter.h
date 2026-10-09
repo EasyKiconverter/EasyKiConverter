@@ -12,11 +12,29 @@ namespace EasyKiConverter {
 class DatasheetExporter : public QObject {
     Q_OBJECT
 public:
+    /**
+     * @brief 创建数据手册导出器。
+     * @param parent Qt 对象父级，可为空
+     */
     explicit DatasheetExporter(QObject* parent = nullptr);
+    /**
+     * @brief 销毁数据手册导出器。
+     */
     ~DatasheetExporter() override;
 
+    /**
+     * @brief 设置数据手册导出的运行选项。
+     * @param options 导出选项
+     */
     void setOptions(const ExportOptions& options);
 
+    /**
+     * @brief 下载并导出指定数据手册。
+     * @param datasheetUrl 数据手册地址
+     * @param outputPath 输出目录
+     * @param componentName 元器件名称
+     * @return 导出成功返回 true，否则返回 false
+     */
     bool exportDatasheet(const QString& datasheetUrl, const QString& outputPath, const QString& componentName);
 
 signals:
@@ -26,10 +44,15 @@ signals:
     void exportFailed(const QString& error);
 
 private:
+    /**
+     * @brief 创建数据手册输出目录。
+     * @param dirPath 目标目录路径
+     * @return 目录创建或已存在时返回 true，否则返回 false
+     */
     bool createDatasheetDirectory(const QString& dirPath);
 
 private:
-    ExportOptions m_options;
+    ExportOptions m_options;  ///< 当前数据手册导出选项。
 };
 
 }  // namespace EasyKiConverter

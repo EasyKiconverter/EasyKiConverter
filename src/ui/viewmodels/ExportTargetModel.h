@@ -24,28 +24,45 @@ public:
     explicit ExportTargetModel(QObject* parent = nullptr);
     ~ExportTargetModel() override = default;
 
-    /** @brief 获取当前选中索引 */
+    /**
+     * @brief 获取当前选中索引
+     */
     int currentIndex() const;
 
-    /** @brief 获取与当前可见目标对应的稳定目标枚举值。 */
+    /**
+     * @brief 获取与当前可见目标对应的稳定目标枚举值。
+     */
     int currentTargetFormat() const;
 
-    /** @brief 设置当前选中索引 */
+    /**
+     * @brief 设置当前选中索引。
+     * @param index 目标列表索引。
+     */
     void setCurrentIndex(int index);
 
-    /** @brief 获取当前目标 ID（如 "kicad", "altium"） */
+    /**
+     * @brief 获取当前目标 ID（如 "kicad", "altium"）
+     */
     QString currentTargetId() const;
 
-    /** @brief 获取当前目标显示名称 */
+    /**
+     * @brief 获取当前目标显示名称
+     */
     QString currentDisplayName() const;
 
-    /** @brief 获取当前目标图标资源名 */
+    /**
+     * @brief 获取当前目标图标资源名
+     */
     QString currentIcon() const;
 
-    /** @brief 获取当前目标对应的 QML 设置组件文件名 */
+    /**
+     * @brief 获取当前目标对应的 QML 设置组件文件名
+     */
     QString currentOptionsComponent() const;
 
-    /** @brief 获取所有可用目标列表（供 QML ComboBox model 使用） */
+    /**
+     * @brief 获取所有可用目标列表（供 QML ComboBox model 使用）
+     */
     QVariantList availableTargets() const;
 
     /**
@@ -55,10 +72,14 @@ public:
     void loadPlugins(const QString& configPath = ":/resources/export_plugins.json");
 
 signals:
-    /** @brief 当前目标变更 */
+    /**
+     * @brief 当前目标变更
+     */
     void currentTargetChanged();
 
-    /** @brief 可用目标列表变更 */
+    /**
+     * @brief 可用目标列表变更
+     */
     void availableTargetsChanged();
 
 private:
@@ -69,7 +90,9 @@ private:
      */
     static bool isUserVisibleTarget(const QString& targetId);
 
-    /** @brief 目标信息结构 */
+    /**
+     * @brief 目标信息结构
+     */
     struct TargetInfo {
         QString id;  ///< 目标标识符
         QString displayName;  ///< 显示名称

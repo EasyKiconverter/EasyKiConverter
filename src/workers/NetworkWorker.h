@@ -22,9 +22,15 @@ class NetworkWorker : public BaseWorker {
 public:
     enum class TaskType { FetchComponentInfo, FetchCadData, Fetch3DModelObj, Fetch3DModelMtl };
 
+    /**
+     * @brief 创建网络工作线程。
+     * @param componentId 元器件编号
+     * @param taskType 网络任务类型
+     * @param uuid 三维模型 UUID，可为空
+     * @param parent Qt 对象父级，可为空
+     */
     explicit NetworkWorker(const QString& componentId,
                            TaskType taskType,
-                           // 标识符。
                            const QString& uuid = QString(),
                            QObject* parent = nullptr);
 

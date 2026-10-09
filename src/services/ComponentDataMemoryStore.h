@@ -52,7 +52,9 @@ public:
      */
     bool updateDescription(const QString& normalizedId, const QString& description);
 
-    /** @brief 清空全部组件数据缓存。 */
+    /**
+     * @brief 清空全部组件数据缓存。
+     */
     void clear();
 
     /**

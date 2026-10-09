@@ -376,7 +376,7 @@ struct SymbolImageIR {
  */
 struct SymbolParameterIR {
     QString name;  ///< 参数名称
-    QString value;  ///< 参数值
+    QString value;  ///< 符号属性对应的文本值。
     bool visible = false;  ///< 是否在符号图面显示
     bool readOnly = false;  ///< 是否禁止在目标 EDA 中编辑
     QPointF position;  ///< 参数位置（mm）

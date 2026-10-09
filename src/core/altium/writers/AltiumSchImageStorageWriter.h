@@ -38,7 +38,9 @@ public:
     void write(OLECompoundWriter& ole, const QList<AltiumSchComponent>& components);
 
 private:
-    /** @brief 保存协作者所属的 SchLib 主写入器。 */
+    /**
+     * @brief 保存协作者所属的 SchLib 主写入器。
+     */
     AltiumSchLibWriter& m_owner;
 };
 

@@ -156,7 +156,9 @@ struct FootprintTextIR {
     bool isFabrication = false;  ///< 是否为装配层文本（替代 type == "N"）
     bool isLocked = false;  ///< 是否锁定文本编辑。
 
-    /** @brief 非 ASCII 文本的 SVG 路径点（已解析） */
+    /**
+     * @brief 非 ASCII 文本的 SVG 路径点（已解析）
+     */
     QList<QPointF> textPathPoints;  ///< 非 ASCII 文本的轮廓顶点，单位为毫米。
 };
 

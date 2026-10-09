@@ -17,7 +17,9 @@ namespace {
  * @return 对应的 host 白名单。
  */
 QSet<QString> allowedHostsForType(ResourceType type) {
-    /** @brief 按资源类型选择对应的 host 白名单。 */
+    /**
+     * @brief 按资源类型选择对应的 host 白名单。
+     */
     switch (type) {
         case ResourceType::ComponentInfo:
         case ResourceType::CadData:

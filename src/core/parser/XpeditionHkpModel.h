@@ -16,10 +16,14 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief Xpedition 焊盘的几何类型。 */
+/**
+ * @brief Xpedition 焊盘的几何类型。
+ */
 enum class XpeditionPadShape { Unknown, Round, Rectangle, Oblong, Square, Polygon };
 
-/** @brief Pad 定义，供 Padstack 引用。 */
+/**
+ * @brief Pad 定义，供 Padstack 引用。
+ */
 struct XpeditionPadDefinition {
     QString name;  ///< Pad 定义名称。
     XpeditionPadShape shape = XpeditionPadShape::Unknown;  ///< Pad 形状。
@@ -29,7 +33,9 @@ struct XpeditionPadDefinition {
     int line = 0;  ///< 定义所在源文件行号。
 };
 
-/** @brief 孔定义，供 Padstack 引用。 */
+/**
+ * @brief 孔定义，供 Padstack 引用。
+ */
 struct XpeditionHoleDefinition {
     QString name;  ///< 孔定义名称。
     XpeditionPadShape shape = XpeditionPadShape::Unknown;  ///< 孔形状。
@@ -38,7 +44,9 @@ struct XpeditionHoleDefinition {
     int line = 0;  ///< 定义所在源文件行号。
 };
 
-/** @brief Padstack 的层焊盘和孔关联。 */
+/**
+ * @brief Padstack 的层焊盘和孔关联。
+ */
 struct XpeditionPadstackDefinition {
     QString name;  ///< Padstack 名称。
     QString technology;  ///< 工艺类型。
@@ -52,7 +60,9 @@ struct XpeditionPadstackDefinition {
     int line = 0;  ///< 定义所在源文件行号。
 };
 
-/** @brief Cell 中的引脚实例。 */
+/**
+ * @brief Cell 中的引脚实例。
+ */
 struct XpeditionCellPin {
     QString number;  ///< 引脚编号。
     QPointF position;  ///< 引脚位置。
@@ -62,14 +72,18 @@ struct XpeditionCellPin {
     int line = 0;  ///< 定义所在源文件行号。
 };
 
-/** @brief Cell 中的矩形或折线轮廓。 */
+/**
+ * @brief Cell 中的矩形或折线轮廓。
+ */
 struct XpeditionCellOutline {
     QString layer;  ///< 轮廓所在层名称。
     QList<QPointF> points;  ///< 轮廓顶点。
     int line = 0;  ///< 定义所在源文件行号。
 };
 
-/** @brief Xpedition 封装 Cell。 */
+/**
+ * @brief Xpedition 封装 Cell。
+ */
 struct XpeditionCellDefinition {
     QString name;  ///< Cell 名称。
     QString packageGroup;  ///< 封装分组名称。
@@ -80,7 +94,9 @@ struct XpeditionCellDefinition {
     int line = 0;  ///< 定义所在源文件行号。
 };
 
-/** @brief PDB 器件与 Cell、符号的关联。 */
+/**
+ * @brief PDB 器件与 Cell、符号的关联。
+ */
 struct XpeditionPartDefinition {
     QString number;  ///< 器件编号。
     QString name;  ///< 器件名称。
@@ -107,13 +123,21 @@ struct XpeditionHkpModel {
     QList<XpeditionCellDefinition> cells;  ///< Cell 定义集合。
     QList<XpeditionPartDefinition> parts;  ///< 器件定义集合。
 
-    /** @brief 原始 Pad 名称到解析后候选名称的映射。 */
+    /**
+     * @brief 原始 Pad 名称到解析后候选名称的映射。
+     */
     QMap<QString, QStringList> padNameVariants;
-    /** @brief 原始孔名称到解析后候选名称的映射。 */
+    /**
+     * @brief 原始孔名称到解析后候选名称的映射。
+     */
     QMap<QString, QStringList> holeNameVariants;
-    /** @brief 原始 Padstack 名称到解析后候选名称的映射。 */
+    /**
+     * @brief 原始 Padstack 名称到解析后候选名称的映射。
+     */
     QMap<QString, QStringList> padstackNameVariants;
-    /** @brief 原始 Cell 名称到解析后候选名称的映射。 */
+    /**
+     * @brief 原始 Cell 名称到解析后候选名称的映射。
+     */
     QMap<QString, QStringList> cellNameVariants;
 
     /**

@@ -84,7 +84,9 @@ public:
     }
 
 private:
-    /** @brief 允许序列化协作者读取固定格式字段和当前文件状态。 */
+    /**
+     * @brief 允许序列化协作者读取固定格式字段和当前文件状态。
+     */
     friend class OLECompoundSerializer;
 
     /**
@@ -100,10 +102,14 @@ private:
     static constexpr uint32_t MINI_STREAM_CUTOFF = 4096;  ///< 使用 MiniStream 存储的最大流大小。
     static constexpr uint32_t DIR_ENTRY_SIZE = 128;  ///< OLE 目录条目的字节数。
 
-    /** @brief 目录条目对象类型 */
+    /**
+     * @brief 目录条目对象类型
+     */
     enum class ObjectType : uint8_t { Unknown = 0, Storage = 1, Stream = 2, Root = 5 };
 
-    /** @brief 目录条目结构（128 字节） */
+    /**
+     * @brief 目录条目结构（128 字节）
+     */
     struct DirectoryEntry {
         uint16_t name[32] = {0};  ///< UTF-16LE 名称（最大 31 字符 + null）
         uint16_t nameSize = 0;  ///< 名称字节数（含 null 终止符）

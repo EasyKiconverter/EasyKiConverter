@@ -25,7 +25,9 @@
 namespace EasyKiConverter {
 namespace {
 
-/** @brief Horizon 层编号与 IR 层语义分开维护，避免目标格式数值泄漏到统一 IR。 */
+/**
+ * @brief Horizon 层编号与 IR 层语义分开维护，避免目标格式数值泄漏到统一 IR。
+ */
 constexpr int kTopCopper = 0;  ///< 顶层铜层。
 constexpr int kInnerCopper1 = -1;  ///< 第一内层铜层。
 constexpr int kInnerCopper2 = -2;  ///< 第二内层铜层。

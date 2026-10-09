@@ -37,6 +37,7 @@ description: 审查并修复 EasyKiConverter C++ 注释、中文 Doxygen、变�
    ```bash
    .venv/bin/python tools/python/check_comment_rate.py \
        --threshold 100 --check-doxygen --check-variables --check-params \
+       --forbid-generic-comments \
        <涉及的 .cpp/.h 文件>
    .venv/bin/python tools/python/format_code.py --check --cpp --dirs src tests
    git diff --check

@@ -12,28 +12,41 @@ class TestPadsExporter final : public QObject {
     Q_OBJECT
 
 private slots:
-    /** @brief 验证基本 PADS Decal 文件包含图元、焊盘栈和通孔层记录。 */
+    /**
+     * @brief 验证基本 PADS Decal 文件包含图元、焊盘栈和通孔层记录。
+     */
     void writesAsciiDecal();
-    /** @brief 验证清洗后的封装名称冲突会阻止覆盖错误文件。 */
+    /**
+     * @brief 验证清洗后的封装名称冲突会阻止覆盖错误文件。
+     */
     void rejectsSanitizedNameCollision();
-    /** @brief 验证无法无损表达的形状和机械孔不会被静默丢失。 */
+    /**
+     * @brief 验证无法无损表达的形状和机械孔不会被静默丢失。
+     */
     void rejectsUnsupportedGeometry();
-    /** @brief 验证 PADS Schematic Decal 符号文件的引脚、图元和结束记录。 */
+    /**
+     * @brief 验证 PADS Schematic Decal 符号文件的引脚、图元和结束记录。
+     */
     void writesSchematicDecal();
-    /** @brief 验证 PADS 符号的追加和更新模式被明确拒绝。 */
+    /**
+     * @brief 验证 PADS 符号的追加和更新模式被明确拒绝。
+     */
     void rejectsSymbolMergeModes();
 };
 
 static IR::FootprintComponentIR makeFixture(const QString& name) {
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint;
     footprint.name = name;
 
+    // circle：测试用圆形图元。
     IR::FootprintCircleIR circle;
     circle.center = QPointF(0.0, 0.0);
     circle.radius = 2.0;
     circle.strokeWidth = 0.15;
     footprint.circles.append(circle);
 
+    // smd：测试用 SMD 焊盘。
     IR::FootprintPadIR smd;
     smd.number = QStringLiteral("1");
     smd.position = QPointF(-1.0, 0.0);
@@ -41,6 +54,7 @@ static IR::FootprintComponentIR makeFixture(const QString& name) {
     smd.size = QSizeF(1.0, 0.6);
     footprint.pads.append(smd);
 
+    // through：测试用通孔焊盘。
     IR::FootprintPadIR through;
     through.number = QStringLiteral("2");
     through.position = QPointF(1.0, 0.0);
@@ -53,17 +67,22 @@ static IR::FootprintComponentIR makeFixture(const QString& name) {
     return footprint;
 }
 
-/** 验证 PADS ASCII Decal 输出的基本结构和单位标识。 */
+/**
+ * @brief 验证 PADS ASCII Decal 输出的基本结构和单位标识。
+ */
 void TestPadsExporter::writesAsciiDecal() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
 
+    // exporter：负责生成测试输出的导出器实例。
     ExporterPadsFootprint exporter;
     QVERIFY(exporter.exportFootprintLibrary(
         {makeFixture(QStringLiteral("QFN 4"))}, QStringLiteral("qfn"), temporary.path()));
 
     QFile file(QDir(temporary.path()).filePath(QStringLiteral("QFN_4.d")));
     QVERIFY(file.open(QIODevice::ReadOnly));
+    // content：测试使用的文本或数据内容。
     const QString content = QString::fromUtf8(file.readAll()).replace(QStringLiteral("\r\n"), QStringLiteral("\n"));
     QVERIFY(content.startsWith(QStringLiteral("QFN_4 I 0 0")));
     QVERIFY(content.contains(QStringLiteral("TIMESTAMP ")));
@@ -73,42 +92,57 @@ void TestPadsExporter::writesAsciiDecal() {
     QVERIFY(content.contains(QStringLiteral("-0 ")));
 }
 
-/** 验证两个不同原名清洗为同一 Decal 名称时会失败并返回诊断。 */
+/**
+ * @brief 验证两个不同原名清洗为同一 Decal 名称时会失败并返回诊断。
+ */
 void TestPadsExporter::rejectsSanitizedNameCollision() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
 
+    // exporter：负责生成测试输出的导出器实例。
     ExporterPadsFootprint exporter;
+    // footprints：测试用封装数据。
     const QList<IR::FootprintComponentIR> footprints = {makeFixture(QStringLiteral("A B")),
                                                         makeFixture(QStringLiteral("A/B"))};
     QVERIFY(!exporter.exportFootprintLibrary(footprints, QStringLiteral("collision"), temporary.path()));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("冲突")));
 }
 
-/** 验证当前 PADS ASCII 后端拒绝无法无损表达的几何数据。 */
+/**
+ * @brief 验证当前 PADS ASCII 后端拒绝无法无损表达的几何数据。
+ */
 void TestPadsExporter::rejectsUnsupportedGeometry() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
 
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint = makeFixture(QStringLiteral("unsupported"));
     footprint.pads[0].shape = IR::PadShape::RoundRect;
     footprint.holes.append({QPointF(0.0, 0.0), 0.5, false});
 
+    // exporter：负责生成测试输出的导出器实例。
     ExporterPadsFootprint exporter;
     QVERIFY(!exporter.exportFootprintLibrary({footprint}, QStringLiteral("unsupported"), temporary.path()));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("机械孔")));
 }
 
-/** 验证符号库使用 PADS 规范头部并保留基本图元和引脚。 */
+/**
+ * @brief 验证符号库使用 PADS 规范头部并保留基本图元和引脚。
+ */
 void TestPadsExporter::writesSchematicDecal() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
 
+    // symbol：测试用符号数据。
     IR::SymbolComponentIR symbol;
     symbol.name = QStringLiteral("U_TEST");
     symbol.footprintName = QStringLiteral("QFN-24");
     symbol.partCount = 2;
 
+    // rectangle：测试用矩形图元。
     IR::SymbolRectangleIR rectangle;
     rectangle.x0 = -2.0;
     rectangle.y0 = -1.0;
@@ -117,6 +151,7 @@ void TestPadsExporter::writesSchematicDecal() {
     rectangle.strokeWidth = 0.1;
     symbol.rectangles.append(rectangle);
 
+    // pin：测试用引脚数据。
     IR::SymbolPinIR pin;
     pin.name = QStringLiteral("IN");
     pin.designator = QStringLiteral("1");
@@ -125,18 +160,22 @@ void TestPadsExporter::writesSchematicDecal() {
     pin.partIndex = 1;
     symbol.pins.append(pin);
 
+    // text：测试使用的文本或数据内容。
     IR::SymbolTextIR text;
     text.text = QStringLiteral("VALUE");
     text.position = QPointF(0.0, 2.0);
     text.fontSizeMm = 1.0;
     symbol.texts.append(text);
 
+    // exporter：负责生成测试输出的导出器实例。
     ExporterPadsSymbol exporter;
+    // path：测试使用的文件系统路径。
     const QString path = QDir(temporary.path()).filePath(QStringLiteral("library_PADS.c"));
     QVERIFY(exporter.exportSymbolLibrary({symbol}, QStringLiteral("library"), path, false, false));
 
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
+    // content：测试使用的文本或数据内容。
     const QString content = QString::fromUtf8(file.readAll()).replace(QStringLiteral("\r\n"), QStringLiteral("\n"));
     QVERIFY(content.startsWith(QStringLiteral("*PADS-LIBRARY-SCH-DECALS-V9*")));
     QVERIFY(content.contains(QStringLiteral("U_TEST 0 0")));
@@ -144,8 +183,10 @@ void TestPadsExporter::writesSchematicDecal() {
     QVERIFY(content.contains(QStringLiteral("CLOSED 5")));
     QVERIFY(content.contains(QStringLiteral("T -118.110236 0")));
     QVERIFY(content.endsWith(QStringLiteral("*END*\n")));
+    // companionFiles：测试使用的文件系统路径。
     const auto companionFiles = exporter.companionFiles();
     QVERIFY(companionFiles.contains(QStringLiteral("library_PADS.p")));
+    // partType：测试使用的元器件标识或名称。
     const QString partType = QString::fromUtf8(companionFiles.value(QStringLiteral("library_PADS.p")));
     QVERIFY(partType.startsWith(QStringLiteral("*PADS-LIBRARY-PART-TYPES-V9*")));
     QVERIFY(partType.contains(QStringLiteral("U_TEST QFN-24 I STD 0 2 0 0 0")));
@@ -153,15 +194,21 @@ void TestPadsExporter::writesSchematicDecal() {
     QVERIFY(partType.endsWith(QStringLiteral("*END*\n")));
 }
 
-/** 验证符号库不能把未经实现的追加或更新语义伪装成成功。 */
+/**
+ * @brief 验证符号库不能把未经实现的追加或更新语义伪装成成功。
+ */
 void TestPadsExporter::rejectsSymbolMergeModes() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // symbol：测试用符号数据。
     IR::SymbolComponentIR symbol;
     symbol.name = QStringLiteral("R_TEST");
     symbol.footprintName = QStringLiteral("R-0603");
 
+    // exporter：负责生成测试输出的导出器实例。
     ExporterPadsSymbol exporter;
+    // path：测试使用的文件系统路径。
     const QString path = QDir(temporary.path()).filePath(QStringLiteral("library_PADS.c"));
     QVERIFY(!exporter.exportSymbolLibrary({symbol}, QStringLiteral("library"), path, true, false));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("追加")));
