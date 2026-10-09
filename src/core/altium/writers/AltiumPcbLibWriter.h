@@ -74,8 +74,8 @@ private:
 
     // 广字符串管理
     int addWideString(const QString& text);
-    QStringList m_wideStrings;
-    QStringList m_diagnostics;
+    QStringList m_wideStrings;  ///< 当前库待写入的宽字符串列表。
+    QStringList m_diagnostics;  ///< 最近一次写入产生的非致命诊断列表。
 };
 
 }  // namespace EasyKiConverter
