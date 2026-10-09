@@ -15,7 +15,10 @@ class ComponentCacheService;
  */
 class DatasheetCacheFileStore final {
 public:
-    /** @brief 创建绑定到指定缓存服务的数据手册文件存储器。 */
+    /**
+     * @brief 创建绑定到指定缓存服务的数据手册文件存储器。
+     * @param owner 所属的组件缓存服务。
+     */
     explicit DatasheetCacheFileStore(ComponentCacheService& owner);
 
     /**
@@ -36,7 +39,7 @@ public:
     void save(const QString& componentId, const QByteArray& data, const QString& format, uint64_t expectedGeneration);
 
 private:
-    ComponentCacheService& m_owner;
+    ComponentCacheService& m_owner;  ///< 所属的组件缓存服务。
 };
 
 }  // namespace EasyKiConverter
