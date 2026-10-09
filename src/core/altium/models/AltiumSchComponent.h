@@ -20,18 +20,18 @@ struct AltiumSchPin {
     int locationX = 0;  ///< X 坐标（原始单位）
     int locationY = 0;  ///< Y 坐标（原始单位）
     int length = 100000;  ///< 引脚长度（原始单位，默认 10mil）
-    AltiumModels::PinElectricalType electricalType = AltiumModels::PinElectricalType::Passive;
-    AltiumModels::PinOrientation orientation = AltiumModels::PinOrientation::Right;
-    bool showName = true;
-    bool showDesignator = true;
-    bool isHidden = false;
+    AltiumModels::PinElectricalType electricalType = AltiumModels::PinElectricalType::Passive;  ///< 引脚电气类型。
+    AltiumModels::PinOrientation orientation = AltiumModels::PinOrientation::Right;  ///< 引脚延伸方向。
+    bool showName = true;  ///< 是否显示引脚名称。
+    bool showDesignator = true;  ///< 是否显示引脚编号。
+    bool isHidden = false;  ///< 是否隐藏引脚。
     uint32_t color = 0x000000;  ///< 颜色（0x00BBGGRR）
     uint8_t symbolInnerEdge = 0;  ///< 主体内侧装饰（0=None, 3=Clock）
     uint8_t symbolOuterEdge = 0;  ///< 引脚外侧装饰（1=Dot 等）
     uint8_t symbolInside = 0;  ///< 引脚内部装饰
     uint8_t symbolOutside = 0;  ///< 引脚外部装饰
-    int ownerPartId = 1;  ///< 所属部件（Altium 使用 1-based 编号）
-    int sourcePartIndex = 0;  ///< 来源部件索引（用于恢复源图元的局部顺序）
+    int ownerPartId = 1;  ///< 所属部件（Altium 使用 1-based 编号）。
+    int sourcePartIndex = 0;  ///< 来源部件索引（用于恢复源图元的局部顺序）。
 };
 
 /**
@@ -42,29 +42,29 @@ struct AltiumSchRectangle {
     int cornerX = 0, cornerY = 0;  ///< 右下角（原始单位）
     int lineWidth = 0;  ///< 线宽索引 (0-3)
     int lineStyle = 0;  ///< 线型（0 实线、1 虚线、2 点线）
-    uint32_t color = 0x000000;
+    uint32_t color = 0x000000;  ///< 轮廓颜色。
     uint32_t areaColor = 0xFFFFFF;  ///< 填充色
-    bool isSolid = true;
-    int ownerPartId = 1;
-    int sourceGraphicIndex = -1;
-    int sourcePartIndex = 0;
+    bool isSolid = true;  ///< 是否填充区域。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
  * @brief Altium 符号圆角矩形
  */
 struct AltiumSchRoundRectangle {
-    int locationX = 0, locationY = 0;
-    int cornerX = 0, cornerY = 0;
-    int cornerXRadius = 0, cornerYRadius = 0;
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    uint32_t areaColor = 0xFFFFFF;
-    bool isSolid = true;
-    int ownerPartId = 1;
-    int sourceGraphicIndex = -1;
-    int sourcePartIndex = 0;
+    int locationX = 0, locationY = 0;  ///< 左上角坐标（原始单位）。
+    int cornerX = 0, cornerY = 0;  ///< 右下角坐标（原始单位）。
+    int cornerXRadius = 0, cornerYRadius = 0;  ///< X/Y 方向圆角半径。
+    int lineWidth = 0;  ///< 轮廓线宽索引。
+    int lineStyle = 0;  ///< 轮廓线型。
+    uint32_t color = 0x000000;  ///< 轮廓颜色。
+    uint32_t areaColor = 0xFFFFFF;  ///< 填充颜色。
+    bool isSolid = true;  ///< 是否填充区域。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
@@ -73,10 +73,10 @@ struct AltiumSchRoundRectangle {
 struct AltiumSchLine {
     int locationX = 0, locationY = 0;  ///< 起点
     int cornerX = 0, cornerY = 0;  ///< 终点
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    int ownerPartId = 1;
+    int lineWidth = 0;  ///< 线宽索引。
+    int lineStyle = 0;  ///< 线型编码。
+    uint32_t color = 0x000000;  ///< 线段颜色。
+    int ownerPartId = 1;  ///< 所属部件编号。
 };
 
 /**
@@ -87,14 +87,14 @@ struct AltiumSchArc {
     int radius = 0;  ///< 半径（原始单位）
     double startAngle = 0.0;  ///< 起始角度
     double endAngle = 360.0;  ///< 结束角度
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    int ownerPartId = 1;
-    QString sourceGraphicType;
-    int sourceGraphicIndex = -1;
-    int sourceSegmentIndex = -1;
-    int sourcePartIndex = 0;
+    int lineWidth = 0;  ///< 弧线宽索引。
+    int lineStyle = 0;  ///< 弧线型编码。
+    uint32_t color = 0x000000;  ///< 弧线颜色。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    QString sourceGraphicType;  ///< 来源图元类型。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourceSegmentIndex = -1;  ///< 来源路径片段索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
@@ -102,66 +102,66 @@ struct AltiumSchArc {
  */
 struct AltiumSchPolygon {
     QList<QPointF> vertices;  ///< 顶点列表（Schematic Units）
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    uint32_t areaColor = 0xFFFFFF;
-    bool isSolid = true;
-    int ownerPartId = 1;
-    int sourceGraphicIndex = -1;
-    int sourcePartIndex = 0;
+    int lineWidth = 0;  ///< 轮廓线宽索引。
+    int lineStyle = 0;  ///< 轮廓线型。
+    uint32_t color = 0x000000;  ///< 轮廓颜色。
+    uint32_t areaColor = 0xFFFFFF;  ///< 填充颜色。
+    bool isSolid = true;  ///< 是否填充区域。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
  * @brief Altium 符号椭圆/圆
  */
 struct AltiumSchEllipse {
-    int centerX = 0, centerY = 0;
+    int centerX = 0, centerY = 0;  ///< 圆心坐标（原始单位）。
     int radiusX = 0, radiusY = 0;  ///< X/Y 半径（原始单位）
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    uint32_t areaColor = 0xFFFFFF;
-    bool isSolid = true;
-    int ownerPartId = 1;
-    QString sourceGraphicType;
-    int sourceGraphicIndex = -1;
-    int sourcePartIndex = 0;
+    int lineWidth = 0;  ///< 轮廓线宽索引。
+    int lineStyle = 0;  ///< 轮廓线型。
+    uint32_t color = 0x000000;  ///< 轮廓颜色。
+    uint32_t areaColor = 0xFFFFFF;  ///< 填充颜色。
+    bool isSolid = true;  ///< 是否填充区域。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    QString sourceGraphicType;  ///< 来源图元类型。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
  * @brief Altium 符号扇形
  */
 struct AltiumSchPie {
-    int centerX = 0, centerY = 0;
-    int radius = 0;
-    double startAngle = 0.0;
-    double endAngle = 360.0;
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    uint32_t areaColor = 0xFFFFFF;
-    bool isSolid = true;
-    int ownerPartId = 1;
+    int centerX = 0, centerY = 0;  ///< 圆心坐标（原始单位）。
+    int radius = 0;  ///< 半径（原始单位）。
+    double startAngle = 0.0;  ///< 起始角度。
+    double endAngle = 360.0;  ///< 结束角度。
+    int lineWidth = 0;  ///< 轮廓线宽索引。
+    int lineStyle = 0;  ///< 轮廓线型。
+    uint32_t color = 0x000000;  ///< 轮廓颜色。
+    uint32_t areaColor = 0xFFFFFF;  ///< 填充颜色。
+    bool isSolid = true;  ///< 是否填充区域。
+    int ownerPartId = 1;  ///< 所属部件编号。
 };
 
 /**
  * @brief Altium 符号椭圆弧
  */
 struct AltiumSchEllipticalArc {
-    int centerX = 0, centerY = 0;
-    int radiusX = 0, radiusY = 0;
-    double startAngle = 0.0;
-    double endAngle = 360.0;
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    uint32_t areaColor = 0xFFFFFF;
-    int ownerPartId = 1;
-    QString sourceGraphicType;
-    int sourceGraphicIndex = -1;
-    int sourceSegmentIndex = -1;
-    int sourcePartIndex = 0;
+    int centerX = 0, centerY = 0;  ///< 圆心坐标（原始单位）。
+    int radiusX = 0, radiusY = 0;  ///< X/Y 方向半径（原始单位）。
+    double startAngle = 0.0;  ///< 起始角度。
+    double endAngle = 360.0;  ///< 结束角度。
+    int lineWidth = 0;  ///< 轮廓线宽索引。
+    int lineStyle = 0;  ///< 轮廓线型。
+    uint32_t color = 0x000000;  ///< 轮廓颜色。
+    uint32_t areaColor = 0xFFFFFF;  ///< 填充颜色。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    QString sourceGraphicType;  ///< 来源图元类型。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourceSegmentIndex = -1;  ///< 来源路径片段索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
@@ -169,12 +169,12 @@ struct AltiumSchEllipticalArc {
  */
 struct AltiumSchPolyline {
     QList<QPointF> vertices;  ///< 顶点列表（Schematic Units）
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    int ownerPartId = 1;
-    int sourceGraphicIndex = -1;
-    int sourcePartIndex = 0;
+    int lineWidth = 0;  ///< 线宽索引。
+    int lineStyle = 0;  ///< 线型编码。
+    uint32_t color = 0x000000;  ///< 轮廓颜色。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
@@ -182,14 +182,14 @@ struct AltiumSchPolyline {
  */
 struct AltiumSchPath {
     QList<QPointF> vertices;  ///< 路径顶点（Schematic Units）
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    int ownerPartId = 1;
-    QString sourceGraphicType;
-    int sourceGraphicIndex = -1;
-    int sourceSegmentIndex = -1;
-    int sourcePartIndex = 0;
+    int lineWidth = 0;  ///< 线宽索引。
+    int lineStyle = 0;  ///< 线型编码。
+    uint32_t color = 0x000000;  ///< 轮廓颜色。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    QString sourceGraphicType;  ///< 来源图元类型。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourceSegmentIndex = -1;  ///< 来源路径片段索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
@@ -198,13 +198,13 @@ struct AltiumSchPath {
  */
 struct AltiumSchBezier {
     QList<QPointF> controlPoints;  ///< 起点、两个控制点和终点
-    int lineWidth = 0;
-    uint32_t color = 0x000000;
-    int ownerPartId = 1;
-    QString sourceGraphicType;
-    int sourceGraphicIndex = -1;
-    int sourceSegmentIndex = -1;
-    int sourcePartIndex = 0;
+    int lineWidth = 0;  ///< 曲线线宽索引。
+    uint32_t color = 0x000000;  ///< 曲线颜色。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    QString sourceGraphicType;  ///< 来源图元类型。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourceSegmentIndex = -1;  ///< 来源路径片段索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
@@ -214,12 +214,12 @@ struct AltiumSchBezier {
 struct AltiumSchIeee {
     int symbol = 0;  ///< TIeeeSymbol 编号
     int locationX = 0, locationY = 0;  ///< 锚点位置（原始单位）
-    int scaleFactor = 10;
-    int orientation = 0;
-    bool mirrored = false;
-    int lineWidth = 1;
-    uint32_t color = 0x000000;
-    int ownerPartId = 1;
+    int scaleFactor = 10;  ///< IEEE 图形缩放因子。
+    int orientation = 0;  ///< IEEE 图形方向编码。
+    bool mirrored = false;  ///< 是否镜像 IEEE 图形。
+    int lineWidth = 1;  ///< 图形线宽索引。
+    uint32_t color = 0x000000;  ///< 图形颜色。
+    int ownerPartId = 1;  ///< 所属部件编号。
 };
 
 /**
@@ -238,12 +238,12 @@ struct AltiumSchText {
     bool isDisplayed = true;  ///< 是否显示文本
     bool isHidden = false;  ///< 是否强制隐藏文本
     int orientation = 0;  ///< 0-3，表示 0°/90°/180°/270°
-    int ownerPartId = 1;
-    bool isPinLabel = false;
+    int ownerPartId = 1;  ///< 所属部件编号。
+    bool isPinLabel = false;  ///< 是否为引脚标签文本。
     bool isFallbackPinNumber = false;  ///< 是否需要跟随归一化后的引脚主体端
     int sourcePinIndex = -1;  ///< 来源引脚索引，用于同步归一化坐标
-    int sourceGraphicIndex = -1;
-    int sourcePartIndex = 0;
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
@@ -251,60 +251,60 @@ struct AltiumSchText {
  * @details index 指向来源图元类型在所属部件中的局部索引。
  */
 struct AltiumSchGraphicOrder {
-    QString type;
-    int index = -1;
-    int partIndex = 0;
+    QString type;  ///< 图元类型名称。
+    int index = -1;  ///< 图元在所属类型列表中的索引。
+    int partIndex = 0;  ///< 图元所属部件索引。
 };
 
 /**
  * @brief Altium 符号文本框
  */
 struct AltiumSchTextFrame {
-    int locationX = 0, locationY = 0;
-    int cornerX = 0, cornerY = 0;
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    uint32_t areaColor = 0x000000;
-    uint32_t textColor = 0x000000;
+    int locationX = 0, locationY = 0;  ///< 左上角坐标（原始单位）。
+    int cornerX = 0, cornerY = 0;  ///< 右下角坐标（原始单位）。
+    int lineWidth = 0;  ///< 边框线宽索引。
+    int lineStyle = 0;  ///< 边框线型编码。
+    uint32_t color = 0x000000;  ///< 边框颜色。
+    uint32_t areaColor = 0x000000;  ///< 背景填充颜色。
+    uint32_t textColor = 0x000000;  ///< 文本颜色。
     QString fontName;  ///< 字体族；为空时使用字体表默认字体
     double fontSizeMm = 0.0;  ///< 字体大小（mm，0 表示使用字体编号默认值）
     bool bold = false;  ///< 是否粗体
     bool italic = false;  ///< 是否斜体
-    int fontId = 0;
-    int orientation = 0;
-    int alignment = 0;
-    int textMargin = 0;
-    QString text;
-    bool isSolid = false;
-    bool showBorder = false;
-    bool wordWrap = false;
-    bool clipToRect = false;
-    bool transparent = false;
-    int ownerPartId = 1;
+    int fontId = 0;  ///< Altium 字体编号。
+    int orientation = 0;  ///< 文本方向编码。
+    int alignment = 0;  ///< 文本对齐方式编码。
+    int textMargin = 0;  ///< 文本边距（原始单位）。
+    QString text;  ///< 文本内容。
+    bool isSolid = false;  ///< 是否填充文本框。
+    bool showBorder = false;  ///< 是否显示边框。
+    bool wordWrap = false;  ///< 是否自动换行。
+    bool clipToRect = false;  ///< 是否裁剪到文本框范围。
+    bool transparent = false;  ///< 是否透明背景。
+    int ownerPartId = 1;  ///< 所属部件编号。
 };
 
 /**
  * @brief Altium 符号图片
  */
 struct AltiumSchImage {
-    int locationX = 0, locationY = 0;
-    int cornerX = 0, cornerY = 0;
-    double rotation = 0.0;
-    int lineWidth = 0;
-    int lineStyle = 0;
-    uint32_t color = 0x000000;
-    uint32_t areaColor = 0x000000;
-    QString fileName;
-    QByteArray data;
-    bool isSolid = false;
-    bool transparent = false;
-    bool showBorder = false;
-    bool keepAspect = true;
-    bool embedImage = false;
-    int ownerPartId = 1;
-    int sourceGraphicIndex = -1;
-    int sourcePartIndex = 0;
+    int locationX = 0, locationY = 0;  ///< 左上角坐标（原始单位）。
+    int cornerX = 0, cornerY = 0;  ///< 右下角坐标（原始单位）。
+    double rotation = 0.0;  ///< 图片旋转角度。
+    int lineWidth = 0;  ///< 边框线宽索引。
+    int lineStyle = 0;  ///< 边框线型编码。
+    uint32_t color = 0x000000;  ///< 边框颜色。
+    uint32_t areaColor = 0x000000;  ///< 背景颜色。
+    QString fileName;  ///< 图片文件名。
+    QByteArray data;  ///< 嵌入图片数据。
+    bool isSolid = false;  ///< 是否填充图片区域。
+    bool transparent = false;  ///< 是否使用透明背景。
+    bool showBorder = false;  ///< 是否显示图片边框。
+    bool keepAspect = true;  ///< 是否保持图片宽高比。
+    bool embedImage = false;  ///< 是否将图片数据嵌入库文件。
+    int ownerPartId = 1;  ///< 所属部件编号。
+    int sourceGraphicIndex = -1;  ///< 来源图元索引。
+    int sourcePartIndex = 0;  ///< 来源部件中的局部顺序索引。
 };
 
 /**
@@ -336,29 +336,29 @@ struct AltiumSchComponent {
     int partCount = 1;  ///< 部件数量
 
     /** @brief 符号参数（如制造商、料号、Datasheet 和来源元数据） */
-    QMap<QString, QString> sourceMetadata;
+    QMap<QString, QString> sourceMetadata;  ///< 来源元数据键值表。
     /** @brief 显式参数字段 */
-    QList<AltiumSchParameter> parameters;
+    QList<AltiumSchParameter> parameters;  ///< 显式参数字段列表。
     /** @brief 符号别名 */
-    QStringList aliases;
+    QStringList aliases;  ///< 符号别名列表。
 
-    QList<AltiumSchPin> pins;
-    QList<AltiumSchRectangle> rectangles;
-    QList<AltiumSchRoundRectangle> roundRectangles;
-    QList<AltiumSchLine> lines;
-    QList<AltiumSchArc> arcs;
-    QList<AltiumSchPolygon> polygons;
-    QList<AltiumSchEllipse> ellipses;
-    QList<AltiumSchPie> pies;
-    QList<AltiumSchEllipticalArc> ellipticalArcs;
-    QList<AltiumSchPolyline> polylines;
-    QList<AltiumSchPath> paths;
-    QList<AltiumSchBezier> beziers;
-    QList<AltiumSchIeee> ieeeSymbols;
-    QList<AltiumSchText> texts;
-    QList<AltiumSchTextFrame> textFrames;
-    QList<AltiumSchImage> images;
-    QList<AltiumSchGraphicOrder> graphicOrder;
+    QList<AltiumSchPin> pins;  ///< 符号引脚列表。
+    QList<AltiumSchRectangle> rectangles;  ///< 矩形图元列表。
+    QList<AltiumSchRoundRectangle> roundRectangles;  ///< 圆角矩形图元列表。
+    QList<AltiumSchLine> lines;  ///< 线段图元列表。
+    QList<AltiumSchArc> arcs;  ///< 圆弧图元列表。
+    QList<AltiumSchPolygon> polygons;  ///< 多边形图元列表。
+    QList<AltiumSchEllipse> ellipses;  ///< 椭圆图元列表。
+    QList<AltiumSchPie> pies;  ///< 扇形图元列表。
+    QList<AltiumSchEllipticalArc> ellipticalArcs;  ///< 椭圆弧图元列表。
+    QList<AltiumSchPolyline> polylines;  ///< 折线图元列表。
+    QList<AltiumSchPath> paths;  ///< 路径图元列表。
+    QList<AltiumSchBezier> beziers;  ///< 三次 Bézier 曲线列表。
+    QList<AltiumSchIeee> ieeeSymbols;  ///< IEEE 图形列表。
+    QList<AltiumSchText> texts;  ///< 文本图元列表。
+    QList<AltiumSchTextFrame> textFrames;  ///< 文本框图元列表。
+    QList<AltiumSchImage> images;  ///< 图片图元列表。
+    QList<AltiumSchGraphicOrder> graphicOrder;  ///< 原始图元绘制顺序。
 
     /** @brief 封装链接（实现记录） */
     struct Implementation {
@@ -370,7 +370,7 @@ struct AltiumSchComponent {
         QMap<QString, QString> pinMappings;  ///< 引脚映射
     };
 
-    QList<Implementation> implementations;
+    QList<Implementation> implementations;  ///< 封装等实现模型列表。
 };
 
 }  // namespace EasyKiConverter
