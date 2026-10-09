@@ -177,19 +177,35 @@ private:
      */
     QString getModelUrl(const QString& uuid, ModelFormat format) const;
 
+    /**
+     * @brief 同步下载指定格式的三维模型。
+     * @param uuid 模型 UUID。
+     * @param savePath 保存路径。
+     * @param format 模型格式。
+     * @param errorMessage 可选的错误信息输出指针。
+     * @return 下载成功时返回 true。
+     */
     bool downloadModelSync(const QString& uuid,
                            const QString& savePath,
                            ModelFormat format,
                            QString* errorMessage = nullptr);
 
+    /**
+     * @brief 同步下载指定格式的三维模型数据。
+     * @param uuid 模型 UUID。
+     * @param format 模型格式。
+     * @param data 输出模型数据。
+     * @param errorMessage 可选的错误信息输出指针。
+     * @return 下载成功时返回 true。
+     */
     bool downloadModelDataSync(const QString& uuid,
                                ModelFormat format,
                                QByteArray* data,
                                QString* errorMessage = nullptr);
 
 private:
-    QString m_currentUuid;
-    QString m_savePath;
+    QString m_currentUuid;  ///< 当前处理的三维模型 UUID。
+    QString m_savePath;  ///< 当前三维模型的本地保存路径。
 };
 
 }  // namespace EasyKiConverter

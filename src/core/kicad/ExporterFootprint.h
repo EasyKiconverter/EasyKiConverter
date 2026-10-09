@@ -98,6 +98,7 @@ private:
                                       QString& content,
                                       double& outOriginX,
                                       double& outOriginY,
+                                      // 库描述和关键词用于生成封装文件头部元数据。
                                       const QString& libraryDescription = QString(),
                                       const QString& libraryKeywords = QString()) const;
     // 基础版本：支持描述和关键词，内部委托到双路径重载
@@ -112,6 +113,12 @@ private:
                                      const QString& libraryDescription,
                                      const QString& libraryKeywords) const;
     // 兼容旧调用：无描述/关键词，内部委托到基础版本
+    /**
+     * @brief 生成不带额外库元数据的兼容封装内容。
+     * @param footprint 封装统一中间表示。
+     * @param model3DPath 可选的三维模型路径。
+     * @return 生成的 KiCad 封装文本。
+     */
     QString generateFootprintContent(const IR::FootprintComponentIR& footprint,
                                      const QString& model3DPath = QString()) const;
     QString generateFootprintContent(const IR::FootprintComponentIR& footprint,
@@ -119,7 +126,7 @@ private:
                                      const QString& model3DStepPath) const;
 
 private:
-    mutable FootprintGraphicsGenerator m_graphicsGenerator;
+    mutable FootprintGraphicsGenerator m_graphicsGenerator;  ///< 负责生成封装图形文本的辅助对象。
 };
 
 }  // namespace EasyKiConverter
