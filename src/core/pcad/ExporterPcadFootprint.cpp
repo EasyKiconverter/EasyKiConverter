@@ -11,26 +11,38 @@
 namespace EasyKiConverter {
 namespace {
 
-constexpr double kMillimetersPerMil = 0.0254;
+constexpr double kMillimetersPerMil = 0.0254;  ///< 毫米到 mil 的换算系数。
 
-// 按 P-CAD ASCII 的字符串规则转义并包裹字段。
+/**
+ * @brief 按 P-CAD ASCII 字符串规则转义并包裹字段。
+ * @param value 原始字段值。
+ * @return 转义后的带引号字段。
+ */
 QString quote(const QString& value) {
-    QString escaped = value;
+    QString escaped = value;  // 可修改的字段副本。
     escaped.replace(QChar('\\'), QStringLiteral("\\\\"));
     escaped.replace(QChar('"'), QStringLiteral("\\\""));
     return QStringLiteral("\"%1\"").arg(escaped);
 }
 
-// 将统一 IR 的毫米尺寸转换为 P-CAD 使用的 mil 文本。
+/**
+ * @brief 将统一 IR 的毫米尺寸转换为 P-CAD 使用的 mil 文本。
+ * @param value 毫米尺寸。
+ * @return mil 文本。
+ */
 QString number(double value) {
     return QString::number(value / kMillimetersPerMil, 'f', 6);
 }
 
-// 将名称清洗为 P-CAD 可接受的 ASCII 标识符。
+/**
+ * @brief 将名称清洗为 P-CAD 可接受的 ASCII 标识符。
+ * @param value 原始名称。
+ * @return 清洗后的名称。
+ */
 QString safeName(const QString& value) {
-    QString result;
-    for (const QChar character : value) {
-        const ushort code = character.unicode();
+    QString result;  // 清洗后的名称。
+    for (const QChar character : value) {  // 逐字符处理原始名称。
+        const ushort code = character.unicode();  // 当前字符编码。
         if ((code >= 'A' && code <= 'Z') || (code >= 'a' && code <= 'z') || (code >= '0' && code <= '9') ||
             character == QChar('_') || character == QChar('-'))
             result.append(character);
@@ -40,7 +52,11 @@ QString safeName(const QString& value) {
     return result.left(64);
 }
 
-// 检查字段是否可以安全写入当前 P-CAD ASCII 编码。
+/**
+ * @brief 检查字段是否可以安全写入当前 P-CAD ASCII 编码。
+ * @param value 待检查字段。
+ * @return 字段仅包含 ASCII 字符时返回 true。
+ */
 bool isAscii(const QString& value) {
     for (const unsigned char byte : value.toUtf8()) {
         if (byte >= 0x80)
@@ -49,7 +65,11 @@ bool isAscii(const QString& value) {
     return true;
 }
 
-// 将 IR 图层映射到 P-CAD 的默认层编号。
+/**
+ * @brief 将 IR 图层映射到 P-CAD 的默认层编号。
+ * @param layer IR 图层。
+ * @return P-CAD 层编号；无法表达时返回空值。
+ */
 std::optional<int> layerNumber(IR::LayerType layer) {
     // 这些编号来自 P-CAD ASCII 的默认层映射，而不是 KiCad 层编号。
     switch (layer) {
@@ -80,7 +100,12 @@ std::optional<int> layerNumber(IR::LayerType layer) {
     }
 }
 
-// 将 IR 焊盘形状映射为 P-CAD Pad Style 类型。
+/**
+ * @brief 将 IR 焊盘形状映射为 P-CAD Pad Style 类型。
+ * @param pad 待映射焊盘。
+ * @param diagnostics 诊断信息输出列表。
+ * @return P-CAD Pad Style 类型文本；无法表达时返回空字符串。
+ */
 QString padShape(const IR::FootprintPadIR& pad, QStringList& diagnostics) {
     // 仅接受 P-CAD Pad Style 能表达且不会改变制造语义的形状。
     switch (pad.shape) {
@@ -101,7 +126,12 @@ QString padShape(const IR::FootprintPadIR& pad, QStringList& diagnostics) {
     return {};
 }
 
-// 生成包含制造语义的稳定 Pad Style 去重键。
+/**
+ * @brief 生成包含制造语义的稳定 Pad Style 去重键。
+ * @param pad 焊盘定义。
+ * @param shape 已映射的焊盘形状。
+ * @return 稳定去重键。
+ */
 QString padKey(const IR::FootprintPadIR& pad, const QString& shape) {
     return QStringLiteral("%1|%2|%3|%4|%5|%6|%7")
         .arg(shape)
@@ -113,7 +143,13 @@ QString padKey(const IR::FootprintPadIR& pad, const QString& shape) {
         .arg(static_cast<int>(pad.layer));
 }
 
-// 写入一个 P-CAD Pad Style 的几何定义。
+/**
+ * @brief 写入一个 P-CAD Pad Style 的几何定义。
+ * @param stream P-CAD 文本流。
+ * @param pad 焊盘定义。
+ * @param shape P-CAD 形状文本。
+ * @param layer P-CAD 层编号。
+ */
 void writePadShape(QTextStream& stream, const IR::FootprintPadIR& pad, const QString& shape, int layer) {
     stream << "          (padShape\n"
            << "            (layerNumRef " << layer << ")\n"
@@ -123,7 +159,12 @@ void writePadShape(QTextStream& stream, const IR::FootprintPadIR& pad, const QSt
            << "          )\n";
 }
 
-// 在写入前检查封装字段和当前格式的表达能力。
+/**
+ * @brief 在写入前检查封装字段和当前格式的表达能力。
+ * @param footprint 封装组件 IR。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 封装可导出时返回 true。
+ */
 bool validateFootprint(const IR::FootprintComponentIR& footprint, QStringList& diagnostics) {
     if (safeName(footprint.name).isEmpty()) {
         diagnostics.append(QStringLiteral("P-CAD: 封装名称清洗后为空"));
@@ -172,16 +213,26 @@ bool validateFootprint(const IR::FootprintComponentIR& footprint, QStringList& d
     return true;
 }
 
-// 写入经过 P-CAD 坐标系变换后的连续点列表。
+/**
+ * @brief 写入经过 P-CAD 坐标系变换后的连续点列表。
+ * @param stream P-CAD 文本流。
+ * @param points 连续点列表。
+ */
 void writePoints(QTextStream& stream, const QList<QPointF>& points) {
     for (const QPointF& point : points)
         stream << " (pt " << number(point.x()) << ' ' << number(-point.y()) << ')';
 }
 
-// 将 IR 图元写入 Pattern 的 Layer Contents 节点。
+/**
+ * @brief 将 IR 图元写入 Pattern 的 Layer Contents 节点。
+ * @param stream P-CAD 文本流。
+ * @param footprint 封装组件 IR。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 写入成功时返回 true。
+ */
 bool writeGraphics(QTextStream& stream, const IR::FootprintComponentIR& footprint, QStringList& diagnostics) {
     const auto layerOf = [&diagnostics](IR::LayerType layer) -> std::optional<int> {
-        const std::optional<int> numberValue = layerNumber(layer);
+        const std::optional<int> numberValue = layerNumber(layer);  // P-CAD 图层编号。
         if (!numberValue.has_value())
             diagnostics.append(QStringLiteral("P-CAD: 图元使用无法映射的 IR 图层"));
         return numberValue;
@@ -190,7 +241,7 @@ bool writeGraphics(QTextStream& stream, const IR::FootprintComponentIR& footprin
     for (const IR::FootprintTrackIR& track : footprint.tracks) {
         if (track.points.size() < 2)
             continue;
-        const std::optional<int> layer = layerOf(track.layer);
+        const std::optional<int> layer = layerOf(track.layer);  // 走线目标图层。
         if (!layer.has_value())
             return false;
         stream << "      (layerContents (layerNumRef " << *layer << ')';
@@ -202,7 +253,7 @@ bool writeGraphics(QTextStream& stream, const IR::FootprintComponentIR& footprin
         stream << "\n      )\n";
     }
     for (const IR::FootprintCircleIR& circle : footprint.circles) {
-        const std::optional<int> layer = layerOf(circle.layer);
+        const std::optional<int> layer = layerOf(circle.layer);  // 圆形图元目标图层。
         if (!layer.has_value())
             return false;
         stream << "      (layerContents (layerNumRef " << *layer << ")\n        (circle";
@@ -211,12 +262,16 @@ bool writeGraphics(QTextStream& stream, const IR::FootprintComponentIR& footprin
                << "      )\n";
     }
     for (const IR::FootprintRectangleIR& rectangle : footprint.rectangles) {
-        const std::optional<int> layer = layerOf(rectangle.layer);
+        const std::optional<int> layer = layerOf(rectangle.layer);  // 矩形图元目标图层。
         if (!layer.has_value())
             return false;
-        const QRectF bounds = rectangle.bounds;
-        const QList<QPointF> corners = {
-            bounds.topLeft(), bounds.topRight(), bounds.bottomRight(), bounds.bottomLeft(), bounds.topLeft()};
+        const QRectF bounds = rectangle.bounds;  // 矩形边界。
+        const QList<QPointF> corners = {// 矩形闭合顶点。
+                                        bounds.topLeft(),
+                                        bounds.topRight(),
+                                        bounds.bottomRight(),
+                                        bounds.bottomLeft(),
+                                        bounds.topLeft()};
         stream << "      (layerContents (layerNumRef " << *layer << ')';
         for (int index = 0; index + 1 < corners.size(); ++index) {
             stream << "\n        (line";
@@ -228,7 +283,7 @@ bool writeGraphics(QTextStream& stream, const IR::FootprintComponentIR& footprin
     for (const IR::FootprintRegionIR& region : footprint.regions) {
         if (region.vertices.size() < 3)
             continue;
-        const std::optional<int> layer = layerOf(region.layer);
+        const std::optional<int> layer = layerOf(region.layer);  // 区域目标图层。
         if (!layer.has_value())
             return false;
         stream << "      (layerContents (layerNumRef " << *layer << ")\n        (pcbPoly";
@@ -238,7 +293,7 @@ bool writeGraphics(QTextStream& stream, const IR::FootprintComponentIR& footprin
     for (const IR::FootprintOutlineIR& outline : footprint.outlines) {
         if (outline.points.size() < 2)
             continue;
-        const std::optional<int> layer = layerOf(outline.layer);
+        const std::optional<int> layer = layerOf(outline.layer);  // 轮廓目标图层。
         if (!layer.has_value())
             return false;
         stream << "      (layerContents (layerNumRef " << *layer << ')';
@@ -252,7 +307,7 @@ bool writeGraphics(QTextStream& stream, const IR::FootprintComponentIR& footprin
     for (const IR::FootprintTextIR& text : footprint.texts) {
         if (!text.isDisplayed || text.text.isEmpty())
             continue;
-        const std::optional<int> layer = layerOf(text.layer);
+        const std::optional<int> layer = layerOf(text.layer);  // 文本目标图层。
         if (!layer.has_value())
             return false;
         stream << "      (layerContents (layerNumRef " << *layer << ")\n"
@@ -265,6 +320,14 @@ bool writeGraphics(QTextStream& stream, const IR::FootprintComponentIR& footprin
     return true;
 }
 
+/**
+ * @brief 将封装列表写入 P-CAD ASCII 库文件。
+ * @param footprints 封装列表。
+ * @param libName 库名称。
+ * @param path 输出文件路径。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 写入成功时返回 true。
+ */
 bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
                   const QString& libName,
                   const QString& path,
@@ -273,11 +336,11 @@ bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
         diagnostics.append(QStringLiteral("P-CAD: 没有可导出的封装"));
         return false;
     }
-    QSet<QString> names;
-    QHash<QString, QString> padStyles;
-    QList<const IR::FootprintPadIR*> stylePads;
+    QSet<QString> names;  // 已使用的封装名称。
+    QHash<QString, QString> padStyles;  // Pad Style 去重键到名称的映射。
+    QList<const IR::FootprintPadIR*> stylePads;  // 每种 Pad Style 的代表焊盘。
     for (const IR::FootprintComponentIR& footprint : footprints) {
-        const QString name = safeName(footprint.name);
+        const QString name = safeName(footprint.name);  // 当前封装名称。
         if (!validateFootprint(footprint, diagnostics))
             return false;
         if (names.contains(name)) {
@@ -286,10 +349,10 @@ bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
         }
         names.insert(name);
         for (const IR::FootprintPadIR& pad : footprint.pads) {
-            const QString shape = padShape(pad, diagnostics);
+            const QString shape = padShape(pad, diagnostics);  // 当前焊盘形状文本。
             if (shape.isEmpty())
                 return false;
-            const QString key = padKey(pad, shape);
+            const QString key = padKey(pad, shape);  // 当前焊盘去重键。
             if (!padStyles.contains(key)) {
                 padStyles.insert(key, QStringLiteral("EK_%1").arg(padStyles.size() + 1));
                 stylePads.append(&pad);
@@ -297,18 +360,18 @@ bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
         }
     }
 
-    QFile file(path);
+    QFile file(path);  // P-CAD 库输出文件。
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
         diagnostics.append(QStringLiteral("P-CAD: 无法写入文件：%1").arg(path));
         return false;
     }
-    QTextStream stream(&file);
+    QTextStream stream(&file);  // UTF-8 P-CAD 输出流。
     stream.setEncoding(QStringConverter::Utf8);
     stream << "(ACCEL_ASCII " << quote(libName.isEmpty() ? QStringLiteral("EasyKiConverter") : libName) << "\n"
            << "  (asciiHeader\n    (asciiVersion 4 0)\n    (fileUnits MM)\n  )\n"
            << "  (library\n";
     for (const IR::FootprintPadIR* pad : stylePads) {
-        const QString shape = padShape(*pad, diagnostics);
+        const QString shape = padShape(*pad, diagnostics);  // Pad Style 形状文本。
         stream << "    (padStyleDef " << quote(padStyles.value(padKey(*pad, shape))) << "\n"
                << "      (holeDiam " << number(pad->isThroughHole() ? pad->holeSize : 0.0) << ")\n"
                << "      (isHolePlated " << (pad->isPlated ? "True" : "False") << ")\n";
@@ -321,12 +384,12 @@ bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
         stream << "    )\n";
     }
     for (const IR::FootprintComponentIR& footprint : footprints) {
-        const QString name = safeName(footprint.name);
+        const QString name = safeName(footprint.name);  // 当前封装名称。
         stream << "    (patternDef " << quote(name) << "\n"
                << "      (originalName " << quote(name) << ")\n"
                << "      (multiLayer\n";
         for (const IR::FootprintPadIR& pad : footprint.pads) {
-            const QString shape = padShape(pad, diagnostics);
+            const QString shape = padShape(pad, diagnostics);  // 当前焊盘形状文本。
             stream << "        (pad (padNum " << quote(pad.number) << ") (padStyleRef "
                    << quote(padStyles.value(padKey(pad, shape))) << ") (pt " << number(pad.position.x()) << ' '
                    << number(-pad.position.y()) << ") (rotation " << QString::number(pad.rotation * 10.0, 'f', 3)
@@ -348,17 +411,29 @@ bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
 
 }  // namespace
 
-// 返回 P-CAD 封装库文件扩展名。
+/**
+ * @brief 返回 P-CAD 封装库文件扩展名。
+ * @return P-CAD 封装库扩展名。
+ */
 QString ExporterPcadFootprint::libraryFileExtension() const {
     return QStringLiteral(".lia");
 }
 
-// P-CAD ASCII 封装库使用单个文件而不是目录作为输出目标。
+/**
+ * @brief 判断 P-CAD 封装库是否使用目录输出。
+ * @return P-CAD 使用单文件输出，因此返回 false。
+ */
 bool ExporterPcadFootprint::isDirectoryOutput() const {
     return false;
 }
 
-// 导出单个封装并保留本次导出的诊断信息。
+/**
+ * @brief 导出单个封装并保留本次导出的诊断信息。
+ * @param footprint 封装组件 IR。
+ * @param filePath 输出文件路径。
+ * @param model3DPath 可选的 3D 模型路径。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterPcadFootprint::exportFootprint(const IR::FootprintComponentIR& footprint,
                                             const QString& filePath,
                                             const QString&) {
@@ -366,7 +441,19 @@ bool ExporterPcadFootprint::exportFootprint(const IR::FootprintComponentIR& foot
     return writeLibrary({footprint}, footprint.name, filePath, m_diagnostics);
 }
 
-// 导出多个封装并统一写入一个 P-CAD ASCII 库文件。
+/**
+ * @brief 导出多个封装并统一写入一个 P-CAD ASCII 库文件。
+ * @param footprints 封装列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @param appendMode 是否追加。
+ * @param updateMode 是否更新。
+ * @param libraryDescription 库描述。
+ * @param libraryKeywords 库关键词。
+ * @param useAbsolutePaths 是否使用绝对路径。
+ * @param model3DBaseDir 3D 模型基础目录。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterPcadFootprint::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                    const QString& libName,
                                                    const QString& filePath,
@@ -380,7 +467,10 @@ bool ExporterPcadFootprint::exportFootprintLibrary(const QList<IR::FootprintComp
     return writeLibrary(footprints, libName, filePath, m_diagnostics);
 }
 
-// 返回最近一次导出的格式限制、降级和错误诊断。
+/**
+ * @brief 返回最近一次导出的格式限制、降级和错误诊断。
+ * @return 诊断信息列表。
+ */
 QStringList ExporterPcadFootprint::diagnostics() const {
     return m_diagnostics;
 }

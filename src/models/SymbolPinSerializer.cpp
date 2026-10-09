@@ -8,8 +8,13 @@ namespace EasyKiConverter {
 
 // ==================== SymbolPinSettings ====================
 
+/**
+ * @brief 将引脚设置序列化为 JSON。
+ * @param settings 待序列化的引脚设置。
+ * @return 引脚设置 JSON 对象。
+ */
 QJsonObject SymbolPinSerializer::toJson(const SymbolPinSettings& settings) {
-    QJsonObject json;
+    QJsonObject json;  // 引脚设置 JSON 对象。
     json["is_displayed"] = settings.isDisplayed;
     json["type"] = static_cast<int>(settings.type);
     json["spice_pin_number"] = settings.spicePinNumber;
@@ -21,6 +26,12 @@ QJsonObject SymbolPinSerializer::toJson(const SymbolPinSettings& settings) {
     return json;
 }
 
+/**
+ * @brief 从 JSON 反序列化引脚设置。
+ * @param settings 接收结果的引脚设置。
+ * @param json 输入 JSON 对象。
+ * @return JSON 包含必需字段时返回 true。
+ */
 bool SymbolPinSerializer::fromJson(SymbolPinSettings& settings, const QJsonObject& json) {
     if (!json.contains("type") || !json.contains("spice_pin_number")) {
         return false;
@@ -38,13 +49,24 @@ bool SymbolPinSerializer::fromJson(SymbolPinSettings& settings, const QJsonObjec
 
 // ==================== SymbolPinDot ====================
 
+/**
+ * @brief 将引脚连接点序列化为 JSON。
+ * @param dot 待序列化的连接点。
+ * @return 连接点 JSON 对象。
+ */
 QJsonObject SymbolPinSerializer::toJson(const SymbolPinDot& dot) {
-    QJsonObject json;
+    QJsonObject json;  // 连接点 JSON 对象。
     json["dot_x"] = dot.dotX;
     json["dot_y"] = dot.dotY;
     return json;
 }
 
+/**
+ * @brief 从 JSON 反序列化引脚连接点。
+ * @param dot 接收结果的连接点。
+ * @param json 输入 JSON 对象。
+ * @return 反序列化成功时返回 true。
+ */
 bool SymbolPinSerializer::fromJson(SymbolPinDot& dot, const QJsonObject& json) {
     dot.dotX = json["dot_x"].toDouble(0.0);
     dot.dotY = json["dot_y"].toDouble(0.0);
@@ -53,13 +75,24 @@ bool SymbolPinSerializer::fromJson(SymbolPinDot& dot, const QJsonObject& json) {
 
 // ==================== SymbolPinPath ====================
 
+/**
+ * @brief 将引脚图形路径序列化为 JSON。
+ * @param path 待序列化的图形路径。
+ * @return 图形路径 JSON 对象。
+ */
 QJsonObject SymbolPinSerializer::toJson(const SymbolPinPath& path) {
-    QJsonObject json;
+    QJsonObject json;  // 图形路径 JSON 对象。
     json["path"] = path.path;
     json["color"] = path.color;
     return json;
 }
 
+/**
+ * @brief 从 JSON 反序列化引脚图形路径。
+ * @param path 接收结果的图形路径。
+ * @param json 输入 JSON 对象。
+ * @return JSON 包含路径字段时返回 true。
+ */
 bool SymbolPinSerializer::fromJson(SymbolPinPath& path, const QJsonObject& json) {
     if (!json.contains("path")) {
         return false;
@@ -71,8 +104,13 @@ bool SymbolPinSerializer::fromJson(SymbolPinPath& path, const QJsonObject& json)
 
 // ==================== SymbolPinName ====================
 
+/**
+ * @brief 将引脚名称文本序列化为 JSON。
+ * @param name 待序列化的引脚名称文本。
+ * @return 引脚名称 JSON 对象。
+ */
 QJsonObject SymbolPinSerializer::toJson(const SymbolPinName& name) {
-    QJsonObject json;
+    QJsonObject json;  // 引脚名称 JSON 对象。
     json["is_displayed"] = name.isDisplayed;
     json["pos_x"] = name.posX;
     json["pos_y"] = name.posY;
@@ -84,6 +122,12 @@ QJsonObject SymbolPinSerializer::toJson(const SymbolPinName& name) {
     return json;
 }
 
+/**
+ * @brief 从 JSON 反序列化引脚名称文本。
+ * @param name 接收结果的引脚名称文本。
+ * @param json 输入 JSON 对象。
+ * @return JSON 包含文本字段时返回 true。
+ */
 bool SymbolPinSerializer::fromJson(SymbolPinName& name, const QJsonObject& json) {
     if (!json.contains("text")) {
         return false;
@@ -101,14 +145,25 @@ bool SymbolPinSerializer::fromJson(SymbolPinName& name, const QJsonObject& json)
 
 // ==================== SymbolPinDotBis ====================
 
+/**
+ * @brief 将双向引脚连接点序列化为 JSON。
+ * @param dot 待序列化的双向连接点。
+ * @return 双向连接点 JSON 对象。
+ */
 QJsonObject SymbolPinSerializer::toJson(const SymbolPinDotBis& dot) {
-    QJsonObject json;
+    QJsonObject json;  // 双向连接点 JSON 对象。
     json["is_displayed"] = dot.isDisplayed;
     json["circle_x"] = dot.circleX;
     json["circle_y"] = dot.circleY;
     return json;
 }
 
+/**
+ * @brief 从 JSON 反序列化双向引脚连接点。
+ * @param dot 接收结果的双向连接点。
+ * @param json 输入 JSON 对象。
+ * @return 反序列化成功时返回 true。
+ */
 bool SymbolPinSerializer::fromJson(SymbolPinDotBis& dot, const QJsonObject& json) {
     dot.isDisplayed = json["is_displayed"].toBool(false);
     dot.circleX = json["circle_x"].toDouble(0.0);
@@ -118,13 +173,24 @@ bool SymbolPinSerializer::fromJson(SymbolPinDotBis& dot, const QJsonObject& json
 
 // ==================== SymbolPinClock ====================
 
+/**
+ * @brief 将时钟引脚标记序列化为 JSON。
+ * @param clock 待序列化的时钟标记。
+ * @return 时钟标记 JSON 对象。
+ */
 QJsonObject SymbolPinSerializer::toJson(const SymbolPinClock& clock) {
-    QJsonObject json;
+    QJsonObject json;  // 时钟标记 JSON 对象。
     json["is_displayed"] = clock.isDisplayed;
     json["path"] = clock.path;
     return json;
 }
 
+/**
+ * @brief 从 JSON 反序列化时钟引脚标记。
+ * @param clock 接收结果的时钟标记。
+ * @param json 输入 JSON 对象。
+ * @return 反序列化成功时返回 true。
+ */
 bool SymbolPinSerializer::fromJson(SymbolPinClock& clock, const QJsonObject& json) {
     clock.isDisplayed = json["is_displayed"].toBool(false);
     clock.path = json["path"].toString();
@@ -133,8 +199,13 @@ bool SymbolPinSerializer::fromJson(SymbolPinClock& clock, const QJsonObject& jso
 
 // ==================== SymbolPin ====================
 
+/**
+ * @brief 将完整引脚序列化为 JSON。
+ * @param pin 待序列化的引脚。
+ * @return 完整引脚 JSON 对象。
+ */
 QJsonObject SymbolPinSerializer::toJson(const SymbolPin& pin) {
-    QJsonObject json;
+    QJsonObject json;  // 完整引脚 JSON 对象。
     json["settings"] = toJson(pin.settings);
     json["pin_dot"] = toJson(pin.pinDot);
     json["pin_path"] = toJson(pin.pinPath);
@@ -145,6 +216,12 @@ QJsonObject SymbolPinSerializer::toJson(const SymbolPin& pin) {
     return json;
 }
 
+/**
+ * @brief 从 JSON 反序列化完整引脚。
+ * @param pin 接收结果的引脚。
+ * @param json 输入 JSON 对象。
+ * @return JSON 包含必需设置和名称字段时返回 true。
+ */
 bool SymbolPinSerializer::fromJson(SymbolPin& pin, const QJsonObject& json) {
     if (!json.contains("settings") || !json.contains("name")) {
         return false;

@@ -251,7 +251,13 @@ struct RequestProfiles {
         return profile;
     }
 
+    /**
+     * @brief 根据资源类型选择预定义请求配置。
+     * @param type 资源类型。
+     * @return 对应的请求配置；未知类型使用组件信息配置。
+     */
     static RequestProfile fromType(ResourceType type) {
+        /** @brief 分派资源类型到具体请求配置。 */
         // 将资源类型映射到对应的超时、并发和响应大小策略。
         switch (type) {
             case ResourceType::ComponentInfo:

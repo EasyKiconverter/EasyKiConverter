@@ -14,11 +14,15 @@
 namespace EasyKiConverter {
 namespace {
 
-/** 将用户名称清洗为 Eagle XML 可安全使用的库对象名称。 */
+/**
+ * @brief 将用户名称清洗为 Eagle XML 可安全使用的库对象名称。
+ * @param value 原始名称。
+ * @return 仅包含安全字符且长度受限的名称。
+ */
 QString safeName(const QString& value) {
-    QString result;
-    for (const QChar character : value) {
-        const ushort code = character.unicode();
+    QString result;  // 清洗后的名称。
+    for (const QChar character : value) {  // 逐字符检查原始名称。
+        const ushort code = character.unicode();  // 当前字符的 Unicode 编码。
         if ((code >= 'A' && code <= 'Z') || (code >= 'a' && code <= 'z') || (code >= '0' && code <= '9') ||
             character == QChar('_') || character == QChar('-'))
             result.append(character);
@@ -28,17 +32,30 @@ QString safeName(const QString& value) {
     return result.left(64);
 }
 
-/** 使用固定小数精度序列化 Eagle XML 数值。 */
+/**
+ * @brief 使用固定小数精度序列化 Eagle XML 数值。
+ * @param value 待序列化的数值。
+ * @return 六位小数文本。
+ */
 QString number(double value) {
     return QString::number(value, 'f', 6);
 }
 
-/** 将角度和镜像标志转换为 Eagle 旋转属性。 */
+/**
+ * @brief 将角度和镜像标志转换为 Eagle 旋转属性。
+ * @param value 旋转角度。
+ * @param mirror 是否镜像。
+ * @return Eagle 旋转属性文本。
+ */
 QString rotation(double value, bool mirror = false) {
     return QStringLiteral("%1%2").arg(mirror ? QStringLiteral("MR") : QStringLiteral("R"), number(value));
 }
 
-/** 将统一 IR 图层语义映射为 Eagle 图层编号。 */
+/**
+ * @brief 将统一 IR 图层语义映射为 Eagle 图层编号。
+ * @param layer 统一 IR 图层。
+ * @return Eagle 图层编号；无法表达时返回空值。
+ */
 std::optional<int> layerNumber(IR::LayerType layer) {
     // Eagle 的图层编号由目标格式固定定义，未知语义必须返回空值。
     switch (layer) {
@@ -71,7 +88,13 @@ std::optional<int> layerNumber(IR::LayerType layer) {
     }
 }
 
-/** 将统一 IR 圆弧转换为 Eagle XML 的带 curve 属性的 wire。 */
+/**
+ * @brief 将统一 IR 圆弧转换为 Eagle XML 的带 curve 属性的 wire。
+ * @param xml Eagle XML 写入器。
+ * @param arc 待转换的圆弧。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 转换成功时返回 true。
+ */
 bool writeArc(QXmlStreamWriter& xml, const IR::FootprintArcIR& arc, QStringList& diagnostics) {
     if (!std::isfinite(arc.center.x()) || !std::isfinite(arc.center.y()) || !std::isfinite(arc.radius) ||
         !std::isfinite(arc.startAngle) || !std::isfinite(arc.endAngle) || !std::isfinite(arc.width) ||
@@ -79,13 +102,13 @@ bool writeArc(QXmlStreamWriter& xml, const IR::FootprintArcIR& arc, QStringList&
         diagnostics.append(QStringLiteral("Eagle: 圆弧包含非法圆心、半径、角度或线宽"));
         return false;
     }
-    const auto layer = layerNumber(arc.layer);
+    const auto layer = layerNumber(arc.layer);  // Eagle 目标图层编号。
     if (!layer.has_value()) {
         diagnostics.append(QStringLiteral("Eagle: 圆弧使用无法映射的图层"));
         return false;
     }
 
-    double sweep = arc.endAngle - arc.startAngle;
+    double sweep = arc.endAngle - arc.startAngle;  // 圆弧扫过角度。
     while (sweep <= -360.0)
         sweep += 360.0;
     while (sweep > 360.0)
@@ -95,11 +118,12 @@ bool writeArc(QXmlStreamWriter& xml, const IR::FootprintArcIR& arc, QStringList&
         return false;
     }
 
-    const double startRadians = qDegreesToRadians(arc.startAngle);
-    const double endRadians = qDegreesToRadians(arc.startAngle + sweep);
-    const QPointF start =
+    const double startRadians = qDegreesToRadians(arc.startAngle);  // 起始角度（弧度）。
+    const double endRadians = qDegreesToRadians(arc.startAngle + sweep);  // 终止角度（弧度）。
+    const QPointF start =  // 圆弧起点。
         arc.center + QPointF(arc.radius * std::cos(startRadians), arc.radius * std::sin(startRadians));
-    const QPointF end = arc.center + QPointF(arc.radius * std::cos(endRadians), arc.radius * std::sin(endRadians));
+    const QPointF end =  // 圆弧终点。
+        arc.center + QPointF(arc.radius * std::cos(endRadians), arc.radius * std::sin(endRadians));
 
     xml.writeEmptyElement(QStringLiteral("wire"));
     xml.writeAttribute(QStringLiteral("x1"), number(start.x()));
@@ -112,9 +136,15 @@ bool writeArc(QXmlStreamWriter& xml, const IR::FootprintArcIR& arc, QStringList&
     return true;
 }
 
-/** 将统一封装 IR 写入 Eagle package，并拒绝无法无损表达的字段。 */
+/**
+ * @brief 将统一封装 IR 写入 Eagle package。
+ * @param xml Eagle XML 写入器。
+ * @param footprint 待转换的封装 IR。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 转换成功时返回 true。
+ */
 bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footprint, QStringList& diagnostics) {
-    const QString name = safeName(footprint.name);
+    const QString name = safeName(footprint.name);  // Eagle 安全封装名称。
     if (name.isEmpty()) {
         diagnostics.append(QStringLiteral("Eagle: 封装名称清洗后为空"));
         return false;
@@ -162,7 +192,7 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
     xml.writeStartElement(QStringLiteral("package"));
     xml.writeAttribute(QStringLiteral("name"), name);
     for (const IR::FootprintCircleIR& circle : footprint.circles) {
-        const auto layer = layerNumber(circle.layer);
+        const auto layer = layerNumber(circle.layer);  // 圆形图元目标图层。
         if (!layer.has_value()) {
             diagnostics.append(QStringLiteral("Eagle: 圆形图元使用无法映射的图层"));
             return false;
@@ -180,21 +210,21 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
             return false;
     }
     for (const IR::FootprintRectangleIR& rectangle : footprint.rectangles) {
-        const auto layer = layerNumber(rectangle.layer);
+        const auto layer = layerNumber(rectangle.layer);  // 矩形图元目标图层。
         if (!layer.has_value() || !std::isfinite(rectangle.rotation)) {
             diagnostics.append(QStringLiteral("Eagle: 矩形图元使用无法映射的图层"));
             return false;
         }
-        const QRectF bounds = rectangle.bounds;
-        const QPointF center = bounds.center();
-        const double radians = qDegreesToRadians(rectangle.rotation);
-        const double cosine = std::cos(radians);
-        const double sine = std::sin(radians);
+        const QRectF bounds = rectangle.bounds;  // 矩形原始边界。
+        const QPointF center = bounds.center();  // 矩形旋转中心。
+        const double radians = qDegreesToRadians(rectangle.rotation);  // 矩形旋转角（弧度）。
+        const double cosine = std::cos(radians);  // 旋转角余弦。
+        const double sine = std::sin(radians);  // 旋转角正弦。
         const auto rotate = [center, cosine, sine](const QPointF& point) {
-            const QPointF offset = point - center;
+            const QPointF offset = point - center;  // 顶点相对旋转中心的偏移。
             return center + QPointF(offset.x() * cosine - offset.y() * sine, offset.x() * sine + offset.y() * cosine);
         };
-        const QList<QPointF> corners = {rotate(bounds.topLeft()),
+        const QList<QPointF> corners = {rotate(bounds.topLeft()),  // 旋转后的闭合矩形顶点。
                                         rotate(bounds.topRight()),
                                         rotate(bounds.bottomRight()),
                                         rotate(bounds.bottomLeft()),
@@ -217,10 +247,10 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
             diagnostics.append(QStringLiteral("Eagle: 走线至少需要两个点，不能静默丢弃"));
             return false;
         }
-        const int layer = *layerNumber(track.layer);
+        const int layer = *layerNumber(track.layer);  // 走线目标图层编号。
         for (int index = 0; index < track.points.size() - 1; ++index) {
-            const QPointF& first = track.points.at(index);
-            const QPointF& second = track.points.at(index + 1);
+            const QPointF& first = track.points.at(index);  // 当前线段起点。
+            const QPointF& second = track.points.at(index + 1);  // 当前线段终点。
             xml.writeStartElement(QStringLiteral("wire"));
             xml.writeAttribute(QStringLiteral("x1"), number(first.x()));
             xml.writeAttribute(QStringLiteral("y1"), number(first.y()));
@@ -238,14 +268,14 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
             diagnostics.append(QStringLiteral("Eagle: 区域至少需要三个顶点，不能静默丢弃"));
             return false;
         }
-        const auto layer = layerNumber(region.layer);
+        const auto layer = layerNumber(region.layer);  // 区域目标图层编号。
         if (!layer.has_value()) {
             diagnostics.append(QStringLiteral("Eagle: 区域使用无法映射的图层"));
             return false;
         }
         for (int index = 0; index < region.vertices.size(); ++index) {
-            const QPointF& first = region.vertices.at(index);
-            const QPointF& second = region.vertices.at((index + 1) % region.vertices.size());
+            const QPointF& first = region.vertices.at(index);  // 当前区域边起点。
+            const QPointF& second = region.vertices.at((index + 1) % region.vertices.size());  // 当前区域边终点。
             xml.writeStartElement(QStringLiteral("wire"));
             xml.writeAttribute(QStringLiteral("x1"), number(first.x()));
             xml.writeAttribute(QStringLiteral("y1"), number(first.y()));
@@ -259,7 +289,7 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
     for (const IR::FootprintTextIR& text : footprint.texts) {
         if (!text.isDisplayed || text.text.isEmpty())
             continue;
-        const auto layer = layerNumber(text.layer);
+        const auto layer = layerNumber(text.layer);  // 文本目标图层编号。
         if (!layer.has_value()) {
             diagnostics.append(QStringLiteral("Eagle: 文本使用无法映射的图层"));
             return false;
@@ -309,7 +339,10 @@ bool writePackage(QXmlStreamWriter& xml, const IR::FootprintComponentIR& footpri
     return !xml.hasError();
 }
 
-// 写入 Eagle XML 中所有本导出器会使用的标准图层定义。
+/**
+ * @brief 写入 Eagle XML 中本导出器使用的标准图层定义。
+ * @param xml Eagle XML 写入器。
+ */
 void writeLayerTable(QXmlStreamWriter& xml) {
     xml.writeStartElement(QStringLiteral("layers"));
     const QList<QPair<int, QString>> layers = {{1, "Top"},
@@ -339,7 +372,11 @@ void writeLayerTable(QXmlStreamWriter& xml) {
     xml.writeEndElement();
 }
 
-/** 将统一 IR 的符号方向转换为 Eagle pin 的旋转文本。 */
+/**
+ * @brief 将统一 IR 的符号方向转换为 Eagle pin 的旋转文本。
+ * @param direction 统一 IR 引脚方向。
+ * @return Eagle 引脚旋转属性。
+ */
 QString symbolPinRotation(IR::PinDirection direction) {
     // Eagle 使用角度字符串表示引脚朝向，统一 IR 的右向作为默认方向。
     switch (direction) {
@@ -355,34 +392,42 @@ QString symbolPinRotation(IR::PinDirection direction) {
     }
 }
 
-/** 将三点圆弧转换为 Eagle Symbol wire 所需的端点和扫掠角。 */
+/**
+ * @brief 将三点圆弧转换为 Eagle Symbol wire 所需的端点和扫掠角。
+ * @param xml Eagle XML 写入器。
+ * @param arc 待转换的符号圆弧。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 转换成功时返回 true。
+ */
 bool writeSymbolArc(QXmlStreamWriter& xml, const IR::SymbolArcIR& arc, QStringList& diagnostics) {
     if (arc.isFilled || arc.strokeStyle != IR::StrokeStyle::Solid) {
         diagnostics.append(QStringLiteral("Eagle: 符号圆弧的填充或非实线样式无法由 XML wire 无损表达"));
         return false;
     }
-    const QPointF& start = arc.startPoint;
-    const QPointF& middle = arc.midPoint;
-    const QPointF& end = arc.endPoint;
+    const QPointF& start = arc.startPoint;  // 圆弧起点。
+    const QPointF& middle = arc.midPoint;  // 圆弧中间点。
+    const QPointF& end = arc.endPoint;  // 圆弧终点。
+    // 使用三点坐标计算圆拟合的行列式。
     const double determinant = 2.0 * (start.x() * (middle.y() - end.y()) + middle.x() * (end.y() - start.y()) +
-                                      end.x() * (start.y() - middle.y()));
+                                      end.x() * (start.y() - middle.y()));  // 三点拟合圆的行列式。
     if (!std::isfinite(determinant) || qFuzzyIsNull(determinant) || !std::isfinite(arc.strokeWidth) ||
         arc.strokeWidth < 0.0) {
         diagnostics.append(QStringLiteral("Eagle: 符号圆弧三点共线或包含非法线宽"));
         return false;
     }
 
-    const double startSquare = QPointF::dotProduct(start, start);
-    const double middleSquare = QPointF::dotProduct(middle, middle);
-    const double endSquare = QPointF::dotProduct(end, end);
-    const QPointF center((startSquare * (middle.y() - end.y()) + middleSquare * (end.y() - start.y()) +
-                          endSquare * (start.y() - middle.y())) /
-                             determinant,
-                         (startSquare * (end.x() - middle.x()) + middleSquare * (start.x() - end.x()) +
-                          endSquare * (middle.x() - start.x())) /
-                             determinant);
-    const double radius = QLineF(center, start).length();
-    const double middleRadius = QLineF(center, middle).length();
+    const double startSquare = QPointF::dotProduct(start, start);  // 起点坐标平方和。
+    const double middleSquare = QPointF::dotProduct(middle, middle);  // 中点坐标平方和。
+    const double endSquare = QPointF::dotProduct(end, end);  // 终点坐标平方和。
+    const QPointF center(  // 三点拟合得到的圆心。
+        (startSquare * (middle.y() - end.y()) + middleSquare * (end.y() - start.y()) +
+         endSquare * (start.y() - middle.y())) /
+            determinant,
+        (startSquare * (end.x() - middle.x()) + middleSquare * (start.x() - end.x()) +
+         endSquare * (middle.x() - start.x())) /
+            determinant);
+    const double radius = QLineF(center, start).length();  // 圆心到起点的半径。
+    const double middleRadius = QLineF(center, middle).length();  // 圆心到中点的半径。
     if (!std::isfinite(radius) || !std::isfinite(middleRadius) || radius <= 0.0 ||
         qAbs(radius - middleRadius) > qMax(1e-6, radius * 1e-6)) {
         diagnostics.append(QStringLiteral("Eagle: 符号圆弧三点无法构成有效圆"));
@@ -392,14 +437,14 @@ bool writeSymbolArc(QXmlStreamWriter& xml, const IR::SymbolArcIR& arc, QStringLi
     const auto angle = [&center](const QPointF& point) {
         return qRadiansToDegrees(std::atan2(point.y() - center.y(), point.x() - center.x()));
     };
-    const double startAngle = angle(start);
-    const double middleAngle = angle(middle);
-    const double endAngle = angle(end);
-    double counterClockwise = std::fmod(endAngle - startAngle + 360.0, 360.0);
+    const double startAngle = angle(start);  // 起点极角。
+    const double middleAngle = angle(middle);  // 中点极角。
+    const double endAngle = angle(end);  // 终点极角。
+    double counterClockwise = std::fmod(endAngle - startAngle + 360.0, 360.0);  // 逆时针扫掠角。
     if (qFuzzyIsNull(counterClockwise))
         counterClockwise = 360.0;
-    const double middleSweep = std::fmod(middleAngle - startAngle + 360.0, 360.0);
-    const double sweep = middleSweep <= counterClockwise ? counterClockwise : counterClockwise - 360.0;
+    const double middleSweep = std::fmod(middleAngle - startAngle + 360.0, 360.0);  // 中点扫掠角。
+    const double sweep = middleSweep <= counterClockwise ? counterClockwise : counterClockwise - 360.0;  // 最终扫掠角。
 
     xml.writeEmptyElement(QStringLiteral("wire"));
     xml.writeAttribute(QStringLiteral("x1"), number(start.x()));
@@ -412,7 +457,15 @@ bool writeSymbolArc(QXmlStreamWriter& xml, const IR::SymbolArcIR& arc, QStringLi
     return true;
 }
 
-// 写入 Eagle symbol 的可直接表达图元，并拒绝无法无损转换的曲线。
+/**
+ * @brief 写入 Eagle symbol 的可直接表达图元。
+ * @param xml Eagle XML 写入器。
+ * @param symbol 待转换的符号 IR。
+ * @param partIndex 当前部件索引。
+ * @param symbolName Eagle 符号名称。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 转换成功时返回 true。
+ */
 bool writeSymbol(QXmlStreamWriter& xml,
                  const IR::SymbolComponentIR& symbol,
                  int partIndex,
@@ -481,7 +534,7 @@ bool writeSymbol(QXmlStreamWriter& xml,
             diagnostics.append(QStringLiteral("Eagle: 符号多边形的填充或非实线样式无法由 XML wire 无损表达"));
             return false;
         }
-        QList<QPointF> closed = polygon.points;
+        QList<QPointF> closed = polygon.points;  // 闭合后的多边形顶点。
         closed.append(polygon.points.first());
         writePointList(closed, polygon.strokeWidth);
     }
@@ -534,15 +587,22 @@ bool writeSymbol(QXmlStreamWriter& xml,
     return !xml.hasError();
 }
 
-// 写入包含符号、封装和引脚映射的 Eagle 完整 XML 库。
+/**
+ * @brief 写入包含符号、封装和引脚映射的 Eagle 完整 XML 库。
+ * @param xml Eagle XML 写入器。
+ * @param components 待转换的组件列表。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 转换成功时返回 true。
+ */
 bool writeComponentLibrary(QXmlStreamWriter& xml, const QList<IR::ComponentIR>& components, QStringList& diagnostics) {
-    QSet<QString> symbolNames;
-    QSet<QString> packageNames;
-    QSet<QString> deviceNames;
+    QSet<QString> symbolNames;  // 已使用的符号名称。
+    QSet<QString> packageNames;  // 已使用的封装名称。
+    QSet<QString> deviceNames;  // 已使用的器件名称。
     for (const IR::ComponentIR& component : components) {
-        const QString baseSymbolName = safeName(component.symbol.name);
-        const QString packageName = safeName(component.footprint.name);
-        const QString deviceName = safeName(component.name.isEmpty() ? component.symbol.name : component.name);
+        const QString baseSymbolName = safeName(component.symbol.name);  // 基础符号名称。
+        const QString packageName = safeName(component.footprint.name);  // 封装名称。
+        const QString deviceName =
+            safeName(component.name.isEmpty() ? component.symbol.name : component.name);  // 器件名称。
         if (baseSymbolName.isEmpty() || packageName.isEmpty() || deviceName.isEmpty() ||
             packageNames.contains(packageName) || deviceNames.contains(deviceName)) {
             diagnostics.append(QStringLiteral("Eagle: 符号或封装名称为空或清洗后冲突：%1").arg(component.name));
@@ -583,7 +643,8 @@ bool writeComponentLibrary(QXmlStreamWriter& xml, const QList<IR::ComponentIR>& 
 
     xml.writeStartElement(QStringLiteral("devicesets"));
     for (const IR::ComponentIR& component : components) {
-        const QString deviceName = safeName(component.name.isEmpty() ? component.symbol.name : component.name);
+        const QString deviceName =
+            safeName(component.name.isEmpty() ? component.symbol.name : component.name);  // 器件名称。
         xml.writeStartElement(QStringLiteral("deviceset"));
         xml.writeAttribute(QStringLiteral("name"), deviceName);
         xml.writeAttribute(
@@ -591,8 +652,8 @@ bool writeComponentLibrary(QXmlStreamWriter& xml, const QList<IR::ComponentIR>& 
             component.symbol.designatorPrefix.isEmpty() ? QStringLiteral("U") : component.symbol.designatorPrefix);
         xml.writeStartElement(QStringLiteral("gates"));
         for (int partIndex = 0; partIndex < component.symbol.partCount; ++partIndex) {
-            const QString gateName = QStringLiteral("G$%1").arg(partIndex + 1);
-            const QString symbolName =
+            const QString gateName = QStringLiteral("G$%1").arg(partIndex + 1);  // 当前门名称。
+            const QString symbolName =  // 当前门引用的符号名称。
                 partIndex == 0 ? safeName(component.symbol.name)
                                : safeName(component.symbol.name) + QStringLiteral("_P%1").arg(partIndex + 1);
             xml.writeEmptyElement(QStringLiteral("gate"));
@@ -608,11 +669,11 @@ bool writeComponentLibrary(QXmlStreamWriter& xml, const QList<IR::ComponentIR>& 
         xml.writeAttribute(QStringLiteral("package"), safeName(component.footprint.name));
         xml.writeStartElement(QStringLiteral("connects"));
         for (int partIndex = 0; partIndex < component.symbol.partCount; ++partIndex) {
-            const QString gateName = QStringLiteral("G$%1").arg(partIndex + 1);
+            const QString gateName = QStringLiteral("G$%1").arg(partIndex + 1);  // 当前门名称。
             for (const IR::SymbolPinIR& pin : component.symbol.pins) {
                 if (pin.partIndex != partIndex && !pin.commonToAllParts)
                     continue;
-                bool padExists = false;
+                bool padExists = false;  // 是否找到对应封装焊盘。
                 for (const IR::FootprintPadIR& pad : component.footprint.pads) {
                     if (pad.number == pin.designator) {
                         padExists = true;
@@ -644,6 +705,14 @@ bool writeComponentLibrary(QXmlStreamWriter& xml, const QList<IR::ComponentIR>& 
     return !xml.hasError();
 }
 
+/**
+ * @brief 将封装列表写入 Eagle XML 库文件。
+ * @param footprints 封装列表。
+ * @param filePath 输出文件路径。
+ * @param description 库描述。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 写入成功时返回 true。
+ */
 bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
                   const QString& filePath,
                   const QString& description,
@@ -683,16 +752,29 @@ bool writeLibrary(const QList<IR::FootprintComponentIR>& footprints,
 
 }  // namespace
 
-/** 返回 Eagle XML 组合库的文件扩展名。 */
+/**
+ * @brief 返回 Eagle XML 组合库的文件扩展名。
+ * @return Eagle 库文件扩展名。
+ */
 QString ExporterEagleFootprint::libraryFileExtension() const {
     return QStringLiteral(".lbr");
 }
 
-/** Eagle XML 组合库使用单文件输出，而不是目录输出。 */
+/**
+ * @brief 判断 Eagle XML 是否使用目录输出。
+ * @return Eagle XML 使用单文件输出，因此返回 false。
+ */
 bool ExporterEagleFootprint::isDirectoryOutput() const {
     return false;
 }
 
+/**
+ * @brief 导出单个 Eagle 封装。
+ * @param footprint 封装组件 IR。
+ * @param filePath 输出文件路径。
+ * @param model3DPath 可选的 3D 模型路径。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterEagleFootprint::exportFootprint(const IR::FootprintComponentIR& footprint,
                                              const QString& filePath,
                                              const QString&) {
@@ -700,6 +782,19 @@ bool ExporterEagleFootprint::exportFootprint(const IR::FootprintComponentIR& foo
     return writeLibrary({footprint}, filePath, footprint.description, m_diagnostics);
 }
 
+/**
+ * @brief 导出 Eagle 封装库。
+ * @param footprints 封装列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @param preferWrl 是否优先使用 WRL 模型。
+ * @param exportStep 是否导出 STEP 模型引用。
+ * @param libraryDescription 库描述。
+ * @param libraryKeywords 库关键词。
+ * @param useAbsolutePaths 是否使用绝对路径。
+ * @param model3DBaseDir 3D 模型基础目录。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterEagleFootprint::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                     const QString&,
                                                     const QString& filePath,
@@ -714,9 +809,9 @@ bool ExporterEagleFootprint::exportFootprintLibrary(const QList<IR::FootprintCom
         m_diagnostics.append(QStringLiteral("Eagle: 没有可导出的封装"));
         return false;
     }
-    QSet<QString> names;
+    QSet<QString> names;  // 已使用的封装名称。
     for (const auto& footprint : footprints) {
-        const QString name = safeName(footprint.name);
+        const QString name = safeName(footprint.name);  // 当前安全封装名称。
         if (name.isEmpty() || names.contains(name)) {
             m_diagnostics.append(QStringLiteral("Eagle: 封装名称清洗后冲突或为空：%1").arg(footprint.name));
             return false;
@@ -726,6 +821,13 @@ bool ExporterEagleFootprint::exportFootprintLibrary(const QList<IR::FootprintCom
     return writeLibrary(footprints, filePath, libraryDescription, m_diagnostics);
 }
 
+/**
+ * @brief 导出 Eagle 符号库。
+ * @param symbols 符号列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                                  const QString& libName,
                                                  const QString& filePath) {
@@ -735,15 +837,16 @@ bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponent
         return false;
     }
 
-    QSet<QString> symbolNames;
+    QSet<QString> symbolNames;  // 已使用的符号及部件名称。
     for (const IR::SymbolComponentIR& symbol : symbols) {
-        const QString baseName = safeName(symbol.name);
+        const QString baseName = safeName(symbol.name);  // 当前基础符号名称。
         if (baseName.isEmpty() || symbolNames.contains(baseName) || symbol.partCount < 1) {
             m_diagnostics.append(QStringLiteral("Eagle: 符号名称为空、清洗后冲突或部件数非法：%1").arg(symbol.name));
             return false;
         }
         for (int partIndex = 0; partIndex < symbol.partCount; ++partIndex) {
-            const QString name = partIndex == 0 ? baseName : baseName + QStringLiteral("_P%1").arg(partIndex + 1);
+            const QString name =
+                partIndex == 0 ? baseName : baseName + QStringLiteral("_P%1").arg(partIndex + 1);  // 当前部件名称。
             if (symbolNames.contains(name)) {
                 m_diagnostics.append(QStringLiteral("Eagle: 符号部件名称冲突：%1").arg(name));
                 return false;
@@ -775,9 +878,10 @@ bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponent
     xml.writeEndElement();
     xml.writeStartElement(QStringLiteral("symbols"));
     for (const IR::SymbolComponentIR& symbol : symbols) {
-        const QString baseName = safeName(symbol.name);
+        const QString baseName = safeName(symbol.name);  // 当前基础符号名称。
         for (int partIndex = 0; partIndex < symbol.partCount; ++partIndex) {
-            const QString name = partIndex == 0 ? baseName : baseName + QStringLiteral("_P%1").arg(partIndex + 1);
+            const QString name =
+                partIndex == 0 ? baseName : baseName + QStringLiteral("_P%1").arg(partIndex + 1);  // 当前部件名称。
             if (!writeSymbol(xml, symbol, partIndex, name, m_diagnostics))
                 return false;
         }
@@ -790,7 +894,16 @@ bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponent
     return !xml.hasError();
 }
 
-/** 通过通用符号接口复用 Eagle 的符号库写入器，并拒绝未实现的合并模式。 */
+/**
+ * @brief 通过通用符号接口导出 Eagle 符号库并拒绝未实现的合并模式。
+ * @param symbols 符号列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @param appendMode 是否追加。
+ * @param updateMode 是否更新。
+ * @param libraryDescription 库描述。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                                  const QString& libName,
                                                  const QString& filePath,
@@ -805,16 +918,33 @@ bool ExporterEagleFootprint::exportSymbolLibrary(const QList<IR::SymbolComponent
     return exportSymbolLibrary(symbols, libName, filePath);
 }
 
-/** 通过通用符号接口导出单个 Eagle 符号。 */
+/**
+ * @brief 通过通用符号接口导出单个 Eagle 符号。
+ * @param symbol 符号 IR。
+ * @param filePath 输出文件路径。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterEagleFootprint::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
     return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
 }
 
-/** 返回最近一次 Eagle 导出的诊断信息。 */
+/**
+ * @brief 返回最近一次 Eagle 导出的诊断信息。
+ * @return 诊断信息列表。
+ */
 QStringList ExporterEagleFootprint::diagnostics() const {
     return m_diagnostics;
 }
 
+/**
+ * @brief 导出包含符号、封装和器件映射的 Eagle 完整库。
+ * @param components 完整组件列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @param exportModel3D 是否处理 3D 模型诊断。
+ * @param model3DBaseDir 3D 模型基础目录。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterEagleFootprint::exportComponentLibrary(const QList<IR::ComponentIR>& components,
                                                     const QString& libName,
                                                     const QString& filePath,
