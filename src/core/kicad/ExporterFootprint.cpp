@@ -441,12 +441,9 @@ void ExporterFootprint::generateFootprintBaseContent(const IR::FootprintComponen
 }
 
 /**
- * @brief 生成同时包含两种 3D 模型及库元数据的封装文本。
+ * @brief 生成包含单个 3D 模型的封装文本。
  * @param footprint 封装组件 IR。
- * @param model3DWrlPath WRL 模型路径。
- * @param model3DStepPath STEP 模型路径。
- * @param libraryDescription 库描述。
- * @param libraryKeywords 库关键词。
+ * @param model3DPath 3D 模型路径。
  * @return 完整封装文本。
  */
 QString ExporterFootprint::generateFootprintContent(const IR::FootprintComponentIR& footprint,
