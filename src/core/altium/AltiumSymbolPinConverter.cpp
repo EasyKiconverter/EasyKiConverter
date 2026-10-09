@@ -8,7 +8,11 @@
 
 namespace EasyKiConverter {
 
-/** @brief 根据 IR 引脚装饰枚举填充 Altium IEEE 图形字段。 */
+/**
+ * @brief 根据 IR 引脚装饰枚举填充 Altium IEEE 图形字段。
+ * @param pin 统一 IR 中的引脚。
+ * @param altiumPin 待更新的 Altium 引脚记录。
+ */
 void applyPinDecoration(const IR::SymbolPinIR& pin, AltiumSchPin& altiumPin) {
     // 将 IR 装饰枚举映射为 Altium 的内侧、外侧和边缘图形编号。
     switch (pin.style.decoration) {
@@ -123,7 +127,11 @@ void applyPinDecoration(const IR::SymbolPinIR& pin, AltiumSchPin& altiumPin) {
     }
 }
 
-/** @brief 根据电气类型补充 Altium IEEE 装饰。 */
+/**
+ * @brief 根据电气类型补充 Altium IEEE 装饰。
+ * @param pin 统一 IR 中的引脚。
+ * @param altiumPin 待更新的 Altium 引脚记录。
+ */
 void applyElectricalDecoration(const IR::SymbolPinIR& pin, AltiumSchPin& altiumPin) {
     // 对电气类型补充在来源数据中未显式声明的 IEEE 图形。
     switch (pin.electricalType) {
@@ -138,7 +146,11 @@ void applyElectricalDecoration(const IR::SymbolPinIR& pin, AltiumSchPin& altiumP
     }
 }
 
-/** @brief 按常见网络名称将 EasyEDA 电源引脚标记为 Altium Power 类型。 */
+/**
+ * @brief 按常见网络名称将 EasyEDA 电源引脚标记为 Altium Power 类型。
+ * @param pin 统一 IR 中的引脚。
+ * @param altiumPin 待更新的 Altium 引脚记录。
+ */
 void applyPowerPinType(const IR::SymbolPinIR& pin, AltiumSchPin& altiumPin) {
     if (altiumPin.electricalType == AltiumModels::PinElectricalType::Power)
         return;
@@ -153,9 +165,13 @@ void applyPowerPinType(const IR::SymbolPinIR& pin, AltiumSchPin& altiumPin) {
         altiumPin.electricalType = AltiumModels::PinElectricalType::Power;
 }
 
-/** @brief 转换引脚基础几何、显示属性、电气类型和装饰。 */
+/**
+ * @brief 转换引脚基础几何、显示属性、电气类型和装饰。
+ * @param pin 统一 IR 中的引脚。
+ * @return 转换后的 Altium 引脚记录。
+ */
 AltiumSchPin AltiumSymbolPinConverter::convert(const IR::SymbolPinIR& pin) {
-    AltiumSchPin altiumPin;
+    AltiumSchPin altiumPin;  // 转换后的 Altium 引脚记录。
     altiumPin.name = pin.name;
     altiumPin.designator = pin.designator;
     altiumPin.locationX = AltiumCoord::mmToRaw(pin.position.x());
