@@ -66,8 +66,8 @@ public:
     int maxCost() const;
 
 private:
-    mutable QMutex m_mutex;
-    QCache<QString, QByteArray> m_cache;
+    mutable QMutex m_mutex;  ///< 保护内存缓存读写的互斥锁。
+    QCache<QString, QByteArray> m_cache;  ///< 按缓存键管理数据并负责 LRU 淘汰的 Qt 缓存。
 };
 
 }  // namespace EasyKiConverter
