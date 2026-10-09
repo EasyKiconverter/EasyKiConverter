@@ -49,6 +49,7 @@ public:
      * @param filePath 输出文件路径
      * @param appendMode 是否使用追加模式（默认true）
      * @param updateMode 是否使用更新模式（默认 false）。如果为 true，则替换已存在的符号
+     * @param libraryDescription 库描述。
      * @return bool 是否成功
      */
     bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,

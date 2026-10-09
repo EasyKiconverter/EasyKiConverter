@@ -20,7 +20,12 @@ public:
     /** @brief 返回 OrCAD Capture XML 符号库扩展名。 */
     QString libraryFileExtension() const override;
 
-    /** @brief 导出一个 OrCAD Capture XML 符号文件。 */
+    /**
+     * @brief 导出一个 OrCAD Capture XML 符号文件。
+     * @param symbol 待导出的符号 IR。
+     * @param filePath 输出 XML 文件路径。
+     * @return 导出成功时返回 true。
+     */
     bool exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) override;
 
     /**
@@ -44,7 +49,7 @@ public:
     QStringList diagnostics() const override;
 
 private:
-    QStringList m_diagnostics;
+    QStringList m_diagnostics;  ///< 最近一次导出的诊断信息。
 };
 
 }  // namespace EasyKiConverter

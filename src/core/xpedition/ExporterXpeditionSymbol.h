@@ -14,7 +14,12 @@ public:
     QString libraryFileExtension() const override;
     /** @brief 返回符号导出阶段收集的诊断信息。 */
     QStringList diagnostics() const override;
-    /** @brief 导出单个符号到 Xpedition 符号库。 */
+    /**
+     * @brief 导出单个符号到 Xpedition 符号库。
+     * @param symbol 待导出的符号 IR。
+     * @param filePath 输出库文件路径。
+     * @return 导出成功时返回 true。
+     */
     bool exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) override;
     /**
      * @brief 将多个符号及其多单元部件写入一个符号库压缩包。
@@ -49,7 +54,7 @@ private:
      * @return UTF-8 编码的符号部件内容。
      */
     QByteArray symbolFile(const IR::SymbolComponentIR& symbol, int partIndex, const QString& outputName) const;
-    QStringList m_diagnostics;
+    QStringList m_diagnostics;  ///< 最近一次导出的诊断信息。
 };
 
 }  // namespace EasyKiConverter

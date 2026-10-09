@@ -31,11 +31,11 @@ public:
 
 private:
     struct Entry {
-        QString name;
-        QByteArray data;
+        QString name;  ///< ZIP 内的相对条目名称。
+        QByteArray data;  ///< 条目内容。
     };
 
-    QVector<Entry> m_entries;
+    QVector<Entry> m_entries;  ///< 待写入 ZIP 的条目列表。
 };
 
 }  // namespace EasyKiConverter

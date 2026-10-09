@@ -19,7 +19,12 @@ public:
     /** @brief 返回 P-CAD 原理图库文件扩展名。 */
     QString libraryFileExtension() const override;
 
-    /** @brief 导出单个 P-CAD 原理图符号。 */
+    /**
+     * @brief 导出单个 P-CAD 原理图符号。
+     * @param symbol 待导出的符号 IR。
+     * @param filePath 输出库文件路径。
+     * @return 导出成功时返回 true。
+     */
     bool exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) override;
 
     /**
@@ -43,7 +48,7 @@ public:
     QStringList diagnostics() const override;
 
 private:
-    QStringList m_diagnostics;
+    QStringList m_diagnostics;  ///< 最近一次导出的诊断信息。
 };
 
 }  // namespace EasyKiConverter

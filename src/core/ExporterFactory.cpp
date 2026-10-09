@@ -21,7 +21,9 @@
 namespace EasyKiConverter {
 
 /**
- * @brief 创建符号导出器
+ * @brief 创建符号导出器。
+ * @param format 目标 EDA 格式。
+ * @return 对应导出器；不支持时返回空指针。
  */
 std::unique_ptr<ISymbolExporter> ExporterFactory::createSymbolExporter(TargetEdaFormat format) {
     // 根据目标格式选择符号导出器实现，未知格式不创建实例。
@@ -54,7 +56,9 @@ std::unique_ptr<ISymbolExporter> ExporterFactory::createSymbolExporter(TargetEda
 }
 
 /**
- * @brief 创建封装导出器
+ * @brief 创建封装导出器。
+ * @param format 目标 EDA 格式。
+ * @return 对应导出器；不支持时返回空指针。
  */
 std::unique_ptr<IFootprintExporter> ExporterFactory::createFootprintExporter(TargetEdaFormat format) {
     // 根据目标格式选择封装导出器实现，未知格式不创建实例。
@@ -89,6 +93,9 @@ std::unique_ptr<IFootprintExporter> ExporterFactory::createFootprintExporter(Tar
  * @note 使用裸 new 而非 std::make_unique，因为 Exporter3DModel 继承 QObject，
  *       需要将 parent 传递给构造函数以建立 Qt 对象所有权。
  * @note WRL/STEP 是独立模型产物，所有目标格式都可以复用该转换器；目标格式的原生模型关联仍由各自封装导出器决定。
+ * @param format 目标 EDA 格式。
+ * @param parent Qt 父对象。
+ * @return 对应 3D 模型导出器；不支持时返回空指针。
  */
 std::unique_ptr<IModel3DExporter> ExporterFactory::createModel3DExporter(TargetEdaFormat format, QObject* parent) {
     // 独立 WRL/STEP 模型不依赖目标库的私有关联语法，因此统一复用可靠的公共实现。
