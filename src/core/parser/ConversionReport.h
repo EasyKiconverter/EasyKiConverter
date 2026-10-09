@@ -17,10 +17,10 @@ enum class ConversionStatus { Ok, Warning, Failed, Skipped };
 
 /** @brief 一次解析或转换任务的进度快照。 */
 struct ConversionProgress {
-    int total = 0;
-    int completed = 0;
-    QString currentItem;
-    bool cancelled = false;
+    int total = 0;  ///< 任务总工作量。
+    int completed = 0;  ///< 已完成的工作量。
+    QString currentItem;  ///< 当前正在处理的对象描述。
+    bool cancelled = false;  ///< 任务是否已被取消。
 };
 
 /**
@@ -29,10 +29,16 @@ struct ConversionProgress {
  */
 class ConversionReport {
 public:
-    /** @brief 追加一条结构化诊断。 */
+    /**
+     * @brief 追加一条结构化诊断。
+     * @param diagnostic 待追加的诊断条目。
+     */
     void add(const ParseDiagnostic& diagnostic);
 
-    /** @brief 将解析阶段的全部诊断追加到报告。 */
+    /**
+     * @brief 将解析阶段的全部诊断追加到报告。
+     * @param diagnostics 待追加的诊断集合。
+     */
     void append(const ParseDiagnostics& diagnostics);
 
     /** @brief 返回任务产生的全部诊断。 */
@@ -41,7 +47,12 @@ public:
     /** @brief 返回依据诊断和取消状态计算出的任务状态。 */
     ConversionStatus status() const;
 
-    /** @brief 更新当前任务进度。 */
+    /**
+     * @brief 更新当前任务进度。
+     * @param completed 已完成的工作量。
+     * @param total 任务总工作量。
+     * @param currentItem 当前处理对象描述。
+     */
     void setProgress(int completed, int total, const QString& currentItem = QString());
 
     /** @brief 返回当前任务进度。 */
@@ -54,8 +65,8 @@ public:
     bool isCancelled() const;
 
 private:
-    QList<ParseDiagnostic> m_diagnostics;
-    ConversionProgress m_progress;
+    QList<ParseDiagnostic> m_diagnostics;  ///< 按产生顺序保存的诊断列表。
+    ConversionProgress m_progress;  ///< 当前任务进度快照。
 };
 
 }  // namespace EasyKiConverter::Parser
