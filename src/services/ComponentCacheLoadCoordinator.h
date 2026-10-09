@@ -13,7 +13,13 @@ class ComponentService;
  */
 class ComponentCacheLoadCoordinator final {
 public:
-    /** @brief 启动指定元器件的异步缓存加载。 */
+    /**
+     * @brief 启动指定元器件的异步缓存加载。
+     * @param owner 元器件服务。
+     * @param normalizedId 规范化后的元器件编号。
+     * @param fetch3DModel 是否获取三维模型。
+     * @param cache 缓存服务。
+     */
     static void load(ComponentService& owner,
                      const QString& normalizedId,
                      bool fetch3DModel,
