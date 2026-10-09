@@ -12,7 +12,7 @@ namespace EasyKiConverter {
 
 class AtomicFileWriter {
 public:
-    using WriteFunc = std::function<bool(const QString& tempPath)>;
+    using WriteFunc = std::function<bool(const QString& tempPath)>;  ///< 使用临时路径写入文件内容的回调。
 
     AtomicFileWriter() = default;
     ~AtomicFileWriter() = default;
