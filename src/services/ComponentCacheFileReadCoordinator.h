@@ -17,19 +17,45 @@ class ComponentCacheService;
  */
 class ComponentCacheFileReadCoordinator final {
 public:
-    /** @brief 读取元器件符号 CAD 数据。 */
+    /**
+     * @brief 读取元器件符号 CAD 数据。
+     * @param owner 所属缓存服务。
+     * @param componentId 元器件编号。
+     * @return 符号缓存数据。
+     */
     static QByteArray loadSymbolData(const ComponentCacheService& owner, const QString& componentId);
 
-    /** @brief 读取元器件封装 CAD 数据。 */
+    /**
+     * @brief 读取元器件封装 CAD 数据。
+     * @param owner 所属缓存服务。
+     * @param componentId 元器件编号。
+     * @return 封装缓存数据。
+     */
     static QByteArray loadFootprintData(const ComponentCacheService& owner, const QString& componentId);
 
-    /** @brief 读取元器件原始 CAD JSON 数据。 */
+    /**
+     * @brief 读取元器件原始 CAD JSON 数据。
+     * @param owner 所属缓存服务。
+     * @param componentId 元器件编号。
+     * @return CAD JSON 数据。
+     */
     static QByteArray loadCadDataJson(const ComponentCacheService& owner, const QString& componentId);
 
-    /** @brief 读取指定索引的预览图数据。 */
+    /**
+     * @brief 读取指定索引的预览图数据。
+     * @param owner 所属缓存服务。
+     * @param componentId 元器件编号。
+     * @param imageIndex 预览图索引。
+     * @return 预览图数据。
+     */
     static QByteArray loadPreviewImage(const ComponentCacheService& owner, const QString& componentId, int imageIndex);
 
-    /** @brief 读取元器件二级缓存元数据。 */
+    /**
+     * @brief 读取元器件二级缓存元数据。
+     * @param owner 所属缓存服务。
+     * @param componentId 元器件编号。
+     * @return 元数据对象。
+     */
     static QJsonObject loadMetadata(const ComponentCacheService& owner, const QString& componentId);
 };
 
