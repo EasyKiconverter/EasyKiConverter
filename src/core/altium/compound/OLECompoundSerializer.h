@@ -13,17 +13,32 @@ namespace EasyKiConverter {
  */
 class OLECompoundSerializer final {
 public:
-    /** @brief 保存所属 OLE 写入器的只读状态引用。 */
+    /**
+     * @brief 保存所属 OLE 写入器的只读状态引用。
+     * @param owner 被序列化的 OLE 写入器。
+     */
     explicit OLECompoundSerializer(const OLECompoundWriter& owner);
 
-    /** @brief 将一个目录条目编码为固定 128 字节记录。 */
+    /**
+     * @brief 将一个目录条目编码为固定 128 字节记录。
+     * @param entry 待编码的目录条目。
+     * @param buffer 接收序列化字节的缓冲区。
+     */
     void serializeDirectoryEntry(const OLECompoundWriter::DirectoryEntry& entry, QByteArray& buffer) const;
 
-    /** @brief 将当前 OLE 文档状态编码为 512 字节文件头。 */
+    /**
+     * @brief 将当前 OLE 文档状态编码为 512 字节文件头。
+     * @param header 接收文件头字节的缓冲区。
+     */
     void serializeFileHeader(QByteArray& header) const;
 
 private:
-    /** @brief 按小端序写入无符号 32 位字段。 */
+    /**
+     * @brief 按小端序写入无符号 32 位字段。
+     * @param buffer 接收字段的字节缓冲区。
+     * @param offset 当前写入偏移，并在写入后递增。
+     * @param value 待写入的无符号 32 位值。
+     */
     static void writeUInt32(QByteArray& buffer, int& offset, uint32_t value);
 
     /** @brief 被编码的 OLE 写入器。 */
