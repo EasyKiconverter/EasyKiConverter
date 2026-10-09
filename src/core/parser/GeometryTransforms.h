@@ -19,7 +19,12 @@ enum class LengthUnit { Millimeter, Mil, Inch, Unknown };
  */
 class UnitConverter {
 public:
-    /** @brief 将指定单位的长度转换为毫米。 */
+    /**
+     * @brief 将指定单位的长度转换为毫米。
+     * @param value 待转换的长度值。
+     * @param unit 源长度单位。
+     * @return 转换后的毫米值。
+     */
     static double toMillimeters(double value, LengthUnit unit);
 
     /**
