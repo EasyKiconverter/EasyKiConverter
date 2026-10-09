@@ -181,7 +181,8 @@ IR::FootprintComponentIR XpeditionHkpAdapter::toFootprint(const Parser::Xpeditio
                                  cell.name);
             continue;
         }
-        const Parser::XpeditionPadstackDefinition* padstack = model.findPadstack(sourcePin.padstack);  // 来源 Padstack。
+        const Parser::XpeditionPadstackDefinition* padstack =
+            model.findPadstack(sourcePin.padstack);  // 来源 Padstack。
         if (padstack == nullptr) {
             if (diagnostics)
                 diagnostics->add(Parser::ParseSeverity::Error,

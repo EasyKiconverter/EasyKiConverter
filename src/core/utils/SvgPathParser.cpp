@@ -309,7 +309,9 @@ QList<QPointF> SvgPathParser::parsePath(const QString& path) {
                 continue;
             }
 
-            bool okRx = false, okRy = false, okXRot = false, okLarge = false, okSweep = false, okX = false, okY = false;
+            // 各圆弧参数的数值转换状态。
+            bool okRx = false, okRy = false, okXRot = false, okLarge = false, okSweep = false, okX = false,
+                 okY = false;  // 各圆弧参数的数值转换状态。
             double rx = tokens[i].toDouble(&okRx);  // 圆弧 X 半径。
             i++;
             double ry = tokens[i].toDouble(&okRy);  // 圆弧 Y 半径。
@@ -362,7 +364,9 @@ QList<QPointF> SvgPathParser::parsePath(const QString& path) {
                 continue;
             }
 
-            bool okCp1x = false, okCp1y = false, okCp2x = false, okCp2y = false, okX = false, okY = false;
+            // 各三次贝塞尔参数的数值转换状态。
+            bool okCp1x = false, okCp1y = false, okCp2x = false, okCp2y = false, okX = false,
+                 okY = false;  // 各三次贝塞尔参数的数值转换状态。
             double cp1x = tokens[i].toDouble(&okCp1x);  // 第一个控制点 X 坐标。
             i++;
             double cp1y = tokens[i].toDouble(&okCp1y);  // 第一个控制点 Y 坐标。
@@ -403,23 +407,23 @@ QList<QPointF> SvgPathParser::parsePath(const QString& path) {
         }
         // 处理S/s（平滑三次贝塞尔曲线）命令
         else if (command == 'S') {
-            const bool relative = (cmd[0] == 's');
+            const bool relative = (cmd[0] == 's');  // 当前平滑三次贝塞尔是否使用相对坐标。
             if (points.isEmpty() || i + 4 >= tokens.size()) {
                 qWarning() << "Smooth cubic bezier param length error";
                 i++;
                 continue;
             }
-            const QPointF startPoint = points.last();
-            const QPointF cp1 =
+            const QPointF startPoint = points.last();  // 当前平滑曲线起点。
+            const QPointF cp1 =  // 根据前一条曲线计算的反射控制点。
                 (previousCommand == 'C' || previousCommand == 'S')
                     ? QPointF(2.0 * startPoint.x() - lastCubicControl.x(), 2.0 * startPoint.y() - lastCubicControl.y())
                     : startPoint;
-            bool okCp2x = false, okCp2y = false, okX = false, okY = false;
+            bool okCp2x = false, okCp2y = false, okX = false, okY = false;  // 第二控制点和终点坐标的数值转换状态。
             i++;
-            double cp2x = tokens[i++].toDouble(&okCp2x);
-            double cp2y = tokens[i++].toDouble(&okCp2y);
-            double endX = tokens[i++].toDouble(&okX);
-            double endY = tokens[i++].toDouble(&okY);
+            double cp2x = tokens[i++].toDouble(&okCp2x);  // 第二控制点 X 坐标。
+            double cp2y = tokens[i++].toDouble(&okCp2y);  // 第二控制点 Y 坐标。
+            double endX = tokens[i++].toDouble(&okX);  // 曲线终点 X 坐标。
+            double endY = tokens[i++].toDouble(&okY);  // 曲线终点 Y 坐标。
             if (!okCp2x || !okCp2y || !okX || !okY)
                 continue;
             if (relative) {
@@ -441,23 +445,23 @@ QList<QPointF> SvgPathParser::parsePath(const QString& path) {
         }
         // 处理Q/q（二次贝塞尔曲线）命令
         else if (command == 'Q') {
-            const bool relative = (cmd[0] == 'q');
+            const bool relative = (cmd[0] == 'q');  // 当前二次贝塞尔是否使用相对坐标。
             if (points.isEmpty() || i + 4 >= tokens.size()) {
                 qWarning() << "Quadratic bezier param length error";
                 i++;
                 continue;
             }
 
-            const QPointF startPoint = points.last();
-            bool okCpX = false, okCpY = false, okEndX = false, okEndY = false;
+            const QPointF startPoint = points.last();  // 当前二次曲线起点。
+            bool okCpX = false, okCpY = false, okEndX = false, okEndY = false;  // 控制点和终点坐标的数值转换状态。
             i++;
-            double cpX = tokens[i].toDouble(&okCpX);
+            double cpX = tokens[i].toDouble(&okCpX);  // 控制点 X 坐标。
             i++;
-            double cpY = tokens[i].toDouble(&okCpY);
+            double cpY = tokens[i].toDouble(&okCpY);  // 控制点 Y 坐标。
             i++;
-            double endX = tokens[i].toDouble(&okEndX);
+            double endX = tokens[i].toDouble(&okEndX);  // 曲线终点 X 坐标。
             i++;
-            double endY = tokens[i++].toDouble(&okEndY);
+            double endY = tokens[i++].toDouble(&okEndY);  // 曲线终点 Y 坐标。
             if (!okCpX || !okCpY || !okEndX || !okEndY) {
                 qWarning() << "Quadratic bezier param parse error";
                 continue;
@@ -468,10 +472,11 @@ QList<QPointF> SvgPathParser::parsePath(const QString& path) {
                 endX += startPoint.x();
                 endY += startPoint.y();
             }
-            const QPointF cp2(endX + 2.0 * (cpX - endX) / 3.0, endY + 2.0 * (cpY - endY) / 3.0);
+            const QPointF cp2(endX + 2.0 * (cpX - endX) / 3.0,
+                              endY + 2.0 * (cpY - endY) / 3.0);  // 二次曲线转换后的第二控制点。
             const QPointF cp1(startPoint.x() + 2.0 * (cpX - startPoint.x()) / 3.0,
                               startPoint.y() + 2.0 * (cpY - startPoint.y()) / 3.0);
-            const QList<QPointF> bezierPoints =
+            const QList<QPointF> bezierPoints =  // 转换后的三次贝塞尔离散点。
                 bezierToPolyline(startPoint.x(), startPoint.y(), cp1.x(), cp1.y(), cp2.x(), cp2.y(), endX, endY);
             for (const QPointF& point : bezierPoints) {
                 if (points.isEmpty() || point != points.last())
@@ -484,21 +489,22 @@ QList<QPointF> SvgPathParser::parsePath(const QString& path) {
         }
         // 处理T/t（平滑二次贝塞尔曲线）命令
         else if (command == 'T') {
-            const bool relative = (cmd[0] == 't');
+            const bool relative = (cmd[0] == 't');  // 当前平滑二次贝塞尔是否使用相对坐标。
             if (points.isEmpty() || i + 2 >= tokens.size()) {
                 qWarning() << "Smooth quadratic bezier param length error";
                 i++;
                 continue;
             }
-            const QPointF startPoint = points.last();
-            const QPointF control = (previousCommand == 'Q' || previousCommand == 'T')
-                                        ? QPointF(2.0 * startPoint.x() - lastQuadraticControl.x(),
-                                                  2.0 * startPoint.y() - lastQuadraticControl.y())
-                                        : startPoint;
-            bool okX = false, okY = false;
+            const QPointF startPoint = points.last();  // 当前平滑二次曲线起点。
+            const QPointF control =  // 根据前一条曲线计算的反射控制点。
+                (previousCommand == 'Q' || previousCommand == 'T')
+                    ? QPointF(2.0 * startPoint.x() - lastQuadraticControl.x(),
+                              2.0 * startPoint.y() - lastQuadraticControl.y())
+                    : startPoint;
+            bool okX = false, okY = false;  // 曲线终点坐标的数值转换状态。
             i++;
-            double endX = tokens[i++].toDouble(&okX);
-            double endY = tokens[i++].toDouble(&okY);
+            double endX = tokens[i++].toDouble(&okX);  // 曲线终点 X 坐标。
+            double endY = tokens[i++].toDouble(&okY);  // 曲线终点 Y 坐标。
             if (!okX || !okY)
                 continue;
             if (relative) {
@@ -507,8 +513,9 @@ QList<QPointF> SvgPathParser::parsePath(const QString& path) {
             }
             const QPointF cp1(startPoint.x() + 2.0 * (control.x() - startPoint.x()) / 3.0,
                               startPoint.y() + 2.0 * (control.y() - startPoint.y()) / 3.0);
-            const QPointF cp2(endX + 2.0 * (control.x() - endX) / 3.0, endY + 2.0 * (control.y() - endY) / 3.0);
-            const QList<QPointF> bezierPoints =
+            const QPointF cp2(endX + 2.0 * (control.x() - endX) / 3.0,
+                              endY + 2.0 * (control.y() - endY) / 3.0);  // 第二控制点。
+            const QList<QPointF> bezierPoints =  // 平滑二次曲线转换后的离散点。
                 bezierToPolyline(startPoint.x(), startPoint.y(), cp1.x(), cp1.y(), cp2.x(), cp2.y(), endX, endY);
             for (const QPointF& point : bezierPoints) {
                 if (point != points.last())
@@ -541,26 +548,30 @@ QList<QPointF> SvgPathParser::parsePath(const QString& path) {
     return points;
 }
 
-// 解析 SVG 路径并保留直线、贝塞尔曲线和圆弧的结构化线段信息。
+/**
+ * @brief 解析 SVG 路径并保留结构化线段信息。
+ * @param path SVG 路径文本。
+ * @return 直线、贝塞尔曲线和圆弧组成的路径线段列表。
+ */
 QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
-    QList<SvgPathSegment> segments;
+    QList<SvgPathSegment> segments;  // 解析得到的结构化路径线段。
     if (path.isEmpty())
         return segments;
 
-    const QStringList tokens = splitPath(path);
-    QPointF current;
-    QPointF subpathStart;
-    QPointF lastCubicControl;
-    QPointF lastQuadraticControl;
-    QChar previousCommand;
-    bool hasCurrent = false;
-    bool hasSubpath = false;
+    const QStringList tokens = splitPath(path);  // 分词后的 SVG 命令和参数。
+    QPointF current;  // 当前路径位置。
+    QPointF subpathStart;  // 当前子路径起点。
+    QPointF lastCubicControl;  // 上一个三次贝塞尔控制点。
+    QPointF lastQuadraticControl;  // 上一个二次贝塞尔控制点。
+    QChar previousCommand;  // 上一个路径命令。
+    bool hasCurrent = false;  // 是否已有当前路径位置。
+    bool hasSubpath = false;  // 是否已建立子路径。
 
     auto isNumber = [&](int index) {
         if (index >= tokens.size())
             return false;
-        bool ok = false;
-        const double value = tokens.at(index).toDouble(&ok);
+        bool ok = false;  // 数值转换是否成功。
+        const double value = tokens.at(index).toDouble(&ok);  // 待检查的参数值。
         return ok && std::isfinite(value);
     };
     auto readNumbers = [&](int& index, int count, QList<double>& values) {
@@ -569,8 +580,8 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
         values.clear();
         values.reserve(count);
         for (int n = 0; n < count; ++n) {
-            bool ok = false;
-            const double value = tokens.at(index++).toDouble(&ok);
+            bool ok = false;  // 当前参数转换是否成功。
+            const double value = tokens.at(index++).toDouble(&ok);  // 当前参数数值。
             if (!ok || !std::isfinite(value))
                 return false;
             values.append(value);
@@ -584,7 +595,7 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
         }
         if (current == end)
             return;
-        SvgPathSegment segment;
+        SvgPathSegment segment;  // 当前新增的直线路径线段。
         segment.type = SvgPathSegment::Type::Line;
         segment.start = current;
         segment.end = end;
@@ -594,7 +605,7 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
     auto addCubic = [&](const QPointF& control1, const QPointF& control2, const QPointF& end) {
         if (!hasCurrent)
             return;
-        SvgPathSegment segment;
+        SvgPathSegment segment;  // 当前新增的三次贝塞尔线段。
         segment.type = SvgPathSegment::Type::CubicBezier;
         segment.start = current;
         segment.control1 = control1;
@@ -606,7 +617,7 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
     auto addQuadratic = [&](const QPointF& control, const QPointF& end) {
         if (!hasCurrent)
             return;
-        SvgPathSegment segment;
+        SvgPathSegment segment;  // 当前新增的二次贝塞尔线段。
         segment.type = SvgPathSegment::Type::QuadraticBezier;
         segment.start = current;
         segment.control1 = control;
@@ -615,23 +626,23 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
         current = end;
     };
 
-    int index = 0;
+    int index = 0;  // 当前命令或参数索引。
     while (index < tokens.size()) {
-        const QString commandToken = tokens.at(index++);
+        const QString commandToken = tokens.at(index++);  // 当前 SVG 命令词。
         if (commandToken.isEmpty() || commandToken.at(0).isDigit() || commandToken.at(0) == '.' ||
             commandToken.at(0) == '+' || commandToken.at(0) == '-') {
             continue;
         }
-        const QChar command = commandToken.at(0).toUpper();
-        const bool relative = commandToken.at(0).isLower();
+        const QChar command = commandToken.at(0).toUpper();  // 规范化后的命令字符。
+        const bool relative = commandToken.at(0).isLower();  // 当前命令是否使用相对坐标。
 
         if (command == 'M') {
-            bool first = true;
+            bool first = true;  // 当前 MoveTo 参数组是否为子路径首点。
             while (isNumber(index) && isNumber(index + 1)) {
-                QList<double> values;
+                QList<double> values;  // 当前命令参数组。
                 if (!readNumbers(index, 2, values))
                     break;
-                QPointF point(values[0], values[1]);
+                QPointF point(values[0], values[1]);  // 当前 MoveTo 目标点。
                 if (relative && hasCurrent)
                     point += current;
                 if (first) {
@@ -657,10 +668,10 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
 
         if (command == 'L') {
             while (isNumber(index) && isNumber(index + 1)) {
-                QList<double> values;
+                QList<double> values;  // 当前 LineTo 参数组。
                 if (!readNumbers(index, 2, values))
                     break;
-                QPointF point(values[0], values[1]);
+                QPointF point(values[0], values[1]);  // 当前 LineTo 目标点。
                 if (relative)
                     point += current;
                 addLine(point);
@@ -671,10 +682,10 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
 
         if (command == 'H' || command == 'V') {
             while (isNumber(index)) {
-                QList<double> values;
+                QList<double> values;  // 当前水平或垂直线参数组。
                 if (!readNumbers(index, 1, values))
                     break;
-                QPointF point = current;
+                QPointF point = current;  // 当前水平或垂直线目标点。
                 if (command == 'H')
                     point.setX(relative ? current.x() + values[0] : values[0]);
                 else
@@ -685,18 +696,19 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
             continue;
         }
 
-        const int groupSize = command == 'A'                       ? 7
-                              : command == 'C'                     ? 6
-                              : (command == 'S' || command == 'Q') ? 4
-                              : command == 'T'                     ? 2
-                                                                   : 0;
+        const int groupSize =  // 当前命令的一组参数数量。
+            command == 'A'                       ? 7
+            : command == 'C'                     ? 6
+            : (command == 'S' || command == 'Q') ? 4
+            : command == 'T'                     ? 2
+                                                 : 0;
         if (groupSize == 0) {
             qWarning() << "SVG: Unknown segment command:" << command;
             continue;
         }
 
         while (isNumber(index)) {
-            QList<double> values;
+            QList<double> values;  // 当前曲线或圆弧参数组。
             if (!readNumbers(index, groupSize, values)) {
                 qWarning() << "SVG: Invalid segment parameters for command:" << command;
                 break;
@@ -705,16 +717,16 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
                 qWarning() << "SVG: Segment command without origin point:" << command;
                 continue;
             }
-            const QPointF start = current;
+            const QPointF start = current;  // 当前曲线或圆弧起点。
             if (command == 'A') {
-                QPointF end(values[5], values[6]);
+                QPointF end(values[5], values[6]);  // 圆弧终点。
                 if (relative)
                     end += start;
-                const QList<QPointF> arcPoints =
+                const QList<QPointF> arcPoints =  // 圆弧离散点或近似折线点。
                     parseArc(start, values[0], values[1], values[2], values[3] != 0, values[4] != 0, end);
-                const bool isCircular = values[0] > 0.0 && qFuzzyCompare(values[0], values[1]);
+                const bool isCircular = values[0] > 0.0 && qFuzzyCompare(values[0], values[1]);  // 是否为圆形圆弧。
                 if (isCircular && arcPoints.size() >= 3 && start != end) {
-                    SvgPathSegment segment;
+                    SvgPathSegment segment;  // 当前圆形圆弧线段。
                     segment.type = SvgPathSegment::Type::CircularArc;
                     segment.start = start;
                     segment.arcMid = arcPoints.at(arcPoints.size() / 2);
@@ -722,11 +734,12 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
                     segments.append(segment);
                     current = end;
                 } else if (!isCircular && values[0] > 0.0 && values[1] > 0.0) {
-                    const SvgArcGeometry geometry = calculateArcGeometry(
-                        start, values[0], values[1], values[2], values[3] != 0, values[4] != 0, end);
+                    const SvgArcGeometry geometry =  // 当前椭圆弧几何参数。
+                        calculateArcGeometry(
+                            start, values[0], values[1], values[2], values[3] != 0, values[4] != 0, end);
                     if (geometry.valid) {
                         if (qFuzzyIsNull(std::sin(values[2] * PI / 180.0))) {
-                            SvgPathSegment segment;
+                            SvgPathSegment segment;  // 当前椭圆弧线段。
                             segment.type = SvgPathSegment::Type::EllipticalArc;
                             segment.start = start;
                             segment.arcCenter = geometry.center;
@@ -749,9 +762,9 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
                         addLine(point);
                 }
             } else if (command == 'C' || command == 'S' || command == 'Q' || command == 'T') {
-                QPointF control1;
-                QPointF control2;
-                QPointF end;
+                QPointF control1;  // 三次贝塞尔第一个控制点。
+                QPointF control2;  // 三次贝塞尔第二个控制点。
+                QPointF end;  // 当前曲线终点。
                 if (command == 'C') {
                     control1 = QPointF(values[0], values[1]);
                     control2 = QPointF(values[2], values[3]);
@@ -773,7 +786,7 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
                         end += start;
                     }
                 } else if (command == 'Q' || command == 'T') {
-                    QPointF quadraticControl;
+                    QPointF quadraticControl;  // 二次贝塞尔控制点。
                     if (command == 'Q') {
                         quadraticControl = QPointF(values[0], values[1]);
                         end = QPointF(values[2], values[3]);
@@ -809,26 +822,31 @@ QList<SvgPathSegment> SvgPathParser::parseSegments(const QString& path) {
     return segments;
 }
 
-// 规范化 SVG 命令和参数分隔符，并展开同一命令后的连续参数组。
+/**
+ * @brief 规范化 SVG 命令和参数分隔符并展开连续参数组。
+ * @param path SVG 路径文本。
+ * @return 规范化后的命令和参数词元列表。
+ */
 QStringList SvgPathParser::splitPath(const QString& path) {
     // 将命令字母前后添加空格，然后按空格分
-    QString processed = path;
+    QString processed = path;  // 经过分隔符规范化的路径文本。
     processed.replace(QRegularExpression("([MmZzLlHhVvCcSsQqTtAa])"), " \\1 ");
     processed.replace(QRegularExpression("(?<=[0-9.])(?=[+-])"), " ");
-    const QStringList rawTokens = processed.split(QRegularExpression("[\\s,]+"), Qt::SkipEmptyParts);
+    const QStringList rawTokens =  // 初步分词结果。
+        processed.split(QRegularExpression("[\\s,]+"), Qt::SkipEmptyParts);
 
     // SVG 允许一个命令后连续跟随多组参数。当前主解析循环按一次命令消费一组
     // 曲线/圆弧参数，因此在分词阶段把后续参数组展开成同类型的重复命令。
-    QStringList tokens;
-    int index = 0;
+    QStringList tokens;  // 展开重复参数组后的词元列表。
+    int index = 0;  // 当前原始词元索引。
     while (index < rawTokens.size()) {
-        const QString command = rawTokens.at(index++);
+        const QString command = rawTokens.at(index++);  // 当前命令或参数词元。
         tokens.append(command);
         if (command.size() != 1 || !command.at(0).isLetter())
             continue;
 
-        const QChar upper = command.at(0).toUpper();
-        int groupSize = 0;
+        const QChar upper = command.at(0).toUpper();  // 规范化后的命令字符。
+        int groupSize = 0;  // 当前命令每组参数数量。
         if (upper == 'A')
             groupSize = 7;
         else if (upper == 'C')
@@ -840,7 +858,7 @@ QStringList SvgPathParser::splitPath(const QString& path) {
         if (groupSize == 0)
             continue;
 
-        int parameterCount = 0;
+        int parameterCount = 0;  // 当前参数组已收集的数量。
         while (index < rawTokens.size() && !rawTokens.at(index).at(0).isLetter()) {
             if (parameterCount == groupSize) {
                 tokens.append(command);
@@ -853,7 +871,15 @@ QStringList SvgPathParser::splitPath(const QString& path) {
     return tokens;
 }
 
-// 根据绝对或相对坐标更新当前路径位置并返回新的点。
+/**
+ * @brief 根据绝对或相对坐标更新当前路径位置。
+ * @param x X 坐标或相对 X 位移。
+ * @param y Y 坐标或相对 Y 位移。
+ * @param relative 是否使用相对坐标。
+ * @param currentX 当前路径 X 坐标。
+ * @param currentY 当前路径 Y 坐标。
+ * @return 更新后的路径点。
+ */
 QPointF SvgPathParser::createPoint(double x, double y, bool relative, double& currentX, double& currentY) {
     if (relative) {
         currentX += x;
@@ -865,6 +891,17 @@ QPointF SvgPathParser::createPoint(double x, double y, bool relative, double& cu
     return QPointF(currentX, currentY);
 }
 
+/**
+ * @brief 按 SVG 椭圆弧参数生成离散路径点。
+ * @param startPoint 圆弧起点。
+ * @param rx X 方向半径。
+ * @param ry Y 方向半径。
+ * @param xRotation 椭圆旋转角度，单位为度。
+ * @param largeArcFlag 大弧选择标志。
+ * @param sweepFlag 扫掠方向标志。
+ * @param endPoint 圆弧终点。
+ * @return 圆弧离散后的路径点列表。
+ */
 QList<QPointF> SvgPathParser::parseArc(const QPointF& startPoint,
                                        double rx,
                                        double ry,
@@ -872,7 +909,7 @@ QList<QPointF> SvgPathParser::parseArc(const QPointF& startPoint,
                                        bool largeArcFlag,
                                        bool sweepFlag,
                                        const QPointF& endPoint) {
-    QList<QPointF> points;
+    QList<QPointF> points;  // 圆弧离散后的路径点。
 
     // SVG 规范规定起点和终点相同时不绘制弧线，避免后续圆心计算出现 0/0。
     if (startPoint == endPoint) {
@@ -888,40 +925,42 @@ QList<QPointF> SvgPathParser::parseArc(const QPointF& startPoint,
     }
 
     // 将角度转换为弧度
-    double phi = xRotation * PI / 180.0;
+    double phi = xRotation * PI / 180.0;  // 椭圆旋转角度，单位为弧度。
 
     // 计算中点
-    double dx = (startPoint.x() - endPoint.x()) / 2.0;
-    double dy = (startPoint.y() - endPoint.y()) / 2.0;
+    double dx = (startPoint.x() - endPoint.x()) / 2.0;  // 端点中点 X 偏移。
+    double dy = (startPoint.y() - endPoint.y()) / 2.0;  // 端点中点 Y 偏移。
 
     // 旋转坐标
-    double x1 = cos(phi) * dx + sin(phi) * dy;
-    double y1 = -sin(phi) * dx + cos(phi) * dy;
+    double x1 = cos(phi) * dx + sin(phi) * dy;  // 旋转坐标系中的起点 X 坐标。
+    double y1 = -sin(phi) * dx + cos(phi) * dy;  // 旋转坐标系中的起点 Y 坐标。
 
     // 计算临时变量
-    double rxSq = rx * rx;
-    double rySq = ry * ry;
-    double x1Sq = x1 * x1;
-    double y1Sq = y1 * y1;
+    double rxSq = rx * rx;  // X 半径平方。
+    double rySq = ry * ry;  // Y 半径平方。
+    double x1Sq = x1 * x1;  // 旋转坐标 X 平方。
+    double y1Sq = y1 * y1;  // 旋转坐标 Y 平方。
 
     // 计算校正因子
-    double temp = (rxSq * rySq - rxSq * y1Sq - rySq * x1Sq) / (rxSq * y1Sq + rySq * x1Sq);
+    double temp =  // 圆心计算使用的半径修正因子。
+        (rxSq * rySq - rxSq * y1Sq - rySq * x1Sq) / (rxSq * y1Sq + rySq * x1Sq);
     if (temp < 0)
         temp = 0;
     temp = sqrt(temp);
 
     // 根据largeArcFlag和sweepFlag确定符号
-    double factor = (largeArcFlag == sweepFlag) ? -1.0 : 1.0;
-    double cx1 = factor * temp * rx * y1 / ry;
-    double cy1 = -factor * temp * ry * x1 / rx;
+    double factor = (largeArcFlag == sweepFlag) ? -1.0 : 1.0;  // 大弧和扫掠方向对应的圆心符号。
+    double cx1 = factor * temp * rx * y1 / ry;  // 旋转坐标系中的圆心 X 坐标。
+    double cy1 = -factor * temp * ry * x1 / rx;  // 旋转坐标系中的圆心 Y 坐标。
 
     // 计算圆心
-    double cx = cos(phi) * cx1 - sin(phi) * cy1 + (startPoint.x() + endPoint.x()) / 2.0;
-    double cy = sin(phi) * cx1 + cos(phi) * cy1 + (startPoint.y() + endPoint.y()) / 2.0;
+    double cx = cos(phi) * cx1 - sin(phi) * cy1 + (startPoint.x() + endPoint.x()) / 2.0;  // 圆心 X 坐标。
+    double cy = sin(phi) * cx1 + cos(phi) * cy1 + (startPoint.y() + endPoint.y()) / 2.0;  // 圆心 Y 坐标。
 
     // 计算起始角度和角度增
-    double startAngle = getAngle(1.0, 0.0, (x1 - cx1) / rx, (y1 - cy1) / ry);
-    double deltaAngle = getAngle((x1 - cx1) / rx, (y1 - cy1) / ry, (-x1 - cx1) / rx, (-y1 - cy1) / ry);
+    double startAngle = getAngle(1.0, 0.0, (x1 - cx1) / rx, (y1 - cy1) / ry);  // 起始角度，单位为弧度。
+    double deltaAngle =  // 扫掠角度，单位为弧度。
+        getAngle((x1 - cx1) / rx, (y1 - cy1) / ry, (-x1 - cx1) / rx, (-y1 - cy1) / ry);
 
     // 规范化角
     while (startAngle < 0)
@@ -939,8 +978,8 @@ QList<QPointF> SvgPathParser::parseArc(const QPointF& startPoint,
     }
 
     // 将弧度转换为角度
-    double startAngleDeg = startAngle * 180.0 / PI;
-    double deltaAngleDeg = deltaAngle * 180.0 / PI;
+    double startAngleDeg = startAngle * 180.0 / PI;  // 起始角度，单位为度。
+    double deltaAngleDeg = deltaAngle * 180.0 / PI;  // 扫掠角度，单位为度。
 
     // 计算圆弧上的
     points = calcArcPoints(cx, cy, rx, ry, startAngleDeg, deltaAngleDeg, xRotation);
@@ -948,6 +987,17 @@ QList<QPointF> SvgPathParser::parseArc(const QPointF& startPoint,
     return points;
 }
 
+/**
+ * @brief 按椭圆参数离散生成圆弧点。
+ * @param cx 圆心 X 坐标。
+ * @param cy 圆心 Y 坐标。
+ * @param rx X 方向半径。
+ * @param ry Y 方向半径。
+ * @param startAngle 起始角度，单位为度。
+ * @param deltaAngle 扫掠角度，单位为度。
+ * @param xRotation 椭圆旋转角度，单位为度。
+ * @return 离散后的圆弧点列表。
+ */
 QList<QPointF> SvgPathParser::calcArcPoints(double cx,
                                             double cy,
                                             double rx,
@@ -955,19 +1005,19 @@ QList<QPointF> SvgPathParser::calcArcPoints(double cx,
                                             double startAngle,
                                             double deltaAngle,
                                             double xRotation) {
-    QList<QPointF> points;
+    QList<QPointF> points;  // 圆弧离散后的点列表。
     const int splitCount = 32;  // 分割32段
-    double step = deltaAngle / splitCount;
+    double step = deltaAngle / splitCount;  // 每个离散区间的角度步长。
 
-    double phi = xRotation * PI / 180.0;
+    double phi = xRotation * PI / 180.0;  // 椭圆旋转角度，单位为弧度。
 
     for (int i = 0; i <= splitCount; i++) {
-        double theta = (startAngle + i * step) * PI / 180.0;
-        double cosTheta = cos(theta);
-        double sinTheta = sin(theta);
+        double theta = (startAngle + i * step) * PI / 180.0;  // 当前离散点角度，单位为弧度。
+        double cosTheta = cos(theta);  // 当前角度余弦。
+        double sinTheta = sin(theta);  // 当前角度正弦。
 
-        double x = cos(phi) * rx * cosTheta - sin(phi) * ry * sinTheta + cx;
-        double y = sin(phi) * rx * cosTheta + cos(phi) * ry * sinTheta + cy;
+        double x = cos(phi) * rx * cosTheta - sin(phi) * ry * sinTheta + cx;  // 当前点 X 坐标。
+        double y = sin(phi) * rx * cosTheta + cos(phi) * ry * sinTheta + cy;  // 当前点 Y 坐标。
 
         points.append(QPointF(x, y));
     }
@@ -975,17 +1025,37 @@ QList<QPointF> SvgPathParser::calcArcPoints(double cx,
     return points;
 }
 
-// 根据两个向量的点积和叉积计算带方向的夹角。
+/**
+ * @brief 根据两个向量的点积和叉积计算带方向的夹角。
+ * @param x1 第一个向量 X 分量。
+ * @param y1 第一个向量 Y 分量。
+ * @param x2 第二个向量 X 分量。
+ * @param y2 第二个向量 Y 分量。
+ * @return 两个向量之间的有向角度，单位为弧度。
+ */
 double SvgPathParser::getAngle(double x1, double y1, double x2, double y2) {
     // 计算向量点积和叉
-    double dot = x1 * x2 + y1 * y2;
-    double cross = x1 * y2 - y1 * x2;
+    double dot = x1 * x2 + y1 * y2;  // 两个向量的点积。
+    double cross = x1 * y2 - y1 * x2;  // 两个向量的二维叉积。
 
     // 计算角度
-    double angle = atan2(cross, dot);
+    double angle = atan2(cross, dot);  // 根据点积和叉积得到的有向角度。
     return angle;
 }
 
+/**
+ * @brief 将三次贝塞尔曲线离散为折线点。
+ * @param startX 曲线起点 X 坐标。
+ * @param startY 曲线起点 Y 坐标。
+ * @param cp1X 第一个控制点 X 坐标。
+ * @param cp1Y 第一个控制点 Y 坐标。
+ * @param cp2X 第二个控制点 X 坐标。
+ * @param cp2Y 第二个控制点 Y 坐标。
+ * @param endX 曲线终点 X 坐标。
+ * @param endY 曲线终点 Y 坐标。
+ * @param segments 离散线段数量。
+ * @return 离散后的折线点列表。
+ */
 QList<QPointF> SvgPathParser::bezierToPolyline(double startX,
                                                double startY,
                                                double cp1X,
@@ -995,21 +1065,21 @@ QList<QPointF> SvgPathParser::bezierToPolyline(double startX,
                                                double endX,
                                                double endY,
                                                int segments) {
-    QList<QPointF> res;
+    QList<QPointF> res;  // 三次贝塞尔曲线离散后的点列表。
 
     // 三次贝塞尔曲线公式
     // B(t) = (1-t)^3 * P0 + 3*(1-t)^2*t * P1 + 3*(1-t)*t^2 * P2 + t^3 * P3
 
     for (int i = 0; i <= segments; ++i) {
-        double t = static_cast<double>(i) / segments;
-        double t2 = t * t;
-        double t3 = t2 * t;
-        double mt = 1.0 - t;
-        double mt2 = mt * mt;
-        double mt3 = mt2 * mt;
+        double t = static_cast<double>(i) / segments;  // 当前曲线参数。
+        double t2 = t * t;  // 曲线参数平方。
+        double t3 = t2 * t;  // 曲线参数立方。
+        double mt = 1.0 - t;  // 曲线参数补值。
+        double mt2 = mt * mt;  // 曲线参数补值平方。
+        double mt3 = mt2 * mt;  // 曲线参数补值立方。
 
-        double x = mt3 * startX + 3.0 * mt2 * t * cp1X + 3.0 * mt * t2 * cp2X + t3 * endX;
-        double y = mt3 * startY + 3.0 * mt2 * t * cp1Y + 3.0 * mt * t2 * cp2Y + t3 * endY;
+        double x = mt3 * startX + 3.0 * mt2 * t * cp1X + 3.0 * mt * t2 * cp2X + t3 * endX;  // 当前点 X 坐标。
+        double y = mt3 * startY + 3.0 * mt2 * t * cp1Y + 3.0 * mt * t2 * cp2Y + t3 * endY;  // 当前点 Y 坐标。
 
         res.append(QPointF(x, y));
     }

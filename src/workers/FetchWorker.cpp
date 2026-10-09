@@ -227,6 +227,14 @@ void FetchWorker::run() {
     emit fetchCompleted(status);
 }
 
+/**
+ * @brief 发起带超时、重试和取消支持的 HTTP GET 请求。
+ * @param url 请求 URL。
+ * @param timeoutMs 请求超时时间，单位为毫秒。
+ * @param status 用于记录请求状态的对象。
+ * @param resourceType 请求资源类型。
+ * @return 响应正文；请求失败或被取消时返回空数组。
+ */
 QByteArray FetchWorker::httpGet(const QString& url,
                                 int timeoutMs,
                                 QSharedPointer<ComponentExportStatus> status,

@@ -26,6 +26,12 @@ QString valueOf(const SectionNode& node) {
     return unquote(node.value);
 }
 
+/**
+ * @brief 查找节点下匹配关键字的第一个子节点。
+ * @param node 待搜索的父节点。
+ * @param keyword 要匹配的关键字。
+ * @return 匹配的子节点；未找到时返回 nullptr。
+ */
 const SectionNode* child(const SectionNode& node, const QString& keyword) {
     for (const SectionNode& item : node.children) {
         if (upper(item.keyword) == upper(keyword))
@@ -513,6 +519,13 @@ bool XpeditionHkpModel::isHoleAmbiguous(const QString& name) const {
     return holeNameVariants.value(name).size() > 1;
 }
 
+/**
+ * @brief 将 HKP 节点列表解析为 Xpedition 中间模型。
+ * @param sections HKP 顶层节点列表。
+ * @param unit 输入几何数据的长度单位。
+ * @param diagnostics 用于记录解析问题的诊断对象。
+ * @return 解析后的 Xpedition HKP 模型。
+ */
 XpeditionHkpModel XpeditionHkpModelParser::parse(const QList<SectionNode>& sections,
                                                  LengthUnit unit,
                                                  ParseDiagnostics* diagnostics) {

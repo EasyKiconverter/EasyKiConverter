@@ -9,11 +9,11 @@ namespace EasyKiConverter {
  * @details 包围盒同时服务于原点归一化和三维元件体轮廓生成。
  */
 struct AltiumFootprintBounds {
-    qint64 minX = 0;
-    qint64 minY = 0;
-    qint64 maxX = 0;
-    qint64 maxY = 0;
-    bool valid = false;
+    qint64 minX = 0;  ///< 包围盒的最小 X 坐标。
+    qint64 minY = 0;  ///< 包围盒的最小 Y 坐标。
+    qint64 maxX = 0;  ///< 包围盒的最大 X 坐标。
+    qint64 maxY = 0;  ///< 包围盒的最大 Y 坐标。
+    bool valid = false;  ///< 包围盒是否已包含至少一个有效点。
 };
 
 /**

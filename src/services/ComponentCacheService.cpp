@@ -199,6 +199,13 @@ void ComponentCacheService::saveComponentMetadata(const QString& componentId,
     LOG_DEBUG(LogModule::Core, "Saved component metadata to cache: {}", componentId);
 }
 
+/**
+ * @brief 异步保存元器件元数据并校验缓存代次。
+ * @param componentId 元器件编号。
+ * @param data 元器件数据。
+ * @param expectedGeneration 期望的缓存代次。
+ * @param replaceModel3DMetadata 是否替换三维模型元数据。
+ */
 void ComponentCacheService::saveComponentMetadataAsync(const QString& componentId,
                                                        const ComponentData& data,
                                                        uint64_t expectedGeneration,
@@ -270,6 +277,13 @@ bool ComponentCacheService::isValidPreviewImageData(const QByteArray& imageData)
     return CacheDataValidator::isValidPreviewImage(imageData);
 }
 
+/**
+ * @brief 将预览图写入磁盘缓存。
+ * @param lcscId LCSC 元器件编号。
+ * @param imageData 预览图数据。
+ * @param imageIndex 预览图索引。
+ * @param expectedGeneration 期望的缓存代次。
+ */
 void ComponentCacheService::savePreviewImage(const QString& lcscId,
                                              const QByteArray& imageData,
                                              int imageIndex,
@@ -278,6 +292,17 @@ void ComponentCacheService::savePreviewImage(const QString& lcscId,
     imageWriter.write(lcscId, imageData, imageIndex, expectedGeneration);
 }
 
+/**
+ * @brief 下载预览图并返回其内容。
+ * @param lcscId LCSC 元器件编号。
+ * @param imageUrl 预览图 URL。
+ * @param imageIndex 预览图索引。
+ * @param diag 网络诊断输出。
+ * @param cancelled 取消标志。
+ * @param weakNetwork 是否启用弱网策略。
+ * @param expectedGeneration 期望的缓存代次。
+ * @return 下载到的预览图数据。
+ */
 QByteArray ComponentCacheService::downloadPreviewImage(const QString& lcscId,
                                                        const QString& imageUrl,
                                                        int imageIndex,
@@ -299,6 +324,13 @@ bool ComponentCacheService::isValidDatasheetData(const QByteArray& datasheetData
     return CacheDataValidator::isValidDatasheet(datasheetData, format);
 }
 
+/**
+ * @brief 将数据手册写入磁盘缓存。
+ * @param lcscId LCSC 元器件编号。
+ * @param datasheetData 数据手册内容。
+ * @param format 数据手册格式。
+ * @param expectedGeneration 期望的缓存代次。
+ */
 void ComponentCacheService::saveDatasheet(const QString& lcscId,
                                           const QByteArray& datasheetData,
                                           const QString& format,
@@ -307,6 +339,17 @@ void ComponentCacheService::saveDatasheet(const QString& lcscId,
     fileStore.save(lcscId, datasheetData, format, expectedGeneration);
 }
 
+/**
+ * @brief 下载数据手册并返回其内容。
+ * @param lcscId LCSC 元器件编号。
+ * @param datasheetUrl 数据手册 URL。
+ * @param format 输出的数据手册格式。
+ * @param diag 网络诊断输出。
+ * @param cancelled 取消标志。
+ * @param weakNetwork 是否启用弱网策略。
+ * @param expectedGeneration 期望的缓存代次。
+ * @return 下载到的数据手册内容。
+ */
 QByteArray ComponentCacheService::downloadDatasheet(const QString& lcscId,
                                                     const QString& datasheetUrl,
                                                     QString* format,
@@ -332,6 +375,13 @@ QByteArray ComponentCacheService::loadModel3D(const QString& uuid, const QString
     return coordinator.load(uuid, extension);
 }
 
+/**
+ * @brief 将三维模型写入公共缓存。
+ * @param uuid 三维模型 UUID。
+ * @param data 三维模型文件内容。
+ * @param extension 文件扩展名。
+ * @param expectedGeneration 期望的缓存代次。
+ */
 void ComponentCacheService::saveModel3D(const QString& uuid,
                                         const QByteArray& data,
                                         const QString& extension,
@@ -340,6 +390,13 @@ void ComponentCacheService::saveModel3D(const QString& uuid,
     coordinator.save(uuid, data, extension, expectedGeneration);
 }
 
+/**
+ * @brief 将缓存中的三维模型复制到指定文件。
+ * @param uuid 三维模型 UUID。
+ * @param extension 文件扩展名。
+ * @param destinationPath 目标文件路径。
+ * @return 复制是否成功。
+ */
 bool ComponentCacheService::copyModel3DToFile(const QString& uuid,
                                               const QString& extension,
                                               const QString& destinationPath) const {

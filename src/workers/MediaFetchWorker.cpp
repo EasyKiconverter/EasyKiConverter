@@ -18,8 +18,14 @@ MediaFetchWorker::MediaFetchWorker(const QString& componentId,
     , m_datasheetUrl(datasheetUrl)
     , m_isAborted(0) {}
 
+/**
+ * @brief 销毁媒体获取工作对象。
+ */
 MediaFetchWorker::~MediaFetchWorker() = default;
 
+/**
+ * @brief 初始化并启动预览图与数据手册获取流程。
+ */
 void MediaFetchWorker::run() {
     if (m_isAborted.loadAcquire()) {
         return;
@@ -30,7 +36,7 @@ void MediaFetchWorker::run() {
     m_diagnostics.clear();
     m_pendingOperations = 0;
 
-    ComponentCacheService* cache = ComponentCacheService::instance();
+    ComponentCacheService* cache = ComponentCacheService::instance();  // 当前磁盘缓存服务。
     if (!cache) {
         qWarning() << "MediaFetchWorker: ComponentCacheService is null";
         emit fetchCompleted(m_componentId, m_previewImageDataList, m_datasheetData, m_diagnostics);
@@ -47,6 +53,11 @@ void MediaFetchWorker::run() {
     startPreviewDownload(0, cache);
 }
 
+/**
+ * @brief 获取指定索引的预览图并继续处理后续媒体。
+ * @param index 当前预览图索引。
+ * @param cache 用于读取本地缓存的缓存服务。
+ */
 void MediaFetchWorker::startPreviewDownload(int index, ComponentCacheService* cache) {
     if (m_isAborted.loadAcquire()) {
         finishAllDownloads();
@@ -60,15 +71,15 @@ void MediaFetchWorker::startPreviewDownload(int index, ComponentCacheService* ca
     }
 
     m_pendingOperations++;
-    const QString& url = m_previewImageUrls[index];
+    const QString& url = m_previewImageUrls[index];  // 当前预览图的远程地址。
 
     if (url.isEmpty()) {
         // URL为空，尝试直接从缓存加载
-        QElapsedTimer timer;
+        QElapsedTimer timer;  // 统计本地缓存读取耗时的计时器。
         timer.start();
-        QByteArray imageData = cache->loadPreviewImage(m_componentId, index);
+        QByteArray imageData = cache->loadPreviewImage(m_componentId, index);  // 从缓存读取的预览图数据。
 
-        ComponentExportStatus::NetworkDiagnostics diag;
+        ComponentExportStatus::NetworkDiagnostics diag;  // 本次缓存读取的诊断信息。
         diag.url = QString();
         diag.latencyMs = timer.elapsed();
         if (!imageData.isEmpty()) {
@@ -110,7 +121,7 @@ void MediaFetchWorker::startPreviewDownload(int index, ComponentCacheService* ca
                 m_previewImageDataList.append(imageData);
             }
             // 创建诊断信息的副本
-            ComponentExportStatus::NetworkDiagnostics diagCopy = diag;
+            ComponentExportStatus::NetworkDiagnostics diagCopy = diag;  // 异步回调使用的诊断信息副本。
             diagCopy.latencyMs = diag.latencyMs;
             m_diagnostics.append(diagCopy);
 
@@ -120,6 +131,10 @@ void MediaFetchWorker::startPreviewDownload(int index, ComponentCacheService* ca
         });
 }
 
+/**
+ * @brief 获取数据手册并在媒体流程完成后发出结果。
+ * @param cache 用于读取本地缓存的缓存服务。
+ */
 void MediaFetchWorker::startDatasheetDownload(ComponentCacheService* cache) {
     if (m_isAborted.loadAcquire()) {
         finishAllDownloads();
@@ -128,11 +143,11 @@ void MediaFetchWorker::startDatasheetDownload(ComponentCacheService* cache) {
 
     if (m_datasheetUrl.isEmpty()) {
         // URL为空，尝试直接从缓存加载
-        QElapsedTimer timer;
+        QElapsedTimer timer;  // 统计本地数据手册读取耗时的计时器。
         timer.start();
         m_datasheetData = cache->loadDatasheet(m_componentId);
 
-        ComponentExportStatus::NetworkDiagnostics diag;
+        ComponentExportStatus::NetworkDiagnostics diag;  // 本次缓存读取的诊断信息。
         diag.url = QString();
         diag.latencyMs = timer.elapsed();
         if (!m_datasheetData.isEmpty()) {
@@ -168,7 +183,7 @@ void MediaFetchWorker::startDatasheetDownload(ComponentCacheService* cache) {
             }
 
             m_datasheetData = data;
-            ComponentExportStatus::NetworkDiagnostics diagCopy = diag;
+            ComponentExportStatus::NetworkDiagnostics diagCopy = diag;  // 异步回调使用的诊断信息副本。
             diagCopy.latencyMs = diag.latencyMs;
             m_diagnostics.append(diagCopy);
 
@@ -177,6 +192,9 @@ void MediaFetchWorker::startDatasheetDownload(ComponentCacheService* cache) {
         });
 }
 
+/**
+ * @brief 在所有媒体操作完成后发出完成信号。
+ */
 void MediaFetchWorker::finishAllDownloads() {
     // 检查是否所有操作都已完成
     if (m_pendingOperations > 0) {
@@ -187,6 +205,9 @@ void MediaFetchWorker::finishAllDownloads() {
     emit fetchCompleted(m_componentId, m_previewImageDataList, m_datasheetData, m_diagnostics);
 }
 
+/**
+ * @brief 请求终止当前媒体获取流程。
+ */
 void MediaFetchWorker::abort() {
     // 使用原子操作确保线程安全
     m_isAborted.storeRelease(1);

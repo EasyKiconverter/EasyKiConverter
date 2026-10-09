@@ -5,9 +5,13 @@
 
 namespace EasyKiConverter {
 
-/** @brief 将符号参数字段映射到 Altium 参数记录。 */
+/**
+ * @brief 将符号参数字段映射到 Altium 参数记录。
+ * @param parameter 统一 IR 中的符号参数。
+ * @return 转换后的 Altium 参数记录。
+ */
 AltiumSchParameter AltiumSymbolParameterConverter::convert(const IR::SymbolParameterIR& parameter) {
-    AltiumSchParameter altiumParameter;
+    AltiumSchParameter altiumParameter;  // 转换后的 Altium 参数记录。
     altiumParameter.name = parameter.name;
     altiumParameter.value = parameter.value;
     altiumParameter.locationX = AltiumCoord::mmToRaw(parameter.position.x());

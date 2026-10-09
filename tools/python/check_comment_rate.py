@@ -99,7 +99,9 @@ def inspect_file(path: Path) -> tuple[int, int, list[str]]:
                     missing.append(f"{path}:{pending_function + 1}")
                 pending_function = None
             continue
-        if FUNCTION_RE.match(line) and not line.lstrip().startswith((":", "if ", "for ", "while ", "switch ", "catch ")):
+        if FUNCTION_RE.match(
+            line
+        ) and not line.lstrip().startswith((":", "if ", "for ", "while ", "switch ", "catch ", "else ")):
             total += 1
             if has_comment_before(lines, index):
                 documented += 1
@@ -115,6 +117,7 @@ def inspect_file(path: Path) -> tuple[int, int, list[str]]:
             FUNCTION_START_RE.match(line)
             and not line.lstrip().startswith("return ")
             and not line.lstrip().startswith(":")
+            and not line.lstrip().startswith(("if ", "if(", "else ", "else{"))
             and "<<" not in line
             and ("{" in line or ";" not in line)
         ):
@@ -343,12 +346,15 @@ def inspect_doxygen_comments(path: Path) -> tuple[int, int, list[str]]:
                 record_function(pending_function)
                 pending_function = None
             continue
-        if FUNCTION_RE.match(line) and not line.lstrip().startswith((":", "if ", "for ", "while ", "switch ", "catch ")):
+        if FUNCTION_RE.match(
+            line
+        ) and not line.lstrip().startswith((":", "if ", "for ", "while ", "switch ", "catch ", "else ")):
             record_function(index)
         elif (
             FUNCTION_START_RE.match(line)
             and not line.lstrip().startswith("return ")
             and not line.lstrip().startswith(":")
+            and not line.lstrip().startswith(("if ", "if(", "else ", "else{"))
             and "<<" not in line
             and ("{" in line or ";" not in line)
         ):
