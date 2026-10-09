@@ -10,11 +10,13 @@
 
 namespace EasyKiConverter {
 
-/** @brief P-CAD Pattern 和板级放置的统一转换结果。 */
+/**
+ * @brief P-CAD Pattern 和板级放置的统一转换结果。
+ */
 struct PcadConversionResult {
-    QList<IR::FootprintComponentIR> footprints;
-    QList<IR::FootprintPlacementIR> placements;
-    IR::BoardIR board;
+    QList<IR::FootprintComponentIR> footprints;  ///< 转换得到的封装定义。
+    QList<IR::FootprintPlacementIR> placements;  ///< 转换得到的板级器件放置。
+    IR::BoardIR board;  ///< 转换得到的板级图形。
 };
 
 /**
