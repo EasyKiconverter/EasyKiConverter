@@ -14,9 +14,9 @@ namespace EasyKiConverter {
 
 /** @brief Cadstar Part 关联的统一转换结果。 */
 struct CadstarConversionResult {
-    QList<IR::FootprintComponentIR> footprints;
-    QList<IR::SymbolComponentIR> symbols;
-    QList<IR::ComponentIR> components;
+    QList<IR::FootprintComponentIR> footprints;  ///< 转换后的封装 IR 列表。
+    QList<IR::SymbolComponentIR> symbols;  ///< 转换后的符号 IR 列表。
+    QList<IR::ComponentIR> components;  ///< 转换后的顶层器件 IR 列表。
 };
 
 /**
