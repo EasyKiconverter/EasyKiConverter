@@ -70,11 +70,11 @@ signals:
     void downloadProgress(qint64 bytesReceived, qint64 bytesTotal);
 
 private:
-    AsyncNetworkRequest* m_activeRequest;
-    QString m_savePath;
-    QString m_datasheetUrl;
-    bool m_isDownloading;
-    bool m_weakNetworkSupport;
+    AsyncNetworkRequest* m_activeRequest;  ///< 当前进行中的网络请求。
+    QString m_savePath;  ///< 数据手册保存路径。
+    QString m_datasheetUrl;  ///< 当前数据手册下载地址。
+    bool m_isDownloading;  ///< 是否正在下载数据手册。
+    bool m_weakNetworkSupport;  ///< 是否启用弱网重试策略。
 };
 
 }  // namespace EasyKiConverter

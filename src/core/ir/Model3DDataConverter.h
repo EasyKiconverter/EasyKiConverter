@@ -16,7 +16,7 @@ namespace EasyKiConverter {
 namespace IR {
 
 /** @brief 向后兼容别名，新代码请使用 IR::EASYEDA_PX_TO_MM */
-constexpr double MODEL3D_PX_TO_MM = EASYEDA_PX_TO_MM;
+constexpr double MODEL3D_PX_TO_MM = EASYEDA_PX_TO_MM;  ///< 3D 模型 EasyEDA 像素单位到毫米的换算系数。
 
 /**
  * @brief Model3DData -> Model3DIR 转换
@@ -28,7 +28,7 @@ constexpr double MODEL3D_PX_TO_MM = EASYEDA_PX_TO_MM;
  *       stepOffsetMm 已经是 mm（名称中标注），无需转换。
  */
 inline Model3DIR toModel3DIR(const Model3DData& data) {
-    Model3DIR ir;
+    Model3DIR ir;  // 待填充的 3D 模型 IR。
 
     ir.setName(data.name());
 

@@ -30,7 +30,7 @@ namespace EasyedaPadShapeMap {
  * @return 对应的 PadShape，默认返回 PadShape::Rect
  */
 inline PadShape toPadShape(const QString& easyedaShape) {
-    const QString upper = easyedaShape.toUpper();
+    const QString upper = easyedaShape.toUpper();  // 统一为大写后进行形状匹配。
 
     if (upper == "ELLIPSE" || upper == "CIRCLE" || upper == "ROUND") {
         return PadShape::Ellipse;
