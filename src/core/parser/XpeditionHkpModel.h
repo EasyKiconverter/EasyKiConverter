@@ -21,79 +21,79 @@ enum class XpeditionPadShape { Unknown, Round, Rectangle, Oblong, Square, Polygo
 
 /** @brief Pad 定义，供 Padstack 引用。 */
 struct XpeditionPadDefinition {
-    QString name;
-    XpeditionPadShape shape = XpeditionPadShape::Unknown;
-    QSizeF size;
-    QPointF offset;
-    QList<QPointF> polygon;
-    int line = 0;
+    QString name;  ///< Pad 定义名称。
+    XpeditionPadShape shape = XpeditionPadShape::Unknown;  ///< Pad 形状。
+    QSizeF size;  ///< Pad 尺寸。
+    QPointF offset;  ///< Pad 相对原点偏移。
+    QList<QPointF> polygon;  ///< 自定义多边形顶点。
+    int line = 0;  ///< 定义所在源文件行号。
 };
 
 /** @brief 孔定义，供 Padstack 引用。 */
 struct XpeditionHoleDefinition {
-    QString name;
-    XpeditionPadShape shape = XpeditionPadShape::Unknown;
-    QSizeF size;
-    bool plated = true;
-    int line = 0;
+    QString name;  ///< 孔定义名称。
+    XpeditionPadShape shape = XpeditionPadShape::Unknown;  ///< 孔形状。
+    QSizeF size;  ///< 孔尺寸。
+    bool plated = true;  ///< 是否镀层。
+    int line = 0;  ///< 定义所在源文件行号。
 };
 
 /** @brief Padstack 的层焊盘和孔关联。 */
 struct XpeditionPadstackDefinition {
-    QString name;
-    QString technology;
-    QString topPad;
-    QString bottomPad;
-    QString topSolderMaskPad;
-    QString bottomSolderMaskPad;
-    QString topSolderPastePad;
-    QString bottomSolderPastePad;
-    QString holeName;
-    int line = 0;
+    QString name;  ///< Padstack 名称。
+    QString technology;  ///< 工艺类型。
+    QString topPad;  ///< 顶层 Pad 名称。
+    QString bottomPad;  ///< 底层 Pad 名称。
+    QString topSolderMaskPad;  ///< 顶层阻焊 Pad 名称。
+    QString bottomSolderMaskPad;  ///< 底层阻焊 Pad 名称。
+    QString topSolderPastePad;  ///< 顶层锡膏 Pad 名称。
+    QString bottomSolderPastePad;  ///< 底层锡膏 Pad 名称。
+    QString holeName;  ///< 关联孔名称。
+    int line = 0;  ///< 定义所在源文件行号。
 };
 
 /** @brief Cell 中的引脚实例。 */
 struct XpeditionCellPin {
-    QString number;
-    QPointF position;
-    QString padstack;
-    double rotation = 0.0;
-    bool mirror = false;
-    int line = 0;
+    QString number;  ///< 引脚编号。
+    QPointF position;  ///< 引脚位置。
+    QString padstack;  ///< 关联 Padstack 名称。
+    double rotation = 0.0;  ///< 引脚旋转角度。
+    bool mirror = false;  ///< 是否镜像放置。
+    int line = 0;  ///< 定义所在源文件行号。
 };
 
 /** @brief Cell 中的矩形或折线轮廓。 */
 struct XpeditionCellOutline {
-    QString layer;
-    QList<QPointF> points;
-    int line = 0;
+    QString layer;  ///< 轮廓所在层名称。
+    QList<QPointF> points;  ///< 轮廓顶点。
+    int line = 0;  ///< 定义所在源文件行号。
 };
 
 /** @brief Xpedition 封装 Cell。 */
 struct XpeditionCellDefinition {
-    QString name;
-    QString packageGroup;
-    QString mountType;
-    int numberOfLayers = 0;
-    QList<XpeditionCellPin> pins;
-    QList<XpeditionCellOutline> outlines;
-    int line = 0;
+    QString name;  ///< Cell 名称。
+    QString packageGroup;  ///< 封装分组名称。
+    QString mountType;  ///< 安装类型。
+    int numberOfLayers = 0;  ///< 层数。
+    QList<XpeditionCellPin> pins;  ///< Cell 引脚。
+    QList<XpeditionCellOutline> outlines;  ///< Cell 轮廓。
+    int line = 0;  ///< 定义所在源文件行号。
 };
 
 /** @brief PDB 器件与 Cell、符号的关联。 */
 struct XpeditionPartDefinition {
-    QString number;
-    QString name;
-    QString label;
-    QString description;
-    QString referencePrefix;
-    QString topCell;
-    QString bottomCell;
-    QString symbol;
-    QMap<QString, QString> properties;
-    QStringList symbolPinNames;
-    QList<QStringList> slotPinNumbers;
-    int line = 0;
+    QString number;  ///< 器件编号。
+    QString name;  ///< 器件名称。
+    QString label;  ///< 器件显示标签。
+    QString description;  ///< 器件描述。
+    QString referencePrefix;  ///< 参考标号前缀。
+    QString topCell;  ///< 顶层 Cell 名称。
+    QString bottomCell;  ///< 底层 Cell 名称。
+    QString symbol;  ///< 关联符号名称。
+    QMap<QString, QString> properties;  ///< 器件扩展属性。
+    QStringList symbolPinNames;  ///< 符号引脚名称列表。
+    QList<QStringList> slotPinNumbers;  ///< 分组引脚编号。
+    int line = 0;  ///< 定义所在源文件行号。
 };
 
 /**
@@ -101,11 +101,11 @@ struct XpeditionPartDefinition {
  * @details 该模型保留格式语义，后续映射到统一 IR 时可以明确报告不支持的字段。
  */
 struct XpeditionHkpModel {
-    QList<XpeditionPadDefinition> pads;
-    QList<XpeditionHoleDefinition> holes;
-    QList<XpeditionPadstackDefinition> padstacks;
-    QList<XpeditionCellDefinition> cells;
-    QList<XpeditionPartDefinition> parts;
+    QList<XpeditionPadDefinition> pads;  ///< Pad 定义集合。
+    QList<XpeditionHoleDefinition> holes;  ///< 孔定义集合。
+    QList<XpeditionPadstackDefinition> padstacks;  ///< Padstack 定义集合。
+    QList<XpeditionCellDefinition> cells;  ///< Cell 定义集合。
+    QList<XpeditionPartDefinition> parts;  ///< 器件定义集合。
 
     /** @brief 原始 Pad 名称到解析后候选名称的映射。 */
     QMap<QString, QStringList> padNameVariants;
@@ -116,22 +116,46 @@ struct XpeditionHkpModel {
     /** @brief 原始 Cell 名称到解析后候选名称的映射。 */
     QMap<QString, QStringList> cellNameVariants;
 
-    /** @brief 按名称查找 Padstack。 */
+    /**
+     * @brief 按名称查找 Padstack。
+     * @param name Padstack 名称。
+     * @return 找到的 Padstack，未找到时返回 nullptr。
+     */
     const XpeditionPadstackDefinition* findPadstack(const QString& name) const;
 
-    /** @brief 按名称查找 Cell。 */
+    /**
+     * @brief 按名称查找 Cell。
+     * @param name Cell 名称。
+     * @return 找到的 Cell，未找到时返回 nullptr。
+     */
     const XpeditionCellDefinition* findCell(const QString& name) const;
 
-    /** @brief 判断 Padstack 原始名称是否对应多个定义。 */
+    /**
+     * @brief 判断 Padstack 原始名称是否对应多个定义。
+     * @param name 原始 Padstack 名称。
+     * @return 若对应多个候选则返回 true。
+     */
     bool isPadstackAmbiguous(const QString& name) const;
 
-    /** @brief 判断 Cell 原始名称是否对应多个定义。 */
+    /**
+     * @brief 判断 Cell 原始名称是否对应多个定义。
+     * @param name 原始 Cell 名称。
+     * @return 若对应多个候选则返回 true。
+     */
     bool isCellAmbiguous(const QString& name) const;
 
-    /** @brief 判断 Pad 原始名称是否对应多个定义。 */
+    /**
+     * @brief 判断 Pad 原始名称是否对应多个定义。
+     * @param name 原始 Pad 名称。
+     * @return 若对应多个候选则返回 true。
+     */
     bool isPadAmbiguous(const QString& name) const;
 
-    /** @brief 判断孔原始名称是否对应多个定义。 */
+    /**
+     * @brief 判断孔原始名称是否对应多个定义。
+     * @param name 原始孔名称。
+     * @return 若对应多个候选则返回 true。
+     */
     bool isHoleAmbiguous(const QString& name) const;
 };
 
