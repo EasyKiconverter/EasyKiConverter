@@ -44,9 +44,9 @@ public:
     bool isBlocked(const QString& componentId) const;
 
 private:
-    mutable QMutex m_mutex;
-    QSet<QString> m_components;
-    bool m_allBlocked = false;
+    mutable QMutex m_mutex;  ///< 保护组件级和全局屏蔽状态的互斥锁。
+    QSet<QString> m_components;  ///< 已被屏蔽的组件编号集合。
+    bool m_allBlocked = false;  ///< 是否启用全局屏蔽。
 };
 
 }  // namespace EasyKiConverter
