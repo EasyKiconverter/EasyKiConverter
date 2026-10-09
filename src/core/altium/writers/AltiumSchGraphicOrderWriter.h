@@ -14,7 +14,10 @@ class AltiumSchLibWriter;
  */
 class AltiumSchGraphicOrderWriter final {
 public:
-    /** @brief 创建绑定到指定 SchLib 写入器的顺序调度器。 */
+    /**
+     * @brief 创建绑定到指定 SchLib 写入器的顺序调度器。
+     * @param owner 所属的 SchLib 主写入器。
+     */
     explicit AltiumSchGraphicOrderWriter(AltiumSchLibWriter& owner);
 
     /**
@@ -26,7 +29,7 @@ public:
     void write(AltiumBinaryWriter& writer, const AltiumSchComponent& component, const AltiumSchGraphicOrder& order);
 
 private:
-    AltiumSchLibWriter& m_owner;
+    AltiumSchLibWriter& m_owner;  ///< 所属的 SchLib 主写入器。
 };
 
 }  // namespace EasyKiConverter

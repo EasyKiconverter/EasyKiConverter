@@ -27,7 +27,7 @@ public:
     void write(AltiumBinaryWriter& writer, const AltiumSchImage& image);
 
 private:
-    AltiumSchLibWriter& m_owner;
+    AltiumSchLibWriter& m_owner;  ///< 所属的 SchLib 主写入器。
 };
 
 }  // namespace EasyKiConverter

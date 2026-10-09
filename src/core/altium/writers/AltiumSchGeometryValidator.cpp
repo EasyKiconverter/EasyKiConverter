@@ -10,36 +10,45 @@
 
 namespace EasyKiConverter {
 
-// 校验组件中所有图元的有限坐标、尺寸、角度和控制点数量。
+/**
+ * @brief 校验组件中所有图元的有限坐标、尺寸、角度和控制点数量。
+ * @param writer 所属的 SchLib 主写入器，用于记录诊断信息。
+ * @param component 待校验的原理图元件。
+ * @return 所有图元均符合 Altium SchLib 约束时返回 true。
+ */
 bool AltiumSchGeometryValidator::validate(AltiumSchLibWriter& writer, const AltiumSchComponent& component) {
-    const auto hasFinitePoints = [](const QList<QPointF>& points) {
+    const auto hasFinitePoints = [](const QList<QPointF>& points) {  // 检查点集合是否全部为有限坐标。
         // 拒绝包含 NaN 或无穷值的点，避免生成无法被 Altium 读取的记录。
+        /**
+         * @brief 判断单个点坐标是否为有限值。
+         */
         return std::all_of(points.cbegin(), points.cend(), [](const QPointF& point) {
             return std::isfinite(point.x()) && std::isfinite(point.y());
         });
     };
-    const auto reject = [&writer, &component](const QString& message) {
+    const auto reject = [&writer, &component](const QString& message) {  // 记录诊断并拒绝当前组件。
         writer.m_diagnostics.append(
             QStringLiteral("Altium SchLib 组件 %1 的%2，已拒绝写入").arg(component.name, message));
         qWarning() << "AltiumSchLibWriter:" << writer.m_diagnostics.constLast();
         return false;
     };
-    const auto validateLineWidths = [&reject](const auto& objects, const QString& context) {
+    const auto validateLineWidths = [&reject](const auto& objects, const QString& context) {  // 检查图元线宽索引。
         for (const auto& object : objects) {
             if (object.lineWidth < 0 || object.lineWidth > 3)
                 return reject(QStringLiteral("%1线宽索引无效: %2").arg(context).arg(object.lineWidth));
         }
         return true;
     };
-    const auto validateLineStyles = [&reject](const auto& objects, const QString& context) {
+    const auto validateLineStyles = [&reject](const auto& objects, const QString& context) {  // 检查图元线型索引。
         for (const auto& object : objects) {
             if (object.lineStyle < 0 || object.lineStyle > 2)
                 return reject(QStringLiteral("%1线型无效: %2").arg(context).arg(object.lineStyle));
         }
         return true;
     };
-    const auto validateShortString = [&reject](const QString& value, const QString& context) {
-        const QByteArray encoded = value.toLatin1();
+    const auto validateShortString = [&reject](const QString& value,
+                                               const QString& context) {  // 检查短字符串编码约束。
+        const QByteArray encoded = value.toLatin1();  // 按 Altium Latin-1 规则编码后的字节序列。
         if (encoded.size() > 255)
             return reject(QStringLiteral("%1超过 255 字节").arg(context));
         if (value.contains(QChar::Null))
@@ -50,7 +59,7 @@ bool AltiumSchGeometryValidator::validate(AltiumSchLibWriter& writer, const Alti
     };
 
     for (int i = 0; i < component.pins.size(); ++i) {
-        const AltiumSchPin& pin = component.pins.at(i);
+        const AltiumSchPin& pin = component.pins.at(i);  // 当前待校验的引脚。
         if (!validateShortString(pin.name, QStringLiteral("引脚 %1 名称").arg(i)) ||
             !validateShortString(pin.designator, QStringLiteral("引脚 %1 编号").arg(i)))
             return false;
