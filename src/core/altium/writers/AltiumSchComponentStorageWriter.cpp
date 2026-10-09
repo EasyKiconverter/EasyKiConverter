@@ -16,13 +16,16 @@ AltiumSchComponentStorageWriter::AltiumSchComponentStorageWriter(AltiumSchLibWri
 /**
  * @brief 写入组件的 Data 流。
  * @details 保持默认图元顺序、graphicOrder 顺序、补充图元以及参数和实现记录的原有顺序。
+ * @param ole SchLib 根 OLE 写入器。
+ * @param component 待写入的原理图元件。
+ * @param sectionKey 组件对应的 OLE 存储键。
  */
 void AltiumSchComponentStorageWriter::write(OLECompoundWriter& ole,
                                             const AltiumSchComponent& component,
                                             const QString& sectionKey) {
     // 创建组件存储区，并准备对应的 Data 流。
     ole.addStorage(sectionKey);
-    QByteArray data;
+    QByteArray data;  // 当前组件 Data 流的序列化缓冲区。
     AltiumBinaryWriter writer(data);
     AltiumSchGraphicOrderWriter graphicOrderWriter(m_owner);
 

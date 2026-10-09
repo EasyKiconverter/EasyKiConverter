@@ -16,7 +16,10 @@ class OLECompoundWriter;
  */
 class AltiumSchComponentStorageWriter final {
 public:
-    /** @brief 创建绑定到指定 SchLib 写入器的组件存储写入器。 */
+    /**
+     * @brief 创建绑定到指定 SchLib 写入器的组件存储写入器。
+     * @param owner 所属的 SchLib 主写入器。
+     */
     explicit AltiumSchComponentStorageWriter(AltiumSchLibWriter& owner);
 
     /**
@@ -28,7 +31,7 @@ public:
     void write(OLECompoundWriter& ole, const AltiumSchComponent& component, const QString& sectionKey);
 
 private:
-    AltiumSchLibWriter& m_owner;
+    AltiumSchLibWriter& m_owner;  ///< 所属的 SchLib 主写入器。
 };
 
 }  // namespace EasyKiConverter
