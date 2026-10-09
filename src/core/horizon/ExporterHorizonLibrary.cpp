@@ -1,3 +1,8 @@
+/**
+ * @file ExporterHorizonLibrary.cpp
+ * @brief 将统一 IR 导出为 Horizon Pool 源文件及其关联数据。
+ */
+
 #include "ExporterHorizonLibrary.h"
 
 #include "HorizonUnits.h"
@@ -20,29 +25,35 @@
 namespace EasyKiConverter {
 namespace {
 
-constexpr int kTopCopper = 0;
-constexpr int kInnerCopper1 = -1;
-constexpr int kInnerCopper2 = -2;
-constexpr int kInnerCopper3 = -3;
-constexpr int kInnerCopper4 = -4;
-constexpr int kBottomCopper = -100;
-constexpr int kTopMask = 10;
-constexpr int kBottomMask = -110;
-constexpr int kTopSilk = 20;
-constexpr int kBottomSilk = -120;
-constexpr int kTopPaste = 30;
-constexpr int kBottomPaste = -130;
-constexpr int kTopPackage = 40;
-constexpr int kBottomPackage = -140;
-constexpr int kTopAssembly = 50;
-constexpr int kBottomAssembly = -150;
-constexpr int kOutline = 100;
-constexpr int kInvalidPackageLayer = std::numeric_limits<int>::min();
+/** @brief Horizon 层编号与 IR 层语义分开维护，避免目标格式数值泄漏到统一 IR。 */
+constexpr int kTopCopper = 0;  ///< 顶层铜层。
+constexpr int kInnerCopper1 = -1;  ///< 第一内层铜层。
+constexpr int kInnerCopper2 = -2;  ///< 第二内层铜层。
+constexpr int kInnerCopper3 = -3;  ///< 第三内层铜层。
+constexpr int kInnerCopper4 = -4;  ///< 第四内层铜层。
+constexpr int kBottomCopper = -100;  ///< 底层铜层。
+constexpr int kTopMask = 10;  ///< 顶层阻焊层。
+constexpr int kBottomMask = -110;  ///< 底层阻焊层。
+constexpr int kTopSilk = 20;  ///< 顶层丝印层。
+constexpr int kBottomSilk = -120;  ///< 底层丝印层。
+constexpr int kTopPaste = 30;  ///< 顶层锡膏层。
+constexpr int kBottomPaste = -130;  ///< 底层锡膏层。
+constexpr int kTopPackage = 40;  ///< 顶层封装图形层。
+constexpr int kBottomPackage = -140;  ///< 底层封装图形层。
+constexpr int kTopAssembly = 50;  ///< 顶层装配层。
+constexpr int kBottomAssembly = -150;  ///< 底层装配层。
+constexpr int kOutline = 100;  ///< 封装外形层。
+constexpr int kInvalidPackageLayer = std::numeric_limits<int>::min();  ///< 无法保真表达的图元层哨兵值。
 
+/**
+ * @brief 将名称清理为安全、稳定的文件名，原始名称仍保留在对象和诊断中。
+ * @param value 待清理的原始名称。
+ * @return 清理后的稳定文件名。
+ */
 QString safeName(QString value) {
     value = value.trimmed();
-    QString result;
-    for (const QChar c : value) {
+    QString result;  ///< 清理后的文件名。
+    for (const QChar c : value) {  ///< 当前遍历的 Unicode 字符。
         if (c.isLetterOrNumber() || c == QLatin1Char('_') || c == QLatin1Char('-') || c == QLatin1Char('.') ||
             c == QLatin1Char(' '))
             result.append(c);
@@ -53,22 +64,43 @@ QString safeName(QString value) {
     return result.isEmpty() ? QStringLiteral("unnamed") : result.left(120);
 }
 
+/**
+ * @brief 判断焊盘是否为无镀层机械通孔。
+ * @param pad 待判断的焊盘。
+ * @return 如果焊盘是无镀层通孔则返回 true。
+ */
 bool isMechanicalHolePad(const IR::FootprintPadIR& pad) {
     return pad.isThroughHole() && !pad.isPlated;
 }
 
+/**
+ * @brief 生成焊盘文件名主干，并为无编号机械孔生成稳定名称。
+ * @param pad 待生成名称的焊盘。
+ * @param index 焊盘在当前封装中的索引。
+ * @return 可用于输出文件名的名称主干。
+ */
 QString padFileStem(const IR::FootprintPadIR& pad, int index) {
     if (isMechanicalHolePad(pad) && pad.number.trimmed().isEmpty())
         return QStringLiteral("NPTH%1").arg(index + 1);
     return safeName(pad.number);
 }
 
+/**
+ * @brief 检查清洗后的名称是否会覆盖已有输出文件。
+ * @param owners 已登记的清洗名称及其原始名称。
+ * @param sanitizedName 清洗后的名称。
+ * @param rawName 当前名称的原始值。
+ * @param kind 名称所属的对象类型。
+ * @param diagnostics 导出诊断列表。
+ * @return 如果名称未产生冲突则返回 true。
+ */
 bool validateSanitizedName(QHash<QString, QString>& owners,
                            const QString& sanitizedName,
                            const QString& rawName,
                            const QString& kind,
                            QStringList& diagnostics) {
-    const auto existing = owners.constFind(sanitizedName);
+    // 两个原始名称清洗后相同会覆盖同一个文件，必须在写盘前拒绝。
+    const auto existing = owners.constFind(sanitizedName);  ///< 已登记的同名记录。
     if (existing != owners.cend() && existing.value() != rawName) {
         diagnostics.append(QStringLiteral("Horizon: %1 名称清洗后输出路径冲突：%2（%3 与 %4）")
                                .arg(kind, sanitizedName, existing.value(), rawName));
@@ -78,6 +110,14 @@ bool validateSanitizedName(QHash<QString, QString>& owners,
     return true;
 }
 
+/**
+ * @brief 检查原始名称清洗后是否仍保持唯一。
+ * @param owners 已登记的清洗名称及其原始名称。
+ * @param rawName 当前名称的原始值。
+ * @param kind 名称所属的对象类型。
+ * @param diagnostics 导出诊断列表。
+ * @return 如果名称未产生冲突则返回 true。
+ */
 bool validateSafeName(QHash<QString, QString>& owners,
                       const QString& rawName,
                       const QString& kind,
@@ -85,27 +125,58 @@ bool validateSafeName(QHash<QString, QString>& owners,
     return validateSanitizedName(owners, safeName(rawName), rawName, kind, diagnostics);
 }
 
+/**
+ * @brief 将毫米坐标转换为 Horizon JSON 坐标数组。
+ * @param x 毫米单位的横坐标。
+ * @param y 毫米单位的纵坐标。
+ * @return Horizon 使用的坐标数组。
+ */
 QJsonArray point(double x, double y) {
     return {HorizonUnits::mm(x), HorizonUnits::mm(y)};
 }
 
+/**
+ * @brief 将 Qt 点转换为 Horizon JSON 坐标数组。
+ * @param p 待转换的 Qt 点。
+ * @return Horizon 使用的坐标数组。
+ */
 QJsonArray point(const QPointF& p) {
     return point(p.x(), p.y());
 }
 
+/**
+ * @brief 构造 Horizon 的位置、角度和镜像对象。
+ * @param p 平移坐标。
+ * @param angle 旋转角度，单位为度。
+ * @param mirror 是否镜像。
+ * @return Horizon 的布局对象。
+ */
 QJsonObject placement(const QPointF& p = {}, double angle = 0.0, bool mirror = false) {
-    QJsonObject result;
+    QJsonObject result;  ///< 生成的布局 JSON 对象。
     result.insert(QStringLiteral("shift"), point(p));
     result.insert(QStringLiteral("angle"), qRound64(angle * 65536.0 / 360.0));
     result.insert(QStringLiteral("mirror"), mirror);
     return result;
 }
 
+/**
+ * @brief 将字符串封装为 Horizon 的变体字段。
+ * @param value 待封装的字符串值。
+ * @return Horizon 的变体 JSON 数组。
+ */
 QJsonArray variant(const QString& value) {
     return QJsonArray{false, value};
 }
 
+/**
+ * @brief 将 IR 引脚电气类型映射为 Horizon 引脚方向类型。
+ * @param type IR 引脚电气类型。
+ * @param diagnostics 导出诊断列表。
+ * @param context 当前引脚的诊断上下文。
+ * @return Horizon 引脚方向字符串。
+ */
 QString pinDirection(IR::PinElectricalType type, QStringList& diagnostics, const QString& context) {
+    // Horizon 使用有限的字符串枚举，无法直接表达的类型必须进入诊断。
     switch (type) {
         case IR::PinElectricalType::Input:
             return QStringLiteral("input");
@@ -130,7 +201,13 @@ QString pinDirection(IR::PinElectricalType type, QStringList& diagnostics, const
     return QStringLiteral("passive");
 }
 
+/**
+ * @brief 将 IR 引脚方向映射为 Horizon 符号方向字符串。
+ * @param direction IR 引脚方向。
+ * @return Horizon 符号方向字符串。
+ */
 QString symbolOrientation(IR::PinDirection direction) {
+    // 目标格式只接受四个正交方向，未知值按 right 处理。
     switch (direction) {
         case IR::PinDirection::Left:
             return QStringLiteral("left");
@@ -144,7 +221,15 @@ QString symbolOrientation(IR::PinDirection direction) {
     }
 }
 
+/**
+ * @brief 将 IR 图层映射为 Horizon 封装图层编号。
+ * @param layer IR 图层语义。
+ * @param diagnostics 导出诊断列表。
+ * @param context 当前图元的诊断上下文。
+ * @return Horizon 封装图层编号，无法表达时返回无效层哨兵值。
+ */
 int packageLayer(IR::LayerType layer, QStringList& diagnostics, const QString& context) {
+    // KeepOut 不得回退为铜层；只有原生 Region keepout 由调用方单独序列化。
     switch (layer) {
         case IR::LayerType::TopCopper:
         case IR::LayerType::MultiLayer:
@@ -190,8 +275,15 @@ int packageLayer(IR::LayerType layer, QStringList& diagnostics, const QString& c
     }
 }
 
+/**
+ * @brief 拒绝无法序列化为原生 keepout 的封装图元。
+ * @param footprint 待检查的封装 IR。
+ * @param diagnostics 导出诊断列表。
+ * @return 如果所有图元都可安全表达则返回 true。
+ */
 bool validateGenericKeepOutLayers(const IR::FootprintComponentIR& footprint, QStringList& diagnostics) {
-    const auto reject = [&diagnostics, &footprint](const QString& primitive, int index) {
+    const auto reject = [&diagnostics, &footprint](const QString& primitive,
+                                                   int index) {  ///< 记录不支持图元并拒绝导出。
         diagnostics.append(
             QStringLiteral(
                 "Horizon: 封装 %1 的第 %2 个 %3 使用 KeepOut 层；该图元没有等价的原生 keepout 表达，已拒绝导出")
@@ -200,43 +292,47 @@ bool validateGenericKeepOutLayers(const IR::FootprintComponentIR& footprint, QSt
                 .arg(primitive));
         return false;
     };
-    for (int i = 0; i < footprint.pads.size(); ++i) {
+    for (int i = 0; i < footprint.pads.size(); ++i) {  ///< 当前焊盘索引。
         if (footprint.pads.at(i).layer == IR::LayerType::KeepOut)
             return reject(QStringLiteral("Pad"), i);
     }
-    for (int i = 0; i < footprint.outlines.size(); ++i) {
+    for (int i = 0; i < footprint.outlines.size(); ++i) {  ///< 当前外形索引。
         if (footprint.outlines.at(i).layer == IR::LayerType::KeepOut)
             return reject(QStringLiteral("Outline"), i);
     }
-    for (int i = 0; i < footprint.tracks.size(); ++i) {
+    for (int i = 0; i < footprint.tracks.size(); ++i) {  ///< 当前走线索引。
         if (footprint.tracks.at(i).layer == IR::LayerType::KeepOut)
             return reject(QStringLiteral("Track"), i);
     }
-    for (int i = 0; i < footprint.circles.size(); ++i) {
+    for (int i = 0; i < footprint.circles.size(); ++i) {  ///< 当前圆形图元索引。
         if (footprint.circles.at(i).layer == IR::LayerType::KeepOut)
             return reject(QStringLiteral("Circle"), i);
     }
-    for (int i = 0; i < footprint.rectangles.size(); ++i) {
+    for (int i = 0; i < footprint.rectangles.size(); ++i) {  ///< 当前矩形图元索引。
         if (footprint.rectangles.at(i).layer == IR::LayerType::KeepOut)
             return reject(QStringLiteral("Rectangle"), i);
     }
-    for (int i = 0; i < footprint.arcs.size(); ++i) {
+    for (int i = 0; i < footprint.arcs.size(); ++i) {  ///< 当前圆弧索引。
         if (footprint.arcs.at(i).layer == IR::LayerType::KeepOut)
             return reject(QStringLiteral("Arc"), i);
     }
-    for (int i = 0; i < footprint.texts.size(); ++i) {
-        const auto& text = footprint.texts.at(i);
+    for (int i = 0; i < footprint.texts.size(); ++i) {  ///< 当前文本索引。
+        const auto& text = footprint.texts.at(i);  ///< 当前待检查的文本图元。
         if (text.isDisplayed && text.layer == IR::LayerType::KeepOut)
             return reject(QStringLiteral("Text"), i);
     }
-    for (int i = 0; i < footprint.regions.size(); ++i) {
-        const auto& region = footprint.regions.at(i);
+    for (int i = 0; i < footprint.regions.size(); ++i) {  ///< 当前区域索引。
+        const auto& region = footprint.regions.at(i);  ///< 当前待检查的区域图元。
         if (!region.isKeepOut && region.layer == IR::LayerType::KeepOut)
             return reject(QStringLiteral("Region"), i);
     }
     return true;
 }
 
+/**
+ * @brief 创建 Horizon 几何映射字段的空对象。
+ * @return 包含各类几何映射空表的 JSON 对象。
+ */
 QJsonObject emptyMaps() {
     return QJsonObject{{QStringLiteral("junctions"), QJsonObject{}},
                        {QStringLiteral("lines"), QJsonObject{}},
@@ -245,13 +341,20 @@ QJsonObject emptyMaps() {
                        {QStringLiteral("texts"), QJsonObject{}}};
 }
 
+/**
+ * @brief 以原子提交方式写入一个 Horizon JSON 文件。
+ * @param path 输出文件路径。
+ * @param object 待序列化的 JSON 对象。
+ * @param diagnostics 导出诊断列表。
+ * @return 文件成功提交时返回 true。
+ */
 bool writeJson(const QString& path, const QJsonObject& object, QStringList& diagnostics) {
-    QSaveFile file(path);
+    QSaveFile file(path);  ///< 用于原子提交的输出文件。
     if (!file.open(QIODevice::WriteOnly)) {
         diagnostics.append(QStringLiteral("Horizon: 无法写入文件：%1").arg(path));
         return false;
     }
-    const QByteArray data = QJsonDocument(object).toJson(QJsonDocument::Indented);
+    const QByteArray data = QJsonDocument(object).toJson(QJsonDocument::Indented);  ///< 格式化后的 JSON 数据。
     if (file.write(data) != data.size() || !file.commit()) {
         diagnostics.append(QStringLiteral("Horizon: 文件提交失败：%1").arg(path));
         return false;
@@ -259,8 +362,15 @@ bool writeJson(const QString& path, const QJsonObject& object, QStringList& diag
     return true;
 }
 
+/**
+ * @brief 以原子提交方式写入一个三维模型文件。
+ * @param path 输出模型文件路径。
+ * @param data 待写入的二进制模型数据。
+ * @param diagnostics 导出诊断列表。
+ * @return 文件成功提交时返回 true。
+ */
 bool writeBinary(const QString& path, const QByteArray& data, QStringList& diagnostics) {
-    QSaveFile file(path);
+    QSaveFile file(path);  ///< 用于原子提交的模型文件。
     if (!file.open(QIODevice::WriteOnly) || file.write(data) != data.size() || !file.commit()) {
         diagnostics.append(QStringLiteral("Horizon: 无法提交 3D 模型文件：%1").arg(path));
         return false;
@@ -268,7 +378,14 @@ bool writeBinary(const QString& path, const QByteArray& data, QStringList& diagn
     return true;
 }
 
+/**
+ * @brief 创建 Horizon Pool 目录骨架，调用方必须先完成输入校验。
+ * @param root Pool 根目录。
+ * @param diagnostics 导出诊断列表。
+ * @return 所有必需目录创建成功时返回 true。
+ */
 bool ensureDirs(const QString& root, QStringList& diagnostics) {
+    // Horizon Pool 所需的固定子目录名称。
     const QStringList names = {QStringLiteral("units"),
                                QStringLiteral("symbols"),
                                QStringLiteral("entities"),
@@ -276,7 +393,7 @@ bool ensureDirs(const QString& root, QStringList& diagnostics) {
                                QStringLiteral("packages"),
                                QStringLiteral("parts"),
                                QStringLiteral("3d_models")};
-    for (const QString& name : names) {
+    for (const QString& name : names) {  ///< 当前待创建的 Pool 子目录名称。
         if (!QDir().mkpath(QDir(root).filePath(name))) {
             diagnostics.append(QStringLiteral("Horizon: 无法创建 Pool 目录：%1").arg(QDir(root).filePath(name)));
             return false;
@@ -285,6 +402,16 @@ bool ensureDirs(const QString& root, QStringList& diagnostics) {
     return true;
 }
 
+/**
+ * @brief 写入一条线段及其两个端点。
+ * @param lines 线段 JSON 对象集合。
+ * @param junctions 端点 Junction JSON 对象集合。
+ * @param semantic 当前图元的稳定语义标识。
+ * @param from 线段起点坐标。
+ * @param to 线段终点坐标。
+ * @param layer Horizon 目标层编号。
+ * @param width 线段宽度，单位为毫米。
+ */
 void addLine(QJsonObject& lines,
              QJsonObject& junctions,
              const QString& semantic,
@@ -292,9 +419,11 @@ void addLine(QJsonObject& lines,
              const QPointF& to,
              int layer,
              double width) {
+    // 线段起点 Junction UUID。
     const QString fromUuid = HorizonUuid::make(QStringLiteral("junction"), semantic + QStringLiteral("/from"));
+    // 线段终点 Junction UUID。
     const QString toUuid = HorizonUuid::make(QStringLiteral("junction"), semantic + QStringLiteral("/to"));
-    const QString lineUuid = HorizonUuid::make(QStringLiteral("line"), semantic);
+    const QString lineUuid = HorizonUuid::make(QStringLiteral("line"), semantic);  ///< 线段自身 UUID。
     junctions.insert(fromUuid, QJsonObject{{QStringLiteral("position"), point(from)}});
     junctions.insert(toUuid, QJsonObject{{QStringLiteral("position"), point(to)}});
     lines.insert(lineUuid,
@@ -304,6 +433,17 @@ void addLine(QJsonObject& lines,
                              {QStringLiteral("layer"), layer}});
 }
 
+/**
+ * @brief 写入一段圆弧及其起点、终点和圆心。
+ * @param arcs 圆弧 JSON 对象集合。
+ * @param junctions 圆弧端点和圆心的 Junction JSON 对象集合。
+ * @param semantic 当前图元的稳定语义标识。
+ * @param from 圆弧起点坐标。
+ * @param to 圆弧终点坐标。
+ * @param center 圆弧圆心坐标。
+ * @param layer Horizon 目标层编号。
+ * @param width 圆弧宽度，单位为毫米。
+ */
 void addArc(QJsonObject& arcs,
             QJsonObject& junctions,
             const QString& semantic,
@@ -312,10 +452,13 @@ void addArc(QJsonObject& arcs,
             const QPointF& center,
             int layer,
             double width) {
+    // 圆弧起点 Junction UUID。
     const QString fromUuid = HorizonUuid::make(QStringLiteral("junction"), semantic + QStringLiteral("/from"));
+    // 圆弧终点 Junction UUID。
     const QString toUuid = HorizonUuid::make(QStringLiteral("junction"), semantic + QStringLiteral("/to"));
+    // 圆弧圆心 Junction UUID。
     const QString centerUuid = HorizonUuid::make(QStringLiteral("junction"), semantic + QStringLiteral("/center"));
-    const QString arcUuid = HorizonUuid::make(QStringLiteral("arc"), semantic);
+    const QString arcUuid = HorizonUuid::make(QStringLiteral("arc"), semantic);  ///< 圆弧自身 UUID。
     junctions.insert(fromUuid, QJsonObject{{QStringLiteral("position"), point(from)}});
     junctions.insert(toUuid, QJsonObject{{QStringLiteral("position"), point(to)}});
     junctions.insert(centerUuid, QJsonObject{{QStringLiteral("position"), point(center)}});
@@ -327,6 +470,16 @@ void addArc(QJsonObject& arcs,
                             {QStringLiteral("layer"), layer}});
 }
 
+/**
+ * @brief 将圆离散为四段圆弧写入 Horizon 几何映射。
+ * @param arcs 圆弧 JSON 对象集合。
+ * @param junctions 圆弧端点 Junction JSON 对象集合。
+ * @param semantic 当前圆形图元的稳定语义标识。
+ * @param center 圆心坐标。
+ * @param radius 半径，单位为毫米。
+ * @param layer Horizon 目标层编号。
+ * @param width 圆弧宽度，单位为毫米。
+ */
 void addCircle(QJsonObject& arcs,
                QJsonObject& junctions,
                const QString& semantic,
@@ -334,11 +487,12 @@ void addCircle(QJsonObject& arcs,
                double radius,
                int layer,
                double width) {
+    // 四段圆弧使用的顺序顶点。
     const QList<QPointF> points = {center + QPointF(radius, 0.0),
                                    center + QPointF(0.0, radius),
                                    center + QPointF(-radius, 0.0),
                                    center + QPointF(0.0, -radius)};
-    for (int i = 0; i < points.size(); ++i) {
+    for (int i = 0; i < points.size(); ++i) {  ///< 当前圆弧段索引。
         addArc(arcs,
                junctions,
                semantic + QStringLiteral("/") + QString::number(i),
@@ -350,56 +504,89 @@ void addCircle(QJsonObject& arcs,
     }
 }
 
+/**
+ * @brief 将多边形顶点写入 Horizon Polygon 映射。
+ * @param polygons 多边形 JSON 对象集合。
+ * @param semantic 当前多边形的稳定语义标识。
+ * @param points 多边形顶点坐标，按边界顺序排列。
+ * @param layer Horizon 目标层编号。
+ */
 void addPolygon(QJsonObject& polygons, const QString& semantic, const QList<QPointF>& points, int layer) {
-    QJsonArray vertices;
-    for (const QPointF& p : points)
+    QJsonArray vertices;  ///< 多边形顶点 JSON 数组。
+    for (const QPointF& p : points) {  ///< 当前待写入的多边形顶点。
         vertices.append(QJsonObject{{QStringLiteral("type"), QStringLiteral("line")},
                                     {QStringLiteral("position"), point(p)},
                                     {QStringLiteral("arc_center"), point(0.0, 0.0)},
                                     {QStringLiteral("arc_reverse"), false}});
-    polygons.insert(HorizonUuid::make(QStringLiteral("polygon"), semantic),
-                    QJsonObject{{QStringLiteral("vertices"), vertices}, {QStringLiteral("layer"), layer}});
+    }
+    const QString polygonUuid = HorizonUuid::make(QStringLiteral("polygon"), semantic);  ///< 多边形自身 UUID。
+    polygons.insert(polygonUuid, QJsonObject{{QStringLiteral("vertices"), vertices}, {QStringLiteral("layer"), layer}});
 }
 
+/**
+ * @brief 将椭圆或椭圆弧离散为可序列化的折线顶点。
+ * @param center 椭圆中心坐标。
+ * @param radiusX 横向半径，单位为毫米。
+ * @param radiusY 纵向半径，单位为毫米。
+ * @param startAngle 起始角度，单位为度。
+ * @param endAngle 结束角度，单位为度。
+ * @param segments 完整椭圆对应的采样段数。
+ * @return 离散后的折线顶点。
+ */
 QList<QPointF> ellipsePoints(const QPointF& center,
                              double radiusX,
                              double radiusY,
                              double startAngle,
                              double endAngle,
                              int segments = 32) {
-    QList<QPointF> result;
-    const double delta = endAngle - startAngle;
-    const int count = qMax(2, qCeil(qAbs(delta) / 360.0 * segments));
-    for (int i = 0; i <= count; ++i) {
-        const double angle = qDegreesToRadians(startAngle + delta * i / count);
+    QList<QPointF> result;  ///< 离散后的椭圆顶点。
+    const double delta = endAngle - startAngle;  ///< 椭圆弧的角度跨度。
+    const int count = qMax(2, qCeil(qAbs(delta) / 360.0 * segments));  ///< 实际采样段数。
+    for (int i = 0; i <= count; ++i) {  ///< 当前采样点索引。
+        const double angle = qDegreesToRadians(startAngle + delta * i / count);  ///< 当前采样点的弧度角。
         result.append(center + QPointF(radiusX * qCos(angle), radiusY * qSin(angle)));
     }
     return result;
 }
 
+/**
+ * @brief 将四控制点三次贝塞尔曲线离散为折线顶点。
+ * @param controlPoints 三次贝塞尔曲线的四个控制点。
+ * @param segments 曲线采样段数。
+ * @return 离散后的折线顶点。
+ */
 QList<QPointF> cubicBezierPoints(const QList<QPointF>& controlPoints, int segments = 16) {
-    QList<QPointF> result;
+    QList<QPointF> result;  ///< 离散后的贝塞尔曲线顶点。
     if (controlPoints.size() < 4)
         return result;
-    const QPointF& p0 = controlPoints.at(0);
-    const QPointF& p1 = controlPoints.at(1);
-    const QPointF& p2 = controlPoints.at(2);
-    const QPointF& p3 = controlPoints.at(3);
-    for (int i = 0; i <= segments; ++i) {
-        const double t = static_cast<double>(i) / segments;
-        const double u = 1.0 - t;
+    const QPointF& p0 = controlPoints.at(0);  ///< 曲线起点控制点。
+    const QPointF& p1 = controlPoints.at(1);  ///< 曲线第一控制点。
+    const QPointF& p2 = controlPoints.at(2);  ///< 曲线第二控制点。
+    const QPointF& p3 = controlPoints.at(3);  ///< 曲线终点控制点。
+    for (int i = 0; i <= segments; ++i) {  ///< 当前采样点索引。
+        const double t = static_cast<double>(i) / segments;  ///< 当前采样点的归一化位置。
+        const double u = 1.0 - t;  ///< 当前采样点的反向归一化位置。
         result.append(u * u * u * p0 + 3.0 * u * u * t * p1 + 3.0 * u * t * t * p2 + t * t * t * p3);
     }
     return result;
 }
 
+/**
+ * @brief 将连续点序列拆分为多条线段。
+ * @param lines 线段 JSON 对象集合。
+ * @param junctions 端点 Junction JSON 对象集合。
+ * @param semantic 当前折线的稳定语义标识。
+ * @param points 折线顶点坐标。
+ * @param layer Horizon 目标层编号。
+ * @param width 线段宽度，单位为毫米。
+ */
 void addPolyline(QJsonObject& lines,
                  QJsonObject& junctions,
                  const QString& semantic,
                  const QList<QPointF>& points,
                  int layer,
                  double width) {
-    for (int i = 1; i < points.size(); ++i)
+    for (int i = 1; i < points.size(); ++i) {  ///< 当前线段终点索引。
         addLine(lines,
                 junctions,
                 semantic + QStringLiteral("/") + QString::number(i),
@@ -407,22 +594,40 @@ void addPolyline(QJsonObject& lines,
                 points.at(i),
                 layer,
                 width);
+    }
 }
 
+/**
+ * @brief 绕指定中心旋转一个几何点。
+ * @param point 待旋转的几何点。
+ * @param center 旋转中心。
+ * @param angle 旋转角度，单位为度。
+ * @return 旋转后的几何点。
+ */
 QPointF rotateAround(const QPointF& point, const QPointF& center, double angle) {
+    // 围绕指定中心执行旋转的变换矩阵。
     const QTransform transform =
         QTransform().translate(center.x(), center.y()).rotate(angle).translate(-center.x(), -center.y());
     return transform.map(point);
 }
 
+/**
+ * @brief 生成一个符号 Unit 的 Horizon JSON。
+ * @param symbol 符号组件 IR。
+ * @param uuidBase 当前组件的稳定 UUID 基础。
+ * @param part 当前 Part 索引。
+ * @param unitUuid 当前 Unit UUID。
+ * @param diagnostics 导出诊断列表。
+ * @return 序列化后的 Unit JSON 对象。
+ */
 QJsonObject unitJson(const IR::SymbolComponentIR& symbol,
                      const QString& uuidBase,
                      int part,
                      const QString& unitUuid,
                      QStringList& diagnostics) {
-    QJsonObject pins;
+    QJsonObject pins;  ///< 当前符号 Unit 的引脚映射对象。
     for (int i = 0; i < symbol.pins.size(); ++i) {
-        const IR::SymbolPinIR& pin = symbol.pins.at(i);
+        const IR::SymbolPinIR& pin = symbol.pins.at(i);  ///< 当前 Part 的符号引脚。
         if (pin.designator.trimmed().isEmpty()) {
             diagnostics.append(
                 QStringLiteral("Horizon: 符号 %1 Part %2 存在空引脚编号").arg(symbol.name).arg(part + 1));
@@ -430,6 +635,8 @@ QJsonObject unitJson(const IR::SymbolComponentIR& symbol,
         }
         if (!pin.commonToAllParts && pin.partIndex != part)
             continue;
+        // 当前符号引脚的稳定 UUID。
+        // 为符号引脚生成与 Part 和编号绑定的稳定 UUID。
         const QString pinUuid = HorizonUuid::make(QStringLiteral("unit-pin"),
                                                   uuidBase + QStringLiteral("/part/") + QString::number(part) +
                                                       QStringLiteral("/designator/") + pin.designator);
@@ -449,26 +656,36 @@ QJsonObject unitJson(const IR::SymbolComponentIR& symbol,
                        {QStringLiteral("pins"), pins}};
 }
 
+/**
+ * @brief 生成一个符号图形及引脚几何的 Horizon JSON。
+ * @param symbol 符号组件 IR。
+ * @param uuidBase 当前组件的稳定 UUID 基础。
+ * @param part 当前 Part 索引。
+ * @param unitUuid 当前 Unit UUID。
+ * @param diagnostics 导出诊断列表。
+ * @return 序列化后的符号 JSON 对象。
+ */
 QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                        const QString& uuidBase,
                        int part,
                        const QString& unitUuid,
                        QStringList& diagnostics) {
-    QJsonObject result = emptyMaps();
+    QJsonObject result = emptyMaps();  ///< 符号 JSON 的基础对象集合。
     result.insert(QStringLiteral("type"), QStringLiteral("symbol"));
     result.insert(QStringLiteral("name"),
                   symbol.name + (symbol.partCount > 1 ? QStringLiteral("_Part%1").arg(part + 1) : QString()));
+    // 当前 Part 的稳定符号 UUID。
     const QString symbolUuid =
         HorizonUuid::make(QStringLiteral("symbol"), symbol.name + QStringLiteral("/part/") + QString::number(part));
     result.insert(QStringLiteral("uuid"), symbolUuid);
     result.insert(QStringLiteral("unit"), unitUuid);
     result.insert(QStringLiteral("can_expand"), false);
 
-    QJsonObject junctions = result[QStringLiteral("junctions")].toObject();
-    QJsonObject lines = result[QStringLiteral("lines")].toObject();
-    QJsonObject pins = result[QStringLiteral("pins")].toObject();
-    QJsonObject polygons = result[QStringLiteral("polygons")].toObject();
-    QJsonObject texts = result[QStringLiteral("texts")].toObject();
+    QJsonObject junctions = result[QStringLiteral("junctions")].toObject();  ///< 符号连接点集合。
+    QJsonObject lines = result[QStringLiteral("lines")].toObject();  ///< 符号线段集合。
+    QJsonObject pins = result[QStringLiteral("pins")].toObject();  ///< 符号引脚集合。
+    QJsonObject polygons = result[QStringLiteral("polygons")].toObject();  ///< 符号多边形集合。
+    QJsonObject texts = result[QStringLiteral("texts")].toObject();  ///< 符号文本集合。
 
     const auto warnUnsupported = [&](const QString& primitive, int count) {
         if (count > 0)
@@ -532,9 +749,10 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                     }));
 
     for (int i = 0; i < symbol.pins.size(); ++i) {
-        const IR::SymbolPinIR& pin = symbol.pins.at(i);
+        const IR::SymbolPinIR& pin = symbol.pins.at(i);  ///< 当前 Part 的符号引脚。
         if (!pin.commonToAllParts && pin.partIndex != part)
             continue;
+        // 当前符号引脚的稳定 UUID。
         const QString pinUuid = HorizonUuid::make(QStringLiteral("unit-pin"),
                                                   uuidBase + QStringLiteral("/part/") + QString::number(part) +
                                                       QStringLiteral("/designator/") + pin.designator);
@@ -543,7 +761,7 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                           {QStringLiteral("orientation"), symbolOrientation(pin.direction)},
                           {QStringLiteral("name_visible"), pin.display.showName && pin.showName},
                           {QStringLiteral("pad_visible"), pin.display.showDesignator && pin.showDesignator}};
-        QString driver = QStringLiteral("default");
+        QString driver = QStringLiteral("default");  ///< 引脚输出驱动类型。
         if (pin.electricalType == IR::PinElectricalType::OpenCollector ||
             pin.style.decoration == IR::PinDecoration::OpenCollector ||
             pin.style.decoration == IR::PinDecoration::OpenCollectorPullUp)
@@ -599,12 +817,12 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                 0);
     };
     for (int i = 0; i < symbol.rectangles.size(); ++i) {
-        const auto& r = symbol.rectangles.at(i);
+        const auto& r = symbol.rectangles.at(i);  ///< 当前符号矩形图元。
         if (r.partIndex == part)
             addRectangle(QStringLiteral("rectangle/"), r.x0, r.y0, r.x1, r.y1, i);
     }
     for (int i = 0; i < symbol.polylines.size(); ++i) {
-        const auto& poly = symbol.polylines.at(i);
+        const auto& poly = symbol.polylines.at(i);  ///< 当前符号折线图元。
         if (poly.partIndex != part)
             continue;
         for (int j = 1; j < poly.points.size(); ++j)
@@ -618,12 +836,12 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                     poly.strokeWidth);
     }
     for (int i = 0; i < symbol.polygons.size(); ++i) {
-        const auto& poly = symbol.polygons.at(i);
+        const auto& poly = symbol.polygons.at(i);  ///< 当前符号多边形图元。
         if (poly.partIndex == part)
             addPolygon(polygons, symbol.name + QStringLiteral("/polygon/") + QString::number(i), poly.points, 0);
     }
     for (int i = 0; i < symbol.paths.size(); ++i) {
-        const auto& path = symbol.paths.at(i);
+        const auto& path = symbol.paths.at(i);  ///< 当前符号路径图元。
         if (path.partIndex != part)
             continue;
         if (!path.points.isEmpty()) {
@@ -635,15 +853,19 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                         path.strokeWidth);
         } else {
             for (int j = 0; j < path.segments.size(); ++j) {
-                const auto& segment = path.segments.at(j);
-                QList<QPointF> points = {segment.start, segment.end};
+                const auto& segment = path.segments.at(j);  ///< 当前路径线段。
+                QList<QPointF> points = {segment.start, segment.end};  ///< 当前路径线段离散后的顶点。
                 if (segment.type == IR::SymbolPathSegmentIR::Type::CubicBezier)
                     points = cubicBezierPoints({segment.start, segment.control1, segment.control2, segment.end});
+                /**
+                 * @brief 二次贝塞尔曲线没有直接的 Horizon primitive，离散为折线保存形状。
+                 * @param type 对象或数据类型。
+                 */
                 else if (segment.type == IR::SymbolPathSegmentIR::Type::QuadraticBezier) {
                     points.clear();
                     for (int k = 0; k <= 16; ++k) {
-                        const double t = static_cast<double>(k) / 16.0;
-                        const double u = 1.0 - t;
+                        const double t = static_cast<double>(k) / 16.0;  ///< 二次贝塞尔曲线的归一化参数。
+                        const double u = 1.0 - t;  ///< 二次贝塞尔曲线的反向权重。
                         points.append(u * u * segment.start + 2.0 * u * t * segment.control1 + t * t * segment.end);
                     }
                 } else if (segment.type == IR::SymbolPathSegmentIR::Type::CircularArc ||
@@ -666,7 +888,7 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
         }
     }
     for (int i = 0; i < symbol.beziers.size(); ++i) {
-        const auto& bezier = symbol.beziers.at(i);
+        const auto& bezier = symbol.beziers.at(i);  ///< 当前符号贝塞尔图元。
         if (bezier.partIndex == part)
             addPolyline(lines,
                         junctions,
@@ -676,7 +898,7 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                         bezier.strokeWidth);
     }
     for (int i = 0; i < symbol.circles.size(); ++i) {
-        const auto& circle = symbol.circles.at(i);
+        const auto& circle = symbol.circles.at(i);  ///< 当前符号圆形图元。
         if (circle.partIndex == part)
             addPolygon(polygons,
                        symbol.name + QStringLiteral("/circle/") + QString::number(i),
@@ -684,7 +906,7 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                        0);
     }
     for (int i = 0; i < symbol.ellipses.size(); ++i) {
-        const auto& ellipse = symbol.ellipses.at(i);
+        const auto& ellipse = symbol.ellipses.at(i);  ///< 当前符号椭圆图元。
         if (ellipse.partIndex == part)
             addPolygon(polygons,
                        symbol.name + QStringLiteral("/ellipse/") + QString::number(i),
@@ -692,7 +914,7 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                        0);
     }
     for (int i = 0; i < symbol.arcs.size(); ++i) {
-        const auto& arc = symbol.arcs.at(i);
+        const auto& arc = symbol.arcs.at(i);  ///< 当前符号圆弧图元。
         if (arc.partIndex == part)
             addPolyline(lines,
                         junctions,
@@ -702,15 +924,16 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                         arc.strokeWidth);
     }
     for (int i = 0; i < symbol.pies.size(); ++i) {
-        const auto& pie = symbol.pies.at(i);
+        const auto& pie = symbol.pies.at(i);  ///< 当前符号扇形图元。
         if (pie.partIndex == part) {
-            QList<QPointF> points = ellipsePoints(pie.center, pie.radius, pie.radius, pie.startAngle, pie.endAngle);
+            QList<QPointF> points =  ///< 当前扇形离散后的边界顶点。
+                ellipsePoints(pie.center, pie.radius, pie.radius, pie.startAngle, pie.endAngle);
             points.prepend(pie.center);
             addPolygon(polygons, symbol.name + QStringLiteral("/pie/") + QString::number(i), points, 0);
         }
     }
     for (int i = 0; i < symbol.ellipticalArcs.size(); ++i) {
-        const auto& arc = symbol.ellipticalArcs.at(i);
+        const auto& arc = symbol.ellipticalArcs.at(i);  ///< 当前符号椭圆弧图元。
         if (arc.partIndex == part)
             addPolyline(lines,
                         junctions,
@@ -720,7 +943,7 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                         arc.strokeWidth);
     }
     for (int i = 0; i < symbol.texts.size(); ++i) {
-        const auto& text = symbol.texts.at(i);
+        const auto& text = symbol.texts.at(i);  ///< 当前符号文本图元。
         if (text.partIndex != part || !text.visible)
             continue;
         texts.insert(
@@ -734,7 +957,7 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
                         {QStringLiteral("placement"), placement(text.position, text.rotation)}});
     }
     for (int i = 0; i < symbol.textFrames.size(); ++i) {
-        const auto& frame = symbol.textFrames.at(i);
+        const auto& frame = symbol.textFrames.at(i);  ///< 当前符号文本框图元。
         if (frame.partIndex != part)
             continue;
         addRectangle(QStringLiteral("text-frame/"), frame.x0, frame.y0, frame.x1, frame.y1, i);
@@ -762,28 +985,41 @@ QJsonObject symbolJson(const IR::SymbolComponentIR& symbol,
     return result;
 }
 
+/**
+ * @brief 将 IR 焊盘序列化为 Horizon Padstack JSON。
+ * @param pad 待序列化的焊盘 IR。
+ * @param uuid Padstack 稳定 UUID。
+ * @param diagnostics 导出诊断列表。
+ * @return 序列化后的 Padstack JSON 对象；无法表达时返回空对象。
+ */
 QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QStringList& diagnostics) {
-    const QString context = pad.number;
-    QJsonObject shapes;
-    QJsonObject polygons;
-    QJsonObject parameterSet;
-    QStringList parameterProgram;
-    const int layer = packageLayer(pad.layer, diagnostics, context);
+    const QString context = pad.number;  ///< 用于诊断的焊盘编号上下文。
+    QJsonObject shapes;  ///< Padstack 的形状定义集合。
+    QJsonObject polygons;  ///< Padstack 的多边形 Shape 集合。
+    QJsonObject parameterSet;  ///< Padstack 参数集合。
+    QStringList parameterProgram;  ///< Padstack 参数化程序片段。
+    const int layer = packageLayer(pad.layer, diagnostics, context);  ///< 焊盘主层编号。
     if (layer == kInvalidPackageLayer)
         return {};
+    // 只有具备足够顶点的异形焊盘才使用 Polygon 输出路径。
     const bool hasCustomPolygon = (pad.shape == IR::PadShape::Polygon || pad.shape == IR::PadShape::RoundRect ||
                                    pad.shape == IR::PadShape::Trapezoid) &&
-                                  pad.customShapePoints.size() >= 3;
-    QList<QPointF> rotatedCustomPoints;
+                                  pad.customShapePoints.size() >= 3;  ///< 是否有足够顶点的自定义 Pad 轮廓。
+    QList<QPointF> rotatedCustomPoints;  ///< 经过焊盘旋转后的自定义 Shape 顶点。
     if (hasCustomPolygon) {
         rotatedCustomPoints.reserve(pad.customShapePoints.size());
         for (const QPointF& item : pad.customShapePoints)
             rotatedCustomPoints.append(rotateAround(item, {}, pad.rotation));
     }
-    const QList<int> throughCopperLayers = {
-        kTopCopper, kInnerCopper1, kInnerCopper2, kInnerCopper3, kInnerCopper4, kBottomCopper};
-    QString form = QStringLiteral("rectangle");
-    QJsonArray params{HorizonUnits::mm(pad.size.width()), HorizonUnits::mm(pad.size.height())};
+    const QList<int> throughCopperLayers = {///< 通孔 Padstack 使用的铜层编号。
+                                            kTopCopper,
+                                            kInnerCopper1,
+                                            kInnerCopper2,
+                                            kInnerCopper3,
+                                            kInnerCopper4,
+                                            kBottomCopper};
+    QString form = QStringLiteral("rectangle");  ///< Horizon Padstack 形状类型。
+    QJsonArray params{HorizonUnits::mm(pad.size.width()), HorizonUnits::mm(pad.size.height())};  ///< 形状参数数组。
     if (pad.shape == IR::PadShape::Ellipse) {
         if (qFuzzyCompare(pad.size.width(), pad.size.height())) {
             form = QStringLiteral("circle");
@@ -800,7 +1036,7 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
         if (pad.customShapePoints.size() < 3)
             diagnostics.append(QStringLiteral("Horizon: Pad %1 的自定义形状缺少至少 3 个顶点").arg(context));
         else {
-            QJsonArray vertices;
+            QJsonArray vertices;  ///< 当前 Padstack 多边形的顶点数组。
             for (const QPointF& item : rotatedCustomPoints)
                 vertices.append(QJsonObject{{QStringLiteral("type"), QStringLiteral("line")},
                                             {QStringLiteral("position"), point(item)},
@@ -850,14 +1086,15 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
             parameterProgram.append(QStringLiteral("0 get-parameter [ %1 ] -").arg(parameterName));
         else
             parameterProgram.append(QStringLiteral("get-parameter [ %1 ]").arg(parameterName));
-        QString line = QStringLiteral("expand-polygon [ ") + parameterClass;
+        QString line = QStringLiteral("expand-polygon [ ") + parameterClass;  ///< 当前多边形参数程序文本。
         for (const QPointF& item : points)
             line += QStringLiteral(" %1 %2").arg(HorizonUnits::mm(item.x())).arg(HorizonUnits::mm(item.y()));
         line += QStringLiteral(" ]");
         parameterProgram.append(line);
     };
     if (!hasCustomPolygon) {
-        const QString parameterClass = pad.isSmd() ? QStringLiteral("pad") : QStringLiteral("copper");
+        const QString parameterClass =
+            pad.isSmd() ? QStringLiteral("pad") : QStringLiteral("copper");  ///< 参数形状类别。
         const auto addShapeForLayer = [&shapes, &uuid, &form, &params, &pad, &parameterClass](const QString& semantic,
                                                                                               int shapeLayer) {
             shapes.insert(HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + semantic),
@@ -875,8 +1112,8 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
         }
     }
     if (pad.isSmd() && !hasCustomPolygon) {
-        const int maskLayer = layer == kBottomCopper ? kBottomMask : kTopMask;
-        const int pasteLayer = layer == kBottomCopper ? kBottomPaste : kTopPaste;
+        const int maskLayer = layer == kBottomCopper ? kBottomMask : kTopMask;  ///< SMD 阻焊层编号。
+        const int pasteLayer = layer == kBottomCopper ? kBottomPaste : kTopPaste;  ///< SMD 锡膏层编号。
         if (pad.solderMaskEnabled) {
             const QString maskUuid =
                 HorizonUuid::make(QStringLiteral("padstack-shape"), uuid + QStringLiteral("/mask"));
@@ -898,14 +1135,14 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
                                       {QStringLiteral("placement"), placement({}, pad.rotation)}});
         }
     } else if (pad.isSmd() && hasCustomPolygon) {
-        const int maskLayer = layer == kBottomCopper ? kBottomMask : kTopMask;
-        const int pasteLayer = layer == kBottomCopper ? kBottomPaste : kTopPaste;
+        const int maskLayer = layer == kBottomCopper ? kBottomMask : kTopMask;  ///< 自定义 SMD 阻焊层编号。
+        const int pasteLayer = layer == kBottomCopper ? kBottomPaste : kTopPaste;  ///< 自定义 SMD 锡膏层编号。
         for (const auto& entry :
              {qMakePair(QStringLiteral("mask"), maskLayer), qMakePair(QStringLiteral("paste"), pasteLayer)}) {
             if ((entry.first == QStringLiteral("mask") && !pad.solderMaskEnabled) ||
                 (entry.first == QStringLiteral("paste") && !pad.pasteMaskEnabled))
                 continue;
-            QJsonArray vertices;
+            QJsonArray vertices;  ///< 当前阻焊或锡膏多边形顶点。
             for (const QPointF& item : pad.customShapePoints)
                 vertices.append(QJsonObject{{QStringLiteral("type"), QStringLiteral("line")},
                                             {QStringLiteral("position"), point(rotateAround(item, {}, pad.rotation))},
@@ -918,14 +1155,14 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
                             {QStringLiteral("parameter_class"), entry.first}});
         }
     } else if (pad.isThroughHole()) {
-        const int topMaskLayer = kTopMask;
-        const int bottomMaskLayer = kBottomMask;
+        const int topMaskLayer = kTopMask;  ///< 顶层阻焊层编号。
+        const int bottomMaskLayer = kBottomMask;  ///< 底层阻焊层编号。
         if (hasCustomPolygon && pad.solderMaskEnabled) {
-            QList<QPointF> points;
+            QList<QPointF> points;  ///< 旋转后的通孔阻焊顶点。
             points.reserve(pad.customShapePoints.size());
             for (const QPointF& item : pad.customShapePoints)
                 points.append(rotateAround(item, {}, pad.rotation));
-            QJsonArray vertices;
+            QJsonArray vertices;  ///< 通孔阻焊多边形顶点。
             for (const QPointF& item : points)
                 vertices.append(QJsonObject{{QStringLiteral("type"), QStringLiteral("line")},
                                             {QStringLiteral("position"), point(item)},
@@ -977,9 +1214,9 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
                 appendShapeProgram(QStringLiteral("mask"), QStringLiteral("solder_mask_expansion"), false);
         }
     }
-    QJsonObject holes;
+    QJsonObject holes;  ///< Padstack 的钻孔定义集合。
     if (pad.isThroughHole()) {
-        const QString holeUuid = HorizonUuid::make(QStringLiteral("padstack-hole"), uuid);
+        const QString holeUuid = HorizonUuid::make(QStringLiteral("padstack-hole"), uuid);  ///< 钻孔 UUID。
         holes.insert(holeUuid,
                      QJsonObject{{QStringLiteral("diameter"), HorizonUnits::mm(pad.holeSize)},
                                  {QStringLiteral("length"),
@@ -990,9 +1227,11 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
                                  {QStringLiteral("shape"),
                                   pad.holeLength > pad.holeSize ? QStringLiteral("slot") : QStringLiteral("round")}});
     }
-    const QString padstackType = pad.isThroughHole()
-                                     ? QStringLiteral("through")
-                                     : (layer == kBottomCopper ? QStringLiteral("bottom") : QStringLiteral("top"));
+    // 通过孔、顶层 SMD 和底层 SMD 使用不同的 Padstack 类型。
+    const QString padstackType =
+        pad.isThroughHole()
+            ? QStringLiteral("through")
+            : (layer == kBottomCopper ? QStringLiteral("bottom") : QStringLiteral("top"));  ///< Padstack 类型。
     return QJsonObject{{QStringLiteral("type"), QStringLiteral("padstack")},
                        {QStringLiteral("uuid"), uuid},
                        {QStringLiteral("name"), QStringLiteral("Pad ") + pad.number},
@@ -1005,18 +1244,26 @@ QJsonObject padstackJson(const IR::FootprintPadIR& pad, const QString& uuid, QSt
                        {QStringLiteral("shapes"), shapes}};
 }
 
+/**
+ * @brief 将独立安装孔序列化为机械 Padstack JSON。
+ * @param hole 待序列化的安装孔 IR。
+ * @param uuid Padstack 稳定 UUID。
+ * @return 序列化后的机械 Padstack JSON 对象。
+ */
 QJsonObject holePadstackJson(const IR::FootprintHoleIR& hole, const QString& uuid) {
-    const QString holeUuid = HorizonUuid::make(QStringLiteral("hole"), uuid);
-    const qint64 diameter = HorizonUnits::mm(hole.radius * 2.0);
-    const QString topMaskUuid = HorizonUuid::make(QStringLiteral("hole-mask"), uuid + QStringLiteral("/top"));
-    const QString bottomMaskUuid = HorizonUuid::make(QStringLiteral("hole-mask"), uuid + QStringLiteral("/bottom"));
+    const QString holeUuid = HorizonUuid::make(QStringLiteral("hole"), uuid);  ///< 安装孔 UUID。
+    const qint64 diameter = HorizonUnits::mm(hole.radius * 2.0);  ///< 安装孔直径（Horizon 数据库单位）。
+    const QString topMaskUuid =
+        HorizonUuid::make(QStringLiteral("hole-mask"), uuid + QStringLiteral("/top"));  ///< 顶层阻焊 UUID。
+    const QString bottomMaskUuid =
+        HorizonUuid::make(QStringLiteral("hole-mask"), uuid + QStringLiteral("/bottom"));  ///< 底层阻焊 UUID。
     const QJsonObject maskShape = QJsonObject{{QStringLiteral("form"), QStringLiteral("circle")},
                                               {QStringLiteral("parameter_class"), QStringLiteral("mask")},
                                               {QStringLiteral("params"), QJsonArray{diameter}},
                                               {QStringLiteral("placement"), placement()}};
-    QJsonObject topMask = maskShape;
+    QJsonObject topMask = maskShape;  ///< 顶层阻焊形状。
     topMask.insert(QStringLiteral("layer"), kTopMask);
-    QJsonObject bottomMask = maskShape;
+    QJsonObject bottomMask = maskShape;  ///< 底层阻焊形状。
     bottomMask.insert(QStringLiteral("layer"), kBottomMask);
     return QJsonObject{{QStringLiteral("type"), QStringLiteral("padstack")},
                        {QStringLiteral("uuid"), uuid},
@@ -1037,6 +1284,15 @@ QJsonObject holePadstackJson(const IR::FootprintHoleIR& hole, const QString& uui
                        {QStringLiteral("shapes"), QJsonObject{{topMaskUuid, topMask}, {bottomMaskUuid, bottomMask}}}};
 }
 
+/**
+ * @brief 生成封装几何、焊盘和三维模型引用的 Horizon JSON。
+ * @param footprint 封装组件 IR。
+ * @param packageUuid 封装稳定 UUID。
+ * @param models 关联的三维模型列表。
+ * @param padUuids 焊盘编号到 Padstack UUID 的映射。
+ * @param diagnostics 导出诊断列表。
+ * @return 序列化后的 Package JSON 对象。
+ */
 QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                         const QString& packageUuid,
                         const QList<IR::Model3DIR>& models,
@@ -1057,10 +1313,10 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                        {QStringLiteral("polygons"), QJsonObject{}},
                        {QStringLiteral("keepouts"), QJsonObject{}},
                        {QStringLiteral("dimensions"), QJsonObject{}}};
-    QJsonObject pads = result[QStringLiteral("pads")].toObject();
+    QJsonObject pads = result[QStringLiteral("pads")].toObject();  ///< 封装焊盘对象集合。
     for (int i = 0; i < footprint.holes.size(); ++i) {
-        const auto& hole = footprint.holes.at(i);
-        const QString holeName = QStringLiteral("MH%1").arg(i + 1);
+        const auto& hole = footprint.holes.at(i);  ///< 当前机械安装孔。
+        const QString holeName = QStringLiteral("MH%1").arg(i + 1);  ///< 机械孔名称。
         const QString padUuid =
             HorizonUuid::make(QStringLiteral("package-hole"), footprint.name + QStringLiteral("/") + holeName);
         const QString padstackUuid =
@@ -1072,7 +1328,7 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                                 {QStringLiteral("parameter_set"), QJsonObject{}}});
     }
     for (int i = 0; i < footprint.pads.size(); ++i) {
-        const auto& pad = footprint.pads.at(i);
+        const auto& pad = footprint.pads.at(i);  ///< 当前封装焊盘。
         if (pad.number.trimmed().isEmpty() && !isMechanicalHolePad(pad)) {
             diagnostics.append(QStringLiteral("Horizon: 封装 %1 存在空焊盘编号").arg(footprint.name));
             continue;
@@ -1081,7 +1337,7 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
             diagnostics.append(QStringLiteral("Horizon: 封装 %1 存在重复焊盘编号 %2").arg(footprint.name, pad.number));
             continue;
         }
-        const QString padName = padFileStem(pad, i);
+        const QString padName = padFileStem(pad, i);  ///< 焊盘文件名主干。
         const QString padUuid =
             HorizonUuid::make(QStringLiteral("package-pad"), footprint.name + QStringLiteral("/") + padName);
         const QString padstackUuid =
@@ -1096,15 +1352,15 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     }
     result.insert(QStringLiteral("pads"), pads);
 
-    QJsonObject junctions = result[QStringLiteral("junctions")].toObject();
-    QJsonObject lines = result[QStringLiteral("lines")].toObject();
-    QJsonObject arcs = result[QStringLiteral("arcs")].toObject();
-    QJsonObject texts = result[QStringLiteral("texts")].toObject();
-    QJsonObject polygons = result[QStringLiteral("polygons")].toObject();
-    QJsonObject keepouts = result[QStringLiteral("keepouts")].toObject();
+    QJsonObject junctions = result[QStringLiteral("junctions")].toObject();  ///< 封装连接点集合。
+    QJsonObject lines = result[QStringLiteral("lines")].toObject();  ///< 封装线段集合。
+    QJsonObject arcs = result[QStringLiteral("arcs")].toObject();  ///< 封装圆弧集合。
+    QJsonObject texts = result[QStringLiteral("texts")].toObject();  ///< 封装文本集合。
+    QJsonObject polygons = result[QStringLiteral("polygons")].toObject();  ///< 封装多边形集合。
+    QJsonObject keepouts = result[QStringLiteral("keepouts")].toObject();  ///< 封装禁布区集合。
     for (int i = 0; i < footprint.outlines.size(); ++i) {
-        const auto& outline = footprint.outlines.at(i);
-        const int layer = packageLayer(outline.layer, diagnostics, footprint.name);
+        const auto& outline = footprint.outlines.at(i);  ///< 当前封装轮廓。
+        const int layer = packageLayer(outline.layer, diagnostics, footprint.name);  ///< 轮廓目标图层。
         if (layer == kInvalidPackageLayer)
             return {};
         for (int j = 1; j < outline.points.size(); ++j)
@@ -1117,10 +1373,13 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                     outline.strokeWidth);
     }
     for (int i = 0; i < footprint.regions.size(); ++i) {
-        const auto& region = footprint.regions.at(i);
-        const QString semantic = footprint.name + QStringLiteral("/region/") + QString::number(i);
-        const QString polygonUuid = HorizonUuid::make(QStringLiteral("polygon"), semantic);
-        const int regionLayer = region.isKeepOut ? kTopCopper : packageLayer(region.layer, diagnostics, footprint.name);
+        const auto& region = footprint.regions.at(i);  ///< 当前封装区域。
+        const QString semantic = footprint.name + QStringLiteral("/region/") + QString::number(i);  ///< 区域语义键。
+        const QString polygonUuid = HorizonUuid::make(QStringLiteral("polygon"), semantic);  ///< 区域多边形 UUID。
+        // 图层。
+        const int regionLayer = region.isKeepOut
+                                    ? kTopCopper
+                                    : packageLayer(region.layer, diagnostics, footprint.name);  ///< 区域目标图层。
         if (regionLayer == kInvalidPackageLayer)
             return {};
         addPolygon(polygons, semantic, region.vertices, regionLayer);
@@ -1140,8 +1399,8 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
         }
     }
     for (int i = 0; i < footprint.tracks.size(); ++i) {
-        const auto& track = footprint.tracks.at(i);
-        const int layer = packageLayer(track.layer, diagnostics, footprint.name);
+        const auto& track = footprint.tracks.at(i);  ///< 当前封装走线。
+        const int layer = packageLayer(track.layer, diagnostics, footprint.name);  ///< 走线目标图层。
         if (layer == kInvalidPackageLayer)
             return {};
         addPolyline(lines,
@@ -1152,8 +1411,8 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                     track.width);
     }
     for (int i = 0; i < footprint.circles.size(); ++i) {
-        const auto& circle = footprint.circles.at(i);
-        const int layer = packageLayer(circle.layer, diagnostics, footprint.name);
+        const auto& circle = footprint.circles.at(i);  ///< 当前封装圆形图元。
+        const int layer = packageLayer(circle.layer, diagnostics, footprint.name);  ///< 圆形目标图层。
         if (layer == kInvalidPackageLayer)
             return {};
         addCircle(arcs,
@@ -1165,13 +1424,14 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                   circle.strokeWidth);
     }
     for (int i = 0; i < footprint.rectangles.size(); ++i) {
-        const auto& rectangle = footprint.rectangles.at(i);
-        const QRectF bounds = rectangle.bounds.normalized();
-        const QPointF center = bounds.center();
-        QList<QPointF> points = {bounds.topLeft(), bounds.topRight(), bounds.bottomRight(), bounds.bottomLeft()};
+        const auto& rectangle = footprint.rectangles.at(i);  ///< 当前封装矩形。
+        const QRectF bounds = rectangle.bounds.normalized();  ///< 规范化后的矩形边界。
+        const QPointF center = bounds.center();  ///< 矩形中心点。
+        QList<QPointF> points = {
+            bounds.topLeft(), bounds.topRight(), bounds.bottomRight(), bounds.bottomLeft()};  ///< 旋转前顶点。
         for (QPointF& item : points)
             item = rotateAround(item, center, rectangle.rotation);
-        const int layer = packageLayer(rectangle.layer, diagnostics, footprint.name);
+        const int layer = packageLayer(rectangle.layer, diagnostics, footprint.name);  ///< 矩形目标图层。
         if (layer == kInvalidPackageLayer)
             return {};
         for (int j = 0; j < points.size(); ++j)
@@ -1185,8 +1445,8 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                     rectangle.strokeWidth);
     }
     for (int i = 0; i < footprint.arcs.size(); ++i) {
-        const auto& arc = footprint.arcs.at(i);
-        const int layer = packageLayer(arc.layer, diagnostics, footprint.name);
+        const auto& arc = footprint.arcs.at(i);  ///< 当前封装圆弧。
+        const int layer = packageLayer(arc.layer, diagnostics, footprint.name);  ///< 圆弧目标图层。
         if (layer == kInvalidPackageLayer)
             return {};
         addPolyline(lines,
@@ -1197,10 +1457,10 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
                     arc.width);
     }
     for (int i = 0; i < footprint.texts.size(); ++i) {
-        const auto& text = footprint.texts.at(i);
+        const auto& text = footprint.texts.at(i);  ///< 当前封装文本。
         if (!text.isDisplayed)
             continue;
-        const int layer = packageLayer(text.layer, diagnostics, footprint.name);
+        const int layer = packageLayer(text.layer, diagnostics, footprint.name);  ///< 文本目标图层。
         if (layer == kInvalidPackageLayer)
             return {};
         texts.insert(HorizonUuid::make(QStringLiteral("package-text"), footprint.name + QString::number(i)),
@@ -1218,16 +1478,16 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     result.insert(QStringLiteral("texts"), texts);
     result.insert(QStringLiteral("polygons"), polygons);
     result.insert(QStringLiteral("keepouts"), keepouts);
-    QJsonObject modelObjects;
+    QJsonObject modelObjects;  ///< 三维模型引用对象集合。
     for (int i = 0; i < models.size(); ++i) {
-        const IR::Model3DIR& model = models.at(i);
+        const IR::Model3DIR& model = models.at(i);  ///< 当前三维模型。
         const QString modelUuid =
             HorizonUuid::make(QStringLiteral("package-model"), packageUuid + QStringLiteral("/") + QString::number(i));
-        const QString suffix = QStringLiteral(".step");
-        const QString filename = QStringLiteral("3d_models/") + modelUuid + suffix;
-        const auto translation = model.translation();
-        const auto stepOffset = model.stepOffsetMm();
-        const auto rotation = model.rotation();
+        const QString suffix = QStringLiteral(".step");  ///< Horizon 三维模型文件后缀。
+        const QString filename = QStringLiteral("3d_models/") + modelUuid + suffix;  ///< 模型相对路径。
+        const auto translation = model.translation();  ///< 模型平移量。
+        const auto stepOffset = model.stepOffsetMm();  ///< STEP 坐标偏移量。
+        const auto rotation = model.rotation();  ///< 模型旋转量。
         modelObjects.insert(modelUuid,
                             QJsonObject{{QStringLiteral("filename"), filename},
                                         {QStringLiteral("x"), HorizonUnits::mm(translation.x + stepOffset.x)},
@@ -1240,16 +1500,23 @@ QJsonObject packageJson(const IR::FootprintComponentIR& footprint,
     result.insert(QStringLiteral("models"), modelObjects);
     const QString defaultModelUuid =
         models.isEmpty() ? QString()
-                         : HorizonUuid::make(QStringLiteral("package-model"), packageUuid + QStringLiteral("/0"));
+                         : HorizonUuid::make(QStringLiteral("package-model"),
+                                             packageUuid + QStringLiteral("/0"));  ///< 默认三维模型 UUID。
     result.insert(
         QStringLiteral("default_model"),
         defaultModelUuid.isEmpty() ? QStringLiteral("00000000-0000-0000-0000-000000000000") : defaultModelUuid);
     return result;
 }
 
+/**
+ * @brief 校验封装焊盘编号，保证 pad_map 的稳定键唯一。
+ * @param footprint 待校验的封装组件 IR。
+ * @param diagnostics 导出诊断列表。
+ * @return 如果焊盘编号有效且唯一则返回 true。
+ */
 bool validatePadIdentifiers(const IR::FootprintComponentIR& footprint, QStringList& diagnostics) {
-    QSet<QString> identifiers;
-    bool valid = true;
+    QSet<QString> identifiers;  ///< 已出现的焊盘编号集合。
+    bool valid = true;  ///< 当前封装的焊盘编号是否有效。
     for (const auto& pad : footprint.pads) {
         if (pad.number.trimmed().isEmpty()) {
             if (!isMechanicalHolePad(pad)) {
@@ -1266,16 +1533,22 @@ bool validatePadIdentifiers(const IR::FootprintComponentIR& footprint, QStringLi
     return valid;
 }
 
+/**
+ * @brief 预先检查所有输出名称，避免批量导出时发生文件覆盖。
+ * @param footprints 待导出的封装列表。
+ * @param diagnostics 导出诊断列表。
+ * @return 如果所有输出名称都安全且唯一则返回 true。
+ */
 bool validateFootprintOutputNames(const QList<IR::FootprintComponentIR>& footprints, QStringList& diagnostics) {
-    QHash<QString, QString> footprintNameOwners;
-    QHash<QString, QString> padstackNameOwners;
+    QHash<QString, QString> footprintNameOwners;  ///< 清理后封装名称到原始名称的映射。
+    QHash<QString, QString> padstackNameOwners;  ///< 清理后焊盘名称到原始名称的映射。
     for (const auto& footprint : footprints) {
         if (!validateSafeName(footprintNameOwners, footprint.name, QStringLiteral("封装"), diagnostics))
             return false;
         for (int i = 0; i < footprint.pads.size(); ++i) {
-            const auto& pad = footprint.pads.at(i);
-            const QString padStem = padFileStem(pad, i);
-            const QString rawPadstackName = footprint.name + QStringLiteral("/") + padStem;
+            const auto& pad = footprint.pads.at(i);  ///< 当前待检查焊盘。
+            const QString padStem = padFileStem(pad, i);  ///< 焊盘文件名主干。
+            const QString rawPadstackName = footprint.name + QStringLiteral("/") + padStem;  ///< 原始 Padstack 名称。
             if (!validateSanitizedName(padstackNameOwners,
                                        safeName(footprint.name) + QStringLiteral("-") + padStem,
                                        rawPadstackName,
@@ -1287,12 +1560,34 @@ bool validateFootprintOutputNames(const QList<IR::FootprintComponentIR>& footpri
     return true;
 }
 
+/**
+ * @brief 在创建目录和写入 Pool 元数据前完成封装级预检。
+ * @param footprints 待导出的封装列表。
+ * @param diagnostics 导出诊断列表。
+ * @return 如果所有封装都通过焊盘和图层校验则返回 true。
+ */
+bool validateFootprintsBeforeOutput(const QList<IR::FootprintComponentIR>& footprints, QStringList& diagnostics) {
+    for (const auto& footprint : footprints) {
+        if (!validatePadIdentifiers(footprint, diagnostics) || !validateGenericKeepOutLayers(footprint, diagnostics))
+            return false;
+    }
+    return true;
+}
+
+/**
+ * @brief 校验并写入封装关联的三维模型文件。
+ * @param models 待写入的三维模型列表。
+ * @param root Horizon Pool 根目录。
+ * @param packageUuid 所属封装稳定 UUID。
+ * @param diagnostics 导出诊断列表。
+ * @return 所有三维模型成功写入时返回 true。
+ */
 bool writeModels(const QList<IR::Model3DIR>& models,
                  const QString& root,
                  const QString& packageUuid,
                  QStringList& diagnostics) {
     for (int i = 0; i < models.size(); ++i) {
-        const IR::Model3DIR& model = models.at(i);
+        const IR::Model3DIR& model = models.at(i);  ///< 当前三维模型。
         if (!model.isValid()) {
             diagnostics.append(QStringLiteral("Horizon: 第 %1 个 3D 模型没有有效的 STEP 或 OBJ 数据").arg(i + 1));
             return false;
@@ -1304,14 +1599,23 @@ bool writeModels(const QList<IR::Model3DIR>& models,
         }
         const QString uuid =
             HorizonUuid::make(QStringLiteral("package-model"), packageUuid + QStringLiteral("/") + QString::number(i));
-        const QString suffix = QStringLiteral(".step");
-        const QByteArray data = model.stepData();
+        const QString suffix = QStringLiteral(".step");  ///< Horizon 三维模型文件后缀。
+        const QByteArray data = model.stepData();  ///< STEP 文件内容。
         if (!writeBinary(QDir(root).filePath(QStringLiteral("3d_models/") + uuid + suffix), data, diagnostics))
             return false;
     }
     return true;
 }
 
+/**
+ * @brief 写入完整组件的符号、封装和 Part 关联文件。
+ * @param component 待导出的组件 IR。
+ * @param root Horizon Pool 根目录。
+ * @param exportModel3D 是否导出三维模型。
+ * @param modelBaseDir 三维模型源文件基础目录。
+ * @param diagnostics 导出诊断列表。
+ * @return 组件文件全部写入成功时返回 true。
+ */
 bool writeComponent(const IR::ComponentIR& component,
                     const QString& root,
                     bool exportModel3D,
@@ -1325,13 +1629,14 @@ bool writeComponent(const IR::ComponentIR& component,
         return false;
     if (!validateGenericKeepOutLayers(component.footprint, diagnostics))
         return false;
-    const IR::SymbolComponentIR& symbol = component.symbol;
-    const QString baseKey = component.name.isEmpty() ? symbol.name : component.name;
-    const QString entityUuid = HorizonUuid::make(QStringLiteral("entity"), baseKey);
-    const QString packageUuid = HorizonUuid::make(QStringLiteral("package"), component.footprint.name);
-    const QString partUuid = HorizonUuid::make(QStringLiteral("part"), baseKey);
-    QJsonObject gates;
-    QList<QString> unitUuids;
+    const IR::SymbolComponentIR& symbol = component.symbol;  ///< 组件关联的符号 IR。
+    const QString baseKey = component.name.isEmpty() ? symbol.name : component.name;  ///< 组件稳定名称主键。
+    const QString entityUuid = HorizonUuid::make(QStringLiteral("entity"), baseKey);  ///< Entity UUID。
+    const QString packageUuid =
+        HorizonUuid::make(QStringLiteral("package"), component.footprint.name);  ///< Package UUID。
+    const QString partUuid = HorizonUuid::make(QStringLiteral("part"), baseKey);  ///< Part UUID。
+    QJsonObject gates;  ///< 组件 Gate 集合。
+    QList<QString> unitUuids;  ///< 已生成的 Unit UUID 列表。
     for (int part = 0; part < qMax(1, symbol.partCount); ++part) {
         const QString unitUuid =
             HorizonUuid::make(QStringLiteral("unit"), baseKey + QStringLiteral("/part/") + QString::number(part));
@@ -1372,28 +1677,30 @@ bool writeComponent(const IR::ComponentIR& component,
                    diagnostics))
         return false;
 
-    QHash<QString, QString> padUuids;
-    QList<IR::Model3DIR> models;
+    QHash<QString, QString> padUuids;  ///< 焊盘编号到 Pad UUID 的映射。
+    QList<IR::Model3DIR> models;  ///< 当前组件需要写入的三维模型。
     if (exportModel3D) {
         if (component.model3D.isValid())
             models.append(component.model3D);
         models.append(component.footprint.models3d);
     }
-    const QJsonObject package = packageJson(component.footprint, packageUuid, models, padUuids, diagnostics);
+    const QJsonObject package =
+        packageJson(component.footprint, packageUuid, models, padUuids, diagnostics);  ///< 封装 JSON。
     if (package.isEmpty())
         return false;
-    const QString packageDir = QDir(root).filePath(QStringLiteral("packages/") + safeName(component.footprint.name));
+    const QString packageDir =
+        QDir(root).filePath(QStringLiteral("packages/") + safeName(component.footprint.name));  ///< 封装目录。
     if (!QDir().mkpath(packageDir) ||
         !writeJson(QDir(packageDir).filePath(QStringLiteral("package.json")), package, diagnostics))
         return false;
     if (!writeModels(models, root, packageUuid, diagnostics))
         return false;
     for (int i = 0; i < component.footprint.pads.size(); ++i) {
-        const auto& pad = component.footprint.pads.at(i);
-        const QString padStem = padFileStem(pad, i);
+        const auto& pad = component.footprint.pads.at(i);  ///< 当前组件封装焊盘。
+        const QString padStem = padFileStem(pad, i);  ///< 焊盘文件名主干。
         const QString padstackUuid =
             HorizonUuid::make(QStringLiteral("padstack"), component.footprint.name + QStringLiteral("/") + padStem);
-        const QJsonObject padstack = padstackJson(pad, padstackUuid, diagnostics);
+        const QJsonObject padstack = padstackJson(pad, padstackUuid, diagnostics);  ///< Padstack JSON。
         if (padstack.isEmpty())
             return false;
         if (!writeJson(QDir(root).filePath(QStringLiteral("padstacks/") + safeName(component.footprint.name) +
@@ -1403,7 +1710,8 @@ bool writeComponent(const IR::ComponentIR& component,
             return false;
     }
     for (int i = 0; i < component.footprint.holes.size(); ++i) {
-        const QString holeName = QStringLiteral("MH%1").arg(i + 1);
+        const QString holeName = QStringLiteral("MH%1").arg(i + 1);  ///< 机械孔名称。
+        // 独立机械孔使用独立 Padstack UUID，避免与电气焊盘混用。
         const QString holeUuid = HorizonUuid::make(QStringLiteral("hole-padstack"),
                                                    component.footprint.name + QStringLiteral("/") + holeName);
         if (!writeJson(QDir(root).filePath(QStringLiteral("padstacks/") + safeName(component.footprint.name) +
@@ -1413,9 +1721,9 @@ bool writeComponent(const IR::ComponentIR& component,
             return false;
     }
 
-    QJsonObject padMap;
-    bool pinPadMappingValid = true;
-    QHash<QString, int> pinOccurrences;
+    QJsonObject padMap;  ///< 符号引脚到封装焊盘的映射。
+    bool pinPadMappingValid = true;  ///< 引脚与焊盘关联是否完整。
+    QHash<QString, int> pinOccurrences;  ///< 符号引脚编号出现次数。
     for (const auto& pin : symbol.pins) {
         if (pin.designator.trimmed().isEmpty()) {
             pinPadMappingValid = false;
@@ -1435,7 +1743,7 @@ bool writeComponent(const IR::ComponentIR& component,
             continue;
         if (!padUuids.contains(pad.number))
             continue;
-        const IR::SymbolPinIR* matched = nullptr;
+        const IR::SymbolPinIR* matched = nullptr;  ///< 当前焊盘匹配到的符号引脚。
         for (const auto& pin : symbol.pins) {
             if (pin.designator == pad.number) {
                 matched = &pin;
@@ -1447,9 +1755,13 @@ bool writeComponent(const IR::ComponentIR& component,
             pinPadMappingValid = false;
             continue;
         }
-        const int part = matched->commonToAllParts ? 0 : qBound(0, matched->partIndex, qMax(0, symbol.partCount - 1));
+        // 当前元件部分。
+        const int part = matched->commonToAllParts
+                             ? 0
+                             : qBound(0, matched->partIndex, qMax(0, symbol.partCount - 1));  ///< 引脚所属 Part。
         const QString gateUuid =
             HorizonUuid::make(QStringLiteral("gate"), baseKey + QStringLiteral("/part/") + QString::number(part));
+        // 为符号引脚生成与 Part 和编号绑定的稳定 UUID。
         const QString pinUuid = HorizonUuid::make(QStringLiteral("unit-pin"),
                                                   baseKey + QStringLiteral("/part/") + QString::number(part) +
                                                       QStringLiteral("/designator/") + matched->designator);
@@ -1459,7 +1771,7 @@ bool writeComponent(const IR::ComponentIR& component,
     for (const auto& pin : symbol.pins) {
         if (pin.designator.trimmed().isEmpty())
             continue;
-        bool foundPad = false;
+        bool foundPad = false;  ///< 是否已找到对应的封装焊盘。
         for (const auto& pad : component.footprint.pads) {
             if (!isMechanicalHolePad(pad) && pad.number == pin.designator) {
                 foundPad = true;
@@ -1496,15 +1808,22 @@ bool writeComponent(const IR::ComponentIR& component,
     return true;
 }
 
+/**
+ * @brief 写入 Horizon 识别 Pool 所需的最小元数据集合。
+ * @param root Horizon Pool 根目录。
+ * @param name Pool 名称。
+ * @param diagnostics 导出诊断列表。
+ * @return 元数据和默认 Via 都写入成功时返回 true。
+ */
 bool writePoolInfo(const QString& root, const QString& name, QStringList& diagnostics) {
-    const QString uuid = HorizonUuid::make(QStringLiteral("pool"), name);
-    const QString viaUuid = HorizonUuid::make(QStringLiteral("default-via"), name);
+    const QString uuid = HorizonUuid::make(QStringLiteral("pool"), name);  ///< Pool UUID。
+    const QString viaUuid = HorizonUuid::make(QStringLiteral("default-via"), name);  ///< 默认 Via UUID。
     const QJsonObject info{{QStringLiteral("uuid"), uuid},
                            {QStringLiteral("default_via"), viaUuid},
                            {QStringLiteral("name"), name},
                            {QStringLiteral("type"), QStringLiteral("pool")},
                            {QStringLiteral("pools_included"), QJsonArray{}}};
-    const QString shapeUuid = HorizonUuid::make(QStringLiteral("default-via-shape"), name);
+    const QString shapeUuid = HorizonUuid::make(QStringLiteral("default-via-shape"), name);  ///< 默认 Via 形状 UUID。
     const QJsonObject shape{{QStringLiteral("form"), QStringLiteral("circle")},
                             {QStringLiteral("layer"), kTopCopper},
                             {QStringLiteral("parameter_class"), QStringLiteral("via")},
@@ -1524,19 +1843,30 @@ bool writePoolInfo(const QString& root, const QString& name, QStringList& diagno
            writeJson(QDir(root).filePath(QStringLiteral("padstacks/default-via.json")), via, diagnostics);
 }
 
+/**
+ * @brief 写入单个封装的 Package、Padstack 和模型文件。
+ * @param footprint 待写入的封装组件 IR。
+ * @param root Horizon Pool 根目录。
+ * @param exportModel3D 是否写入三维模型。
+ * @param diagnostics 导出诊断列表。
+ * @return 封装及其关联文件全部写入成功时返回 true。
+ */
 bool writeFootprintFiles(const IR::FootprintComponentIR& footprint,
                          const QString& root,
                          bool exportModel3D,
                          QStringList& diagnostics) {
+    // 这里保留二次校验，防止未来新增绕过公共导出入口的调用路径。
     if (!validatePadIdentifiers(footprint, diagnostics))
         return false;
     if (!validateGenericKeepOutLayers(footprint, diagnostics))
         return false;
-    QHash<QString, QString> padUuids;
-    const QString packageUuid = HorizonUuid::make(QStringLiteral("package"), footprint.name);
-    const QString packageDir = QDir(root).filePath(QStringLiteral("packages/") + safeName(footprint.name));
-    const QList<IR::Model3DIR> models = exportModel3D ? footprint.models3d : QList<IR::Model3DIR>{};
-    const QJsonObject package = packageJson(footprint, packageUuid, models, padUuids, diagnostics);
+    QHash<QString, QString> padUuids;  ///< 焊盘编号到 Pad UUID 的映射。
+    const QString packageUuid = HorizonUuid::make(QStringLiteral("package"), footprint.name);  ///< Package UUID。
+    const QString packageDir =
+        QDir(root).filePath(QStringLiteral("packages/") + safeName(footprint.name));  ///< 封装目录。
+    const QList<IR::Model3DIR> models =
+        exportModel3D ? footprint.models3d : QList<IR::Model3DIR>{};  ///< 待写入三维模型。
+    const QJsonObject package = packageJson(footprint, packageUuid, models, padUuids, diagnostics);  ///< 封装 JSON。
     if (package.isEmpty())
         return false;
     if (!QDir().mkpath(packageDir) ||
@@ -1545,11 +1875,11 @@ bool writeFootprintFiles(const IR::FootprintComponentIR& footprint,
     if (!writeModels(models, root, packageUuid, diagnostics))
         return false;
     for (int i = 0; i < footprint.pads.size(); ++i) {
-        const auto& pad = footprint.pads.at(i);
-        const QString padStem = padFileStem(pad, i);
+        const auto& pad = footprint.pads.at(i);  ///< 当前封装焊盘。
+        const QString padStem = padFileStem(pad, i);  ///< 焊盘文件名主干。
         const QString uuid =
             HorizonUuid::make(QStringLiteral("padstack"), footprint.name + QStringLiteral("/") + padStem);
-        const QJsonObject padstack = padstackJson(pad, uuid, diagnostics);
+        const QJsonObject padstack = padstackJson(pad, uuid, diagnostics);  ///< Padstack JSON。
         if (padstack.isEmpty())
             return false;
         if (!writeJson(QDir(root).filePath(QStringLiteral("padstacks/") + safeName(footprint.name) +
@@ -1559,7 +1889,7 @@ bool writeFootprintFiles(const IR::FootprintComponentIR& footprint,
             return false;
     }
     for (int i = 0; i < footprint.holes.size(); ++i) {
-        const QString holeName = QStringLiteral("MH%1").arg(i + 1);
+        const QString holeName = QStringLiteral("MH%1").arg(i + 1);  ///< 机械孔名称。
         const QString holeUuid =
             HorizonUuid::make(QStringLiteral("hole-padstack"), footprint.name + QStringLiteral("/") + holeName);
         if (!writeJson(QDir(root).filePath(QStringLiteral("padstacks/") + safeName(footprint.name) +
@@ -1573,18 +1903,37 @@ bool writeFootprintFiles(const IR::FootprintComponentIR& footprint,
 
 }  // namespace
 
+/**
+ * @brief 返回 Horizon Pool 目录使用的扩展名。
+ * @return Horizon Pool 使用的目录扩展名。
+ */
 QString ExporterHorizonLibrary::libraryFileExtension() const {
     return QStringLiteral(".pool");
 }
 
+/**
+ * @brief Horizon Pool 使用目录型输出。
+ * @return 始终返回 true，表示输出是目录而非单个文件。
+ */
 bool ExporterHorizonLibrary::isDirectoryOutput() const {
     return true;
 }
 
+/**
+ * @brief 返回最近一次导出的诊断信息。
+ * @return 最近一次导出的诊断信息列表。
+ */
 QStringList ExporterHorizonLibrary::diagnostics() const {
     return m_diagnostics;
 }
 
+/**
+ * @brief 导出单个封装，并先完成所有输入校验。
+ * @param footprint 待导出的封装组件 IR。
+ * @param filePath Horizon Pool 输出目录。
+ * @param model3DPath 三维模型源目录；当前由封装 IR 提供模型数据。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterHorizonLibrary::exportFootprint(const IR::FootprintComponentIR& footprint,
                                              const QString& filePath,
                                              const QString& model3DPath) {
@@ -1592,11 +1941,23 @@ bool ExporterHorizonLibrary::exportFootprint(const IR::FootprintComponentIR& foo
     m_diagnostics.clear();
     if (!validateFootprintOutputNames({footprint}, m_diagnostics))
         return false;
+    if (!validateFootprintsBeforeOutput({footprint}, m_diagnostics))
+        return false;
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, footprint.name, m_diagnostics))
         return false;
     return writeFootprintFiles(footprint, filePath, true, m_diagnostics);
 }
 
+/**
+ * @brief 批量导出封装，并在创建 Pool 前完成整个输入集合的预检。
+ * @param footprints 待导出的封装列表。
+ * @param filePath Horizon Pool 输出目录。
+ * @param model3DPath 三维模型源目录；当前由封装 IR 提供模型数据。
+ * @param exportStep 是否导出 STEP 模型。
+ * @param exportObj 是否导出 OBJ 模型。
+ * @return 导出成功时返回 true。
+ * @param libName 目标库名称。
+ */
 bool ExporterHorizonLibrary::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                     const QString& libName,
                                                     const QString& filePath,
@@ -1613,6 +1974,8 @@ bool ExporterHorizonLibrary::exportFootprintLibrary(const QList<IR::FootprintCom
     }
     if (!validateFootprintOutputNames(footprints, m_diagnostics))
         return false;
+    if (!validateFootprintsBeforeOutput(footprints, m_diagnostics))
+        return false;
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, libName, m_diagnostics))
         return false;
     for (const auto& footprint : footprints) {
@@ -1622,10 +1985,26 @@ bool ExporterHorizonLibrary::exportFootprintLibrary(const QList<IR::FootprintCom
     return true;
 }
 
+/**
+ * @brief 将单个符号包装为 Horizon Pool 符号库。
+ * @param symbol 待导出的符号 IR。
+ * @param filePath Horizon Pool 输出目录。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterHorizonLibrary::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
     return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
 }
 
+/**
+ * @brief 将符号、Unit 和 Entity 写入 Horizon Pool。
+ * @param symbols 待导出的符号列表。
+ * @param libName Pool 名称。
+ * @param filePath Horizon Pool 输出目录。
+ * @param appendMode 兼容通用接口的追加模式；当前 Horizon 导出始终重建目标 Pool。
+ * @param updateMode 兼容通用接口的更新模式；当前 Horizon 导出不支持增量更新。
+ * @param libraryDescription 兼容通用接口的库描述。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterHorizonLibrary::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                                  const QString& libName,
                                                  const QString& filePath,
@@ -1637,7 +2016,7 @@ bool ExporterHorizonLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
         m_diagnostics.append(QStringLiteral("Horizon: 没有可导出的符号"));
         return false;
     }
-    QHash<QString, QString> symbolNameOwners;
+    QHash<QString, QString> symbolNameOwners;  ///< 清理后符号名称到原始名称的映射。
     for (const auto& symbol : symbols) {
         if (symbol.name.trimmed().isEmpty()) {
             m_diagnostics.append(QStringLiteral("Horizon: 符号名称为空"));
@@ -1649,9 +2028,9 @@ bool ExporterHorizonLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, libName, m_diagnostics))
         return false;
     for (const auto& symbol : symbols) {
-        QJsonObject gates;
+        QJsonObject gates;  ///< 当前符号的 Gate 集合。
         for (int part = 0; part < qMax(1, symbol.partCount); ++part) {
-            const QString baseKey = symbol.name;
+            const QString baseKey = symbol.name;  ///< 当前符号的稳定名称主键。
             const QString unitUuid =
                 HorizonUuid::make(QStringLiteral("unit"), baseKey + QStringLiteral("/part/") + QString::number(part));
             if (!writeJson(QDir(filePath).filePath(QStringLiteral("units/") + safeName(baseKey) + QStringLiteral("-") +
@@ -1675,7 +2054,7 @@ bool ExporterHorizonLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
                             {QStringLiteral("swap_group"), 0},
                             {QStringLiteral("unit"), unitUuid}});
         }
-        const QString entityUuid = HorizonUuid::make(QStringLiteral("entity"), symbol.name);
+        const QString entityUuid = HorizonUuid::make(QStringLiteral("entity"), symbol.name);  ///< Entity UUID。
         if (!writeJson(
                 QDir(filePath).filePath(QStringLiteral("entities/") + safeName(symbol.name) + QStringLiteral(".json")),
                 QJsonObject{{QStringLiteral("type"), QStringLiteral("entity")},
@@ -1691,6 +2070,15 @@ bool ExporterHorizonLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
     return true;
 }
 
+/**
+ * @brief 导出包含符号、封装和 Part 引用的完整组件库。
+ * @param components 完整组件 IR 列表。
+ * @param libName Pool 名称。
+ * @param filePath Horizon Pool 根目录。
+ * @param exportModel3D 是否嵌入组件和封装中的三维模型。
+ * @param model3DBaseDir 兼容通用接口的模型目录参数；当前始终使用 Pool 内部目录。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterHorizonLibrary::exportComponentLibrary(const QList<IR::ComponentIR>& components,
                                                     const QString& libName,
                                                     const QString& filePath,
@@ -1701,16 +2089,19 @@ bool ExporterHorizonLibrary::exportComponentLibrary(const QList<IR::ComponentIR>
         m_diagnostics.append(QStringLiteral("Horizon: 没有可导出的完整组件"));
         return false;
     }
-    QHash<QString, QString> componentNameOwners;
-    QList<IR::FootprintComponentIR> footprints;
+    QHash<QString, QString> componentNameOwners;  ///< 清理后组件名称到原始名称的映射。
+    QList<IR::FootprintComponentIR> footprints;  ///< 用于预检的封装列表。
     footprints.reserve(components.size());
     for (const auto& component : components) {
-        const QString baseKey = component.name.isEmpty() ? component.symbol.name : component.name;
+        const QString baseKey =
+            component.name.isEmpty() ? component.symbol.name : component.name;  ///< 组件稳定名称主键。
         if (!validateSafeName(componentNameOwners, baseKey, QStringLiteral("组件"), m_diagnostics))
             return false;
         footprints.append(component.footprint);
     }
     if (!validateFootprintOutputNames(footprints, m_diagnostics))
+        return false;
+    if (!validateFootprintsBeforeOutput(footprints, m_diagnostics))
         return false;
     if (!ensureDirs(filePath, m_diagnostics) || !writePoolInfo(filePath, libName, m_diagnostics))
         return false;

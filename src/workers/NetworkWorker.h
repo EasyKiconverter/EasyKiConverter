@@ -24,6 +24,7 @@ public:
 
     explicit NetworkWorker(const QString& componentId,
                            TaskType taskType,
+                           // 标识符。
                            const QString& uuid = QString(),
                            QObject* parent = nullptr);
 
@@ -55,15 +56,15 @@ public slots:
                         QString& errorMsg);
 
 private:
-    QString m_componentId;
-    TaskType m_taskType;
-    QString m_uuid;
-    AsyncNetworkRequest* m_currentRequest;
-    QMutex m_mutex;
+    QString m_componentId;  ///< 标识符。
+    TaskType m_taskType;  ///< 类型。
+    QString m_uuid;  ///< 标识符。
+    AsyncNetworkRequest* m_currentRequest;  ///< 请求。
+    QMutex m_mutex;  ///< 对象状态互斥量。
 
-    static const int DEFAULT_TIMEOUT_MS = 30000;
-    static const int MODEL_TIMEOUT_MS = 45000;
-    static const int MAX_RETRIES = 3;
+    static const int DEFAULT_TIMEOUT_MS = 30000;  ///< 普通网络请求超时时间（毫秒）。
+    static const int MODEL_TIMEOUT_MS = 45000;  ///< 三维模型请求超时时间（毫秒）。
+    static const int MAX_RETRIES = 3;  ///< 网络请求最大重试次数。
 };
 
 }  // namespace EasyKiConverter

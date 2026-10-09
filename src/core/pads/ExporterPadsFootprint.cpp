@@ -13,14 +13,18 @@
 namespace EasyKiConverter {
 namespace {
 
-constexpr double MM_TO_MIL = 39.37007874015748;
+constexpr double MM_TO_MIL = 39.37007874015748;  ///< 毫米到 mil 的换算系数。
 
-// 将封装名称清洗为 PADS PCB Decal 可接受的文件和记录标识符。
+/**
+ * @brief 将封装名称清洗为 PADS PCB Decal 可接受的文件和记录标识符。
+ * @param value 待清洗的封装名称。
+ * @return 仅包含安全字符的 PADS 名称。
+ */
 QString safeDecalName(const QString& value) {
-    QString result;
+    QString result;  ///< 清洗后的 PADS 名称。
     result.reserve(value.size());
     for (const QChar character : value) {
-        const ushort code = character.unicode();
+        const ushort code = character.unicode();  ///< 当前字符的 Unicode 编码。
         if ((code >= 'A' && code <= 'Z') || (code >= 'a' && code <= 'z') || (code >= '0' && code <= '9') ||
             character == QChar('_') || character == QChar('-'))
             result.append(character);
@@ -30,19 +34,31 @@ QString safeDecalName(const QString& value) {
     return result.left(40);
 }
 
-// 将毫米尺寸转换为 PADS 的 mil 文本。
+/**
+ * @brief 将毫米尺寸转换为 PADS 的 mil 文本。
+ * @param value 待转换的毫米数值。
+ * @return 格式化后的 mil 文本。
+ */
 QString number(double value) {
     return QString::number(value * MM_TO_MIL, 'f', 6);
 }
 
-// 序列化 PADS 支持的角度字段。
+/**
+ * @brief 序列化 PADS 支持的角度字段。
+ * @param value 待序列化的角度值。
+ * @return 格式化后的角度文本。
+ */
 QString angle(double value) {
     return QString::number(value, 'f', 3);
 }
 
-// PADS ASCII Decal 目前只接受可验证的 ASCII 文本。
+/**
+ * @brief 检查文本是否仅包含 ASCII 字符。
+ * @param value 待检查的文本。
+ * @return 文本全部为 ASCII 字符时返回 true。
+ */
 bool isAsciiText(const QString& value) {
-    const QByteArray bytes = value.toUtf8();
+    const QByteArray bytes = value.toUtf8();  ///< UTF-8 编码后的字节序列。
     for (const unsigned char byte : bytes) {
         if (byte >= 0x80)
             return false;
@@ -50,7 +66,12 @@ bool isAsciiText(const QString& value) {
     return true;
 }
 
-// 将 IR 焊盘形状映射为 PADS Pad Stack 形状代码。
+/**
+ * @brief 将 IR 焊盘形状映射为 PADS Pad Stack 形状代码。
+ * @param pad 待转换的统一 IR 焊盘。
+ * @param diagnostics 用于追加不支持原因的诊断列表。
+ * @return PADS 形状代码；无法表达时返回空字符串。
+ */
 QString padShape(const IR::FootprintPadIR& pad, QStringList& diagnostics) {
     // 只返回规范中有明确制造语义的形状代码。
     switch (pad.shape) {
@@ -71,15 +92,29 @@ QString padShape(const IR::FootprintPadIR& pad, QStringList& diagnostics) {
     return {};
 }
 
-// 写入 PADS PCB Decal 图元头部。
+/**
+ * @brief 写入 PADS PCB Decal 图元头部。
+ * @param stream 目标文本流。
+ * @param type PADS 图元类型。
+ * @param count 图元顶点或记录数量。
+ * @param width 图元线宽。
+ * @param layer PADS 层编号。
+ * @return 写入成功时返回 true。
+ */
 bool writePieceHeader(QTextStream& stream, const QString& type, int count, double width, int layer) {
     stream << type << ' ' << count << ' ' << number(width) << ' ' << layer << " -1\n";
     return stream.status() == QTextStream::Ok;
 }
 
-// 将单个封装 IR 写入一个 PADS PCB Decal 文件。
+/**
+ * @brief 将单个封装 IR 写入一个 PADS PCB Decal 文件。
+ * @param footprint 待导出的封装。
+ * @param path 输出文件路径。
+ * @param diagnostics 用于追加导出诊断的列表。
+ * @return 导出成功时返回 true。
+ */
 bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& path, QStringList& diagnostics) {
-    const QString name = safeDecalName(footprint.name);
+    const QString name = safeDecalName(footprint.name);  ///< 清洗后的封装名称。
     if (name.isEmpty()) {
         diagnostics.append(QStringLiteral("PADS: 封装名称清洗后为空"));
         return false;
@@ -116,14 +151,15 @@ bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& pa
         diagnostics.append(QStringLiteral("PADS: PCB Decal 不包含三维模型关联，将由独立三维阶段输出 %1 个模型")
                                .arg(footprint.models3d.size()));
 
-    QList<QString> padShapes;
+    QList<QString> padShapes;  ///< 与封装焊盘顺序对应的 PADS 形状代码。
     for (const IR::FootprintPadIR& pad : footprint.pads) {
-        const QString shape = padShape(pad, diagnostics);
+        const QString shape = padShape(pad, diagnostics);  ///< 当前焊盘的 PADS 形状代码。
         if (shape.isEmpty())
             return false;
         padShapes.append(shape);
     }
 
+    // PADS 图元数量。
     const int pieces = footprint.circles.size() + footprint.rectangles.size() +
                        std::count_if(footprint.tracks.cbegin(),
                                      footprint.tracks.cend(),
@@ -134,17 +170,18 @@ bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& pa
                        std::count_if(footprint.outlines.cbegin(), footprint.outlines.cend(), [](const auto& outline) {
                            return outline.points.size() >= 2;
                        });
+    // 可见文本数量。
     const int textCount = std::count_if(footprint.texts.cbegin(), footprint.texts.cend(), [](const auto& text) {
         return text.isDisplayed && !text.text.isEmpty();
     });
-    const QDateTime timestamp = QDateTime::currentDateTimeUtc();
+    const QDateTime timestamp = QDateTime::currentDateTimeUtc();  ///< 输出文件时间戳。
 
-    QFile file(path);
+    QFile file(path);  ///< PADS Decal 输出文件。
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {
         diagnostics.append(QStringLiteral("PADS: 无法写入文件 %1").arg(path));
         return false;
     }
-    QTextStream stream(&file);
+    QTextStream stream(&file);  ///< PADS ASCII 输出流。
     stream.setEncoding(QStringConverter::Utf8);
     stream << name << " I 0 0 0 0 " << pieces << ' ' << textCount << ' ' << footprint.pads.size() << ' '
            << footprint.pads.size() << " 0\n";
@@ -159,9 +196,13 @@ bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& pa
     for (const IR::FootprintRectangleIR& rectangle : footprint.rectangles) {
         if (!writePieceHeader(stream, QStringLiteral("CLOSED"), 5, rectangle.strokeWidth, 0))
             return false;
-        const QRectF bounds = rectangle.bounds;
-        const QList<QPointF> corners = {
-            bounds.topLeft(), bounds.topRight(), bounds.bottomRight(), bounds.bottomLeft(), bounds.topLeft()};
+        const QRectF bounds = rectangle.bounds;  ///< 矩形边界。
+        const QList<QPointF> corners = {///< 闭合矩形的顶点序列。
+                                        bounds.topLeft(),
+                                        bounds.topRight(),
+                                        bounds.bottomRight(),
+                                        bounds.bottomLeft(),
+                                        bounds.topLeft()};
         for (const QPointF& point : corners)
             stream << number(point.x()) << ' ' << number(point.y()) << '\n';
     }
@@ -180,7 +221,7 @@ bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& pa
             return false;
         for (const QPointF& point : region.vertices)
             stream << number(point.x()) << ' ' << number(point.y()) << '\n';
-        const QPointF& first = region.vertices.first();
+        const QPointF& first = region.vertices.first();  ///< 区域的首个顶点。
         stream << number(first.x()) << ' ' << number(first.y()) << '\n';
     }
     for (const IR::FootprintOutlineIR& outline : footprint.outlines) {
@@ -192,29 +233,29 @@ bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& pa
             stream << number(point.x()) << ' ' << number(point.y()) << '\n';
     }
     for (int index = 0; index < footprint.texts.size(); ++index) {
-        const IR::FootprintTextIR& text = footprint.texts.at(index);
+        const IR::FootprintTextIR& text = footprint.texts.at(index);  ///< 当前待写入的文本。
         if (!text.isDisplayed || text.text.isEmpty())
             continue;
         stream << number(text.position.x()) << ' ' << number(text.position.y()) << ' ' << angle(text.rotation)
                << " 0 1 " << number(text.fontSize > 0.0 ? text.fontSize : 1.0) << ' '
                << number(text.strokeWidth > 0.0 ? text.strokeWidth : 0.15) << " 0 0 0 0 Default Font\n";
-        QString textValue = text.text;
+        QString textValue = text.text;  ///< 已规范化换行的文本内容。
         stream << textValue.replace(QChar('\n'), QChar(' ')) << '\n';
     }
     for (int index = 0; index < footprint.pads.size(); ++index) {
-        const IR::FootprintPadIR& pad = footprint.pads.at(index);
-        const QString pin = pad.number;
+        const IR::FootprintPadIR& pad = footprint.pads.at(index);  ///< 当前待写入的焊盘。
+        const QString pin = pad.number;  ///< PADS 焊盘编号。
         stream << "T " << number(pad.position.x()) << ' ' << number(pad.position.y()) << ' ' << number(pad.position.x())
                << ' ' << number(pad.position.y()) << ' ' << pin << '\n';
-        const QString plated = pad.isPlated ? QStringLiteral("P") : QStringLiteral("N");
-        const double drill = pad.isThroughHole() ? pad.holeSize : 0.0;
-        const int layerCount = pad.isThroughHole() ? 2 : 1;
+        const QString plated = pad.isPlated ? QStringLiteral("P") : QStringLiteral("N");  ///< 镀层标记。
+        const double drill = pad.isThroughHole() ? pad.holeSize : 0.0;  ///< 钻孔直径。
+        const int layerCount = pad.isThroughHole() ? 2 : 1;  ///< PADS 层数量。
         stream << "PAD " << pin << ' ' << layerCount << ' ' << plated << ' ' << number(drill);
         if (pad.isThroughHole() && pad.holeLength > 0.0)
             stream << " 0 " << number(pad.holeLength) << " 0";
         stream << '\n';
-        const QString shape = padShapes.at(index);
-        const double width = qMax(pad.size.width(), pad.size.height());
+        const QString shape = padShapes.at(index);  ///< 当前焊盘的 PADS 形状代码。
+        const double width = qMax(pad.size.width(), pad.size.height());  ///< PADS 主尺寸。
         stream << (pad.isThroughHole() ? "-2 " : "-2 ") << number(width) << ' ' << shape;
         if (shape == QStringLiteral("OF") || shape == QStringLiteral("RF"))
             stream << " 0 " << angle(pad.rotation) << ' ' << number(pad.size.height()) << " 0";
@@ -236,17 +277,29 @@ bool writeFootprint(const IR::FootprintComponentIR& footprint, const QString& pa
 
 }  // namespace
 
-// 返回 PADS PCB Decal 目录后缀。
+/**
+ * @brief 返回 PADS PCB Decal 目录后缀。
+ * @return PADS 封装库目录后缀。
+ */
 QString ExporterPadsFootprint::libraryFileExtension() const {
     return QStringLiteral("_PADS");
 }
 
-// PADS 封装输出由多个 .d 文件组成一个目录库。
+/**
+ * @brief 判断 PADS 封装输出是否采用目录形式。
+ * @return PADS 输出始终为目录时返回 true。
+ */
 bool ExporterPadsFootprint::isDirectoryOutput() const {
     return true;
 }
 
-// 导出单个 PADS PCB Decal，并保留目标格式诊断。
+/**
+ * @brief 导出单个 PADS PCB Decal，并保留目标格式诊断。
+ * @param footprint 待导出的封装。
+ * @param filePath 输出文件路径。
+ * @param model3DPath 未使用的三维模型路径参数。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterPadsFootprint::exportFootprint(const IR::FootprintComponentIR& footprint,
                                             const QString& filePath,
                                             const QString&) {
@@ -254,7 +307,19 @@ bool ExporterPadsFootprint::exportFootprint(const IR::FootprintComponentIR& foot
     return writeFootprint(footprint, filePath, m_diagnostics);
 }
 
-// 导出目录形式的 PADS PCB Decal 库并检查名称冲突。
+/**
+ * @brief 导出目录形式的 PADS PCB Decal 库并检查名称冲突。
+ * @param footprints 待导出的封装列表。
+ * @param libName 目标库名称。
+ * @param filePath 输出目录路径。
+ * @param preferWrl 是否优先使用 WRL 模型。
+ * @param exportStep 是否导出 STEP 模型。
+ * @param libraryDescription 库描述文本。
+ * @param libraryKeywords 库关键词文本。
+ * @param useAbsolutePaths 是否使用绝对模型路径。
+ * @param model3DBaseDir 三维模型基础目录。
+ * @return 全部封装导出成功时返回 true。
+ */
 bool ExporterPadsFootprint::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                    const QString&,
                                                    const QString& filePath,
@@ -273,22 +338,25 @@ bool ExporterPadsFootprint::exportFootprintLibrary(const QList<IR::FootprintComp
         m_diagnostics.append(QStringLiteral("PADS: 无法创建输出目录 %1").arg(filePath));
         return false;
     }
-    QSet<QString> names;
+    QSet<QString> names;  ///< 已占用的清洗后封装名称集合。
     for (const IR::FootprintComponentIR& footprint : footprints) {
-        const QString name = safeDecalName(footprint.name);
+        const QString name = safeDecalName(footprint.name);  ///< 当前封装的输出名称。
         if (name.isEmpty() || names.contains(name)) {
             m_diagnostics.append(QStringLiteral("PADS: 封装名称清洗后冲突或为空：%1").arg(footprint.name));
             return false;
         }
         names.insert(name);
-        const QString path = QDir(filePath).filePath(name + QStringLiteral(".d"));
+        const QString path = QDir(filePath).filePath(name + QStringLiteral(".d"));  ///< 当前封装的输出文件路径。
         if (!writeFootprint(footprint, path, m_diagnostics))
             return false;
     }
     return true;
 }
 
-// 返回最近一次封装导出的诊断列表。
+/**
+ * @brief 返回最近一次封装导出的诊断列表。
+ * @return 最近一次导出的诊断信息列表。
+ */
 QStringList ExporterPadsFootprint::diagnostics() const {
     return m_diagnostics;
 }

@@ -48,24 +48,25 @@ struct FootprintPadIR {
     bool isPlated = true;  ///< 是否镀铜（仅通孔）
     bool isLocked = false;  ///< 是否锁定
 
-    /** @brief 阻焊扩展量（mm，正值表示向外扩展） */
-    double solderMaskExpansionMm = 0.0;
-    /** @brief 锡膏收缩量（mm，正值表示向内收缩） */
-    double pasteMaskContractionMm = 0.0;
-    /** @brief 是否生成阻焊层图形 */
-    bool solderMaskEnabled = true;
-    /** @brief 是否生成锡膏层图形 */
-    bool pasteMaskEnabled = true;
+    double solderMaskExpansionMm = 0.0;  ///< 阻焊扩展量，单位为毫米，正值表示向外扩展。
+    double pasteMaskContractionMm = 0.0;  ///< 锡膏收缩量，单位为毫米，正值表示向内收缩。
+    bool solderMaskEnabled = true;  ///< 是否生成阻焊层图形。
+    bool pasteMaskEnabled = true;  ///< 是否生成锡膏层图形。
 
-    /** @brief 异形焊盘的自定义形状顶点（已解析，单位 mm） */
-    QList<QPointF> customShapePoints;
+    QList<QPointF> customShapePoints;  ///< 异形焊盘的自定义顶点，单位为毫米。
 
-    /** @brief 是否为表面贴装 */
+    /**
+     * @brief 判断焊盘是否为表面贴装类型。
+     * @return 焊盘类型为 SMD 时返回 true。
+     */
     bool isSmd() const {
         return padType == PadType::Smd;
     }
 
-    /** @brief 是否为通孔 */
+    /**
+     * @brief 判断焊盘是否为通孔类型。
+     * @return 焊盘类型为通孔时返回 true。
+     */
     bool isThroughHole() const {
         return padType == PadType::ThroughHole;
     }
@@ -83,7 +84,7 @@ struct FootprintTrackIR {
     double width = 0.0;  ///< 线宽（mm）
     LayerType layer = LayerType::TopCopper;  ///< 所在层
     QString netName;  ///< 网络名称
-    bool isLocked = false;
+    bool isLocked = false;  ///< 是否锁定走线编辑。
 };
 
 /**
@@ -92,7 +93,7 @@ struct FootprintTrackIR {
 struct FootprintHoleIR {
     QPointF center;  ///< 中心位置（已解析，单位 mm）
     double radius = 0.0;  ///< 孔半径（mm）
-    bool isLocked = false;
+    bool isLocked = false;  ///< 是否锁定安装孔编辑。
 };
 
 /**
@@ -103,7 +104,7 @@ struct FootprintCircleIR {
     double radius = 0.0;  ///< 半径（mm）
     double strokeWidth = 0.0;  ///< 线宽（mm）
     LayerType layer = LayerType::TopSilk;  ///< 所在层
-    bool isLocked = false;
+    bool isLocked = false;  ///< 是否锁定圆形图元编辑。
 };
 
 /**
@@ -114,7 +115,7 @@ struct FootprintRectangleIR {
     double strokeWidth = 0.0;  ///< 线宽（mm）
     LayerType layer = LayerType::TopSilk;  ///< 所在层
     double rotation = 0.0;  ///< 旋转角度（度）
-    bool isLocked = false;
+    bool isLocked = false;  ///< 是否锁定矩形图元编辑。
 };
 
 /**
@@ -131,8 +132,8 @@ struct FootprintArcIR {
     double endAngle = 0.0;  ///< 终止角度（度）
     double width = 0.0;  ///< 线宽（mm）
     LayerType layer = LayerType::TopSilk;  ///< 所在层
-    QString netName;
-    bool isLocked = false;
+    QString netName;  ///< 关联网络名称。
+    bool isLocked = false;  ///< 是否锁定圆弧编辑。
 };
 
 /**
@@ -153,10 +154,10 @@ struct FootprintTextIR {
     LayerType layer = LayerType::TopSilk;  ///< 所在层
     bool isDisplayed = true;  ///< 是否显示
     bool isFabrication = false;  ///< 是否为装配层文本（替代 type == "N"）
-    bool isLocked = false;
+    bool isLocked = false;  ///< 是否锁定文本编辑。
 
     /** @brief 非 ASCII 文本的 SVG 路径点（已解析） */
-    QList<QPointF> textPathPoints;
+    QList<QPointF> textPathPoints;  ///< 非 ASCII 文本的轮廓顶点，单位为毫米。
 };
 
 /**
@@ -171,7 +172,7 @@ struct FootprintRegionIR {
     QList<QPointF> vertices;  ///< 区域顶点（已解析，单位 mm）
     LayerType layer = LayerType::TopCopper;  ///< 所在层
     bool isKeepOut = false;  ///< 是否为禁止区
-    bool isLocked = false;
+    bool isLocked = false;  ///< 是否锁定区域编辑。
 };
 
 /**
@@ -181,7 +182,7 @@ struct FootprintOutlineIR {
     QList<QPointF> points;  ///< 轮廓点（已解析，单位 mm）
     double strokeWidth = 0.0;  ///< 线宽（mm）
     LayerType layer = LayerType::EdgeCuts;  ///< 所在层（通常为 Edge.Cuts）
-    bool isLocked = false;
+    bool isLocked = false;  ///< 是否锁定板框编辑。
 };
 
 /**
@@ -195,24 +196,24 @@ struct FootprintComponentIR {
     QString description;  ///< 封装描述
     double height = 0.0;  ///< 3D 高度（mm）
 
-    // 图形原语列表
-    QList<FootprintPadIR> pads;
-    QList<FootprintTrackIR> tracks;
-    QList<FootprintHoleIR> holes;
-    QList<FootprintCircleIR> circles;
-    QList<FootprintRectangleIR> rectangles;
-    QList<FootprintArcIR> arcs;
-    QList<FootprintTextIR> texts;
-    QList<FootprintRegionIR> regions;
-    QList<FootprintOutlineIR> outlines;
+    QList<FootprintPadIR> pads;  ///< 封装焊盘列表。
+    QList<FootprintTrackIR> tracks;  ///< 封装走线列表。
+    QList<FootprintHoleIR> holes;  ///< 机械孔列表。
+    QList<FootprintCircleIR> circles;  ///< 圆形图元列表。
+    QList<FootprintRectangleIR> rectangles;  ///< 矩形图元列表。
+    QList<FootprintArcIR> arcs;  ///< 圆弧图元列表。
+    QList<FootprintTextIR> texts;  ///< 文本图元列表。
+    QList<FootprintRegionIR> regions;  ///< 区域图元列表。
+    QList<FootprintOutlineIR> outlines;  ///< 板框轮廓列表。
 
-    // 3D 模型
-    QList<Model3DIR> models3d;
+    QList<Model3DIR> models3d;  ///< 关联的三维模型列表。
 
-    /** @brief 是否应自动生成 courtyard（当无显式 courtyard 区域且原始 bbox 有效时） */
-    bool shouldGenerateCourtyard = false;
+    bool shouldGenerateCourtyard = false;  ///< 无显式庭院且边界有效时是否自动生成庭院。
 
-    /** @brief 是否包含通孔焊盘 */
+    /**
+     * @brief 判断封装是否包含通孔焊盘。
+     * @return 至少存在一个通孔焊盘时返回 true。
+     */
     bool hasThroughHolePads() const {
         for (const auto& pad : pads) {
             if (pad.isThroughHole())
@@ -221,14 +222,19 @@ struct FootprintComponentIR {
         return false;
     }
 
-    /** @brief 是否包含任何图形数据 */
+    /**
+     * @brief 判断封装是否包含任何图形数据。
+     * @return 任一图元列表非空时返回 true。
+     */
     bool hasGraphics() const {
         return !pads.isEmpty() || !tracks.isEmpty() || !holes.isEmpty() || !circles.isEmpty() ||
                !rectangles.isEmpty() || !arcs.isEmpty() || !texts.isEmpty() || !regions.isEmpty() ||
                !outlines.isEmpty();
     }
 
-    /** @brief 清空封装名称、几何图元和三维模型。 */
+    /**
+     * @brief 清空封装名称、几何图元和三维模型。
+     */
     void clear() {
         name.clear();
         description.clear();

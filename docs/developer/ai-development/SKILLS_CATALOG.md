@@ -9,6 +9,7 @@
 | [development](skills/development/SKILL.md) | 需要理解架构、定位责任边界并实施代码改动 | [元数据](skills/development/SKILL.meta.json) | 可能修改工作区；不自动 Git 写入或远端操作 |
 | [testing](skills/testing/SKILL.md) | 根据改动类型选择并执行验证 | [元数据](skills/testing/SKILL.meta.json) | 可能生成 `build/` 或日志；不修改 Git 历史 |
 | [code-review](skills/code-review/SKILL.md) | 审查工作区、暂存区、提交或 PR | [元数据](skills/code-review/SKILL.meta.json) | 只读；不实现修复、不提交、不推送 |
+| [comment-maintenance](skills/comment-maintenance/SKILL.md) | 审查和修复 C++ 中文 Doxygen、变量说明及注释检查 | [元数据](skills/comment-maintenance/SKILL.meta.json) | 可能修改注释或检查器；不自动提交或远端操作 |
 | [documentation](skills/documentation/SKILL.md) | 维护双语文档、导航、链接和 Mermaid | [元数据](skills/documentation/SKILL.meta.json) | 可能修改文档；不自动提交或发布 |
 | [format-research](skills/format-research/SKILL.md) | 研究 EDA 格式、样本、许可证和第三方算法思想 | [元数据](skills/format-research/SKILL.meta.json) | 可能修改研究记录；不复制第三方代码 |
 | [parser-development](skills/parser-development/SKILL.md) | 实现源格式 Parser/Model 到 IR 的确定性链路 | [元数据](skills/parser-development/SKILL.meta.json) | 可能修改源码、测试和 fixture |

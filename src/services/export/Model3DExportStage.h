@@ -88,10 +88,10 @@ private:
     void writeAssociationManifest();
 
     struct TempFilePaths {
-        QString wrlTempPath;
-        QString wrlFinalPath;
-        QString stepTempPath;
-        QString stepFinalPath;
+        QString wrlTempPath;  ///< WRL 临时文件路径。
+        QString wrlFinalPath;  ///< WRL 最终文件路径。
+        QString stepTempPath;  ///< STEP 临时文件路径。
+        QString stepFinalPath;  ///< STEP 最终文件路径。
     };
 
     struct ExportOptions m_options;  ///< 导出选项

@@ -41,12 +41,12 @@ enum class TargetEdaFormat {
  */
 struct ExportOptions {
     // 3D模型格式常量 (位掩码)
-    static constexpr int MODEL_3D_FORMAT_NONE = 0;  // 无格式
-    static constexpr int MODEL_3D_FORMAT_WRL = 1;  // WRL (bit 0)
-    static constexpr int MODEL_3D_FORMAT_STEP = 2;  // STEP (bit 1)
-    static constexpr int MODEL_3D_FORMAT_BOTH = 3;  // Both (WRL + STEP)
-    static constexpr int MODEL_3D_PATH_RELATIVE = 0;  // Footprint model path uses ../<lib>.3dmodels/...
-    static constexpr int MODEL_3D_PATH_ABSOLUTE = 1;  // Footprint model path uses an absolute filesystem path
+    static constexpr int MODEL_3D_FORMAT_NONE = 0;  ///< 不导出三维模型。
+    static constexpr int MODEL_3D_FORMAT_WRL = 1;  ///< 导出 WRL 模型（bit 0）。
+    static constexpr int MODEL_3D_FORMAT_STEP = 2;  ///< 导出 STEP 模型（bit 1）。
+    static constexpr int MODEL_3D_FORMAT_BOTH = 3;  ///< 同时导出 WRL 和 STEP 模型。
+    static constexpr int MODEL_3D_PATH_RELATIVE = 0;  ///< 使用相对三维模型路径。
+    static constexpr int MODEL_3D_PATH_ABSOLUTE = 1;  ///< 使用绝对三维模型路径。
 
     // 3D模型格式判断辅助方法
     constexpr bool needsModel3DWrl() const {
@@ -140,7 +140,10 @@ struct ExportItemStatus {
         return status == Status::Success || status == Status::Failed || status == Status::Skipped;
     }
 
-    /** @brief 判断导出是否成功 */
+    /**
+     * @brief 判断导出是否成功。
+     * @return 状态为成功时返回 true。
+     */
     bool isSuccess() const {
         return status == Status::Success;
     }
@@ -271,7 +274,7 @@ struct ExportOverallProgress {
      * @return 成功导出的元器件总数
      */
     int totalSuccessCount() const {
-        int count = 0;
+        int count = 0;  ///< 所有导出类型的成功总数。
         for (const auto& p : exportTypeProgress) {
             count += p.successCount;
         }
@@ -283,7 +286,7 @@ struct ExportOverallProgress {
      * @return 导出失败的元器件总数
      */
     int totalFailedCount() const {
-        int count = 0;
+        int count = 0;  ///< 所有导出类型的失败总数。
         for (const auto& p : exportTypeProgress) {
             count += p.failedCount;
         }
@@ -326,7 +329,8 @@ struct ExportOverallProgress {
         if (currentStage == Stage::Preloading)
             return preloadProgress.percentage();
         if (currentStage == Stage::Exporting) {
-            int total = 0, completed = 0;
+            int total = 0;  ///< 所有导出类型的待处理总数。
+            int completed = 0;  ///< 所有导出类型的已完成总数。
             for (const auto& p : exportTypeProgress) {
                 total += p.totalCount;
                 completed += p.completedCount;

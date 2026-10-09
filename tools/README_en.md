@@ -247,12 +247,21 @@ python tools/python/convert_to_utf8.py src/
 
 ### [check_comment_rate.py](../python/check_comment_rate.py)
 
-Checks C++ logical-unit comment coverage and can reject external-project references in source comments.
+Checks C++ logical-unit comment coverage and can reject external-project references in source comments. With `--check-variables`, it also checks recognizable variable declarations; with `--check-params`, it checks that function Doxygen comments cover their `@param` entries; with `--check-doxygen`, it checks that every function definition has an adjacent multi-line Doxygen block containing `@brief`.
 
 **Quick usage:**
 ```bash
 # Check selected files with a 90% minimum coverage
 python tools/python/check_comment_rate.py --threshold 90 src/core/utils/GeometryUtils.cpp
+
+# Also check recognizable variable declarations
+python tools/python/check_comment_rate.py --check-variables src/services/export/TempFileManager.cpp
+
+# Also check that function parameters have Doxygen @param descriptions
+python tools/python/check_comment_rate.py --check-params src/core/allegro/ExporterAllegroFootprint.cpp
+
+# Also check that function Doxygen comments contain @brief
+python tools/python/check_comment_rate.py --check-doxygen src/core/allegro/ExporterAllegroFootprint.cpp
 
 # Also enforce the source-comment reference policy
 python tools/python/check_comment_rate.py --threshold 100 --forbid-external-references \

@@ -10,8 +10,11 @@
 namespace EasyKiConverter {
 namespace {
 
-constexpr int kProcessTimeoutMs = 120000;
+constexpr int kProcessTimeoutMs = 120000;  ///< 官方 Horizon Python 操作的最大等待时间（毫秒）。
 
+/**
+ * @brief 生成更新 Horizon Pool 数据库的官方 Python 脚本。
+ */
 QString updateScript() {
     return QStringLiteral(
         "import os, sys\n"
@@ -22,6 +25,9 @@ QString updateScript() {
         "    raise RuntimeError('Horizon PoolUpdater returned without creating pool.db')\n");
 }
 
+/**
+ * @brief 生成注册 Horizon Pool 的官方 Python 脚本。
+ */
 QString registerScript() {
     return QStringLiteral(
         "import json, os, sys\n"
@@ -41,14 +47,27 @@ QString registerScript() {
         "    raise RuntimeError('Horizon Pool was not registered: ' + pool)\n");
 }
 
+/**
+ * @brief 合并进程标准错误和标准输出，生成可读诊断文本。
+ * @param process 已完成或正在结束的官方脚本进程。
+ * @return 合并并清理后的诊断文本。
+ */
 QString processOutput(QProcess& process) {
-    const QByteArray standardError = process.readAllStandardError();
-    const QByteArray standardOutput = process.readAllStandardOutput();
+    const QByteArray standardError = process.readAllStandardError();  ///< 官方脚本的标准错误输出。
+    const QByteArray standardOutput = process.readAllStandardOutput();  ///< 官方脚本的标准输出。
     return QString::fromLocal8Bit(standardError + standardOutput).trimmed();
 }
 
 }  // namespace
 
+/**
+ * @brief 执行 Horizon 官方 Python binding 脚本并收集失败诊断。
+ * @param poolPath 待操作的 Horizon Pool 路径。
+ * @param script 要执行的 Python 脚本内容。
+ * @param operation 操作名称。
+ * @param diagnostics 用于追加诊断信息的列表。
+ * @return 脚本成功完成返回 true，否则返回 false。
+ */
 bool runOfficialScript(const QString& poolPath,
                        const QString& script,
                        const QString& operation,
@@ -60,20 +79,22 @@ bool runOfficialScript(const QString& poolPath,
         return false;
     }
 
-    QProcess process;
-    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();
+    QProcess process;  ///< 官方 Python binding 的子进程。
+    QProcessEnvironment environment = QProcessEnvironment::systemEnvironment();  ///< 子进程环境变量。
+    // 可选的 Horizon Python 模块路径。
     QString pythonPath = environment.value(QStringLiteral("EASYKICONVERTER_HORIZON_PYTHONPATH")).trimmed();
     if (!pythonPath.isEmpty()) {
-        const QFileInfo modulePathInfo(pythonPath);
+        const QFileInfo modulePathInfo(pythonPath);  ///< Python 模块路径的文件信息。
         if (!modulePathInfo.isAbsolute())
             pythonPath = QDir::cleanPath(QDir::current().absoluteFilePath(pythonPath));
-        const QString currentPythonPath = environment.value(QStringLiteral("PYTHONPATH"));
+        const QString currentPythonPath =
+            environment.value(QStringLiteral("PYTHONPATH"));  ///< 原有 Python 模块搜索路径。
         environment.insert(
             QStringLiteral("PYTHONPATH"),
             currentPythonPath.isEmpty() ? pythonPath : pythonPath + QDir::listSeparator() + currentPythonPath);
     }
     process.setProcessEnvironment(environment);
-    const QString interpreter =
+    const QString interpreter =  ///< Horizon Python binding 使用的解释器路径。
         environment.value(QStringLiteral("EASYKICONVERTER_HORIZON_PYTHON"), QStringLiteral("python3"));
     process.start(interpreter, {QStringLiteral("-c"), script, poolInfo.absolutePath()});
     if (!process.waitForStarted(5000)) {
@@ -88,7 +109,7 @@ bool runOfficialScript(const QString& poolPath,
         return false;
     }
     if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0) {
-        QString detail = processOutput(process);
+        QString detail = processOutput(process);  ///< 官方脚本返回的详细错误文本。
         if (detail.isEmpty())
             detail = process.errorString();
         diagnostics.append(QStringLiteral("Horizon: 官方 %1 失败：%2").arg(operation, detail));
@@ -97,10 +118,17 @@ bool runOfficialScript(const QString& poolPath,
     return true;
 }
 
+/**
+ * @brief 使用官方 PoolUpdater 更新 Horizon Pool 数据库。
+ * @param poolPath 待更新的 Horizon Pool 路径。
+ * @param diagnostics 用于追加诊断信息的列表。
+ * @return 更新成功返回 true，否则返回 false。
+ */
 bool HorizonPoolIntegration::updatePool(const QString& poolPath, QStringList& diagnostics) {
     if (!runOfficialScript(poolPath, updateScript(), QStringLiteral("PoolUpdater"), diagnostics))
         return false;
-    const QFileInfo databaseInfo(QDir(poolPath).filePath(QStringLiteral("pool.db")));
+    const QFileInfo databaseInfo(
+        QDir(poolPath).filePath(QStringLiteral("pool.db")));  ///< 更新后的 Pool 数据库文件信息。
     if (!databaseInfo.isFile() || databaseInfo.size() <= 0) {
         diagnostics.append(
             QStringLiteral("Horizon: 官方 PoolUpdater 未生成有效 pool.db：%1").arg(databaseInfo.absoluteFilePath()));
@@ -109,8 +137,15 @@ bool HorizonPoolIntegration::updatePool(const QString& poolPath, QStringList& di
     return true;
 }
 
+/**
+ * @brief 使用官方 PoolManager 注册已更新的 Horizon Pool。
+ * @param poolPath 待注册的 Horizon Pool 路径。
+ * @param diagnostics 用于追加诊断信息的列表。
+ * @return 注册成功返回 true，否则返回 false。
+ */
 bool HorizonPoolIntegration::registerPool(const QString& poolPath, QStringList& diagnostics) {
-    const QFileInfo databaseInfo(QDir(poolPath).filePath(QStringLiteral("pool.db")));
+    const QFileInfo databaseInfo(
+        QDir(poolPath).filePath(QStringLiteral("pool.db")));  ///< 注册前的 Pool 数据库文件信息。
     if (!databaseInfo.isFile() || databaseInfo.size() <= 0) {
         diagnostics.append(
             QStringLiteral("Horizon: Pool 注册前缺少有效 pool.db：%1").arg(databaseInfo.absoluteFilePath()));
@@ -126,6 +161,12 @@ bool HorizonPoolIntegration::registerPool(const QString& poolPath, QStringList& 
     return true;
 }
 
+/**
+ * @brief 依次更新并注册 Horizon Pool。
+ * @param poolPath 待处理的 Horizon Pool 路径。
+ * @param diagnostics 用于追加诊断信息的列表。
+ * @return 更新和注册均成功返回 true，否则返回 false。
+ */
 bool HorizonPoolIntegration::updateAndRegister(const QString& poolPath, QStringList& diagnostics) {
     if (!updatePool(poolPath, diagnostics))
         return false;

@@ -22,6 +22,7 @@ enum class LogLevel {
 
 /**
  * @brief 将日志级别转换为字符串
+ * @param level 日志级别。
  */
 inline QString logLevelToString(LogLevel level) {
     switch (level) {
@@ -46,9 +47,10 @@ inline QString logLevelToString(LogLevel level) {
 
 /**
  * @brief 从字符串解析日志级别
+ * @param str 待解析的字符串。
  */
 inline LogLevel logLevelFromString(const QString& str) {
-    QString upper = str.toUpper().trimmed();
+    QString upper = str.toUpper().trimmed();  ///< 规范化后的大写日志级别文本。
     if (upper == "TRACE")
         return LogLevel::Trace;
     if (upper == "DEBUG")

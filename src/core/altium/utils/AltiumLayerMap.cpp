@@ -2,6 +2,11 @@
 
 namespace EasyKiConverter {
 
+/**
+ * @brief 将 EasyEDA 层编号转换为 Altium V7 层标识。
+ * @param layer EasyEDA 层编号。
+ * @return Altium V7 层标识。
+ */
 uint32_t AltiumLayerMap::toV7LayerId(uint8_t layer) {
     if (layer == 32)
         return 0x0100FFFF;  // Bottom
@@ -34,7 +39,13 @@ uint32_t AltiumLayerMap::toV7LayerId(uint8_t layer) {
     return 0x01000000 + layer;  // 默认
 }
 
+/**
+ * @brief 将 EasyEDA 层编号转换为 Altium 层名称。
+ * @param layer EasyEDA 层编号。
+ * @return Altium 层名称。
+ */
 QString AltiumLayerMap::toLayerName(uint8_t layer) {
+    // 优先处理 Altium 的固定层名称，再计算内部层和机械层名称。
     switch (layer) {
         case 1:
             return "TOP";
@@ -67,8 +78,13 @@ QString AltiumLayerMap::toLayerName(uint8_t layer) {
     }
 }
 
+/**
+ * @brief 将 EasyEDA 焊盘形状转换为 Altium 焊盘形状枚举。
+ * @param easyedaShape EasyEDA 焊盘形状名称。
+ * @return Altium 焊盘形状枚举值。
+ */
 uint8_t AltiumLayerMap::toAltiumPadShape(const QString& easyedaShape) {
-    QString upper = easyedaShape.toUpper();
+    QString upper = easyedaShape.toUpper();  // 统一形状名称大小写以便匹配。
     if (upper == "ELLIPSE" || upper == "CIRCLE" || upper == "ROUND")
         return 1;  // Round
     if (upper == "RECT" || upper == "RECTANGLE")
@@ -80,7 +96,13 @@ uint8_t AltiumLayerMap::toAltiumPadShape(const QString& easyedaShape) {
     return 1;  // 默认 Round
 }
 
+/**
+ * @brief 将 EasyEDA 引脚类型转换为 Altium 电气类型。
+ * @param easyedaPinType EasyEDA 引脚类型编号。
+ * @return Altium 电气类型枚举值。
+ */
 uint8_t AltiumLayerMap::toAltiumElectricalType(int easyedaPinType) {
+    // 将 EasyEDA 类型编号映射为 Altium 的电气类型枚举。
     switch (easyedaPinType) {
         case 1:
             return 0;  // Input → Input
@@ -95,9 +117,14 @@ uint8_t AltiumLayerMap::toAltiumElectricalType(int easyedaPinType) {
     }
 }
 
+/**
+ * @brief 将 EasyEDA 引脚角度量化为 Altium 方向索引。
+ * @param easyedaRotation EasyEDA 引脚旋转角度，单位为度。
+ * @return Altium 方向索引。
+ */
 uint8_t AltiumLayerMap::toAltiumPinOrientation(int easyedaRotation) {
     // EasyEDA 角度（度）→ Altium 方向索引
-    int normalized = ((easyedaRotation % 360) + 360) % 360;
+    int normalized = ((easyedaRotation % 360) + 360) % 360;  // 归一化到 0 至 359 度。
     if (normalized < 45 || normalized >= 315)
         return 0;  // Right
     if (normalized >= 45 && normalized < 135)

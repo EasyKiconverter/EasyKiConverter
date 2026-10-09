@@ -11,7 +11,7 @@ namespace EasyKiConverter {
 class HorizonUnits final {
 public:
     static qint64 mm(double value) {
-        const double scaled = value * 1000000.0;
+        const double scaled = value * 1000000.0;  ///< 换算为 Horizon 纳米单位后的值。
         if (!std::isfinite(scaled) || scaled > static_cast<double>(std::numeric_limits<qint64>::max()) ||
             scaled < static_cast<double>(std::numeric_limits<qint64>::min())) {
             return 0;

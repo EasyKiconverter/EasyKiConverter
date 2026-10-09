@@ -16,7 +16,14 @@ namespace EasyKiConverter {
  */
 class OLECompoundReader {
 public:
+    /**
+     * @brief 构造 OLE 复合文档只读解析器。
+     */
     OLECompoundReader();
+
+    /**
+     * @brief 释放 OLE 复合文档解析器资源。
+     */
     ~OLECompoundReader();
 
     /**
@@ -60,12 +67,21 @@ public:
     bool readStream(const QString& streamPath, QByteArray* data) const;
 
 private:
+    /**
+     * @brief 清除当前解析状态和流索引。
+     */
     void clear();
+
+    /**
+     * @brief 记录解析失败并回滚当前状态。
+     * @param message 解析失败原因。
+     * @return 始终返回 false。
+     */
     bool fail(const QString& message);
 
-    bool m_opened = false;
-    QString m_errorMessage;
-    QHash<QString, QByteArray> m_streams;
+    bool m_opened = false;  ///< 当前是否已经成功打开 OLE 容器。
+    QString m_errorMessage;  ///< 最近一次解析错误信息。
+    QHash<QString, QByteArray> m_streams;  ///< 已建立索引的流路径及内容。
 };
 
 }  // namespace EasyKiConverter

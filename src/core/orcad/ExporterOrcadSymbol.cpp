@@ -12,19 +12,31 @@ namespace EasyKiConverter {
 
 namespace {
 
-constexpr double kMilPerMm = 1.0 / 0.0254;
+constexpr double kMilPerMm = 1.0 / 0.0254;  ///< 毫米到 mil 的换算系数。
 
-/** @brief 将毫米坐标转换为 OrCAD XML 样本使用的整数 mil。 */
+/**
+ * @brief 将毫米坐标转换为 OrCAD XML 样本使用的整数 mil。
+ * @param millimeters 毫米坐标值。
+ * @return 换算后的整数 mil 文本。
+ */
 QString mil(double millimeters) {
     return QString::number(qRound64(millimeters * kMilPerMm));
 }
 
-/** @brief 判断点和长度是否为可序列化的有限数值。 */
+/**
+ * @brief 判断点和长度是否为可序列化的有限数值。
+ * @param point 待检查的坐标点。
+ * @return 坐标分量均为有限值时返回 true。
+ */
 bool finitePoint(const QPointF& point) {
     return std::isfinite(point.x()) && std::isfinite(point.y());
 }
 
-/** @brief 将统一符号引脚电气类型映射为 Capture XML type 值。 */
+/**
+ * @brief 将统一符号引脚电气类型映射为 Capture XML type 值。
+ * @param type 统一 IR 中的引脚电气类型。
+ * @return Capture XML 使用的类型编号。
+ */
 int orcadPinType(IR::PinElectricalType type) {
     // Capture XML 使用固定整数表示电气类型，未知类型按无源引脚处理并由调用方保留原始诊断。
     switch (type) {
@@ -48,7 +60,12 @@ int orcadPinType(IR::PinElectricalType type) {
     return 4;
 }
 
-/** @brief 返回 OrCAD XML 样本使用的引脚方向标志。 */
+/**
+ * @brief 返回 OrCAD XML 样本使用的引脚方向标志。
+ * @param direction 引脚方向。
+ * @param length 引脚长度。
+ * @return 以 mil 表示的方向向量。
+ */
 QPair<int, int> pinVector(IR::PinDirection direction, double length) {
     // Capture 的 hot point 位于引脚末端，因此这里把统一 IR 的方向和长度转换为 mil 偏移。
     switch (direction) {
@@ -64,15 +81,23 @@ QPair<int, int> pinVector(IR::PinDirection direction, double length) {
     return {0, 0};
 }
 
-/** @brief 将统一符号名称约束为一个安全的 Capture XML 定义名。 */
+/**
+ * @brief 将统一符号名称约束为一个安全的 Capture XML 定义名。
+ * @param name 原始符号名称。
+ * @return 清理后的符号定义名。
+ */
 QString definitionName(const QString& name) {
     return name.trimmed();
 }
 
-/** @brief 计算符号图形和引脚端点的边界框。 */
+/**
+ * @brief 计算符号图形和引脚端点的边界框。
+ * @param symbol 待计算边界的符号。
+ * @return 符号图形和引脚端点的边界框。
+ */
 QRectF symbolBounds(const IR::SymbolComponentIR& symbol) {
-    QRectF bounds;
-    bool initialized = false;
+    QRectF bounds;  ///< 当前已收集图元的边界框。
+    bool initialized = false;  ///< 是否已经收集第一个有效点。
     const auto include = [&](const QPointF& point) {
         if (!finitePoint(point))
             return;
@@ -89,7 +114,7 @@ QRectF symbolBounds(const IR::SymbolComponentIR& symbol) {
     }
     for (const auto& pin : symbol.pins) {
         include(pin.position);
-        const auto vector = pinVector(pin.direction, pin.length);
+        const auto vector = pinVector(pin.direction, pin.length);  ///< 引脚方向和长度对应的 mil 向量。
         include({pin.position.x() + vector.first / kMilPerMm, pin.position.y() + vector.second / kMilPerMm});
     }
     for (const auto& polyline : symbol.polylines)
@@ -101,7 +126,10 @@ QRectF symbolBounds(const IR::SymbolComponentIR& symbol) {
     return initialized ? bounds : QRectF(-1.27, -1.27, 2.54, 2.54);
 }
 
-/** @brief 写入 Capture XML 的最小默认字体定义。 */
+/**
+ * @brief 写入 Capture XML 的最小默认字体定义。
+ * @param xml XML 输出器。
+ */
 void writeDefaultValues(QXmlStreamWriter& xml) {
     xml.writeStartElement(QStringLiteral("DefaultValues"));
     xml.writeEmptyElement(QStringLiteral("Defn"));
@@ -124,7 +152,13 @@ void writeDefaultValues(QXmlStreamWriter& xml) {
     xml.writeEndElement();
 }
 
-/** @brief 写入 Capture XML 的一个符号显示属性。 */
+/**
+ * @brief 写入 Capture XML 的一个符号显示属性。
+ * @param xml XML 输出器。
+ * @param name 属性名称。
+ * @param x 属性 X 坐标。
+ * @param y 属性 Y 坐标。
+ */
 void writeDisplayProperty(QXmlStreamWriter& xml, const QString& name, qint64 x, qint64 y) {
     xml.writeStartElement(QStringLiteral("SymbolDisplayProp"));
     xml.writeEmptyElement(QStringLiteral("Defn"));
@@ -156,7 +190,11 @@ void writeDisplayProperty(QXmlStreamWriter& xml, const QString& name, qint64 x, 
     xml.writeEndElement();
 }
 
-/** @brief 写入一个矩形的四条 Capture XML 线段。 */
+/**
+ * @brief 写入一个矩形的四条 Capture XML 线段。
+ * @param xml XML 输出器。
+ * @param rectangle 矩形图形。
+ */
 void writeRectangle(QXmlStreamWriter& xml, const IR::SymbolRectangleIR& rectangle) {
     const auto line = [&](double x1, double y1, double x2, double y2) {
         xml.writeStartElement(QStringLiteral("Line"));
@@ -175,13 +213,18 @@ void writeRectangle(QXmlStreamWriter& xml, const IR::SymbolRectangleIR& rectangl
     line(rectangle.x0, rectangle.y1, rectangle.x0, rectangle.y0);
 }
 
-/** @brief 写入一个 Capture XML 符号引脚及其物理编号。 */
+/**
+ * @brief 写入一个 Capture XML 符号引脚及其物理编号。
+ * @param xml XML 输出器。
+ * @param pin 符号引脚。
+ * @param position 引脚物理编号。
+ */
 void writePin(QXmlStreamWriter& xml, const IR::SymbolPinIR& pin, int position) {
-    const auto vector = pinVector(pin.direction, pin.length);
-    const qint64 startX = qRound64(pin.position.x() * kMilPerMm);
-    const qint64 startY = qRound64(pin.position.y() * kMilPerMm);
-    const qint64 hotX = startX + vector.first;
-    const qint64 hotY = startY + vector.second;
+    const auto vector = pinVector(pin.direction, pin.length);  ///< 引脚方向和长度对应的 mil 向量。
+    const qint64 startX = qRound64(pin.position.x() * kMilPerMm);  ///< 引脚起点 X 坐标。
+    const qint64 startY = qRound64(pin.position.y() * kMilPerMm);  ///< 引脚起点 Y 坐标。
+    const qint64 hotX = startX + vector.first;  ///< 引脚热端 X 坐标。
+    const qint64 hotY = startY + vector.second;  ///< 引脚热端 Y 坐标。
     xml.writeStartElement(QStringLiteral("SymbolPinScalar"));
     xml.writeEmptyElement(QStringLiteral("Defn"));
     xml.writeAttribute(QStringLiteral("hotptX"), QString::number(hotX));
@@ -212,17 +255,34 @@ void writePin(QXmlStreamWriter& xml, const IR::SymbolPinIR& pin, int position) {
 
 }  // namespace
 
-/** @brief 返回 OrCAD Capture XML 符号库的文件扩展名。 */
+/**
+ * @brief 返回 OrCAD Capture XML 符号库的文件扩展名。
+ * @return 符号库文件扩展名。
+ */
 QString ExporterOrcadSymbol::libraryFileExtension() const {
     return QStringLiteral(".xml");
 }
 
-/** @brief 将单个符号包装为一个 OrCAD Capture XML 库。 */
+/**
+ * @brief 将单个符号包装为一个 OrCAD Capture XML 库。
+ * @param symbol 待导出的符号。
+ * @param filePath 输出文件路径。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterOrcadSymbol::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
     return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
 }
 
-/** @brief 校验并写入 OrCAD Capture XML 符号库。 */
+/**
+ * @brief 校验并写入 OrCAD Capture XML 符号库。
+ * @param symbols 待导出的符号列表。
+ * @param libName 符号库名称。
+ * @param filePath 输出文件路径。
+ * @param appendMode 是否追加到现有库。
+ * @param updateMode 是否更新现有库。
+ * @param libraryDescription 符号库描述。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterOrcadSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                               const QString& libName,
                                               const QString& filePath,
@@ -241,14 +301,14 @@ bool ExporterOrcadSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>
         return false;
     }
 
-    QSet<QString> names;
+    QSet<QString> names;  ///< 已使用的大小写折叠符号名称集合。
     for (const auto& symbol : symbols) {
-        const QString name = definitionName(symbol.name);
+        const QString name = definitionName(symbol.name);  ///< 当前符号的安全定义名。
         if (name.isEmpty()) {
             m_diagnostics.append(QStringLiteral("OrCAD Capture XML 符号名称为空"));
             return false;
         }
-        const QString key = name.toCaseFolded();
+        const QString key = name.toCaseFolded();  ///< 用于检测冲突的规范化名称。
         if (names.contains(key)) {
             m_diagnostics.append(QStringLiteral("OrCAD Capture XML 符号名称冲突：%1").arg(name));
             return false;
@@ -301,8 +361,8 @@ bool ExporterOrcadSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>
     writeDefaultValues(xml);
 
     for (const auto& symbol : symbols) {
-        const QString name = definitionName(symbol.name);
-        const QRectF bounds = symbolBounds(symbol);
+        const QString name = definitionName(symbol.name);  ///< 当前符号的安全定义名。
+        const QRectF bounds = symbolBounds(symbol);  ///< 当前符号的图形边界。
         xml.writeStartElement(QStringLiteral("Package"));
         xml.writeStartElement(QStringLiteral("Defn"));
         xml.writeAttribute(QStringLiteral("alphabeticNumbering"), QStringLiteral("1"));
@@ -356,8 +416,8 @@ bool ExporterOrcadSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>
             writeRectangle(xml, rectangle);
         for (const auto& polyline : symbol.polylines) {
             for (int i = 1; i < polyline.points.size(); ++i) {
-                const QPointF& first = polyline.points.at(i - 1);
-                const QPointF& second = polyline.points.at(i);
+                const QPointF& first = polyline.points.at(i - 1);  ///< 当前线段起点。
+                const QPointF& second = polyline.points.at(i);  ///< 当前线段终点。
                 xml.writeStartElement(QStringLiteral("Line"));
                 xml.writeEmptyElement(QStringLiteral("Defn"));
                 xml.writeAttribute(QStringLiteral("lineStyle"), QStringLiteral("0"));
@@ -395,7 +455,10 @@ bool ExporterOrcadSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>
     return true;
 }
 
-/** @brief 返回导出过程中收集的诊断信息。 */
+/**
+ * @brief 返回导出过程中收集的诊断信息。
+ * @return 当前导出器收集的诊断信息列表。
+ */
 QStringList ExporterOrcadSymbol::diagnostics() const {
     return m_diagnostics;
 }

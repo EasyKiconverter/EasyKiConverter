@@ -5,12 +5,20 @@
 
 namespace EasyKiConverter {
 
-/** @brief 将通用 IR 写入 Horizon Pool source files 的导出器。 */
+/**
+ * @brief 将通用 IR 写入 Horizon Pool source files 的导出器。
+ */
 class ExporterHorizonLibrary final : public IFootprintExporter, public ISymbolExporter {
 public:
-    /** @brief 返回 Horizon Pool 目录输出后缀。 */
+    /**
+     * @brief 返回 Horizon Pool 目录输出后缀。
+     * @return Horizon Pool 目录输出后缀。
+     */
     QString libraryFileExtension() const override;
-    /** @brief Horizon Pool 使用目录型输出。 */
+    /**
+     * @brief 判断 Horizon Pool 是否使用目录型输出。
+     * @return 始终返回 true。
+     */
     bool isDirectoryOutput() const override;
 
     /**
@@ -45,9 +53,23 @@ public:
                                 bool useAbsolutePaths = false,
                                 const QString& model3DBaseDir = QString()) override;
 
-    /** @brief 导出单个符号到 Horizon Pool。 */
+    /**
+     * @brief 导出单个符号到 Horizon Pool。
+     * @param symbol 待导出的符号。
+     * @param filePath Horizon Pool 根目录。
+     * @return 导出成功返回 true，否则返回 false。
+     */
     bool exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) override;
-    /** @brief 将多个符号、Unit 和 Entity 导出到 Horizon Pool。 */
+    /**
+     * @brief 将多个符号、Unit 和 Entity 导出到 Horizon Pool。
+     * @param symbols 待导出的符号 IR 列表。
+     * @param libName Pool 名称。
+     * @param filePath Horizon Pool 根目录。
+     * @param appendMode 是否追加到已有 Pool。
+     * @param updateMode 是否更新已有 Pool。
+     * @param libraryDescription 库描述。
+     * @return 导出成功返回 true，否则返回 false。
+     */
     bool exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                              const QString& libName,
                              const QString& filePath,
@@ -69,11 +91,14 @@ public:
                                 bool exportModel3D = false,
                                 const QString& model3DBaseDir = QString()) override;
 
-    /** @brief 返回最近一次导出的诊断信息。 */
+    /**
+     * @brief 返回最近一次导出的诊断信息。
+     * @return 最近一次导出的诊断信息列表。
+     */
     QStringList diagnostics() const override;
 
 private:
-    QStringList m_diagnostics;
+    QStringList m_diagnostics;  ///< 最近一次导出的诊断信息列表。
 };
 
 }  // namespace EasyKiConverter

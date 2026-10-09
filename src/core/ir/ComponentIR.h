@@ -54,33 +54,48 @@ struct ComponentIR {
      *   }
      * @endcode
      */
-    QVariantMap sourceMetadata;
+    QVariantMap sourceMetadata;  ///< 来源格式特有的元数据键值对。
 
     // === 组件数据 ===
     SymbolComponentIR symbol;  ///< 原理图符号
     FootprintComponentIR footprint;  ///< PCB 封装
     Model3DIR model3D;  ///< 3D 模型
 
-    /** @brief 是否包含有效的符号数据 */
+    /**
+     * @brief 判断是否包含有效的符号数据。
+     * @return 符号含有图形或名称时返回 true。
+     */
     bool hasSymbol() const {
         return symbol.hasGraphics() || !symbol.name.isEmpty();
     }
 
-    /** @brief 是否包含有效的封装数据 */
+    /**
+     * @brief 判断是否包含有效的封装数据。
+     * @return 封装含有图形或名称时返回 true。
+     */
     bool hasFootprint() const {
         return footprint.hasGraphics() || !footprint.name.isEmpty();
     }
 
-    /** @brief 是否包含有效的 3D 模型数据 */
+    /**
+     * @brief 判断是否包含有效的三维模型数据。
+     * @return 三维模型通过自身校验时返回 true。
+     */
     bool hasModel3D() const {
         return model3D.isValid();
     }
 
-    /** @brief 是否为完整组件（同时包含符号和封装） */
+    /**
+     * @brief 判断是否为完整组件。
+     * @return 同时包含有效符号和封装时返回 true。
+     */
     bool isComplete() const {
         return hasSymbol() && hasFootprint();
     }
 
+    /**
+     * @brief 清空组件元数据、符号、封装和三维模型。
+     */
     void clear() {
         name.clear();
         description.clear();

@@ -13,14 +13,22 @@ namespace EasyKiConverter {
 
 namespace {
 
-constexpr double kThousandthInchMm = 0.0254;
+constexpr double kThousandthInchMm = 0.0254;  ///< Xpedition thousandth inch 对应的毫米数。
 
-/** @brief 将毫米转换为目标格式的千分之一英寸单位。 */
+/**
+ * @brief 将毫米转换为目标格式的千分之一英寸单位。
+ * @param valueMm 毫米数值。
+ * @return 目标格式的千分之一英寸数值。
+ */
 double toTh(double valueMm) {
     return valueMm / kThousandthInchMm;
 }
 
-/** @brief 清理符号名称，使其可作为 ZIP 条目名称。 */
+/**
+ * @brief 清理符号名称，使其可作为 ZIP 条目名称。
+ * @param name 待清理的符号名称。
+ * @return 可作为 ZIP 条目名称的安全名称。
+ */
 QString safeName(QString name) {
     name = name.trimmed();
     name.replace(QRegularExpression(QStringLiteral("[^A-Za-z0-9_.-]")), QStringLiteral("_"));
@@ -40,7 +48,11 @@ QString escapedText(QString text) {
     return text;
 }
 
-/** @brief 使用稳定精度输出几何数值。 */
+/**
+ * @brief 使用稳定精度输出几何数值。
+ * @param value 待格式化的几何数值。
+ * @return 固定精度的数值文本。
+ */
 QString fmt(double value) {
     return QString::number(value, 'f', 4);
 }
@@ -73,7 +85,11 @@ QString pinElectricalTypeName(IR::PinElectricalType type) {
     }
 }
 
-/** @brief 将引脚方向转换为单位方向向量。 */
+/**
+ * @brief 将引脚方向转换为单位方向向量。
+ * @param direction 引脚方向。
+ * @return 对应的单位方向向量。
+ */
 QPointF directionVector(IR::PinDirection direction) {
     // 方向枚举到单位向量的转换决定引脚内外端点的几何关系。
     switch (direction) {
@@ -100,13 +116,24 @@ QPointF pinDisplayPosition(const QPointF& position, bool hasPosition, const QPoi
     return hasPosition ? position : pinPosition;
 }
 
-/** @brief 写入一个符号直线图元及其默认图形样式。 */
+/**
+ * @brief 写入一个符号直线图元及其默认图形样式。
+ * @param output 输出缓冲区。
+ * @param x1 线段起点 X 坐标。
+ * @param y1 线段起点 Y 坐标。
+ * @param x2 线段终点 X 坐标。
+ * @param y2 线段终点 Y 坐标。
+ */
 void appendLine(QString& output, double x1, double y1, double x2, double y2) {
     output += QStringLiteral("l 2 %1 %2 %3 %4\n|GRPHSTL -1 0 0 1\n")
                   .arg(fmt(toTh(x1)), fmt(toTh(y1)), fmt(toTh(x2)), fmt(toTh(y2)));
 }
 
-/** @brief 将点列拆分为目标格式可识别的连续线段。 */
+/**
+ * @brief 将点列拆分为目标格式可识别的连续线段。
+ * @param output 输出缓冲区。
+ * @param points 折线顶点列表。
+ */
 void appendPolyline(QString& output, const QList<QPointF>& points) {
     for (int i = 1; i < points.size(); ++i)
         appendLine(output, points[i - 1].x(), points[i - 1].y(), points[i].x(), points[i].y());
@@ -119,8 +146,8 @@ void appendPolyline(QString& output, const QList<QPointF>& points) {
  * @return 包含引脚和已支持图元的包围盒，单位为毫米。
  */
 QRectF symbolBounds(const IR::SymbolComponentIR& symbol, int partIndex) {
-    QRectF bounds;
-    bool initialized = false;
+    QRectF bounds;  ///< 当前已收集图元的边界框。
+    bool initialized = false;  ///< 是否已经收集第一个有效点。
     const auto addPoint = [&](const QPointF& point) {
         if (!initialized) {
             bounds = QRectF(point, QSizeF(0.0, 0.0));
@@ -177,9 +204,10 @@ QRectF symbolBounds(const IR::SymbolComponentIR& symbol, int partIndex) {
  * @param index 目标文件中的引脚序号。
  */
 void appendPin(QString& output, const IR::SymbolPinIR& pin, int index) {
-    const QPointF direction = directionVector(pin.direction);
-    const QPointF outer = pin.position;
-    const QPointF inner = outer - direction * pin.length;
+    const QPointF direction = directionVector(pin.direction);  ///< 引脚朝向单位向量。
+    const QPointF outer = pin.position;  ///< 引脚外端点。
+    const QPointF inner = outer - direction * pin.length;  ///< 引脚内端点。
+    // Xpedition 侧标识对应引脚方向的枚举值。
     const int side = pin.direction == IR::PinDirection::Left   ? 3
                      : pin.direction == IR::PinDirection::Up   ? 0
                      : pin.direction == IR::PinDirection::Down ? 1
@@ -191,8 +219,10 @@ void appendPin(QString& output, const IR::SymbolPinIR& pin, int index) {
                   .arg(fmt(toTh(inner.x())))
                   .arg(fmt(toTh(inner.y())))
                   .arg(side);
-    const QPointF namePosition = pinDisplayPosition(pin.namePosition, pin.hasNamePosition, outer);
-    const QPointF numberPosition = pinDisplayPosition(pin.numberPosition, pin.hasNumberPosition, outer);
+    const QPointF namePosition =
+        pinDisplayPosition(pin.namePosition, pin.hasNamePosition, outer);  ///< 引脚名称显示位置。
+    const QPointF numberPosition =
+        pinDisplayPosition(pin.numberPosition, pin.hasNumberPosition, outer);  ///< 引脚编号显示位置。
     if (pin.display.showName && !pin.name.isEmpty())
         output += QStringLiteral("L %1 %2 8 0 2 0 1 0 %3\n")
                       .arg(fmt(toTh(namePosition.x())))
@@ -203,7 +233,7 @@ void appendPin(QString& output, const IR::SymbolPinIR& pin, int index) {
                       .arg(fmt(toTh(numberPosition.x())))
                       .arg(fmt(toTh(numberPosition.y())))
                       .arg(escapedText(pin.designator));
-    const QString electricalType = pinElectricalTypeName(pin.electricalType);
+    const QString electricalType = pinElectricalTypeName(pin.electricalType);  ///< 引脚电气类型文本。
     if (!electricalType.isEmpty())
         output += QStringLiteral("A %1 %2 10 0 2 0 PINTYPE=%3\n")
                       .arg(fmt(toTh(outer.x())))
@@ -213,42 +243,59 @@ void appendPin(QString& output, const IR::SymbolPinIR& pin, int index) {
 
 }  // namespace
 
-// 符号归档中的每个条目都是 ASCII 部件文件，统一使用符号扩展名。
+/**
+ * @brief 返回符号归档条目的文件扩展名。
+ * @return Xpedition 符号库文件扩展名。
+ */
 QString ExporterXpeditionSymbol::libraryFileExtension() const {
     // 符号库同样使用 ZIP，但条目内容是 ASCII 符号部件文件。
     return QStringLiteral("_Symbols.zip");
 }
 
-// 诊断信息由符号批量入口生成，读取操作不改变导出器状态。
+/**
+ * @brief 返回导出过程中收集的诊断信息。
+ * @return 当前导出器的诊断信息列表。
+ */
 QStringList ExporterXpeditionSymbol::diagnostics() const {
     // 诊断信息描述未支持图元和文件写入失败，供 CLI 与 GUI 共用。
     return m_diagnostics;
 }
 
-// 多单元符号通过“名称.部件序号”形成稳定的库条目名称。
+/**
+ * @brief 生成多单元符号部件的稳定文件名。
+ * @param outputName 清理后的符号名称。
+ * @param partIndex 部件索引。
+ * @return 符号部件文件名。
+ */
 QString ExporterXpeditionSymbol::symbolFileName(const QString& outputName, int partIndex) const {
     // 部件序号从 1 开始，符合目标符号库的多单元命名约定。
     return QStringLiteral("%1.%2").arg(outputName).arg(partIndex + 1);
 }
 
-// 符号部件正文按照头信息、引脚、图元和结束记录的顺序拼接。
+/**
+ * @brief 按目标格式拼接一个符号部件文件正文。
+ * @param symbol 符号统一表示。
+ * @param partIndex 当前部件索引。
+ * @param outputName 清理后的符号名称。
+ * @return 符号部件文件内容。
+ */
 QByteArray ExporterXpeditionSymbol::symbolFile(const IR::SymbolComponentIR& symbol,
                                                int partIndex,
                                                const QString& outputName) const {
     // 每个部件独立成文件，同时保留 commonToAllParts 引脚，避免多单元符号丢失公共引脚。
-    QString body;
+    QString body;  ///< 当前符号部件文件正文。
     body += QStringLiteral("V 50\nK 1000000000 %1\nY 1\nZ 0\ni 0\n").arg(outputName);
     body += QStringLiteral("U 0 0 10 0 5 0 %1\n").arg(outputName);
     body += QStringLiteral("U 0 0 5 0 5 0 REFDES=%1\n").arg(escapedText(symbol.designatorPrefix));
     body += QStringLiteral("U 0 0 5 0 5 0 VALUE=%1\n").arg(escapedText(symbol.name));
-    const QRectF bounds = symbolBounds(symbol, partIndex);
+    const QRectF bounds = symbolBounds(symbol, partIndex);  ///< 当前部件的几何包围盒。
     body += QStringLiteral("b %1 %2 %3 %4\n")
                 .arg(fmt(toTh(bounds.left())))
                 .arg(fmt(toTh(bounds.top())))
                 .arg(fmt(toTh(bounds.right())))
                 .arg(fmt(toTh(bounds.bottom())));
 
-    int pinIndex = 1;
+    int pinIndex = 1;  ///< 下一个导出引脚的序号。
     for (const IR::SymbolPinIR& pin : symbol.pins) {
         if (pin.partIndex == partIndex || pin.commonToAllParts)
             appendPin(body, pin, pinIndex++);
@@ -292,42 +339,58 @@ QByteArray ExporterXpeditionSymbol::symbolFile(const IR::SymbolComponentIR& symb
     return body.toUtf8();
 }
 
-// 单符号入口委托批量入口，避免两条路径产生不同的归档结构。
+/**
+ * @brief 导出单个 Xpedition 符号库。
+ * @param symbol 待导出的符号。
+ * @param filePath 输出 ZIP 文件路径。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterXpeditionSymbol::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
     // 单符号入口委托批量入口，避免两条路径产生不同的 ZIP 结构。
     return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
 }
 
-// 批量入口负责清理诊断、展开多单元并写入符号 ZIP。
+/**
+ * @brief 批量导出 Xpedition 符号 ZIP。
+ * @param symbols 待导出的符号列表。
+ * @param libName 符号库名称，当前格式仅用于接口兼容。
+ * @param filePath 输出 ZIP 文件路径。
+ * @param appendMode 是否追加到现有库。
+ * @param updateMode 是否更新现有库。
+ * @param libraryDescription 符号库描述，当前格式仅用于接口兼容。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterXpeditionSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
-                                                  const QString&,
+                                                  const QString& libName,
                                                   const QString& filePath,
                                                   bool appendMode,
                                                   bool updateMode,
-                                                  const QString&) {
+                                                  const QString& libraryDescription) {
+    Q_UNUSED(libName);
+    Q_UNUSED(libraryDescription);
     // 清理任务级诊断后再写入各个部件，保证调用者读取到的是本次结果。
     m_diagnostics.clear();
     if (appendMode || updateMode) {
         m_diagnostics.append(QStringLiteral("Xpedition 符号 ZIP 暂不支持追加或更新模式"));
         return false;
     }
-    XpeditionZipWriter archive;
-    QSet<QString> usedNames;
+    XpeditionZipWriter archive;  ///< 当前批量导出的 ZIP 写入器。
+    QSet<QString> usedNames;  ///< 已使用的符号文件名集合。
     for (const IR::SymbolComponentIR& symbol : symbols) {
         if (symbol.name.trimmed().isEmpty()) {
             m_diagnostics.append(QStringLiteral("跳过名称为空的 Xpedition 符号"));
             continue;
         }
-        const QString baseName = safeName(symbol.name);
-        QString outputName = baseName;
-        int suffix = 2;
+        const QString baseName = safeName(symbol.name);  ///< 当前符号的安全基础名称。
+        QString outputName = baseName;  ///< 当前符号实际使用的输出名称。
+        int suffix = 2;  ///< 重名符号的起始后缀。
         while (usedNames.contains(outputName))
             outputName = QStringLiteral("%1_%2").arg(baseName).arg(suffix++);
         if (outputName != baseName)
             m_diagnostics.append(
                 QStringLiteral("Xpedition 符号名称重复，已重命名：%1 -> %2").arg(symbol.name, outputName));
         usedNames.insert(outputName);
-        const int partCount = qMax(1, symbol.partCount);
+        const int partCount = qMax(1, symbol.partCount);  ///< 当前符号需要导出的部件数量。
         if (!symbol.ellipses.isEmpty() || !symbol.pies.isEmpty() || !symbol.ellipticalArcs.isEmpty() ||
             !symbol.paths.isEmpty() || !symbol.beziers.isEmpty() || !symbol.ieeeSymbols.isEmpty() ||
             !symbol.texts.isEmpty() || !symbol.textFrames.isEmpty() || !symbol.images.isEmpty()) {

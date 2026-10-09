@@ -12,12 +12,21 @@
 
 namespace EasyKiConverter {
 
-// 记录网络运行时统计，帮助导出报告关联网络阶段行为。
+/**
+ * @brief 记录网络运行时统计，帮助导出报告关联网络阶段行为。
+ * @param context 当前导出阶段上下文。
+ */
 void ExportReportGenerator::logNetworkStats(const QString& context) {
-    const QString snapshot = NetworkClient::instance().formatRuntimeStats();
+    const QString snapshot = NetworkClient::instance().formatRuntimeStats();  ///< 当前网络运行时统计快照。
     qInfo().noquote() << QStringLiteral("ParallelExportService network runtime stats [%1]\n%2").arg(context, snapshot);
 }
 
+/**
+ * @brief 在调试模式下写入导出详细报告。
+ * @param reason 触发报告写入的原因。
+ * @param options 当前导出选项。
+ * @param progress 当前整体导出进度。
+ */
 void ExportReportGenerator::writeDetailedReport(const QString& reason,
                                                 const ExportOptions& options,
                                                 const ExportOverallProgress& progress) {
@@ -30,20 +39,21 @@ void ExportReportGenerator::writeDetailedReport(const QString& reason,
         return;
     }
 
-    QDir outputDir(options.outputPath);
+    QDir outputDir(options.outputPath);  ///< 详细报告输出目录对象。
     if (!outputDir.exists() && !outputDir.mkpath(QStringLiteral("."))) {
         qWarning() << "ParallelExportService: Failed to create diagnostics report directory:" << outputDir.path();
         return;
     }
 
-    const QString reportPath = outputDir.filePath(QStringLiteral("easykiconverter_export_detailed_report.md"));
-    QSaveFile file(reportPath);
+    const QString reportPath =
+        outputDir.filePath(QStringLiteral("easykiconverter_export_detailed_report.md"));  ///< 详细报告文件路径。
+    QSaveFile file(reportPath);  ///< 以原子方式写入详细报告的文件对象。
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qWarning() << "ParallelExportService: Failed to open export detailed report for writing:" << reportPath;
         return;
     }
 
-    QTextStream out(&file);
+    QTextStream out(&file);  ///< 详细报告文本输出流。
     out.setEncoding(QStringConverter::Utf8);
     out << "# EasyKiConverter Export Detailed Report\n\n";
     out << "- Generated: " << QDateTime::currentDateTime().toString(Qt::ISODate) << "\n";
@@ -83,7 +93,7 @@ void ExportReportGenerator::writeDetailedReport(const QString& reason,
 
     out << "\n## Export Type Progress\n\n";
     for (auto it = progress.exportTypeProgress.cbegin(); it != progress.exportTypeProgress.cend(); ++it) {
-        const ExportTypeProgress& typeProgress = it.value();
+        const ExportTypeProgress& typeProgress = it.value();  ///< 当前导出类型的进度。
         out << "### " << it.key() << "\n\n";
         out << "- Completed: " << typeProgress.completedCount << "/" << typeProgress.totalCount << "\n";
         out << "- Success: " << typeProgress.successCount << "\n";
@@ -95,9 +105,10 @@ void ExportReportGenerator::writeDetailedReport(const QString& reason,
             for (const QString& diagnostic : typeProgress.diagnostics)
                 out << "- " << diagnostic << "\n";
         }
-        bool hasNonSuccessItems = false;
-        for (auto statusIt = typeProgress.itemStatus.cbegin(); statusIt != typeProgress.itemStatus.cend(); ++statusIt) {
-            const auto status = statusIt.value().status;
+        bool hasNonSuccessItems = false;  ///< 当前导出类型是否存在失败或跳过项。
+        for (auto statusIt = typeProgress.itemStatus.cbegin(); statusIt != typeProgress.itemStatus.cend();
+             ++statusIt) {  ///< 当前元器件状态。
+            const auto status = statusIt.value().status;  ///< 当前元器件的结果状态。
             if (status == ExportItemStatus::Status::Failed || status == ExportItemStatus::Status::Skipped) {
                 hasNonSuccessItems = true;
                 break;
@@ -107,8 +118,8 @@ void ExportReportGenerator::writeDetailedReport(const QString& reason,
             out << "\n#### Failed or Skipped Items\n\n";
             for (auto statusIt = typeProgress.itemStatus.cbegin(); statusIt != typeProgress.itemStatus.cend();
                  ++statusIt) {
-                const ExportItemStatus& status = statusIt.value();
-                QString statusName;
+                const ExportItemStatus& status = statusIt.value();  ///< 当前失败或跳过的元器件状态。
+                QString statusName;  ///< 面向报告的状态名称。
                 if (status.status == ExportItemStatus::Status::Failed)
                     statusName = QStringLiteral("failed");
                 else if (status.status == ExportItemStatus::Status::Skipped)
@@ -116,12 +127,14 @@ void ExportReportGenerator::writeDetailedReport(const QString& reason,
                 else
                     continue;
 
-                const QString reasonText =
-                    status.errorMessage.isEmpty() ? QStringLiteral("未提供原因") : status.errorMessage;
+                // 文本。
+                const QString reasonText = status.errorMessage.isEmpty()
+                                               ? QStringLiteral("未提供原因")
+                                               : status.errorMessage;  ///< 面向报告的失败原因。
                 out << "- `" << statusIt.key() << "`: " << statusName << " — " << reasonText << "\n";
             }
         }
-        bool hasDiagnostics = false;
+        bool hasDiagnostics = false;  ///< 当前导出类型是否存在输入诊断。
         for (auto statusIt = typeProgress.itemStatus.cbegin(); statusIt != typeProgress.itemStatus.cend(); ++statusIt) {
             if (!statusIt.value().diagnostics.isEmpty()) {
                 hasDiagnostics = true;

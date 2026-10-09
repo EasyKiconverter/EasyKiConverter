@@ -18,9 +18,13 @@
 namespace EasyKiConverter {
 namespace {
 
-/** 清理用户名称并阻断路径穿越，生成可用于 Import Package 的文件名。 */
+/**
+ * @brief 清理用户名称并阻断路径穿越，生成可用于 Import Package 的文件名。
+ * @param value 待处理的值。
+ * @param fallback 为空时使用的回退值。
+ */
 QString safeName(const QString& value, const QString& fallback) {
-    QString name = value.trimmed();
+    QString name = value.trimmed();  ///< 清理后的候选名称。
     name.replace(QRegularExpression(QStringLiteral("[^A-Za-z0-9._-]")), QStringLiteral("_"));
     while (name.contains(QStringLiteral("..")))
         name.replace(QStringLiteral(".."), QStringLiteral("_"));
@@ -29,12 +33,18 @@ QString safeName(const QString& value, const QString& fallback) {
     return name.left(120);
 }
 
-/** 以固定精度序列化毫米或角度值，保证 Padstack 键稳定。 */
+/**
+ * @brief 以固定精度序列化毫米或角度值，保证 Padstack 键稳定。
+ * @param value 待处理的值。
+ */
 QString number(double value) {
     return QString::number(value, 'f', 6);
 }
 
-/** 将 IR 焊盘形状转换为 Import Package 的稳定名称。 */
+/**
+ * @brief 将 IR 焊盘形状转换为 Import Package 的稳定名称。
+ * @param shape 焊盘形状。
+ */
 QString shapeName(IR::PadShape shape) {
     // 形状名称参与 Padstack 规范键，必须覆盖所有 IR 形状分支。
     switch (shape) {
@@ -54,16 +64,22 @@ QString shapeName(IR::PadShape shape) {
     return QStringLiteral("unknown");
 }
 
-/** 将 IR 焊盘类型转换为 Import Package 的类型名称。 */
+/**
+ * @brief 将 IR 焊盘类型转换为 Import Package 的类型名称。
+ * @param type 对象或数据类型。
+ */
 QString padTypeName(IR::PadType type) {
     return type == IR::PadType::ThroughHole ? QStringLiteral("through-hole") : QStringLiteral("smd");
 }
 
-/** 将点列表编码为可读的毫米坐标 JSON 数组。 */
+/**
+ * @brief 将点列表编码为可读的毫米坐标 JSON 数组。
+ * @param points 几何点列表。
+ */
 QJsonArray pointArray(const QList<QPointF>& points) {
-    QJsonArray array;
+    QJsonArray array;  ///< 点坐标组成的 JSON 数组。
     for (const QPointF& point : points) {
-        QJsonObject item;
+        QJsonObject item;  ///< 当前点的 JSON 对象。
         item.insert(QStringLiteral("x_mm"), point.x());
         item.insert(QStringLiteral("y_mm"), point.y());
         array.append(item);
@@ -71,14 +87,21 @@ QJsonArray pointArray(const QList<QPointF>& points) {
     return array;
 }
 
-/** 将 Allegro 层分配对象编码为 JSON。 */
+/**
+ * @brief 将 Allegro 层分配对象编码为 JSON。
+ * @param layer 目标图层。
+ */
 QJsonObject layerObject(const AllegroLayerAssignment& layer) {
     return {{QStringLiteral("class"), layer.className},
             {QStringLiteral("subclass"), layer.subclassName},
             {QStringLiteral("source_semantic"), layer.sourceSemantic}};
 }
 
-/** 原子性地写入文本文件内容。 */
+/**
+ * @brief 原子性地写入文本文件内容。
+ * @param path 目标路径。
+ * @param content 待写入的内容。
+ */
 bool writeText(const QString& path, const QByteArray& content) {
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate))
@@ -86,13 +109,22 @@ bool writeText(const QString& path, const QByteArray& content) {
     return file.write(content) == content.size();
 }
 
-/** 将 JSON 对象格式化后写入文件。 */
+/**
+ * @brief 将 JSON 对象格式化后写入文件。
+ * @param path 目标路径。
+ * @param object 待处理的对象。
+ */
 bool writeJson(const QString& path, const QJsonObject& object) {
     return writeText(path, QJsonDocument(object).toJson(QJsonDocument::Indented));
 }
 
-/** 构造包含制造语义的规范 Padstack 去重键。 */
+/**
+ * @brief 构造包含制造语义的规范 Padstack 去重键。
+ * @param pad 待规范化的封装焊盘。
+ * @return 包含焊盘制造语义的稳定去重键。
+ */
 QString canonicalPadKey(const IR::FootprintPadIR& pad) {
+    // 规范键包含影响制造语义的全部 Pad 属性。
     QString key = padTypeName(pad.padType) + QLatin1Char('|') + shapeName(pad.shape) + QLatin1Char('|') +
                   number(pad.size.width()) + QLatin1Char('|') + number(pad.size.height()) + QLatin1Char('|') +
                   number(pad.holeSize) + QLatin1Char('|') + number(pad.holeLength) + QLatin1Char('|') +
@@ -103,7 +135,11 @@ QString canonicalPadKey(const IR::FootprintPadIR& pad) {
     return key;
 }
 
-/** 将规范 Padstack 模型转换为 manifest 中的 JSON 对象。 */
+/**
+ * @brief 将规范 Padstack 模型转换为 manifest 中的 JSON 对象。
+ * @param padstack 待序列化的 Allegro Padstack 模型。
+ * @return Padstack 对应的 JSON 对象。
+ */
 QJsonObject padstackObject(const AllegroPadstackModel& padstack) {
     return {
         {QStringLiteral("name"), padstack.name},
@@ -121,7 +157,10 @@ QJsonObject padstackObject(const AllegroPadstackModel& padstack) {
         {QStringLiteral("canonical_key"), padstack.canonicalKey}};
 }
 
-/** 将封装几何模型转换为带边界和层语义的 JSON 对象。 */
+/**
+ * @brief 将封装几何模型转换为带边界和层语义的 JSON 对象。
+ * @param item 当前处理的条目。
+ */
 QJsonObject geometryObject(const AllegroGeometryModel& item) {
     QJsonObject object{{QStringLiteral("primitive"), item.primitive},
                        {QStringLiteral("layer"), layerObject(item.layer)},
@@ -140,7 +179,20 @@ QJsonObject geometryObject(const AllegroGeometryModel& item) {
     return object;
 }
 
-/** 追加图层几何，并拒绝无法映射的 IR 层。 */
+/**
+ * @brief 追加图层几何，并拒绝无法映射的 IR 层。
+ * @param layer 目标图层。
+ * @param primitive 图元类型。
+ * @param points 几何点列表。
+ * @param bounds 几何边界。
+ * @param center 几何中心。
+ * @param radius 几何半径。
+ * @param rotation 旋转角度。
+ * @param width 宽度。
+ * @param text 文本内容。
+ * @param package 目标封装模型。
+ * @param diagnostics 用于追加诊断信息的列表。
+ */
 bool appendLayeredGeometry(const std::optional<AllegroLayerAssignment>& layer,
                            const QString& primitive,
                            const QList<QPointF>& points,
@@ -160,15 +212,20 @@ bool appendLayeredGeometry(const std::optional<AllegroLayerAssignment>& layer,
     return true;
 }
 
-/** 从一个 Footprint IR 构建独立的 Allegro 目标模型。 */
+/**
+ * @brief 从一个 Footprint IR 构建独立的 Allegro 目标模型。
+ * @param footprint 待处理的封装。
+ * @param package 目标封装模型。
+ * @param diagnostics 用于追加诊断信息的列表。
+ */
 bool buildPackage(const IR::FootprintComponentIR& footprint, AllegroPackageModel& package, QStringList& diagnostics) {
     package.name = safeName(footprint.name, QStringLiteral("footprint"));
     package.description = footprint.description;
     package.height = footprint.height;
 
-    QMap<QString, QString> keyToName;
-    QSet<QString> pinNumbers;
-    int padIndex = 0;
+    QMap<QString, QString> keyToName;  ///< Pad 几何规范键到 Padstack 名称的映射。
+    QSet<QString> pinNumbers;  ///< 已使用的引脚编号集合。
+    int padIndex = 0;  ///< 当前处理的焊盘索引。
     for (const IR::FootprintPadIR& pad : footprint.pads) {
         if (pad.number.trimmed().isEmpty()) {
             diagnostics.append(QStringLiteral("Allegro: 封装 %1 存在空编号焊盘，无法建立 Pin 关联").arg(package.name));
@@ -180,8 +237,8 @@ bool buildPackage(const IR::FootprintComponentIR& footprint, AllegroPackageModel
         }
         pinNumbers.insert(pad.number);
 
-        const QString key = canonicalPadKey(pad);
-        QString padstackName = keyToName.value(key);
+        const QString key = canonicalPadKey(pad);  ///< 当前焊盘的制造语义规范键。
+        QString padstackName = keyToName.value(key);  ///< 当前规范键对应的 Padstack 名称。
         if (padstackName.isEmpty()) {
             const QByteArray digest =
                 QCryptographicHash::hash(key.toUtf8(), QCryptographicHash::Sha256).toHex().left(12);
@@ -210,7 +267,7 @@ bool buildPackage(const IR::FootprintComponentIR& footprint, AllegroPackageModel
 
     // 独立安装孔不生成电气 Pin，只作为机械几何写入 Import Package。
     for (const IR::FootprintHoleIR& hole : footprint.holes) {
-        const auto layer = AllegroLayerMapper::map(IR::LayerType::Mechanical1);
+        const auto layer = AllegroLayerMapper::map(IR::LayerType::Mechanical1);  ///< 机械孔使用的 Allegro 层映射。
         if (!appendLayeredGeometry(
                 layer,
                 QStringLiteral("mounting-hole"),
@@ -303,7 +360,7 @@ bool buildPackage(const IR::FootprintComponentIR& footprint, AllegroPackageModel
             return false;
     }
     for (const IR::FootprintRegionIR& region : footprint.regions) {
-        const IR::LayerType layer = region.isKeepOut ? IR::LayerType::KeepOut : region.layer;
+        const IR::LayerType layer = region.isKeepOut ? IR::LayerType::KeepOut : region.layer;  ///< 区域的语义层。
         if (!appendLayeredGeometry(AllegroLayerMapper::map(layer),
                                    region.isKeepOut ? QStringLiteral("keep-out") : QStringLiteral("region"),
                                    region.vertices,
@@ -333,7 +390,7 @@ bool buildPackage(const IR::FootprintComponentIR& footprint, AllegroPackageModel
     }
 
     if (footprint.shouldGenerateCourtyard) {
-        QRectF bounds;
+        QRectF bounds;  ///< 根据焊盘计算得到的 Place Bound 回退包围盒。
         for (const IR::FootprintPadIR& pad : footprint.pads)
             bounds = bounds.isNull() ? QRectF(pad.position, pad.size) : bounds.united(QRectF(pad.position, pad.size));
         if (!bounds.isNull()) {
@@ -362,20 +419,21 @@ bool buildPackage(const IR::FootprintComponentIR& footprint, AllegroPackageModel
                 QStringLiteral("Allegro: 封装 %1 的 STEP 模型 %2 缺少数据，未写入").arg(package.name, model.name()));
             continue;
         }
+        // 清洗后的 STEP 文件名。
         QString modelFile = safeName(model.name(), QStringLiteral("model_%1.step").arg(package.stepFiles.size()));
         if (QFileInfo(modelFile).suffix().isEmpty())
             modelFile += QStringLiteral(".step");
-        const QString modelStem = QFileInfo(modelFile).completeBaseName();
-        const QString modelSuffix = QFileInfo(modelFile).suffix().isEmpty()
+        const QString modelStem = QFileInfo(modelFile).completeBaseName();  ///< 不含扩展名的 STEP 文件名。
+        const QString modelSuffix = QFileInfo(modelFile).suffix().isEmpty()  ///< 统一的 STEP 文件扩展名。
                                         ? QStringLiteral(".step")
                                         : QStringLiteral(".%1").arg(QFileInfo(modelFile).suffix());
-        int modelIndex = 2;
+        int modelIndex = 2;  ///< 处理同名 STEP 文件时使用的递增后缀。
         while (package.stepFiles.contains(modelFile))
             modelFile = QStringLiteral("%1_%2%3").arg(modelStem).arg(modelIndex++).arg(modelSuffix);
         package.stepFiles.append(modelFile);
-        const auto translation = model.translation();
-        const auto rotation = model.rotation();
-        const auto offset = model.stepOffsetMm();
+        const auto translation = model.translation();  ///< STEP 模型的平移变换。
+        const auto rotation = model.rotation();  ///< STEP 模型的旋转变换。
+        const auto offset = model.stepOffsetMm();  ///< STEP 模型的坐标偏移。
         package.stepTransforms.append(QJsonObject{
             {QStringLiteral("translation_mm"),
              QJsonObject{{QStringLiteral("x"), translation.x},
@@ -393,12 +451,15 @@ bool buildPackage(const IR::FootprintComponentIR& footprint, AllegroPackageModel
     return true;
 }
 
-/** 将 Allegro 封装模型编码为 normalized-data JSON。 */
+/**
+ * @brief 将 Allegro 封装模型编码为 normalized-data JSON。
+ * @param package 目标封装模型。
+ */
 QJsonObject packageObject(const AllegroPackageModel& package) {
-    QJsonArray padstacks;
+    QJsonArray padstacks;  ///< 封装引用的 Padstack JSON 数组。
     for (const AllegroPadstackModel& padstack : package.padstacks)
         padstacks.append(padstackObject(padstack));
-    QJsonArray pins;
+    QJsonArray pins;  ///< 封装 Pin 与 Padstack 关联的 JSON 数组。
     for (const AllegroPinModel& pin : package.pins) {
         pins.append(QJsonObject{{QStringLiteral("number"), pin.number},
                                 {QStringLiteral("padstack"), pin.padstackName},
@@ -407,10 +468,10 @@ QJsonObject packageObject(const AllegroPackageModel& package) {
                                 {QStringLiteral("rotation_deg"), pin.rotation},
                                 {QStringLiteral("mechanical"), pin.mechanical}});
     }
-    QJsonArray geometry;
+    QJsonArray geometry;  ///< 封装几何图元 JSON 数组。
     for (const AllegroGeometryModel& item : package.geometry)
         geometry.append(geometryObject(item));
-    QJsonArray models;
+    QJsonArray models;  ///< STEP 模型文件名 JSON 数组。
     for (const QString& model : package.stepFiles)
         models.append(model);
     return {{QStringLiteral("name"), package.name},
@@ -426,7 +487,10 @@ QJsonObject packageObject(const AllegroPackageModel& package) {
             {QStringLiteral("place_bound_fallback"), package.usedPlaceBoundFallback}};
 }
 
-/** 将符号引脚写成不依赖 Allegro 私有编号的规范化 JSON。 */
+/**
+ * @brief 将符号引脚写成不依赖 Allegro 私有编号的规范化 JSON。
+ * @param pin 待处理的引脚。
+ */
 QJsonObject symbolPinObject(const IR::SymbolPinIR& pin) {
     return {{QStringLiteral("name"), pin.name},
             {QStringLiteral("designator"), pin.designator},
@@ -446,13 +510,16 @@ QJsonObject symbolPinObject(const IR::SymbolPinIR& pin) {
             {QStringLiteral("active_low"), pin.style.activeLow}};
 }
 
-/** 将 Allegro Import Package 需要的符号语义写入 JSON。 */
+/**
+ * @brief 将 Allegro Import Package 需要的符号语义写入 JSON。
+ * @param symbol 待处理的符号。
+ */
 QJsonObject symbolObject(const IR::SymbolComponentIR& symbol) {
-    QJsonArray pins;
+    QJsonArray pins;  ///< 符号引脚 JSON 数组。
     for (const IR::SymbolPinIR& pin : symbol.pins)
         pins.append(symbolPinObject(pin));
 
-    QJsonArray rectangles;
+    QJsonArray rectangles;  ///< 符号矩形图元 JSON 数组。
     for (const IR::SymbolRectangleIR& rectangle : symbol.rectangles) {
         rectangles.append(QJsonObject{{QStringLiteral("x0_mm"), rectangle.x0},
                                       {QStringLiteral("y0_mm"), rectangle.y0},
@@ -465,7 +532,7 @@ QJsonObject symbolObject(const IR::SymbolComponentIR& symbol) {
                                       {QStringLiteral("part_index"), rectangle.partIndex}});
     }
 
-    QJsonArray circles;
+    QJsonArray circles;  ///< 符号圆形图元 JSON 数组。
     for (const IR::SymbolCircleIR& circle : symbol.circles) {
         circles.append(QJsonObject{
             {QStringLiteral("center"),
@@ -476,7 +543,7 @@ QJsonObject symbolObject(const IR::SymbolComponentIR& symbol) {
             {QStringLiteral("part_index"), circle.partIndex}});
     }
 
-    QJsonArray arcs;
+    QJsonArray arcs;  ///< 符号圆弧图元 JSON 数组。
     for (const IR::SymbolArcIR& arc : symbol.arcs) {
         arcs.append(QJsonObject{
             {QStringLiteral("start"),
@@ -490,21 +557,21 @@ QJsonObject symbolObject(const IR::SymbolComponentIR& symbol) {
             {QStringLiteral("part_index"), arc.partIndex}});
     }
 
-    QJsonArray polylines;
+    QJsonArray polylines;  ///< 符号折线图元 JSON 数组。
     for (const IR::SymbolPolylineIR& polyline : symbol.polylines)
         polylines.append(QJsonObject{{QStringLiteral("points_mm"), pointArray(polyline.points)},
                                      {QStringLiteral("stroke_width_mm"), polyline.strokeWidth},
                                      {QStringLiteral("filled"), polyline.isFilled},
                                      {QStringLiteral("part_index"), polyline.partIndex}});
 
-    QJsonArray polygons;
+    QJsonArray polygons;  ///< 符号多边形图元 JSON 数组。
     for (const IR::SymbolPolygonIR& polygon : symbol.polygons)
         polygons.append(QJsonObject{{QStringLiteral("points_mm"), pointArray(polygon.points)},
                                     {QStringLiteral("stroke_width_mm"), polygon.strokeWidth},
                                     {QStringLiteral("filled"), polygon.isFilled},
                                     {QStringLiteral("part_index"), polygon.partIndex}});
 
-    QJsonArray texts;
+    QJsonArray texts;  ///< 符号文本图元 JSON 数组。
     for (const IR::SymbolTextIR& text : symbol.texts)
         texts.append(QJsonObject{{QStringLiteral("text"), text.text},
                                  {QStringLiteral("x_mm"), text.position.x()},
@@ -551,25 +618,31 @@ QJsonObject symbolObject(const IR::SymbolComponentIR& symbol) {
             {QStringLiteral("graphics_counts"), graphicsCounts}};
 }
 
-/** 写入符号文件并返回 manifest 中的符号条目。 */
+/**
+ * @brief 写入符号文件并返回 manifest 中的符号条目。
+ * @param symbols 符号列表。
+ * @param packageDir 封装输出目录。
+ * @param symbolEntries 符号条目列表。
+ * @param diagnostics 用于追加诊断信息的列表。
+ */
 bool writeAllegroSymbolFiles(const QList<IR::SymbolComponentIR>& symbols,
                              const QString& packageDir,
                              QJsonArray& symbolEntries,
                              QStringList& diagnostics) {
-    const QString symbolDir = packageDir + QDir::separator() + QStringLiteral("symbols");
+    const QString symbolDir = packageDir + QDir::separator() + QStringLiteral("symbols");  ///< 符号规范化数据目录。
     if (!QDir().mkpath(symbolDir)) {
         diagnostics.append(QStringLiteral("Allegro: 无法创建符号规范化目录"));
         return false;
     }
-    QSet<QString> names;
+    QSet<QString> names;  ///< 清洗后的符号名称集合。
     for (const IR::SymbolComponentIR& symbol : symbols) {
-        const QString name = safeName(symbol.name, QStringLiteral("symbol"));
+        const QString name = safeName(symbol.name, QStringLiteral("symbol"));  ///< 当前符号的安全文件名。
         if (names.contains(name)) {
             diagnostics.append(QStringLiteral("Allegro: 符号名称清洗后冲突：%1").arg(name));
             return false;
         }
         names.insert(name);
-        const QString relativePath = QStringLiteral("symbols/%1.json").arg(name);
+        const QString relativePath = QStringLiteral("symbols/%1.json").arg(name);  ///< 符号规范化数据的相对路径。
         if (!writeJson(packageDir + QDir::separator() + relativePath, symbolObject(symbol))) {
             diagnostics.append(QStringLiteral("Allegro: 无法写入符号规范化数据：%1").arg(name));
             return false;
@@ -586,17 +659,22 @@ bool writeAllegroSymbolFiles(const QList<IR::SymbolComponentIR>& symbols,
     return true;
 }
 
-/** 将符号与封装、引脚与焊盘关系写入 Import Package 清单。 */
+/**
+ * @brief 将符号与封装、引脚与焊盘关系写入 Import Package 清单。
+ * @param components 元器件列表。
+ * @param entries 待写入的条目列表。
+ * @param diagnostics 用于追加诊断信息的列表。
+ */
 bool componentEntries(const QList<IR::ComponentIR>& components, QJsonArray& entries, QStringList& diagnostics) {
     for (const IR::ComponentIR& component : components) {
-        QSet<QString> padNumbers;
+        QSet<QString> padNumbers;  ///< 当前封装中的焊盘编号集合。
         for (const IR::FootprintPadIR& pad : component.footprint.pads)
             padNumbers.insert(pad.number);
 
-        QSet<QString> pinNumbers;
-        QJsonArray pinMappings;
+        QSet<QString> pinNumbers;  ///< 当前符号中已处理的引脚编号集合。
+        QJsonArray pinMappings;  ///< 符号引脚到封装焊盘的映射数组。
         for (const IR::SymbolPinIR& pin : component.symbol.pins) {
-            const QString pinNumber = pin.designator.trimmed();
+            const QString pinNumber = pin.designator.trimmed();  ///< 清理后的符号引脚编号。
             if (pinNumber.isEmpty()) {
                 diagnostics.append(
                     QStringLiteral("Allegro: 组件 %1 存在空符号引脚编号，无法建立 Pin-Pad 关联").arg(component.name));
@@ -625,17 +703,26 @@ bool componentEntries(const QList<IR::ComponentIR>& components, QJsonArray& entr
 
 }  // namespace
 
-/** Allegro Import Package 使用目录后缀，而不是原生库扩展名。 */
+/**
+ * @brief 返回 Allegro Import Package 使用的目录后缀。
+ */
 QString ExporterAllegroFootprint::libraryFileExtension() const {
     return QStringLiteral("_Allegro");
 }
 
-/** 声明 Allegro 导出结果是一个目录包。 */
+/**
+ * @brief 声明 Allegro 导出结果是一个目录包。
+ */
 bool ExporterAllegroFootprint::isDirectoryOutput() const {
     return true;
 }
 
-/** 将单个封装委托给统一的 Import Package 导出入口。 */
+/**
+ * @brief 将单个封装委托给统一的 Import Package 导出入口。
+ * @param footprint 待处理的封装。
+ * @param filePath 输出文件路径。
+ * @param model3DPath 三维模型路径。
+ */
 bool ExporterAllegroFootprint::exportFootprint(const IR::FootprintComponentIR& footprint,
                                                const QString& filePath,
                                                const QString& model3DPath) {
@@ -643,7 +730,18 @@ bool ExporterAllegroFootprint::exportFootprint(const IR::FootprintComponentIR& f
     return exportFootprintLibrary({footprint}, QFileInfo(filePath).baseName(), filePath, false, true);
 }
 
-/** 生成 Allegro Import Package 及其引用文件和诊断信息。 */
+/**
+ * @brief 生成 Allegro Import Package 及其引用文件和诊断信息。
+ * @param footprints 封装列表。
+ * @param libName 目标库名称。
+ * @param filePath 输出文件路径。
+ * @param preferWrl 是否优先使用 WRL 模型。
+ * @param exportStep 是否导出 STEP 模型。
+ * @param libraryDescription 库描述。
+ * @param libraryKeywords 库关键词。
+ * @param useAbsolutePaths 是否使用绝对路径。
+ * @param model3DBaseDir 三维模型基础目录。
+ */
 bool ExporterAllegroFootprint::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                       const QString& libName,
                                                       const QString& filePath,
@@ -665,21 +763,22 @@ bool ExporterAllegroFootprint::exportFootprintLibrary(const QList<IR::FootprintC
         m_diagnostics.append(QStringLiteral("Allegro: 无法创建 Import Package 目录 %1").arg(filePath));
         return false;
     }
-    const QString normalizedDir = filePath + QDir::separator() + QStringLiteral("normalized-data");
-    const QString padstackDir = filePath + QDir::separator() + QStringLiteral("padstacks");
-    const QString shapeDir = filePath + QDir::separator() + QStringLiteral("shapes");
-    const QString modelDir = filePath + QDir::separator() + QStringLiteral("models");
+    const QString normalizedDir =
+        filePath + QDir::separator() + QStringLiteral("normalized-data");  ///< 规范化封装数据目录。
+    const QString padstackDir = filePath + QDir::separator() + QStringLiteral("padstacks");  ///< Padstack 数据目录。
+    const QString shapeDir = filePath + QDir::separator() + QStringLiteral("shapes");  ///< 自定义 Shape 数据目录。
+    const QString modelDir = filePath + QDir::separator() + QStringLiteral("models");  ///< STEP 模型数据目录。
     if (!QDir().mkpath(normalizedDir) || !QDir().mkpath(padstackDir) || !QDir().mkpath(shapeDir) ||
         !QDir().mkpath(modelDir)) {
         m_diagnostics.append(QStringLiteral("Allegro: 无法创建 Import Package 子目录"));
         return false;
     }
 
-    QJsonArray packages;
-    QSet<QString> packageNames;
-    QSet<QString> padstackFiles;
+    QJsonArray packages;  ///< manifest 中的封装条目数组。
+    QSet<QString> packageNames;  ///< 已生成的安全封装名称集合。
+    QSet<QString> padstackFiles;  ///< 已写入的 Padstack 名称集合。
     for (const IR::FootprintComponentIR& footprint : footprints) {
-        AllegroPackageModel package;
+        AllegroPackageModel package;  ///< 当前封装的 Allegro 目标模型。
         if (!buildPackage(footprint, package, m_diagnostics))
             return false;
         if (!exportStep) {
@@ -692,7 +791,8 @@ bool ExporterAllegroFootprint::exportFootprintLibrary(const QList<IR::FootprintC
             return false;
         }
         packageNames.insert(package.name);
-        const QString dataPath = normalizedDir + QDir::separator() + package.name + QStringLiteral(".json");
+        const QString dataPath =
+            normalizedDir + QDir::separator() + package.name + QStringLiteral(".json");  ///< 当前封装规范化数据路径。
         if (!writeJson(dataPath, packageObject(package))) {
             m_diagnostics.append(QStringLiteral("Allegro: 无法写入规范化封装数据 %1").arg(dataPath));
             return false;
@@ -717,7 +817,7 @@ bool ExporterAllegroFootprint::exportFootprintLibrary(const QList<IR::FootprintC
                 }
             }
         }
-        int stepIndex = 0;
+        int stepIndex = 0;  ///< 当前封装 STEP 文件索引。
         for (const IR::Model3DIR& model : footprint.models3d) {
             if (!model.hasStepData())
                 continue;
@@ -779,7 +879,12 @@ bool ExporterAllegroFootprint::exportFootprintLibrary(const QList<IR::FootprintC
     return true;
 }
 
-/** 生成仅包含 Allegro 符号规范化数据的 Import Package。 */
+/**
+ * @brief 生成仅包含 Allegro 符号规范化数据的 Import Package。
+ * @param symbols 符号列表。
+ * @param libName 目标库名称。
+ * @param filePath 输出文件路径。
+ */
 bool ExporterAllegroFootprint::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                                    const QString& libName,
                                                    const QString& filePath) {
@@ -793,7 +898,7 @@ bool ExporterAllegroFootprint::exportSymbolLibrary(const QList<IR::SymbolCompone
         return false;
     }
 
-    QJsonArray symbolEntries;
+    QJsonArray symbolEntries;  ///< manifest 中的符号条目数组。
     if (!writeAllegroSymbolFiles(symbols, filePath, symbolEntries, m_diagnostics))
         return false;
 
@@ -819,7 +924,15 @@ bool ExporterAllegroFootprint::exportSymbolLibrary(const QList<IR::SymbolCompone
     return true;
 }
 
-/** 通过通用符号接口导出 Allegro 语义包，并拒绝未实现的合并模式。 */
+/**
+ * @brief 通过通用符号接口导出 Allegro 语义包，并拒绝未实现的合并模式。
+ * @param symbols 符号列表。
+ * @param libName 目标库名称。
+ * @param filePath 输出文件路径。
+ * @param appendMode 是否使用追加模式。
+ * @param updateMode 是否使用更新模式。
+ * @param libraryDescription 库描述。
+ */
 bool ExporterAllegroFootprint::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                                    const QString& libName,
                                                    const QString& filePath,
@@ -834,12 +947,23 @@ bool ExporterAllegroFootprint::exportSymbolLibrary(const QList<IR::SymbolCompone
     return exportSymbolLibrary(symbols, libName, filePath);
 }
 
-/** 通过通用符号接口导出单个 Allegro 符号。 */
+/**
+ * @brief 通过通用符号接口导出单个 Allegro 符号。
+ * @param symbol 待处理的符号。
+ * @param filePath 输出文件路径。
+ */
 bool ExporterAllegroFootprint::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
     return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
 }
 
-/** 在已有封装 Import Package 中追加符号和器件关联清单。 */
+/**
+ * @brief 在已有封装 Import Package 中追加符号和器件关联清单。
+ * @param components 元器件列表。
+ * @param libName 目标库名称。
+ * @param filePath 输出文件路径。
+ * @param exportModel3D 是否导出三维模型。
+ * @param model3DBaseDir 三维模型基础目录。
+ */
 bool ExporterAllegroFootprint::exportComponentLibrary(const QList<IR::ComponentIR>& components,
                                                       const QString& libName,
                                                       const QString& filePath,
@@ -849,8 +973,8 @@ bool ExporterAllegroFootprint::exportComponentLibrary(const QList<IR::ComponentI
         m_diagnostics = {QStringLiteral("Allegro: 没有可导出的完整组件")};
         return false;
     }
-    QList<IR::FootprintComponentIR> footprints;
-    QList<IR::SymbolComponentIR> symbols;
+    QList<IR::FootprintComponentIR> footprints;  ///< 待导出的封装列表。
+    QList<IR::SymbolComponentIR> symbols;  ///< 待导出的符号列表。
     footprints.reserve(components.size());
     symbols.reserve(components.size());
     for (const IR::ComponentIR& component : components) {
@@ -866,7 +990,7 @@ bool ExporterAllegroFootprint::exportComponentLibrary(const QList<IR::ComponentI
             footprints, libName, filePath, false, exportModel3D, QString(), QString(), false, model3DBaseDir))
         return false;
 
-    QJsonArray symbolEntries;
+    QJsonArray symbolEntries;  ///< 组件库 manifest 中的符号条目数组。
     if (!writeAllegroSymbolFiles(symbols, filePath, symbolEntries, m_diagnostics))
         return false;
 
@@ -875,16 +999,17 @@ bool ExporterAllegroFootprint::exportComponentLibrary(const QList<IR::ComponentI
         m_diagnostics.append(QStringLiteral("Allegro: 无法读取已生成的 manifest.json"));
         return false;
     }
-    QJsonParseError parseError;
-    QJsonDocument document = QJsonDocument::fromJson(manifestFile.readAll(), &parseError);
+    QJsonParseError parseError;  ///< manifest JSON 解析错误信息。
+    QJsonDocument document =
+        QJsonDocument::fromJson(manifestFile.readAll(), &parseError);  ///< 已生成的 manifest 文档。
     if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
         m_diagnostics.append(QStringLiteral("Allegro: 已生成的 manifest.json 无法解析"));
         return false;
     }
-    QJsonObject manifest = document.object();
+    QJsonObject manifest = document.object();  ///< 待补充组件关联信息的 manifest 对象。
     manifest.insert(QStringLiteral("target"), QStringLiteral("Allegro semantic symbol and PCB package"));
     manifest.insert(QStringLiteral("symbols"), symbolEntries);
-    QJsonArray componentRelations;
+    QJsonArray componentRelations;  ///< 符号、封装与 Pin-Pad 关联数组。
     if (!componentEntries(components, componentRelations, m_diagnostics))
         return false;
     manifest.insert(QStringLiteral("components"), componentRelations);
@@ -901,7 +1026,9 @@ bool ExporterAllegroFootprint::exportComponentLibrary(const QList<IR::ComponentI
     return true;
 }
 
-/** 返回本次导出产生的结构化可见诊断文本。 */
+/**
+ * @brief 返回本次导出产生的结构化可见诊断文本。
+ */
 QStringList ExporterAllegroFootprint::diagnostics() const {
     return m_diagnostics;
 }

@@ -36,6 +36,7 @@ Use the [Evidence Report template](../EVIDENCE_REPORT_TEMPLATE_en.md) for code t
 ## Code, documentation, and verification
 
 - Public C++ interfaces use Simplified Chinese Doxygen comments. Maintain Chinese/English documentation pairs.
+- Every new or modified variable must have a Simplified Chinese comment, including member variables, function parameters, local temporaries, intermediate results, constants, and enumerators. Prefer trailing `///<` on declarations; use Doxygen `@param` or an adjacent comment for parameters, and an adjacent or trailing comment for local variables and intermediate results.
 - Use Mermaid for non-trivial architecture, process, dependency, and state relationships.
 - Evidence reports must distinguish executed, not executed, environment-blocked, and inferred results. Passing tests does not prove commercial EDA compatibility.
 - The minimum verification policy is [`verification-policy.json`](../verification-policy.json). A Testing Skill may add checks for risk, but may not lower the minimum.

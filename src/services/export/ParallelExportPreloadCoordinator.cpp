@@ -10,32 +10,35 @@
 
 namespace EasyKiConverter {
 
-/** @brief 按批次读取磁盘缓存并收敛预加载进度。 */
+/**
+ * @brief 按批次读取磁盘缓存并收敛预加载进度。
+ * @param service 并行导出服务。
+ */
 void ParallelExportPreloadCoordinator::processNextBatch(ParallelExportService& service) {
     // 网络服务缺失时按批次读取磁盘缓存，避免一次性阻塞事件循环。
     if (service.m_cancelRequested || service.m_progress.currentStage != ExportOverallProgress::Stage::Preloading) {
         return;
     }
 
-    constexpr int kBatchSize = 8;
-    int processedInBatch = 0;
+    constexpr int kBatchSize = 8;  ///< 无网络服务时每轮处理的缓存组件数量。
+    int processedInBatch = 0;  ///< 当前批次已处理的组件数量。
     while (processedInBatch < kBatchSize && service.m_nextPreloadIndex < service.m_componentIds.size() &&
            !service.m_cancelRequested) {
-        const QString componentId = service.m_componentIds.at(service.m_nextPreloadIndex++);
+        const QString componentId = service.m_componentIds.at(service.m_nextPreloadIndex++);  ///< 当前预加载组件编号。
         {
             QMutexLocker locker(&service.m_progressMutex);
             service.m_progress.preloadProgress.currentComponentId = componentId;
             service.m_progress.preloadProgress.inProgressCount = 1;
         }
 
-        ComponentData data;
+        ComponentData data;  ///< 从服务或磁盘缓存取得的组件数据。
         if (service.m_componentService) {
             data = service.m_componentService->getComponentData(componentId);
-            const QSharedPointer<ComponentData> diskCachedData =
+            const QSharedPointer<ComponentData> diskCachedData =  // 磁盘缓存中的组件数据。
                 ExportWorkerHelpers::loadDiskCachedComponentData(componentId);
             ExportWorkerHelpers::mergeComponentData(data, diskCachedData);
         } else {
-            const QSharedPointer<ComponentData> diskCachedData =
+            const QSharedPointer<ComponentData> diskCachedData =  // 磁盘缓存中的组件数据。
                 ExportWorkerHelpers::loadDiskCachedComponentData(componentId);
             if (diskCachedData)
                 data = *diskCachedData;
@@ -43,6 +46,7 @@ void ParallelExportPreloadCoordinator::processNextBatch(ParallelExportService& s
 
         {
             QMutexLocker locker(&service.m_progressMutex);
+            // 数据。
             const bool hasValidData = !data.lcscId().isEmpty() && data.isValid() && data.symbolData() != nullptr &&
                                       data.footprintData() != nullptr;
             if (hasValidData) {
@@ -61,7 +65,7 @@ void ParallelExportPreloadCoordinator::processNextBatch(ParallelExportService& s
         ++processedInBatch;
     }
 
-    const bool finished = service.m_nextPreloadIndex >= service.m_componentIds.size();
+    const bool finished = service.m_nextPreloadIndex >= service.m_componentIds.size();  ///< 是否已处理完全部组件。
     if (finished) {
         QMutexLocker locker(&service.m_progressMutex);
         service.m_progress.preloadProgress.currentComponentId.clear();
@@ -84,6 +88,12 @@ void ParallelExportPreloadCoordinator::processNextBatch(ParallelExportService& s
     QTimer::singleShot(0, &service, [&service]() { processNextBatch(service); });
 }
 
+/**
+ * @brief 收敛网络批量获取结果并更新预加载状态。
+ * @param service 并行导出服务。
+ * @param componentDataList 成功获取的组件数据列表。
+ * @param failedComponents 获取失败的组件及错误信息。
+ */
 void ParallelExportPreloadCoordinator::handleCollectedData(ParallelExportService& service,
                                                            const QList<ComponentData>& componentDataList,
                                                            const QMap<QString, QString>& failedComponents) {
@@ -100,19 +110,21 @@ void ParallelExportPreloadCoordinator::handleCollectedData(ParallelExportService
         }
     }
 
-    int successCount = 0;
-    int failedCount = failedComponents.size();
-    for (auto it = failedComponents.cbegin(); it != failedComponents.cend(); ++it)
+    int successCount = 0;  ///< 成功预加载的组件数量。
+    int failedCount = failedComponents.size();  ///< 初始获取失败的组件数量。
+    for (auto it = failedComponents.cbegin(); it != failedComponents.cend(); ++it)  // 当前失败组件记录。
         service.m_progress.preloadProgress.failedComponents[it.key()] = it.value();
 
-    for (const ComponentData& data : componentDataList) {
-        const QString componentId = data.lcscId();
+    for (const ComponentData& data : componentDataList) {  // 当前成功获取的组件数据。
+        const QString componentId = data.lcscId();  ///< 当前组件编号。
         if (componentId.isEmpty()) {
             ++failedCount;
             continue;
         }
 
-        const bool hasValidData = data.isValid() && data.symbolData() != nullptr && data.footprintData() != nullptr;
+        // 数据。
+        const bool hasValidData = data.isValid() && data.symbolData() != nullptr &&
+                                  data.footprintData() != nullptr;  ///< 组件数据是否满足导出前置条件。
         if (hasValidData) {
             service.m_cachedData[componentId] = QSharedPointer<ComponentData>::create(data);
             ++successCount;

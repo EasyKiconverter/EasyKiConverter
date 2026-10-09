@@ -219,12 +219,21 @@ python tools/python/convert_to_utf8.py src/
 
 ### [check_comment_rate.py](python/check_comment_rate.py)
 
-检查 C++ 逻辑代码的注释覆盖率，并可拒绝源码注释中的外部项目引用。
+检查 C++ 逻辑代码的注释覆盖率，并可拒绝源码注释中的外部项目引用；使用 `--check-variables` 时还会检查可识别的变量声明注释，使用 `--check-params` 时检查函数 Doxygen 的 `@param` 覆盖情况，使用 `--check-doxygen` 时检查每个函数定义是否紧邻包含 `@brief` 的多行 Doxygen 块。
 
 **快速用法:**
 ```bash
 # 检查指定文件，注释率不得低于 90%
 python tools/python/check_comment_rate.py --threshold 90 src/core/utils/GeometryUtils.cpp
+
+# 同时检查可识别的变量声明是否有注释
+python tools/python/check_comment_rate.py --check-variables src/services/export/TempFileManager.cpp
+
+# 同时检查函数参数是否有 Doxygen @param 说明
+python tools/python/check_comment_rate.py --check-params src/core/allegro/ExporterAllegroFootprint.cpp
+
+# 同时检查函数 Doxygen 注释是否包含 @brief
+python tools/python/check_comment_rate.py --check-doxygen src/core/allegro/ExporterAllegroFootprint.cpp
 
 # 同时检查外部项目引用注释
 python tools/python/check_comment_rate.py --threshold 100 --forbid-external-references \

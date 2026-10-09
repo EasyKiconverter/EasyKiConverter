@@ -5,12 +5,15 @@
 
 namespace EasyKiConverter {
 
-QtMessageHandler QtLogAdapter::s_originalHandler = nullptr;
-LogModule QtLogAdapter::s_defaultModule = LogModule::Core;
-bool QtLogAdapter::s_preserveOriginal = false;
-bool QtLogAdapter::s_installed = false;
-thread_local bool QtLogAdapter::s_inHandler = false;
+QtMessageHandler QtLogAdapter::s_originalHandler = nullptr;  ///< Qt 安装前保存的原始消息处理器。
+LogModule QtLogAdapter::s_defaultModule = LogModule::Core;  ///< Qt 消息默认映射的日志模块。
+bool QtLogAdapter::s_preserveOriginal = false;  ///< 是否继续调用原始 Qt 消息处理器。
+bool QtLogAdapter::s_installed = false;  ///< 是否已经安装自定义 Qt 消息处理器。
+thread_local bool QtLogAdapter::s_inHandler = false;  ///< 当前线程是否正在处理 Qt 消息。
 
+/**
+ * @brief 安装 EasyKiConverter 的 Qt 消息处理器。
+ */
 void QtLogAdapter::install() {
     if (s_installed) {
         return;
@@ -22,6 +25,9 @@ void QtLogAdapter::install() {
     s_installed = true;
 }
 
+/**
+ * @brief 恢复安装前的 Qt 消息处理器。
+ */
 void QtLogAdapter::uninstall() {
     if (!s_installed) {
         return;
@@ -33,22 +39,42 @@ void QtLogAdapter::uninstall() {
     s_inHandler = false;
 }
 
+/**
+ * @brief 设置 Qt 消息默认映射的日志模块。
+ * @param module 日志模块。
+ */
 void QtLogAdapter::setDefaultModule(LogModule module) {
     s_defaultModule = module;
 }
 
+/**
+ * @brief 获取 Qt 消息默认映射的日志模块。
+ */
 LogModule QtLogAdapter::defaultModule() {
     return s_defaultModule;
 }
 
+/**
+ * @brief 设置是否保留调用原始 Qt 消息处理器。
+ * @param preserve 是否保留原始内容。
+ */
 void QtLogAdapter::setPreserveOriginal(bool preserve) {
     s_preserveOriginal = preserve;
 }
 
+/**
+ * @brief 获取是否保留调用原始 Qt 消息处理器。
+ */
 bool QtLogAdapter::preserveOriginal() {
     return s_preserveOriginal;
 }
 
+/**
+ * @brief 将 Qt 消息转换为项目日志并按需转发原始消息。
+ * @param type 对象或数据类型。
+ * @param context Qt 日志上下文。
+ * @param msg 消息文本。
+ */
 void QtLogAdapter::qtMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg) {
     // === 递归调用检测 ===
     // 检查是否已经在处理日志（防止递归栈溢出）
@@ -71,7 +97,8 @@ void QtLogAdapter::qtMessageHandler(QtMsgType type, const QMessageLogContext& co
     } guardReset;
 
     // 将 Qt 日志类型映射到我们的日志级别
-    LogLevel level;
+    LogLevel level;  ///< 当前 Qt 消息对应的项目日志级别。
+    // 按 Qt 消息类型选择对应的项目级别。
     switch (type) {
         case QtDebugMsg:
             level = LogLevel::Debug;
@@ -94,7 +121,7 @@ void QtLogAdapter::qtMessageHandler(QtMsgType type, const QMessageLogContext& co
     }
 
     // 安全地获取 Logger 实例并检查是否应该记录
-    Logger* logger = Logger::instance();
+    Logger* logger = Logger::instance();  ///< 当前进程的日志器单例。
     if (!logger) {
         return;
     }
@@ -104,12 +131,12 @@ void QtLogAdapter::qtMessageHandler(QtMsgType type, const QMessageLogContext& co
     }
 
     // 构建日志消息（安全地处理字符串）
-    QString message;
+    QString message;  ///< 组合分类信息后的日志消息。
 
     // 避免格式化字符串攻击：不对用户消息进行额外格式化
     // 仅在消息中添加分类信息
     if (context.category && strlen(context.category) > 0) {
-        QByteArray category = context.category;
+        QByteArray category = context.category;  ///< Qt 消息分类名称。
         if (category != "default") {
             message = QString("[%1] %2").arg(QString::fromUtf8(category), msg);
         } else {
@@ -120,9 +147,9 @@ void QtLogAdapter::qtMessageHandler(QtMsgType type, const QMessageLogContext& co
     }
 
     // 记录日志（使用安全的文件名和函数名）
-    const char* safeFile = context.file ? context.file : "";
-    const char* safeFunction = context.function ? context.function : "";
-    int safeLine = context.line >= 0 ? context.line : 0;
+    const char* safeFile = context.file ? context.file : "";  ///< 安全的源文件名指针。
+    const char* safeFunction = context.function ? context.function : "";  ///< 安全的函数名指针。
+    int safeLine = context.line >= 0 ? context.line : 0;  ///< 非负的源代码行号。
 
     logger->log(level, s_defaultModule, message, safeFile, safeFunction, safeLine);
 
