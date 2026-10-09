@@ -12,8 +12,8 @@ namespace EasyKiConverter {
  * encodedImages 与 imageData 按预览图文件名中的序号排列，缺失的序号保留为空元素。
  */
 struct PreviewImageDataResult {
-    QStringList encodedImages;
-    QList<QByteArray> imageData;
+    QStringList encodedImages;  ///< 按序号排列的 Base64 预览图数据。
+    QList<QByteArray> imageData;  ///< 按序号排列的原始预览图字节。
 };
 
 /**
@@ -23,10 +23,18 @@ struct PreviewImageDataResult {
  */
 class PreviewImageDataEncoder final {
 public:
-    /** @brief 从预览图文件名解析图片序号。 */
+    /**
+     * @brief 从预览图文件名解析图片序号。
+     * @param path 预览图文件路径。
+     * @return 文件名中的预览图序号，无法解析时返回 -1。
+     */
     static int imageIndexFromPath(const QString& path);
 
-    /** @brief 读取文件并生成 Base64 字符串与原始数据。 */
+    /**
+     * @brief 读取文件并生成 Base64 字符串与原始数据。
+     * @param imagePaths 预览图文件路径列表。
+     * @return 按文件名序号排列的编码结果。
+     */
     static PreviewImageDataResult encodeFiles(const QStringList& imagePaths);
 };
 
