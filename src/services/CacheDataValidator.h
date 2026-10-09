@@ -15,11 +15,13 @@ class CacheDataValidator final {
 public:
     /**
      * @brief 判断数据是否为可解析的 CAD JSON 对象。
+     * @param data 待校验的 CAD JSON 数据。
      */
     static bool isValidCadData(const QByteArray& data);
 
     /**
      * @brief 判断数据是否为 Qt 可解码的预览图。
+     * @param data 待校验的预览图数据。
      */
     static bool isValidPreviewImage(const QByteArray& data);
 
