@@ -87,16 +87,18 @@ private:
     /** @brief 允许序列化协作者读取固定格式字段和当前文件状态。 */
     friend class OLECompoundSerializer;
 
-    /** @brief OLE 常量 */
-    static constexpr uint32_t ENDOFCHAIN = 0xFFFFFFFE;
-    static constexpr uint32_t FREESECT = 0xFFFFFFFF;
-    static constexpr uint32_t FATSECT = 0xFFFFFFFD;
-    static constexpr uint32_t DIFSECT = 0xFFFFFFFC;
-    static constexpr uint32_t NOSTREAM = 0xFFFFFFFF;
-    static constexpr uint32_t SECTOR_SIZE = 512;
-    static constexpr uint32_t MINI_SECTOR_SIZE = 64;
-    static constexpr uint32_t MINI_STREAM_CUTOFF = 4096;
-    static constexpr uint32_t DIR_ENTRY_SIZE = 128;
+    /**
+     * @brief OLE 复合文档目录和扇区链使用的固定值
+     */
+    static constexpr uint32_t ENDOFCHAIN = 0xFFFFFFFE;  ///< 表示扇区链已经结束。
+    static constexpr uint32_t FREESECT = 0xFFFFFFFF;  ///< 表示扇区尚未分配。
+    static constexpr uint32_t FATSECT = 0xFFFFFFFD;  ///< 表示该扇区属于 FAT。
+    static constexpr uint32_t DIFSECT = 0xFFFFFFFC;  ///< 表示该扇区属于 DIFAT。
+    static constexpr uint32_t NOSTREAM = 0xFFFFFFFF;  ///< 表示目录条目没有子流或子节点。
+    static constexpr uint32_t SECTOR_SIZE = 512;  ///< OLE 普通扇区的字节数。
+    static constexpr uint32_t MINI_SECTOR_SIZE = 64;  ///< OLE MiniStream 扇区的字节数。
+    static constexpr uint32_t MINI_STREAM_CUTOFF = 4096;  ///< 使用 MiniStream 存储的最大流大小。
+    static constexpr uint32_t DIR_ENTRY_SIZE = 128;  ///< OLE 目录条目的字节数。
 
     /** @brief 目录条目对象类型 */
     enum class ObjectType : uint8_t { Unknown = 0, Storage = 1, Stream = 2, Root = 5 };
@@ -105,17 +107,17 @@ private:
     struct DirectoryEntry {
         uint16_t name[32] = {0};  ///< UTF-16LE 名称（最大 31 字符 + null）
         uint16_t nameSize = 0;  ///< 名称字节数（含 null 终止符）
-        ObjectType objectType = ObjectType::Unknown;
+        ObjectType objectType = ObjectType::Unknown;  ///< 目录条目的对象类型。
         uint8_t colorFlag = 1;  ///< 0=Red, 1=Black（红黑树节点颜色）
-        uint32_t leftChild = NOSTREAM;
-        uint32_t rightChild = NOSTREAM;
-        uint32_t child = NOSTREAM;
-        uint8_t clsid[16] = {0};
-        uint32_t stateBits = 0;
-        uint64_t creationTime = 0;
-        uint64_t modifiedTime = 0;
-        uint32_t startSector = ENDOFCHAIN;
-        uint64_t streamSize = 0;
+        uint32_t leftChild = NOSTREAM;  ///< 左子目录条目的索引。
+        uint32_t rightChild = NOSTREAM;  ///< 右子目录条目的索引。
+        uint32_t child = NOSTREAM;  ///< 子树根目录条目的索引。
+        uint8_t clsid[16] = {0};  ///< 目录条目关联的 CLSID 字节序列。
+        uint32_t stateBits = 0;  ///< 目录条目的状态标志。
+        uint64_t creationTime = 0;  ///< 目录条目的创建时间戳。
+        uint64_t modifiedTime = 0;  ///< 目录条目的修改时间戳。
+        uint32_t startSector = ENDOFCHAIN;  ///< 流数据起始扇区的索引。
+        uint64_t streamSize = 0;  ///< 流数据的字节数。
     };
 
     /**
@@ -142,9 +144,9 @@ private:
     void setError(const QString& message);
 
     // ---- 内部状态 ----
-    bool m_initialized = false;
-    bool m_finalized = false;
-    QString m_errorMessage;
+    bool m_initialized = false;  ///< 是否已经成功初始化输出文件。
+    bool m_finalized = false;  ///< 是否已经完成目录和扇区数据收尾。
+    QString m_errorMessage;  ///< 最近一次结构或写入错误说明。
     QVector<DirectoryEntry> m_directory;  ///< 目录条目列表
     QVector<StorageNode> m_nodes;  ///< 存储节点树
     QHash<QString, int> m_pathToNode;  ///< 路径 → 节点索引映射
@@ -152,12 +154,12 @@ private:
 
     // 流数据（按存储路径+流名索引）
     struct StreamData {
-        QString storagePath;
-        QString streamName;
-        QByteArray data;
+        QString storagePath;  ///< 流所属存储对象的路径。
+        QString streamName;  ///< 流在所属存储对象中的名称。
+        QByteArray data;  ///< 流的原始字节数据。
     };
 
-    QVector<StreamData> m_streams;
+    QVector<StreamData> m_streams;  ///< 待写入 OLE 文件的流数据列表。
 
     // 扇区数据
     QVector<QByteArray> m_dataSectors;  ///< 普通数据扇区
