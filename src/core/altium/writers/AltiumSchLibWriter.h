@@ -107,11 +107,11 @@ private:
 
     // 字体表管理
     AltiumSchFontRegistry m_fontRegistry;
-    QHash<const AltiumSchImage*, QString> m_embeddedImageNames;
-    int m_uniqueIdCounter = 0;
-    int m_nextIndexInSheet = 0;
-    QString m_libraryName;
-    QStringList m_diagnostics;
+    QHash<const AltiumSchImage*, QString> m_embeddedImageNames;  ///< 图片对象到 Storage 文件名的映射。
+    int m_uniqueIdCounter = 0;  ///< 当前库文件的记录唯一标识计数器。
+    int m_nextIndexInSheet = 0;  ///< 当前组件 Data 流的共享内容记录序号。
+    QString m_libraryName;  ///< 当前输出 PcbLib 引用名称。
+    QStringList m_diagnostics;  ///< 最近一次写入产生的诊断信息。
 };
 
 }  // namespace EasyKiConverter
