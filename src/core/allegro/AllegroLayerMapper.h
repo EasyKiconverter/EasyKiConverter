@@ -12,7 +12,11 @@ namespace EasyKiConverter {
  */
 class AllegroLayerMapper {
 public:
-    /** @brief 映射一个 IR 层。 */
+    /**
+     * @brief 映射一个 IR 层。
+     * @param layer 待映射的 IR 层。
+     * @return Allegro Class/Subclass 映射；无法表达时返回空值。
+     */
     static std::optional<AllegroLayerAssignment> map(IR::LayerType layer);
 };
 

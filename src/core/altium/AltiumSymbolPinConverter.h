@@ -13,7 +13,11 @@ namespace EasyKiConverter {
  */
 class AltiumSymbolPinConverter final {
 public:
-    /** @brief 转换一个 IR 引脚。 */
+    /**
+     * @brief 转换一个 IR 引脚。
+     * @param pin 待转换的符号引脚。
+     * @return Altium 引脚记录。
+     */
     static AltiumSchPin convert(const IR::SymbolPinIR& pin);
 };
 
