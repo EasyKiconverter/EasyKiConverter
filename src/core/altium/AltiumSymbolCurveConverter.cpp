@@ -19,27 +19,31 @@ using AltiumSymbolConversionUtils::toAltiumOwnerPartId;
 
 }  // namespace
 
-/** @brief 根据三点计算圆弧，退化为首尾中点后写入 Altium 记录。 */
+/**
+ * @brief 根据三点计算圆弧，退化为首尾中点后写入 Altium 记录。
+ * @param arc 统一 IR 中的圆弧图元。
+ * @return 转换后的 Altium 圆弧记录。
+ */
 AltiumSchArc AltiumSymbolCurveConverter::convertArc(const IR::SymbolArcIR& arc) {
-    AltiumSchArc altiumArc;
-    const double ax = arc.startPoint.x();
-    const double ay = arc.startPoint.y();
-    const double bx = arc.midPoint.x();
-    const double by = arc.midPoint.y();
-    const double cx = arc.endPoint.x();
-    const double cy = arc.endPoint.y();
-    const double determinant = 2.0 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by));
-    QPointF center = (arc.startPoint + arc.endPoint) / 2.0;
+    AltiumSchArc altiumArc;  // 转换后的 Altium 圆弧记录。
+    const double ax = arc.startPoint.x();  // 起点 X 坐标。
+    const double ay = arc.startPoint.y();  // 起点 Y 坐标。
+    const double bx = arc.midPoint.x();  // 中点 X 坐标。
+    const double by = arc.midPoint.y();  // 中点 Y 坐标。
+    const double cx = arc.endPoint.x();  // 终点 X 坐标。
+    const double cy = arc.endPoint.y();  // 终点 Y 坐标。
+    const double determinant = 2.0 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by));  // 三点圆心方程行列式。
+    QPointF center = (arc.startPoint + arc.endPoint) / 2.0;  // 退化情况下使用的首尾中点。
     if (std::abs(determinant) > 1e-12) {
-        const double a2 = ax * ax + ay * ay;
-        const double b2 = bx * bx + by * by;
-        const double c2 = cx * cx + cy * cy;
+        const double a2 = ax * ax + ay * ay;  // 起点坐标平方和。
+        const double b2 = bx * bx + by * by;  // 中点坐标平方和。
+        const double c2 = cx * cx + cy * cy;  // 终点坐标平方和。
         center.setX((a2 * (by - cy) + b2 * (cy - ay) + c2 * (ay - by)) / determinant);
         center.setY((a2 * (cx - bx) + b2 * (ax - cx) + c2 * (bx - ax)) / determinant);
     }
-    const double dx = arc.startPoint.x() - center.x();
-    const double dy = arc.startPoint.y() - center.y();
-    const double radius = std::sqrt(dx * dx + dy * dy);
+    const double dx = arc.startPoint.x() - center.x();  // 起点相对圆心的 X 偏移。
+    const double dy = arc.startPoint.y() - center.y();  // 起点相对圆心的 Y 偏移。
+    const double radius = std::sqrt(dx * dx + dy * dy);  // 圆弧半径。
     altiumArc.centerX = AltiumCoord::mmToRaw(center.x());
     altiumArc.centerY = AltiumCoord::mmToRaw(center.y());
     altiumArc.radius = AltiumCoord::mmToRaw(radius);
@@ -52,9 +56,13 @@ AltiumSchArc AltiumSymbolCurveConverter::convertArc(const IR::SymbolArcIR& arc) 
     return altiumArc;
 }
 
-/** @brief 转换多边形及其顶点单位。 */
+/**
+ * @brief 转换多边形及其顶点单位。
+ * @param polygon 统一 IR 中的多边形图元。
+ * @return 转换后的 Altium 多边形记录。
+ */
 AltiumSchPolygon AltiumSymbolCurveConverter::convertPolygon(const IR::SymbolPolygonIR& polygon) {
-    AltiumSchPolygon altiumPolygon;
+    AltiumSchPolygon altiumPolygon;  // 转换后的 Altium 多边形记录。
     altiumPolygon.lineWidth = AltiumCoord::lineWidthMmToIndex(polygon.strokeWidth);
     altiumPolygon.lineStyle = toAltiumLineStyle(polygon.strokeStyle);
     altiumPolygon.color = toAltiumColor(polygon.strokeColor);
@@ -67,9 +75,13 @@ AltiumSchPolygon AltiumSymbolCurveConverter::convertPolygon(const IR::SymbolPoly
     return altiumPolygon;
 }
 
-/** @brief 转换折线及其顶点单位。 */
+/**
+ * @brief 转换折线及其顶点单位。
+ * @param polyline 统一 IR 中的折线图元。
+ * @return 转换后的 Altium 折线记录。
+ */
 AltiumSchPolyline AltiumSymbolCurveConverter::convertPolyline(const IR::SymbolPolylineIR& polyline) {
-    AltiumSchPolyline altiumPolyline;
+    AltiumSchPolyline altiumPolyline;  // 转换后的 Altium 折线记录。
     altiumPolyline.lineWidth = AltiumCoord::lineWidthMmToIndex(polyline.strokeWidth);
     altiumPolyline.lineStyle = toAltiumLineStyle(polyline.strokeStyle);
     altiumPolyline.color = toAltiumColor(polyline.strokeColor);
@@ -80,9 +92,13 @@ AltiumSchPolyline AltiumSymbolCurveConverter::convertPolyline(const IR::SymbolPo
     return altiumPolyline;
 }
 
-/** @brief 转换路径及其顶点单位。 */
+/**
+ * @brief 转换路径及其顶点单位。
+ * @param path 统一 IR 中的路径图元。
+ * @return 转换后的 Altium 路径记录。
+ */
 AltiumSchPath AltiumSymbolCurveConverter::convertPath(const IR::SymbolPathIR& path) {
-    AltiumSchPath altiumPath;
+    AltiumSchPath altiumPath;  // 转换后的 Altium 路径记录。
     altiumPath.lineWidth = AltiumCoord::lineWidthMmToIndex(path.strokeWidth);
     altiumPath.lineStyle = toAltiumLineStyle(path.strokeStyle);
     altiumPath.color = toAltiumColor(path.strokeColor);
@@ -93,9 +109,13 @@ AltiumSchPath AltiumSymbolCurveConverter::convertPath(const IR::SymbolPathIR& pa
     return altiumPath;
 }
 
-/** @brief 转换 Bezier 控制点。 */
+/**
+ * @brief 转换 Bezier 控制点。
+ * @param bezier 统一 IR 中的 Bézier 图元。
+ * @return 转换后的 Altium Bézier 记录。
+ */
 AltiumSchBezier AltiumSymbolCurveConverter::convertBezier(const IR::SymbolBezierIR& bezier) {
-    AltiumSchBezier altiumBezier;
+    AltiumSchBezier altiumBezier;  // 转换后的 Altium Bézier 记录。
     altiumBezier.lineWidth = AltiumCoord::lineWidthMmToIndex(bezier.strokeWidth);
     altiumBezier.color = toAltiumColor(bezier.strokeColor);
     altiumBezier.ownerPartId = toAltiumOwnerPartId(bezier.partIndex);
@@ -105,9 +125,13 @@ AltiumSchBezier AltiumSymbolCurveConverter::convertBezier(const IR::SymbolBezier
     return altiumBezier;
 }
 
-/** @brief 转换椭圆。 */
+/**
+ * @brief 转换椭圆。
+ * @param ellipse 统一 IR 中的椭圆图元。
+ * @return 转换后的 Altium 椭圆记录。
+ */
 AltiumSchEllipse AltiumSymbolCurveConverter::convertEllipse(const IR::SymbolEllipseIR& ellipse) {
-    AltiumSchEllipse altiumEllipse;
+    AltiumSchEllipse altiumEllipse;  // 转换后的 Altium 椭圆记录。
     altiumEllipse.centerX = AltiumCoord::mmToRaw(ellipse.center.x());
     altiumEllipse.centerY = AltiumCoord::mmToRaw(ellipse.center.y());
     altiumEllipse.radiusX = AltiumCoord::mmToRaw(ellipse.radiusX);
@@ -121,9 +145,13 @@ AltiumSchEllipse AltiumSymbolCurveConverter::convertEllipse(const IR::SymbolElli
     return altiumEllipse;
 }
 
-/** @brief 转换扇形并规范化半径。 */
+/**
+ * @brief 转换扇形并规范化半径。
+ * @param pie 统一 IR 中的扇形图元。
+ * @return 转换后的 Altium 扇形记录。
+ */
 AltiumSchPie AltiumSymbolCurveConverter::convertPie(const IR::SymbolPieIR& pie) {
-    AltiumSchPie altiumPie;
+    AltiumSchPie altiumPie;  // 转换后的 Altium 扇形记录。
     altiumPie.centerX = AltiumCoord::mmToRaw(pie.center.x());
     altiumPie.centerY = AltiumCoord::mmToRaw(pie.center.y());
     altiumPie.radius = AltiumCoord::mmToRaw(finiteNonNegative(pie.radius));
@@ -138,9 +166,13 @@ AltiumSchPie AltiumSymbolCurveConverter::convertPie(const IR::SymbolPieIR& pie) 
     return altiumPie;
 }
 
-/** @brief 转换椭圆弧并规范化半径。 */
+/**
+ * @brief 转换椭圆弧并规范化半径。
+ * @param arc 统一 IR 中的椭圆弧图元。
+ * @return 转换后的 Altium 椭圆弧记录。
+ */
 AltiumSchEllipticalArc AltiumSymbolCurveConverter::convertEllipticalArc(const IR::SymbolEllipticalArcIR& arc) {
-    AltiumSchEllipticalArc altiumArc;
+    AltiumSchEllipticalArc altiumArc;  // 转换后的 Altium 椭圆弧记录。
     altiumArc.centerX = AltiumCoord::mmToRaw(arc.center.x());
     altiumArc.centerY = AltiumCoord::mmToRaw(arc.center.y());
     altiumArc.radiusX = AltiumCoord::mmToRaw(finiteNonNegative(arc.radiusX));
