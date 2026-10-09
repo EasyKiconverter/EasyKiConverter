@@ -13,7 +13,10 @@ class ComponentCacheService;
  */
 class ComponentCacheQuotaEnforcer final {
 public:
-    /** @brief 创建绑定到元器件缓存服务的配额执行器。 */
+    /**
+     * @brief 创建绑定到元器件缓存服务的配额执行器。
+     * @param owner 所属缓存服务。
+     */
     explicit ComponentCacheQuotaEnforcer(ComponentCacheService& owner);
 
     /**
