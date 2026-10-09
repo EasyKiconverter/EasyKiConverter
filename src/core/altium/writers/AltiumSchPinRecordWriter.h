@@ -13,18 +13,21 @@ class AltiumSchLibWriter;
  */
 class AltiumSchPinRecordWriter final {
 public:
-    /** @brief 创建绑定到主 SchLib 写入器的引脚记录协作者。 */
+    /**
+     * @brief 创建绑定到主 SchLib 写入器的引脚记录协作者。
+     * @param owner 所属的 SchLib 主写入器。
+     */
     explicit AltiumSchPinRecordWriter(AltiumSchLibWriter& owner);
 
     /**
      * @brief 写入一个二进制引脚记录。
-     * @param writer 当前组件 Data 流写入器
-     * @param pin 引脚模型
+     * @param writer 当前组件 Data 流写入器。
+     * @param pin 引脚模型。
      */
     void write(AltiumBinaryWriter& writer, const AltiumSchPin& pin);
 
 private:
-    AltiumSchLibWriter& m_owner;
+    AltiumSchLibWriter& m_owner;  ///< 所属的 SchLib 主写入器。
 };
 
 }  // namespace EasyKiConverter

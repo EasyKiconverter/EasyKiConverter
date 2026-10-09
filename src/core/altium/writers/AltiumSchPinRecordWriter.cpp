@@ -6,10 +6,17 @@
 
 namespace EasyKiConverter {
 
-/** @brief 保存协作者所属的 SchLib 主写入器。 */
+/**
+ * @brief 创建 SchLib 引脚记录写入器。
+ * @param owner 所属的 SchLib 主写入器。
+ */
 AltiumSchPinRecordWriter::AltiumSchPinRecordWriter(AltiumSchLibWriter& owner) : m_owner(owner) {}
 
-/** @brief 编码引脚二进制记录并递增共享内容序号。 */
+/**
+ * @brief 编码引脚二进制记录并递增共享内容序号。
+ * @param writer 目标二进制写入器。
+ * @param pin 待写入的引脚模型。
+ */
 void AltiumSchPinRecordWriter::write(AltiumBinaryWriter& writer, const AltiumSchPin& pin) {
     writer.beginBlock(AltiumConstants::SCH_BLOCK_FLAG_BINARY_PIN);
 
