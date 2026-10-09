@@ -18,7 +18,10 @@ class ComponentCacheService;
  */
 class ComponentCachePreviewImageWriter final {
 public:
-    /** @brief 创建绑定到元器件缓存服务的预览图写入器。 */
+    /**
+     * @brief 创建绑定到元器件缓存服务的预览图写入器。
+     * @param owner 所属缓存服务。
+     */
     explicit ComponentCachePreviewImageWriter(ComponentCacheService& owner);
 
     /**
