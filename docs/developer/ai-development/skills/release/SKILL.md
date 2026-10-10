@@ -69,10 +69,12 @@ description: 按 EasyKiConverter 当前仓库规则准备并执行版本发布�
 
 1. 在最终目标 commit 上确认版本文件和发布阻塞均通过；读取远端同名标签及 Release 状态，并检查该版本已有的 workflow runs。
 2. **首次发布（远端标签不存在）**：经用户明确授权“创建并推送此标签，同时启动其自动触发的 Release 工作流”后，创建指向精确 commit 的带注释标签，核对 peeled commit SHA，再推送标签。标签 push 已触发工作流时，不得再为同一发布调用 `workflow_dispatch`。
-3. **已有标签重试**：若标签已存在，禁止重建、移动或覆盖；标签指向与目标 commit 不一致时停止。若指向一致，检查该版本所有 workflow run、Draft/正式 Release 状态及是否有运行中的任务：运行中则等待并复核；先前运行已成功则不得重复启动；确需重试时，先向用户说明拟采用的单一重试路径，经明确授权后优先重跑适用的失败 job；只有确认没有活动/重复 run 且重跑不适用时，才考虑通过 `workflow_dispatch` 重试。一次重试只使用一种路径，不能同时 rerun 和 dispatch。
-4. 经授权后按所选路径触发或重试工作流。持续跟踪 `resolve-target`、Linux、Windows、macOS、制品校验、Draft 上传和审批 job；失败时保留日志并定位，不重复创建标签或绕过门禁。
-5. Draft Release 生成后核对当前 workflow 规定的全部平台/架构制品、版本和 commit 对应关系、每个 `.sha256sum` 以及汇总 `SHA256SUMS`。下载到临时目录后执行适用的校验和验证，确认汇总文件只使用制品 basename。
-6. 完成草稿审核后，将公开发布交给配置好的 GitHub Environment Required reviewer 批准；Agent 不得移除 reviewer、改 Environment 或直接把 Draft 改为公开。
+3. 只有在需要重试且已授权使用 `workflow_dispatch` 时才采用手动触发；先确认该 workflow 文件存在于仓库默认分支（GitHub 的 [`workflow_dispatch` 规则](https://docs.github.com/en/actions/how-tos/manage-workflow-runs/manually-run-a-workflow)要求工作流位于默认分支），并确认选择的 `--ref`、输入的标签、实际执行的 workflow 文件版本及 `resolve-target` 版本/分支校验彼此兼容。不能仅因为目标 tag 中有 workflow 文件，就假定手动触发一定可用。
+4. **检查 concurrency 边界**：当前 `release.yml` 的并发组为 `release-${{ inputs.tag_name || github.ref_name }}` 且 `cancel-in-progress: false`。它不是去重锁，也不保证所有重复 run 按顺序排队：GitHub 同一并发组默认最多一个运行中的 run 和一个 pending run；新的 run 进入队列时会取消并替换原 pending run（见[官方 concurrency 说明](https://docs.github.com/en/actions/concepts/workflows-and-actions/concurrency)）。每次触发/重试前，检查该版本是否已有任何未完成的 run；有则等待，不要再 push tag 或 dispatch。触发后记录 run ID，并核对 event、ref、commit SHA 与状态；若有 run 被替换/取消或状态无法确认，停止后续触发并报告，不自行补发。
+5. **已有标签重试**：若标签已存在，禁止重建、移动或覆盖；标签指向与目标 commit 不一致时停止。若指向一致，检查该版本所有 workflow run、Draft/正式 Release 状态及是否有运行中或 pending 的任务：未完成则等待并复核；先前运行已成功则不得重复启动；确需重试时，先向用户说明拟采用的单一重试路径，经明确授权后优先重跑适用的失败 job；只有确认没有未完成/重复 run、workflow_dispatch 默认分支条件满足且重跑不适用时，才考虑 dispatch 重试。一次重试只使用一种路径，不能同时 rerun 和 dispatch。
+6. 经授权后按所选路径触发或重试工作流。持续跟踪 `resolve-target`、Linux、Windows、macOS、制品校验、Draft 上传和审批 job；失败时保留日志并定位，不重复创建标签或绕过门禁。
+7. Draft Release 生成后核对当前 workflow 规定的全部平台/架构制品、版本和 commit 对应关系、每个 `.sha256sum` 以及汇总 `SHA256SUMS`。下载到临时目录后执行适用的校验和验证，确认汇总文件只使用制品 basename。
+8. 完成草稿审核后，将公开发布交给配置好的 GitHub Environment Required reviewer 批准；Agent 不得移除 reviewer、改 Environment 或直接把 Draft 改为公开。
 
 ### 5. Flathub 与 Arch Linux/AUR
 
