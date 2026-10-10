@@ -4,8 +4,7 @@ This document separates released capabilities, development-branch capabilities, 
 
 ## Current Status
 
-- **Latest stable release**: v3.1.11
-- **Latest pre-release**: v3.1.12
+- **Latest stable release**: v3.1.13
 - **Current development branch**: `master` (source version 3.1.13)
 - **Development status**: Continued work on the shared intermediate representation and multi-target export
 

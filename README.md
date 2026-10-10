@@ -21,12 +21,6 @@
 
 **EasyKiConverter** 是一个基于 Qt 6 和 MVVM 架构的现代化 C++ 桌面工具，专为电子工程师设计，旨在将嘉立创 (LCSC) 和 EasyEDA 的元件数据转换为多种 EDA 的符号库、封装库和独立 3D 模型。支持 GUI 和 CLI 两种运行模式。
 
-### 版本与能力边界
-
-- 当前最新稳定版本为 **v3.1.11**，稳定版的可下载文件和功能以 [v3.1.11 Release](https://github.com/EasyKiconverter/EasyKiConverter/releases/tag/v3.1.11) 为准。
-- **v3.1.12** 当前仍是预发布版本；它包含跨平台打包和 Xpedition 等后续改进，不代表稳定发布线。
-- 当前 `master` 是开发分支，README 中列出的 Altium、Xpedition 和统一 IR 能力以源码分支为准，使用稳定版时请先核对对应 Release 说明。
-
 ## 主要特性
 
 *   **多目标转换**：支持 KiCad、Altium、Xpedition、PADS、Eagle、P-CAD 和 CADSTAR 的已实现库导出能力；各目标的符号、封装、器件关联和 3D 模型范围以对应文档为准，不能表达的数据会报告诊断。
