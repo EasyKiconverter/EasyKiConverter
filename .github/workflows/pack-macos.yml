@@ -30,7 +30,7 @@ jobs:
   pack:
     name: 'Build DMG on ${{ matrix.dist.os }} ${{ matrix.dist.arch }}'
     runs-on: ${{ matrix.dist.os }}
-    timeout-minutes: 60
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
@@ -96,7 +96,9 @@ jobs:
 
       - name: 'Compile'
         run: |
-          cmake --build "${DIR_BUILD}" --config RelWithDebInfo --parallel
+          build_parallel="$(sysctl -n hw.ncpu)"
+          echo "Using maximum detected logical CPU concurrency: ${build_parallel}"
+          cmake --build "${DIR_BUILD}" --config RelWithDebInfo --parallel "${build_parallel}"
 
       - name: 'CCache Stats'
         run: |

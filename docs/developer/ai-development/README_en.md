@@ -10,7 +10,7 @@ This entry point is for contributors and AI Agents working on EasyKiConverter. I
 2. [Project context](PROJECT_CONTEXT_en.md) explains architecture boundaries and current capabilities.
 3. [Development workflow](DEVELOPMENT_WORKFLOW_en.md) describes the path from task understanding to a local pre-commit state.
 4. [AI testing guide](TESTING_GUIDE_en.md) maps change types to verification; detailed testing policy remains in the [testing guide](../TESTING_GUIDE_en.md).
-5. [Skills catalog](SKILLS_CATALOG_en.md) lists manually invokable task procedures.
+5. [Skills catalog](SKILLS_CATALOG_en.md) lists manually invokable task procedures, including the `release` Skill for formal releases.
 6. The [Evidence Report template](EVIDENCE_REPORT_TEMPLATE_en.md) standardizes baselines, commands, blockers, and commercial EDA evidence.
 7. [Agent adapter notes](ADAPTERS_en.md) explain the boundary between local entries and repository policy.
 8. [Agent JSON tools](AGENT_TOOLS_en.md) provide read-only queries, verification planning, and allowlisted checks.

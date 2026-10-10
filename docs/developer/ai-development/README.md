@@ -10,7 +10,7 @@
 2. [项目上下文](PROJECT_CONTEXT.md) 说明架构边界和当前能力。
 3. [开发工作流](DEVELOPMENT_WORKFLOW.md) 说明从任务理解到本地提交前的步骤。
 4. [AI 测试指南](TESTING_GUIDE.md) 根据改动类型选择验证项；详细测试原则仍以 [测试开发指南](../TESTING_GUIDE.md) 为准。
-5. [Skills 目录](SKILLS_CATALOG.md) 说明可手动调用的任务流程。
+5. [Skills 目录](SKILLS_CATALOG.md) 说明可手动调用的任务流程，包括正式发布所用的 `release` Skill。
 6. [Evidence Report 模板](EVIDENCE_REPORT_TEMPLATE.md) 统一记录基线、命令、阻塞项和商业 EDA 验证边界。
 7. [Agent 适配层说明](ADAPTERS.md) 说明本地入口与仓库规则的边界。
 8. [Agent JSON 工具](AGENT_TOOLS.md) 提供只读查询、验证规划和白名单检查接口。

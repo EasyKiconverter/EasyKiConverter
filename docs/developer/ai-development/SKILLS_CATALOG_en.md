@@ -14,6 +14,7 @@ The repository provides a machine-readable Skill discovery list in [`skill-index
 | [format-research](skills/format-research/SKILL.md) | Researching EDA formats, samples, licenses, and third-party algorithm ideas | [Metadata](skills/format-research/SKILL.meta.json) | May modify research notes; never copies third-party code |
 | [parser-development](skills/parser-development/SKILL.md) | Implementing deterministic source-format Parser/Model to IR flows | [Metadata](skills/parser-development/SKILL.meta.json) | May modify source, tests, and fixtures |
 | [exporter-development](skills/exporter-development/SKILL.md) | Implementing IR-to-target export, diagnostics, and structural validation | [Metadata](skills/exporter-development/SKILL.meta.json) | May modify source, tests, and fixtures |
+| [release](skills/release/SKILL.md) | Prepare and execute multi-platform releases, tags, Flathub, and AUR updates | [Metadata](skills/release/SKILL.meta.json) | May edit version files, create tags/releases, open Flathub PRs, or push AUR; each remote write requires specific authorization |
 
 ## Selection rules
 
@@ -21,6 +22,7 @@ The repository provides a machine-readable Skill discovery list in [`skill-index
 - Use `format-research` for EDA format research, then `parser-development` for Parser work or `exporter-development` for target export work.
 - Use only `code-review` for an explicit review request; do not implement fixes as a side effect.
 - Use `documentation` for documentation tasks and verify claims against source and workflows.
+- Use `release` for formal releases; tag pushes, GitHub Releases, Flathub PRs, and AUR pushes are separate remote actions that require specific authorization and current-state verification.
 - Commit and PR are not default Skills. Perform Git/GitHub operations only after an explicit request and according to project rules.
 
 Skills add task-specific steps only. The [AI Collaboration Policy](policy/AI_POLICY_en.md) remains authoritative, and docs-check validates `skill-index.json`, front matter, and machine-readable metadata.
