@@ -286,7 +286,25 @@ jobs:
         if: matrix.enable_ccache
         shell: pwsh
         run: |
-          choco install ccache --version=4.11.1 -y --no-progress
+          $maxAttempts = 3
+          $installed = $false
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+            Write-Host "Installing ccache 4.11.1 (attempt $attempt/$maxAttempts)"
+            choco install ccache --version=4.11.1 -y --no-progress
+            if ($LASTEXITCODE -eq 0) {
+              $installed = $true
+              break
+            }
+            if ($attempt -lt $maxAttempts) {
+              $delaySeconds = 15 * $attempt
+              Write-Warning "Chocolatey installation failed; retrying in $delaySeconds seconds."
+              Start-Sleep -Seconds $delaySeconds
+            }
+          }
+          if (-not $installed) {
+            throw "Unable to install ccache 4.11.1 after $maxAttempts attempts."
+          }
+          ccache --version
           echo "CCACHE_DIR=${{ runner.temp }}\ccache" >> $env:GITHUB_ENV
           echo "CCACHE_MAXSIZE=2G" >> $env:GITHUB_ENV
           echo "CCACHE_BASEDIR=${{ github.workspace }}" >> $env:GITHUB_ENV
