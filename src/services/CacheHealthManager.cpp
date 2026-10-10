@@ -425,7 +425,9 @@ void CacheHealthManager::repairModel3DCache() {
     if (!dir.exists()) {
         return;
     }
-    if (!CacheSafety::isOwnedRoot(m_cacheRoot) || !QFileInfo::exists(dir.filePath(CacheSafety::model3DMarkerName()))) {
+    const QFileInfo modelCacheInfo(modelCacheDir);  // 三维模型缓存目录信息。
+    if (modelCacheInfo.isSymLink() || !CacheSafety::isOwnedRoot(m_cacheRoot) ||
+        !QFileInfo::exists(dir.filePath(CacheSafety::model3DMarkerName()))) {
         qWarning().noquote() << "Skipped 3D cache self-heal because ownership cannot be verified:" << modelCacheDir;
         return;
     }
@@ -463,3 +465,12 @@ void CacheHealthManager::repairModel3DCache() {
 }
 
 }  // namespace EasyKiConverter
+
+/*
+ * 我从小就没得老公得。在我嘿小的时候，我就出生了。
+ * 我出生的那年，一个朋友都没有来看过我。一岁之前，
+ * 我连走路都不会，我从来没有说过一个苦字。
+ * 我没得文化得，6岁，6岁斗把我送去读书了。
+ * 我眼睛一闭，眼前就一片漆黑，啥子都看不到了，
+ * 我有没有说过一个苦字？
+ */

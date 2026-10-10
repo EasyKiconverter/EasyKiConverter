@@ -19,6 +19,11 @@ struct MigrationEntry {
     QString targetPath;  ///< 待迁移条目的目标路径。
 };
 
+struct MetadataSnapshot {
+    QString path;  ///< 旧缓存元数据文件路径。
+    QByteArray contents;  ///< 旧缓存元数据原始内容。
+};
+
 /**
  * @brief 返回缓存组件目录允许迁移的已知文件名。
  * @return 已知缓存文件名列表。
@@ -64,6 +69,42 @@ bool upgradeMetadata(const QString& path) {
     metadata[QStringLiteral("cacheOwner")] = QStringLiteral("EasyKiConverter");
     metadata[QStringLiteral("cacheEntryVersion")] = 1;
     return CacheMetadataStore::writeAtomically(path, QJsonDocument(metadata).toJson(QJsonDocument::Indented));
+}
+
+/**
+ * @brief 保存旧缓存元数据快照，供迁移失败时恢复。
+ * @param paths 待保存的元数据文件路径列表。
+ * @param snapshots 输出的元数据快照列表。
+ * @param error 输出快照读取错误信息。
+ * @return 全部元数据读取成功时返回 true。
+ */
+bool snapshotMetadata(const QStringList& paths, QList<MetadataSnapshot>* snapshots, QString* error) {
+    for (const QString& path : paths) {
+        QFile file(path);  // 当前待快照的元数据文件。
+        if (!file.open(QIODevice::ReadOnly)) {
+            if (error)
+                *error = QStringLiteral("无法读取旧缓存元数据：%1").arg(path);
+            return false;
+        }
+        snapshots->append({path, file.readAll()});
+    }
+    return true;
+}
+
+/**
+ * @brief 原子恢复旧缓存元数据快照。
+ * @param snapshots 待恢复的元数据快照列表。
+ * @return 全部快照恢复成功时返回 true。
+ */
+bool restoreMetadata(const QList<MetadataSnapshot>& snapshots) {
+    bool restored = true;  // 是否全部元数据恢复成功。
+    for (const MetadataSnapshot& snapshot : snapshots) {
+        if (!CacheMetadataStore::writeAtomically(snapshot.path, snapshot.contents)) {
+            LOG_ERROR(LogModule::Core, "Failed to restore cache metadata after migration failure: {}", snapshot.path);
+            restored = false;
+        }
+    }
+    return restored;
 }
 
 /**
@@ -246,18 +287,28 @@ bool CacheDirectoryMigrator::migrate(const QString& oldCacheDir, const QString& 
         return false;
     }
 
-    for (const QString& sourcePath : componentDirectories) {
-        const QString metadataPath =  // 当前组件缓存的元数据路径。
-            QDir(sourcePath).filePath(QStringLiteral("component.json"));
-        if (!upgradeMetadata(metadataPath)) {
-            if (error)
-                *error = QStringLiteral("无法升级旧缓存元数据：%1").arg(metadataPath);
-            LOG_WARN(LogModule::Core, "Refusing cache migration because metadata is invalid: {}", metadataPath);
+    QList<MetadataSnapshot> metadataSnapshots;  // 旧版元数据快照，用于事务失败回滚。
+    if (legacySource) {
+        QStringList metadataPaths;  // 待升级的旧版元数据路径列表。
+        for (const QString& sourcePath : componentDirectories) {
+            metadataPaths.append(QDir(sourcePath).filePath(QStringLiteral("component.json")));
+        }
+        if (!snapshotMetadata(metadataPaths, &metadataSnapshots, error))
             return false;
+        for (const QString& metadataPath : metadataPaths) {
+            if (!upgradeMetadata(metadataPath)) {
+                if (error)
+                    *error = QStringLiteral("无法升级旧缓存元数据：%1").arg(metadataPath);
+                LOG_WARN(LogModule::Core, "Refusing cache migration because metadata is invalid: {}", metadataPath);
+                restoreMetadata(metadataSnapshots);
+                return false;
+            }
         }
     }
-    if (!moveEntriesTransactional(migrationEntries, error))
+    if (!moveEntriesTransactional(migrationEntries, error)) {
+        restoreMetadata(metadataSnapshots);
         return false;
+    }
 
     for (const QString& sourcePath : componentDirectories) {
         if (QDir(sourcePath).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty())
@@ -307,13 +358,20 @@ bool CacheDirectoryMigrator::moveDirectoryContents(const QString& sourceRoot,
     QList<MigrationEntry> entries;  // 当前组件目录的待迁移条目。
     if (!collectComponentEntries(sourceDir, targetDir, &entries, nullptr))
         return false;
-    if (!upgradeMetadata(QDir(sourceDir).filePath(QStringLiteral("component.json"))))
+    const QString metadataPath = QDir(sourceDir).filePath(QStringLiteral("component.json"));  // 当前组件元数据路径。
+    QFile metadataFile(metadataPath);  // 当前组件元数据文件。
+    if (!metadataFile.open(QIODevice::ReadOnly))
         return false;
-    if (!moveEntriesTransactional(entries, nullptr))
+    const MetadataSnapshot metadataSnapshot{metadataPath, metadataFile.readAll()};  // 当前组件元数据快照。
+    if (!upgradeMetadata(metadataPath))
         return false;
-    const QString metadataPath =  // 迁移后目标目录中的元数据路径。
+    if (!moveEntriesTransactional(entries, nullptr)) {
+        restoreMetadata({metadataSnapshot});
+        return false;
+    }
+    const QString targetMetadataPath =  // 迁移后目标目录中的元数据路径。
         QDir(targetDir).filePath(QStringLiteral("component.json"));
-    return QFileInfo::exists(metadataPath);
+    return QFileInfo::exists(targetMetadataPath);
 }
 
 /**

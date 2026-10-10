@@ -378,6 +378,15 @@ Follow semantic versioning: MAJOR.MINOR.PATCH
 - [ ] CHANGELOG is updated
 - [ ] Version number is updated
 - [ ] Release notes are prepared
+- [ ] Confirm that the version tag is created from the target version branch and that `Publish Release` only stages a Draft Release
+- [ ] Check all platform artifacts, filenames, and SHA256 checksums
+- [ ] Confirm that the GitHub `release-approval` Environment has at least one Required reviewer
+- [ ] Approve the `Publish approved release` job after manually reviewing the Draft Release
+
+The workflow first performs cross-platform packaging, artifact validation, checksum generation, and Draft Release
+upload. Public publication is isolated in the `Publish approved release` job and protected by the
+`release-approval` Environment. An Environment without a Required reviewer does not provide an effective manual
+publication gate. Do not push directly to a protected version branch or publish unreviewed artifacts as a stable Release.
 
 ## Community Guidelines
 

@@ -3,7 +3,6 @@
 #include "services/ConfigService.h"
 #include "ui/viewmodels/ExportSettingsViewModel.h"
 
-#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QSignalSpy>
@@ -29,7 +28,7 @@ private slots:
     void init();
     void testLoadsCacheSettingsFromConfig();
     void testRejectsUnsafeCacheDirWithoutChangingConfig();
-    void testAcceptsHomeChildAndPersistsCacheDir();
+    void testAcceptsCustomChildAndPersistsCacheDir();
     void testReportsMigrationFailureWithoutChangingConfig();
     void testReportsUnverifiableMigrationEntry();
     void testDiskCacheLimitClamped();
@@ -42,6 +41,8 @@ private slots:
 private:
     // m_tempDir：测试使用的文件系统路径。
     QTemporaryDir m_tempDir;
+    // m_cachePath：与测试配置文件分离的隔离缓存根目录。
+    QString m_cachePath;
 };
 
 // 为每个测试建立隔离配置和临时缓存路径。
@@ -52,9 +53,20 @@ void TestExportSettingsViewModel::init() {
     QVERIFY(m_tempDir.isValid());
     // tempPath：测试使用的文件系统路径。
     const QString tempPath = canonicalTempPath(m_tempDir);
+    // m_cachePath：每次测试使用的隔离缓存根目录。
+    m_cachePath = QDir(tempPath).filePath(QStringLiteral("cache"));
+    QVERIFY(QDir().mkpath(m_cachePath));
 
     // config：测试用配置对象。
     ConfigService* config = ConfigService::instance();
+    // configPath：隔离测试配置文件路径。
+    const QString configPath = QDir(tempPath).filePath(QStringLiteral("config/config.json"));
+    QVERIFY(QDir().mkpath(QFileInfo(configPath).absolutePath()));
+    QFile configSeed(configPath);
+    QVERIFY(configSeed.open(QIODevice::WriteOnly | QIODevice::Text));
+    QVERIFY(configSeed.write(QByteArrayLiteral("{}")) > 0);
+    configSeed.close();
+    QVERIFY(config->loadConfig(configPath));
     config->resetToDefaults();
     config->setCacheDir(QDir(tempPath).filePath(QStringLiteral("configured-cache")));
     config->setDiskCacheLimitMB(4096);
@@ -63,7 +75,7 @@ void TestExportSettingsViewModel::init() {
     ComponentCacheService* cache = ComponentCacheService::instance();
     // cacheError：测试期间收集的错误或诊断信息。
     QString cacheError;
-    QVERIFY2(cache->setCacheDir(tempPath, false, &cacheError), qPrintable(cacheError));
+    QVERIFY2(cache->setCacheDir(m_cachePath, false, &cacheError), qPrintable(cacheError));
 }
 
 // 验证视图模型从配置服务加载缓存设置。
@@ -107,27 +119,25 @@ void TestExportSettingsViewModel::testRejectsUnsafeCacheDirWithoutChangingConfig
     QVERIFY(!rejectionSpy.at(0).at(1).toString().isEmpty());
 }
 
-// 验证合法的主目录子目录能够同步更新服务、配置和新建视图模型。
+// 验证合法的自定义子目录能够同步更新服务、配置和新建视图模型。
 /**
- * @brief 验证 testAcceptsHomeChildAndPersistsCacheDir 测试场景。
+ * @brief 验证 testAcceptsCustomChildAndPersistsCacheDir 测试场景。
  */
-void TestExportSettingsViewModel::testAcceptsHomeChildAndPersistsCacheDir() {
+void TestExportSettingsViewModel::testAcceptsCustomChildAndPersistsCacheDir() {
     // cache：测试使用的缓存或元器件对象。
     ComponentCacheService* cache = ComponentCacheService::instance();
     // tempPath：测试使用的文件系统路径。
-    const QString tempPath = canonicalTempPath(m_tempDir);
-    QVERIFY(cache->setCacheDir(tempPath, false));
+    const QString cachePath = m_cachePath;
+    QVERIFY(cache->setCacheDir(cachePath, false));
 
-    const QString homeChild =
-        QDir(QDir::homePath())
-            .filePath(QStringLiteral(".easykiconverter-viewmodel-cache-%1").arg(QCoreApplication::applicationPid()));
-    QDir(homeChild).removeRecursively();
+    // customChild：隔离临时目录下的自定义缓存子目录。
+    const QString customChild = QDir(cachePath).filePath(QStringLiteral("custom-cache"));
 
     ExportSettingsViewModel viewModel(nullptr);
-    viewModel.setCacheDir(homeChild);
+    viewModel.setCacheDir(customChild);
 
     // normalized：规范化后的测试数据。
-    const QString normalized = QFileInfo(homeChild).absoluteFilePath();
+    const QString normalized = QFileInfo(customChild).absoluteFilePath();
     QCOMPARE(viewModel.cacheDir(), normalized);
     QCOMPARE(cache->cacheDir(), normalized);
     QCOMPARE(ConfigService::instance()->getCacheDir(), normalized);
@@ -135,9 +145,8 @@ void TestExportSettingsViewModel::testAcceptsHomeChildAndPersistsCacheDir() {
     ExportSettingsViewModel reloadedViewModel(nullptr);
     QCOMPARE(reloadedViewModel.cacheDir(), normalized);
 
-    QVERIFY(cache->setCacheDir(tempPath, false));
-    ConfigService::instance()->setCacheDir(tempPath);
-    QVERIFY(QDir(homeChild).removeRecursively());
+    QVERIFY(cache->setCacheDir(cachePath, false));
+    ConfigService::instance()->setCacheDir(cachePath);
 }
 
 // 验证迁移失败时视图模型保留原路径并展示具体冲突原因。
@@ -147,10 +156,10 @@ void TestExportSettingsViewModel::testAcceptsHomeChildAndPersistsCacheDir() {
 void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConfig() {
     // cache：测试使用的缓存或元器件对象。
     ComponentCacheService* cache = ComponentCacheService::instance();
-    // tempPath：测试使用的文件系统路径。
-    const QString tempPath = canonicalTempPath(m_tempDir);
-    QVERIFY(cache->setCacheDir(tempPath, false));
-    ConfigService::instance()->setCacheDir(tempPath);
+    // cachePath：迁移失败测试使用的当前缓存根目录。
+    const QString cachePath = m_cachePath;
+    QVERIFY(cache->setCacheDir(cachePath, false));
+    ConfigService::instance()->setCacheDir(cachePath);
 
     // data：测试使用的文本或数据内容。
     ComponentData data;
@@ -179,14 +188,14 @@ void TestExportSettingsViewModel::testReportsMigrationFailureWithoutChangingConf
     QSignalSpy rejectionSpy(&viewModel, &ExportSettingsViewModel::cacheDirChangeRejected);
     viewModel.setCacheDir(targetPath);
 
-    QCOMPARE(viewModel.cacheDir(), tempPath);
-    QCOMPARE(cache->cacheDir(), tempPath);
-    QCOMPARE(ConfigService::instance()->getCacheDir(), tempPath);
+    QCOMPARE(viewModel.cacheDir(), cachePath);
+    QCOMPARE(cache->cacheDir(), cachePath);
+    QCOMPARE(ConfigService::instance()->getCacheDir(), cachePath);
     QVERIFY(viewModel.status().contains(QStringLiteral("同名文件")));
     QCOMPARE(rejectionSpy.count(), 1);
     QCOMPARE(rejectionSpy.at(0).at(0).toString(), targetPath);
     QVERIFY(rejectionSpy.at(0).at(1).toString().contains(QStringLiteral("同名文件")));
-    QVERIFY(QFileInfo::exists(m_tempDir.filePath(QStringLiteral("C90001/component.json"))));
+    QVERIFY(QFileInfo::exists(QDir(cachePath).filePath(QStringLiteral("C90001/component.json"))));
     QVERIFY(QFileInfo::exists(targetMetadata.fileName()));
 }
 
@@ -198,7 +207,7 @@ void TestExportSettingsViewModel::testReportsUnverifiableMigrationEntry() {
     // cache：测试使用的缓存或元器件对象。
     ComponentCacheService* cache = ComponentCacheService::instance();
     // sourcePath：测试使用的文件系统路径。
-    const QString sourcePath = canonicalTempPath(m_tempDir);
+    const QString sourcePath = m_cachePath;
     QVERIFY(cache->setCacheDir(sourcePath, false));
     ConfigService::instance()->setCacheDir(sourcePath);
 
@@ -387,3 +396,10 @@ void TestExportSettingsViewModel::testHorizonAllowsAppendAndUpdateModes() {
 
 QTEST_GUILESS_MAIN(TestExportSettingsViewModel)
 #include "test_export_settings_viewmodel.moc"
+
+/*
+ * 我該怎麼說我現在的感覺，很平靜但也很難過，平靜是因為我終於接受了，
+ * 某些無法改變的事實，而難過也恰恰來自這份平靜，我就這麼接受了，
+ * 已經分不清自己是沒招了，還是釋懷了，
+ * 從前我認為有問題就該溝通，直到有一天我也變成啞巴了。
+ */

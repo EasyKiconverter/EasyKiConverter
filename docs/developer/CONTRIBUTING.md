@@ -184,6 +184,20 @@ feat: add support for custom layer mapping
 
 请耐心等待审查反馈，并根据反馈进行必要的修改。
 
+## 发布流程
+
+正式发布前，发布工作流会先完成跨平台打包、制品校验、SHA256 清单生成并创建 Draft Release。
+维护者应完成以下检查：
+
+- [ ] 确认版本号、更新日志和发布说明已完成
+- [ ] 检查全部平台制品、文件名和 SHA256 校验和
+- [ ] 确认 GitHub `release-approval` Environment 已配置至少一名 Required reviewer
+- [ ] 人工验收 Draft Release 后批准 `Publish approved release` job
+
+公开发布位于独立的 `Publish approved release` job，并受 `release-approval` Environment 保护。
+没有 Required reviewer 的仓库 Environment 不提供有效的人工发布门禁；不得直接推送受保护的版本分支，
+也不得将未验收的制品公开为稳定 Release。
+
 ## 行为准则
 
 - 尊重所有贡献者

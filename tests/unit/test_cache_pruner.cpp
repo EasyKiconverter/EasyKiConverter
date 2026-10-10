@@ -25,6 +25,7 @@ class TestCachePruner : public QObject {
 private slots:
     void testModel3DExcludedFromSize();
     void testPruneDoesNotDeleteModel3D();
+    void testPrunePreservesEntryWhenTrashFails();
 
 private:
     void writeFile(const QString& path, qsizetype size);
@@ -104,5 +105,50 @@ void TestCachePruner::testPruneDoesNotDeleteModel3D() {
     QVERIFY(QFileInfo::exists(modelPath));
 }
 
+/**
+ * @brief 验证回收站失败时配额裁剪不会永久删除缓存文件。
+ */
+void TestCachePruner::testPrunePreservesEntryWhenTrashFails() {
+    // tempDir：测试使用的隔离文件系统路径。
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+    // tempPath：测试使用的规范化缓存根目录。
+    const QString tempPath = canonicalTempPath(tempDir);
+    QVERIFY(CacheSafety::ensureOwnedRoot(tempPath));
+
+    // root：用于创建已验证组件目录和缓存文件的目录对象。
+    QDir root(tempPath);
+    QVERIFY(root.mkpath(QStringLiteral("C123")));
+    // metadata：组件缓存所有权元数据文件。
+    QFile metadata(root.filePath(QStringLiteral("C123/component.json")));
+    QVERIFY(metadata.open(QIODevice::WriteOnly));
+    QVERIFY(metadata.write(QByteArrayLiteral(
+                "{\"lcscId\":\"C123\",\"cacheOwner\":\"EasyKiConverter\",\"cacheEntryVersion\":1}")) > 0);
+    metadata.close();
+    // symbolPath：用于触发配额裁剪的已知缓存文件。
+    const QString symbolPath = root.filePath(QStringLiteral("C123/symbol.json"));
+    writeFile(symbolPath, 1000);
+
+    // trash：始终失败的回收站替身，用于验证不会回退到永久删除。
+    const CacheSafety::TrashFunction trash = [](const QString&, QString* error) {
+        if (error)
+            *error = QStringLiteral("模拟回收站失败");
+        return false;
+    };
+    // pruner：使用失败回收站实现的缓存裁剪器。
+    CachePruner pruner(tempPath, trash);
+    const qint64 sizeBefore = pruner.currentCacheSize();
+
+    QCOMPARE(pruner.pruneTo(0), sizeBefore);
+    QVERIFY(QFileInfo::exists(symbolPath));
+}
+
 QTEST_GUILESS_MAIN(TestCachePruner)
 #include "test_cache_pruner.moc"
+/*
+ * 我本就是一个不喜欢主动的人，虽然灵魂有趣，但不爱表达，还死倔，也慢热。
+ * 遇到懂我的人是幸运，遇不到也正常。喜欢独处，三观正。
+ * 习惯了任何人的忽冷忽热，也看淡了任何人的渐行渐远。
+ * 我比你想象的深情，也比你以为的冷漠。
+ * 有人理解我之幸，无人理解我独行
+ */
