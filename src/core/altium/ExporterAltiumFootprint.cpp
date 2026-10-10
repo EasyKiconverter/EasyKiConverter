@@ -1,5 +1,6 @@
 #include "ExporterAltiumFootprint.h"
 
+#include "AltiumFootprintGeometryNormalizer.h"
 #include "utils/AltiumConstants.h"
 #include "utils/AltiumCoord.h"
 #include "utils/AltiumLayerMap.h"
@@ -7,19 +8,23 @@
 #include <QFile>
 #include <QFileInfo>
 
-#include <climits>
-
 namespace EasyKiConverter {
 
 /**
  * @brief 导出单个封装
+ * @param footprint 待导出的封装 IR。
+ * @param filePath 输出文件路径。
+ * @param model3DPath 可选的 STEP 文件路径。
+ * @return 导出是否成功。
  */
 bool ExporterAltiumFootprint::exportFootprint(const IR::FootprintComponentIR& footprint,
                                               const QString& filePath,
                                               const QString& model3DPath) {
-    QList<AltiumPcbComponent> components;
+    m_diagnostics.clear();
+    QList<AltiumPcbComponent> components;  // 待写入单个封装文件的组件列表。
     components.append(convertFootprint(footprint, model3DPath));
-    bool ok = m_writer.write(components, filePath);
+    bool ok = m_writer.write(components, filePath);  // PcbLib 写入结果。
+    m_diagnostics = m_writer.diagnostics();
     if (!ok) {
         qWarning() << "ExporterAltiumFootprint: Failed to write footprint to" << filePath;
     }
@@ -28,6 +33,16 @@ bool ExporterAltiumFootprint::exportFootprint(const IR::FootprintComponentIR& fo
 
 /**
  * @brief 导出封装库
+ * @param footprints 待导出的封装列表。
+ * @param libName 输出库名称。
+ * @param filePath 输出文件路径。
+ * @param preferWrl 是否优先使用 WRL 模型。
+ * @param exportStep 是否导出 STEP 模型。
+ * @param libraryDescription 库描述。
+ * @param libraryKeywords 库关键词。
+ * @param useAbsolutePaths 是否使用绝对模型路径。
+ * @param model3DBaseDir 3D 模型基础目录。
+ * @return 导出是否成功。
  */
 bool ExporterAltiumFootprint::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                      const QString& libName,
@@ -38,12 +53,14 @@ bool ExporterAltiumFootprint::exportFootprintLibrary(const QList<IR::FootprintCo
                                                      const QString& libraryKeywords,
                                                      bool useAbsolutePaths,
                                                      const QString& model3DBaseDir) {
-    QList<AltiumPcbComponent> components;
+    m_diagnostics.clear();
+    QList<AltiumPcbComponent> components;  // 待写入封装库的组件列表。
     for (const IR::FootprintComponentIR& fp : footprints) {
         // 对于库级别导出，3D 模型路径在后续处理
         components.append(convertFootprint(fp));
     }
-    bool ok = m_writer.write(components, filePath, libName);
+    bool ok = m_writer.write(components, filePath, libName);  // PcbLib 写入结果。
+    m_diagnostics = m_writer.diagnostics();
     if (!ok) {
         qWarning() << "ExporterAltiumFootprint: Failed to write footprint library to" << filePath;
     }
@@ -52,10 +69,13 @@ bool ExporterAltiumFootprint::exportFootprintLibrary(const QList<IR::FootprintCo
 
 /**
  * @brief FootprintComponentIR → AltiumPcbComponent
+ * @param data 封装组件 IR。
+ * @param model3DPath 可选的 STEP 文件路径。
+ * @return 转换后的 Altium 封装组件。
  */
 AltiumPcbComponent ExporterAltiumFootprint::convertFootprint(const IR::FootprintComponentIR& data,
                                                              const QString& model3DPath) {
-    AltiumPcbComponent component;
+    AltiumPcbComponent component;  // 转换后的 Altium 封装组件。
     component.name = data.name;
     component.description = data.description;
     component.height = data.height;  // IR height 已经是 mm
@@ -69,7 +89,7 @@ AltiumPcbComponent ExporterAltiumFootprint::convertFootprint(const IR::Footprint
     // 直接取首尾点会把折线错误地压成一条对角线。
     for (const IR::FootprintTrackIR& track : data.tracks) {
         for (int i = 1; i < track.points.size(); ++i) {
-            IR::FootprintTrackIR segment = track;
+            IR::FootprintTrackIR segment = track;  // 当前折线段的临时 IR 表示。
             segment.points = {track.points[i - 1], track.points[i]};
             component.tracks.append(convertTrack(segment));
         }
@@ -78,7 +98,7 @@ AltiumPcbComponent ExporterAltiumFootprint::convertFootprint(const IR::Footprint
     // 独立安装孔用非电镀 MultiLayer pad 表示，使孔径、钻孔属性和图元归属
     // 都进入同一套已验证的 pad 序列化路径。
     for (const IR::FootprintHoleIR& hole : data.holes) {
-        AltiumPcbPad pad;
+        AltiumPcbPad pad;  // 由独立机械孔生成的非电镀焊盘。
         pad.locationX = AltiumCoord::mmToRaw(hole.center.x());
         pad.locationY = AltiumCoord::mmToRaw(hole.center.y());
         pad.holeSize = AltiumCoord::mmToRaw(hole.radius * 2.0);
@@ -120,7 +140,7 @@ AltiumPcbComponent ExporterAltiumFootprint::convertFootprint(const IR::Footprint
     // 板框同样是逐段线原语；保留 IR 的层和线宽，不引入导入器特有假设。
     for (const IR::FootprintOutlineIR& outline : data.outlines) {
         for (int i = 1; i < outline.points.size(); ++i) {
-            IR::FootprintTrackIR segment;
+            IR::FootprintTrackIR segment;  // 当前板框线段的临时 IR 表示。
             segment.points = {outline.points[i - 1], outline.points[i]};
             segment.width = outline.strokeWidth;
             segment.layer = outline.layer;
@@ -130,8 +150,8 @@ AltiumPcbComponent ExporterAltiumFootprint::convertFootprint(const IR::Footprint
     }
 
     // 加载 3D 模型
-    QByteArray stepData;
-    QString modelName;
+    QByteArray stepData;  // 待嵌入的 STEP 文件数据。
+    QString modelName;  // 3D 模型显示名称。
     if (!model3DPath.isEmpty()) {
         stepData = loadStepData(model3DPath);
         modelName = QFileInfo(model3DPath).fileName();
@@ -139,16 +159,18 @@ AltiumPcbComponent ExporterAltiumFootprint::convertFootprint(const IR::Footprint
         // 从 IR 的 3D 模型中加载 STEP 数据
         for (const IR::Model3DIR& model3d : data.models3d) {
             if (model3d.hasStepData()) {
-                AltiumPcbComponent::Model3D model;
+                AltiumPcbComponent::Model3D model;  // 从 IR 转换的三维模型记录。
                 model.name = model3d.name();
                 model.stepData = model3d.stepData();
-                const auto& rot = model3d.rotation();
+                const auto& rot = model3d.rotation();  // 模型旋转变换。
                 model.rotX = rot.x;
                 model.rotY = rot.y;
                 model.rotZ = rot.z;
-                const auto& translation = model3d.translation();
-                model.x = AltiumCoord::mmToRaw(translation.x);
-                model.y = AltiumCoord::mmToRaw(translation.y);
+                const auto& translation = model3d.translation();  // 模型平移变换。
+                const auto& stepOffset = model3d.stepOffsetMm();  // STEP 原点偏移。
+                model.x = AltiumCoord::mmToRaw(translation.x + stepOffset.x);
+                model.y = AltiumCoord::mmToRaw(translation.y + stepOffset.y);
+                model.dz = translation.z + stepOffset.z;
                 component.models.append(model);
             }
         }
@@ -160,7 +182,7 @@ AltiumPcbComponent ExporterAltiumFootprint::convertFootprint(const IR::Footprint
 
     // 如果有 3D 模型数据但 models 列表为空，补全
     if (!stepData.isEmpty() && component.models.isEmpty()) {
-        AltiumPcbComponent::Model3D model;
+        AltiumPcbComponent::Model3D model;  // 从单独 STEP 文件补建的三维模型记录。
         model.name = modelName;
         model.stepData = stepData;
         component.models.append(model);
@@ -179,16 +201,18 @@ AltiumPcbComponent ExporterAltiumFootprint::convertFootprint(const IR::Footprint
 
 /**
  * @brief FootprintPadIR → AltiumPcbPad
+ * @param pad 封装焊盘 IR。
+ * @return 转换后的 Altium 焊盘记录。
  */
 AltiumPcbPad ExporterAltiumFootprint::convertPad(const IR::FootprintPadIR& pad) {
-    AltiumPcbPad altiumPad;
+    AltiumPcbPad altiumPad;  // 转换后的 Altium 焊盘记录。
     altiumPad.designator = pad.number;
     altiumPad.locationX = AltiumCoord::mmToRaw(pad.position.x());
     altiumPad.locationY = AltiumCoord::mmToRaw(pad.position.y());
 
     // IR size 已经是 mm
-    int width = AltiumCoord::mmToRaw(pad.size.width());
-    int height = AltiumCoord::mmToRaw(pad.size.height());
+    int width = AltiumCoord::mmToRaw(pad.size.width());  // 焊盘宽度的 Altium 原始单位。
+    int height = AltiumCoord::mmToRaw(pad.size.height());  // 焊盘高度的 Altium 原始单位。
 
     // 确定焊盘类型
     altiumPad.isSMD = pad.isSmd();
@@ -213,7 +237,7 @@ AltiumPcbPad ExporterAltiumFootprint::convertPad(const IR::FootprintPadIR& pad) 
     }
 
     // 形状：从 IR PadShape 映射到 Altium 焊盘形状字节
-    uint8_t shape = AltiumLayerMap::toAltiumPadShape(pad.shape);
+    uint8_t shape = AltiumLayerMap::toAltiumPadShape(pad.shape);  // Altium 焊盘形状编号。
     altiumPad.shapeTop = shape;
     altiumPad.shapeMid = shape;
     altiumPad.shapeBot = shape;
@@ -238,9 +262,11 @@ AltiumPcbPad ExporterAltiumFootprint::convertPad(const IR::FootprintPadIR& pad) 
 
 /**
  * @brief FootprintTrackIR → AltiumPcbTrack
+ * @param track 封装走线 IR。
+ * @return 转换后的 Altium 走线记录。
  */
 AltiumPcbTrack ExporterAltiumFootprint::convertTrack(const IR::FootprintTrackIR& track) {
-    AltiumPcbTrack altiumTrack;
+    AltiumPcbTrack altiumTrack;  // 转换后的 Altium 走线记录。
     altiumTrack.layer = static_cast<uint8_t>(AltiumLayerMap::fromLayerTypeToAltium(track.layer));
     altiumTrack.width = AltiumCoord::mmToRaw(track.width);
 
@@ -257,9 +283,11 @@ AltiumPcbTrack ExporterAltiumFootprint::convertTrack(const IR::FootprintTrackIR&
 
 /**
  * @brief FootprintCircleIR → AltiumPcbArc（360° 圆弧）
+ * @param circle 封装圆形图元 IR。
+ * @return 转换后的 Altium 圆弧记录。
  */
 AltiumPcbArc ExporterAltiumFootprint::convertCircle(const IR::FootprintCircleIR& circle) {
-    AltiumPcbArc altiumArc;
+    AltiumPcbArc altiumArc;  // 转换后的 Altium 整圆弧记录。
     altiumArc.centerX = AltiumCoord::mmToRaw(circle.center.x());
     altiumArc.centerY = AltiumCoord::mmToRaw(circle.center.y());
     altiumArc.radius = AltiumCoord::mmToRaw(circle.radius);
@@ -272,9 +300,11 @@ AltiumPcbArc ExporterAltiumFootprint::convertCircle(const IR::FootprintCircleIR&
 
 /**
  * @brief FootprintArcIR → AltiumPcbArc
+ * @param arc 封装圆弧图元 IR。
+ * @return 转换后的 Altium 圆弧记录。
  */
 AltiumPcbArc ExporterAltiumFootprint::convertArc(const IR::FootprintArcIR& arc) {
-    AltiumPcbArc altiumArc;
+    AltiumPcbArc altiumArc;  // 转换后的 Altium 圆弧记录。
     altiumArc.centerX = AltiumCoord::mmToRaw(arc.center.x());
     altiumArc.centerY = AltiumCoord::mmToRaw(arc.center.y());
     altiumArc.radius = AltiumCoord::mmToRaw(arc.radius);
@@ -287,9 +317,11 @@ AltiumPcbArc ExporterAltiumFootprint::convertArc(const IR::FootprintArcIR& arc) 
 
 /**
  * @brief FootprintRectangleIR → AltiumPcbFill
+ * @param rect 封装矩形图元 IR。
+ * @return 转换后的 Altium 填充记录。
  */
 AltiumPcbFill ExporterAltiumFootprint::convertRectangle(const IR::FootprintRectangleIR& rect) {
-    AltiumPcbFill altiumFill;
+    AltiumPcbFill altiumFill;  // 转换后的 Altium 填充记录。
     altiumFill.corner1X = AltiumCoord::mmToRaw(rect.bounds.left());
     altiumFill.corner1Y = AltiumCoord::mmToRaw(rect.bounds.top());
     altiumFill.corner2X = AltiumCoord::mmToRaw(rect.bounds.right());
@@ -300,9 +332,11 @@ AltiumPcbFill ExporterAltiumFootprint::convertRectangle(const IR::FootprintRecta
 
 /**
  * @brief FootprintTextIR → AltiumPcbText
+ * @param text 封装文本图元 IR。
+ * @return 转换后的 Altium 文本记录。
  */
 AltiumPcbText ExporterAltiumFootprint::convertText(const IR::FootprintTextIR& text) {
-    AltiumPcbText altiumText;
+    AltiumPcbText altiumText;  // 转换后的 Altium 文本记录。
     altiumText.locationX = AltiumCoord::mmToRaw(text.position.x());
     altiumText.locationY = AltiumCoord::mmToRaw(text.position.y());
     altiumText.text = text.text;
@@ -316,9 +350,11 @@ AltiumPcbText ExporterAltiumFootprint::convertText(const IR::FootprintTextIR& te
 
 /**
  * @brief FootprintRegionIR → AltiumPcbRegion
+ * @param region 封装区域图元 IR。
+ * @return 转换后的 Altium 区域记录。
  */
 AltiumPcbRegion ExporterAltiumFootprint::convertSolidRegion(const IR::FootprintRegionIR& region) {
-    AltiumPcbRegion altiumRegion;
+    AltiumPcbRegion altiumRegion;  // 转换后的 Altium 区域记录。
     altiumRegion.layer = static_cast<uint8_t>(AltiumLayerMap::fromLayerTypeToAltium(region.layer));
     altiumRegion.isBoardCutout = region.isKeepOut;
     altiumRegion.v7LayerName = AltiumLayerMap::toLayerName(altiumRegion.layer);
@@ -334,6 +370,8 @@ AltiumPcbRegion ExporterAltiumFootprint::convertSolidRegion(const IR::FootprintR
 
 /**
  * @brief 加载 STEP 文件数据
+ * @param stepPath STEP 文件路径。
+ * @return 文件内容；打开失败时返回空数组。
  */
 QByteArray ExporterAltiumFootprint::loadStepData(const QString& stepPath) {
     QFile file(stepPath);
@@ -348,174 +386,78 @@ QByteArray ExporterAltiumFootprint::loadStepData(const QString& stepPath) {
  * @brief 将封装图元坐标居中到原点附近
  * @details 计算所有焊盘/走线/区域的包围盒中心，将所有坐标平移使中心对齐原点。
  *          Altium Designer 标准库的封装通常以原点为参考点。
+ * @param component 待居中的 Altium 封装组件。
  */
 void ExporterAltiumFootprint::centerComponent(AltiumPcbComponent& component) {
-    if (component.pads.isEmpty() && component.tracks.isEmpty() && component.arcs.isEmpty() &&
-        component.regions.isEmpty() && component.fills.isEmpty()) {
+    const AltiumFootprintBounds bounds =
+        AltiumFootprintGeometryNormalizer::computeBounds(component, false);  // 封装图元包围盒。
+    if (!bounds.valid)
         return;
-    }
-
-    // 计算包围盒（使用焊盘位置和走线端点）
-    int minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;
-
-    for (const auto& pad : component.pads) {
-        minX = qMin(minX, pad.locationX);
-        minY = qMin(minY, pad.locationY);
-        maxX = qMax(maxX, pad.locationX);
-        maxY = qMax(maxY, pad.locationY);
-    }
-    for (const auto& track : component.tracks) {
-        minX = qMin(minX, qMin(track.startX, track.endX));
-        minY = qMin(minY, qMin(track.startY, track.endY));
-        maxX = qMax(maxX, qMax(track.startX, track.endX));
-        maxY = qMax(maxY, qMax(track.startY, track.endY));
-    }
-    for (const auto& arc : component.arcs) {
-        minX = qMin(minX, arc.centerX - arc.radius);
-        minY = qMin(minY, arc.centerY - arc.radius);
-        maxX = qMax(maxX, arc.centerX + arc.radius);
-        maxY = qMax(maxY, arc.centerY + arc.radius);
-    }
-    for (const auto& fill : component.fills) {
-        minX = qMin(minX, qMin(fill.corner1X, fill.corner2X));
-        minY = qMin(minY, qMin(fill.corner1Y, fill.corner2Y));
-        maxX = qMax(maxX, qMax(fill.corner1X, fill.corner2X));
-        maxY = qMax(maxY, qMax(fill.corner1Y, fill.corner2Y));
-    }
-    for (const auto& region : component.regions) {
-        for (const QPointF& v : region.vertices) {
-            int vx = static_cast<int>(v.x());
-            int vy = static_cast<int>(v.y());
-            minX = qMin(minX, vx);
-            minY = qMin(minY, vy);
-            maxX = qMax(maxX, vx);
-            maxY = qMax(maxY, vy);
-        }
-    }
-
-    if (minX == INT_MAX)
-        return;  // 无图元
-
-    // 计算中心偏移
-    int offsetX = (minX + maxX) / 2;
-    int offsetY = (minY + maxY) / 2;
-
-    // 平移所有图元
-    for (auto& pad : component.pads) {
-        pad.locationX -= offsetX;
-        pad.locationY -= offsetY;
-    }
-    for (auto& track : component.tracks) {
-        track.startX -= offsetX;
-        track.startY -= offsetY;
-        track.endX -= offsetX;
-        track.endY -= offsetY;
-    }
-    for (auto& arc : component.arcs) {
-        arc.centerX -= offsetX;
-        arc.centerY -= offsetY;
-    }
-    for (auto& fill : component.fills) {
-        fill.corner1X -= offsetX;
-        fill.corner1Y -= offsetY;
-        fill.corner2X -= offsetX;
-        fill.corner2Y -= offsetY;
-    }
-    for (auto& region : component.regions) {
-        for (QPointF& v : region.vertices) {
-            v = QPointF(v.x() - offsetX, v.y() - offsetY);
-        }
-    }
-    for (auto& text : component.texts) {
-        text.locationX -= offsetX;
-        text.locationY -= offsetY;
-    }
-    for (auto& model : component.models) {
-        model.x -= offsetX;
-        model.y -= offsetY;
-    }
+    const int offsetX = static_cast<int>((bounds.minX + bounds.maxX) / 2);  // X 方向中心偏移。
+    const int offsetY = static_cast<int>((bounds.minY + bounds.maxY) / 2);  // Y 方向中心偏移。
+    AltiumFootprintGeometryNormalizer::translate(component, offsetX, offsetY);
 }
 
 /**
  * @brief 从封装包围盒和 3D 模型生成 ComponentBody
- * @details 在 MECHANICAL1 层创建矩形轮廓，关联嵌入的 STEP 模型。
+ * @details 在 MECHANICAL1 层为每个嵌入的 STEP 模型创建一个矩形轮廓。
  *          轮廓基于所有图元的包围盒生成。
+ * @param component 待生成 ComponentBody 的 Altium 封装组件。
  */
 void ExporterAltiumFootprint::generateComponentBody(AltiumPcbComponent& component) {
     if (component.models.isEmpty())
         return;
 
-    // 计算包围盒（复用 centerComponent 的逻辑）
-    int minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;
-
-    for (const auto& pad : component.pads) {
-        minX = qMin(minX, pad.locationX);
-        minY = qMin(minY, pad.locationY);
-        maxX = qMax(maxX, pad.locationX);
-        maxY = qMax(maxY, pad.locationY);
-    }
-    for (const auto& track : component.tracks) {
-        minX = qMin(minX, qMin(track.startX, track.endX));
-        minY = qMin(minY, qMin(track.startY, track.endY));
-        maxX = qMax(maxX, qMax(track.startX, track.endX));
-        maxY = qMax(maxY, qMax(track.startY, track.endY));
-    }
-    for (const auto& arc : component.arcs) {
-        minX = qMin(minX, arc.centerX - arc.radius);
-        minY = qMin(minY, arc.centerY - arc.radius);
-        maxX = qMax(maxX, arc.centerX + arc.radius);
-        maxY = qMax(maxY, arc.centerY + arc.radius);
-    }
-    for (const auto& fill : component.fills) {
-        minX = qMin(minX, qMin(fill.corner1X, fill.corner2X));
-        minY = qMin(minY, qMin(fill.corner1Y, fill.corner2Y));
-        maxX = qMax(maxX, qMax(fill.corner1X, fill.corner2X));
-        maxY = qMax(maxY, qMax(fill.corner1Y, fill.corner2Y));
-    }
-    for (const auto& region : component.regions) {
-        for (const QPointF& v : region.vertices) {
-            minX = qMin(minX, static_cast<int>(v.x()));
-            minY = qMin(minY, static_cast<int>(v.y()));
-            maxX = qMax(maxX, static_cast<int>(v.x()));
-            maxY = qMax(maxY, static_cast<int>(v.y()));
-        }
-    }
-
-    if (minX == INT_MAX)
+    const AltiumFootprintBounds bounds =
+        AltiumFootprintGeometryNormalizer::computeBounds(component, true);  // 用于生成轮廓的包围盒。
+    if (!bounds.valid)
         return;  // 无图元，无法生成轮廓
 
-    // 生成稳定的模型 ID（基于封装名称）
-    QString seed = component.name + "|body";
-    QByteArray seedBytes = seed.toUtf8();
-    uint64_t hash = 0xCBF29CE484222325ULL;
-    for (char byte : seedBytes) {
-        hash ^= static_cast<uint8_t>(byte);
-        hash *= 0x100000001B3ULL;
+    const auto makeModelId = [&component](int modelIndex) {
+        // 使用组件名称和模型序号构造稳定的模型标识种子。
+        const QString seed = modelIndex == 0 ? component.name + QStringLiteral("|body")
+                                             : component.name + QStringLiteral("|body|") + QString::number(modelIndex);
+        const QByteArray seedBytes = seed.toUtf8();  // 稳定 UUID 计算用的 UTF-8 种子。
+        uint64_t hash = 0xCBF29CE484222325ULL;  // FNV-1a 哈希初始值。
+        for (char byte : seedBytes) {
+            hash ^= static_cast<uint8_t>(byte);
+            hash *= 0x100000001B3ULL;
+        }
+        return QString("{%1-%2-%3-%4-%5}")
+            .arg((hash >> 32) & 0xFFFFFFFF, 8, 16, QChar('0'))
+            .arg((hash >> 16) & 0xFFFF, 4, 16, QChar('0'))
+            .arg(hash & 0xFFFF, 4, 16, QChar('0'))
+            .arg(((~hash) >> 48) & 0xFFFF, 4, 16, QChar('0'))
+            .arg((~hash) & 0xFFFFFFFFFFFFLL, 12, 16, QChar('0'))
+            .toUpper();
+    };
+
+    // 每个模型都需要独立的 ComponentBody，否则虽然模型数据写入了 Library/Models，
+    // Altium 仍然只会通过第一个元件体显示第一个模型。
+    for (int modelIndex = 0; modelIndex < component.models.size(); ++modelIndex) {
+        auto& model = component.models[modelIndex];  // 当前待关联的三维模型。
+        const QString modelId = makeModelId(modelIndex);  // 当前模型的稳定标识符。
+        model.id = modelId;
+
+        AltiumPcbComponentBody body;  // 当前模型对应的 ComponentBody 记录。
+        body.modelId = modelId;
+        body.modelName = model.name;
+        body.model2dRotX = model.x;
+        body.model2dRotY = model.y;
+        body.model3dRotX = model.rotX;
+        body.model3dRotY = model.rotY;
+        body.model3dRotZ = model.rotZ;
+        body.model3dDzRaw = AltiumCoord::mmToRaw(model.dz);
+        body.overallHeightRaw = AltiumCoord::mmToRaw(qMax(component.height, 0.2));
+
+        // 矩形轮廓
+        body.outline = {QPointF(bounds.minX, bounds.minY),
+                        QPointF(bounds.maxX, bounds.minY),
+                        QPointF(bounds.maxX, bounds.maxY),
+                        QPointF(bounds.minX, bounds.maxY)};
+
+        component.bodies.append(body);
     }
-    QString modelId = QString("{%1-%2-%3-%4-%5}")
-                          .arg((hash >> 32) & 0xFFFFFFFF, 8, 16, QChar('0'))
-                          .arg((hash >> 16) & 0xFFFF, 4, 16, QChar('0'))
-                          .arg(hash & 0xFFFF, 4, 16, QChar('0'))
-                          .arg(((~hash) >> 48) & 0xFFFF, 4, 16, QChar('0'))
-                          .arg((~hash) & 0xFFFFFFFFFFFFLL, 12, 16, QChar('0'))
-                          .toUpper();
-    component.models.first().id = modelId;
-
-    AltiumPcbComponentBody body;
-    body.modelId = modelId;
-    body.modelName = component.models.first().name;
-    body.model2dRotX = component.models.first().x;
-    body.model2dRotY = component.models.first().y;
-    body.model3dRotX = component.models.first().rotX;
-    body.model3dRotY = component.models.first().rotY;
-    body.model3dRotZ = component.models.first().rotZ;
-    body.model3dDzRaw = AltiumCoord::mmToRaw(component.models.first().dz);
-    body.overallHeightRaw = AltiumCoord::mmToRaw(qMax(component.height, 0.2));
-
-    // 矩形轮廓
-    body.outline = {QPointF(minX, minY), QPointF(maxX, minY), QPointF(maxX, maxY), QPointF(minX, maxY)};
-
-    component.bodies.append(body);
 }
 
 }  // namespace EasyKiConverter

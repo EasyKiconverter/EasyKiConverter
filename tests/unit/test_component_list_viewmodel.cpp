@@ -1,3 +1,5 @@
+#include "ui/viewmodels/ComponentValidationErrorPolicy.h"
+#include "ui/viewmodels/ComponentValidationQueue.h"
 #include "ui/viewmodels/ValidationStateManager.h"
 
 #include <QCoreApplication>
@@ -14,7 +16,11 @@ class TestValidationStateManager : public QObject {
 private slots:
 
     // 验证 cancelValidation 正确递减 pendingCount
+    /**
+     * @brief 验证 testCancelValidation_DecrementsPendingCount 测试场景。
+     */
     void testCancelValidation_DecrementsPendingCount() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
 
         // 启动 5 个验证
@@ -38,7 +44,11 @@ private slots:
     }
 
     // 验证取消后还能正常完成剩余验证
+    /**
+     * @brief 验证 testCancelThenComplete_RemainingValidationCompletes 测试场景。
+     */
     void testCancelThenComplete_RemainingValidationCompletes() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
 
         // 启动 3 个验证
@@ -66,10 +76,15 @@ private slots:
     }
 
     // 验证 cancel 0 或负数不会有副作用
+    /**
+     * @brief 验证 testCancelZeroOrNegative_NoSideEffects 测试场景。
+     */
     void testCancelZeroOrNegative_NoSideEffects() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
 
         manager.startValidation(5);
+        // initialPending：初始化时的待处理数量。
         const int initialPending = manager.pendingCount();
 
         // 取消 0 个
@@ -85,7 +100,11 @@ private slots:
     }
 
     // 验证全部取消后不会触发 validationCompleted
+    /**
+     * @brief 验证 testCancelAll_NoValidationCompletedSignal 测试场景。
+     */
     void testCancelAll_NoValidationCompletedSignal() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
 
         manager.startValidation(3);
@@ -102,7 +121,12 @@ private slots:
         // checkAndNotifyCompletion 只在 isAllDone() && m_previewFetchEnabled 时触发
     }
 
+    // 验证成功和失败混合时只报告实际验证成功的元件编号。
+    /**
+     * @brief 验证 testMixedSuccessAndFailure_CompletesWithValidIds 测试场景。
+     */
     void testMixedSuccessAndFailure_CompletesWithValidIds() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
 
         manager.startValidation(3);
@@ -115,9 +139,75 @@ private slots:
         QCOMPARE(manager.pendingCount(), 0);
         QCOMPARE(spy.count(), 1);
 
+        // arguments：测试用参数列表。
         const QList<QVariant> arguments = spy.takeFirst();
+        // validatedIds：测试使用的元器件标识或名称。
         const QStringList validatedIds = arguments.at(0).toStringList();
         QCOMPARE(validatedIds, QStringList({"C1", "C3"}));
+    }
+
+    // 验证元件验证队列不会重复添加同一个编号。
+    /**
+     * @brief 验证 testComponentValidationQueueDeduplicatesIds 测试场景。
+     */
+    void testComponentValidationQueueDeduplicatesIds() {
+        // queue：测试用任务队列。
+        ComponentValidationQueue queue;
+
+        QVERIFY(queue.enqueue(QStringLiteral("C12345")));
+        QVERIFY(!queue.enqueue(QStringLiteral("C12345")));
+        QCOMPARE(queue.size(), 1);
+    }
+
+    // 验证请求取出后会进入飞行中状态，并可在完成后清理。
+    /**
+     * @brief 验证 testComponentValidationQueueTracksInFlightState 测试场景。
+     */
+    void testComponentValidationQueueTracksInFlightState() {
+        // queue：测试用任务队列。
+        ComponentValidationQueue queue;
+        queue.enqueue(QStringLiteral("C12345"));
+
+        QCOMPARE(queue.takeNext(), QStringLiteral("C12345"));
+        QVERIFY(queue.isEmpty());
+        QVERIFY(queue.isInFlight(QStringLiteral("C12345")));
+
+        queue.complete(QStringLiteral("C12345"));
+        QVERIFY(!queue.hasInFlight());
+        QVERIFY(!queue.contains(QStringLiteral("C12345")));
+    }
+
+    // 验证删除请求会同时清理排队和飞行中的编号。
+    /**
+     * @brief 验证 testComponentValidationQueueRemovesPendingAndInFlightIds 测试场景。
+     */
+    void testComponentValidationQueueRemovesPendingAndInFlightIds() {
+        // queue：测试用任务队列。
+        ComponentValidationQueue queue;
+        queue.enqueue(QStringLiteral("C12345"));
+        queue.enqueue(QStringLiteral("C12346"));
+        QCOMPARE(queue.takeNext(), QStringLiteral("C12345"));
+
+        queue.remove(QStringLiteral("C12345"));
+        queue.remove(QStringLiteral("C12346"));
+        QVERIFY(queue.isEmpty());
+        QVERIFY(!queue.hasInFlight());
+    }
+
+    // 验证错误策略能区分 CAD 失败、不可重试错误和预览图显示分类。
+    /**
+     * @brief 验证 testComponentValidationErrorPolicyClassifiesErrors 测试场景。
+     */
+    void testComponentValidationErrorPolicyClassifiesErrors() {
+        QVERIFY(ComponentValidationErrorPolicy::isCadDataFailure(QStringLiteral("HTTP 403 from CAD data API")));
+        QVERIFY(ComponentValidationErrorPolicy::isNonRetryable(QStringLiteral("HTTP 404 Not Found")));
+        QVERIFY(ComponentValidationErrorPolicy::isNotFound(QStringLiteral("Preview image not found")));
+        QCOMPARE(ComponentValidationErrorPolicy::classifyPreviewError(QStringLiteral("Request timeout")),
+                 ComponentValidationErrorPolicy::PreviewErrorKind::Timeout);
+        QCOMPARE(ComponentValidationErrorPolicy::classifyPreviewError(QStringLiteral("403 Forbidden")),
+                 ComponentValidationErrorPolicy::PreviewErrorKind::Forbidden);
+        QCOMPARE(ComponentValidationErrorPolicy::classifyPreviewError(QStringLiteral("image not found")),
+                 ComponentValidationErrorPolicy::PreviewErrorKind::NotFound);
     }
 };
 

@@ -56,7 +56,7 @@ public:
     }
 
 private:
-    bool m_quiet;
+    bool m_quiet;  ///< 标记是否抑制普通 CLI 输出。
 };
 
 }  // namespace EasyKiConverter

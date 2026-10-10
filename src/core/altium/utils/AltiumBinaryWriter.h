@@ -52,18 +52,21 @@ public:
 
     /**
      * @brief 写入 Pascal 短字符串
+     * @param str 待写入的字符串
      * @details [u8 length][bytes (Windows-1252)]
      */
     void writePascalShortString(const QString& str);
 
     /**
      * @brief 写入字符串块
+     * @param str 待写入的字符串
      * @details [u32 block_size = 1 + len][u8 str_len][bytes]
      */
     void writeStringBlock(const QString& str);
 
     /**
      * @brief 写入带额外 NUL 的 Pascal 字符串块（SectionKeys 名称格式）
+     * @param str 待写入的字符串
      */
     void writePascalString(const QString& str);
 
@@ -91,11 +94,14 @@ public:
 
     /**
      * @brief 写入坐标点（两个 i32）
+     * @param x X 坐标
+     * @param y Y 坐标
      */
     void writeCoordPoint(int32_t x, int32_t y);
 
     /**
      * @brief 写入坐标值（一个 i32）
+     * @param value 坐标值
      */
     void writeCoord(int32_t value);
 
@@ -105,7 +111,7 @@ public:
     int position() const;
 
 private:
-    QByteArray& m_buffer;
+    QByteArray& m_buffer;  ///< 写入目标缓冲区引用。
     QVector<int> m_blockPositions;  ///< beginBlock 时的缓冲区位置栈
 };
 

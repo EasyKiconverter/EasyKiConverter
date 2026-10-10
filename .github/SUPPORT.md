@@ -15,8 +15,8 @@
 
 在提问之前，请先搜索：
 
-- [Issues](https://github.com/tangsangsimida/EasyKiConverter_QT/issues) - 搜索已报告的问题
-- [Discussions](https://github.com/tangsangsimida/EasyKiConverter_QT/discussions) - 搜索已有的讨论
+- [Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues) - 搜索已报告的问题
+- [Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions) - 搜索已有的讨论
 
 ## 提问
 
@@ -24,19 +24,19 @@
 
 ### 报告 Bug
 
-如果您发现了一个 Bug，请使用 [Bug 报告模板](https://github.com/tangsangsimida/EasyKiConverter_QT/issues/new?template=bug_report.md) 创建一个 Issue。
+如果您发现了一个 Bug，请使用 [Bug 报告模板](https://github.com/EasyKiconverter/EasyKiConverter/issues/new?template=bug_report.md) 创建一个 Issue。
 
 ### 功能建议
 
-如果您有一个功能建议，请使用 [功能建议模板](https://github.com/tangsangsimida/EasyKiConverter_QT/issues/new?template=feature_request.md) 创建一个 Issue。
+如果您有一个功能建议，请使用 [功能建议模板](https://github.com/EasyKiconverter/EasyKiConverter/issues/new?template=feature_request.md) 创建一个 Issue。
 
 ### 一般问题
 
-如果您有一般性问题，请使用 [问题咨询模板](https://github.com/tangsangsimida/EasyKiConverter_QT/issues/new?template=question.md) 创建一个 Issue。
+如果您有一般性问题，请使用 [问题咨询模板](https://github.com/EasyKiconverter/EasyKiConverter/issues/new?template=question.md) 创建一个 Issue。
 
 ## 讨论
 
-对于一般性讨论、想法分享或非紧急问题，欢迎在 [Discussions](https://github.com/tangsangsimida/EasyKiConverter_QT/discussions) 中发帖。
+对于一般性讨论、想法分享或非紧急问题，欢迎在 [Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions) 中发帖。
 
 ## 贡献
 
@@ -45,7 +45,7 @@
 ## 联系方式
 
 - Email: [dennisreyoonjiho@gmail.com]
-- GitHub: [https://github.com/tangsangsimida/EasyKiConverter_QT](https://github.com/tangsangsimida/EasyKiConverter_QT)
+- GitHub: [https://github.com/EasyKiconverter/EasyKiConverter](https://github.com/EasyKiconverter/EasyKiConverter)
 
 ## 获取帮助的最佳实践
 

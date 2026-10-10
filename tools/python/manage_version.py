@@ -158,7 +158,7 @@ def check_metainfo_version(version):
         with open(METAINFO_XML_PATH, "r", encoding="utf-8") as f:
             content = f.read()
             # 检查截图 URL 中的版本
-            pattern = r"https://raw\.githubusercontent\.com/tangsangsimida/EasyKiConverter/v([^/]+)/"
+            pattern = r"https://raw\.githubusercontent\.com/EasyKiconverter/EasyKiConverter/v([^/]+)/"
             matches = re.findall(pattern, content)
             if matches:
                 # 所有截图 URL 都应该是相同的版本
@@ -308,8 +308,8 @@ def update_metainfo_xml(new_version, generate_release=False, force=False):
             old_version = first_release_match.group(1)
 
         # 更新截图 URL 中的版本标签
-        # https://raw.githubusercontent.com/tangsangsimida/EasyKiConverter/v3.0.11/resources/imgs/screenshot1.png
-        pattern = r"(https://raw\.githubusercontent\.com/tangsangsimida/EasyKiConverter/v)([^/]+)(/resources/imgs/screenshot\d+\.png)"
+        # https://raw.githubusercontent.com/EasyKiconverter/EasyKiConverter/v3.0.11/resources/imgs/screenshot1.png
+        pattern = r"(https://raw\.githubusercontent\.com/EasyKiconverter/EasyKiConverter/v)([^/]+)(/resources/imgs/screenshot\d+\.png)"
         new_content = re.sub(pattern, f"\\g<1>{new_version}\\g<3>", content)
 
         # 检查是否需要添加新的 release 条目
@@ -353,7 +353,7 @@ def update_metainfo_xml(new_version, generate_release=False, force=False):
                 else:
                     print(f"  ✓ 第一个 release 版本已经是 {new_version}")
                     # 非强制模式下，检查截图 URL 版本
-                    screenshot_pattern = r"https://raw\.githubusercontent\.com/tangsangsimida/EasyKiConverter/v([^/]+)/"
+                    screenshot_pattern = r"https://raw\.githubusercontent\.com/EasyKiconverter/EasyKiConverter/v([^/]+)/"
                     screenshot_matches = re.findall(screenshot_pattern, new_content)
                     if screenshot_matches and all(
                         match == new_version for match in screenshot_matches

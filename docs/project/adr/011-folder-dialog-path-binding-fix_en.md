@@ -7,7 +7,7 @@ Accepted
 2026-06-27
 
 ## Related Issue
-- [GitHub #179](https://github.com/tangsangsimida/EasyKiConverter/issues/179)
+- [GitHub #179](https://github.com/EasyKiconverter/EasyKiConverter/issues/179)
 
 ## Context
 

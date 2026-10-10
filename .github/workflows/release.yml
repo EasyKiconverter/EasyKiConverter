@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
     inputs:
       tag_name:
-        description: '已有的语义版本标签，例如 v3.1.12'
+        description: '已有的语义版本标签，例如 v3.1.13'
         required: true
         type: string
 
@@ -122,8 +122,8 @@ jobs:
     permissions:
       contents: read
 
-  publish:
-    name: Validate and publish release
+  stage-release:
+    name: Validate and stage draft release
     needs: [resolve-target, package-linux, package-windows, package-macos]
     runs-on: ubuntu-24.04
     permissions:
@@ -180,34 +180,33 @@ jobs:
             fi
           }
 
-          require_asset '*-win64.zip'
-          require_asset '*-win64-arm64.zip'
-          require_asset '*-x64-setup.exe'
-          require_asset '*-arm64-setup.exe'
-          require_asset '*.x86_64.AppImage'
-          require_asset '*.aarch64.AppImage'
-          require_asset '*_amd64.deb'
-          require_asset '*_arm64.deb'
-          require_asset '*_x86_64.rpm'
-          require_asset '*_aarch64.rpm'
-          require_asset '*_x86_64.pkg.tar.zst'
-          require_asset '*_aarch64.pkg.tar.zst'
-          require_asset '*-intel.dmg'
-          require_asset '*-arm64.dmg'
-          require_asset '*-x64.msix'
-          require_asset '*-arm64.msix'
+          require_asset '*-windows-x86_64-portable.zip'
+          require_asset '*-windows-arm64-portable.zip'
+          require_asset '*-windows-x86_64-installer.exe'
+          require_asset '*-windows-arm64-installer.exe'
+          require_asset '*-linux-x86_64.AppImage'
+          require_asset '*-linux-aarch64.AppImage'
+          require_asset '*-linux-amd64.deb'
+          require_asset '*-linux-arm64.deb'
+          require_asset '*-linux-x86_64.rpm'
+          require_asset '*-linux-aarch64.rpm'
+          require_asset '*-linux-x86_64.pkg.tar.zst'
+          require_asset '*-linux-aarch64.pkg.tar.zst'
+          require_asset '*-macos-x86_64.dmg'
+          require_asset '*-macos-arm64.dmg'
+          require_asset '*-windows-x86_64.msix'
+          require_asset '*-windows-arm64.msix'
 
-          target_short_sha="${TARGET_SHA:0:7}"
           while IFS= read -r asset; do
             filename="$(basename "$asset")"
             case "$filename" in
-              EasyKiConverter-${VERSION}-g${target_short_sha}[-_.]*) ;;
+              EasyKiConverter-${VERSION}-*) ;;
               *)
                 echo "Asset version or commit mismatch: $filename"
                 exit 1
                 ;;
             esac
-          done < <(find release_assets -maxdepth 1 -type f ! -name '*.sha256sum' -print)
+          done < <(find release_assets -maxdepth 1 -type f ! -name '*.sha256sum' ! -name 'SHA256SUMS' -print)
 
           while IFS= read -r checksum; do
             [[ -s "$checksum" ]] || { echo "Empty checksum file: $checksum"; exit 1; }
@@ -222,11 +221,22 @@ jobs:
           done < <(find release_assets -maxdepth 1 -type f -name '*.sha256sum' -print)
 
           checksum_count="$(find release_assets -maxdepth 1 -type f -name '*.sha256sum' | wc -l)"
-          asset_count="$(find release_assets -maxdepth 1 -type f \! -name '*.sha256sum' | wc -l)"
+          asset_count="$(find release_assets -maxdepth 1 -type f \! -name '*.sha256sum' \! -name 'SHA256SUMS' | wc -l)"
           [[ "$checksum_count" -eq "$asset_count" ]] || {
             echo "Every release asset must have exactly one .sha256sum file"
             exit 1
           }
+
+      - name: Generate aggregate SHA256 manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest="release_assets/SHA256SUMS"
+          : > "$manifest"
+          while IFS= read -r asset; do
+            (cd release_assets && sha256sum "$asset") >> "$manifest"
+          done < <(find release_assets -maxdepth 1 -type f ! -name '*.sha256sum' ! -name 'SHA256SUMS' -printf '%f\n' | sort)
+          test -s "$manifest"
 
       - name: Generate structured release notes
         env:
@@ -243,6 +253,75 @@ jobs:
           range="$TAG_NAME"
           [[ -n "$previous_tag" ]] && range="$previous_tag..$TAG_NAME"
 
+          download_rows="$(mktemp)"
+          trap 'rm -f "$download_rows"' EXIT
+
+          release_row() {
+            local platform="$1"
+            local filename="$2"
+            local platform_order
+            local architecture
+            local architecture_display
+            local architecture_order
+            local format
+            local format_order
+
+            case "$platform" in
+              Windows) platform_order=1 ;;
+              Linux) platform_order=2 ;;
+              macOS) platform_order=3 ;;
+              *) return 0 ;;
+            esac
+
+            case "$platform:$filename" in
+              "Windows:"*-windows-arm64-portable.zip) architecture="arm64"; format="便携版 ZIP"; format_order=2 ;;
+              "Windows:"*-windows-x86_64-portable.zip) architecture="x86_64"; format="便携版 ZIP"; format_order=2 ;;
+              "Windows:"*-windows-arm64-installer.exe) architecture="arm64"; format="安装程序 EXE"; format_order=1 ;;
+              "Windows:"*-windows-x86_64-installer.exe) architecture="x86_64"; format="安装程序 EXE"; format_order=1 ;;
+              "Windows:"*-windows-arm64.msix) architecture="arm64"; format="MSIX"; format_order=3 ;;
+              "Windows:"*-windows-x86_64.msix) architecture="x86_64"; format="MSIX"; format_order=3 ;;
+              "Linux:"*-linux-aarch64.AppImage) architecture="arm64"; format="AppImage"; format_order=1 ;;
+              "Linux:"*-linux-x86_64.AppImage) architecture="amd64"; format="AppImage"; format_order=1 ;;
+              "Linux:"*-linux-arm64.deb) architecture="arm64"; format="DEB"; format_order=2 ;;
+              "Linux:"*-linux-amd64.deb) architecture="amd64"; format="DEB"; format_order=2 ;;
+              "Linux:"*-linux-aarch64.rpm) architecture="arm64"; format="RPM"; format_order=3 ;;
+              "Linux:"*-linux-x86_64.rpm) architecture="amd64"; format="RPM"; format_order=3 ;;
+              "Linux:"*-linux-aarch64.pkg.tar.zst) architecture="arm64"; format="Arch Linux"; format_order=4 ;;
+              "Linux:"*-linux-x86_64.pkg.tar.zst) architecture="amd64"; format="Arch Linux"; format_order=4 ;;
+              "macOS:"*-macos-arm64.dmg) architecture="arm64"; format="DMG"; format_order=1 ;;
+              "macOS:"*-macos-x86_64.dmg) architecture="x86_64"; format="DMG"; format_order=1 ;;
+              *) return 0 ;;
+            esac
+
+            case "$architecture" in
+              x86_64)
+                architecture_order=1
+                architecture_display="x86_64"
+                ;;
+              amd64)
+                architecture_order=1
+                architecture_display="amd64"
+                ;;
+              arm64)
+                architecture_order=2
+                architecture_display="arm64"
+                ;;
+              *) return 0 ;;
+            esac
+
+            printf '%s\t%s\t%s\t| %s | %s | %s | [%s](https://github.com/%s/releases/download/%s/%s) |\n' \
+              "$platform_order" "$architecture_order" "$format_order" "$platform" "$architecture_display" "$format" \
+              "$filename" "${GITHUB_REPOSITORY}" "$TAG_NAME" "$filename" >> "$download_rows"
+          }
+
+          for platform in Windows Linux macOS; do
+            while IFS= read -r asset; do
+              filename="$(basename "$asset")"
+              [[ "$filename" == *.sha256sum || "$filename" == SHA256SUMS ]] && continue
+              release_row "$platform" "$filename"
+            done < <(find release_assets -maxdepth 1 -type f -print | sort)
+          done
+
           {
             echo "# EasyKiConverter $VERSION"
             echo
@@ -250,20 +329,11 @@ jobs:
             echo
             echo "## 下载"
             echo
-            echo "| 平台 | 架构/格式 | 文件 |"
-            echo "| --- | --- | --- |"
-            while IFS= read -r asset; do
-              filename="$(basename "$asset")"
-              [[ "$filename" == *.sha256sum ]] && continue
-              descriptor="$(echo "$filename" | sed -E 's/^EasyKiConverter-[^-]+-g[0-9a-f]+[._-]//; s/\.(AppImage|deb|rpm|pkg\.tar\.zst|zip|exe|msix|dmg)$//')"
-              case "$filename" in
-                *win64*|*-setup.exe|*.msix) platform="Windows" ;;
-                *.AppImage|*.deb|*.rpm|*.pkg.tar.zst) platform="Linux" ;;
-                *.dmg) platform="macOS" ;;
-                *) platform="其他" ;;
-              esac
-              echo "| $platform | $descriptor | [$filename](https://github.com/${GITHUB_REPOSITORY}/releases/download/${TAG_NAME}/${filename}) |"
-            done < <(find release_assets -maxdepth 1 -type f -print | sort)
+            echo "| 系统 | 架构 | 格式 | 文件 |"
+            echo "| --- | --- | --- | --- |"
+            LC_ALL=C sort -t $'\t' -k1,1n -k2,2n -k3,3n -k4,4 "$download_rows" | cut -f4-
+            echo
+            echo "> 下载表按 Windows、Linux、macOS 的系统顺序排列。Windows 文件名使用 x86_64 或 arm64；x86_64 适用于 Intel/AMD 64 位设备，arm64 适用于 Windows on Arm 设备。"
             echo
             echo "## 重要变化"
             echo
@@ -307,7 +377,7 @@ jobs:
             echo
             echo "## 校验和"
             echo
-            echo "请下载对应的 .sha256sum 文件验证制品完整性。"
+            echo "每个制品附带同名的 .sha256sum 文件；也可以下载 SHA256SUMS 统一校验清单验证本次发布的全部制品。"
             echo
             echo "## 已知问题"
             echo
@@ -349,7 +419,18 @@ jobs:
             gh release upload "$TAG_NAME" "$asset" --clobber
           done
 
-      - name: Publish release
+  publish:
+    name: Publish approved release
+    needs: [resolve-target, stage-release]
+    if: needs.stage-release.result == 'success'
+    runs-on: ubuntu-24.04
+    environment:
+      name: release-approval
+      url: https://github.com/${{ github.repository }}/releases/tag/${{ needs.resolve-target.outputs.tag_name }}
+    permissions:
+      contents: write
+    steps:
+      - name: Publish release after approval
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ needs.resolve-target.outputs.tag_name }}

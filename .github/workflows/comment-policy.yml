@@ -1,0 +1,41 @@
+name: Source Comment Policy
+
+on:
+  pull_request:
+    branches: ['master', 'dev', 'ci_test', 'v*']
+
+permissions:
+  contents: read
+
+jobs:
+  comment-policy:
+    name: 'Check source comment policy'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: 'Check changed C++ files'
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          mapfile -t files < <(git diff --name-only "${BASE_SHA}...${HEAD_SHA}" -- '*.cpp' '*.h')
+          if ((${#files[@]} == 0)); then
+            echo 'No changed C++ files require comment policy checks.'
+            exit 0
+          fi
+          python3 tools/python/check_comment_rate.py \
+            --threshold 90 \
+            --check-doxygen \
+            --forbid-generic-comments \
+            --forbid-external-references \
+            "${files[@]}"

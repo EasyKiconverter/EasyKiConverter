@@ -27,6 +27,7 @@ tools/
     ├── manage_version.py         # 版本号管理工具
     ├── manage_translations.py    # 翻译文件管理工具
     ├── format_code.py            # 代码格式化工具
+    ├── check_comment_rate.py     # C++ 注释率与注释策略检查工具
     ├── count_lines.py            # 代码行数统计工具
     ├── analyze_lines.py          # 代码复杂度分析工具
     ├── build_docs.py             # 文档构建工具
@@ -37,7 +38,7 @@ tools/
 
 ## Linux 工具
 
-### [build-packages.sh](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/linux/build-packages.sh)
+### [build-packages.sh](linux/build-packages.sh)
 
 Linux 平台打包脚本，支持 AppImage、DEB、RPM、Arch Linux 和 Flatpak 打包。
 
@@ -56,7 +57,7 @@ Linux 平台打包脚本，支持 AppImage、DEB、RPM、Arch Linux 和 Flatpak 
 VERSION=3.0.14 ./tools/linux/build-packages.sh all
 ```
 
-### [fix-desktop-icon.sh](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/linux/fix-desktop-icon.sh)
+### [fix-desktop-icon.sh](linux/fix-desktop-icon.sh)
 
 Linux 桌面图标修复脚本，用于修复用户级别桌面文件覆盖系统配置的问题。
 
@@ -67,11 +68,11 @@ sudo ./tools/linux/fix-desktop-icon.sh
 
 ## Windows 工具
 
-### [format_code.bat](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/windows/format_code.bat)
+### [format_code.bat](windows/format_code.bat)
 
 基于 `clang-format` 的 C++ 代码格式化工具。
 
-### [build_project.bat](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/windows/build_project.bat)
+### [build_project.bat](windows/build_project.bat)
 
 Windows 下的一键构建脚本，支持 Debug/Release 模式。
 
@@ -88,7 +89,7 @@ tools\windows\build_project.bat Release
 
 ## Python 工具
 
-### [build_project.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/build_project.py)
+### [build_project.py](python/build_project.py)
 
 项目构建管理工具，支持环境检查、CMake 配置、并行编译和日志管理。
 
@@ -104,7 +105,7 @@ python tools/python/build_project.py -t Release --parallel
 python tools/python/build_project.py --check
 ```
 
-### [manage_version.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/manage_version.py)
+### [manage_version.py](python/manage_version.py)
 
 跨平台版本同步管理工具，统一更新 CMakeLists.txt、vcpkg.json 和源码中的版本号。
 
@@ -117,7 +118,7 @@ python tools/python/manage_version.py --check
 python tools/python/manage_version.py 3.0.8
 ```
 
-### [manage_translations.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/manage_translations.py)
+### [manage_translations.py](python/manage_translations.py)
 
 自动化 Qt 翻译流程（lupdate/lrelease），支持自动提取和编译翻译文件。
 
@@ -133,7 +134,7 @@ python tools/python/manage_translations.py --update
 python tools/python/manage_translations.py --release
 ```
 
-### [format_code.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/format_code.py)
+### [format_code.py](python/format_code.py)
 
 统一的代码格式化工具，支持 C++ 和 QML 文件格式化。
 
@@ -152,7 +153,7 @@ python tools/python/manage_translations.py --release
 .venv/bin/python tools/python/format_code.py --check --all
 ```
 
-### [count_lines.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/count_lines.py)
+### [count_lines.py](python/count_lines.py)
 
 跨平台代码行数统计工具，以 KLoC (千行代码) 为单位输出项目规模。
 
@@ -165,7 +166,7 @@ python tools/python/count_lines.py
 python tools/python/count_lines.py --json
 ```
 
-### [analyze_lines.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/analyze_lines.py)
+### [analyze_lines.py](python/analyze_lines.py)
 
 代码复杂度分析工具，识别高耦合风险文件。
 
@@ -181,7 +182,7 @@ python tools/python/analyze_lines.py --link
 python tools/python/analyze_lines.py tests
 ```
 
-### [build_docs.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/build_docs.py)
+### [build_docs.py](python/build_docs.py)
 
 文档构建工具，支持 Doxygen API 文档和 MkDocs 站点生成。
 
@@ -197,7 +198,7 @@ python tools/python/build_docs.py --doxygen
 python tools/python/build_docs.py --serve
 ```
 
-### [check_env.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/check_env.py)
+### [check_env.py](python/check_env.py)
 
 开发依赖环境检查工具，验证 CMake、编译器、Qt6 等依赖。
 
@@ -206,7 +207,7 @@ python tools/python/build_docs.py --serve
 python tools/python/check_env.py
 ```
 
-### [convert_to_utf8.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/convert_to_utf8.py)
+### [convert_to_utf8.py](python/convert_to_utf8.py)
 
 文件编码转换工具，将文件转换为 UTF-8 编码（无 BOM）。
 
@@ -216,7 +217,35 @@ python tools/python/check_env.py
 python tools/python/convert_to_utf8.py src/
 ```
 
-### [fix_qml_translations.py](file:///C:/Users/48813/Desktop/workspace/github_projects/EasyKiConverter_QT/tools/python/fix_qml_translations.py)
+### [check_comment_rate.py](python/check_comment_rate.py)
+
+检查 C++ 逻辑代码的注释覆盖率，并可拒绝源码注释中的外部项目引用和已知占位式泛化注释；使用 `--check-variables` 时还会检查可识别的变量声明注释，使用 `--check-params` 时检查函数 Doxygen 的 `@param` 覆盖情况，使用 `--check-doxygen` 时检查每个函数定义是否紧邻包含 `@brief` 的多行 Doxygen 块。
+
+**快速用法:**
+```bash
+# 检查指定文件，注释率不得低于 90%
+python tools/python/check_comment_rate.py --threshold 90 src/core/utils/GeometryUtils.cpp
+
+# 同时检查可识别的变量声明是否有注释
+python tools/python/check_comment_rate.py --check-variables src/services/export/TempFileManager.cpp
+
+# 同时检查函数参数是否有 Doxygen @param 说明
+python tools/python/check_comment_rate.py --check-params src/core/allegro/ExporterAllegroFootprint.cpp
+
+# 同时检查函数 Doxygen 注释是否包含 @brief
+python tools/python/check_comment_rate.py --check-doxygen src/core/allegro/ExporterAllegroFootprint.cpp
+
+# 拒绝缺少真实语义的占位式注释
+python tools/python/check_comment_rate.py --forbid-generic-comments src/core/allegro/ExporterAllegroFootprint.cpp
+
+# 同时检查外部项目引用注释
+python tools/python/check_comment_rate.py --threshold 100 --forbid-external-references \
+  $(git diff --name-only master...HEAD -- '*.cpp' '*.h')
+```
+
+该工具只检查源码注释文本，不会修改源文件；外部项目名称和“参考实现”等表达会被报告为策略违规。
+
+### [fix_qml_translations.py](python/fix_qml_translations.py)
 
 QML 翻译修复工具，修复 QML 文件中的翻译相关问题。
 

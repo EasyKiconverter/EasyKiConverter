@@ -2,7 +2,13 @@
 
 namespace EasyKiConverter {
 
+/**
+ * @brief 根据 Shell 类型生成对应的补全脚本。
+ * @param shell 目标 Shell 类型。
+ * @return 补全脚本内容。
+ */
 QString CompletionGenerator::generate(Shell shell) {
+    // 按目标 Shell 选择对应的脚本生成器。
     switch (shell) {
         case Shell::Bash:
             return generateBash();
@@ -15,7 +21,13 @@ QString CompletionGenerator::generate(Shell shell) {
     }
 }
 
+/**
+ * @brief 将 Shell 名称解析为枚举值。
+ * @param shellStr Shell 名称。
+ * @return 解析后的 Shell 类型；未知名称回退到 Bash。
+ */
 CompletionGenerator::Shell CompletionGenerator::parseShell(const QString& shellStr) {
+    // 统一 Shell 名称的大小写，便于处理用户输入。
     QString lower = shellStr.toLower();
     if (lower == "zsh") {
         return Shell::Zsh;
@@ -25,7 +37,13 @@ CompletionGenerator::Shell CompletionGenerator::parseShell(const QString& shellS
     return Shell::Bash;
 }
 
+/**
+ * @brief 生成当前 Shell 的安装说明。
+ * @param shell 目标 Shell 类型。
+ * @return 安装说明文本；未知类型返回空字符串。
+ */
 QString CompletionGenerator::getInstallInstructions(Shell shell) {
+    // 按目标 Shell 选择匹配的安装命令示例。
     switch (shell) {
         case Shell::Bash:
             return QString(
@@ -56,6 +74,10 @@ QString CompletionGenerator::getInstallInstructions(Shell shell) {
     }
 }
 
+/**
+ * @brief 生成 Bash 补全脚本。
+ * @return Bash 补全脚本内容。
+ */
 QString CompletionGenerator::generateBash() {
     return QString(
         "# EasyKiConverter bash completion script\n"
@@ -192,6 +214,10 @@ QString CompletionGenerator::generateBash() {
         "complete -F _easykiconverter_complete easykiconverter\n");
 }
 
+/**
+ * @brief 生成 Zsh 补全脚本。
+ * @return Zsh 补全脚本内容。
+ */
 QString CompletionGenerator::generateZsh() {
     return QString(
         "#compdef easykiconverter\n"
@@ -298,6 +324,10 @@ QString CompletionGenerator::generateZsh() {
         "_easykiconverter \"$@\"\n");
 }
 
+/**
+ * @brief 生成 Fish 补全脚本。
+ * @return Fish 补全脚本内容。
+ */
 QString CompletionGenerator::generateFish() {
     return QString(
         "# EasyKiConverter fish completion script\n"

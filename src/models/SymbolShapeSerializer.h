@@ -16,6 +16,7 @@ namespace EasyKiConverter {
  * - SymbolPolyline (多段线)
  * - SymbolPolygon (多边形)
  * - SymbolPath (路径)
+ * - SymbolImage (图片)
  * - SymbolText (文本)
  */
 class SymbolShapeSerializer {
@@ -43,6 +44,9 @@ public:
 
     static QJsonObject toJson(const SymbolPath& path);
     static bool fromJson(SymbolPath& path, const QJsonObject& json);
+
+    static QJsonObject toJson(const SymbolImage& image);
+    static bool fromJson(SymbolImage& image, const QJsonObject& json);
 
     static QJsonObject toJson(const SymbolText& text);
     static bool fromJson(SymbolText& text, const QJsonObject& json);

@@ -2,7 +2,6 @@
 #define BATCHCONVERTER_H
 
 #include "BaseConverter.h"
-#include "services/export/ExportProgress.h"
 
 namespace EasyKiConverter {
 
@@ -32,39 +31,6 @@ public:
      * @return 成功返回 true，失败返回 false
      */
     bool execute() override;
-
-private slots:
-    /**
-     * @brief 处理预加载完成
-     * @param successCount 成功数量
-     * @param failedCount 失败数量
-     */
-    void onPreloadCompleted(int successCount, int failedCount);
-
-    /**
-     * @brief 处理导出进度更新
-     * @param progress 导出进度
-     */
-    void onProgressChanged(const ExportOverallProgress& progress);
-
-    /**
-     * @brief 处理导出完成
-     * @param successCount 成功数量
-     * @param failedCount 失败数量
-     */
-    void onExportCompleted(int successCount, int failedCount);
-
-    /**
-     * @brief 处理导出失败
-     * @param error 错误信息
-     */
-    void onExportFailed(const QString& error);
-
-private:
-    bool m_exportFinished{false};
-    bool m_exportSuccess{false};
-    int m_successCount{0};
-    int m_failedCount{0};
 };
 
 }  // namespace EasyKiConverter

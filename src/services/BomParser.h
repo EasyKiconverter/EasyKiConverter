@@ -36,6 +36,14 @@ public:
     static bool validateId(const QString& componentId);
 
     /**
+     * @brief 从任意文本中提取 LCSC 元件编号
+     *
+     * @param text 输入文本
+     * @return QStringList 去重并转换为大写后的元件编号
+     */
+    static QStringList extractIdsFromText(const QString& text);
+
+    /**
      * @brief 获取排除的元件 ID 列表（用于过滤常见的非 LCSC 元件）
      */
     static const QSet<QString>& getExcludedIds();
@@ -53,6 +61,8 @@ private:
 
     /**
      * @brief 处理单元格文本并提取 ID
+     * @param text 单元格文本。
+     * @param result 输出的元件编号列表。
      */
     void processCellText(const QString& text, QStringList& result);
 };

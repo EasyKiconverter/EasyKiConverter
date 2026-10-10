@@ -114,5 +114,5 @@ If the build fails, try:
 ## Links
 
 - [AUR Package Page](https://aur.archlinux.org/packages/easykiconverter)
-- [GitHub Repository](https://github.com/tangsangsimida/EasyKiConverter)
+- [GitHub Repository](https://github.com/EasyKiconverter/EasyKiConverter)
 - [Arch Linux Packaging Standards](https://wiki.archlinux.org/title/Arch_package_guidelines)

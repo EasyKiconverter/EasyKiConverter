@@ -1,5 +1,8 @@
 #include "ExportProgressViewModel.h"
 
+#include "ExportProgressResultsCoordinator.h"
+#include "ExportProgressRetryCoordinator.h"
+#include "ExportProgressStageCoordinator.h"
 #include "services/export/ExportProgress.h"
 #include "services/export/ParallelExportService.h"
 #include "utils/FileUtils.h"
@@ -14,20 +17,15 @@
 
 namespace EasyKiConverter {
 
-namespace {
+namespace {}  // namespace
 
-constexpr int FETCH_WEIGHT = 30;
-constexpr int PROCESS_WEIGHT = 50;
-constexpr int WRITE_WEIGHT = 20;
-
-const QString TYPE_SYMBOL = QStringLiteral("Symbol");
-const QString TYPE_FOOTPRINT = QStringLiteral("Footprint");
-const QString TYPE_MODEL3D = QStringLiteral("Model3D");
-const QString TYPE_PREVIEW = QStringLiteral("PreviewImages");
-const QString TYPE_DATASHEET = QStringLiteral("Datasheet");
-
-}  // namespace
-
+/**
+ * @brief 创建并连接导出进度视图模型。
+ * @param exportService 并行导出服务实例。
+ * @param componentService 元器件数据服务实例。
+ * @param componentListViewModel 元件列表视图模型。
+ * @param parent Qt 父对象。
+ */
 ExportProgressViewModel::ExportProgressViewModel(ParallelExportService* exportService,
                                                  ComponentService* componentService,
                                                  ComponentListViewModel* componentListViewModel,
@@ -50,6 +48,7 @@ ExportProgressViewModel::ExportProgressViewModel(ParallelExportService* exportSe
     , m_isStopping(false)
     , m_hasCompletedExport(false)
     , m_exportSymbolEnabled(true)
+    , m_eagleCombinedLibrary(false)
     , m_exportFootprintEnabled(true)
     , m_exportModel3DEnabled(false)
     , m_exportPreviewEnabled(false)
@@ -96,10 +95,19 @@ ExportProgressViewModel::ExportProgressViewModel(ParallelExportService* exportSe
     }
 }
 
+/**
+ * @brief 销毁导出进度视图模型。
+ */
 ExportProgressViewModel::~ExportProgressViewModel() {}
 
+/**
+ * @brief 初始化一轮导出的结果和阶段状态。
+ * @param componentIds 待导出的元器件编号列表。
+ * @param statusText 导出状态文本。
+ */
 void ExportProgressViewModel::beginExportRun(const QStringList& componentIds, const QString& statusText) {
     m_componentIds = componentIds;
+    // 根据当前结果列表确定本轮导出的总元器件数。
     const int newTotalCount = m_resultsList.isEmpty() ? componentIds.size() : m_resultsList.size();
     if (m_totalCount != newTotalCount) {
         m_totalCount = newTotalCount;
@@ -125,6 +133,26 @@ void ExportProgressViewModel::beginExportRun(const QStringList& componentIds, co
     emit filteredResultsListChanged();
 }
 
+/**
+ * @brief 校验参数并启动组件预加载及导出流程。
+ * @param componentIds 待导出的元器件编号列表。
+ * @param outputPath 导出输出目录。
+ * @param libName 输出库名称。
+ * @param exportSymbol 是否导出符号库。
+ * @param exportFootprint 是否导出封装库。
+ * @param exportModel3D 是否导出三维模型。
+ * @param exportModel3DFormat 三维模型格式。
+ * @param exportModel3DPathMode 三维模型路径模式。
+ * @param exportPreviewImages 是否导出预览图。
+ * @param exportDatasheet 是否导出数据手册。
+ * @param overwriteExistingFiles 是否覆盖已有文件。
+ * @param updateMode 是否启用更新模式。
+ * @param debugMode 是否启用调试模式。
+ * @param symbolLibraryDescription 符号库描述。
+ * @param footprintLibraryDescription 封装库描述。
+ * @param footprintLibraryKeywords 封装库关键词。
+ * @param targetFormat 目标格式枚举值。
+ */
 void ExportProgressViewModel::startExport(const QStringList& componentIds,
                                           const QString& outputPath,
                                           const QString& libName,
@@ -163,6 +191,21 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
     }
 
     // Store component IDs
+    const TargetEdaFormat selectedFormat = static_cast<TargetEdaFormat>(targetFormat);
+    // 保存切换目标格式前的重试能力，供变化通知判断使用。
+    const bool oldRetrySupported = m_retrySupported;
+    m_retrySupported = selectedFormat != TargetEdaFormat::Xpedition && selectedFormat != TargetEdaFormat::Allegro &&
+                       selectedFormat != TargetEdaFormat::Pads && selectedFormat != TargetEdaFormat::Eagle &&
+                       selectedFormat != TargetEdaFormat::Pcad && selectedFormat != TargetEdaFormat::Cadstar &&
+                       selectedFormat != TargetEdaFormat::LibrePcb;
+    if (m_retrySupported != oldRetrySupported)
+        emit retrySupportedChanged();
+    m_eagleCombinedLibrary =
+        (selectedFormat == TargetEdaFormat::Eagle || selectedFormat == TargetEdaFormat::Cadstar ||
+         selectedFormat == TargetEdaFormat::Allegro || selectedFormat == TargetEdaFormat::LibrePcb ||
+         selectedFormat == TargetEdaFormat::Horizon) &&
+        // 仅在同时导出符号和封装时生成合并封装库。
+        exportSymbol && exportFootprint;
     m_exportSymbolEnabled = exportSymbol;
     m_exportFootprintEnabled = exportFootprint;
     m_exportModel3DEnabled = exportModel3D;
@@ -182,6 +225,7 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
 
     for (int i = 0; i < componentIds.size(); ++i) {
         m_idToIndexMap[componentIds[i]] = i;
+        // 创建一个元器件的初始导出结果项。
         QVariantMap item;
         item["componentId"] = componentIds[i];
         item["status"] = "pending";
@@ -209,8 +253,14 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
     options.exportModel3DPathMode = ExportOptions::normalizePathMode(exportModel3DPathMode);
     options.exportPreviewImages = exportPreviewImages;
     options.exportDatasheet = exportDatasheet;
-    options.overwriteExistingFiles = overwriteExistingFiles;
-    options.updateMode = updateMode;
+    // 这些目标格式只能完整重建库；界面的“覆盖”选项不能作为更新模式传入。
+    const bool requiresFullReplacement =
+        selectedFormat == TargetEdaFormat::Xpedition || selectedFormat == TargetEdaFormat::Allegro ||
+        selectedFormat == TargetEdaFormat::Pads || selectedFormat == TargetEdaFormat::Eagle ||
+        selectedFormat == TargetEdaFormat::Pcad || selectedFormat == TargetEdaFormat::Cadstar ||
+        selectedFormat == TargetEdaFormat::LibrePcb;
+    options.overwriteExistingFiles = overwriteExistingFiles || requiresFullReplacement;
+    options.updateMode = updateMode && !requiresFullReplacement;
     options.debugMode = debugMode;
     options.exportSymbolDescription = true;
     options.exportFootprintDescription = true;
@@ -230,6 +280,9 @@ void ExportProgressViewModel::startExport(const QStringList& componentIds,
     m_exportService->startPreload(componentIds);
 }
 
+/**
+ * @brief 请求取消当前导出任务。
+ */
 void ExportProgressViewModel::cancelExport() {
     qDebug() << "ExportProgressViewModel: Cancelling export";
 
@@ -237,13 +290,26 @@ void ExportProgressViewModel::cancelExport() {
         return;
     }
 
+    // 记录取消前服务是否仍在运行，以决定是否需要本地收敛状态。
+    const bool serviceWasRunning = m_exportService->isRunning();
     if (!m_isStopping) {
         m_isStopping = true;
         emit isStoppingChanged();
     }
     m_exportService->cancelExport();
+
+    // 预加载失败或已结束时，服务不会发出取消信号；界面仍需清理尚未完成的结果状态。
+    if (!serviceWasRunning) {
+        handleCancelled();
+    }
 }
 
+/**
+ * @brief 更新预览图和数据手册的导出状态。
+ * @param componentId 元器件编号。
+ * @param previewImageExported 已导出的预览图数量。
+ * @param datasheetExported 已导出的数据手册数量。
+ */
 void ExportProgressViewModel::updateComponentExportStatus(const QString& componentId,
                                                           int previewImageExported,
                                                           int datasheetExported) {
@@ -251,7 +317,9 @@ void ExportProgressViewModel::updateComponentExportStatus(const QString& compone
         return;
     }
 
+    // 根据元器件编号定位结果项的列表索引。
     const int index = m_idToIndexMap.value(componentId);
+    // 复制待更新的元器件导出结果映射。
     QVariantMap result = m_resultsList[index].toMap();
 
     if (previewImageExported >= 0) {
@@ -268,26 +336,28 @@ void ExportProgressViewModel::updateComponentExportStatus(const QString& compone
     markResultsDirty();
 }
 
+/**
+ * @brief 响应窗口关闭请求并取消进行中的导出。
+ */
 void ExportProgressViewModel::handleCloseRequest() {
     if (m_isExporting) {
         cancelExport();
     }
 }
 
+/**
+ * @brief 响应组件预加载进度变化。
+ * @param progress 导出阶段进度。
+ */
 void ExportProgressViewModel::handlePreloadProgressChanged(const PreloadProgress& progress) {
-    QString statusText = QString("Preloading... %1/%2").arg(progress.completedCount).arg(progress.totalCount);
-    if (!progress.currentComponentId.isEmpty()) {
-        statusText += QString(" (%1)").arg(progress.currentComponentId);
-    }
-    setStatus(statusText);
-
-    m_fetchProgress = qBound(0, progress.percentage(), 100);
-    m_processProgress = 0;
-    m_writeProgress = 0;
-    setProgress(weightedOverallProgress());
-    emit stageProgressChanged();
+    ExportProgressStageCoordinator::handlePreloadProgress(*this, progress);
 }
 
+/**
+ * @brief 响应组件预加载完成并安排正式导出。
+ * @param successCount 成功项目数量。
+ * @param failedCount 失败项目数量。
+ */
 void ExportProgressViewModel::handlePreloadCompleted(int successCount, int failedCount) {
     qInfo() << "ExportProgressViewModel: Preload completed. Success:" << successCount << "Failed:" << failedCount;
 
@@ -309,67 +379,27 @@ void ExportProgressViewModel::handlePreloadCompleted(int successCount, int faile
     }
 }
 
+/**
+ * @brief 响应导出阶段进度并更新三段式进度条。
+ * @param progress 导出阶段进度。
+ */
 void ExportProgressViewModel::handleProgressChanged(const ExportOverallProgress& progress) {
-    // Update stage progress values for QML binding
-    switch (progress.currentStage) {
-        case ExportOverallProgress::Stage::Preloading:
-            setStatus("Preloading components...");
-            m_fetchProgress = progress.preloadProgress.percentage();
-            m_processProgress = 0;
-            m_writeProgress = 0;
-            setProgress(weightedOverallProgress());
-            break;
-        case ExportOverallProgress::Stage::Exporting: {
-            setStatus("Exporting components...");
-            // 阶段定义统一为：
-            // 1. 抓取：需要额外获取的数据是否准备完成（预览图/手册/3D源数据）
-            // 2. 处理：符号/封装/3D转换任务是否完成
-            // 3. 写入：最终文件是否已经落盘
-            m_fetchProgress = stageTypeProgress(progress, {TYPE_PREVIEW, TYPE_DATASHEET, TYPE_MODEL3D});
-
-            const int rawProcessProgress = stageTypeProgress(progress, {TYPE_SYMBOL, TYPE_FOOTPRINT, TYPE_MODEL3D});
-            const int rawWriteProgress =
-                stageTypeProgress(progress, {TYPE_SYMBOL, TYPE_FOOTPRINT, TYPE_MODEL3D, TYPE_PREVIEW, TYPE_DATASHEET});
-
-            // UI 上的三段进度条必须遵守抓取 -> 处理 -> 写入的阶段依赖关系。
-            // 即使底层某些类型先完成，后续阶段也不能先于前置阶段显示完成。
-            m_processProgress = qMin(rawProcessProgress, m_fetchProgress);
-            m_writeProgress = qMin(rawWriteProgress, m_processProgress);
-            setProgress(weightedOverallProgress());
-            break;
-        }
-        case ExportOverallProgress::Stage::Completed:
-            m_fetchProgress = 100;
-            m_processProgress = 100;
-            m_writeProgress = 100;
-            setProgress(100);
-            setStatus("Export completed");
-            break;
-        case ExportOverallProgress::Stage::Cancelled:
-            m_fetchProgress = 0;
-            m_processProgress = 0;
-            m_writeProgress = 0;
-            setProgress(0);
-            setStatus("Export cancelled");
-            break;
-        case ExportOverallProgress::Stage::Failed:
-            m_fetchProgress = 0;
-            m_processProgress = 0;
-            m_writeProgress = 0;
-            setStatus("Export failed");
-            break;
-        default:
-            break;
-    }
-
-    emit stageProgressChanged();
+    ExportProgressStageCoordinator::handleProgress(*this, progress);
 }
 
+/**
+ * @brief 响应单个组件的类型导出状态变化。
+ * @param componentId 元器件编号。
+ * @param typeName 导出类型名称。
+ * @param status 导出项状态。
+ */
 void ExportProgressViewModel::handleItemStatusChanged(const QString& componentId,
                                                       const QString& typeName,
                                                       const ExportItemStatus& status) {
     if (m_idToIndexMap.contains(componentId)) {
+        // 查找状态变化对应的结果项索引。
         int index = m_idToIndexMap[componentId];
+        // 复制待更新的结果项映射。
         QVariantMap result = m_resultsList[index].toMap();
 
         // Update individual type success flags
@@ -389,7 +419,9 @@ void ExportProgressViewModel::handleItemStatusChanged(const QString& componentId
             result["error"] = status.errorMessage;
         }
 
+        // 将内部状态转换为 QML 使用的字符串。
         QString statusText = "pending";
+        // 将内部枚举状态转换为供 QML 使用的稳定字符串。
         switch (status.status) {
             case ExportItemStatus::Status::Pending:
                 statusText = "pending";
@@ -408,6 +440,11 @@ void ExportProgressViewModel::handleItemStatusChanged(const QString& componentId
                 break;
         }
         result[typeStatusKey(typeName)] = statusText;
+        if (m_eagleCombinedLibrary && typeName == QStringLiteral("Footprint")) {
+            // 组合目标在封装阶段同时写入符号；让符号状态跟随同一原子导出结果。
+            result["symbolSuccess"] = result["footprintSuccess"];
+            result["symbolStatus"] = statusText;
+        }
 
         updateOverallItemStatus(result);
 
@@ -417,6 +454,13 @@ void ExportProgressViewModel::handleItemStatusChanged(const QString& componentId
     }
 }
 
+/**
+ * @brief 记录单个导出类型完成事件。
+ * @param typeName 导出类型名称。
+ * @param successCount 成功项目数量。
+ * @param failedCount 失败项目数量。
+ * @param skippedCount 跳过项目数量。
+ */
 void ExportProgressViewModel::handleTypeCompleted(const QString& typeName,
                                                   int successCount,
                                                   int failedCount,
@@ -428,6 +472,11 @@ void ExportProgressViewModel::handleTypeCompleted(const QString& typeName,
     qInfo() << "Type completed:" << typeName << "success=" << successCount << "failed=" << failedCount;
 }
 
+/**
+ * @brief 响应整个导出流程完成。
+ * @param successCount 成功项目数量。
+ * @param failedCount 失败项目数量。
+ */
 void ExportProgressViewModel::handleCompleted(int successCount, int failedCount) {
     qInfo() << "Export completed: success=" << successCount << "failed=" << failedCount;
     Q_UNUSED(successCount);
@@ -445,12 +494,17 @@ void ExportProgressViewModel::handleCompleted(int successCount, int failedCount)
     flushPendingUpdates();
 }
 
+/**
+ * @brief 响应导出取消并标记未完成结果。
+ */
 void ExportProgressViewModel::handleCancelled() {
     qInfo() << "Export cancelled";
 
     // 将所有未完成的项标记为失败，并同步各类型状态，避免小球状态残留
     for (int i = 0; i < m_resultsList.size(); ++i) {
+        // 复制当前结果项，写入取消诊断和失败状态。
         QVariantMap result = m_resultsList[i].toMap();
+        // 读取结果项当前的总体状态。
         QString currentStatus = result["status"].toString();
         if (currentStatus == "pending" || currentStatus == "in_progress") {
             result["error"] = "Export cancelled";
@@ -462,6 +516,7 @@ void ExportProgressViewModel::handleCancelled() {
                 QStringLiteral("datasheetStatus"),
             };
             for (const QString& key : statusKeys) {
+                // 读取该导出类型当前的状态。
                 const QString currentTypeStatus = result.value(key).toString();
                 if (currentTypeStatus == "pending" || currentTypeStatus == "in_progress") {
                     result[key] = "failed";
@@ -488,6 +543,10 @@ void ExportProgressViewModel::handleCancelled() {
     flushPendingUpdates();
 }
 
+/**
+ * @brief 响应导出失败并重置阶段进度。
+ * @param error 错误信息。
+ */
 void ExportProgressViewModel::handleFailed(const QString& error) {
     qWarning() << "Export failed:" << error;
     if (m_isStopping) {
@@ -505,6 +564,9 @@ void ExportProgressViewModel::handleFailed(const QString& error) {
     setStatus(QString("Export failed: %1").arg(error));
 }
 
+/**
+ * @brief 刷新节流期间积累的结果列表更新。
+ */
 void ExportProgressViewModel::flushPendingUpdates() {
     if (m_pendingUpdate) {
         m_pendingUpdate = false;
@@ -514,98 +576,87 @@ void ExportProgressViewModel::flushPendingUpdates() {
     }
 }
 
+/**
+ * @brief 更新结果统计数量。
+ */
 void ExportProgressViewModel::updateResultsList() {
-    int success = 0;
-    int failure = 0;
-    for (const auto& item : m_resultsList) {
-        QVariantMap map = item.toMap();
-        if (map.value("status") == "success") {
-            success++;
-        } else if (map.value("status") == "failed") {
-            failure++;
-        }
-    }
-    if (m_successCount != success) {
-        m_successCount = success;
-        emit successCountChanged();
-    }
-    if (m_failureCount != failure) {
-        m_failureCount = failure;
-        emit failureCountChanged();
-    }
+    ExportProgressResultsCoordinator::updateResultsList(*this);
 }
 
+/**
+ * @brief 通知过滤结果列表发生变化。
+ */
 void ExportProgressViewModel::updateFilteredResults() {
-    emit filteredResultsListChanged();
+    ExportProgressResultsCoordinator::updateFilteredResults(*this);
 }
 
+/**
+ * @brief 返回当前过滤模式下的结果列表。
+ */
 QVariantList ExportProgressViewModel::filteredResultsList() const {
-    if (m_filterMode == "all") {
-        return m_resultsList;
-    }
-
-    QVariantList filtered;
-    for (const auto& item : m_resultsList) {
-        QVariantMap map = item.toMap();
-        if (m_filterMode == "success" && map.value("status") == "success") {
-            filtered.append(item);
-        } else if (m_filterMode == "failed" && map.value("status") == "failed") {
-            filtered.append(item);
-        } else if (m_filterMode == "exporting" &&
-                   (map.value("status") == "pending" || map.value("status") == "in_progress")) {
-            filtered.append(item);
-        }
-    }
-    return filtered;
+    return ExportProgressResultsCoordinator::filteredResultsList(*this);
 }
 
+/**
+ * @brief 返回当前过滤模式下的成功数量。
+ */
 int ExportProgressViewModel::filteredSuccessCount() const {
-    if (m_filterMode == "all" || m_filterMode == "success") {
-        return m_successCount;
-    }
-    return 0;
+    return ExportProgressResultsCoordinator::filteredSuccessCount(*this);
 }
 
+/**
+ * @brief 返回当前过滤模式下的失败数量。
+ */
 int ExportProgressViewModel::filteredFailedCount() const {
-    if (m_filterMode == "all" || m_filterMode == "failed") {
-        return m_failureCount;
-    }
-    return 0;
+    return ExportProgressResultsCoordinator::filteredFailedCount(*this);
 }
 
+/**
+ * @brief 返回当前过滤模式下的待处理数量。
+ */
 int ExportProgressViewModel::filteredPendingCount() const {
-    // Count items with "in_progress" or "pending" status
-    int pending = 0;
-    for (const auto& item : m_resultsList) {
-        QVariantMap map = item.toMap();
-        QString status = map.value("status").toString();
-        if (status == "pending" || status == "in_progress") {
-            pending++;
-        }
-    }
-    return pending;
+    return ExportProgressResultsCoordinator::filteredPendingCount(*this);
 }
 
+/**
+ * @brief 返回符号导出成功数量。
+ */
 int ExportProgressViewModel::symbolSuccessCount() const {
-    return countItemsWithTypeStatus(QStringLiteral("symbolStatus"), QStringLiteral("success"));
+    return ExportProgressResultsCoordinator::typeSuccessCount(*this, QStringLiteral("symbolStatus"));
 }
 
+/**
+ * @brief 返回封装导出成功数量。
+ */
 int ExportProgressViewModel::footprintSuccessCount() const {
-    return countItemsWithTypeStatus(QStringLiteral("footprintStatus"), QStringLiteral("success"));
+    return ExportProgressResultsCoordinator::typeSuccessCount(*this, QStringLiteral("footprintStatus"));
 }
 
+/**
+ * @brief 返回三维模型导出成功数量。
+ */
 int ExportProgressViewModel::model3DSuccessCount() const {
-    return countItemsWithTypeStatus(QStringLiteral("model3DStatus"), QStringLiteral("success"));
+    return ExportProgressResultsCoordinator::typeSuccessCount(*this, QStringLiteral("model3DStatus"));
 }
 
+/**
+ * @brief 返回预览图导出成功数量。
+ */
 int ExportProgressViewModel::previewSuccessCount() const {
-    return countItemsWithTypeStatus(QStringLiteral("previewStatus"), QStringLiteral("success"));
+    return ExportProgressResultsCoordinator::typeSuccessCount(*this, QStringLiteral("previewStatus"));
 }
 
+/**
+ * @brief 返回数据手册导出成功数量。
+ */
 int ExportProgressViewModel::datasheetSuccessCount() const {
-    return countItemsWithTypeStatus(QStringLiteral("datasheetStatus"), QStringLiteral("success"));
+    return ExportProgressResultsCoordinator::typeSuccessCount(*this, QStringLiteral("datasheetStatus"));
 }
 
+/**
+ * @brief 设置结果过滤模式并通知 QML。
+ * @param mode 结果筛选模式。
+ */
 void ExportProgressViewModel::setFilterMode(const QString& mode) {
     if (m_filterMode != mode) {
         m_filterMode = mode;
@@ -614,6 +665,9 @@ void ExportProgressViewModel::setFilterMode(const QString& mode) {
     }
 }
 
+/**
+ * @brief 返回最近一次导出的目录。
+ */
 QString ExportProgressViewModel::getLastExportedPath() const {
     if (m_exportService) {
         return m_exportService->outputPath();
@@ -621,7 +675,11 @@ QString ExportProgressViewModel::getLastExportedPath() const {
     return QString();
 }
 
+/**
+ * @brief 打开最近一次导出的目录。
+ */
 bool ExportProgressViewModel::openLastExportedFolder() {
+    // 获取最近一次导出的输出目录路径。
     QString path = getLastExportedPath();
     if (path.isEmpty()) {
         return false;
@@ -631,10 +689,14 @@ bool ExportProgressViewModel::openLastExportedFolder() {
         QDir().mkpath(path);
     }
 
+    // 使用文件工具打开输出目录。
     FileUtils utils;
     return utils.openFolder(path);
 }
 
+/**
+ * @brief 取消当前导出并清理组件缓存。
+ */
 void ExportProgressViewModel::clearCache() {
     // 中止进行中的导出
     if (m_isExporting) {
@@ -648,6 +710,16 @@ void ExportProgressViewModel::clearCache() {
     ComponentCacheService::instance()->clearAllCache();
 }
 
+/**
+ * @brief 返回已经通过所有权校验、可以安全移入回收站的条目数量。
+ */
+int ExportProgressViewModel::cacheEntryCount() const {
+    return ComponentCacheService::instance()->getOwnedCacheEntryCount();
+}
+
+/**
+ * @brief 重置导出结果、进度和过滤状态。
+ */
 void ExportProgressViewModel::resetExport() {
     if (m_throttleTimer) {
         m_throttleTimer->stop();
@@ -678,84 +750,34 @@ void ExportProgressViewModel::resetExport() {
     emit stageProgressChanged();
 }
 
+/**
+ * @brief 重试指定组件的失败导出。
+ * @param componentId 元器件编号。
+ */
 void ExportProgressViewModel::retryComponent(const QString& componentId) {
-    qDebug() << "Retry requested for component:" << componentId;
-
-    if (!m_idToIndexMap.contains(componentId)) {
-        qWarning() << "Component not found in results:" << componentId;
-        return;
-    }
-
-    int index = m_idToIndexMap[componentId];
-    QVariantMap result = m_resultsList[index].toMap();
-
-    resetItemForRetry(result);
-    m_resultsList[index] = result;
-
-    // Update counts and notify UI
-    markResultsDirty();
-    flushPendingUpdates();
-
-    // Re-trigger export if not currently exporting
-    if (!m_isExporting && m_exportService) {
-        QStringList idsToRetry = {componentId};
-        ExportOptions opts = m_exportService->options();
-        opts.retryMode = true;
-        m_exportService->setOptions(opts);
-        beginExportRun(idsToRetry, QStringLiteral("Preloading component data..."));
-        m_exportService->startPreload(idsToRetry);
-    }
+    ExportProgressRetryCoordinator::retryComponent(*this, componentId);
 }
 
+/**
+ * @brief 重试所有失败组件。
+ */
 void ExportProgressViewModel::retryFailedComponents() {
-    qDebug() << "Retry requested for all failed components";
-
-    // Collect all failed component IDs
-    QStringList failedIds;
-    for (const auto& item : m_resultsList) {
-        QVariantMap map = item.toMap();
-        if (map.value("status") == "failed") {
-            QString id = map.value("componentId").toString();
-            failedIds.append(id);
-
-            // Reset status to pending
-            if (m_idToIndexMap.contains(id)) {
-                int index = m_idToIndexMap[id];
-                QVariantMap result = m_resultsList[index].toMap();
-                resetItemForRetry(result);
-                m_resultsList[index] = result;
-            }
-        }
-    }
-
-    if (failedIds.isEmpty()) {
-        qDebug() << "No failed components to retry";
-        return;
-    }
-
-    qDebug() << "Retrying" << failedIds.size() << "failed components";
-
-    // Update counts and notify UI
-    markResultsDirty();
-    flushPendingUpdates();
-
-    // Re-trigger export if not currently exporting
-    if (!m_isExporting && m_exportService) {
-        ExportOptions opts = m_exportService->options();
-        opts.retryMode = true;
-        m_exportService->setOptions(opts);
-        beginExportRun(failedIds, QStringLiteral("Preloading component data..."));
-        m_exportService->startPreload(failedIds);
-    }
+    ExportProgressRetryCoordinator::retryFailedComponents(*this);
 }
 
+/**
+ * @brief 从结果列表移除指定组件。
+ * @param componentId 元器件编号。
+ */
 void ExportProgressViewModel::removeResult(const QString& componentId) {
     if (m_idToIndexMap.contains(componentId)) {
+        // 取得待移除结果项在列表中的索引。
         int index = m_idToIndexMap[componentId];
         m_resultsList.removeAt(index);
         m_idToIndexMap.remove(componentId);
         // Reindex remaining items
         for (int i = index; i < m_resultsList.size(); ++i) {
+            // 读取结果项中的元器件编号并重建索引。
             QString id = m_resultsList[i].toMap().value("componentId").toString();
             m_idToIndexMap[id] = i;
         }
@@ -764,8 +786,13 @@ void ExportProgressViewModel::removeResult(const QString& componentId) {
     }
 }
 
+/**
+ * @brief 返回指定组件的导出状态。
+ * @param componentId 元器件编号。
+ */
 QVariantMap ExportProgressViewModel::getComponentExportStatus(const QString& componentId) const {
     if (m_idToIndexMap.contains(componentId)) {
+        // 取得指定元器件对应的结果项索引。
         int index = m_idToIndexMap[componentId];
         if (index >= 0 && index < m_resultsList.size()) {
             return m_resultsList[index].toMap();
@@ -774,6 +801,10 @@ QVariantMap ExportProgressViewModel::getComponentExportStatus(const QString& com
     return {};
 }
 
+/**
+ * @brief 设置状态文本并发送变化信号。
+ * @param status 导出项状态。
+ */
 void ExportProgressViewModel::setStatus(const QString& status) {
     if (m_status != status) {
         m_status = status;
@@ -781,6 +812,10 @@ void ExportProgressViewModel::setStatus(const QString& status) {
     }
 }
 
+/**
+ * @brief 设置导出运行状态并发送变化信号。
+ * @param exporting 是否正在导出。
+ */
 void ExportProgressViewModel::setIsExporting(bool exporting) {
     if (m_isExporting != exporting) {
         m_isExporting = exporting;
@@ -788,6 +823,10 @@ void ExportProgressViewModel::setIsExporting(bool exporting) {
     }
 }
 
+/**
+ * @brief 设置总体进度并发送变化信号。
+ * @param progress 导出阶段进度。
+ */
 void ExportProgressViewModel::setProgress(int progress) {
     if (m_progress != progress) {
         m_progress = progress;
@@ -795,6 +834,10 @@ void ExportProgressViewModel::setProgress(int progress) {
     }
 }
 
+/**
+ * @brief 设置导出完成标记并发送变化信号。
+ * @param completed 是否已完成导出。
+ */
 void ExportProgressViewModel::setHasCompletedExport(bool completed) {
     if (m_hasCompletedExport != completed) {
         m_hasCompletedExport = completed;
@@ -802,146 +845,33 @@ void ExportProgressViewModel::setHasCompletedExport(bool completed) {
     }
 }
 
+/**
+ * @brief 返回导出类型对应的结果状态字段。
+ * @param typeName 导出类型名称。
+ */
 QString ExportProgressViewModel::typeStatusKey(const QString& typeName) const {
-    if (typeName == "Symbol") {
-        return "symbolStatus";
-    }
-    if (typeName == "Footprint") {
-        return "footprintStatus";
-    }
-    if (typeName == "Model3D") {
-        return "model3DStatus";
-    }
-    if (typeName == "PreviewImages") {
-        return "previewStatus";
-    }
-    if (typeName == "Datasheet") {
-        return "datasheetStatus";
-    }
-    return QString();
+    return ExportProgressResultsCoordinator::typeStatusKey(typeName);
 }
 
+/**
+ * @brief 根据类型状态更新组件总体状态。
+ * @param result 导出结果项。
+ */
 void ExportProgressViewModel::updateOverallItemStatus(QVariantMap& result) const {
-    struct TypeRule {
-        bool enabled;
-        QString statusKey;
-    };
-
-    const QList<TypeRule> rules = {
-        {m_exportSymbolEnabled, "symbolStatus"},
-        {m_exportFootprintEnabled, "footprintStatus"},
-        {m_exportModel3DEnabled, "model3DStatus"},
-        {m_exportPreviewEnabled, "previewStatus"},
-        {m_exportDatasheetEnabled, "datasheetStatus"},
-    };
-
-    bool hasEnabledType = false;
-    bool anyFailed = false;
-    bool anyInProgress = false;
-    bool allDone = true;
-
-    for (const TypeRule& rule : rules) {
-        if (!rule.enabled) {
-            continue;
-        }
-
-        hasEnabledType = true;
-        const QString status = result.value(rule.statusKey, "pending").toString();
-        if (status == "failed") {
-            anyFailed = true;
-        }
-        if (status == "in_progress") {
-            anyInProgress = true;
-        }
-        if (status != "success" && status != "failed" && status != "skipped") {
-            allDone = false;
-        }
-    }
-
-    if (!hasEnabledType) {
-        result["status"] = "success";
-    } else if (allDone) {
-        result["status"] = anyFailed ? "failed" : "success";
-    } else if (anyInProgress) {
-        result["status"] = "in_progress";
-    } else {
-        result["status"] = "pending";
-    }
+    ExportProgressResultsCoordinator::updateOverallItemStatus(*this, result);
 }
 
+/**
+ * @brief 将结果项重置为可重试的初始状态。
+ * @param result 导出结果项。
+ */
 void ExportProgressViewModel::resetItemForRetry(QVariantMap& result) const {
-    result["status"] = "pending";
-    result["symbolSuccess"] = !m_exportSymbolEnabled;
-    result["footprintSuccess"] = !m_exportFootprintEnabled;
-    result["model3DSuccess"] = !m_exportModel3DEnabled;
-    result["previewSuccess"] = !m_exportPreviewEnabled;
-    result["datasheetSuccess"] = !m_exportDatasheetEnabled;
-    result["symbolStatus"] = m_exportSymbolEnabled ? "pending" : "disabled";
-    result["footprintStatus"] = m_exportFootprintEnabled ? "pending" : "disabled";
-    result["model3DStatus"] = m_exportModel3DEnabled ? "pending" : "disabled";
-    result["previewStatus"] = m_exportPreviewEnabled ? "pending" : "disabled";
-    result["datasheetStatus"] = m_exportDatasheetEnabled ? "pending" : "disabled";
-    result["error"] = QString();
+    ExportProgressResultsCoordinator::resetItemForRetry(*this, result);
 }
 
-int ExportProgressViewModel::averageTypeProgress(const ExportOverallProgress& progress,
-                                                 const QStringList& typeNames) const {
-    int sum = 0;
-    int count = 0;
-    for (const QString& typeName : typeNames) {
-        auto it = progress.exportTypeProgress.constFind(typeName);
-        if (it == progress.exportTypeProgress.constEnd()) {
-            continue;
-        }
-        sum += it.value().percentage();
-        count++;
-    }
-
-    if (count == 0) {
-        return 0;
-    }
-    return qBound(0, sum / count, 100);
-}
-
-int ExportProgressViewModel::stageTypeProgress(const ExportOverallProgress& progress,
-                                               const QStringList& typeNames) const {
-    bool hasEnabledType = false;
-    for (const QString& typeName : typeNames) {
-        const bool enabled = (typeName == "Symbol" && m_exportSymbolEnabled) ||
-                             (typeName == "Footprint" && m_exportFootprintEnabled) ||
-                             (typeName == "Model3D" && m_exportModel3DEnabled) ||
-                             (typeName == "PreviewImages" && m_exportPreviewEnabled) ||
-                             (typeName == "Datasheet" && m_exportDatasheetEnabled);
-        if (enabled) {
-            hasEnabledType = true;
-            break;
-        }
-    }
-
-    if (!hasEnabledType) {
-        return 100;
-    }
-
-    return averageTypeProgress(progress, typeNames);
-}
-
-int ExportProgressViewModel::countItemsWithTypeStatus(const QString& key, const QString& expectedStatus) const {
-    int count = 0;
-    for (const QVariant& item : m_resultsList) {
-        const QVariantMap map = item.toMap();
-        if (map.value(key).toString() == expectedStatus) {
-            count++;
-        }
-    }
-    return count;
-}
-
-int ExportProgressViewModel::weightedOverallProgress() const {
-    const int weighted =
-        (m_fetchProgress * FETCH_WEIGHT) + (m_processProgress * PROCESS_WEIGHT) + (m_writeProgress * WRITE_WEIGHT);
-    return qBound(0, weighted / 100, 100);
-}
-
+/**
+ * @brief 标记结果列表待刷新并启动节流计时器。
+ */
 void ExportProgressViewModel::markResultsDirty() {
     m_pendingUpdate = true;
     m_throttleTimer->start();

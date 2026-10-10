@@ -25,6 +25,7 @@ SliderDialogBase {
     property bool rememberChoice: false
     property string focusArea: "button"  // "button" or "checkbox"
     property bool exitAnimationRunning: false
+    property bool cancelPending: false
     readonly property int exitFillDuration: AppStyle.durations.normal
     property real exitFillTargetSize: 0
     property real exitFillOriginX: 0
@@ -59,8 +60,8 @@ SliderDialogBase {
             text: qsTr("取消"),
             color: AppStyle.colors.textSecondary,
             action: function () {
+                root.cancelPending = true;
                 root.closeWithAnimation();
-                Qt.callLater(root.canceled);
             }
         }
     ]
@@ -189,6 +190,16 @@ SliderDialogBase {
         onTriggered: {
             root.exitAnimationRunning = false;
             root.exitApp(root.rememberChoice);
+        }
+    }
+
+    Connections {
+        target: root
+        function onCloseAnimationFinished() {
+            if (!root.cancelPending)
+                return;
+            root.cancelPending = false;
+            root.canceled();
         }
     }
 
@@ -372,6 +383,7 @@ SliderDialogBase {
 
     // ===== 覆写 open 函数 =====
     function open() {
+        cancelPending = false;
         visible = true;
         resetExitFill();
         root.dialogBox.rotation = 0;

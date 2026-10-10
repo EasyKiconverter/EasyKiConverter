@@ -1,6 +1,6 @@
 # 转换层算法与映射关系
 
-本文说明 EasyKiConverter 如何把 EasyEDA 元件数据转换为内部中间表示（IR），以及 IR 如何被 KiCad、Altium 等目标格式导出。文中使用 LCSC 元件 C2040（RP2040）作为贯穿示例。
+本文说明 EasyKiConverter 如何把 EasyEDA 元件数据转换为内部中间表示（IR），以及 IR 如何被 KiCad、Altium、Xpedition 等目标格式导出。文中使用 LCSC 元件 C2040（RP2040）作为贯穿示例。
 
 ## 1. 设计边界
 
@@ -13,6 +13,7 @@ flowchart TD
     Builder --> IR[EDA 无关 IR<br/>SymbolComponentIR / FootprintComponentIR / Model3DIR]
     IR --> KiCad[KiCad Exporter<br/>.kicad_sym / .kicad_mod / 3D]
     IR --> Altium[Altium Exporter<br/>SchLib / PcbLib / 嵌入 STEP]
+    IR --> Xpedition[Xpedition Exporter<br/>Symbols.zip / Footprints.zip]
 ```
 
 Importer 只负责理解 EasyEDA 数据；IR Builder 负责语义统一；Exporter 只负责目标格式语法和能力差异。新增格式时应复用 IR，不应重新解析 EasyEDA JSON。
@@ -135,6 +136,7 @@ flowchart TD
 
 - KiCad 可写入 STEP/WRL 文件并在封装中保存模型路径。
 - Altium 目标优先写入支持的 STEP 数据并嵌入 PcbLib；不生成无效的 WRL 引用。
+- Xpedition 当前写入 ASCII 符号、Padstack 和 Cell HKP，并分别打包为符号 ZIP 和封装 ZIP；3D 模型由独立阶段输出为 WRL/STEP 文件，但不写入未经验证的原生 3D 关联。
 - 导出进度必须以实际写入结果统计，不能仅根据是否选择了 3D 选项判断成功。
 
 ## 6. 目标格式映射
@@ -158,6 +160,16 @@ flowchart TD
 - `PinDecoration` 映射到 Altium 引脚的边缘样式字段（InnerEdge、OuterEdge、Inside、Outside）。
 - 符号图元写入 `Header`、`Data` 和索引；封装图元写入 `PcbLib Header`、`Library/Data` 和模型关联结构。
 - SchLib/PcbLib 元数据只写入本项目字段，不复制来源工具的作者或项目标志。
+
+### Xpedition
+
+`ExporterXpeditionSymbol` 和 `ExporterXpeditionFootprint` 从 IR 生成 Xpedition ASCII 文本：
+
+- mm 坐标转换为 thousandth inch；封装 Cell 以几何边界框中心作为局部原点并翻转 Y 轴。
+- 符号引脚、矩形、折线、多边形、圆和三点圆弧写入 ASCII 符号条目。
+- 封装焊盘写入 Padstack，并关联铜、焊膏和阻焊焊盘定义；封装引脚和外形写入 Cell，通孔焊盘通过 `HOLE_NAME` 引用孔定义。
+- 符号和封装使用不同 ZIP 后缀，避免两个并行导出阶段写入同一文件。
+- 封装圆弧按折线近似，文本、填充区域和独立孔写入 Cell；目标无法表达的高级属性和未实现的原生 3D 关联通过导出诊断报告。
 
 ## 7. 精度、降级与错误策略
 
@@ -195,5 +207,7 @@ flowchart TD
 | Altium 符号导出 | `src/core/altium/ExporterAltiumSymbol.*` |
 | Altium SchLib 写入 | `src/core/altium/writers/AltiumSchLibWriter.*` |
 | Altium PcbLib 写入 | `src/core/altium/writers/AltiumPcbLibWriter.*` |
+| Xpedition 符号导出 | `src/core/xpedition/ExporterXpeditionSymbol.*` |
+| Xpedition 封装导出 | `src/core/xpedition/ExporterXpeditionFootprint.*` |
 
 代码实现发生变化时，应同步更新本文档中的公式、字段表和 C2040 验证数据。

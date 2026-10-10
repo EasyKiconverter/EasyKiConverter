@@ -2,6 +2,8 @@
 
 本文档介绍如何在本地编译 EasyKiConverter 项目。
 
+VS Code 用户请先阅读 [VS Code 配置指南](VSCODE_SETUP.md)，了解仓库共享配置与本机配置的边界。
+
 发布说明样例请参阅 [RELEASE_NOTES_TEMPLATE.md](RELEASE_NOTES_TEMPLATE.md)。
 
 ## 环境要求
@@ -113,10 +115,10 @@ qmake -query QT_VERSION       # 必须为 6.10.2
 
 Windows 发布构建同时支持以下架构：
 
-- x64：Qt `win64_msvc2022_64`，vcpkg triplet `x64-windows`
+- x86_64：Qt `win64_msvc2022_64`，vcpkg triplet `x64-windows`；发布文件名使用 `windows-x86_64`
 - ARM64：Windows 11 on ARM、Qt `win64_msvc2022_arm64`，vcpkg triplet `arm64-windows`
 
-ARM64 发布包由 GitHub Actions 的 `windows-11-arm` runner 构建，生成 ARM64 便携版、安装程序和 MSIX 包。
+ARM64 发布包由 GitHub Actions 的 `windows-11-arm` runner 构建，生成 `windows-arm64` 便携版、安装程序和 MSIX 包。x86_64 发布包使用 `windows-x86_64` 标识；MSIX 清单内部仍使用 Windows 要求的 `x64` 架构值。
 
 ### LoongArch64（龙架构）
 
@@ -132,8 +134,7 @@ LoongArch64 暂未提供可执行的 GitHub Actions 构建工作流或正式发�
 # 安装 Homebrew（如果尚未安装）
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# 安装 Qt
-brew install qt@6
+# Qt 不通过 Homebrew 安装；请使用下方的项目专用 Qt 安装方式
 
 # 安装 CMake
 brew install cmake
@@ -147,7 +148,8 @@ xcode-select --install
 1. 访问 [Qt 官网](https://www.qt.io/download)
 2. 下载 macOS 安装包
 3. 运行安装程序
-4. 安装 Qt 6.10.2 或更高版本
+4. 将 Qt 6.10.2 或更高版本安装到项目专用目录，不要使用 `/usr/local/Qt`、Homebrew 或系统自带 Qt
+5. 设置 `Qt6_DIR`、`CMAKE_PREFIX_PATH` 和 `PATH` 指向该目录
 
 ### Linux
 
@@ -175,11 +177,8 @@ sudo apt-get install libxkbcommon-dev libxkbcommon-x11-dev
 **Fedora**
 
 ```bash
-# 安装 Qt 6
-sudo dnf install qt6-qtbase-devel qt6-qtdeclarative-devel qt6-qttools-devel qt6-qtnetworkauth-devel
-
 # 安装 CMake
-sudo dnf install cmake
+sudo dnf install cmake ninja-build
 
 # 安装编译器
 sudo dnf install gcc-c++
@@ -191,16 +190,18 @@ sudo dnf install zlib-devel
 **Arch Linux**
 
 ```bash
-# 安装所有依赖
-sudo pacman -S --needed base-devel cmake ninja qt6-base qt6-declarative qt6-svg qt6-shadertools qt6-tools zlib
+# 安装编译依赖；Qt 必须使用上文配置的项目专用安装，不要使用系统 Qt
+sudo pacman -S --needed base-devel cmake ninja zlib
 ```
+
+Fedora 和 Arch Linux 的系统包管理器仅用于安装编译器、CMake、Ninja、zlib 等基础依赖。Qt 必须通过独立安装目录提供，并在配置前确认 `qmake -query QT_VERSION` 输出项目要求的版本。
 
 ## 获取源代码
 
 ### Clone 仓库
 
 ```bash
-git clone https://github.com/tangsangsimida/EasyKiConverter.git
+git clone https://github.com/EasyKiconverter/EasyKiConverter.git
 cd EasyKiConverter
 ```
 
@@ -304,12 +305,18 @@ cmake --build . --config Release
 ### macOS
 
 ```bash
+# 设置项目专用 Qt 根目录（替换为实际安装路径）
+export PROJECT_QT_ROOT=/path/to/project/Qt/6.10.2/macos
+export Qt6_DIR="$PROJECT_QT_ROOT/lib/cmake/Qt6"
+export CMAKE_PREFIX_PATH="$PROJECT_QT_ROOT"
+export PATH="$PROJECT_QT_ROOT/bin:$PATH"
+
 # 创建构建目录
 mkdir build
 cd build
 
 # 配置项目
-cmake .. -DCMAKE_PREFIX_PATH="/usr/local/Qt-6.10.2"
+cmake .. -DCMAKE_PREFIX_PATH="$PROJECT_QT_ROOT"
 
 # 编译项目（Debug 版本）
 cmake --build . --config Debug
@@ -539,18 +546,20 @@ CMake Error: The link interface of target "Qt6::GuiPrivate" contains XKB::XKB bu
 
 **Ubuntu/Debian：**
 ```bash
-sudo apt-get install libxkbcommon-dev libxkbcommon-x11-dev qt6-base-private-dev
+sudo apt-get install libxkbcommon-dev libxkbcommon-x11-dev
 ```
 
 **Fedora：**
 ```bash
-sudo dnf install libxkbcommon-devel libxkbcommon-x11-devel qt6-qtbase-private-devel
+sudo dnf install libxkbcommon-devel libxkbcommon-x11-devel
 ```
 
 **Arch Linux：**
 ```bash
-sudo pacman -S libxkbcommon qt6-base
+sudo pacman -S libxkbcommon
 ```
+
+`Qt6::GuiPrivate` 的头文件和 CMake 配置必须来自项目专用 Qt 安装，不要通过系统 Qt 私有开发包补齐版本不一致的依赖。
 
 ### 找不到 Qt 动态库
 
@@ -802,7 +811,7 @@ EasyKiConverter 是一个 Qt Quick 应用，需要图形界面支持。在远程
 如果遇到编译问题：
 
 1. 查阅本文档的常见问题部分
-2. 搜索 [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter_QT/issues)
+2. 搜索 [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues)
 3. 提交新的 Issue，提供以下信息：
    - 操作系统版本
    - Qt 版本
@@ -836,14 +845,14 @@ python tools/python/manage_version.py 3.1.0
 - Python 3.6+
 - 建议在项目根目录运行
 
-详见: [GitHub 工具目录](https://github.com/tangsangsimida/EasyKiConverter_QT/tree/main/tools)
+详见: [GitHub 工具目录](https://github.com/EasyKiconverter/EasyKiConverter/tree/main/tools)
 
 ## 相关资源
 
 - [Qt 官网](https://www.qt.io/)
 - [CMake 官网](https://cmake.org/)
 - [MinGW-w64](https://www.mingw-w64.org/)
-- [项目主页](https://github.com/tangsangsimida/EasyKiConverter_QT)
+- [项目主页](https://github.com/EasyKiconverter/EasyKiConverter)
 
 ## CI/CD 架构
 

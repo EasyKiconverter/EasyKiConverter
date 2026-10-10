@@ -1,18 +1,18 @@
 #ifndef COMPONENTCACHESERVICE_H
 #define COMPONENTCACHESERVICE_H
 
+#include "CacheTombstoneRegistry.h"
+#include "ComponentCacheMemoryStore.h"
 #include "core/network/AsyncNetworkRequest.h"
 #include "core/network/NetworkClient.h"
 #include "models/ComponentData.h"
 #include "models/ComponentExportStatus.h"
 
-#include <QCache>
 #include <QDir>
 #include <QElapsedTimer>
 #include <QJsonObject>
 #include <QMutex>
 #include <QObject>
-#include <QSet>
 #include <QSharedPointer>
 #include <QString>
 
@@ -21,6 +21,16 @@
 #include <memory>
 
 class CacheHealthManager;
+class ComponentCacheMetadataWriter;
+class ComponentCacheCadDataWriter;
+class DatasheetCacheFileStore;
+class DatasheetDownloadService;
+class ComponentCacheMaintenance;
+class ComponentCacheModel3DCoordinator;
+class PreviewImageDownloadService;
+class CacheDirectoryCoordinator;
+class ComponentCacheReadCoordinator;
+class ComponentCacheFileReadCoordinator;
 
 namespace EasyKiConverter {
 
@@ -78,9 +88,10 @@ public:
     /**
      * @brief 设置缓存根目录
      * @param cacheDir 缓存目录路径
-     * @param migrateExistingCache 是否将旧缓存目录内容迁移到新目录
+     * @param migrateExistingCache 是否将旧缓存目录内容迁移到新缓存目录
+     * @param error 输出具体的校验、创建或迁移失败原因
      */
-    void setCacheDir(const QString& cacheDir, bool migrateExistingCache = false);
+    bool setCacheDir(const QString& cacheDir, bool migrateExistingCache = false, QString* error = nullptr);
 
     /**
      * @brief 获取缓存根目录
@@ -107,6 +118,8 @@ public:
      * @param imageIndex 图片索引
      * @param diag 网络诊断信息输出参数
      * @param cancelled 可选的取消标志，如果不为nullptr且被设置为1则立即返回
+     * @param weakNetwork 是否启用弱网络重试策略
+     * @param expectedGeneration 可选的请求缓存代次，避免旧任务回写新缓存
      * @return QByteArray 下载的图片数据，下载失败或取消返回空
      */
     QByteArray downloadPreviewImage(const QString& lcscId,
@@ -114,7 +127,8 @@ public:
                                     int imageIndex,
                                     ComponentExportStatus::NetworkDiagnostics* diag = nullptr,
                                     QAtomicInt* cancelled = nullptr,
-                                    bool weakNetwork = false);
+                                    bool weakNetwork = false,
+                                    uint64_t expectedGeneration = 0);
 
     /**
      * @brief 检查元器件是否有有效缓存
@@ -193,24 +207,33 @@ public:
      * @brief 同步保存元器件元数据到L2磁盘缓存
      * @param componentId 元器件ID
      * @param data 元器件数据
+     * @param expectedGeneration 请求创建时捕获的缓存代次，零表示使用当前代次
+     * @param replaceModel3DMetadata 是否替换而非合并 3D 模型元数据
      * @note 适用于测试或需要保存后立即可见的场景
      */
-    void saveComponentMetadata(const QString& componentId, const ComponentData& data, uint64_t expectedGeneration = 0);
+    void saveComponentMetadata(const QString& componentId,
+                               const ComponentData& data,
+                               uint64_t expectedGeneration = 0,
+                               bool replaceModel3DMetadata = false);
 
     /**
      * @brief 异步保存元器件元数据到L2磁盘缓存（不阻塞UI）
      * @param componentId 元器件ID
      * @param data 元器件数据
+     * @param expectedGeneration 请求创建时捕获的缓存代次，零表示使用当前代次
+     * @param replaceModel3DMetadata 是否替换而非合并 3D 模型元数据
      * @note 适用于批量操作，避免频繁的同步文件I/O阻塞UI
      */
     void saveComponentMetadataAsync(const QString& componentId,
                                     const ComponentData& data,
-                                    uint64_t expectedGeneration = 0);
+                                    uint64_t expectedGeneration = 0,
+                                    bool replaceModel3DMetadata = false);
 
     /**
      * @brief 保存符号CAD数据到L2磁盘缓存
      * @param lcscId 元器件ID
      * @param data 符号CAD JSON数据
+     * @param expectedGeneration 请求创建时捕获的缓存代次，零表示使用当前代次
      */
     void saveSymbolData(const QString& lcscId, const QByteArray& data, uint64_t expectedGeneration = 0);
 
@@ -218,6 +241,7 @@ public:
      * @brief 保存封装CAD数据到L2磁盘缓存
      * @param lcscId 元器件ID
      * @param data 封装CAD JSON数据
+     * @param expectedGeneration 请求创建时捕获的缓存代次，零表示使用当前代次
      */
     void saveFootprintData(const QString& lcscId, const QByteArray& data, uint64_t expectedGeneration = 0);
 
@@ -239,6 +263,7 @@ public:
      * @brief 保存完整的CAD数据JSON到缓存（包含符号和封装）
      * @param lcscId 元器件ID
      * @param cadData CAD数据JSON
+     * @param expectedGeneration 请求创建时捕获的缓存代次，零表示使用当前代次
      */
     void saveCadDataJson(const QString& lcscId, const QByteArray& cadData, uint64_t expectedGeneration = 0);
 
@@ -258,10 +283,18 @@ public:
     QByteArray loadPreviewImage(const QString& lcscId, int imageIndex) const;
 
     /**
+     * @brief 检查预览图字节是否可以被 Qt 解码
+     * @param imageData 预览图原始数据
+     * @return true 表示数据是可解码的图片
+     */
+    static bool isValidPreviewImageData(const QByteArray& imageData);
+
+    /**
      * @brief 保存预览图（直接写磁盘）
      * @param lcscId 元器件ID
      * @param imageData 图片数据
      * @param imageIndex 图片索引（0-2）
+     * @param expectedGeneration 请求创建时捕获的缓存代次，零表示使用当前代次
      */
     void savePreviewImage(const QString& lcscId,
                           const QByteArray& imageData,
@@ -274,6 +307,14 @@ public:
      * @return QByteArray 数据手册数据，如果不存在返回空
      */
     QByteArray loadDatasheet(const QString& lcscId) const;
+
+    /**
+     * @brief 检查数据手册内容与声明格式是否匹配
+     * @param datasheetData 数据手册原始数据
+     * @param format 数据格式（pdf/html）
+     * @return true 表示内容可以作为该格式的数据手册使用
+     */
+    static bool isValidDatasheetData(const QByteArray& datasheetData, const QString& format);
 
     /**
      * @brief 检查元器件是否有符号封装缓存（CAD数据）
@@ -294,6 +335,7 @@ public:
      * @param lcscId 元器件ID
      * @param datasheetData 数据手册数据
      * @param format 数据格式（pdf/html）
+     * @param expectedGeneration 请求创建时捕获的缓存代次，零表示使用当前代次
      */
     void saveDatasheet(const QString& lcscId,
                        const QByteArray& datasheetData,
@@ -307,6 +349,8 @@ public:
      * @param format 数据格式输出参数（pdf/html）
      * @param diag 网络诊断信息输出参数
      * @param cancelled 可选的取消标志，如果不为nullptr且被设置为1则立即返回
+     * @param weakNetwork 是否启用弱网络重试策略
+     * @param expectedGeneration 可选的请求缓存代次，避免旧任务回写新缓存
      * @return QByteArray 下载的数据，下载失败或取消返回空
      */
     QByteArray downloadDatasheet(const QString& lcscId,
@@ -314,7 +358,8 @@ public:
                                  QString* format,
                                  ComponentExportStatus::NetworkDiagnostics* diag = nullptr,
                                  QAtomicInt* cancelled = nullptr,
-                                 bool weakNetwork = false);
+                                 bool weakNetwork = false,
+                                 uint64_t expectedGeneration = 0);
 
     /**
      * @brief 加载3D模型（STEP/WRL）
@@ -399,11 +444,6 @@ public:
     void clearMemoryCache();
 
     /**
-     * @brief 清空L1内存缓存（不重置 tombstone，供 clearAllCache 内部使用）
-     */
-    void clearMemoryCacheInternal();
-
-    /**
      * @brief 获取所有缓存的元器件ID列表
      * @return QStringList 元器件ID列表
      */
@@ -414,6 +454,12 @@ public:
      * @return qint64 L2磁盘缓存大小（字节）
      */
     qint64 getCacheSize() const;
+
+    /**
+     * @brief 获取当前所有权可验证的缓存条目数量。
+     * @return 元器件缓存目录和三维模型文件的数量。
+     */
+    int getOwnedCacheEntryCount() const;
 
     /**
      * @brief 获取L1内存缓存大小
@@ -452,32 +498,58 @@ public:
 signals:
     /**
      * @brief 缓存加载完成信号
+     * @param lcscId 元器件ID
      */
     void cacheLoaded(const QString& lcscId);
 
     /**
      * @brief 缓存保存完成信号
+     * @param lcscId 元器件ID
      */
     void cacheSaved(const QString& lcscId);
 
     /**
      * @brief 缓存大小变化信号
+     * @param newSize 当前缓存大小（字节）
      */
     void cacheSizeChanged(qint64 newSize);
 
     /**
      * @brief L1内存缓存大小变化信号
+     * @param newSize 当前内存缓存大小（字节）
      */
     void memoryCacheSizeChanged(qint64 newSize);
 
-private:
     /**
-     * @brief 私有构造函数（单例模式）
+     * @brief 报告缓存路径验证、迁移或回收站操作警告。
+     * @param message 警告消息
+     */
+    void cacheMaintenanceWarning(const QString& message);
+
+private:
+    friend class ComponentCacheCadDataWriter;
+    friend class ComponentCacheMetadataWriter;
+    friend class ComponentCachePreviewImageWriter;
+    friend class ComponentCacheQuotaEnforcer;
+    friend class DatasheetCacheFileStore;
+    friend class DatasheetDownloadService;
+    friend class ComponentCacheMaintenance;
+    friend class ComponentCacheModel3DCoordinator;
+    friend class PreviewImageDownloadService;
+    friend class CacheDirectoryCoordinator;
+    friend class ComponentCacheReadCoordinator;
+    friend class ComponentCacheFileReadCoordinator;
+
+    /**
+     * @brief 私有构造函数（单例模式）。
+     * @param parent Qt 对象父级，可为空
      */
     explicit ComponentCacheService(QObject* parent = nullptr);
 
     /**
-     * @brief 确保元器件缓存目录存在
+     * @brief 确保元器件缓存目录存在。
+     * @param lcscId 元器件ID
+     * @return 元器件缓存目录路径
      */
     QString ensureComponentDir(const QString& lcscId) const;
 
@@ -487,47 +559,46 @@ private:
     QString ensureModel3DCacheDir() const;
 
     /**
-     * @brief 计算目录大小
+     * @brief 计算目录大小。
+     * @param dirPath 目录路径
+     * @return 目录内容大小（字节）
      */
     qint64 calculateDirSize(const QString& dirPath) const;
 
     /**
-     * @brief 获取缓存目录的访问时间
+     * @brief 获取缓存目录的访问时间。
+     * @param lcscId 元器件ID
+     * @return 缓存目录最后访问时间
      */
     QDateTime getCacheAccessTime(const QString& lcscId) const;
 
     /**
-     * @brief 获取缓存元数据文件路径
+     * @brief 获取缓存元数据文件路径。
+     * @param lcscId 元器件ID
+     * @return 元数据文件路径
      */
     QString metadataPath(const QString& lcscId) const;
 
     /**
-     * @brief 数据手册文件路径
+     * @brief 获取数据手册文件路径。
+     * @param lcscId 元器件ID
+     * @return 数据手册文件路径
      */
     QString datasheetPath(const QString& lcscId) const;
 
     /**
-     * @brief 保存元数据JSON到L2
+     * @brief 保存元数据 JSON 到 L2 磁盘缓存。
+     * @param lcscId 元器件ID
+     * @param metadata 元数据对象
      */
     void saveMetadata(const QString& lcscId, const QJsonObject& metadata);
 
     /**
-     * @brief 从ComponentData构建元数据
-     */
-    QJsonObject buildMetadata(const QString& componentId, const ComponentData& data) const;
-
-    /**
-     * @brief 合并新旧元数据，避免新数据缺字段时覆盖掉已有缓存
-     */
-    QJsonObject mergeMetadata(const QJsonObject& existing, const QJsonObject& incoming) const;
-
-    /**
-     * @brief 原子写文件，防止半写入缓存损坏
-     */
-    bool writeFileAtomically(const QString& path, const QByteArray& data) const;
-
-    /**
-     * @brief 解析datasheet缓存文件实际路径
+     * @brief 解析数据手册缓存文件实际路径。
+     * @param lcscId 元器件ID
+     * @param preferredFormat 优先使用的数据格式
+     * @param forWrite 是否解析用于写入的路径
+     * @return 数据手册缓存文件路径
      */
     QString resolveDatasheetPath(const QString& lcscId,
                                  const QString& preferredFormat = QString(),
@@ -539,51 +610,25 @@ private:
     void selfHealCache();
 
     /**
-     * @brief 将旧缓存目录内容迁移到新缓存目录
-     */
-    bool migrateCacheDirectory(const QString& oldCacheDir, const QString& newCacheDir) const;
-
-    /**
-     * @brief 移动目录内容，目标中已存在的文件不覆盖
-     */
-    bool moveDirectoryContents(const QString& sourceDir, const QString& targetDir) const;
-
-    /**
-     * @brief 移动单个文件或目录，跨文件系统时回退到复制后删除
-     */
-    bool moveCacheEntry(const QString& sourcePath, const QString& targetPath) const;
-
-    /**
-     * @brief 根据当前磁盘缓存限制执行清理
+     * @brief 根据当前磁盘缓存限制执行清理。
+     * @param bypassCooldown 是否忽略清理冷却时间
      */
     void enforceDiskCacheLimit(bool bypassCooldown = false);
 
-    /**
-     * @brief 生成缓存key
-     */
-    QString makeMemoryKey(const QString& lcscId, const QString& type) const;
+    static std::unique_ptr<ComponentCacheService> s_instance;  ///< 单例实例指针。
+    mutable QMutex m_mutex;  ///< 保护 L1 内存缓存。
+    mutable QMutex m_cacheDirMutex;  ///< 保护缓存根目录及其路径快照。
+    mutable QMutex m_diskWriteMutex;  ///< 串行化缓存代次检查与磁盘写入。
+    QString m_cacheDir;  ///< 当前规范化的缓存根目录路径。
+    int m_diskCacheLimitMB;  ///< L2 磁盘缓存大小上限（MB）。
+    QElapsedTimer m_lastEnforceTimer;  ///< 上次执行磁盘缓存配额清理的计时器。
 
-    static std::unique_ptr<ComponentCacheService> s_instance;
-    mutable QMutex m_mutex;  // 保护 L1 内存缓存
-    mutable QMutex m_diskWriteMutex;  // 串行化 generation 检查与磁盘写入
-    QString m_cacheDir;
-    int m_memoryCacheLimitMB;
-    int m_diskCacheLimitMB;
-    QElapsedTimer m_lastEnforceTimer;
-
-    // L1 内存缓存：QCache 自动 LRU 淘汰
-    // Key 格式: "lcscId:type" (如 "C12345:metadata", "C12345:symbol")
-    // Value: QByteArray
-    QCache<QString, QByteArray> m_memoryCache;
-
-    // 跟踪L1缓存总大小（字节）
-    qint64 m_memoryCacheSize;
+    // L1 内存缓存由独立存储类负责线程安全、LRU 淘汰和成本统计。
+    ComponentCacheMemoryStore m_memoryCache;
     // 缓存代次：clearAllCache 时递增，异步写入前检查，防止清空后旧任务写回
     std::atomic<uint64_t> m_cacheGeneration{1};
     // Per-component tombstone：removeCache 后阻止旧回调写回
-    mutable QMutex m_tombstoneMutex;
-    QSet<QString> m_tombstones;
-    bool m_allTombstoned = false;
+    CacheTombstoneRegistry m_tombstones;
 };
 
 }  // namespace EasyKiConverter

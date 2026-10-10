@@ -314,6 +314,18 @@ if (!isOverwritten && !isOrphanedSubSymbol)
 - 混合符号库中，其他符号不受影响
 - 孤离子符号被正确删除
 
+## 当前 Altium 库增量导出限制
+
+当前追加和更新逻辑仅适用于支持文本合并的 KiCad 符号库。Altium SchLib/PcbLib 是 OLE 二进制库，项目虽然已经具备只读结构解析能力，但尚未实现已有库的增量写回，因此在追加或更新模式下检测到已有 Altium 库时仍会拒绝导出，并保留原文件，避免静默覆盖用户数据。
+
+后续如果实现 Altium 库读取器和增量合并，应同时补充 OLE 流、FileHeader、SectionKeys、多部件符号及图片 Storage 的回归测试，并移除当前保护性拒绝逻辑。
+
+当前已新增 `OLECompoundReader` 作为只读 CFB/OLE 基础层，能够校验 V3 文件、解析 FAT/DIFAT、枚举目录流，并读取普通流和迷你流。该读取器只提供原始流访问，不负责解释 SchLib/PcbLib 的业务记录，也不会改变“已有 Altium 库禁止追加或更新”的保护策略。后续增量合并必须在此基础上增加保留未知流和元数据的写回能力，并以真实库样本补充回归测试。
+
+当前已进一步增加 `AltiumSchLibReader`，可解析 SchLib 的 FileHeader、SectionKeys、组件名称及组件 Data 流映射，并校验目录中声明的组件是否实际存在。读取器会从 FileHeader 暴露可见部件数量和按 FontID 排列的字体表；组件 Data 还可以按长度块拆分为记录，并保留 flags、payload 及完整编码。对 C 字符串参数记录会额外提供 `RECORD`、`OWNERPARTID`、`IndexInSheet` 和 `FONTID` 等结构化字段，对二进制引脚记录也会读取记录类型和所属部件，以便验证多部件归属、字体引用与图元顺序；这些数值字段无法解析、字体引用越界、所属部件越界或 `IndexInSheet` 重复倒序时会明确失败，不再静默回退。根 `/Storage` 现在还可以被独立校验，读取图片条目的标志、文件名和原始压缩数据，并拒绝重复名称、路径穿越名称、长度不一致或声明数量不一致的损坏条目。未知记录仍保持原始形式，以便后续合并时无损转发；截断记录或参数格式错误会通过 `errorString()` 报告偏移量和底层原因。它仍是只读的库级读取能力，尚未解释全部业务字段和提供写回逻辑。
+
+同时已增加 `AltiumPcbLibReader`，可解析 PcbLib 的 FileHeader、Library/Data、SectionKeys 和封装 Storage 映射，并提供封装 Header、Parameters、WideStrings、Data 等流的读取入口。PcbLib 的 Data 流由对象 ID 和对象类型专属子记录组成，不能直接复用 SchLib 的长度块拆分策略。读取器现在可以安全扫描项目已知对象类型并保留对象及其子块的完整编码，同时校验 Pad/Text 的字符串子块格式和图元主块的 13 字节公共头部，并提供 Layer、Flags 字段；Pad 还会解析主块尺寸、形状、孔参数及扩展块圆角信息，Track、Arc、Text 会解析基础字段，Fill 会解析矩形、旋转和层信息，Region 与 ComponentBody 会解析参数块及轮廓顶点，文本字符串同时从独立字符串块恢复。遇到未知对象 ID、损坏子块或缺少公共头部时会失败，`errorString()` 会返回具体对象和子块诊断，并要求调用方回退到原始流。两种库的读取器都只做结构校验和原始流访问，尚未承担增量写回。
+
 ## 相关文档
 
 - [ADR-001: MVVM 架构](001-mvvm-architecture.md)

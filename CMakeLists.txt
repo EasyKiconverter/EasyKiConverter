@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 # 从 CI 环境动态获取版本号，如果没有定义则使用默认版本
 if(NOT DEFINED VERSION_FROM_CI)
-    set(VERSION_FROM_CI "3.1.12")
+    set(VERSION_FROM_CI "3.1.13")
     message(STATUS "VERSION_FROM_CI not defined, using default: ${VERSION_FROM_CI}")
 else()
     message(STATUS "VERSION_FROM_CI defined: ${VERSION_FROM_CI}")
@@ -113,7 +113,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # 查找 Qt 6 组件
-find_package(Qt6 REQUIRED COMPONENTS Quick Network Core Gui Widgets QuickControls2 Concurrent LinguistTools)
+find_package(Qt6 REQUIRED COMPONENTS Quick Network Core Gui GuiPrivate Widgets QuickControls2 Concurrent LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS Gui) # 再次确保 Gui
 
 # 尝试查找 zlib 库
@@ -141,6 +141,12 @@ message(STATUS "ZLIB_LIBRARY: ${ZLIB_LIBRARY}")
 message(STATUS "ZLIB_USE_QT: ${ZLIB_USE_QT}")
 
 qt_standard_project_setup(REQUIRES 6.6)
+
+# Qt 6.5+ 要求 QML 模块为包含额外 QML 子目录的路径提供 qmldir。
+# 显式启用新策略，尽早发现模块资源拓扑问题。
+if(COMMAND qt_policy)
+    qt_policy(SET QTP0004 NEW)
+endif()
 
 # 添加 QXlsx 库（用于 Excel 文件解析，必须依赖）
 include(FetchContent)
@@ -207,6 +213,7 @@ set(QML_FILES
     src/ui/qml/MainWindow.qml
     src/ui/qml/components/Card.qml
     src/ui/qml/components/ComponentListItem.qml
+    src/ui/qml/components/ListItemInteraction.qml
     src/ui/qml/components/ResultListItem.qml
     src/ui/qml/components/Icon.qml
     src/ui/qml/components/ModernButton.qml
@@ -217,9 +224,15 @@ set(QML_FILES
     src/ui/qml/components/ComponentInputCard.qml
     src/ui/qml/components/BomImportCard.qml
     src/ui/qml/components/ComponentListCard.qml
+    src/ui/qml/components/ComponentToolbar.qml
+    src/ui/qml/components/ComponentListView.qml
+    src/ui/qml/components/ComponentPreviewPopup.qml
     src/ui/qml/components/ExportSettingsBaseCard.qml
+    src/ui/qml/components/TargetFormatSelector.qml
     src/ui/qml/components/KiCadSettingsCard.qml
     src/ui/qml/components/AltiumSettingsCard.qml
+    src/ui/qml/components/AllegroSettingsCard.qml
+    src/ui/qml/components/PadsSettingsCard.qml
     src/ui/qml/components/StyledCheckBox.qml
     src/ui/qml/components/SettingsSectionHeader.qml
     src/ui/qml/components/ExportProgressCard.qml
@@ -228,10 +241,12 @@ set(QML_FILES
     src/ui/qml/components/ExportButtonsSection.qml
     src/ui/qml/components/SidebarExportControls.qml
     src/ui/qml/components/UpdateBanner.qml
+    src/ui/qml/components/UpdateDialog.qml
     src/ui/qml/components/WindowController.qml
     src/ui/qml/components/WindowPersistenceManager.qml
     src/ui/qml/components/WindowStartupManager.qml
     src/ui/qml/components/ConfirmDialog.qml
+    src/ui/qml/components/CacheDirectoryErrorDialog.qml
     src/ui/qml/components/DescriptionEditDialog.qml
     src/ui/qml/components/WindowResizeHandles.qml
     src/ui/qml/components/ExitDialog.qml

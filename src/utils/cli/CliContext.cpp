@@ -4,8 +4,15 @@
 #include "services/export/ParallelExportService.h"
 #include "utils/PathSecurity.h"
 
+#include <QDebug>
+
 namespace EasyKiConverter {
 
+/**
+ * @brief 将命令行 3D 格式文本转换为导出选项枚举。
+ * @param format 命令行格式文本。
+ * @return 对应的 3D 格式枚举值。
+ */
 static int model3DFormatFromString(const QString& format) {
     if (format == QStringLiteral("step")) {
         return ExportOptions::MODEL_3D_FORMAT_STEP;
@@ -16,6 +23,10 @@ static int model3DFormatFromString(const QString& format) {
     return ExportOptions::MODEL_3D_FORMAT_WRL;
 }
 
+/**
+ * @brief 创建 CLI 上下文并初始化导出服务。
+ * @param parser 命令行参数解析器。
+ */
 CliContext::CliContext(const CommandLineParser& parser) : m_parser(parser) {
     // 创建服务实例
     m_componentService = new ComponentService();
@@ -23,6 +34,9 @@ CliContext::CliContext(const CommandLineParser& parser) : m_parser(parser) {
     m_exportService->setComponentService(m_componentService);
 }
 
+/**
+ * @brief 销毁 CLI 上下文并停止导出服务。
+ */
 CliContext::~CliContext() {
     if (m_exportService) {
         m_exportService->cancelExport();
@@ -33,8 +47,12 @@ CliContext::~CliContext() {
     }
 }
 
+/**
+ * @brief 将命令行参数转换为导出服务使用的完整选项。
+ * @return 完整导出选项。
+ */
 ExportOptions CliContext::createExportOptions() const {
-    ExportOptions options;
+    ExportOptions options;  // 按命令行参数构造的导出选项。
 
     // 设置输出路径
     options.outputPath = m_parser.outputDir();
@@ -59,7 +77,7 @@ ExportOptions CliContext::createExportOptions() const {
     options.updateMode = m_parser.updateMode();
 
     // 3D 模型路径模式
-    const QString pathMode = m_parser.model3DPathMode();
+    const QString pathMode = m_parser.model3DPathMode();  // 3D 模型路径模式文本。
     options.exportModel3DPathMode = (pathMode == QStringLiteral("absolute")) ? ExportOptions::MODEL_3D_PATH_ABSOLUTE
                                                                              : ExportOptions::MODEL_3D_PATH_RELATIVE;
 
@@ -71,12 +89,41 @@ ExportOptions CliContext::createExportOptions() const {
     options.footprintLibraryDescription = m_parser.footprintDescription();
 
     // 目标 EDA 格式
-    const QString format = m_parser.targetFormat();
-    options.targetFormat = (format == QStringLiteral("altium")) ? TargetEdaFormat::Altium : TargetEdaFormat::KiCad;
+    const QString format = m_parser.targetFormat();  // 目标格式文本。
+    if (format == QStringLiteral("altium")) {
+        options.targetFormat = TargetEdaFormat::Altium;
+    } else if (format == QStringLiteral("xpedition")) {
+        options.targetFormat = TargetEdaFormat::Xpedition;
+    } else if (format == QStringLiteral("allegro")) {
+        options.targetFormat = TargetEdaFormat::Allegro;
+    } else if (format == QStringLiteral("pads")) {
+        options.targetFormat = TargetEdaFormat::Pads;
+    } else if (format == QStringLiteral("eagle")) {
+        options.targetFormat = TargetEdaFormat::Eagle;
+    } else if (format == QStringLiteral("pcad")) {
+        options.targetFormat = TargetEdaFormat::Pcad;
+    } else if (format == QStringLiteral("cadstar")) {
+        options.targetFormat = TargetEdaFormat::Cadstar;
+    } else if (format == QStringLiteral("orcad")) {
+        options.targetFormat = TargetEdaFormat::Orcad;
+    } else if (format == QStringLiteral("librepcb")) {
+        options.targetFormat = TargetEdaFormat::LibrePcb;
+    } else if (format == QStringLiteral("horizon")) {
+        options.targetFormat = TargetEdaFormat::Horizon;
+    } else {
+        options.targetFormat = TargetEdaFormat::KiCad;
+    }
     if (options.targetFormat == TargetEdaFormat::Altium &&
         (options.exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
         // Altium PcbLib 仅可靠嵌入 STEP；CLI 即使收到 wrl/both 也自动收敛到 STEP。
         options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
+    }
+    if (options.targetFormat == TargetEdaFormat::Allegro) {
+        if (options.exportModel3D)
+            options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_STEP;
+    }
+    if (options.targetFormat == TargetEdaFormat::Orcad) {
+        options.exportFootprint = false;
     }
 
     return options;

@@ -12,7 +12,11 @@ private slots:
 
     // === 初始状态 ===
 
+    /**
+     * @brief 验证 initialState 测试场景。
+     */
     void initialState() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         QCOMPARE(manager.pendingCount(), 0);
         QCOMPARE(manager.validatedCount(), 0);
@@ -23,14 +27,22 @@ private slots:
 
     // === startValidation ===
 
+    /**
+     * @brief 验证 startValidation_SetsPendingCount 测试场景。
+     */
     void startValidation_SetsPendingCount() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(5);
         QCOMPARE(manager.pendingCount(), 5);
         QVERIFY(!manager.isAllDone());
     }
 
+    /**
+     * @brief 验证 startValidation_ClearsPreviousState 测试场景。
+     */
     void startValidation_ClearsPreviousState() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         manager.onComponentValidated(QStringLiteral("C1"));
@@ -42,13 +54,21 @@ private slots:
         QVERIFY(manager.validatedComponentIds().isEmpty());
     }
 
+    /**
+     * @brief 验证 startValidation_DisablesPreview 测试场景。
+     */
     void startValidation_DisablesPreview() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(1);
         QVERIFY(!manager.isPreviewFetchEnabled());
     }
 
+    /**
+     * @brief 验证 startValidation_EmitsSignal 测试场景。
+     */
     void startValidation_EmitsSignal() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         QSignalSpy spy(&manager, &ValidationStateManager::validationStateChanged);
         manager.startValidation(3);
@@ -58,14 +78,22 @@ private slots:
 
     // === addValidation ===
 
+    /**
+     * @brief 验证 addValidation_IncrementsCounts 测试场景。
+     */
     void addValidation_IncrementsCounts() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         manager.addValidation(2);
         QCOMPARE(manager.pendingCount(), 5);
     }
 
+    /**
+     * @brief 验证 addValidation_EmitsSignal 测试场景。
+     */
     void addValidation_EmitsSignal() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(1);
         QSignalSpy spy(&manager, &ValidationStateManager::validationStateChanged);
@@ -74,7 +102,11 @@ private slots:
         QCOMPARE(spy.at(0).at(0).toInt(), 4);
     }
 
+    /**
+     * @brief 验证 addValidation_IgnoresNonPositive 测试场景。
+     */
     void addValidation_IgnoresNonPositive() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         QSignalSpy spy(&manager, &ValidationStateManager::validationStateChanged);
@@ -86,21 +118,33 @@ private slots:
 
     // === cancelValidation ===
 
+    /**
+     * @brief 验证 cancelValidation_DecrementsCounts 测试场景。
+     */
     void cancelValidation_DecrementsCounts() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(5);
         manager.cancelValidation(2);
         QCOMPARE(manager.pendingCount(), 3);
     }
 
+    /**
+     * @brief 验证 cancelValidation_FloorsAtZero 测试场景。
+     */
     void cancelValidation_FloorsAtZero() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(2);
         manager.cancelValidation(5);
         QCOMPARE(manager.pendingCount(), 0);
     }
 
+    /**
+     * @brief 验证 cancelValidation_IgnoresNonPositive 测试场景。
+     */
     void cancelValidation_IgnoresNonPositive() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         QSignalSpy spy(&manager, &ValidationStateManager::validationStateChanged);
@@ -108,7 +152,11 @@ private slots:
         QCOMPARE(spy.count(), 0);
     }
 
+    /**
+     * @brief 验证 cancelValidation_EmitsSignal 测试场景。
+     */
     void cancelValidation_EmitsSignal() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(5);
         QSignalSpy spy(&manager, &ValidationStateManager::validationStateChanged);
@@ -117,7 +165,11 @@ private slots:
         QCOMPARE(spy.at(0).at(0).toInt(), 3);
     }
 
+    /**
+     * @brief 验证 cancelValidation_DoesNotTriggerCompletion 测试场景。
+     */
     void cancelValidation_DoesNotTriggerCompletion() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(2);
 
@@ -131,7 +183,11 @@ private slots:
 
     // === onComponentValidated ===
 
+    /**
+     * @brief 验证 onComponentValidated_DecrementsPending 测试场景。
+     */
     void onComponentValidated_DecrementsPending() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         manager.onComponentValidated(QStringLiteral("C1"));
@@ -139,7 +195,11 @@ private slots:
         QCOMPARE(manager.validatedCount(), 1);
     }
 
+    /**
+     * @brief 验证 onComponentValidated_DeduplicatesId 测试场景。
+     */
     void onComponentValidated_DeduplicatesId() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         manager.onComponentValidated(QStringLiteral("C1"));
@@ -148,7 +208,11 @@ private slots:
         QCOMPARE(manager.pendingCount(), 1);
     }
 
+    /**
+     * @brief 验证 onComponentValidated_EmitsStateChanged 测试场景。
+     */
     void onComponentValidated_EmitsStateChanged() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(2);
         QSignalSpy spy(&manager, &ValidationStateManager::validationStateChanged);
@@ -157,11 +221,16 @@ private slots:
         QCOMPARE(spy.at(0).at(0).toInt(), 1);
     }
 
+    /**
+     * @brief 验证 onComponentValidated_ReturnsCorrectIds 测试场景。
+     */
     void onComponentValidated_ReturnsCorrectIds() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         manager.onComponentValidated(QStringLiteral("C1"));
         manager.onComponentValidated(QStringLiteral("C2"));
+        // ids：测试使用的元器件标识或名称。
         QStringList ids = manager.validatedComponentIds();
         QCOMPARE(ids.size(), 2);
         QVERIFY(ids.contains(QStringLiteral("C1")));
@@ -170,7 +239,11 @@ private slots:
 
     // === onComponentFailed ===
 
+    /**
+     * @brief 验证 onComponentFailed_DecrementsPending 测试场景。
+     */
     void onComponentFailed_DecrementsPending() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         manager.onComponentFailed(QStringLiteral("C1"));
@@ -178,7 +251,11 @@ private slots:
         QCOMPARE(manager.validatedCount(), 0);  // 失败的不计入 validated
     }
 
+    /**
+     * @brief 验证 onComponentFailed_DeduplicatesId 测试场景。
+     */
     void onComponentFailed_DeduplicatesId() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         manager.onComponentFailed(QStringLiteral("C1"));
@@ -188,7 +265,11 @@ private slots:
 
     // === 完成流程 ===
 
+    /**
+     * @brief 验证 completion_AllValidated 测试场景。
+     */
     void completion_AllValidated() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
 
@@ -200,11 +281,16 @@ private slots:
         manager.onComponentValidated(QStringLiteral("C3"));
         QCOMPARE(completionSpy.count(), 1);  // 全部完成
 
+        // completedIds：测试使用的元器件标识或名称。
         QStringList completedIds = completionSpy.at(0).at(0).toStringList();
         QCOMPARE(completedIds.size(), 3);
     }
 
+    /**
+     * @brief 验证 completion_MixedValidatedAndFailed 测试场景。
+     */
     void completion_MixedValidatedAndFailed() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
 
@@ -216,13 +302,18 @@ private slots:
         manager.onComponentValidated(QStringLiteral("C3"));
         QCOMPARE(completionSpy.count(), 1);  // 全部完成（2 成功 + 1 失败 = 3）
 
+        // completedIds：测试使用的元器件标识或名称。
         QStringList completedIds = completionSpy.at(0).at(0).toStringList();
         QCOMPARE(completedIds.size(), 2);  // 只包含成功的
         QVERIFY(completedIds.contains(QStringLiteral("C1")));
         QVERIFY(completedIds.contains(QStringLiteral("C3")));
     }
 
+    /**
+     * @brief 验证 completion_AllFailed 测试场景。
+     */
     void completion_AllFailed() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(2);
 
@@ -231,11 +322,16 @@ private slots:
         manager.onComponentFailed(QStringLiteral("C2"));
         QCOMPARE(completionSpy.count(), 1);
 
+        // completedIds：测试使用的元器件标识或名称。
         QStringList completedIds = completionSpy.at(0).at(0).toStringList();
         QVERIFY(completedIds.isEmpty());  // 全部失败，没有成功的 ID
     }
 
+    /**
+     * @brief 验证 completion_WithAddValidation 测试场景。
+     */
     void completion_WithAddValidation() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(1);
 
@@ -256,7 +352,11 @@ private slots:
 
     // === reset ===
 
+    /**
+     * @brief 验证 reset_ClearsAllState 测试场景。
+     */
     void reset_ClearsAllState() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         manager.onComponentValidated(QStringLiteral("C1"));
@@ -270,7 +370,11 @@ private slots:
         QVERIFY(!manager.isPreviewFetchEnabled());
     }
 
+    /**
+     * @brief 验证 reset_EmitsSignal 测试场景。
+     */
     void reset_EmitsSignal() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(3);
         QSignalSpy spy(&manager, &ValidationStateManager::validationStateChanged);
@@ -281,7 +385,11 @@ private slots:
 
     // === isAllDone ===
 
+    /**
+     * @brief 验证 isAllDone_TrueWhenPendingZero 测试场景。
+     */
     void isAllDone_TrueWhenPendingZero() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(1);
         QVERIFY(!manager.isAllDone());
@@ -289,7 +397,11 @@ private slots:
         QVERIFY(manager.isAllDone());
     }
 
+    /**
+     * @brief 验证 isAllDone_TrueWhenCancelledBelowZero 测试场景。
+     */
     void isAllDone_TrueWhenCancelledBelowZero() {
+        // manager：被测管理器实例。
         ValidationStateManager manager;
         manager.startValidation(2);
         manager.cancelValidation(5);

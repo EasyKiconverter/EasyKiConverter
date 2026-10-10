@@ -10,6 +10,7 @@ Rectangle {
     property int windowRadius: 0
     property var windowController
     property string appVersion: ""
+    signal versionClicked
     width: parent.width
     height: 38
     color: AppStyle.colors.surface
@@ -68,11 +69,22 @@ Rectangle {
 
         // 在顶部左侧常驻显示构建时注入的当前版本。
         Text {
+            id: versionText
             text: appVersion.length > 0 ? qsTr("v%1").arg(appVersion) : ""
-            color: AppStyle.colors.textSecondary
+            color: versionMouseArea.containsMouse ? AppStyle.colors.primary : AppStyle.colors.textSecondary
             font.pixelSize: AppStyle.fontSizes.xs
             Layout.leftMargin: 8
             Layout.alignment: Qt.AlignVCenter
+            ToolTip.visible: versionMouseArea.containsMouse
+            ToolTip.text: qsTranslate("MainWindow", "版本更新")
+            ToolTip.delay: 500
+            MouseArea {
+                id: versionMouseArea
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: titleBar.versionClicked()
+            }
         }
 
         Item {

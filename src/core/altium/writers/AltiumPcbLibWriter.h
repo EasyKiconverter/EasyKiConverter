@@ -10,6 +10,9 @@
 
 namespace EasyKiConverter {
 
+class AltiumPcbPrimitiveWriter;
+class AltiumPcbInputValidator;
+
 /**
  * @brief Altium PcbLib 文件写入器
  * @details 分层生成 CFB 容器、库级配置、封装目录和强类型图元记录；每一层均保持
@@ -27,6 +30,14 @@ public:
     bool write(const QList<AltiumPcbComponent>& components,
                const QString& filePath,
                const QString& libraryName = QString());
+
+    /**
+     * @brief 获取最近一次写入产生的非致命诊断
+     * @return 被修正的非有限浮点字段诊断列表
+     */
+    QStringList diagnostics() const {
+        return m_diagnostics;
+    }
 
 private:
     // ---- 文件级写入 ----
@@ -46,28 +57,27 @@ private:
     void writeFootprintData(QByteArray& buffer, const AltiumPcbComponent& component);
     void writeWideStrings(QByteArray& buffer, const AltiumPcbComponent& component);
 
-    // ---- 图元写入 ----
-    void writePad(AltiumBinaryWriter& writer, const AltiumPcbPad& pad, int componentIndex);
-    void writeTrack(AltiumBinaryWriter& writer, const AltiumPcbTrack& track, int componentIndex);
-    void writeArc(AltiumBinaryWriter& writer, const AltiumPcbArc& arc, int componentIndex);
-    void writeText(AltiumBinaryWriter& writer, const AltiumPcbText& text, int componentIndex);
-    void writeFill(AltiumBinaryWriter& writer, const AltiumPcbFill& fill, int componentIndex);
-    void writeRegion(AltiumBinaryWriter& writer, const AltiumPcbRegion& region, int componentIndex);
-    void writeComponentBody(AltiumBinaryWriter& writer, const AltiumPcbComponentBody& body, int componentIndex);
-
     // ---- 辅助 ----
     void writeCommonPrimitiveHeader(AltiumBinaryWriter& writer, uint8_t layer, uint16_t flags);
     static uint16_t encodePrimitiveFlags(bool isLocked, bool isTentingTop, bool isTentingBottom, bool isKeepout);
-    void writePadExtendedBlock(AltiumBinaryWriter& writer, const AltiumPcbPad& pad);
     void writeUniqueIdPrimitiveInformation(QByteArray& buffer, const AltiumPcbComponent& component);
     void writeExtendedPrimitiveInformation(QByteArray& buffer, const AltiumPcbComponent& component);
     uint32_t toV7LayerId(uint8_t layer) const;
+    double normalizeFiniteValue(double value, double fallback, const QString& context);
+    bool validateComponents(const QList<AltiumPcbComponent>& components, const QString& filePath);
     int countPrimitives(const AltiumPcbComponent& component) const;
     QString buildLibraryMetadata(const QString& filePath) const;
 
+    /**
+     * @brief 允许图元写入器复用文件级校验、层映射和字符串状态。
+     */
+    friend class AltiumPcbPrimitiveWriter;
+    friend class AltiumPcbInputValidator;
+
     // 广字符串管理
     int addWideString(const QString& text);
-    QStringList m_wideStrings;
+    QStringList m_wideStrings;  ///< 当前库待写入的宽字符串列表。
+    QStringList m_diagnostics;  ///< 最近一次写入产生的非致命诊断列表。
 };
 
 }  // namespace EasyKiConverter

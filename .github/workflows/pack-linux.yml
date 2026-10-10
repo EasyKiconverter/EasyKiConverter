@@ -105,12 +105,7 @@ jobs:
 
       - name: 'Setup CCache'
         if: matrix.dist.name == 'amd64'
-        uses: hendrikmuhs/ccache-action@d62db5f07c26379fc4b4e0916f098a92573c3b03 # v1.2.23
-        with:
-          key: ${{ runner.os }}-pack-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
-          restore-keys: |
-            ${{ runner.os }}-pack-
-          max-size: '2G'
+        run: ccache --version
 
       - name: Install Qt 6.10.2
         run: |
@@ -795,7 +790,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-g${{ steps.version.outputs.GIT_HASH }}-${{ matrix.dist.appimage_arch }}.AppImage
+          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-linux-${{ matrix.dist.appimage_arch }}.AppImage
           path: |
             *.AppImage
             *.sha256sum
@@ -862,7 +857,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-g${{ steps.version.outputs.GIT_HASH }}-${{ matrix.dist.deb_arch }}.deb
+          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-linux-${{ matrix.dist.deb_arch }}.deb
           path: |
             *.deb
             *.sha256sum
@@ -933,7 +928,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-g${{ steps.version.outputs.GIT_HASH }}-${{ matrix.dist.rpm_arch }}.rpm
+          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-linux-${{ matrix.dist.rpm_arch }}.rpm
           path: |
             *.rpm
             *.sha256sum
@@ -1004,7 +999,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-g${{ steps.version.outputs.GIT_HASH }}-${{ matrix.dist.archlinux_arch }}.pkg.tar.zst
+          name: EasyKiConverter-${{ steps.version.outputs.VERSION }}-linux-${{ matrix.dist.archlinux_arch }}.pkg.tar.zst
           path: |
             *.pkg.tar.zst
             *.sha256sum

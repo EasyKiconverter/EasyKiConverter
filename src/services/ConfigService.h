@@ -344,6 +344,90 @@ public:
      */
     Q_INVOKABLE void setDiskCacheLimitMB(int maxSizeMB);
 
+    /**
+     * @brief 获取是否启用启动时自动检查更新。
+     * @return 是否启用启动时自动检查更新。
+     */
+    bool getUpdateAutoCheck() const;
+
+    /**
+     * @brief 设置是否启用启动时自动检查更新。
+     * @param enabled 是否启用启动时自动检查更新。
+     */
+    void setUpdateAutoCheck(bool enabled);
+
+    /**
+     * @brief 获取更新检查间隔（小时）。
+     * @return 更新检查间隔。
+     */
+    int getUpdateCheckIntervalHours() const;
+
+    /**
+     * @brief 设置更新检查间隔（小时）。
+     * @param hours 更新检查间隔。
+     */
+    void setUpdateCheckIntervalHours(int hours);
+
+    /**
+     * @brief 获取上次发起更新检查的时间戳。
+     * @return 上次发起更新检查的时间戳。
+     */
+    qint64 getUpdateLastCheckTime() const;
+
+    /**
+     * @brief 保存上次发起更新检查的时间戳。
+     * @param timestamp 更新检查时间戳。
+     */
+    void setUpdateLastCheckTime(qint64 timestamp);
+
+    /**
+     * @brief 获取上次成功检查的时间戳。
+     * @return 上次成功检查的时间戳。
+     */
+    qint64 getUpdateLastSuccessfulCheckTime() const;
+
+    /**
+     * @brief 保存上次成功检查的时间戳。
+     * @param timestamp 成功检查时间戳。
+     */
+    void setUpdateLastSuccessfulCheckTime(qint64 timestamp);
+
+    /**
+     * @brief 获取被用户忽略的版本号。
+     * @return 被用户忽略的版本号。
+     */
+    QString getUpdateIgnoredVersion() const;
+
+    /**
+     * @brief 保存被用户忽略的版本号。
+     * @param version 被用户忽略的版本号。
+     */
+    void setUpdateIgnoredVersion(const QString& version);
+
+    /**
+     * @brief 获取用户选择稍后提醒的版本号。
+     * @return 用户选择稍后提醒的版本号。
+     */
+    QString getUpdateRemindedVersion() const;
+
+    /**
+     * @brief 保存用户选择稍后提醒的版本号。
+     * @param version 用户选择稍后提醒的版本号。
+     */
+    void setUpdateRemindedVersion(const QString& version);
+
+    /**
+     * @brief 获取最近一次成功获取的 Release JSON 缓存。
+     * @return 最近一次成功获取的 Release JSON 缓存。
+     */
+    QJsonObject getUpdateCachedRelease() const;
+
+    /**
+     * @brief 保存最近一次成功获取的 Release JSON 缓存。
+     * @param release Release JSON 缓存对象。
+     */
+    void setUpdateCachedRelease(const QJsonObject& release);
+
 signals:
     /**
      * @brief 配置改变信号
@@ -351,17 +435,20 @@ signals:
     void configChanged();
 
 public:
-    static constexpr int DEFAULT_DISK_CACHE_LIMIT_MB = 5120;
-    static constexpr int MAX_DISK_CACHE_LIMIT_MB = 1048576;
+    static constexpr int DEFAULT_DISK_CACHE_LIMIT_MB = 5120;  ///< 默认磁盘缓存上限（MB）。
+    static constexpr int MAX_DISK_CACHE_LIMIT_MB = 1048576;  ///< 磁盘缓存上限允许的最大值（MB）。
 
-    /** @brief 默认缓存目录路径（静态工具方法，不依赖单例状态） */
+    /**
+     * @brief 返回默认缓存目录路径。
+     * @return 默认缓存目录路径。
+     */
     static QString defaultCacheDir();
 
 private:
-    static constexpr int DEFAULT_WINDOW_WIDTH = -1;
-    static constexpr int DEFAULT_WINDOW_HEIGHT = -1;
-    static constexpr int DEFAULT_WINDOW_X = -9999;
-    static constexpr int DEFAULT_WINDOW_Y = -9999;
+    static constexpr int DEFAULT_WINDOW_WIDTH = -1;  ///< 默认窗口宽度，负值表示使用系统默认值。
+    static constexpr int DEFAULT_WINDOW_HEIGHT = -1;  ///< 默认窗口高度，负值表示使用系统默认值。
+    static constexpr int DEFAULT_WINDOW_X = -9999;  ///< 默认窗口横坐标，负值表示使用系统默认值。
+    static constexpr int DEFAULT_WINDOW_Y = -9999;  ///< 默认窗口纵坐标，负值表示使用系统默认值。
 
     /**
      * @brief 构造函数
@@ -386,19 +473,26 @@ private:
      * @return QString 配置文件路径
      */
     QString getDefaultConfigPath() const;
+    /**
+     * @brief 在配置锁已持有时构造窗口状态映射。
+     * @return 当前窗口状态映射。
+     */
     QVariantMap buildWindowState_locked() const;
 
 private:
-    static ConfigService* s_instance;
-    static QMutex s_mutex;
+    static ConfigService* s_instance;  ///< 配置服务单例实例。
+    static QMutex s_mutex;  ///< 保护配置服务单例的互斥量。
 
+    /**
+     * @brief 在未处于批量更新时保存配置。
+     */
     void saveIfNotBatching();
 
-    QJsonObject m_config;
-    QString m_configPath;
-    mutable QMutex m_configMutex;
-    int m_batchUpdateDepth = 0;
-    bool m_batchDirty = false;
+    QJsonObject m_config;  ///< 当前配置 JSON 对象。
+    QString m_configPath;  ///< 配置文件路径。
+    mutable QMutex m_configMutex;  ///< 保护配置内容的互斥量。
+    int m_batchUpdateDepth = 0;  ///< 当前批量更新嵌套深度。
+    bool m_batchDirty = false;  ///< 批量更新期间是否发生配置修改。
 };
 
 }  // namespace EasyKiConverter

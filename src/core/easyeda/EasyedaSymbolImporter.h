@@ -24,6 +24,7 @@ private:
     SymbolPolyline importPolylineData(const QString& polylineData);
     SymbolPolygon importPolygonData(const QString& polygonData);
     SymbolPath importPathData(const QString& pathData);
+    SymbolImage importImageData(const QString& imageData);
     SymbolText importTextData(const QString& textData);
 
     QList<QStringList> parsePinDataString(const QString& pinData) const;

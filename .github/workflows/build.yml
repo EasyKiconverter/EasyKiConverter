@@ -9,10 +9,6 @@ on:
       - 'docs/**'
   pull_request:
     branches: ['master', 'dev', 'ci_test', 'v*']
-    paths-ignore:
-      - 'README.md'
-      - 'LICENSE'
-      - 'docs/**'
   workflow_dispatch:
 
 concurrency:
@@ -30,8 +26,66 @@ env:
   CMAKE_VERSION: '3.22'
 
 jobs:
+  change-scope:
+    name: 'Determine CI change scope'
+    runs-on: ubuntu-24.04
+    outputs:
+      classification: ${{ steps.scope.outputs.classification }}
+      run_full: ${{ steps.scope.outputs.run_full }}
+      run_ui: ${{ steps.scope.outputs.run_ui }}
+      run_resources: ${{ steps.scope.outputs.run_resources }}
+      run_classifier_tests: ${{ steps.scope.outputs.run_classifier_tests }}
+      safe_fallback: ${{ steps.scope.outputs.safe_fallback }}
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: 'Classify changed files'
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: |
+          python3 tools/python/classify_ci_changes.py \
+            --base "$BASE_SHA" \
+            --head "$HEAD_SHA" \
+            --github-output "$GITHUB_OUTPUT"
+
+      - name: 'Validate unified verification plan'
+        env:
+          CLASSIFICATION: ${{ steps.scope.outputs.classification }}
+        run: python3 tools/python/verification_plan.py --classification "$CLASSIFICATION"
+
+  classifier-tests:
+    name: 'Test CI change classifier'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_classifier_tests == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 1
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: 'Run classifier regression tests'
+        run: python3 -m unittest discover -s tests/python -p 'test_classify_ci_changes.py'
+
   linux-build:
     name: 'Build Linux (${{ matrix.dist.name }})'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_full == 'true'
     runs-on: ${{ matrix.dist.runner }}
     timeout-minutes: 60
     strategy:
@@ -91,12 +145,7 @@ jobs:
             ninja-build
 
       - name: 'Setup CCache'
-        uses: hendrikmuhs/ccache-action@d62db5f07c26379fc4b4e0916f098a92573c3b03 # v1.2.23
-        with:
-          key: ${{ runner.os }}-${{ matrix.dist.name }}-linux-${{ hashFiles('**/CMakeLists.txt', '**/*.cmake') }}
-          restore-keys: |
-            ${{ runner.os }}-${{ matrix.dist.name }}-linux-
-          max-size: '2G'
+        run: ccache --version
 
       - name: 'Install Qt 6.10.2'
         run: |
@@ -159,6 +208,8 @@ jobs:
 
   windows-build:
     name: 'Build Windows (${{ matrix.name }})'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_full == 'true'
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 90
     env:
@@ -199,15 +250,14 @@ jobs:
         run: echo "BUILD_START_TIME=$(Get-Date -Format o)" >> $env:GITHUB_ENV
 
       - name: 'Setup MSVC'
-        uses: ilammy/msvc-dev-cmd@0b201ec74fa43914dc39ae48a89fd1d8cb592756 # v1
+        uses: ./.github/actions/setup-msvc
         with:
           arch: ${{ matrix.arch }}
 
       - name: 'Setup vcpkg'
-        uses: lukka/run-vcpkg@b1a0dd252f06b9e25b3c022a9a03bd7a427fb6a2 # v11.6
+        uses: ./.github/actions/setup-vcpkg
         with:
-          vcpkgJsonGlob: 'vcpkg.json'
-          runVcpkgInstall: true
+          triplet: ${{ matrix.vcpkg_triplet }}
 
       - name: 'Setup Build Environment (MSVC)'
         uses: ./.github/actions/setup-env
@@ -236,7 +286,25 @@ jobs:
         if: matrix.enable_ccache
         shell: pwsh
         run: |
-          choco install ccache --version=4.11.1 -y --no-progress
+          $maxAttempts = 3
+          $installed = $false
+          for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
+            Write-Host "Installing ccache 4.11.1 (attempt $attempt/$maxAttempts)"
+            choco install ccache --version=4.11.1 -y --no-progress
+            if ($LASTEXITCODE -eq 0) {
+              $installed = $true
+              break
+            }
+            if ($attempt -lt $maxAttempts) {
+              $delaySeconds = 15 * $attempt
+              Write-Warning "Chocolatey installation failed; retrying in $delaySeconds seconds."
+              Start-Sleep -Seconds $delaySeconds
+            }
+          }
+          if (-not $installed) {
+            throw "Unable to install ccache 4.11.1 after $maxAttempts attempts."
+          }
+          ccache --version
           echo "CCACHE_DIR=${{ runner.temp }}\ccache" >> $env:GITHUB_ENV
           echo "CCACHE_MAXSIZE=2G" >> $env:GITHUB_ENV
           echo "CCACHE_BASEDIR=${{ github.workspace }}" >> $env:GITHUB_ENV
@@ -322,11 +390,146 @@ jobs:
       - name: 'Run Tests'
         shell: pwsh
         run: |
+          $ErrorActionPreference = "Continue"
+          $PSNativeCommandUseErrorActionPreference = $false
           $env:QT_QPA_PLATFORM = "offscreen"
-          ctest --test-dir build -C ${{ env.BUILD_TYPE }} --output-on-failure --no-tests=error
+          $ctestArguments = "--test-dir build -C ${{ env.BUILD_TYPE }} --output-on-failure --no-tests=error"
+          $ctestProcess = Start-Process -FilePath "ctest" -ArgumentList $ctestArguments -NoNewWindow -Wait -PassThru
+          $ctestExitCode = $ctestProcess.ExitCode
+          if ($ctestExitCode -ne 0) {
+            # 使用 CTest 记录的失败清单重跑实际失败项，避免硬编码无关测试掩盖真实断言。
+            $rerunStdout = Join-Path $env:RUNNER_TEMP "ctest-rerun-failed.stdout.log"
+            $rerunStderr = Join-Path $env:RUNNER_TEMP "ctest-rerun-failed.stderr.log"
+            $rerunArguments = @(
+              "--test-dir", "build",
+              "-C", "${{ env.BUILD_TYPE }}",
+              "--rerun-failed",
+              "--output-on-failure",
+              "--no-tests=error"
+            )
+            $rerunProcess = Start-Process -FilePath "ctest" -ArgumentList $rerunArguments -NoNewWindow -Wait -PassThru `
+              -RedirectStandardOutput $rerunStdout -RedirectStandardError $rerunStderr
+            Write-Host "ctest --rerun-failed exit code: $($rerunProcess.ExitCode)"
+            if (Test-Path $rerunStdout) { Get-Content $rerunStdout }
+            if (Test-Path $rerunStderr) { Get-Content $rerunStderr }
+
+            # CTest 可能只报告 ***Failed 而不转发 QtTest 输出，直接运行失败测试收集原始进程信息。
+            $failedTestsFile = Join-Path $env:GITHUB_WORKSPACE "build\Testing\Temporary\LastTestsFailed.log"
+            $failedTestNames = @()
+            if (Test-Path $failedTestsFile) {
+              $failedTestNames = @(
+                Get-Content $failedTestsFile | ForEach-Object {
+                  if ($_ -match '^\s*\d+:(?<name>[^\s]+)\s*$') {
+                    $Matches['name']
+                  }
+                } | Sort-Object -Unique
+              )
+            }
+            foreach ($testName in $failedTestNames) {
+              $testExecutable = Join-Path $env:GITHUB_WORKSPACE "build\bin\${testName}.exe"
+              if (-not (Test-Path $testExecutable)) {
+                Write-Warning "Failed test executable not found: $testExecutable"
+                continue
+              }
+
+              $testStdout = Join-Path $env:RUNNER_TEMP "${testName}.stdout.log"
+              $testStderr = Join-Path $env:RUNNER_TEMP "${testName}.stderr.log"
+              $testProcess = Start-Process -FilePath $testExecutable -ArgumentList "-vs" -WorkingDirectory (Get-Location) -Wait -PassThru `
+                -RedirectStandardOutput $testStdout -RedirectStandardError $testStderr
+              $unsignedExitCode = [uint32]$testProcess.ExitCode
+              $hexExitCode = "0x{0:X8}" -f $unsignedExitCode
+              Write-Host "${testName}.exe exit code: $($testProcess.ExitCode) ($hexExitCode)"
+              if (Test-Path $testStdout) { Get-Content $testStdout }
+              if (Test-Path $testStderr) { Get-Content $testStderr }
+            }
+            exit $ctestExitCode
+          }
+
+  ui-check:
+    name: 'Check QML UI'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_ui == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+
+      - name: 'Setup build environment'
+        uses: ./.github/actions/setup-env
+        with:
+          cmake-version: ${{ env.CMAKE_VERSION }}
+          qt-version: ${{ env.QT_VERSION }}
+          qt-host: 'linux'
+          qt-target: 'desktop'
+          qt-arch: 'linux_gcc_64'
+          enable-ccache: 'false'
+          enable-sccache: 'false'
+
+      - name: 'Install UI test dependencies'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libgl1-mesa-dev \
+            libglu1-mesa-dev \
+            libxkbcommon-dev \
+            libxkbcommon-x11-0 \
+            libxcb-cursor0 \
+            libxcb-icccm4 \
+            libxcb-image0 \
+            libxcb-keysyms1 \
+            libxcb-randr0 \
+            libxcb-render-util0 \
+            libxcb-shape0 \
+            libxcb-xfixes0 \
+            libxcb-xinerama0
+
+      - name: 'Check QML format'
+        run: python3 tools/python/format_code.py --check --qml
+
+      - name: 'Configure UI test target'
+        run: |
+          cmake -B build \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DEASYKICONVERTER_BUILD_TESTS=ON \
+            -DENABLE_SYMBOL_FOOTPRINT_DEBUG_EXPORT=OFF
+
+      - name: 'Build UI test target'
+        run: cmake --build build --target test_ui --parallel 4
+
+      - name: 'Run UI tests'
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --test-dir build -R '^test_ui$' --output-on-failure --no-tests=error
+
+  resource-check:
+    name: 'Check static resources'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_resources == 'true' && needs.change-scope.outputs.run_full != 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: 'Checkout source code'
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+
+      - name: 'Set up Python'
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+
+      - name: 'Validate changed resources'
+        env:
+          BASE_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event.before }}
+          HEAD_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+        run: python3 tools/python/validate_ci_resources.py --base "$BASE_SHA" --head "$HEAD_SHA"
 
   macos-build:
     name: 'Build macOS'
+    needs: change-scope
+    if: needs.change-scope.outputs.run_full == 'true'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

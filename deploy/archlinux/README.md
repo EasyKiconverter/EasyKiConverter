@@ -114,5 +114,5 @@ pacman -Qs qt6
 ## 链接
 
 - [AUR 软件包页面](https://aur.archlinux.org/packages/easykiconverter)
-- [GitHub 仓库](https://github.com/tangsangsimida/EasyKiConverter)
+- [GitHub 仓库](https://github.com/EasyKiconverter/EasyKiConverter)
 - [Arch Linux 打包标准](https://wiki.archlinux.org/title/Arch_package_guidelines)

@@ -35,7 +35,7 @@ public:
      * @brief 创建 3D 模型导出器
      * @param format 目标 EDA 格式
      * @param parent QObject 父对象（3D 导出器需要 QObject 以支持信号槽）
-     * @return 3D 模型导出器实例，调用方拥有所有权
+     * @return 独立 WRL/STEP 模型导出器实例，调用方拥有所有权；目标格式未知时返回空指针
      */
     static std::unique_ptr<IModel3DExporter> createModel3DExporter(TargetEdaFormat format, QObject* parent = nullptr);
 };

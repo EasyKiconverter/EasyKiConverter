@@ -25,7 +25,11 @@ These documents help other developers understand the project, contribute, and ma
 - [Build Guide](developer/BUILD_en.md) - Build from source
 - [Contributing Guide](developer/CONTRIBUTING_en.md) - How to contribute code
 - [Architecture](developer/ARCHITECTURE_en.md) - Project architecture design
-- [Conversion Layer and Mapping](developer/CONVERSION_MAPPING.md) - EasyEDA, IR, KiCad, and Altium mapping (Chinese)
+- [Conversion Layer and Mapping](developer/CONVERSION_MAPPING.md) - EasyEDA, IR, KiCad, Altium, and Xpedition mapping (Chinese)
+- [Format Parsing Architecture](developer/PARSER_ARCHITECTURE_en.md) - Shared text parsing infrastructure, diagnostics, and format support boundaries
+- [CADSTAR Export](developer/CADSTAR_EXPORT_en.md) - CADSTAR ASCII symbol, footprint, Pad, and Part export scope
+- [LibrePCB Export](developer/LIBREPCB_EXPORT_en.md) - LibrePCB 2.1.1 native library directory export progress and validation boundary
+- [OrCAD Capture XML Symbol Export](developer/ORCAD_EXPORT_en.md) - OrCAD Capture XML symbol and footprint-name association scope
 - [EasyEDA API Raw Data](developer/EASYEDA_API_DATA.md) - Response structure, shape encoding, and field parsing (Chinese)
 - [Documentation Maintenance](developer/DOCUMENTATION_MAINTENANCE.md) - Documentation sources of truth and update checklist (Chinese)
 - [Testing Guide](developer/TESTING_GUIDE_en.md) - Testing architecture & Mocking strategy
@@ -35,6 +39,7 @@ These documents help other developers understand the project, contribute, and ma
 - [Performance Baseline](developer/performance_baseline_en.md) - Performance benchmarks
 - [i18n Implementation](developer/I18N_IMPLEMENTATION_SUMMARY.md) - Internationalization summary
 - [Flatpak Development](developer/FLATPAK_DEVELOPMENT.md) - Flatpak packaging guide
+- [AI-Assisted Development](developer/ai-development/README_en.md) - AI Agent and developer collaboration, rules, and Skills
 
 ### For Project & Strategy (project/)
 
@@ -78,6 +83,8 @@ Most documents are available in both Chinese and English:
 4. Read [Developer FAQ](developer/FAQ_en.md) for known development issues and regression prevention
 5. Read [Contributing Guide](developer/CONTRIBUTING_en.md) to learn how to contribute code
 
+If you use an AI Agent for development, start with the [AI-Assisted Development](developer/ai-development/README_en.md) entry point.
+
 ### If You Want to Understand Project Planning
 
 1. Check [Roadmap](project/ROADMAP_en.md) to understand future directions
@@ -101,5 +108,5 @@ If you want to improve documentation:
 ## Related Resources
 
 - [Project Homepage](../README_en.md)
-- [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter/issues)
-- [GitHub Discussions](https://github.com/tangsangsimida/EasyKiConverter/discussions)
+- [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues)
+- [GitHub Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions)

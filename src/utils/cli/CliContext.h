@@ -31,6 +31,7 @@ public:
 
     // 禁用拷贝
     CliContext(const CliContext&) = delete;
+    /// 禁止通过赋值复制 CLI 上下文。
     CliContext& operator=(const CliContext&) = delete;
 
     /**
@@ -80,10 +81,13 @@ public:
     }
 
 private:
+    /// 保存外部提供的命令行解析器引用。
     const CommandLineParser& m_parser;
+    /// 管理元器件数据获取的服务。
     ComponentService* m_componentService{nullptr};
+    /// 管理预加载和导出任务的服务。
     ParallelExportService* m_exportService{nullptr};
-    QString m_errorMessage;
+    QString m_errorMessage;  ///< 保存 CLI 执行过程中最近一次错误信息。
 };
 
 }  // namespace EasyKiConverter

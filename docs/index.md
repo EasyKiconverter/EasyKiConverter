@@ -30,20 +30,27 @@
 - [贡献指南](developer/CONTRIBUTING.md) - 如何贡献代码
 - [贡献指南 (英文)](developer/CONTRIBUTING_en.md) - Contributing Guide
 - [架构文档](developer/ARCHITECTURE.md) - 项目架构设计
-- [转换层与映射关系](developer/CONVERSION_MAPPING.md) - EasyEDA、IR、KiCad、Altium 的算法与字段映射
+- [转换层与映射关系](developer/CONVERSION_MAPPING.md) - EasyEDA、IR、KiCad、Altium、Xpedition 的算法与字段映射
+- [格式解析架构](developer/PARSER_ARCHITECTURE.md) - 通用文本解析基础设施、诊断模型和格式支持边界
+- [CADSTAR 导出能力](developer/CADSTAR_EXPORT.md) - CADSTAR ASCII 符号、封装、Pad 和 Part 导出范围
+- [LibrePCB 原生库导出](developer/LIBREPCB_EXPORT.md) - LibrePCB 2.1.1 原生库目录导出进展和验证边界
+- [OrCAD Capture XML 符号库导出](developer/ORCAD_EXPORT.md) - OrCAD Capture XML 符号和封装名称关联导出范围
 - [EasyEDA API 原始数据说明](developer/EASYEDA_API_DATA.md) - API 响应结构、shape 编码和字段解析
 - [文档维护指南](developer/DOCUMENTATION_MAINTENANCE.md) - 文档事实来源、更新触发条件和过时内容清理规则
 - [架构文档 (英文)](developer/ARCHITECTURE_en.md) - Architecture
 - [测试开发指南](developer/TESTING_GUIDE.md) - 测试架构与 Mock 策略
 - [开发者常见问题](developer/FAQ.md) - 技术问题、根因分析和回归预防
 - [国际化实现](developer/I18N_IMPLEMENTATION_SUMMARY.md) - 国际化支持说明
+- [AI 协作开发入口](developer/ai-development/README.md) - AI Agent 和开发者协作入口、规则导航与 Skills
 
 ### 面向项目决策 (project/)
 
 这类文档记录了项目的演进过程和未来方向，帮助团队做出正确的战略决策。
 
 - [项目路线图](project/ROADMAP.md) - 未来发展方向
+- [通用 EDA 库转换器规划](project/UNIVERSAL_EDA_LIBRARY_CONVERTER.md) - 基于统一 IR 的库格式转换目标与边界
 - [项目路线图 (英文)](project/ROADMAP_en.md) - Roadmap
+- [通用 EDA 库转换器规划 (英文)](project/UNIVERSAL_EDA_LIBRARY_CONVERTER_en.md) - Universal EDA library conversion plan
 - [架构决策记录](project/adr/README.md) - 技术决策记录
 
 ### 历史分析报告（归档）
@@ -75,6 +82,8 @@
 4. 阅读 [开发者常见问题](developer/FAQ.md) 解决开发中的已知问题
 5. 阅读 [贡献指南](developer/CONTRIBUTING.md) 了解如何贡献代码
 
+如果使用 AI Agent 开发，请先阅读 [AI 协作开发入口](developer/ai-development/README.md)。
+
 ### 如果您想了解项目规划
 
 1. 查看 [项目路线图](project/ROADMAP.md) 了解未来方向
@@ -97,6 +106,6 @@
 
 ## 相关资源
 
-- [项目主页](https://github.com/tangsangsimida/EasyKiConverter_QT)
-- [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter_QT/issues)
-- [GitHub Discussions](https://github.com/tangsangsimida/EasyKiConverter_QT/discussions)
+- [项目主页](https://github.com/EasyKiconverter/EasyKiConverter)
+- [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues)
+- [GitHub Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions)

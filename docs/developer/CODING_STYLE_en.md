@@ -126,6 +126,7 @@ This guide is primarily based on the [Qt Coding Style](https://wiki.qt.io/Qt_Cod
     *   **Member variables**: Use end-of-line `///< comment` syntax.
     *   **Constants and enum values**: Use end-of-line `///< comment` or block `/** @brief ... */` comments.
     *   **Test methods**: Test functions must have `@brief` explaining the test purpose; complex scenarios need `@details` explaining the verification logic.
+*   **Variable comments**: Every new or modified variable, including member variables, parameters, local temporaries, intermediate results, and constants, must have a concise Simplified Chinese comment. Use trailing `///<` for declarations and a nearby `//` or Doxygen comment for local-variable, temporary-variable, and parameter semantics.
 
 ## 4. Modern C++ Features
 

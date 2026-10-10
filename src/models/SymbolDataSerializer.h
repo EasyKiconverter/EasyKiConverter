@@ -42,6 +42,8 @@ public:
     static bool fromJson(SymbolPolygon& polygon, const QJsonObject& json);
     static QJsonObject toJson(const SymbolPath& path);
     static bool fromJson(SymbolPath& path, const QJsonObject& json);
+    static QJsonObject toJson(const SymbolImage& image);
+    static bool fromJson(SymbolImage& image, const QJsonObject& json);
     static QJsonObject toJson(const SymbolText& text);
     static bool fromJson(SymbolText& text, const QJsonObject& json);
 

@@ -136,8 +136,8 @@ EasyKiConverter uses **Inno Setup** to create Windows installers (.exe format).
 
 If you encounter installation issues, please contact:
 
-- **GitHub Issues**: https://github.com/tangsangsimida/EasyKiConverter/issues
-- **Documentation**: https://tangsangsimida.github.io/EasyKiConverter/
+- **GitHub Issues**: https://github.com/EasyKiconverter/EasyKiConverter/issues
+- **Documentation**: https://easykiconverter.github.io/EasyKiConverter/
 - **Email**: Please refer to developer contact information
 
 ## Reference Documentation

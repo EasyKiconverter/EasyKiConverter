@@ -15,6 +15,10 @@ public:
     explicit ThemeSettingsViewModel(QObject* parent = nullptr);
     ~ThemeSettingsViewModel() override;
 
+    /**
+     * @brief 返回当前是否为深色模式。
+     * @return 当前启用深色模式时返回 true。
+     */
     bool isDarkMode() const {
         return m_isDarkMode;
     }
@@ -25,8 +29,8 @@ signals:
     void darkModeChanged();
 
 private:
-    ConfigService* m_configService;
-    bool m_isDarkMode;
+    ConfigService* m_configService;  ///< 保存主题设置的配置服务。
+    bool m_isDarkMode;  ///< 当前是否启用深色模式。
 };
 
 }  // namespace EasyKiConverter

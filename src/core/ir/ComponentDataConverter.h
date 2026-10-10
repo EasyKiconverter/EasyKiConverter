@@ -22,7 +22,7 @@ namespace IR {
  * @return IR 的完整组件数据
  */
 inline ComponentIR toComponentIR(const ComponentData& data) {
-    ComponentIR ir;
+    ComponentIR ir;  // 待填充的完整组件 IR。
 
     // 通用元数据
     ir.name = data.name();
@@ -57,7 +57,7 @@ inline ComponentIR toComponentIR(const ComponentData& data) {
  * @return 组件 IR 映射表
  */
 inline QMap<QString, ComponentIR> toComponentIRMap(const QMap<QString, QSharedPointer<ComponentData>>& dataMap) {
-    QMap<QString, ComponentIR> irMap;
+    QMap<QString, ComponentIR> irMap;  // 按组件编号索引的转换结果。
     for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {
         if (it.value()) {
             irMap.insert(it.key(), toComponentIR(*it.value()));
@@ -72,7 +72,7 @@ inline QMap<QString, ComponentIR> toComponentIRMap(const QMap<QString, QSharedPo
  * @return 符号 IR 列表（用于库级导出）
  */
 inline QList<SymbolComponentIR> extractSymbolIRList(const QMap<QString, QSharedPointer<ComponentData>>& dataMap) {
-    QList<SymbolComponentIR> list;
+    QList<SymbolComponentIR> list;  // 可用于库级导出的符号 IR 列表。
     for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {
         if (it.value() && it.value()->symbolData()) {
             list.append(toSymbolIR(*it.value()->symbolData()));
@@ -87,7 +87,7 @@ inline QList<SymbolComponentIR> extractSymbolIRList(const QMap<QString, QSharedP
  * @return 封装 IR 列表（用于库级导出）
  */
 inline QList<FootprintComponentIR> extractFootprintIRList(const QMap<QString, QSharedPointer<ComponentData>>& dataMap) {
-    QList<FootprintComponentIR> list;
+    QList<FootprintComponentIR> list;  // 可用于库级导出的封装 IR 列表。
     for (auto it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {
         if (it.value() && it.value()->footprintData()) {
             list.append(toFootprintIR(*it.value()->footprintData()));

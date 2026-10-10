@@ -153,8 +153,8 @@ public:
      * @brief SVG 点结构体
      */
     struct SvgPoint {
-        double x;
-        double y;
+        double x;  ///< 点的 X 坐标。
+        double y;  ///< 点的 Y 坐标。
 
         SvgPoint(double x = 0.0, double y = 0.0) : x(x), y(y) {}
     };
@@ -191,7 +191,7 @@ public:
     /**
      * @brief 解析 SVG 弧参
          *
-     * 参考 lckiconverter 的 svg_solve_arc 函数
+     * 根据 SVG 椭圆弧端点参数计算圆心和角度范围。
      * https://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter
      *
      * @param param SVG 弧参数字符串（如 "M x1 y1 A rx ry phi fa fs x2 y2"）
@@ -256,7 +256,7 @@ public:
     /**
      * @brief 使用 floor 而非 round 进行坐标取整
      *
-     * 与 lckiconverter 保持一致，使用 floor 向下取整
+     * 使用 floor 向下取整，避免单位换算产生额外进位。
      *
      * @param px 像素
          * @return double 取整后的毫米值（保留2位小数）

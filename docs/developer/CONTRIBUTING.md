@@ -43,14 +43,19 @@ cd EasyKiConverter
 3. 添加上游仓库：
 
 ```bash
-git remote add upstream https://github.com/tangsangsimida/EasyKiConverter.git
+git remote add upstream https://github.com/EasyKiconverter/EasyKiConverter.git
 ```
 
-4. 创建新的分支：
+4. 从问题所属的版本分支创建工作分支：
 
 ```bash
-git checkout -b feature/your-feature-name
+git fetch upstream <version-branch>
+git switch -c <topic-branch> --track upstream/<version-branch>
 ```
+
+一个相对完整的问题或开发主题对应一个工作分支。一个工作分支可以包含该问题所需的多个相关修改和多个提交；不要为每个小改动、子任务或单个提交创建新分支。当前仓库没有发现强制的分支命名校验，`fix/cache-safety-v3.1.13`、`feat/allegro-export-v3.1.13` 等仅作为便于识别的命名建议。
+
+在 Fork 流程中，`upstream` 用于获取正式仓库的版本分支，`origin` 仅用于推送您的工作分支。
 
 #### 代码规范
 
@@ -96,19 +101,20 @@ git checkout -b feature/your-feature-name
 - 阶段间通过线程安全的有界队列通信
 - 详见：[ADR-002: 流水线并行架构](../project/adr/002-pipeline-parallelism-for-export.md)
 
-#### 开发流程图
+#### 分支和 PR 流程
 
-以下流程图展示了完整的功能开发、发布和紧急修复流程：
+项目按问题或主题组织开发，不采用固定的 `feature/* → dev → master` 流程。工作分支应从该问题所属的版本分支创建，完成后 PR 必须回到创建它时对应的同一版本分支；不要直接向版本分支提交。
 
-![Git Workflow](../diagrams/Git_Workflow.svg)
+```mermaid
+flowchart LR
+    V[所属版本分支] --> W[问题或主题工作分支]
+    W --> C[多个相关提交]
+    C --> P[Pull Request 回到同一版本分支]
+    P --> R[审查与 CI]
+    R --> M[维护者合并]
+```
 
-**流程说明：**
-
-| 流程 | 分支策略 | 合并方式 |
-|------|----------|----------|
-| 功能开发 | `feature/*` → `dev` | 普通合并，保留提交历史 |
-| 发布 | `dev` → `master` | 普通合并，打版本标签 |
-| 紧急修复 | `hotfix/*` → `master` + `dev` | 双向合并，防止修复丢失 |
+版本分支由维护者根据发布计划确定，例如 `v3.1.13`。贡献者不应自行推断所有工作都应合并到 `master` 或 `dev`；创建分支前应确认目标版本分支。
 
 #### 提交流程
 
@@ -116,16 +122,16 @@ git checkout -b feature/your-feature-name
 
 ```bash
 git add .
-git commit -m "feat: add your feature description"
+git commit -m "feat(export): 修复封装解析"
 ```
 
-2. 推送到您的 Fork：
+2. 推送工作分支：
 
 ```bash
-git push origin feature/your-feature-name
+git push origin <topic-branch>
 ```
 
-3. 在 GitHub 上创建 Pull Request
+3. 在 GitHub 上创建 Pull Request：目标分支选择创建工作分支时对应的 `<version-branch>`，不要默认选择 `master`。
 
 #### 提交信息规范
 
@@ -177,6 +183,20 @@ feat: add support for custom layer mapping
 - 与现有代码的兼容性
 
 请耐心等待审查反馈，并根据反馈进行必要的修改。
+
+## 发布流程
+
+正式发布前，发布工作流会先完成跨平台打包、制品校验、SHA256 清单生成并创建 Draft Release。
+维护者应完成以下检查：
+
+- [ ] 确认版本号、更新日志和发布说明已完成
+- [ ] 检查全部平台制品、文件名和 SHA256 校验和
+- [ ] 确认 GitHub `release-approval` Environment 已配置至少一名 Required reviewer
+- [ ] 人工验收 Draft Release 后批准 `Publish approved release` job
+
+公开发布位于独立的 `Publish approved release` job，并受 `release-approval` Environment 保护。
+没有 Required reviewer 的仓库 Environment 不提供有效的人工发布门禁；不得直接推送受保护的版本分支，
+也不得将未验收的制品公开为稳定 Release。
 
 ## 行为准则
 

@@ -1,7 +1,9 @@
 #ifndef COMPONENTSERVICE_H
 #define COMPONENTSERVICE_H
 
+#include "ComponentCacheLoadWorker.h"
 #include "ComponentCacheService.h"
+#include "ComponentDataMemoryStore.h"
 #include "LcscImageService.h"
 #include "ParallelFetchContext.h"
 #include "models/ComponentData.h"
@@ -21,6 +23,15 @@
 #include <QStringList>
 
 namespace EasyKiConverter {
+
+struct CadFetchTaskResult;
+class ComponentParallelFetchCoordinator;
+class ComponentCadFetchCoordinator;
+class ComponentMediaCallbackCoordinator;
+class ComponentApiCallbackCoordinator;
+class ComponentCacheLoadCoordinator;
+class ComponentRequestCancellationCoordinator;
+class ComponentRequestCoordinator;
 
 /**
  * @brief 元件服务类
@@ -261,6 +272,15 @@ signals:
     void allComponentsDataCollected(const QList<ComponentData>& componentDataList);
 
     /**
+     * @brief 所有元件数据收集完成并包含失败原因的信号
+     *
+     * @param componentDataList 获取成功的元件数据
+     * @param failedComponents 获取失败的元件编号及原因
+     */
+    void allComponentsDataCollectedWithErrors(const QList<ComponentData>& componentDataList,
+                                              const QMap<QString, QString>& failedComponents);
+
+    /**
      * @brief LCSC 数据更新信号（数据手册和预览图 URL）
      *
      * 当 LCSC API 返回数据手册和预览图 URL 后发送此信号
@@ -303,11 +323,18 @@ private slots:
 
     /**
      * @brief 处理预览图就绪
+     * @param componentId 元件 ID
+     * @param imageData 预览图数据
+     * @param imageIndex 预览图索引
      */
     void handleImageReady(const QString& componentId, const QByteArray& imageData, int imageIndex);
 
     /**
      * @brief 处理 LCSC API 数据就绪（包含数据手册和预览图 URL）
+     * @param componentId 元件 ID
+     * @param manufacturerPart 制造商料号
+     * @param datasheetUrl 数据手册地址
+     * @param imageUrls 预览图地址列表
      */
     void handleLcscDataReady(const QString& componentId,
                              const QString& manufacturerPart,
@@ -316,11 +343,15 @@ private slots:
 
     /**
      * @brief 处理数据手册下载完成
+     * @param componentId 元件 ID
+     * @param datasheetData 数据手册数据
      */
     void handleDatasheetReady(const QString& componentId, const QByteArray& datasheetData);
 
     /**
      * @brief 处理所有预览图片下载完成
+     * @param componentId 元件 ID
+     * @param imagePaths 已下载图片路径列表
      */
     void handleAllImagesReady(const QString& componentId, const QStringList& imagePaths);
 
@@ -341,6 +372,21 @@ private slots:
     void handleFetchErrorWithId(const QString& componentId, const QString& error);
 
 private:
+    friend class ComponentParallelFetchCoordinator;
+    friend class ComponentCadFetchCoordinator;
+    friend class ComponentMediaCallbackCoordinator;
+    friend class ComponentApiCallbackCoordinator;
+    friend class ComponentCacheLoadCoordinator;
+    friend class ComponentRequestCancellationCoordinator;
+    friend class ComponentRequestCoordinator;
+
+    /**
+     * @brief 创建并配置异步元件请求队列。
+     *
+     * 两种构造方式共享同一套队列信号连接，集中初始化可避免行为漂移。
+     */
+    void initializeQueueManager();
+
     /**
      * @brief 初始化API连接
      */
@@ -351,8 +397,9 @@ private:
      *
      * @param componentId 元件ID
      * @param error 错误信息
+     * @param expectedGeneration 请求创建时的缓存代次
      */
-    void emitFetchErrorAndClearState(const QString& componentId, const QString& error);
+    void emitFetchErrorAndClearState(const QString& componentId, const QString& error, uint64_t expectedGeneration = 0);
 
     /**
      * @brief 处理并行数据收集完成
@@ -408,22 +455,6 @@ private:
     // 图片抓取已移至独立的 LcscImageService 类
 
     /**
-     * @brief 缓存加载结果结构体（用于异步缓存加载）
-     */
-    struct CacheLoadResult {
-        QString componentId;
-        bool success;
-        QSharedPointer<ComponentData> cachedData;
-        QByteArray cadDataJson;  // 原始 CAD JSON 数据
-        QList<QPair<int, QByteArray>> previewImageData;  // index, data
-        QStringList encodedPreviewImages;  // 后台线程预编码后的预览图
-        QByteArray datasheetData;
-        // 预解析的符号和封装数据（在后台线程解析）
-        QSharedPointer<SymbolData> symbolData;
-        QSharedPointer<FootprintData> footprintData;
-    };
-
-    /**
      * @brief 异步从缓存加载元件数据（后台线程执行）
      *
      * @param normalizedId 元件 ID
@@ -432,46 +463,52 @@ private:
      */
     void loadComponentDataFromCacheAsync(const QString& normalizedId, bool fetch3DModel, ComponentCacheService* cache);
 
+    /**
+     * @brief 处理异步 CAD 获取结果并完成缓存、信号和批量状态更新
+     * @param result CAD 获取与解析结果
+     * @param expectedGeneration 请求创建时的缓存代次
+     */
+    void handleCadFetchResult(const CadFetchTaskResult& result, uint64_t expectedGeneration);
+
 private:
-    class EasyedaApi* m_api;
-    LcscImageService* m_imageService;
+    class EasyedaApi* m_api;  ///< EasyEDA API 服务实例。
+    LcscImageService* m_imageService;  ///< LCSC 图片和数据手册服务实例。
 
     // 添加互斥锁保护并发访问
     mutable QMutex m_fetchingComponentsMutex;
-    mutable QMutex m_componentCacheMutex;
     mutable QMutex m_currentIdMutex;  // 保护 m_currentComponentId 的并发访问
 
-    // 数据缓存
-    QMap<QString, ComponentData> m_componentCache;
+    // 数据缓存由独立存储类负责容器和并发保护。
+    ComponentDataMemoryStore m_componentCache;
 
     // 当前正在获取的元件数据
     struct FetchingComponent {
-        QString componentId;
-        ComponentData data;
-        bool hasComponentInfo;
-        bool hasCadData;
+        QString componentId;  ///< 当前请求的元件编号。
+        ComponentData data;  ///< 当前请求关联的元件数据。
+        bool hasComponentInfo;  ///< 是否已获取元件基础信息。
+        bool hasCadData;  ///< 是否已获取 CAD 数据。
         bool fetch3DModel;  // 是否需要获取 3D 模型
         bool hasTriggeredLcscFetch;  // 是否已触发 LCSC 数据获取（防止重复触发）
         bool requestActive = false;  // 主验证请求仍在进行中，用于区分真实重复请求和陈旧条目
-        QString errorMessage;
+        QString errorMessage;  ///< 当前请求的错误信息。
         int pendingAsyncDownloads;  // 等待的异步下载数量（数据手册、预览图等）
         uint64_t cacheGeneration = 0;  // 请求创建时的缓存代次，用于过滤旧回调
     };
 
-    QMap<QString, FetchingComponent> m_fetchingComponents;
+    QMap<QString, FetchingComponent> m_fetchingComponents;  ///< 按元件编号索引的活动请求状态。
 
     // 当前处理的元件ID
     QString m_currentComponentId;
 
     // 并行数据收集状态
-    ParallelFetchContext* m_parallelContext;
+    ParallelFetchContext* m_parallelContext;  ///< 当前并行数据收集上下文。
     QMutex m_parallelContextMutex;  // 保护 m_parallelContext 的访问
 
     // 动态队列管理
-    class ComponentQueueManager* m_queueManager;
-    int m_activeRequestCount;
-    int m_maxConcurrentRequests;
-    bool m_batchFetch3DModel;
+    class ComponentQueueManager* m_queueManager;  ///< 动态请求队列管理器。
+    int m_activeRequestCount;  ///< 当前活动请求数量。
+    int m_maxConcurrentRequests;  ///< 允许的最大并发请求数量。
+    bool m_batchFetch3DModel;  ///< 批量请求时是否获取三维模型。
 
     // 内部状态处理
 
@@ -491,40 +528,80 @@ private:
 
 #ifdef EASYKICONVERTER_TESTING_ACCESS
 public:
+    /**
+     * @brief 设置测试用的元器件获取状态。
+     * @param componentId 用于索引状态的元器件编号。
+     * @param storedComponentId 状态中保存的原始元器件编号。
+     * @param hasCadData 是否已取得 CAD 数据。
+     * @param requestActive 请求是否仍处于活动状态。
+     */
     void testSetFetchingState(const QString& componentId,
                               const QString& storedComponentId,
                               bool hasCadData,
                               bool requestActive) {
-        const QString normalizedId = componentId.toUpper();
+        const QString normalizedId = componentId.toUpper();  // 用于查询状态的规范化元件编号。
         QMutexLocker locker(&m_fetchingComponentsMutex);
-        FetchingComponent& fetching = m_fetchingComponents[normalizedId];
+        FetchingComponent& fetching = m_fetchingComponents[normalizedId];  // 待修改的测试请求状态。
         fetching.componentId = storedComponentId;
         fetching.hasCadData = hasCadData;
         fetching.requestActive = requestActive;
+        fetching.cacheGeneration = ComponentCacheService::instance()->currentGeneration();
     }
 
+    /**
+     * @brief 返回测试用的元件获取状态是否存在。
+     * @param componentId 元件编号。
+     * @return 对应状态存在时返回 true。
+     */
     bool testHasFetchingState(const QString& componentId) const {
-        const QString normalizedId = componentId.toUpper();
+        const QString normalizedId = componentId.toUpper();  // 用于查询状态的规范化元件编号。
         QMutexLocker locker(&m_fetchingComponentsMutex);
         return m_fetchingComponents.contains(normalizedId);
     }
 
+    /**
+     * @brief 返回测试用获取状态中保存的原始元件编号。
+     * @param componentId 元件编号。
+     * @return 状态中保存的原始元件编号。
+     */
     QString testFetchingComponentId(const QString& componentId) const {
-        const QString normalizedId = componentId.toUpper();
+        const QString normalizedId = componentId.toUpper();  // 用于查询状态的规范化元件编号。
         QMutexLocker locker(&m_fetchingComponentsMutex);
         return m_fetchingComponents.value(normalizedId).componentId;
     }
 
+    /**
+     * @brief 返回测试用获取状态是否仍处于活动状态。
+     * @param componentId 元件编号。
+     * @return 请求仍处于活动状态时返回 true。
+     */
     bool testFetchingRequestActive(const QString& componentId) const {
-        const QString normalizedId = componentId.toUpper();
+        const QString normalizedId = componentId.toUpper();  // 用于查询状态的规范化元件编号。
         QMutexLocker locker(&m_fetchingComponentsMutex);
         return m_fetchingComponents.value(normalizedId).requestActive;
     }
 
+    /**
+     * @brief 返回测试用获取状态是否已经拥有 CAD 数据。
+     * @param componentId 元件编号。
+     * @return 已拥有 CAD 数据时返回 true。
+     */
     bool testFetchingHasCadData(const QString& componentId) const {
-        const QString normalizedId = componentId.toUpper();
+        const QString normalizedId = componentId.toUpper();  // 用于查询状态的规范化元件编号。
         QMutexLocker locker(&m_fetchingComponentsMutex);
         return m_fetchingComponents.value(normalizedId).hasCadData;
+    }
+
+    /**
+     * @brief 使用指定代次触发测试用失败清理流程。
+     * @param componentId 元件编号。
+     * @param error 错误信息。
+     * @param expectedGeneration 请求创建时的缓存代次。
+     */
+    void testEmitFetchErrorForGeneration(const QString& componentId,
+                                         const QString& error,
+                                         uint64_t expectedGeneration) {
+        emitFetchErrorAndClearState(componentId, error, expectedGeneration);
     }
 #endif
 };

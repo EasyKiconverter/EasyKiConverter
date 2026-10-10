@@ -874,10 +874,24 @@ class BuildManager:
                                 last_update_time = current_time
                         else:
                             self.logger.info(line)
-                    elif any(x in line.lower() for x in ["warning", "警告"]):
+                    # 只匹配编译器或构建工具的诊断格式，避免把源文件名中的
+                    # ComponentValidationErrorPolicy 等普通文本误判为错误。
+                    lower_line = line.lower()
+                    is_warning = bool(
+                        re.search(r"\bwarning(?:\s+[a-z]\d+)?\s*:", lower_line)
+                        or re.search(r"警告\s*[:：]", line)
+                    )
+                    is_error = bool(
+                        re.search(r"\berror(?:\s+[a-z]\d+)?\s*:", lower_line)
+                        or re.search(r"\bfatal error\b", lower_line)
+                        or re.search(r"错误\s*[:：]", line)
+                        or re.search(r"^\s*failed(?:\s*:|\s|$)", lower_line)
+                    )
+
+                    if is_warning:
                         self.stats.warnings += 1
                         self.logger.warning(line)
-                    elif any(x in line.lower() for x in ["error", "错误", "failed"]):
+                    elif is_error:
                         self.stats.errors += 1
                         self.logger.error(line)
                     else:

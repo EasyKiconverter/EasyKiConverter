@@ -34,15 +34,18 @@ Item {
     property int inputMode: 0  // 0=单个, 1=BOM
     // 滚动跟踪（用于 compact 模式下的 sticky bar）
     property bool compactScrolledPastThreshold: false
+    // 紧凑布局中悬浮进度栏的当前透明度。
     property real stickyBarOpacity: 0
     readonly property bool compactStickyActive: {
         var pc = window.exportProgressController;
         return !window.isSidebarMode && window.compactScrolledPastThreshold && pc && (pc.isExporting || pc.hasCompletedExport);
     }
+    // 返回当前工作区使用的主滚动视图。
     function mainFlickable() {
         return workspaceFlickable;
     }
 
+    // 将目标滚动位置限制在有效内容范围内。
     function clampScroll(targetY) {
         var flickable = mainFlickable();
         if (!flickable) {
@@ -52,6 +55,7 @@ Item {
         return Math.max(0, Math.min(maxY, targetY));
     }
 
+    // 停止当前滚动并回到工作区顶部。
     function scrollToTop() {
         var flickable = mainFlickable();
         if (flickable) {
@@ -60,6 +64,7 @@ Item {
         }
     }
 
+    // 侧边栏恢复后异步重置工作区滚动位置。
     function resetWorkspaceAfterSidebarRestore() {
         if (window.isSidebarMode && !window.sidebarCollapsed) {
             Qt.callLater(scrollToTop);
@@ -68,6 +73,7 @@ Item {
 
     onIsSidebarModeChanged: resetWorkspaceAfterSidebarRestore()
     onSidebarCollapsedChanged: resetWorkspaceAfterSidebarRestore()
+    // 将工作区滚动到内容底部。
     function scrollToBottom() {
         var flickable = mainFlickable();
         if (flickable) {
@@ -75,6 +81,7 @@ Item {
         }
     }
 
+    // 按页面增量滚动工作区。
     function scrollPage(deltaPages) {
         var flickable = mainFlickable();
         if (flickable) {
@@ -86,6 +93,7 @@ Item {
     // 监听 LanguageManager 的语言切换信号
     Connections {
         target: LanguageManager && LanguageManager.instance ? LanguageManager.instance() : null
+        // 语言管理器切换语言后更新窗口当前语言标识。
         function onLanguageChanged(language) {
             currentLanguage = language;
         }
@@ -293,6 +301,12 @@ Item {
             windowRadius: window.windowRadius
             windowController: Window.window ? Window.window.windowController : null
             appVersion: window.updateChecker ? window.updateChecker.currentVersion : ""
+            onVersionClicked: updateDialog.open()
+        }
+
+        UpdateDialog {
+            id: updateDialog
+            updateChecker: window.updateChecker
         }
 
         // 主布局：侧边栏 + 工作区
@@ -591,6 +605,7 @@ Item {
                                                 }
                                                 Connections {
                                                     target: bomDropArea
+                                                    // 鼠标状态变化时重绘 BOM 拖放区域边框。
                                                     function onContainsMouseChanged() {
                                                         dashBorder.requestPaint();
                                                     }
@@ -670,7 +685,7 @@ Item {
                         ExportProgressCard {
                             Layout.fillWidth: true
                             exportProgressController: window.exportProgressController
-                            visible: (window.exportProgressController && window.exportProgressController.isExporting) || (window.exportProgressController && window.exportProgressController.progress > 0)
+                            visible: window.exportProgressController ? (window.exportProgressController.isExporting || window.exportProgressController.progress > 0) : false
                         }
 
                         // 转换结果
@@ -699,9 +714,11 @@ Item {
 
                         Connections {
                             target: compactSettingsLoader.item
+                            // 打开输出目录选择对话框。
                             function onOpenOutputFolderDialog() {
                                 outputFolderDialog.open();
                             }
+                            // 打开缓存目录选择对话框。
                             function onOpenCacheFolderDialog() {
                                 cacheFolderDialog.open();
                             }
@@ -717,6 +734,7 @@ Item {
                                 exportSettingsController: window.exportSettingsController
                                 exportTargetModel: window.exportTargetController
                                 componentListController: window.componentListController
+                                currentLanguage: window.currentLanguage
                             }
                         }
 
@@ -789,7 +807,7 @@ Item {
                     Layout.alignment: Qt.AlignVCenter
                     radius: 3
                     color: AppStyle.colors.border
-                    visible: window.exportProgressController && window.exportProgressController.isExporting
+                    visible: window.exportProgressController ? window.exportProgressController.isExporting : false
                     Rectangle {
                         width: parent.width * (window.exportProgressController ? window.exportProgressController.progress / 100 : 0)
                         height: parent.height
@@ -812,7 +830,7 @@ Item {
                     backgroundColor: AppStyle.colors.primary
                     hoverColor: AppStyle.colors.primaryHover
                     pressedColor: AppStyle.colors.primaryPressed
-                    visible: window.exportProgressController && window.exportProgressController.hasCompletedExport
+                    visible: window.exportProgressController ? window.exportProgressController.hasCompletedExport : false
                     onClicked: {
                         if (window.exportProgressController) {
                             window.exportProgressController.openLastExportedFolder();
@@ -830,7 +848,7 @@ Item {
                     backgroundColor: AppStyle.colors.danger
                     hoverColor: AppStyle.colors.dangerDark
                     pressedColor: AppStyle.colors.dangerDark
-                    visible: window.exportProgressController && window.exportProgressController.isExporting
+                    visible: window.exportProgressController ? window.exportProgressController.isExporting : false
                     enabled: window.exportProgressController ? !window.exportProgressController.isStopping : false
                     onClicked: {
                         if (window.exportProgressController) {
@@ -850,7 +868,7 @@ Item {
         height: 2
         z: -1
         color: "transparent"
-        visible: window.exportProgressController && (window.exportProgressController.isExporting || window.exportProgressController.progress > 0)
+        visible: window.exportProgressController ? (window.exportProgressController.isExporting || window.exportProgressController.progress > 0) : false
         Rectangle {
             width: parent.width * ((window.exportProgressController ? window.exportProgressController.progress : 0) / 100)
             height: parent.height

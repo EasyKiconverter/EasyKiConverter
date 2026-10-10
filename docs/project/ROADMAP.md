@@ -1,12 +1,16 @@
 # 项目路线图
 
-本文档展示项目未来的发展方向，计划在下几个版本中实现哪些主要功能。
+本文档区分已发布能力、当前开发分支能力和后续计划，避免将开发中的功能误认为稳定版能力。
 
 ## 当前状态
 
-- **当前版本**: 3.1.10
-- **开发状态**: 稳定优化阶段，跨平台支持完善
-- **完成进度**: 约 99%（核心功能已实现，架构重构完成，测试框架已集成，跨平台打包完善）
+- **最新稳定版本**: v3.1.13
+- **当前开发分支**: `master`（源代码版本 3.1.13）
+- **开发状态**: 统一中间表示和多目标导出能力持续完善
+
+稳定版目前以 KiCad 导出为主要发布能力。`master` 已包含统一中间表示（IR）、Altium Designer
+库导出和 Xpedition ASCII 库导出实现，但这些能力是否包含在稳定安装包中必须以对应 Release
+说明为准。
 
 ## 版本规划
 
@@ -58,31 +62,27 @@
 - [x] 贡献指南和项目文档完善
 - [x] 版本管理工具（manage_version.py）- v3.0.5 已完成
 
-### v3.2.0 - 中间表示层架构重构（规划中）
+### v3.2.0 - 中间表示层和多目标导出（开发中）
 
-**目标**: 引入通用中间表示层 (IR)，解耦数据源与导出器，为多数据源接入奠定基础
+**目标**: 在已完成的统一中间表示基础上，完善多目标导出质量、诊断信息和兼容性验证。
 
 **决策文档**: [ADR 012: IR 架构重构](adr/012-intermediate-representation-refactor.md)
 
-**阶段 1: IR 类型和几何解析**（1 周，低风险）
-- [ ] 创建 `src/core/ir/` 目录和 `IRTypes.h`（PadShape/LayerType/PinElectricalType 等枚举）
-- [ ] 创建 `SymbolIR.h`（通用符号数据，QList\<QPointF\> 等已解析几何）
-- [ ] 创建 `FootprintIR.h`（通用封装数据，枚举化层 ID 和焊盘形状）
-- [ ] 创建 `ComponentIR.h`、`Model3DIR.h`
-- [ ] 创建 EasyEDA 层 ID/焊盘形状/引脚类型映射表
+**阶段 1: IR 类型和几何解析**
+- [x] 创建 `src/core/ir/` 和通用 IR 类型、符号、封装及 3D 模型结构
+- [x] 创建 EasyEDA 图层、焊盘形状和引脚类型映射表
 
-**阶段 2: Importer 迁移**（1 周，中风险）
-- [ ] 迁移 `EasyedaSymbolImporter` 输出为 `SymbolComponentIR`
-- [ ] 迁移 `EasyedaFootprintImporter` 输出为 `FootprintComponentIR`
-- [ ] 几何字符串解析从导出器提取到 Importer
-- [ ] 移除 `src/models/` 旧结构体（SymbolData/FootprintData 等）
-- [ ] Golden file 全量回归验证
+**阶段 2: Importer 与导出器适配**
+- [x] 由导入流程构建统一符号和封装 IR
+- [x] KiCad 导出器继续消费统一 IR
+- [x] Altium SchLib/PcbLib 导出器接入统一 IR
+- [x] Xpedition ASCII 符号和封装导出器接入统一 IR
+- [ ] 完成不同目标格式的 Golden file 和真实 EDA 兼容性回归
 
-**阶段 3: 导出器适配**（1 周，中风险）
-- [ ] 导出器接口改为消费 IR
-- [ ] ViewModel/Service/CLI/BOM 路径适配
-- [ ] 缓存序列化格式迁移
-- [ ] 端到端测试验证
+**阶段 3: 质量和发布边界**
+- [ ] 补充 Altium 和 Xpedition 的格式覆盖及诊断信息
+- [ ] 完善稳定版发布说明和各目标格式的能力矩阵
+- [ ] 评估旧模型序列化逻辑的兼容性迁移
 
 **代码质量改进**（见 [代码规模分析](CODE_SIZE_ANALYSIS.md)）:
 - [ ] QML 组件拆分（7 个过长文件，最大 1,128 行）
@@ -102,8 +102,8 @@
 
 我们欢迎您的反馈和建议：
 
-- 在 [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter/issues) 提交问题
-- 在 [GitHub Discussions](https://github.com/tangsangsimida/EasyKiConverter/discussions) 参与讨论
+- 在 [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues) 提交问题
+- 在 [GitHub Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions) 参与讨论
 - 通过邮件联系项目维护者
 
 ## 更新日志

@@ -405,7 +405,7 @@ flatpak build dev-sandbox /path/to/easykiconverter/build/bin/easykiconverter
 If you encounter issues during Flatpak build or usage:
 
 1. Check the "FAQ" section of this document
-2. Check project's [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter/issues)
+2. Check project's [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues)
 3. Submit a new Issue with detailed error info and logs
 
 ## Changelog

@@ -18,9 +18,9 @@ class BoundedThreadSafeQueue {
 public:
     /**
      * @brief 构造函数
-         * @param maxSize 最大容量（0表示无限制）
+     * @param maxSize 最大容量（0表示无限制）
      */
-    explicit BoundedThreadSafeQueue(size_t maxSize = 0) : m_maxSize(maxSize), m_closed(false) {}
+    explicit BoundedThreadSafeQueue(size_t maxSize = 0) : m_maxSize(maxSize), m_closed(0) {}
 
     /**
      * @brief 析构函数
@@ -162,11 +162,17 @@ public:
     }
 
 private:
+    /// 保护队列、容量和关闭状态的互斥锁。
     mutable QMutex m_mutex;
+    /// 等待队列变为非空的条件变量。
     QWaitCondition m_notEmpty;
+    /// 等待队列出现空闲容量的条件变量。
     QWaitCondition m_notFull;
+    /// 保存队列中的元素。
     QQueue<T> m_queue;
+    /// 队列最大容量，零表示不限制容量。
     size_t m_maxSize;
+    /// 标记队列是否已关闭。
     QAtomicInt m_closed;
 };
 

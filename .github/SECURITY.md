@@ -2,13 +2,12 @@
 
 ## 支持的版本
 
-我们为当前版本提供安全更新支持。
+我们优先为当前稳定发布线提供安全更新。预发布版本用于验证后续功能，不承诺与稳定版本相同的安全维护周期。
 
-| 版本  | 支持状态         |
-| ----- | ---------------- |
-| 3.0.x | ✅ 支持           |
-| 2.x   | ⚠️ 仅关键安全问题 |
-| 1.x   | ❌ 不再支持       |
+| 版本 | 支持状态 |
+| ---- | -------- |
+| 3.1.x（当前稳定发布线） | ✅ 提供安全更新 |
+| 3.0.x 及更早版本 | ⚠️ 不承诺继续维护 |
 
 ## 报告漏洞
 
@@ -17,7 +16,7 @@
 ### 报告流程
 
 1. **发送邮件**到项目维护者：
-   - 邮箱：[安全邮箱]
+   - 邮箱：dennisreyoonjiho@gmail.com
    - 主题：[安全漏洞] EasyKiConverter 安全报告
 
 2. **在邮件中包含以下信息**：
@@ -76,12 +75,20 @@
 
 ## 隐私政策
 
-EasyKiConverter 不收集或传输任何个人用户数据。所有数据处理都在本地进行。
+EasyKiConverter 不包含遥测、广告或崩溃上报服务。用户配置、缓存、导出文件和日志由应用按本地配置写入用户设备；应用不会把用户文件上传到项目维护者的服务器。
+
+应用在用户执行相应功能时会通过统一网络客户端访问第三方服务：
+
+- 从 EasyEDA/LCSC 相关接口读取元件信息、预览图、数据手册和 3D 模型。请求中可能包含用户输入的元件编号以及接口所需的查询参数。
+- 通过 GitHub Releases API 检查版本更新。更新检查只读取版本元数据，用户点击更新后由系统浏览器打开 GitHub Release 页面，应用不会在内部下载、安装或执行更新文件。
+- 用户主动打开项目链接、元件详情链接或导出结果目录时，应用会调用系统浏览器或文件管理器。
+
+除上述功能所需的请求外，当前仓库没有实现向项目维护者发送用户数据、遥测或崩溃报告的代码。网络请求失败时，应用会在本地显示错误并根据功能使用已有缓存。
 
 ## 联系方式
 
-- 安全邮箱：[dennisreyoonjiho@gmail.com]
-- GitHub：[https://github.com/tangsangsimida/EasyKiConverter_QT](https://github.com/tangsangsimida/EasyKiConverter_QT)
+- 安全邮箱：dennisreyoonjiho@gmail.com
+- GitHub：[https://github.com/EasyKiconverter/EasyKiConverter](https://github.com/EasyKiconverter/EasyKiConverter)
 
 ## 致谢
 

@@ -20,9 +20,8 @@ class ProcessWorker : public QObject, public QRunnable {
 public:
     /**
      * @brief 构造函数
-         * @param status 导出状态（使用 QSharedPointer 避免拷贝）
-         * @param
-     * parent 父对象
+     * @param status 导出状态（使用 QSharedPointer 避免拷贝）
+     * @param parent 父对象
          */
     explicit ProcessWorker(QSharedPointer<ComponentExportStatus> status, QObject* parent = nullptr);
 
@@ -71,8 +70,8 @@ private:
     bool parse3DModelData(ComponentExportStatus& status);
 
 private:
-    QSharedPointer<ComponentExportStatus> m_status;
-    QAtomicInt m_isAborted;  // 取消标志 (v3.0.5+)
+    QSharedPointer<ComponentExportStatus> m_status;  ///< 线程处理所使用的共享导出状态。
+    QAtomicInt m_isAborted;  ///< 取消标志（v3.0.5+）。
 };
 
 }  // namespace EasyKiConverter

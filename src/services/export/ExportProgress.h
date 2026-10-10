@@ -4,6 +4,7 @@
 #include <QMap>
 #include <QMetaType>
 #include <QString>
+#include <QStringList>
 
 namespace EasyKiConverter {
 
@@ -13,9 +14,17 @@ namespace EasyKiConverter {
  *          枚举值用于持久化存储和 UI 下拉索引，从 0 递增。
  */
 enum class TargetEdaFormat {
-    KiCad = 0, /**< KiCad 格式（默认） */
-    Altium = 1 /**< Altium Designer 格式 */
-    // 后续扩展: Allegro = 2, Eagle = 3, ...
+    KiCad = 0,  ///< KiCad 格式（默认）
+    Altium = 1,  ///< Altium Designer 格式
+    Xpedition = 2,  ///< Xpedition ASCII 库格式
+    Allegro = 3,  ///< Allegro 符号、封装和三维语义 Import Package
+    Pads = 4,  ///< PADS Parts Library ASCII 符号、器件关联和 PCB Decal
+    Eagle = 5,  ///< Eagle XML 组合库（符号、封装和器件关联）
+    Pcad = 6,  ///< P-CAD ASCII 符号库、器件库和 PCB 库
+    Cadstar = 7,  ///< CADSTAR ASCII combined symbol and package library
+    Orcad = 8,  ///< OrCAD Capture XML symbol library
+    LibrePcb = 9,  ///< LibrePCB 2 native library
+    Horizon = 10  ///< Horizon EDA Pool source library
 };
 
 /**
@@ -32,12 +41,12 @@ enum class TargetEdaFormat {
  */
 struct ExportOptions {
     // 3D模型格式常量 (位掩码)
-    static constexpr int MODEL_3D_FORMAT_NONE = 0;  // 无格式
-    static constexpr int MODEL_3D_FORMAT_WRL = 1;  // WRL (bit 0)
-    static constexpr int MODEL_3D_FORMAT_STEP = 2;  // STEP (bit 1)
-    static constexpr int MODEL_3D_FORMAT_BOTH = 3;  // Both (WRL + STEP)
-    static constexpr int MODEL_3D_PATH_RELATIVE = 0;  // Footprint model path uses ../<lib>.3dmodels/...
-    static constexpr int MODEL_3D_PATH_ABSOLUTE = 1;  // Footprint model path uses an absolute filesystem path
+    static constexpr int MODEL_3D_FORMAT_NONE = 0;  ///< 不导出三维模型。
+    static constexpr int MODEL_3D_FORMAT_WRL = 1;  ///< 导出 WRL 模型（bit 0）。
+    static constexpr int MODEL_3D_FORMAT_STEP = 2;  ///< 导出 STEP 模型（bit 1）。
+    static constexpr int MODEL_3D_FORMAT_BOTH = 3;  ///< 同时导出 WRL 和 STEP 模型。
+    static constexpr int MODEL_3D_PATH_RELATIVE = 0;  ///< 使用相对三维模型路径。
+    static constexpr int MODEL_3D_PATH_ABSOLUTE = 1;  ///< 使用绝对三维模型路径。
 
     // 3D模型格式判断辅助方法
     constexpr bool needsModel3DWrl() const {
@@ -46,6 +55,22 @@ struct ExportOptions {
 
     constexpr bool needsModel3DStep() const {
         return (exportModel3DFormat & MODEL_3D_FORMAT_STEP) != 0;
+    }
+
+    /**
+     * @brief 判断当前目标是否必须嵌入 STEP 三维模型
+     *
+     * Altium、LibrePCB 和 Horizon 原生库不使用本项目的独立模型阶段，三维模型
+     * 必须在封装库阶段写入。因此即使调用方传入了 WRL-only 配置，也必须为
+     * 这些目标获取并嵌入 STEP。
+     */
+    constexpr bool needsEmbeddedModel3DStep() const {
+        if (!exportModel3D || targetFormat == TargetEdaFormat::Xpedition || targetFormat == TargetEdaFormat::Pads ||
+            targetFormat == TargetEdaFormat::Eagle || targetFormat == TargetEdaFormat::Pcad)
+            return false;
+        return needsModel3DStep() || targetFormat == TargetEdaFormat::Altium ||
+               targetFormat == TargetEdaFormat::Allegro || targetFormat == TargetEdaFormat::LibrePcb ||
+               targetFormat == TargetEdaFormat::Horizon;
     }
 
     static constexpr int normalizePathMode(int mode) {
@@ -88,7 +113,9 @@ struct ExportOptions {
  * @endcode
  */
 struct ExportItemStatus {
-    /** @brief 导出项状态枚举 */
+    /**
+     * @brief 导出项状态枚举
+     */
     enum class Status {
         Pending,  ///< 等待中 - 尚未开始处理
         InProgress,  ///< 处理中 - 正在导出
@@ -99,6 +126,7 @@ struct ExportItemStatus {
 
     Status status = Status::Pending;  ///< 当前状态
     QString errorMessage;  ///< 错误信息（当status为Failed时有效）
+    QStringList diagnostics;  ///< 非致命输入诊断（不阻断导出）
     QString filePath;  ///< 导出文件路径（当status为Success时有效）
     qint64 bytesProcessed = 0;  ///< 已处理的字节数（用于大文件导出进度）
     qint64 totalBytes = 0;  ///< 总字节数（用于计算进度百分比）
@@ -114,7 +142,10 @@ struct ExportItemStatus {
         return status == Status::Success || status == Status::Failed || status == Status::Skipped;
     }
 
-    /** @brief 判断导出是否成功 */
+    /**
+     * @brief 判断导出是否成功。
+     * @return 状态为成功时返回 true。
+     */
     bool isSuccess() const {
         return status == Status::Success;
     }
@@ -157,6 +188,7 @@ struct ExportTypeProgress {
     int skippedCount = 0;  ///< 被跳过的元器件数量
     int inProgressCount = 0;  ///< 当前正在导出的元器件数量
     QMap<QString, ExportItemStatus> itemStatus;  ///< 所有元器件的导出状态映射
+    QStringList diagnostics;  ///< 导出器产生的非致命诊断
     qint64 totalBytes = 0;  ///< 该类型所有文件的总字节数
     qint64 processedBytes = 0;  ///< 已处理的字节数
     qint64 totalTimeMs = 0;  ///< 该类型导出的总耗时（毫秒）
@@ -222,7 +254,9 @@ struct PreloadProgress {
  * @endcode
  */
 struct ExportOverallProgress {
-    /** @brief 导出任务阶段枚举 */
+    /**
+     * @brief 导出任务阶段枚举
+     */
     enum class Stage {
         Idle,  ///< 空闲 - 导出任务未开始
         Preloading,  ///< 预加载 - 正在预加载元器件数据
@@ -244,7 +278,7 @@ struct ExportOverallProgress {
      * @return 成功导出的元器件总数
      */
     int totalSuccessCount() const {
-        int count = 0;
+        int count = 0;  ///< 所有导出类型的成功总数。
         for (const auto& p : exportTypeProgress) {
             count += p.successCount;
         }
@@ -256,7 +290,7 @@ struct ExportOverallProgress {
      * @return 导出失败的元器件总数
      */
     int totalFailedCount() const {
-        int count = 0;
+        int count = 0;  ///< 所有导出类型的失败总数。
         for (const auto& p : exportTypeProgress) {
             count += p.failedCount;
         }
@@ -299,7 +333,8 @@ struct ExportOverallProgress {
         if (currentStage == Stage::Preloading)
             return preloadProgress.percentage();
         if (currentStage == Stage::Exporting) {
-            int total = 0, completed = 0;
+            int total = 0;  ///< 所有导出类型的待处理总数。
+            int completed = 0;  ///< 所有导出类型的已完成总数。
             for (const auto& p : exportTypeProgress) {
                 total += p.totalCount;
                 completed += p.completedCount;

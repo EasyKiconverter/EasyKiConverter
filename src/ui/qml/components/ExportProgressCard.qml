@@ -9,7 +9,7 @@ Card {
     // 外部依赖
     property var exportProgressController
     title: qsTranslate("MainWindow", "转换进度")
-    visible: (exportProgressCard.exportProgressController && exportProgressCard.exportProgressController.isExporting) || (exportProgressCard.exportProgressController && exportProgressCard.exportProgressController.progress > 0)
+    visible: exportProgressCard.exportProgressController ? (exportProgressCard.exportProgressController.isExporting || exportProgressCard.exportProgressController.progress > 0) : false
     ColumnLayout {
         width: parent.width
         spacing: 12
@@ -154,7 +154,7 @@ Card {
             font.pixelSize: AppStyle.fontSizes.sm
             color: AppStyle.colors.textSecondary
             horizontalAlignment: Text.AlignHCenter
-            visible: exportProgressCard.exportProgressController && exportProgressCard.exportProgressController.status && exportProgressCard.exportProgressController.status.length > 0
+            visible: exportProgressCard.exportProgressController ? (exportProgressCard.exportProgressController.status ? exportProgressCard.exportProgressController.status.length > 0 : false) : false
         }
     }
 }

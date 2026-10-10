@@ -6,8 +6,12 @@ namespace EasyKiConverter {
 
 // ==================== SymbolBBox ====================
 
+/**
+ * @brief 将符号边界框序列化为 JSON。
+ * @param bbox 待序列化的边界框。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolBBox& bbox) {
-    QJsonObject json;
+    QJsonObject json;  // 保存边界框字段的 JSON 对象。
     json["x"] = bbox.x;
     json["y"] = bbox.y;
     json["width"] = bbox.width;
@@ -18,6 +22,12 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolBBox& bbox) {
     return json;
 }
 
+// 从 JSON 恢复符号边界框及其可选的头部中心。
+/**
+ * @brief 从 JSON 恢复符号边界框。
+ * @param bbox 接收反序列化结果的边界框。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolBBox& bbox, const QJsonObject& json) {
     bbox.x = json["x"].toDouble(0.0);
     bbox.y = json["y"].toDouble(0.0);
@@ -31,8 +41,12 @@ bool SymbolShapeSerializer::fromJson(SymbolBBox& bbox, const QJsonObject& json) 
 
 // ==================== SymbolRectangle ====================
 
+/**
+ * @brief 将符号矩形序列化为 JSON。
+ * @param rect 待序列化的矩形。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolRectangle& rect) {
-    QJsonObject json;
+    QJsonObject json;  // 保存矩形字段的 JSON 对象。
     json["pos_x"] = rect.posX;
     json["pos_y"] = rect.posY;
     json["rx"] = rect.rx;
@@ -48,6 +62,12 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolRectangle& rect) {
     return json;
 }
 
+// 从 JSON 恢复矩形的位置、圆角、描边和填充属性。
+/**
+ * @brief 从 JSON 恢复符号矩形。
+ * @param rect 接收反序列化结果的矩形。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolRectangle& rect, const QJsonObject& json) {
     rect.posX = json["pos_x"].toDouble(0.0);
     rect.posY = json["pos_y"].toDouble(0.0);
@@ -66,8 +86,12 @@ bool SymbolShapeSerializer::fromJson(SymbolRectangle& rect, const QJsonObject& j
 
 // ==================== SymbolCircle ====================
 
+/**
+ * @brief 将符号圆形序列化为 JSON。
+ * @param circle 待序列化的圆形。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolCircle& circle) {
-    QJsonObject json;
+    QJsonObject json;  // 保存圆形字段的 JSON 对象。
     json["center_x"] = circle.centerX;
     json["center_y"] = circle.centerY;
     json["radius"] = circle.radius;
@@ -80,6 +104,12 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolCircle& circle) {
     return json;
 }
 
+// 从 JSON 恢复圆形的中心、半径、描边和填充属性。
+/**
+ * @brief 从 JSON 恢复符号圆形。
+ * @param circle 接收反序列化结果的圆形。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolCircle& circle, const QJsonObject& json) {
     circle.centerX = json["center_x"].toDouble(0.0);
     circle.centerY = json["center_y"].toDouble(0.0);
@@ -95,11 +125,15 @@ bool SymbolShapeSerializer::fromJson(SymbolCircle& circle, const QJsonObject& js
 
 // ==================== SymbolArc ====================
 
+/**
+ * @brief 将符号圆弧序列化为 JSON。
+ * @param arc 待序列化的圆弧。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolArc& arc) {
-    QJsonObject json;
-    QJsonArray pathArray;
+    QJsonObject json;  // 保存圆弧字段的 JSON 对象。
+    QJsonArray pathArray;  // 保存圆弧路径点的 JSON 数组。
     for (const QPointF& point : arc.path) {
-        QJsonObject pointObj;
+        QJsonObject pointObj;  // 当前路径点的 JSON 对象。
         pointObj["x"] = point.x();
         pointObj["y"] = point.y();
         pathArray.append(pointObj);
@@ -115,14 +149,20 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolArc& arc) {
     return json;
 }
 
+// 从 JSON 恢复圆弧路径、辅助点和图形样式属性。
+/**
+ * @brief 从 JSON 恢复符号圆弧。
+ * @param arc 接收反序列化结果的圆弧。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolArc& arc, const QJsonObject& json) {
     if (json.contains("path") && json["path"].isArray()) {
-        QJsonArray pathArray = json["path"].toArray();
+        QJsonArray pathArray = json["path"].toArray();  // 圆弧路径 JSON 数组。
         arc.path.clear();
         for (const QJsonValue& value : pathArray) {
             if (value.isObject()) {
-                QJsonObject pointObj = value.toObject();
-                QPointF point(pointObj["x"].toDouble(0.0), pointObj["y"].toDouble(0.0));
+                QJsonObject pointObj = value.toObject();  // 当前路径点 JSON 对象。
+                QPointF point(pointObj["x"].toDouble(0.0), pointObj["y"].toDouble(0.0));  // 当前路径点。
                 arc.path.append(point);
             }
         }
@@ -139,8 +179,12 @@ bool SymbolShapeSerializer::fromJson(SymbolArc& arc, const QJsonObject& json) {
 
 // ==================== SymbolEllipse ====================
 
+/**
+ * @brief 将符号椭圆序列化为 JSON。
+ * @param ellipse 待序列化的椭圆。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolEllipse& ellipse) {
-    QJsonObject json;
+    QJsonObject json;  // 保存椭圆字段的 JSON 对象。
     json["center_x"] = ellipse.centerX;
     json["center_y"] = ellipse.centerY;
     json["radius_x"] = ellipse.radiusX;
@@ -154,6 +198,12 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolEllipse& ellipse) {
     return json;
 }
 
+// 从 JSON 恢复椭圆中心、半径和图形样式属性。
+/**
+ * @brief 从 JSON 恢复符号椭圆。
+ * @param ellipse 接收反序列化结果的椭圆。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolEllipse& ellipse, const QJsonObject& json) {
     ellipse.centerX = json["center_x"].toDouble(0.0);
     ellipse.centerY = json["center_y"].toDouble(0.0);
@@ -170,8 +220,12 @@ bool SymbolShapeSerializer::fromJson(SymbolEllipse& ellipse, const QJsonObject& 
 
 // ==================== SymbolPolyline ====================
 
+/**
+ * @brief 将符号折线序列化为 JSON。
+ * @param polyline 待序列化的折线。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolPolyline& polyline) {
-    QJsonObject json;
+    QJsonObject json;  // 保存折线字段的 JSON 对象。
     json["points"] = polyline.points;
     json["stroke_color"] = polyline.strokeColor;
     json["stroke_width"] = polyline.strokeWidth;
@@ -182,6 +236,12 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolPolyline& polyline) {
     return json;
 }
 
+// 从 JSON 恢复折线坐标文本和图形样式属性。
+/**
+ * @brief 从 JSON 恢复符号折线。
+ * @param polyline 接收反序列化结果的折线。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolPolyline& polyline, const QJsonObject& json) {
     polyline.points = json["points"].toString();
     polyline.strokeColor = json["stroke_color"].toString();
@@ -195,8 +255,12 @@ bool SymbolShapeSerializer::fromJson(SymbolPolyline& polyline, const QJsonObject
 
 // ==================== SymbolPolygon ====================
 
+/**
+ * @brief 将符号多边形序列化为 JSON。
+ * @param polygon 待序列化的多边形。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolPolygon& polygon) {
-    QJsonObject json;
+    QJsonObject json;  // 保存多边形字段的 JSON 对象。
     json["points"] = polygon.points;
     json["stroke_color"] = polygon.strokeColor;
     json["stroke_width"] = polygon.strokeWidth;
@@ -207,6 +271,12 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolPolygon& polygon) {
     return json;
 }
 
+// 从 JSON 恢复多边形坐标文本和图形样式属性。
+/**
+ * @brief 从 JSON 恢复符号多边形。
+ * @param polygon 接收反序列化结果的多边形。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolPolygon& polygon, const QJsonObject& json) {
     polygon.points = json["points"].toString();
     polygon.strokeColor = json["stroke_color"].toString();
@@ -220,8 +290,12 @@ bool SymbolShapeSerializer::fromJson(SymbolPolygon& polygon, const QJsonObject& 
 
 // ==================== SymbolPath ====================
 
+/**
+ * @brief 将符号路径序列化为 JSON。
+ * @param path 待序列化的路径。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolPath& path) {
-    QJsonObject json;
+    QJsonObject json;  // 保存路径字段的 JSON 对象。
     json["paths"] = path.paths;
     json["stroke_color"] = path.strokeColor;
     json["stroke_width"] = path.strokeWidth;
@@ -232,6 +306,12 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolPath& path) {
     return json;
 }
 
+// 从 JSON 恢复路径命令文本和图形样式属性。
+/**
+ * @brief 从 JSON 恢复符号路径。
+ * @param path 接收反序列化结果的路径。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolPath& path, const QJsonObject& json) {
     path.paths = json["paths"].toString();
     path.strokeColor = json["stroke_color"].toString();
@@ -243,10 +323,53 @@ bool SymbolShapeSerializer::fromJson(SymbolPath& path, const QJsonObject& json) 
     return true;
 }
 
+// ==================== SymbolImage ====================
+
+/**
+ * @brief 将符号图片序列化为 JSON。
+ * @param image 待序列化的图片。
+ */
+QJsonObject SymbolShapeSerializer::toJson(const SymbolImage& image) {
+    QJsonObject json;  // 保存图片字段的 JSON 对象。
+    json["pos_x"] = image.posX;
+    json["pos_y"] = image.posY;
+    json["width"] = image.width;
+    json["height"] = image.height;
+    json["rotation"] = image.rotation;
+    json["source"] = image.source;
+    json["file_name"] = image.fileName;
+    json["data_base64"] = QString::fromLatin1(image.data.toBase64());
+    json["is_locked"] = image.isLocked;
+    return json;
+}
+
+// 从 JSON 恢复图片位置、资源标识和嵌入数据。
+/**
+ * @brief 从 JSON 恢复符号图片。
+ * @param image 接收反序列化结果的图片。
+ * @param json 源 JSON 对象。
+ */
+bool SymbolShapeSerializer::fromJson(SymbolImage& image, const QJsonObject& json) {
+    image.posX = json["pos_x"].toDouble(0.0);
+    image.posY = json["pos_y"].toDouble(0.0);
+    image.width = json["width"].toDouble(0.0);
+    image.height = json["height"].toDouble(0.0);
+    image.rotation = json["rotation"].toDouble(0.0);
+    image.source = json["source"].toString();
+    image.fileName = json["file_name"].toString();
+    image.data = QByteArray::fromBase64(json["data_base64"].toString().toLatin1());
+    image.isLocked = json["is_locked"].toBool(false);
+    return true;
+}
+
 // ==================== SymbolText ====================
 
+/**
+ * @brief 将符号文本序列化为 JSON。
+ * @param text 待序列化的文本。
+ */
 QJsonObject SymbolShapeSerializer::toJson(const SymbolText& text) {
-    QJsonObject json;
+    QJsonObject json;  // 保存文本字段的 JSON 对象。
     json["mark"] = text.mark;
     json["pos_x"] = text.posX;
     json["pos_y"] = text.posY;
@@ -266,6 +389,12 @@ QJsonObject SymbolShapeSerializer::toJson(const SymbolText& text) {
     return json;
 }
 
+// 从 JSON 恢复文本内容、排版参数和显示状态。
+/**
+ * @brief 从 JSON 恢复符号文本。
+ * @param text 接收反序列化结果的文本。
+ * @param json 源 JSON 对象。
+ */
 bool SymbolShapeSerializer::fromJson(SymbolText& text, const QJsonObject& json) {
     text.mark = json["mark"].toString();
     text.posX = json["pos_x"].toDouble(0.0);

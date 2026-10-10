@@ -1,23 +1,29 @@
 #include "BomConverter.h"
 
 #include "CliContext.h"
-#include "CliPrinter.h"
 #include "FileReader.h"
-#include "services/ComponentService.h"
-#include "services/export/ParallelExportService.h"
 
 #include <QCoreApplication>
-#include <QEventLoop>
 
 namespace EasyKiConverter {
 
+/**
+ * @brief 创建 BOM 转换器并绑定 CLI 上下文。
+ * @param context CLI 共享上下文。
+ * @param parent 父对象。
+ */
 BomConverter::BomConverter(CliContext* context, QObject* parent) : BaseConverter(context, parent) {}
 
+/**
+ * @brief 读取 BOM、预加载组件并执行导出流程。
+ * @return 导出成功时返回 true，否则返回 false。
+ */
 bool BomConverter::execute() {
     printMessage(QCoreApplication::translate("CliConverter", "开始转换 BOM 表..."));
 
     // 读取 BOM 表文件
     QString readError;
+    // 保存从 BOM 表中读取的元器件编号。
     QStringList componentIds = FileReader::readBomFile(context()->parser().inputFile(), readError);
 
     if (!readError.isEmpty()) {
@@ -30,79 +36,7 @@ bool BomConverter::execute() {
         return false;
     }
 
-    printMessage(QCoreApplication::translate("CliConverter", "找到 %1 个元器件").arg(componentIds.size()));
-
-    // 创建导出选项
-    ExportOptions options = context()->createExportOptions();
-
-    // 设置导出服务
-    ParallelExportService* exportService = context()->exportService();
-    exportService->setOptions(options);
-    exportService->setOutputPath(context()->parser().outputDir());
-
-    // 连接信号
-    connect(exportService, &ParallelExportService::preloadCompleted, this, &BomConverter::onPreloadCompleted);
-    connect(exportService, &ParallelExportService::progressChanged, this, &BomConverter::onProgressChanged);
-    connect(exportService, &ParallelExportService::completed, this, &BomConverter::onExportCompleted);
-    connect(exportService, &ParallelExportService::failed, this, &BomConverter::onExportFailed);
-
-    // 创建事件循环等待预加载完成
-    QEventLoop preloadLoop;
-    connect(exportService, &ParallelExportService::preloadCompleted, &preloadLoop, &QEventLoop::quit);
-    connect(exportService, &ParallelExportService::failed, &preloadLoop, &QEventLoop::quit);
-
-    // 开始预加载
-    exportService->startPreload(componentIds);
-
-    // 等待预加载完成
-    preloadLoop.exec();
-
-    // 检查是否预加载成功
-    if (errorMessage().isEmpty()) {
-        printMessage(QCoreApplication::translate("CliConverter", "预加载完成，开始导出..."));
-
-        // 创建事件循环等待导出完成
-        QEventLoop exportLoop;
-        connect(exportService, &ParallelExportService::completed, &exportLoop, &QEventLoop::quit);
-        connect(exportService, &ParallelExportService::failed, &exportLoop, &QEventLoop::quit);
-
-        // 开始导出
-        exportService->startExport();
-
-        // 等待导出完成
-        exportLoop.exec();
-    }
-
-    printMessage(QCoreApplication::translate("CliConverter", "\n转换完成: 成功 %1, 失败 %2")
-                     .arg(m_successCount)
-                     .arg(m_failedCount));
-
-    return m_exportSuccess;
-}
-
-void BomConverter::onPreloadCompleted(int successCount, int failedCount) {
-    printMessage(
-        QCoreApplication::translate("CliConverter", "预加载完成: 成功 %1, 失败 %2").arg(successCount).arg(failedCount));
-}
-
-void BomConverter::onProgressChanged(const ExportOverallProgress& progress) {
-    if (context()->parser().showProgress()) {
-        int percent = progress.overallPercentage();
-        printProgressBar(percent);
-    }
-}
-
-void BomConverter::onExportCompleted(int successCount, int failedCount) {
-    m_successCount = successCount;
-    m_failedCount = failedCount;
-    m_exportSuccess = (failedCount == 0);
-    m_exportFinished = true;
-}
-
-void BomConverter::onExportFailed(const QString& error) {
-    setError(error);
-    m_exportSuccess = false;
-    m_exportFinished = true;
+    return runExport(componentIds);
 }
 
 }  // namespace EasyKiConverter

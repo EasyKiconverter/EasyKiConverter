@@ -1,48 +1,48 @@
 #include "AltiumSchLibWriter.h"
 
+#include "AltiumSchComponentRecordWriter.h"
+#include "AltiumSchComponentStorageWriter.h"
+#include "AltiumSchGeometryValidator.h"
+#include "AltiumSchGraphicOrderValidator.h"
+#include "AltiumSchImageRecordWriter.h"
+#include "AltiumSchImageStorageWriter.h"
+#include "AltiumSchInputValidator.h"
+#include "AltiumSchLibraryHeaderWriter.h"
+#include "AltiumSchOwnershipValidator.h"
+#include "AltiumSchPinRecordWriter.h"
+#include "AltiumSchPrimitiveRecordWriter.h"
+#include "AltiumSchTextRecordWriter.h"
 #include "utils/AltiumConstants.h"
 #include "utils/AltiumCoord.h"
 #include "utils/AltiumWriterUtils.h"
 
 #include <QDebug>
-#include <QRandomGenerator>
+#include <QIODevice>
+
+#include <algorithm>
+#include <cmath>
 
 namespace EasyKiConverter {
 
 /**
  * @brief 获取元件的 Section Key（存储键）
  * @details 委托给 AltiumWriterUtils::getSectionKey()
+ * @param name 元件名称。
+ * @return 可用作 OLE 存储键的名称。
  */
 QString AltiumSchLibWriter::getSectionKey(const QString& name) const {
     return AltiumWriterUtils::getSectionKey(name);
 }
 
 /**
- * @brief 获取或添加字体到字体表
- */
-int AltiumSchLibWriter::getOrAddFont(const QString& fontName, int fontSize, bool bold, bool italic, bool underline) {
-    for (int i = 0; i < m_fonts.size(); ++i) {
-        if (m_fonts[i].name == fontName && m_fonts[i].size == fontSize && m_fonts[i].bold == bold &&
-            m_fonts[i].italic == italic && m_fonts[i].underline == underline) {
-            return i + 1;  // 1-based
-        }
-    }
-    AltiumModels::FontEntry entry;
-    entry.name = fontName;
-    entry.size = fontSize;
-    entry.bold = bold;
-    entry.italic = italic;
-    entry.underline = underline;
-    m_fonts.append(entry);
-    return m_fonts.size();  // 1-based
-}
-
-/**
  * @brief 添加坐标参数（DXP 单位 + 小数部分）
+ * @param params 参数映射（输出）。
+ * @param key 参数键名。
+ * @param raw IR 原始坐标值。
  */
 void AltiumSchLibWriter::addCoordParam(QMap<QString, QString>& params, const QString& key, int raw) {
-    int16_t dxp = AltiumCoord::toDxpInt(raw);
-    int32_t frac = AltiumCoord::toDxpFrac(raw);
+    int16_t dxp = AltiumCoord::toDxpInt(raw);  // DXP 整数坐标部分。
+    int32_t frac = AltiumCoord::toDxpFrac(raw);  // DXP 小数坐标部分。
     params[key] = QString::number(dxp);
     if (frac != 0) {
         params[key + "_Frac"] = QString::number(frac);
@@ -51,6 +51,9 @@ void AltiumSchLibWriter::addCoordParam(QMap<QString, QString>& params, const QSt
 
 /**
  * @brief 添加颜色参数
+ * @param params 参数映射（输出）。
+ * @param key 参数键名。
+ * @param color 颜色整数值。
  */
 void AltiumSchLibWriter::addColorParam(QMap<QString, QString>& params, const QString& key, uint32_t color) {
     if (color != 0) {
@@ -60,239 +63,143 @@ void AltiumSchLibWriter::addColorParam(QMap<QString, QString>& params, const QSt
 
 /**
  * @brief 生成并添加 UniqueID
+ * @param params 参数映射（输出）。
  */
 void AltiumSchLibWriter::addUniqueID(QMap<QString, QString>& params) {
-    m_uniqueIdCounter++;
-    QString id = QString("%1").arg(m_uniqueIdCounter, 8, 10, QChar('0'));
+    m_uniqueIdCounter++;  // 递增当前库文件的记录唯一标识计数器。
+    QString id = QString("%1").arg(m_uniqueIdCounter, 8, 10, QChar('0'));  // 格式化后的八位唯一标识。
     params["UniqueID"] = id;
 }
 
 /**
  * @brief 写入 SchLib 文件
+ * @param components 元件列表。
+ * @param filePath 输出文件路径。
+ * @param libraryName 输出库名称。
+ * @return 写入成功时返回 true。
  */
 bool AltiumSchLibWriter::write(const QList<AltiumSchComponent>& components,
                                const QString& filePath,
                                const QString& libraryName) {
+    m_diagnostics.clear();
     if (components.isEmpty()) {
+        m_diagnostics.append(QStringLiteral("Altium SchLib 输入组件为空，已拒绝写入"));
         qWarning() << "AltiumSchLibWriter: Refusing to write an empty library";
         return false;
     }
-    m_fonts.clear();
+    if (filePath.trimmed().isEmpty()) {
+        m_diagnostics.append(QStringLiteral("Altium SchLib 输出路径为空，已拒绝写入"));
+        qWarning() << "AltiumSchLibWriter: Refusing to write without an output path";
+        return false;
+    }
+    if (!AltiumSchInputValidator::validate(*this, components)) {
+        return false;
+    }
+    m_fontRegistry.clear();
+    m_embeddedImageNames.clear();
     m_uniqueIdCounter = 0;
-    m_libraryName = libraryName;
+    m_nextIndexInSheet = 0;
+    m_libraryName = libraryName;  // 当前输出库名称，用于生成实现记录中的 PcbLib 引用。
+
+    prepareImageStorageNames(components);
 
     // 确保有默认字体
-    getOrAddFont("Times New Roman", 10);
+    m_fontRegistry.getOrAdd(QStringLiteral("Times New Roman"), 10);
+    m_fontRegistry.registerTextFonts(components);
 
-    OLECompoundWriter ole;
+    OLECompoundWriter ole;  // 当前 SchLib 的 OLE 复合文档写入器。
     if (!ole.create()) {
         qWarning() << "AltiumSchLibWriter: Failed to create OLE compound document for" << filePath;
         return false;
     }
 
-    QStringList names;
+    QStringList names;  // 按输入顺序收集的组件名称。
     for (const AltiumSchComponent& component : components) {
         names.append(component.name);
     }
-    const QStringList sectionKeys = AltiumWriterUtils::makeUniqueSectionKeys(names);
+    const QStringList sectionKeys = AltiumWriterUtils::makeUniqueSectionKeys(names);  // 组件唯一 OLE 存储键。
 
-    // 写入 FileHeader
-    writeFileHeader(ole, components);
+    AltiumSchLibraryHeaderWriter headerWriter(*this);
+    headerWriter.writeFileHeader(ole, components);
 
-    // 写入 SectionKeys（如果需要）
-    writeSectionKeys(ole, components, sectionKeys);
+    headerWriter.writeSectionKeys(ole, components, sectionKeys);
 
     // 写入每个元件的存储
     for (int i = 0; i < components.size(); ++i) {
         writeComponentStorage(ole, components[i], sectionKeys[i]);
     }
 
-    // 即使没有图标，也写入合法的 icon-storage 参数记录。部分 AD 版本
-    // 会主动读取该流，零长度占位符并不是 SchLib 的规范表示。
-    QByteArray storageData;
-    AltiumBinaryWriter storageWriter(storageData);
-    QMap<QString, QString> storageParams;
-    storageParams["HEADER"] = "Icon storage";
-    storageWriter.writeCStringParameterBlock(storageParams);
-    ole.writeStream("Storage", storageData);
+    writeImageStorage(ole, components);
+
+    if (ole.hasError()) {
+        qWarning() << "AltiumSchLibWriter: Failed to construct OLE document:" << ole.errorString();
+        return false;
+    }
 
     return ole.saveToFile(filePath);
 }
 
 /**
- * @brief 写入 FileHeader 流
+ * @brief 兼容旧内部调用入口，并委托文件级头部写入器。
+ * @param ole SchLib 根 OLE 写入器。
+ * @param components 待写入的组件列表。
  */
 void AltiumSchLibWriter::writeFileHeader(OLECompoundWriter& ole, const QList<AltiumSchComponent>& components) {
-    QMap<QString, QString> params;
-    params["HEADER"] = "Protel for Windows - Schematic Library Editor Binary File Version 5.0";
-    int totalWeight = 0;
-    for (const AltiumSchComponent& component : components) {
-        totalWeight += componentRecordCount(component);
-    }
-    params["WEIGHT"] = QString::number(totalWeight);
-    params["MINORVERSION"] = "2";
-
-    // 生成 8 字符随机 UniqueID
-    QString uid;
-    for (int i = 0; i < 8; ++i) {
-        uid += QChar('A' + QRandomGenerator::global()->bounded(26));
-    }
-    params["UniqueID"] = uid;
-
-    // 字体表
-    params["FontIdCount"] = QString::number(m_fonts.size());
-    for (int i = 0; i < m_fonts.size(); ++i) {
-        int idx = i + 1;
-        params[QString("FontName%1").arg(idx)] = m_fonts[i].name;
-        params[QString("Size%1").arg(idx)] = QString::number(m_fonts[i].size);
-        if (m_fonts[i].bold)
-            params[QString("Bold%1").arg(idx)] = "T";
-        if (m_fonts[i].italic)
-            params[QString("Italic%1").arg(idx)] = "T";
-        if (m_fonts[i].underline)
-            params[QString("Underline%1").arg(idx)] = "T";
-    }
-
-    params["UseMBCS"] = "T";
-    params["IsBOC"] = "T";
-    params["SheetStyle"] = "9";
-    params["BorderOn"] = "T";
-    params["Display_Unit"] = "0";
-    params["SYSTEMFONT"] = "1";
-    params["SHEETNUMBERSPACESIZE"] = "12";
-    params["AREACOLOR"] = "16317695";
-    params["SNAPGRIDON"] = "T";
-    params["SNAPGRIDSIZE"] = "10";
-    params["VISIBLEGRIDON"] = "T";
-    params["VISIBLEGRIDSIZE"] = "10";
-    params["COMPCOUNT"] = QString::number(components.size());
-    for (int i = 0; i < components.size(); ++i) {
-        const AltiumSchComponent& component = components[i];
-        params[QString("LIBREF%1").arg(i)] = component.name;
-        params[QString("COMPDESCR%1").arg(i)] = component.description;
-        // 磁盘格式把公共 Part 0 计入总数，IR 的 partCount 只表示用户可见部件。
-        params[QString("PARTCOUNT%1").arg(i)] = QString::number(qMax(1, component.partCount) + 1);
-    }
-
-    // 序列化
-    QByteArray headerData;
-    AltiumBinaryWriter writer(headerData);
-
-    // Header 中的库索引同样允许非 ASCII 名称/描述，统一用 ANSI fallback + %UTF8% 扩展。
-    writer.writeCStringParameterBlockUtf8(params);
-
-    // 写入元件数量
-    writer.writeInt32(static_cast<int32_t>(components.size()));
-
-    // 写入每个元件名称
-    for (const AltiumSchComponent& comp : components) {
-        writer.writeStringBlock(comp.name);
-    }
-
-    ole.writeStream("FileHeader", headerData);
+    AltiumSchLibraryHeaderWriter headerWriter(*this);
+    headerWriter.writeFileHeader(ole, components);
 }
 
 /**
- * @brief 写入 SectionKeys 流
+ * @brief 兼容旧内部调用入口，并委托 SectionKeys 写入器。
+ * @param ole SchLib 根 OLE 写入器。
+ * @param components 待写入的组件列表。
+ * @param sectionKeys 组件对应的 OLE 存储键列表。
  */
 void AltiumSchLibWriter::writeSectionKeys(OLECompoundWriter& ole,
                                           const QList<AltiumSchComponent>& components,
                                           const QStringList& sectionKeys) {
-    QMap<QString, QString> params;
-    int keyCount = 0;
-
-    for (int i = 0; i < components.size(); ++i) {
-        const QString& sectionKey = sectionKeys[i];
-        if (sectionKey != components[i].name) {
-            params[QString("LibRef%1").arg(keyCount)] = components[i].name;
-            params[QString("SectionKey%1").arg(keyCount)] = sectionKey;
-            keyCount++;
-        }
-    }
-
-    if (keyCount > 0) {
-        params["KeyCount"] = QString::number(keyCount);
-        QByteArray data;
-        AltiumBinaryWriter writer(data);
-        writer.writeCStringParameterBlockUtf8(params);
-        ole.writeStream("SectionKeys", data);
-    }
+    AltiumSchLibraryHeaderWriter headerWriter(*this);
+    headerWriter.writeSectionKeys(ole, components, sectionKeys);
 }
 
 /**
  * @brief 写入元件存储
+ * @param ole SchLib 根 OLE 写入器。
+ * @param component 待写入的原理图元件。
+ * @param sectionKey 组件对应的 OLE 存储键。
  */
 void AltiumSchLibWriter::writeComponentStorage(OLECompoundWriter& ole,
                                                const AltiumSchComponent& component,
                                                const QString& sectionKey) {
-    // 创建存储区
-    ole.addStorage(sectionKey);
+    AltiumSchComponentStorageWriter componentStorageWriter(*this);
+    componentStorageWriter.write(ole, component, sectionKey);
+}
 
-    // 构建 Data 流
-    QByteArray data;
-    AltiumBinaryWriter writer(data);
+/**
+ * @brief 委托独立校验器检查组件的几何字段和图元编码约束。
+ * @param component 待校验的原理图元件。
+ * @return 几何数据有效时返回 true。
+ */
+bool AltiumSchLibWriter::validateGeometry(const AltiumSchComponent& component) {
+    return AltiumSchGeometryValidator::validate(*this, component);
+}
 
-    // 写入元件记录
-    writeComponentRecord(writer, component);
-
-    // 写入引脚
-    for (const AltiumSchPin& pin : component.pins) {
-        writePinRecord(writer, pin, 1);
-    }
-
-    // 写入矩形
-    for (const AltiumSchRectangle& rect : component.rectangles) {
-        writeRectangleRecord(writer, rect);
-    }
-
-    // 写入线段
-    for (const AltiumSchLine& line : component.lines) {
-        writeLineRecord(writer, line);
-    }
-
-    // 写入弧线
-    for (const AltiumSchArc& arc : component.arcs) {
-        writeArcRecord(writer, arc);
-    }
-
-    // 写入多边形
-    for (const AltiumSchPolygon& polygon : component.polygons) {
-        writePolygonRecord(writer, polygon);
-    }
-
-    // 写入椭圆
-    for (const AltiumSchEllipse& ellipse : component.ellipses) {
-        writeEllipseRecord(writer, ellipse);
-    }
-
-    // 写入折线
-    for (const AltiumSchPolyline& polyline : component.polylines) {
-        writePolylineRecord(writer, polyline);
-    }
-
-    for (const AltiumSchPath& path : component.paths) {
-        writePathRecord(writer, path);
-    }
-
-    // 写入文本
-    for (const AltiumSchText& text : component.texts) {
-        writeTextRecord(writer, text);
-    }
-
-    writeComponentParameterRecords(writer, component);
-
-    // 写入实现记录
-    writeImplementationRecords(writer, component);
-
-    // 写入流
-    ole.writeStream(sectionKey, "Data", data);
+/**
+ * @brief 校验所有图元和参数记录的 OWNERPARTID 是否落在组件部件范围内。
+ * @param component 待校验的原理图元件。
+ * @return 部件归属有效时返回 true。
+ */
+bool AltiumSchLibWriter::validatePartOwnership(const AltiumSchComponent& component) {
+    return AltiumSchOwnershipValidator::validate(*this, component);
 }
 
 /**
  * @brief 写入元件记录 (RECORD=1)
+ * @param writer 目标二进制写入器。
+ * @param component 原理图元件模型。
  */
 void AltiumSchLibWriter::writeComponentRecord(AltiumBinaryWriter& writer, const AltiumSchComponent& component) {
-    QMap<QString, QString> params;
+    QMap<QString, QString> params;  // 当前组件的 RECORD=1 参数。
     params["RECORD"] = "1";
     params["LibReference"] = component.name;
 
@@ -310,6 +217,8 @@ void AltiumSchLibWriter::writeComponentRecord(AltiumBinaryWriter& writer, const 
     params["SheetPartFileName"] = "*";
     params["TargetFileName"] = "*";
     params["ALLPINCOUNT"] = QString::number(component.pins.size());
+    if (!component.aliases.isEmpty())
+        params["Aliases"] = component.aliases.join(",");
 
     addUniqueID(params);
     writer.writeCStringParameterBlockUtf8(params);
@@ -317,351 +226,205 @@ void AltiumSchLibWriter::writeComponentRecord(AltiumBinaryWriter& writer, const 
 
 /**
  * @brief 写入引脚记录 (RECORD=2, 二进制格式)
+ * @param writer 目标二进制写入器。
+ * @param pin 引脚模型。
  */
-void AltiumSchLibWriter::writePinRecord(AltiumBinaryWriter& writer, const AltiumSchPin& pin, int partId) {
-    writer.beginBlock(AltiumConstants::SCH_BLOCK_FLAG_BINARY_PIN);
-
-    writer.writeInt32(2);  // Record type = 2
-    writer.writeUInt8(0);  // Unknown
-    Q_UNUSED(partId);
-    writer.writeInt16(static_cast<int16_t>(qBound(1, pin.ownerPartId, 32767)));  // OwnerPartId
-    writer.writeUInt8(0);  // OwnerPartDisplayMode
-
-    // Symbol edges / IEEE 装饰。四个字节必须位于描述字符串之前。
-    writer.writeUInt8(pin.symbolInnerEdge);
-    writer.writeUInt8(pin.symbolOuterEdge);
-    writer.writeUInt8(pin.symbolInside);
-    writer.writeUInt8(pin.symbolOutside);
-
-    // Description (空 Pascal 短字符串)
-    writer.writePascalShortString("");
-
-    // FormalType=1 表示普通的有效引脚。值为 0 时，Altium 仍可能绘制
-    // 引脚名称/编号，但不会将该记录作为可连接的 Pin 对象处理。
-    writer.writeUInt8(1);  // FormalType: normal pin
-    writer.writeUInt8(static_cast<uint8_t>(pin.electricalType));  // ElectricalType
-
-    // PinConglomerate 字节
-    uint8_t conglomerate = static_cast<uint8_t>(pin.orientation);  // Bit 0-1: orientation
-    if (pin.isHidden)
-        conglomerate |= 0x04;  // Bit 2: hidden
-    if (pin.showName)
-        conglomerate |= 0x08;  // Bit 3: show name
-    if (pin.showDesignator)
-        conglomerate |= 0x10;  // Bit 4: show designator
-    writer.writeUInt8(conglomerate);
-
-    // PinLength (DXP 整数单位)
-    int16_t lengthDxp = AltiumCoord::toDxpInt(pin.length);
-    writer.writeInt16(lengthDxp);
-
-    // Location (DXP 整数单位)
-    writer.writeInt16(AltiumCoord::toDxpInt(pin.locationX));
-    writer.writeInt16(AltiumCoord::toDxpInt(pin.locationY));
-
-    // Color
-    writer.writeUInt32(pin.color);
-
-    // Name (Pascal 短字符串)
-    writer.writePascalShortString(pin.name);
-
-    // Designator (Pascal 短字符串)
-    writer.writePascalShortString(pin.designator);
-
-    // SwapIdGroup (空 Pascal 短字符串)
-    writer.writePascalShortString("");
-
-    // PartAndSequence (空 Pascal 短字符串)
-    writer.writePascalShortString("");
-
-    // DefaultValue (空 Pascal 短字符串)
-    writer.writePascalShortString("");
-
-    writer.endBlock();
+void AltiumSchLibWriter::writePinRecord(AltiumBinaryWriter& writer, const AltiumSchPin& pin) {
+    AltiumSchPinRecordWriter pinWriter(*this);
+    pinWriter.write(writer, pin);
 }
 
 /**
  * @brief 写入矩形记录 (RECORD=14)
+ * @param writer 目标二进制写入器。
+ * @param rect 矩形模型。
  */
 void AltiumSchLibWriter::writeRectangleRecord(AltiumBinaryWriter& writer, const AltiumSchRectangle& rect) {
-    QMap<QString, QString> params;
-    params["RECORD"] = "14";
-    addOwnerParams(params, rect.ownerPartId);
-    addCoordParam(params, "Location.X", rect.locationX);
-    addCoordParam(params, "Location.Y", rect.locationY);
-    addCoordParam(params, "Corner.X", rect.cornerX);
-    addCoordParam(params, "Corner.Y", rect.cornerY);
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writeRectangle(writer, rect);
+}
 
-    if (rect.lineWidth != 0)
-        params["LineWidth"] = QString::number(rect.lineWidth);
-    addColorParam(params, "Color", rect.color);
-    if (rect.areaColor != 0xFFFFFF)
-        params["AreaColor"] = QString::number(rect.areaColor);
-    if (rect.isSolid)
-        params["IsSolid"] = "T";
-
-    addUniqueID(params);
-    writer.writeCStringParameterBlock(params);
+/**
+ * @brief 写入圆角矩形记录 (RECORD=10)
+ * @param writer 目标二进制写入器。
+ * @param rect 圆角矩形模型。
+ */
+void AltiumSchLibWriter::writeRoundRectangleRecord(AltiumBinaryWriter& writer, const AltiumSchRoundRectangle& rect) {
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writeRoundRectangle(writer, rect);
 }
 
 /**
  * @brief 写入线段记录 (RECORD=13)
+ * @param writer 目标二进制写入器。
+ * @param line 线段模型。
  */
 void AltiumSchLibWriter::writeLineRecord(AltiumBinaryWriter& writer, const AltiumSchLine& line) {
-    QMap<QString, QString> params;
-    params["RECORD"] = "13";
-    addOwnerParams(params, line.ownerPartId);
-    addCoordParam(params, "Location.X", line.locationX);
-    addCoordParam(params, "Location.Y", line.locationY);
-    addCoordParam(params, "Corner.X", line.cornerX);
-    addCoordParam(params, "Corner.Y", line.cornerY);
-
-    params["LineWidth"] = QString::number(AltiumCoord::lineWidthToIndex(line.lineWidth));
-    addColorParam(params, "Color", line.color);
-
-    addUniqueID(params);
-    writer.writeCStringParameterBlock(params);
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writeLine(writer, line);
 }
 
 /**
  * @brief 写入弧线记录 (RECORD=12)
+ * @param writer 目标二进制写入器。
+ * @param arc 圆弧模型。
  */
 void AltiumSchLibWriter::writeArcRecord(AltiumBinaryWriter& writer, const AltiumSchArc& arc) {
-    QMap<QString, QString> params;
-    params["RECORD"] = "12";
-    addOwnerParams(params, arc.ownerPartId);
-    addCoordParam(params, "Location.X", arc.centerX);
-    addCoordParam(params, "Location.Y", arc.centerY);
-    addCoordParam(params, "Radius", arc.radius);
-
-    if (arc.lineWidth != 0)
-        params["LineWidth"] = QString::number(arc.lineWidth);
-    if (arc.startAngle != 0.0)
-        params["StartAngle"] = QString::number(arc.startAngle, 'f', 3);
-    params["EndAngle"] = QString::number(arc.endAngle, 'f', 3);
-    addColorParam(params, "Color", arc.color);
-
-    addUniqueID(params);
-    writer.writeCStringParameterBlock(params);
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writeArc(writer, arc);
 }
 
 /**
  * @brief 写入多边形记录 (RECORD=7)
+ * @param writer 目标二进制写入器。
+ * @param polygon 多边形模型。
  */
 void AltiumSchLibWriter::writePolygonRecord(AltiumBinaryWriter& writer, const AltiumSchPolygon& polygon) {
-    QMap<QString, QString> params;
-    params["RECORD"] = "7";
-    addOwnerParams(params, polygon.ownerPartId);
-    params["LineWidth"] = QString::number(polygon.lineWidth);
-    addColorParam(params, "Color", polygon.color);
-    if (polygon.areaColor != 0xFFFFFF)
-        params["AreaColor"] = QString::number(polygon.areaColor);
-    if (polygon.isSolid)
-        params["IsSolid"] = "T";
-
-    params["LocationCount"] = QString::number(polygon.vertices.size());
-    for (int i = 0; i < polygon.vertices.size(); ++i) {
-        int idx = i + 1;
-        int32_t x = AltiumCoord::toSchematicUnits(static_cast<int>(polygon.vertices[i].x()));
-        int32_t y = AltiumCoord::toSchematicUnits(static_cast<int>(polygon.vertices[i].y()));
-        if (x != 0)
-            params[QString("X%1").arg(idx)] = QString::number(x);
-        if (y != 0)
-            params[QString("Y%1").arg(idx)] = QString::number(y);
-    }
-
-    addUniqueID(params);
-    writer.writeCStringParameterBlock(params);
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writePolygon(writer, polygon);
 }
 
 /**
  * @brief 写入椭圆记录 (RECORD=8)
+ * @param writer 目标二进制写入器。
+ * @param ellipse 椭圆模型。
  */
 void AltiumSchLibWriter::writeEllipseRecord(AltiumBinaryWriter& writer, const AltiumSchEllipse& ellipse) {
-    QMap<QString, QString> params;
-    params["RECORD"] = "8";
-    addOwnerParams(params, ellipse.ownerPartId);
-    addCoordParam(params, "Location.X", ellipse.centerX);
-    addCoordParam(params, "Location.Y", ellipse.centerY);
-    addCoordParam(params, "Radius", ellipse.radiusX);
-    addCoordParam(params, "SecondaryRadius", ellipse.radiusY);
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writeEllipse(writer, ellipse);
+}
 
-    if (ellipse.lineWidth != 0)
-        params["LineWidth"] = QString::number(ellipse.lineWidth);
-    addColorParam(params, "Color", ellipse.color);
-    if (ellipse.areaColor != 0xFFFFFF)
-        params["AreaColor"] = QString::number(ellipse.areaColor);
-    if (ellipse.isSolid)
-        params["IsSolid"] = "T";
+/**
+ * @brief 写入扇形记录 (RECORD=9)
+ * @param writer 目标二进制写入器。
+ * @param pie 扇形模型。
+ */
+void AltiumSchLibWriter::writePieRecord(AltiumBinaryWriter& writer, const AltiumSchPie& pie) {
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writePie(writer, pie);
+}
 
-    addUniqueID(params);
-    writer.writeCStringParameterBlock(params);
+/**
+ * @brief 写入椭圆弧记录 (RECORD=11)
+ * @param writer 目标二进制写入器。
+ * @param arc 椭圆弧模型。
+ */
+void AltiumSchLibWriter::writeEllipticalArcRecord(AltiumBinaryWriter& writer, const AltiumSchEllipticalArc& arc) {
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writeEllipticalArc(writer, arc);
 }
 
 /**
  * @brief 写入折线记录 (RECORD=6)
+ * @param writer 目标二进制写入器。
+ * @param polyline 折线模型。
  */
 void AltiumSchLibWriter::writePolylineRecord(AltiumBinaryWriter& writer, const AltiumSchPolyline& polyline) {
-    QMap<QString, QString> params;
-    params["RECORD"] = "6";
-    addOwnerParams(params, polyline.ownerPartId);
-    params["LineWidth"] = QString::number(polyline.lineWidth);
-    addColorParam(params, "Color", polyline.color);
-
-    params["LocationCount"] = QString::number(polyline.vertices.size());
-    for (int i = 0; i < polyline.vertices.size(); ++i) {
-        int idx = i + 1;
-        int32_t x = AltiumCoord::toSchematicUnits(static_cast<int>(polyline.vertices[i].x()));
-        int32_t y = AltiumCoord::toSchematicUnits(static_cast<int>(polyline.vertices[i].y()));
-        if (x != 0)
-            params[QString("X%1").arg(idx)] = QString::number(x);
-        if (y != 0)
-            params[QString("Y%1").arg(idx)] = QString::number(y);
-    }
-
-    addUniqueID(params);
-    writer.writeCStringParameterBlock(params);
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writePolyline(writer, polyline);
 }
 
 /**
  * @brief 写入路径记录（委托给折线记录）
- * @param writer 二进制写入器
- * @param path 路径数据
+ * @param writer 二进制写入器。
+ * @param path 路径数据。
  */
 void AltiumSchLibWriter::writePathRecord(AltiumBinaryWriter& writer, const AltiumSchPath& path) {
-    AltiumSchPolyline polyline;
-    polyline.vertices = path.vertices;
-    polyline.lineWidth = path.lineWidth;
-    polyline.color = path.color;
-    polyline.ownerPartId = path.ownerPartId;
-    writePolylineRecord(writer, polyline);
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writePath(writer, path);
 }
 
 /**
- * @brief 写入文本记录 (RECORD=4, Label)
+ * @brief 写入三次 Bézier 曲线记录 (RECORD=5)
+ * @param writer 目标二进制写入器。
+ * @param bezier Bézier 曲线模型。
+ */
+void AltiumSchLibWriter::writeBezierRecord(AltiumBinaryWriter& writer, const AltiumSchBezier& bezier) {
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writeBezier(writer, bezier);
+}
+
+/**
+ * @brief 写入 IEEE 图形记录 (RECORD=3)
+ * @param writer 目标二进制写入器。
+ * @param ieee IEEE 图形模型。
+ */
+void AltiumSchLibWriter::writeIeeeRecord(AltiumBinaryWriter& writer, const AltiumSchIeee& ieee) {
+    AltiumSchPrimitiveRecordWriter primitiveWriter(*this);
+    primitiveWriter.writeIeee(writer, ieee);
+}
+
+/**
+ * @brief 将文本记录委托给专用协作者，保持写入器对外行为不变。
+ * @param writer 目标二进制写入器。
+ * @param text 文本模型。
  */
 void AltiumSchLibWriter::writeTextRecord(AltiumBinaryWriter& writer, const AltiumSchText& text) {
-    QMap<QString, QString> params;
-    params["RECORD"] = "4";
-    addOwnerParams(params, text.ownerPartId);
-    addCoordParam(params, "Location.X", text.locationX);
-    addCoordParam(params, "Location.Y", text.locationY);
-
-    if (text.orientation != 0)
-        params["Orientation"] = QString::number(text.orientation);
-    addColorParam(params, "Color", text.color);
-    params["FontID"] = QString::number(text.fontId);
-    params["Text"] = text.text;
-    if (text.isHidden || !text.isDisplayed)
-        params["IsHidden"] = "T";
-    if (!text.anchor.isEmpty())
-        params["TextAnchor"] = text.anchor;
-    if (text.fontSizeMm > 0.0)
-        params["FontSize"] = QString::number(text.fontSizeMm, 'f', 4);
-
-    addUniqueID(params);
-    writer.writeCStringParameterBlockUtf8(params);
+    AltiumSchTextRecordWriter textWriter(*this);
+    textWriter.writeText(writer, text);
 }
 
 /**
- * @brief 写入元件参数记录（Designator 和 Comment）
+ * @brief 将文本框记录委托给专用协作者，保持写入器对外行为不变。
+ * @param writer 目标二进制写入器。
+ * @param frame 文本框模型。
+ */
+void AltiumSchLibWriter::writeTextFrameRecord(AltiumBinaryWriter& writer, const AltiumSchTextFrame& frame) {
+    AltiumSchTextRecordWriter textWriter(*this);
+    textWriter.writeTextFrame(writer, frame);
+}
+
+/**
+ * @brief 将图片记录委托给专用协作者，保持主写入器的状态边界不变。
+ * @param writer 目标二进制写入器。
+ * @param image 图片模型。
+ */
+void AltiumSchLibWriter::writeImageRecord(AltiumBinaryWriter& writer, const AltiumSchImage& image) {
+    AltiumSchImageRecordWriter imageWriter(*this);
+    imageWriter.write(writer, image);
+}
+
+/**
+ * @brief 为嵌入图片生成稳定且唯一的 Storage 文件名。
+ * @details Altium 的 Storage 以文件名关联图片记录；重复名称会导致多个图元指向同一条目。
+ * @param components 待处理的组件列表。
+ */
+void AltiumSchLibWriter::prepareImageStorageNames(const QList<AltiumSchComponent>& components) {
+    AltiumSchImageStorageWriter imageStorageWriter(*this);
+    imageStorageWriter.prepareNames(components);
+}
+
+/**
+ * @brief 写入 SchLib 根 /Storage 图片流
+ * @details 图片内容使用 Qt zlib 压缩结果（去除 qCompress 的四字节长度头），
+ *          并按 Altium 的 D0 标记和 Pascal 文件名组织条目。
+ * @param ole SchLib 根 OLE 写入器。
+ * @param components 待写入嵌入图片的组件列表。
+ */
+void AltiumSchLibWriter::writeImageStorage(OLECompoundWriter& ole, const QList<AltiumSchComponent>& components) {
+    AltiumSchImageStorageWriter imageStorageWriter(*this);
+    imageStorageWriter.write(ole, components);
+}
+
+/**
+ * @brief 写入元件参数记录（Designator、Value 和自定义参数）
  * @param writer 二进制写入器
  * @param component 元件数据
  */
 void AltiumSchLibWriter::writeComponentParameterRecords(AltiumBinaryWriter& writer,
                                                         const AltiumSchComponent& component) {
-    QString designator = component.designatorPrefix.trimmed();
-    if (designator.isEmpty()) {
-        designator = "?";
-    } else if (!designator.endsWith('?')) {
-        designator += '?';
-    }
-
-    QMap<QString, QString> designatorParams;
-    designatorParams["RECORD"] = "34";
-    designatorParams["OWNERPARTID"] = "-1";
-    designatorParams["LOCATION.X_FRAC"] = "-5";
-    designatorParams["LOCATION.Y_FRAC"] = "5";
-    designatorParams["COLOR"] = "8388608";
-    designatorParams["FONTID"] = "1";
-    designatorParams["TEXT"] = designator;
-    designatorParams["NAME"] = "Designator";
-    designatorParams["READONLYSTATE"] = "1";
-    addUniqueID(designatorParams);
-    writer.writeCStringParameterBlockUtf8(designatorParams);
-
-    QMap<QString, QString> commentParams;
-    commentParams["RECORD"] = "41";
-    commentParams["OWNERPARTID"] = "-1";
-    commentParams["LOCATION.X_FRAC"] = "-5";
-    commentParams["LOCATION.Y_FRAC"] = "-15";
-    commentParams["COLOR"] = "8388608";
-    commentParams["FONTID"] = "1";
-    commentParams["TEXT"] = "*";
-    commentParams["NAME"] = "Comment";
-    addUniqueID(commentParams);
-    writer.writeCStringParameterBlock(commentParams);
+    AltiumSchComponentRecordWriter recordWriter(*this);
+    recordWriter.writeParameters(writer, component);
 }
 
 /**
  * @brief 写入实现记录 (RECORD=44-48)
+ * @param writer 目标二进制写入器。
+ * @param component 原理图元件模型。
  */
 void AltiumSchLibWriter::writeImplementationRecords(AltiumBinaryWriter& writer, const AltiumSchComponent& component) {
-    // RECORD=44: ImplementationList（容器，始终写入）
-    {
-        QMap<QString, QString> params;
-        params["RECORD"] = "44";
-        params["DataFileFormatID"] = "";
-        params["Description"] = "";
-        params["FileName"] = "";
-        writer.writeCStringParameterBlock(params);
-    }
-
-    // 每个实现
-    for (const AltiumSchComponent::Implementation& impl : component.implementations) {
-        // RECORD=45: Implementation
-        {
-            QMap<QString, QString> params;
-            params["RECORD"] = "45";
-            params["DESCRIPTION"] = impl.modelName;
-            params["MODELNAME"] = impl.modelName;
-            params["MODELTYPE"] = impl.modelType;
-            params["DATAFILECOUNT"] = "1";
-            params["MODELDATAFILEKIND1"] = "PCBLib";
-            params["MODELDATAFILEENTITY1"] = m_libraryName.isEmpty() ? "*" : m_libraryName + ".PcbLib";
-            params["ISCURRENT"] = "T";
-            addUniqueID(params);
-            writer.writeCStringParameterBlock(params);
-        }
-
-        // RECORD=46: MapDefinerList（容器）
-        {
-            QMap<QString, QString> params;
-            params["RECORD"] = "46";
-            writer.writeCStringParameterBlock(params);
-        }
-
-        // RECORD=47: 将每个引脚映射到当前实现。
-        // Altium 会依据这些索引建立符号引脚与 PCBLib 实现之间的关系；
-        // 缺少该记录时，库虽然可以打开，但引脚归属和封装关联并不完整。
-        for (int pinIndex = 1; pinIndex <= component.pins.size(); ++pinIndex) {
-            QMap<QString, QString> pinMappingParams;
-            pinMappingParams["RECORD"] = "47";
-            pinMappingParams["DESINTF"] = QString::number(pinIndex);
-            pinMappingParams["DESIMPCOUNT"] = "1";
-            pinMappingParams["DESIMP0"] = QString::number(pinIndex);
-            pinMappingParams["ISTRIVIAL"] = "T";
-            addUniqueID(pinMappingParams);
-            writer.writeCStringParameterBlock(pinMappingParams);
-        }
-
-        // RECORD=48: ImplementationParameters（空容器）
-        {
-            QMap<QString, QString> params;
-            params["RECORD"] = "48";
-            writer.writeCStringParameterBlock(params);
-        }
-    }
+    AltiumSchComponentRecordWriter recordWriter(*this);
+    recordWriter.writeImplementations(writer, component);
 }
 
 /**
@@ -670,21 +433,93 @@ void AltiumSchLibWriter::writeImplementationRecords(AltiumBinaryWriter& writer, 
  * @return 记录数（含元件记录、图元、参数和实现记录）
  */
 int AltiumSchLibWriter::componentRecordCount(const AltiumSchComponent& component) const {
-    const int graphics = component.pins.size() + component.rectangles.size() + component.lines.size() +
-                         component.arcs.size() + component.polygons.size() + component.ellipses.size() +
-                         component.polylines.size() + component.paths.size() + component.texts.size();
-    // Component + graphics + Designator + Comment + ImplementationList + implementation triplets.
-    return 1 + graphics + 2 + 1 + component.implementations.size() * 3;
+    int validBezierCount = 0;  // 具有四个控制点、可写出的 Bezier 数量。
+    for (const AltiumSchBezier& bezier : component.beziers) {
+        if (bezier.controlPoints.size() == 4)
+            ++validBezierCount;
+    }
+    const int graphics =  // 所有图元记录数量。
+        component.pins.size() + component.rectangles.size() + component.roundRectangles.size() +  // 所有图元记录数量。
+        component.lines.size() + component.arcs.size() + component.polygons.size() + component.ellipses.size() +
+        component.pies.size() + component.ellipticalArcs.size() + component.polylines.size() + component.paths.size() +
+        validBezierCount + component.ieeeSymbols.size() + component.texts.size() + component.textFrames.size() +
+        component.images.size();
+    // Component + graphics + 参数字段 + ImplementationList + implementation records.
+    // 每个实现包含 RECORD=45、46、48，以及每个符号引脚对应的 RECORD=47。
+    return 1 + graphics + componentParameterRecordCount(component) + 1 +
+           component.implementations.size() * (3 + component.pins.size());
+}
+
+/**
+ * @brief 计算元件参数记录数。
+ * @param component 元件数据
+ * @return Designator、Value 和自定义参数记录总数
+ */
+int AltiumSchLibWriter::componentParameterRecordCount(const AltiumSchComponent& component) const {
+    return AltiumSchComponentRecordWriter::parameterRecordCount(component);
+}
+
+/**
+ * @brief 向内容记录添加共享的 IndexInSheet 序号
+ * @param params 参数映射（输出）
+ * @details 首条内容记录的索引 0 由 Altium 隐含表示，因此不写出字段。
+ */
+void AltiumSchLibWriter::addContentIndex(QMap<QString, QString>& params) {
+    if (m_nextIndexInSheet != 0)
+        params["IndexInSheet"] = QString::number(m_nextIndexInSheet);
+    ++m_nextIndexInSheet;
 }
 
 /**
  * @brief 向参数映射中添加 OwnerPartId 和 ISNOTACCESIBLE 字段
- * @param params 参数映射（输出）
- * @param ownerPartId 所属部件 ID
+ * @param params 参数映射（输出）。
+ * @param ownerPartId 所属部件 ID。
+ * @param context 部件编号的语义上下文。
  */
-void AltiumSchLibWriter::addOwnerParams(QMap<QString, QString>& params, int ownerPartId) const {
+int AltiumSchLibWriter::normalizeOwnerPartId(int ownerPartId, const QString& context) {
+    if (ownerPartId == 0 || ownerPartId < -1 || ownerPartId > 32767) {
+        const int normalized = ownerPartId < 0 ? -1 : qBound(1, ownerPartId, 32767);  // 规范化后的部件编号。
+        const QString diagnostic =
+            QStringLiteral("Altium SchLib %1 OWNERPARTID=%2 无效，已规范化为 %3")  // 部件编号修正诊断。
+                .arg(context)
+                .arg(ownerPartId)
+                .arg(normalized);
+        m_diagnostics.append(diagnostic);
+        qWarning() << "AltiumSchLibWriter:" << diagnostic;
+        return normalized;
+    }
+    return ownerPartId;
+}
+
+/**
+ * @brief 将非法角度归一化为回退值，并向调用方报告诊断信息。
+ * @param angle 待校验的角度。
+ * @param fallback 非法角度使用的回退值。
+ * @param context 角度字段的语义上下文。
+ * @return 有限角度原值，或非法时的回退值。
+ */
+double AltiumSchLibWriter::normalizeFiniteAngle(double angle, double fallback, const QString& context) {
+    if (std::isfinite(angle))
+        return angle;
+
+    const QString diagnostic =  // 非法角度的规范化诊断。
+        QStringLiteral("Altium SchLib %1无效，已规范化为 %2 度").arg(context).arg(fallback, 0, 'f', 3);
+    m_diagnostics.append(diagnostic);
+    qWarning() << "AltiumSchLibWriter:" << diagnostic;
+    return fallback;
+}
+
+/**
+ * @brief 写入图元通用的可见性、内容索引、显示模式和部件归属参数。
+ * @param params 参数映射（输出）。
+ * @param ownerPartId 所属部件 ID。
+ */
+void AltiumSchLibWriter::addOwnerParams(QMap<QString, QString>& params, int ownerPartId) {
     params["ISNOTACCESIBLE"] = "T";
-    params["OWNERPARTID"] = QString::number(qMax(1, ownerPartId));
+    addContentIndex(params);
+    // 当前每个符号只有一个显示模式；真实 SchLib 样本使用从 1 开始的显示模式编号。
+    params["OWNERPARTDISPLAYMODE"] = "1";
+    params["OWNERPARTID"] = QString::number(normalizeOwnerPartId(ownerPartId, QStringLiteral("图元")));
 }
 
 }  // namespace EasyKiConverter

@@ -111,7 +111,9 @@ public:
      */
     bool hasActiveWorkers() const;
 
-    /** @brief 获取导出类型名称 */
+    /**
+     * @brief 获取导出类型名称。
+     */
     QString typeName() const {
         return m_typeName;
     }
@@ -206,6 +208,14 @@ public:
                               const QString& componentId,
                               bool success,
                               const QString& error = QString());
+
+    /**
+     * @brief 将未满足导出前置条件的元器件标记为跳过。
+     * @param worker 尚未执行或刚完成的导出 Worker。
+     * @param componentId 元器件 ID。
+     * @param reason 跳过原因。
+     */
+    void completeSkippedItemProgress(QObject* worker, const QString& componentId, const QString& reason);
 
     QString m_typeName;  ///< 导出类型名称
     QThreadPool m_threadPool;  ///< 线程池，用于管理并行导出任务

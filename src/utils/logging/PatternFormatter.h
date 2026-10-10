@@ -39,6 +39,7 @@ public:
 
     /**
      * @brief 格式化日志记录
+     * @param record 日志记录。
      */
     QString format(const LogRecord& record) override;
 
@@ -49,6 +50,7 @@ public:
 
     /**
      * @brief 设置格式化模式
+     * @param pattern 格式化模式。
      */
     void setPattern(const QString& pattern);
 
@@ -82,13 +84,15 @@ public:
     }
 
 private:
-    QString m_pattern;
+    QString m_pattern;  ///< 当前日志格式模式。
 
     // 预编译的占位符正则
     static const QRegularExpression s_placeholderRegex;
 
     /**
      * @brief 替换单个占位符
+     * @param placeholder 占位符名称。
+     * @param record 日志记录。
      */
     QString replacePlaceholder(const QString& placeholder, const LogRecord& record) const;
 };

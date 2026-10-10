@@ -4,7 +4,7 @@
 
 set -e
 
-REPO="tangsangsimida/EasyKiConverter"
+REPO="EasyKiconverter/EasyKiConverter"
 
 echo "=========================================="
 echo "  同步 GitHub Labels"

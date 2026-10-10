@@ -1,207 +1,68 @@
 #include "ComponentListViewModel.h"
 
+#include "ComponentListBatchCoordinator.h"
+#include "ComponentListClipboardCoordinator.h"
+#include "ComponentListDataCoordinator.h"
+#include "ComponentListMutationCoordinator.h"
+#include "ComponentListPreviewCoordinator.h"
+#include "ComponentListRetryCoordinator.h"
+#include "ComponentListServiceConnectionCoordinator.h"
+#include "ComponentListTimerCoordinator.h"
+#include "ComponentValidationCoordinator.h"
 #include "services/ConfigService.h"
+#include "ui/viewmodels/ComponentValidationErrorPolicy.h"
 #include "ui/viewmodels/ValidationStateManager.h"
 
-#include <QBuffer>
 #include <QClipboard>
 #include <QDebug>
 #include <QGuiApplication>
-#include <QPointer>
 #include <QStringList>
 #include <QUrl>
 #include <QtConcurrent>
 
 namespace EasyKiConverter {
 
-PreviewImageEncodeRunnable::PreviewImageEncodeRunnable(ComponentListItemData* item,
-                                                       const QList<QImage>& images,
-                                                       std::function<void(const QString&, const QStringList&)> callback)
-    : m_componentId(item ? item->componentId() : QString()), m_images(images), m_callback(callback) {}
-
-void PreviewImageEncodeRunnable::run() {
-    QStringList encodedList;
-    for (const QImage& img : m_images) {
-        if (img.isNull()) {
-            encodedList.append(QString());
-            continue;
-        }
-        QByteArray byteArray;
-        QBuffer buffer(&byteArray);
-        buffer.open(QIODevice::WriteOnly);
-        img.save(&buffer, "PNG");
-        encodedList.append(QString::fromLatin1(byteArray.toBase64().data()));
-    }
-
-    if (m_callback) {
-        m_callback(m_componentId, encodedList);
-    }
-}
-
+// 创建元件列表视图模型并初始化异步更新资源。
+/**
+ * @brief 创建元件列表视图模型并初始化异步更新资源。
+ * @param service 组件数据服务实例。
+ * @param parent Qt 父对象。
+ */
 ComponentListViewModel::ComponentListViewModel(ComponentService* service, QObject* parent)
+    // 初始化 Qt 模型父对象和组件服务引用。
     : QAbstractListModel(parent), m_service(service) {
+    /**
+     * @brief 创建验证状态管理器，统一维护列表验证进度和完成通知。
+     */
     m_validationStateManager = new ValidationStateManager(this);
 
-    m_previewImageUpdateTimer = new QTimer(this);
-    m_previewImageUpdateTimer->setSingleShot(true);
-    m_previewImageUpdateTimer->setInterval(100);
-    connect(m_previewImageUpdateTimer, &QTimer::timeout, this, &ComponentListViewModel::batchUpdatePreviewImages);
+    initializeTimers();
+    initializeServiceConnections();
+}
 
-    // 缓存预览图批量更新定时器。
-    // 这里用固定时间窗而不是每次来图都重启，保证预览图可以分批渐进显示。
-    m_cachePreviewImageTimer = new QTimer(this);
-    m_cachePreviewImageTimer->setSingleShot(true);
-    m_cachePreviewImageTimer->setInterval(120);
-    connect(m_cachePreviewImageTimer, &QTimer::timeout, this, &ComponentListViewModel::processCachePreviewImages);
+/**
+ * @brief 创建批处理、预览和延迟调度所需的定时器。
+ */
+void ComponentListViewModel::initializeTimers() {
+    ComponentListTimerCoordinator::initialize(*this);
+}
 
-    m_encodingThreadPool = new QThreadPool(this);
-    m_encodingThreadPool->setMaxThreadCount(10);
-
-    m_batchAddTimer = new QTimer(this);
-    m_batchAddTimer->setSingleShot(false);
-    m_batchAddTimer->setInterval(50);  // 普通模式使用 50ms 间隔，BOM 导入模式使用单独的计时器
-    connect(m_batchAddTimer, &QTimer::timeout, this, &ComponentListViewModel::processNextBatchAdd);
-
-    m_batchUpdateTimer = new QTimer(this);
-    m_batchUpdateTimer->setSingleShot(true);
-    m_batchUpdateTimer->setInterval(100);
-    connect(m_batchUpdateTimer, &QTimer::timeout, this, [this]() {
-        for (const QPointer<ComponentListItemData>& item : m_batchUpdateItems) {
-            if (item) {
-                emit item->dataChanged();
-            }
-        }
-        m_batchUpdateItems.clear();
-    });
-
-    // 列表更新批处理定时器（更短的间隔，减少批量操作时的延迟）
-    m_batchListUpdateTimer = new QTimer(this);
-    m_batchListUpdateTimer->setSingleShot(true);
-    m_batchListUpdateTimer->setInterval(150);
-    connect(m_batchListUpdateTimer, &QTimer::timeout, this, [this]() {
-        m_batchListUpdateMode = false;
-        m_listUpdatePending = false;
-        recomputeStateCounters();
-        updateHasInvalidComponents();
-        emit componentCountChanged();
-        emit filteredCountChanged();
-    });
-
-    // BOM 导入模式定时器（降低 UI 更新频率）
-    m_bomImportUpdateTimer = new QTimer(this);
-    m_bomImportUpdateTimer->setSingleShot(true);
-    m_bomImportUpdateTimer->setInterval(300);
-    connect(m_bomImportUpdateTimer, &QTimer::timeout, this, [this]() {
-        // BOM 导入模式结束，恢复正常更新
-        m_bomImportMode = false;
-        m_listUpdatePending = false;
-        // 处理累积的验证完成计数
-        if (m_bomImportPendingUpdates > 0) {
-            m_bomImportPendingUpdates = 0;
-            scheduleListUpdate();
-        }
-    });
-
-    // 延迟获取预览图定时器（给验证留出时间完成）
-    m_delayedFetchPreviewTimer = new QTimer(this);
-    m_delayedFetchPreviewTimer->setSingleShot(true);
-    m_delayedFetchPreviewTimer->setInterval(100);  // 100ms 延迟
-    connect(m_delayedFetchPreviewTimer, &QTimer::timeout, this, &ComponentListViewModel::delayedFetchPreviewImages);
-
-    // 监听验证完成信号，等待所有元器件验证完成后才开始获取预览图
-    connect(m_validationStateManager,
-            &ValidationStateManager::validationCompleted,
-            this,
-            [this](const QStringList& validatedIds) {
-                qDebug() << "All validations completed, validated component count:" << validatedIds.size();
-                const int totalCount = componentCount();
-                m_validationReadyHint = !validatedIds.isEmpty() && validatedIds.size() == totalCount;
-                m_previewReadyHint = false;
-                emit attentionStateChanged();
-                emit previewFetchRequested();
-            });
-
-    connect(m_service, &ComponentService::componentInfoReady, this, &ComponentListViewModel::handleComponentInfoReady);
-    connect(m_service, &ComponentService::cadDataReady, this, &ComponentListViewModel::handleCadDataReady);
-    connect(m_service, &ComponentService::model3DReady, this, &ComponentListViewModel::handleModel3DReady);
-    connect(m_service, &ComponentService::lcscDataUpdated, this, &ComponentListViewModel::handleLcscDataUpdated);
-    connect(m_service, &ComponentService::datasheetReady, this, &ComponentListViewModel::handleDatasheetReady);
-    connect(m_service, &ComponentService::fetchError, this, &ComponentListViewModel::handleFetchError);
-    connect(m_service,
-            &ComponentService::previewImageReady,
-            this,
-            [this](const QString& componentId, const QImage& image, int imageIndex) {
-                if (image.isNull()) {
-                    return;
-                }
-
-                QByteArray byteArray;
-                QBuffer buffer(&byteArray);
-                if (!buffer.open(QIODevice::WriteOnly)) {
-                    return;
-                }
-                image.save(&buffer, "PNG");
-
-                {
-                    QMutexLocker locker(&m_cachePreviewMutex);
-                    m_pendingIncrementalPreviewImages[componentId][imageIndex] =
-                        QString::fromLatin1(byteArray.toBase64().constData());
-                }
-                if (!m_cachePreviewImageTimer->isActive()) {
-                    m_cachePreviewImageTimer->start();
-                }
-            });
-    connect(m_service,
-            &ComponentService::previewImageFailed,
-            this,
-            [this](const QString& componentId, const QString& error) {
-                // 预览图获取失败不影响验证状态，只记录日志
-                // 元件仍然保持验证成功状态，避免误导用户
-                auto item = findItemData(componentId);
-                if (item && item->isValid()) {
-                    // 预览图失败也应该标记为 completed（不影响验证）
-                    if (item->validationPhase() == "fetching_preview") {
-                        item->setValidationPhase("completed");
-                        scheduleListUpdate();
-                    }
-                }
-                markPreviewFetchCompleted(componentId);
-            });
-    connect(m_service,
-            &ComponentService::previewImagesReady,
-            this,
-            [this](const QString& componentId, const QStringList& encodedImages) {
-                // 收集到待处理列表，使用防抖避免频繁 UI 更新
-                {
-                    QMutexLocker locker(&m_cachePreviewMutex);
-                    m_pendingCachePreviewImages.insert(componentId, encodedImages);
-                }
-                if (!m_cachePreviewImageTimer->isActive()) {
-                    m_cachePreviewImageTimer->start();
-                }
-                markPreviewFetchCompleted(componentId);
-            });
+/**
+ * @brief 连接验证完成、组件数据和预览图相关的异步服务信号。
+ */
+void ComponentListViewModel::initializeServiceConnections() {
+    ComponentListServiceConnectionCoordinator::initialize(*this);
 }
 
 ComponentListViewModel::~ComponentListViewModel() {
-    if (m_encodingThreadPool) {
-        m_encodingThreadPool->clear();
-        if (!m_encodingThreadPool->waitForDone(5000)) {
-            qWarning() << "ComponentListViewModel: preview image encoding thread pool did not finish in time";
-        }
-    }
-
     qDeleteAll(m_componentList);
     m_componentList.clear();
 }
 
-bool ComponentListViewModel::isNonRetryableValidationError(const QString& error) {
-    return error.contains("HTTP 404", Qt::CaseInsensitive) || error.contains("404 Not Found", Qt::CaseInsensitive) ||
-           error.contains("component not found", Qt::CaseInsensitive) ||
-           error.contains("元器件不存在", Qt::CaseInsensitive) || error.contains("[NO_RETRY]", Qt::CaseInsensitive) ||
-           error.contains("No result", Qt::CaseInsensitive);
-}
-
+/**
+ * @brief 返回当前元件列表的行数。
+ * @param parent Qt 父对象。
+ */
 int ComponentListViewModel::rowCount(const QModelIndex& parent) const {
     if (parent.isValid())
         return 0;
@@ -209,6 +70,11 @@ int ComponentListViewModel::rowCount(const QModelIndex& parent) const {
     return m_componentList.count();
 }
 
+/**
+ * @brief 返回指定行和角色对应的元件数据。
+ * @param index 列表索引。
+ * @param role 数据角色。
+ */
 QVariant ComponentListViewModel::data(const QModelIndex& index, int role) const {
     if (!index.isValid() || index.row() < 0 || index.row() >= m_componentList.count())
         return QVariant();
@@ -221,551 +87,129 @@ QVariant ComponentListViewModel::data(const QModelIndex& index, int role) const 
     return QVariant();
 }
 
+/**
+ * @brief 返回供 QML 使用的模型角色名称。
+ */
 QHash<int, QByteArray> ComponentListViewModel::roleNames() const {
+    // 保存模型角色到名称的映射。
     QHash<int, QByteArray> roles;
     roles[ItemDataRole] = "itemData";
     return roles;
 }
 
+/**
+ * @brief 添加单个元件并启动其数据验证。
+ * @param componentId 元器件编号。
+ */
 void ComponentListViewModel::addComponent(const QString& componentId) {
-    clearAttentionHints();
-    m_bomImportComplete = false;
-    QString trimmedId = componentId.trimmed();
-
-    if (trimmedId.isEmpty()) {
-        qWarning() << "Component ID is empty";
-        return;
-    }
-
-    // 统一转换为大写，支持用户输入小写 c
-    trimmedId = trimmedId.toUpper();
-
-    // 验证元件ID格式
-    if (!validateComponentId(trimmedId)) {
-        qWarning() << "Invalid component ID format:" << trimmedId;
-
-        // 尝试从文本中智能提取元件编号
-        QStringList extractedIds = extractComponentIdFromText(trimmedId);
-        if (extractedIds.isEmpty()) {
-            qWarning() << "Failed to extract component ID from text:" << trimmedId;
-            emit componentAdded(trimmedId, false, "Invalid LCSC component ID format");
-            return;
-        }
-
-        addComponentsBatch(extractedIds);
-        return;
-    }
-
-    // 检查元件是否已存在（需要锁保护）
-    {
-        QMutexLocker locker(&m_listMutex);
-        if (m_componentIdIndex.contains(trimmedId)) {
-            qWarning() << "Component already exists:" << trimmedId;
-            emit componentAdded(trimmedId, false, "Component already exists");
-            return;
-        }
-    }
-
-    // 创建新元件项（在锁外创建，因为不涉及共享数据）
-    auto item = new ComponentListItemData(trimmedId, this);
-    item->setFetching(true);
-    item->setValid(false);
-    item->setValidationPhase("validating");
-
-    // 获取插入位置
-    int insertIndex;
-    {
-        QMutexLocker locker(&m_listMutex);
-        insertIndex = m_componentList.count();
-    }
-
-    // 通知视图即将插入
-    beginInsertRows(QModelIndex(), insertIndex, insertIndex);
-
-    // 修改列表（需要锁保护）
-    {
-        QMutexLocker locker(&m_listMutex);
-        m_componentList.append(item);
-        m_componentIdIndex.insert(trimmedId, m_componentList.count() - 1);
-    }
-
-    // 通知视图插入完成
-    endInsertRows();
-
-    m_service->fetchComponentData(trimmedId, false);
-
-    m_validationStateManager->addValidation(1);
-
-    scheduleListUpdate();
-    emit componentAdded(trimmedId, true, "Component added");
+    ComponentListMutationCoordinator::add(*this, componentId);
 }
 
+/**
+ * @brief 按列表位置删除元件并取消相关请求。
+ * @param index 列表索引。
+ */
 void ComponentListViewModel::removeComponent(int index) {
-    clearAttentionHints();
-
-    // 检查是否是最后一个元器件（需要锁保护）
-    int listCount;
-    {
-        QMutexLocker locker(&m_listMutex);
-        listCount = m_componentList.count();
-        if (index < 0 || index >= listCount) {
-            return;
-        }
-    }
-
-    // 当删除最后一个元器件时，触发与清空列表相同的效果
-    if (listCount == 1) {
-        clearComponentList();
-        return;
-    }
-
-    // 获取要删除的 item 和 ID（需要锁保护）
-    ComponentListItemData* item = nullptr;
-    QString removedId;
-
-    {
-        QMutexLocker locker(&m_listMutex);
-        item = m_componentList.takeAt(index);
-        removedId = item->componentId();
-        m_componentIdIndex.remove(removedId);
-        m_validatedComponentIds.removeAll(removedId);
-    }
-
-    // 取消该元器件的网络请求
-    if (m_service) {
-        m_service->cancelRequestForComponent(removedId);
-    }
-
-    // 检查元器件是否已经在飞行中（已 dispatch）
-    bool wasInFlight = m_inFlightComponentIds.contains(removedId);
-
-    // 从验证队列和飞行中列表中移除
-    m_validationQueue.removeAll(removedId);
-    m_inFlightComponentIds.remove(removedId);
-
-    // 检查是否正在获取中（锁外操作，因为 m_pendingValidationCount 有自己的逻辑）
-    if (item->isFetching()) {
-        m_pendingValidationCount--;
-        // 只有当元器件已经在飞行中（已 dispatch）时才减少 m_validationPendingCount
-        // 因为 m_validationPendingCount 只在 dispatch 时增加
-        if (wasInFlight) {
-            m_validationPendingCount--;
-        }
-        // 通知 ValidationStateManager 取消验证
-        m_validationStateManager->cancelValidation(1);
-    }
-
-    beginRemoveRows(QModelIndex(), index, index);
-    delete item;
-    endRemoveRows();
-
-    rebuildComponentIdIndex();
-    updateHasInvalidComponents();
-
-    scheduleListUpdate();
-    emit componentRemoved(removedId);
+    ComponentListMutationCoordinator::remove(*this, index);
 }
 
+/**
+ * @brief 按元件编号删除元件。
+ * @param componentId 元器件编号。
+ */
 void ComponentListViewModel::removeComponentById(const QString& componentId) {
-    int indexToRemove = -1;
-    {
-        QMutexLocker locker(&m_listMutex);
-        auto it = m_componentIdIndex.find(componentId);
-        if (it != m_componentIdIndex.end()) {
-            indexToRemove = it.value();
-        }
-    }
-    if (indexToRemove >= 0) {
-        removeComponent(indexToRemove);
-    }
+    ComponentListMutationCoordinator::removeById(*this, componentId);
 }
 
+/**
+ * @brief 清空元件列表及其缓存、验证状态。
+ */
 void ComponentListViewModel::clearComponentList() {
-    clearAttentionHints();
-    m_bomImportComplete = false;
-    m_listUpdatePending = false;
-    m_bomImportMode = false;
-    m_bomImportPendingUpdates = 0;
-    m_pendingPreviewFetchIds.clear();
-    {
-        QMutexLocker locker(&m_cachePreviewMutex);
-        m_pendingCachePreviewImages.clear();
-        m_pendingIncrementalPreviewImages.clear();
-    }
-    // 获取列表大小（需要锁保护）
-    int listCount;
-    {
-        QMutexLocker locker(&m_listMutex);
-        listCount = m_componentList.count();
-    }
-
-    if (listCount > 0) {
-        if (m_service) {
-            // 先取消所有正在进行的请求，防止悬空响应
-            m_service->cancelAllPendingRequests();
-            m_service->clearCache();
-        }
-
-        beginResetModel();
-        {
-            QMutexLocker locker(&m_listMutex);
-            qDeleteAll(m_componentList);
-            m_componentList.clear();
-            m_componentIdIndex.clear();
-        }
-        endResetModel();
-
-        m_validationStateManager->reset();
-        recomputeStateCounters();
-        updateHasInvalidComponents();
-
-        scheduleListUpdate();
-        emit listCleared();
-    }
+    ComponentListMutationCoordinator::clear(*this);
 }
 
+/**
+ * @brief 根据列表顺序重建元件编号索引。
+ */
 void ComponentListViewModel::rebuildComponentIdIndex() {
     QMutexLocker locker(&m_listMutex);
-    m_componentIdIndex.clear();
-    for (int i = 0; i < m_componentList.count(); ++i) {
-        QString id = m_componentList.at(i)->componentId();
-        m_componentIdIndex.insert(id, i);
-    }
+    m_componentIdIndex.rebuild(m_componentList);
 }
 
+/**
+ * @brief 收集并批量调度元件编号。
+ * @param componentIds 元器件编号列表。
+ */
 void ComponentListViewModel::addComponentsBatch(const QStringList& componentIds) {
-    clearAttentionHints();
-    QStringList newIds;
-    for (const QString& rawId : componentIds) {
-        QString id = rawId.trimmed().toUpper();
-        if (id.isEmpty())
-            continue;
-
-        if (!validateComponentId(id)) {
-            QStringList extracted = extractComponentIdFromText(id);
-            for (const QString& extractedId : extracted) {
-                if (!componentExists(extractedId) && !newIds.contains(extractedId)) {
-                    newIds.append(extractedId);
-                }
-            }
-            continue;
-        }
-
-        if (!componentExists(id) && !newIds.contains(id)) {
-            newIds.append(id);
-        }
-    }
-
-    if (newIds.isEmpty())
-        return;
-
-    m_bomImportComplete = false;
-
-    // 大量元器件导入时启用 BOM 导入模式，降低 UI 更新频率
-    if (newIds.count() >= 20 && !m_bomImportMode) {
-        m_bomImportMode = true;
-    }
-
-    m_pendingComponentIds.append(newIds);
-    m_pendingBatchValidationCount += newIds.count();
-
-    if (!m_batchAddTimer->isActive()) {
-        m_batchAddTimer->start();
-    }
+    ComponentListBatchCoordinator::addComponents(*this, componentIds);
 }
 
+/**
+ * @brief 处理一批待添加元件并更新验证队列。
+ */
 void ComponentListViewModel::processNextBatchAdd() {
-    if (m_pendingComponentIds.isEmpty()) {
-        m_batchAddTimer->stop();
-        return;
-    }
-
-    QStringList batch;
-    int count = qMin(BATCH_ADD_SIZE, m_pendingComponentIds.size());
-    for (int i = 0; i < count; ++i) {
-        batch.append(m_pendingComponentIds.takeFirst());
-    }
-
-    int pendingCount = batch.count();
-
-    // 获取起始索引（需要锁保护）
-    int startIndex;
-    bool isFirstBatch;
-    bool isLastBatch;
-    {
-        QMutexLocker locker(&m_listMutex);
-        startIndex = m_componentList.count();
-        isFirstBatch = (startIndex == 0);
-        isLastBatch = m_pendingComponentIds.isEmpty();
-    }
-
-    // 创建新的 items（在锁外创建，因为不涉及共享数据）
-    QList<ComponentListItemData*> newItems;
-    for (const QString& id : batch) {
-        auto item = new ComponentListItemData(id, this);
-        item->setFetching(true);
-        item->setValid(false);
-        item->setValidationPhase("validating");
-        newItems.append(item);
-    }
-
-    // 通知视图即将插入
-    beginInsertRows(QModelIndex(), startIndex, startIndex + pendingCount - 1);
-
-    // 修改列表（需要锁保护）
-    {
-        QMutexLocker locker(&m_listMutex);
-        for (auto item : newItems) {
-            m_componentList.append(item);
-            m_componentIdIndex.insert(item->componentId(), m_componentList.count() - 1);
-        }
-    }
-
-    // 通知视图插入完成
-    endInsertRows();
-
-    // 只有在最后一批时才启动验证和刷新统计，避免 BOM 导入时 UI 与验证并发抖动
-    if (isLastBatch) {
-        const int validationCount = m_pendingBatchValidationCount;
-        m_pendingBatchValidationCount = 0;
-
-        // BOM 导入模式结束，恢复正常 UI 更新
-        if (m_bomImportMode) {
-            // 保存状态以便后续处理
-            bool hadPendingUpdates = (m_bomImportPendingUpdates > 0);
-            m_bomImportMode = false;
-            // 如果有累积的验证完成计数，触发一次 UI 更新
-            if (hadPendingUpdates) {
-                m_bomImportPendingUpdates = 0;
-                scheduleListUpdate();
-            }
-        }
-
-        if (validationCount > 0) {
-            if (m_validationStateManager->pendingCount() > 0 || !m_validationQueue.isEmpty() ||
-                !m_inFlightComponentIds.isEmpty()) {
-                m_validationStateManager->addValidation(validationCount);
-            } else {
-                m_validationStateManager->startValidation(validationCount);
-            }
-        }
-
-        // BOM 导入完成，标记并启动验证队列
-        m_bomImportComplete = true;
-        startValidationQueue();
-    }
-
-    scheduleListUpdate();
+    ComponentListBatchCoordinator::processNext(*this);
 }
 
+/**
+ * @brief 启动验证队列中的并发元件请求。
+ */
 void ComponentListViewModel::startValidationQueue() {
-    const int CONCURRENT_WORKERS = ConfigService::instance()->getValidationConcurrentCount();
-
-    // 检查需要添加到队列的新组件
-    for (auto item : m_componentList) {
-        // 只添加正在验证的组件，排除已验证完成或已验证失败的组件
-        // 注意：isFetching() 在 handleCadDataReady 时立即设为 false，
-        // 但 onValidationComplete 通过 singleShot(0) 延迟调用，
-        // 所以需要额外检查 isValid() 来排除已完成的组件
-        if (item->isFetching() && !item->isValid()) {
-            QString componentId = item->componentId();
-            // 检查是否已经在队列中或正在处理中（飞行中），避免重复添加
-            if (!m_validationQueue.contains(componentId) && !m_inFlightComponentIds.contains(componentId)) {
-                m_validationQueue.append(componentId);
-            }
-        }
-    }
-
-    // 如果没有待验证的组件，直接返回
-    if (m_validationQueue.isEmpty()) {
-        return;
-    }
-
-    // 如果 m_validationTotalCount 为 0，说明是首次启动，设置总数
-    // 否则说明是延续之前的处理，不需要额外设置（已在 pending 中）
-    if (m_validationTotalCount == 0) {
-        m_validationTotalCount = m_validationQueue.count();
-    }
-
-    // 启动并发验证 worker（如果当前没有活跃的 worker）
-    int initialCount = qMin(CONCURRENT_WORKERS, m_validationQueue.count());
-    for (int i = 0; i < initialCount; ++i) {
-        QString componentId = m_validationQueue.takeFirst();
-        m_inFlightComponentIds.insert(componentId);  // 标记为飞行中
-        m_service->fetchComponentData(componentId, false);
-        m_validationPendingCount++;
-    }
+    ComponentValidationCoordinator::start(*this);
 }
 
+/**
+ * @brief 从验证队列中调度下一个元件请求。
+ */
 void ComponentListViewModel::processNextValidation() {
-    if (m_validationQueue.isEmpty()) {
-        return;
-    }
-
-    QString componentId = m_validationQueue.takeFirst();
-    m_inFlightComponentIds.insert(componentId);  // 标记为飞行中
-    m_service->fetchComponentData(componentId, false);
-    m_validationPendingCount++;
+    ComponentValidationCoordinator::processNext(*this);
 }
 
+/**
+ * @brief 处理单个元件验证完成并推进验证队列。
+ * @param componentId 元器件编号。
+ */
 void ComponentListViewModel::onValidationComplete(const QString& componentId) {
-    m_validationCompletedCount++;
-    m_inFlightComponentIds.remove(componentId);  // 从飞行中移除
-
-    if (m_validationPendingCount > 0) {
-        m_validationPendingCount--;
-    }
-
-    // BOM 导入完成后，跳过 scheduleListUpdate 和 startValidationQueue
-    // 避免频繁调用导致 O(n²) 复杂度和 UI 阻塞
-    // 验证流程已在 processNextBatchAdd -> startValidationQueue 中启动
-    if (m_bomImportComplete) {
-        // BOM 导入已完成，只处理队列中的下一个验证
-        if (!m_validationQueue.isEmpty()) {
-            processNextValidation();
-        } else if (m_validationPendingCount == 0) {
-            m_bomImportComplete = false;
-        }
-        return;
-    }
-
-    // BOM 导入模式下，跳过频繁的 scheduleListUpdate，避免 UI 阻塞
-    // 只在最后所有验证完成时再更新 UI
-    if (!m_bomImportMode) {
-        scheduleListUpdate();
-    } else {
-        m_bomImportPendingUpdates++;
-    }
-
-    if (!m_validationQueue.isEmpty()) {
-        processNextValidation();
-    } else {
-        // 队列为空，尝试补充新组件（可能在验证期间新添加的）
-        startValidationQueue();
-        // 预览图获取现在由 ValidationStateManager::validationCompleted 信号触发
-        // 不再使用计数器判断，因为计数器存在溢出问题
-    }
+    ComponentValidationCoordinator::complete(*this, componentId);
 }
 
+/**
+ * @brief 从系统剪贴板提取并批量添加元件编号。
+ */
 void ComponentListViewModel::pasteFromClipboard() {
-    QClipboard* clipboard = QGuiApplication::clipboard();
-    QString text = clipboard->text();
-
-    if (text.isEmpty()) {
-        qWarning() << "Clipboard is empty";
-        return;
-    }
-
-    QStringList extractedIds = extractComponentIdFromText(text);
-    if (extractedIds.isEmpty()) {
-        qWarning() << "No valid component IDs found in clipboard";
-        emit pasteCompleted(0, 0);
-        return;
-    }
-
-    int skipped = 0;
-    QStringList newIds;
-    for (const QString& id : extractedIds) {
-        if (componentExists(id)) {
-            skipped++;
-        } else {
-            newIds.append(id);
-        }
-    }
-
-    if (!newIds.isEmpty()) {
-        addComponentsBatch(newIds);
-    }
-
-    emit pasteCompleted(newIds.count(), skipped);
+    ComponentListClipboardCoordinator::paste(*this);
 }
 
+/**
+ * @brief 将当前全部元件编号复制到系统剪贴板。
+ */
 void ComponentListViewModel::copyAllComponentIds() {
-    if (m_componentList.isEmpty()) {
-        qWarning() << "Component list is empty, nothing to copy";
-        return;
-    }
-
-    QStringList componentIds;
-    for (const auto* item : m_componentList) {
-        if (item) {
-            componentIds.append(item->componentId());
-        }
-    }
-
-    QString textToCopy = componentIds.join("\n");
-
-    QClipboard* clipboard = QGuiApplication::clipboard();
-    clipboard->setText(textToCopy);
-
-    qDebug() << "Copied" << componentIds.size() << "component IDs to clipboard";
+    ComponentListClipboardCoordinator::copyAll(*this);
 }
 
+/**
+ * @brief 异步解析用户选择的 BOM 文件并添加元件。
+ * @param filePath 文件路径。
+ */
 void ComponentListViewModel::selectBomFile(const QString& filePath) {
-    qDebug() << "BOM file selected:" << filePath;
-
-    if (m_bomFilePath != filePath) {
-        m_bomFilePath = filePath;
-        emit bomFilePathChanged();
-    }
-
-    QString localPath = filePath;
-    if (filePath.startsWith("file:///")) {
-        localPath = QUrl(filePath).toLocalFile();
-        qDebug() << "Converted URL to local path:" << localPath;
-    }
-
-    m_bomResult = "Parsing BOM file...";
-    emit bomResultChanged();
-
-    QFuture<QStringList> future = QtConcurrent::run([this, localPath]() { return m_service->parseBomFile(localPath); });
-
-    QFutureWatcher<QStringList>* watcher = new QFutureWatcher<QStringList>(this);
-    QPointer<ComponentListViewModel> self(this);
-    connect(watcher, &QFutureWatcher<QStringList>::finished, this, [self, watcher, localPath]() {
-        if (!self) {
-            return;
-        }
-        QStringList componentIds = watcher->result();
-        watcher->deleteLater();
-
-        if (componentIds.isEmpty()) {
-            self->m_bomResult = "No valid component IDs found in BOM file";
-            qWarning() << "No component IDs found in BOM file:" << localPath;
-            emit self->bomResultChanged();
-            return;
-        }
-
-        QStringList newIds;
-        int skipped = 0;
-
-        for (const QString& id : componentIds) {
-            if (!self->componentExists(id)) {
-                newIds.append(id);
-            } else {
-                skipped++;
-            }
-        }
-
-        if (!newIds.isEmpty()) {
-            self->addComponentsBatch(newIds);
-        }
-
-        QString resultMsg =
-            QString("BOM file imported: %1 components added, %2 skipped").arg(newIds.count()).arg(skipped);
-        self->m_bomResult = resultMsg;
-        qDebug() << resultMsg;
-        emit self->bomResultChanged();
-    });
-    watcher->setFuture(future);
+    ComponentListBatchCoordinator::selectBomFile(*this, filePath);
 }
 
+/**
+ * @brief 请求指定元件的数据，可选择是否获取三维模型。
+ * @param componentId 元器件编号。
+ * @param fetch3DModel 是否获取关联的 3D 模型。
+ */
 void ComponentListViewModel::fetchComponentData(const QString& componentId, bool fetch3DModel) {
     qDebug() << "Fetching component data for:" << componentId;
     m_service->setOutputPath(m_outputPath);
     m_service->fetchComponentData(componentId, fetch3DModel);
 }
 
+/**
+ * @brief 设置导出输出目录并通知界面。
+ * @param path 输出目录路径。
+ */
 void ComponentListViewModel::setOutputPath(const QString& path) {
     if (m_outputPath != path) {
         m_outputPath = path;
@@ -773,301 +217,119 @@ void ComponentListViewModel::setOutputPath(const QString& path) {
     }
 }
 
+/**
+ * @brief 委托服务验证元件编号格式。
+ * @param componentId 元器件编号。
+ */
 bool ComponentListViewModel::validateComponentId(const QString& componentId) const {
     return m_service->validateComponentId(componentId);
 }
 
+/**
+ * @brief 从文本中提取服务支持的元件编号。
+ * @param text 待解析的文本。
+ */
 QStringList ComponentListViewModel::extractComponentIdFromText(const QString& text) const {
     return m_service->extractComponentIdFromText(text);
 }
 
+/**
+ * @brief 判断元件编号是否已存在于当前列表。
+ * @param componentId 元器件编号。
+ */
 bool ComponentListViewModel::componentExists(const QString& componentId) const {
     QMutexLocker locker(&m_listMutex);
     return m_componentIdIndex.contains(componentId);
 }
 
+/**
+ * @brief 根据元件编号查找对应的列表项。
+ * @param componentId 元器件编号。
+ */
 ComponentListItemData* ComponentListViewModel::findItemData(const QString& componentId) const {
     QMutexLocker locker(&m_listMutex);
-    auto it = m_componentIdIndex.find(componentId);
-    if (it != m_componentIdIndex.end()) {
-        int index = it.value();
-        if (index >= 0 && index < m_componentList.count()) {
-            return m_componentList.at(index);
-        }
+    // 获取元器件编号在列表中的位置。
+    const int index = m_componentIdIndex.indexOf(componentId);
+    if (index >= 0 && index < m_componentList.count()) {
+        return m_componentList.at(index);
     }
     return nullptr;
 }
 
+/**
+ * @brief 将异步返回的基础信息合并到列表项。
+ * @param componentId 元器件编号。
+ * @param data 组件数据。
+ */
 void ComponentListViewModel::handleComponentInfoReady(const QString& componentId, const ComponentData& data) {
-    auto item = findItemData(componentId);
-    if (item) {
-        item->setNameSilent(data.name());
-        item->setPackageSilent(data.package());
-        if (!m_batchUpdateItems.contains(item)) {
-            m_batchUpdateItems.append(item);
-        }
-        if (!m_batchUpdateTimer->isActive()) {
-            m_batchUpdateTimer->start();
-        }
-    }
+    ComponentListDataCoordinator::handleComponentInfo(*this, componentId, data);
 }
 
+/**
+ * @brief 接收 CAD 数据并完成元件验证状态更新。
+ * @param componentId 元器件编号。
+ * @param data 组件数据。
+ */
 void ComponentListViewModel::handleCadDataReady(const QString& componentId, const ComponentData& data) {
-    auto item = findItemData(componentId);
-    if (!item) {
-        qWarning() << "handleCadDataReady: item not found for componentId:" << componentId
-                   << ", m_componentIdIndex size:" << m_componentIdIndex.size();
-        return;
-    }
-
-    // 如果组件已经验证通过，说明 CAD 数据之前已经处理过了，
-    // 只需要更新 componentData，不要重复触发验证完成逻辑
-    if (item->isValid()) {
-        QSharedPointer<ComponentData> dataPtr = QSharedPointer<ComponentData>::create(data);
-        item->setComponentData(dataPtr);
-        return;
-    }
-
-    QSharedPointer<ComponentData> dataPtr = QSharedPointer<ComponentData>::create(data);
-    item->setComponentData(dataPtr);
-    item->setFetching(false);
-    item->setValid(true);
-    item->setRetryable(true);
-    item->setValidationPhase("completed");
-    item->setErrorMessage("");
-    scheduleListUpdate();
-
-    m_validationStateManager->onComponentValidated(componentId);
-    QTimer::singleShot(0, this, [this, componentId]() { onValidationComplete(componentId); });
+    ComponentListDataCoordinator::handleCadData(*this, componentId, data);
 }
 
+/**
+ * @brief 记录三维模型准备完成事件。
+ * @param uuid 三维模型唯一标识。
+ * @param filePath 文件路径。
+ */
 void ComponentListViewModel::handleModel3DReady(const QString& uuid, const QString& filePath) {
     qDebug() << "3D model ready for UUID:" << uuid << "at:" << filePath;
 }
 
+/**
+ * @brief 根据获取错误更新元件验证或预览状态。
+ * @param componentId 元器件编号。
+ * @param error 错误信息。
+ */
 void ComponentListViewModel::handleFetchError(const QString& componentId, const QString& error) {
-    qWarning() << "Fetch error for:" << componentId << "-" << error;
-
-    auto item = findItemData(componentId);
-
-    if (item) {
-        // 重要：预览图获取失败不应该改变元器件的验证状态
-        // 元器件的验证状态只由 CAD 数据获取结果决定
-        // 如果组件已经验证通过（isValid 为 true），保持验证状态不变
-        bool wasAlreadyValid = item->isValid();
-
-        item->setFetching(false);
-
-        if (!wasAlreadyValid) {
-            // 组件尚未验证通过，说明 CAD 数据获取失败或还未完成
-            // 判断是否是 CAD 数据获取失败
-            // 扩大判断范围：包括网络错误和 HTTP 错误，因为这些也可能导致 CAD 数据获取失败
-            bool isCadDataFailure =
-                error.contains("CAD data") || error.contains("Symbol data") || error.contains("Footprint data") ||
-                error.contains("Empty CAD") || error.contains("parse.*EasyEDA") ||
-                error.contains("No result", Qt::CaseInsensitive) ||
-                // API 业务层错误
-                error.contains("API returned success=false", Qt::CaseInsensitive) ||
-                error.contains("API response missing result field", Qt::CaseInsensitive) ||
-                // 网络相关错误（CAD 数据获取也可能触发这些）
-                error.contains("403") || error.contains("404") || error.contains("timeout", Qt::CaseInsensitive) ||
-                error.contains("access denied", Qt::CaseInsensitive) ||
-                error.contains("forbidden", Qt::CaseInsensitive) || error.contains("not found", Qt::CaseInsensitive) ||
-                error.contains("connection closed", Qt::CaseInsensitive) ||
-                error.contains("operation canceled", Qt::CaseInsensitive) ||
-                error.contains("Request cancelled", Qt::CaseInsensitive) ||
-                error.contains("network error", Qt::CaseInsensitive) ||
-                error.contains("fetch error", Qt::CaseInsensitive);
-
-            if (isCadDataFailure) {
-                // CAD 数据获取失败，标记为验证失败
-                item->setValid(false);
-                item->setValidationPhase("failed");
-                const bool nonRetryable = ComponentListViewModel::isNonRetryableValidationError(error);
-                item->setRetryable(!nonRetryable);
-                if (error.contains("No result", Qt::CaseInsensitive) ||
-                    error.contains("not found", Qt::CaseInsensitive) || error.contains("404", Qt::CaseInsensitive)) {
-                    item->setErrorMessage(tr("元器件不存在（404）"));
-                } else if (nonRetryable) {
-                    item->setErrorMessage(error);
-                } else {
-                    item->setErrorMessage(error);
-                }
-                m_validationStateManager->onComponentFailed(componentId);
-                scheduleListUpdate();
-                QTimer::singleShot(0, this, [this, componentId]() { onValidationComplete(componentId); });
-            } else {
-                // 预览图获取失败，保持验证状态（可能还未验证完成）
-                // 只更新错误消息，不改变验证状态
-                if (error.contains("Request timeout", Qt::CaseInsensitive) ||
-                    error.contains("timeout", Qt::CaseInsensitive)) {
-                    item->setErrorMessage(tr("预览图获取超时（网络不稳定）"));
-                } else if (error.contains("No result", Qt::CaseInsensitive) || error.contains("404") ||
-                           error.contains("not found", Qt::CaseInsensitive)) {
-                    item->setErrorMessage(tr("预览图不存在"));
-                } else if (error.contains("403")) {
-                    item->setErrorMessage(tr("预览图获取被拒绝"));
-                } else {
-                    item->setErrorMessage(tr("预览图获取失败"));
-                }
-            }
-        } else {
-            // 组件已经验证通过，只是预览图获取失败，保持验证状态不变
-        }
-
-        scheduleListUpdate();
-    }
+    ComponentListDataCoordinator::handleFetchError(*this, componentId, error);
 }
 
+/**
+ * @brief 将 LCSC 返回的制造商、数据手册和图片信息合并到列表项。
+ * @param componentId 元器件编号。
+ * @param manufacturerPart 制造商料号。
+ * @param datasheetUrl 数据手册地址。
+ * @param imageUrls 预览图地址列表。
+ */
 void ComponentListViewModel::handleLcscDataUpdated(const QString& componentId,
                                                    const QString& manufacturerPart,
                                                    const QString& datasheetUrl,
                                                    const QStringList& imageUrls) {
-    auto item = findItemData(componentId);
-    if (item) {
-        if (item->componentData()) {
-            auto data = item->componentData();
-            if (!manufacturerPart.isEmpty()) {
-                data->setManufacturerPart(manufacturerPart);
-            }
-            if (!datasheetUrl.isEmpty()) {
-                data->setDatasheet(datasheetUrl);
-
-                QString format = "pdf";
-                if (datasheetUrl.toLower().contains(".html")) {
-                    format = "html";
-                }
-                data->setDatasheetFormat(format);
-            }
-            if (!imageUrls.isEmpty()) {
-                data->setPreviewImages(imageUrls);
-            }
-        }
-
-        if (!manufacturerPart.isEmpty()) {
-            item->setNameSilent(manufacturerPart);
-            if (!m_batchUpdateItems.contains(item)) {
-                m_batchUpdateItems.append(item);
-            }
-            if (!m_batchUpdateTimer->isActive()) {
-                m_batchUpdateTimer->start();
-            }
-        }
-    } else {
-        qWarning() << "Component" << componentId << "not found in list, cannot update LCSC data";
-    }
+    ComponentListDataCoordinator::handleLcscData(*this, componentId, manufacturerPart, datasheetUrl, imageUrls);
 }
 
+/**
+ * @brief 保存异步返回的数据手册内容并推断其格式。
+ * @param componentId 元器件编号。
+ * @param datasheetData 数据手册内容。
+ */
 void ComponentListViewModel::handleDatasheetReady(const QString& componentId, const QByteArray& datasheetData) {
-    auto item = findItemData(componentId);
-    if (item) {
-        if (item->componentData()) {
-            auto data = item->componentData();
-            data->setDatasheetData(datasheetData);
-
-            QString format = data->datasheetFormat();
-            if (format.isEmpty()) {
-                if (datasheetData.startsWith("%PDF-")) {
-                    format = "pdf";
-                } else {
-                    format = "html";
-                }
-                data->setDatasheetFormat(format);
-            }
-        }
-    } else {
-        qWarning() << "Component" << componentId << "not found in list, cannot update datasheet data";
-    }
+    ComponentListDataCoordinator::handleDatasheet(*this, componentId, datasheetData);
 }
 
-void ComponentListViewModel::batchUpdatePreviewImages() {
-    // 获取并清空待处理列表（需要锁保护）
-    QList<QPointer<ComponentListItemData>> itemsToProcess;
-    {
-        QMutexLocker locker(&m_previewImageMutex);
-        itemsToProcess = m_pendingPreviewImageItems;
-        m_pendingPreviewImageItems.clear();
-    }
-
-    qDebug() << "Batch updating preview images for" << itemsToProcess.size() << "items";
-
-    if (itemsToProcess.isEmpty()) {
-        return;
-    }
-
-    for (const QPointer<ComponentListItemData>& item : itemsToProcess) {
-        if (item) {
-            QList<QImage> images;
-            for (const QImage& img : item->previewImagesRaw()) {
-                images.append(img);
-            }
-
-            auto callback = [this](const QString& cid, const QStringList& encoded) {
-                QMetaObject::invokeMethod(
-                    this, [this, cid, encoded]() { onPreviewImageEncodingDone(cid, encoded); }, Qt::QueuedConnection);
-            };
-            PreviewImageEncodeRunnable* runnable = new PreviewImageEncodeRunnable(item, images, callback);
-
-            m_encodingThreadPool->start(runnable);
-        }
-    }
-}
-
+/**
+ * @brief 批量应用缓存中的预览图编码结果。
+ */
 void ComponentListViewModel::processCachePreviewImages() {
-    // 获取并清空待处理映射（需要锁保护）
-    QMap<QString, QStringList> pending;
-    QMap<QString, QMap<int, QString>> incrementalPending;
-    {
-        QMutexLocker locker(&m_cachePreviewMutex);
-        pending = m_pendingCachePreviewImages;
-        incrementalPending = m_pendingIncrementalPreviewImages;
-        m_pendingCachePreviewImages.clear();
-        m_pendingIncrementalPreviewImages.clear();
-    }
-
-    if (pending.isEmpty() && incrementalPending.isEmpty()) {
-        return;
-    }
-
-    for (auto it = incrementalPending.cbegin(); it != incrementalPending.cend(); ++it) {
-        auto item = findItemData(it.key());
-        if (!item) {
-            continue;
-        }
-
-        bool changed = false;
-        for (auto imageIt = it.value().cbegin(); imageIt != it.value().cend(); ++imageIt) {
-            item->setEncodedPreviewImageAt(imageIt.value(), imageIt.key(), false);
-            changed = true;
-        }
-
-        if (changed) {
-            item->notifyPreviewImagesChanged();
-        }
-    }
-
-    for (auto it = pending.cbegin(); it != pending.cend(); ++it) {
-        auto item = findItemData(it.key());
-        if (item) {
-            item->setEncodedPreviewImages(it.value());
-            if (item->validationPhase() == "fetching_preview") {
-                item->setValidationPhase("completed");
-            }
-        }
-    }
-
-    scheduleListUpdate();
+    ComponentListPreviewCoordinator::processCacheImages(*this);
 }
 
-void ComponentListViewModel::onPreviewImageEncodingDone(const QString& componentId, const QStringList& encodedImages) {
-    auto item = findItemData(componentId);
-    if (item) {
-        item->setEncodedPreviewImages(encodedImages);
-    }
-}
-
+/**
+ * @brief 重新请求指定列表项的基础信息。
+ * @param index 列表索引。
+ */
 void ComponentListViewModel::refreshComponentInfo(int index) {
+    // 保存待刷新的列表项。
     ComponentListItemData* item = nullptr;
+    // 保存待刷新的元器件编号。
     QString componentId;
     {
         QMutexLocker locker(&m_listMutex);
@@ -1092,42 +354,18 @@ void ComponentListViewModel::refreshComponentInfo(int index) {
     }
 }
 
+/**
+ * @brief 重新请求所有可重试的失败元件。
+ */
 void ComponentListViewModel::retryAllInvalidComponents() {
-    clearAttentionHints();
-    // 先收集需要重试的组件 ID 列表
-    QStringList idsToRetry;
-    {
-        QMutexLocker locker(&m_listMutex);
-        for (int i = 0; i < m_componentList.count(); ++i) {
-            auto item = m_componentList.at(i);
-            if (item && !item->isValid() && !item->isFetching() && item->retryable()) {
-                idsToRetry.append(item->componentId());
-            }
-        }
-    }
-
-    // 在锁外执行重试操作
-    for (const QString& id : idsToRetry) {
-        auto item = findItemData(id);
-        if (item) {
-            m_bomImportComplete = false;
-            item->setFetching(true);
-            item->setValid(false);
-            item->setRetryable(true);
-            item->setValidationPhase("validating");
-            item->setErrorMessage("");
-            m_service->fetchComponentData(id, false);
-        }
-    }
-
-    if (!idsToRetry.isEmpty()) {
-        m_validationStateManager->startValidation(idsToRetry.count());
-    }
-
-    emit filteredCountChanged();
+    ComponentListRetryCoordinator::retryAllInvalid(*this);
 }
 
+/**
+ * @brief 返回当前列表中的全部元件编号。
+ */
 QStringList ComponentListViewModel::getAllComponentIds() const {
+    // 保存当前列表中的全部元器件编号。
     QStringList ids;
     {
         QMutexLocker locker(&m_listMutex);
@@ -1138,7 +376,12 @@ QStringList ComponentListViewModel::getAllComponentIds() const {
     return ids;
 }
 
+/**
+ * @brief 返回指定元件已验证的预加载数据。
+ * @param componentId 元器件编号。
+ */
 QSharedPointer<ComponentData> ComponentListViewModel::getPreloadedData(const QString& componentId) const {
+    // 查找指定元器件的列表项。
     auto item = findItemData(componentId);
     if (item && item->isValid() && item->componentData()) {
         return item->componentData();
@@ -1146,7 +389,11 @@ QSharedPointer<ComponentData> ComponentListViewModel::getPreloadedData(const QSt
     return nullptr;
 }
 
+/**
+ * @brief 返回全部已验证元件的预加载数据。
+ */
 QMap<QString, QSharedPointer<ComponentData>> ComponentListViewModel::getAllPreloadedData() const {
+    // 保存全部有效元器件的预加载数据。
     QMap<QString, QSharedPointer<ComponentData>> result;
     {
         QMutexLocker locker(&m_listMutex);
@@ -1159,79 +406,68 @@ QMap<QString, QSharedPointer<ComponentData>> ComponentListViewModel::getAllPrelo
     return result;
 }
 
+/**
+ * @brief 将指定文本写入系统剪贴板。
+ * @param text 待解析的文本。
+ */
 void ComponentListViewModel::copyToClipboard(const QString& text) {
+    // 获取系统剪贴板对象。
     QClipboard* clipboard = QGuiApplication::clipboard();
     clipboard->setText(text);
     qDebug() << "Copied to clipboard:" << text;
 }
 
+/**
+ * @brief 保留旧接口并提示调用方使用批量预览图接口。
+ */
 void ComponentListViewModel::fetchAllPreviewImages() {
     qDebug() << "fetchAllPreviewImages() is deprecated - use fetchPreviewImages(componentIds) instead";
 }
 
+/**
+ * @brief 为指定的有效元件批量获取预览图。
+ * @param componentIds 元器件编号列表。
+ */
 void ComponentListViewModel::fetchPreviewImages(const QStringList& componentIds) {
-    QStringList validIds;
-    QSet<QString> seenIds;
-    for (const QString& componentId : componentIds) {
-        if (componentId.isEmpty() || seenIds.contains(componentId)) {
-            continue;
-        }
-        seenIds.insert(componentId);
-
-        auto item = findItemData(componentId);
-        if (item && item->isValid()) {
-            validIds.append(componentId);
-        }
-    }
-
-    if (validIds.isEmpty()) {
-        qDebug() << "No valid components to fetch preview images for";
-        m_previewReadyHint = false;
-        m_validationReadyHint = false;
-        emit attentionStateChanged();
-        return;
-    }
-
-    qDebug() << "Fetching preview images for" << validIds.count() << "valid components";
-    m_pendingPreviewFetchIds = QSet<QString>(validIds.begin(), validIds.end());
-    m_previewReadyHint = false;
-    emit attentionStateChanged();
-
-    for (const QString& componentId : std::as_const(validIds)) {
-        auto item = findItemData(componentId);
-        if (item && item->isValid() && item->previewImageCount() == 0) {
-            item->setValidationPhase("fetching_preview");
-        }
-    }
-    scheduleListUpdate();
-
-    // 使用批量获取预览图接口，避免为每个组件创建单独的定时器
-    // LcscImageService 会自动处理缓存加载和队列管理
-    m_service->fetchBatchPreviewImages(validIds);
+    ComponentListPreviewCoordinator::fetchImages(*this, componentIds);
 }
 
+/**
+ * @brief 处理旧版延迟预览图入口，目前由验证完成信号替代。
+ */
 void ComponentListViewModel::delayedFetchPreviewImages() {
     // 预览图获取现在由 ValidationStateManager::validationCompleted 信号触发
     // 此函数不再需要，使用信号机制避免了计数器溢出的问题
     qDebug() << "delayedFetchPreviewImages called but ignored - using signal-based trigger instead";
 }
 
+/**
+ * @brief 根据状态跟踪器刷新是否存在可重试失败项。
+ */
 void ComponentListViewModel::updateHasInvalidComponents() {
-    const bool hasInvalid = m_retryableInvalidCountCache > 0;
+    // 查询是否存在可重试的无效元器件。
+    const bool hasInvalid = m_stateTracker.hasRetryableInvalidComponents();
     if (hasInvalid != m_hasInvalidComponents) {
         m_hasInvalidComponents = hasInvalid;
         emit hasInvalidComponentsChanged();
     }
 }
 
+/**
+ * @brief 设置列表过滤模式并通知 QML。
+ * @param mode 列表筛选模式。
+ */
 void ComponentListViewModel::setFilterMode(const QString& mode) {
-    if (m_filterMode != mode) {
-        m_filterMode = mode;
+    if (m_stateTracker.setFilterMode(mode)) {
         emit filterModeChanged();
         emit filteredCountChanged();
     }
 }
 
+/**
+ * @brief 更新列表滚动状态。
+ * @param scrolling 列表是否正在滚动。
+ */
 void ComponentListViewModel::setScrolling(bool scrolling) {
     if (m_isScrolling != scrolling) {
         m_isScrolling = scrolling;
@@ -1239,24 +475,28 @@ void ComponentListViewModel::setScrolling(bool scrolling) {
     }
 }
 
+/**
+ * @brief 标记一个元件的预览图请求完成。
+ * @param componentId 元器件编号。
+ */
 void ComponentListViewModel::markPreviewFetchCompleted(const QString& componentId) {
-    if (componentId.isEmpty() || !m_pendingPreviewFetchIds.contains(componentId)) {
-        return;
-    }
-
-    m_pendingPreviewFetchIds.remove(componentId);
-    if (m_pendingPreviewFetchIds.isEmpty()) {
-        m_validationReadyHint = false;
-        m_previewReadyHint = true;
-        emit attentionStateChanged();
-    }
+    ComponentListPreviewCoordinator::markFetchCompleted(*this, componentId);
 }
 
+/**
+ * @brief 清除界面上的验证和预览图提示。
+ */
 void ComponentListViewModel::dismissAttentionHints() {
     clearAttentionHints();
 }
 
+/**
+ * @brief 同步更新列表项和服务缓存中的元件描述。
+ * @param componentId 元器件编号。
+ * @param description 元器件描述文本。
+ */
 void ComponentListViewModel::updateComponentDescription(const QString& componentId, const QString& description) {
+    // 查找待更新描述的列表项。
     ComponentListItemData* item = findItemData(componentId);
     if (!item) {
         return;
@@ -1268,19 +508,23 @@ void ComponentListViewModel::updateComponentDescription(const QString& component
     }
 }
 
+/**
+ * @brief 清空验证完成和预览图完成提示状态。
+ */
 void ComponentListViewModel::clearAttentionHints() {
-    const bool changed = m_validationReadyHint || m_previewReadyHint || !m_pendingPreviewFetchIds.isEmpty();
-    m_validationReadyHint = false;
-    m_previewReadyHint = false;
-    m_pendingPreviewFetchIds.clear();
-    if (changed) {
-        emit attentionStateChanged();
-    }
+    ComponentListPreviewCoordinator::clearAttentionHints(*this);
 }
 
+/**
+ * @brief 更新元件预览图和数据手册的导出状态。
+ * @param componentId 元器件编号。
+ * @param previewImageExported 预览图导出数量或状态。
+ * @param datasheetExported 数据手册导出数量或状态。
+ */
 void ComponentListViewModel::updateExportStatus(const QString& componentId,
                                                 int previewImageExported,
                                                 int datasheetExported) {
+    // 查找待更新导出状态的列表项。
     ComponentListItemData* item = findItemData(componentId);
     if (item) {
         if (previewImageExported >= 0) {
@@ -1292,31 +536,37 @@ void ComponentListViewModel::updateExportStatus(const QString& componentId,
     }
 }
 
+/**
+ * @brief 返回当前过滤模式下的元件数量。
+ */
 int ComponentListViewModel::filteredCount() const {
-    if (m_filterMode == "validating") {
-        return m_validatingCountCache;
-    }
-    if (m_filterMode == "valid") {
-        return m_validCountCache;
-    }
-    if (m_filterMode == "invalid") {
-        return m_invalidCountCache;
-    }
-    return componentCount();
+    return m_stateTracker.filteredCount(componentCount());
 }
 
+/**
+ * @brief 返回正在验证的元件数量。
+ */
 int ComponentListViewModel::validatingCount() const {
-    return m_validatingCountCache;
+    return m_stateTracker.validatingCount();
 }
 
+/**
+ * @brief 返回验证成功的元件数量。
+ */
 int ComponentListViewModel::validCount() const {
-    return m_validCountCache;
+    return m_stateTracker.validCount();
 }
 
+/**
+ * @brief 返回验证失败的元件数量。
+ */
 int ComponentListViewModel::invalidCount() const {
-    return m_invalidCountCache;
+    return m_stateTracker.invalidCount();
 }
 
+/**
+ * @brief 以防抖方式安排列表状态刷新。
+ */
 void ComponentListViewModel::scheduleListUpdate() {
     // 防抖：防止定时器级联重启
     // 如果已经有待处理的列表更新，直接跳过
@@ -1342,35 +592,12 @@ void ComponentListViewModel::scheduleListUpdate() {
     }
 }
 
+/**
+ * @brief 在列表锁保护下重新计算验证统计。
+ */
 void ComponentListViewModel::recomputeStateCounters() {
-    int validatingCount = 0;
-    int validCount = 0;
-    int invalidCount = 0;
-    int retryableInvalidCount = 0;
-
     QMutexLocker locker(&m_listMutex);
-    for (const auto& item : m_componentList) {
-        if (!item) {
-            continue;
-        }
-
-        const QString phase = item->validationPhase();
-        if (phase == "validating") {
-            ++validatingCount;
-        } else if (phase == "completed" || phase == "fetching_preview") {
-            ++validCount;
-        } else if (phase == "failed") {
-            ++invalidCount;
-            if (item->retryable()) {
-                ++retryableInvalidCount;
-            }
-        }
-    }
-
-    m_validatingCountCache = validatingCount;
-    m_validCountCache = validCount;
-    m_invalidCountCache = invalidCount;
-    m_retryableInvalidCountCache = retryableInvalidCount;
+    m_stateTracker.recompute(m_componentList);
 }
 
 }  // namespace EasyKiConverter

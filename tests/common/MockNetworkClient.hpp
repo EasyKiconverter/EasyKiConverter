@@ -18,6 +18,7 @@ public:
         NetworkResult result;
     };
 
+    // 注册一个可按 URL 查询的 JSON 响应。
     void addJsonResponse(const QString& url, const QJsonObject& object, int statusCode = 200) {
         NetworkResult result;
         result.success = true;
@@ -27,6 +28,7 @@ public:
         m_getResponses.insert(url, result);
     }
 
+    // 注册一个可按 URL 查询的原始响应。
     void addResponse(const QString& url, const QByteArray& data, int statusCode = 200) {
         NetworkResult result;
         result.success = true;
@@ -36,15 +38,23 @@ public:
         m_getResponses.insert(url, result);
     }
 
+    // 注册一个失败响应并同步设置可识别的 HTTP 错误分类。
     void addErrorResponse(const QString& url, const QString& error, int statusCode = 0) {
         NetworkResult result;
         result.success = false;
         result.statusCode = statusCode;
         result.error = error;
         result.diagnostic.url = url;
+        if (statusCode == 403) {
+            result.diagnostic.errorType = NetworkErrorType::Forbidden;
+        } else if (statusCode == 429) {
+            result.diagnostic.errorType = NetworkErrorType::RateLimited;
+            result.diagnostic.wasRateLimited = true;
+        }
         m_getResponses.insert(url, result);
     }
 
+    // 返回最近一次被 Mock 客户端访问的 URL。
     QString lastUrl() const {
         return m_lastUrl;
     }

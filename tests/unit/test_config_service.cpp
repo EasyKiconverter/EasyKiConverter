@@ -15,13 +15,20 @@ private slots:
     void testExportModePersistAcrossLoad();
 };
 
+/**
+ * @brief 验证 testCacheSettingsPersistAcrossLoad 测试场景。
+ */
 void TestConfigService::testCacheSettingsPersistAcrossLoad() {
+    // tempDir：测试使用的文件系统路径。
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
 
+    // configPath：测试使用的文件系统路径。
     const QString configPath = QDir(tempDir.path()).filePath(QStringLiteral("config.json"));
+    // cacheDir：测试使用的文件系统路径。
     const QString cacheDir = QDir(tempDir.path()).filePath(QStringLiteral("custom-cache"));
 
+    // config：测试用配置对象。
     ConfigService* config = ConfigService::instance();
     config->resetToDefaults();
     config->setCacheDir(cacheDir);
@@ -35,7 +42,11 @@ void TestConfigService::testCacheSettingsPersistAcrossLoad() {
     QCOMPARE(config->getDiskCacheLimitMB(), 2048);
 }
 
+/**
+ * @brief 验证 testDiskCacheLimitClamped 测试场景。
+ */
 void TestConfigService::testDiskCacheLimitClamped() {
+    // config：测试用配置对象。
     ConfigService* config = ConfigService::instance();
 
     config->setDiskCacheLimitMB(0);
@@ -45,12 +56,18 @@ void TestConfigService::testDiskCacheLimitClamped() {
     QCOMPARE(config->getDiskCacheLimitMB(), 1048576);
 }
 
+/**
+ * @brief 验证 testExportModePersistAcrossLoad 测试场景。
+ */
 void TestConfigService::testExportModePersistAcrossLoad() {
+    // tempDir：测试使用的文件系统路径。
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
 
+    // configPath：测试使用的文件系统路径。
     const QString configPath = QDir(tempDir.path()).filePath(QStringLiteral("config.json"));
 
+    // config：测试用配置对象。
     ConfigService* config = ConfigService::instance();
     config->resetToDefaults();
     QCOMPARE(config->getExportMode(), 0);

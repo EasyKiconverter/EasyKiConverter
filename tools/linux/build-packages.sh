@@ -635,7 +635,6 @@ build_appimage() {
     print_info "构建 AppImage..."
     
     local VERSION=$(get_version)
-    local GIT_HASH=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
     local APP_DIR="${PROJECT_ROOT}/build/EasyKiConverter.AppDir"
     
     if [ ! -d "$APP_DIR" ]; then
@@ -661,13 +660,13 @@ build_appimage() {
     local output_dir="${PROJECT_ROOT}/build/packages"
     mkdir -p "$output_dir"
     
-    mv EasyKiConverter-*.AppImage "$output_dir/EasyKiConverter-${VERSION}-g${GIT_HASH}.${APPIMAGE_ARCH}.AppImage"
+    mv EasyKiConverter-*.AppImage "$output_dir/EasyKiConverter-${VERSION}-linux-${APPIMAGE_ARCH}.AppImage"
     
     # 生成校验和
     cd "$output_dir"
-    sha256sum EasyKiConverter-${VERSION}-g${GIT_HASH}.${APPIMAGE_ARCH}.AppImage > EasyKiConverter-${VERSION}-g${GIT_HASH}.${APPIMAGE_ARCH}.AppImage.sha256sum
+    sha256sum EasyKiConverter-${VERSION}-linux-${APPIMAGE_ARCH}.AppImage > EasyKiConverter-${VERSION}-linux-${APPIMAGE_ARCH}.AppImage.sha256sum
     
-    print_info "AppImage 构建完成: $output_dir/EasyKiConverter-${VERSION}-g${GIT_HASH}.${APPIMAGE_ARCH}.AppImage"
+    print_info "AppImage 构建完成: $output_dir/EasyKiConverter-${VERSION}-linux-${APPIMAGE_ARCH}.AppImage"
 }
 
 # 构建 DEB 包
@@ -675,7 +674,6 @@ build_deb() {
     print_info "构建 DEB 包..."
     
     local VERSION=$(get_version)
-    local GIT_HASH=$(git rev-parse --short HEAD 2>/dev/null || echo "unknown")
     local APP_DIR="${PROJECT_ROOT}/build/EasyKiConverter.AppDir"
     
     if [ ! -d "$APP_DIR" ]; then
@@ -711,9 +709,9 @@ build_deb() {
     # 重命名
     cd "$output_dir"
     if [ -f "easykiconverter_${VERSION}-1_${NFPM_ARCH}.deb" ]; then
-        mv "easykiconverter_${VERSION}-1_${NFPM_ARCH}.deb" "EasyKiConverter-${VERSION}-g${GIT_HASH}.${NFPM_ARCH}.deb"
-        sha256sum "EasyKiConverter-${VERSION}-g${GIT_HASH}.${NFPM_ARCH}.deb" > "EasyKiConverter-${VERSION}-g${GIT_HASH}.${NFPM_ARCH}.deb.sha256sum"
-        print_info "DEB 包构建完成: $output_dir/EasyKiConverter-${VERSION}-g${GIT_HASH}.${NFPM_ARCH}.deb"
+        mv "easykiconverter_${VERSION}-1_${NFPM_ARCH}.deb" "EasyKiConverter-${VERSION}-linux-${NFPM_ARCH}.deb"
+        sha256sum "EasyKiConverter-${VERSION}-linux-${NFPM_ARCH}.deb" > "EasyKiConverter-${VERSION}-linux-${NFPM_ARCH}.deb.sha256sum"
+        print_info "DEB 包构建完成: $output_dir/EasyKiConverter-${VERSION}-linux-${NFPM_ARCH}.deb"
     else
         print_warn "DEB 包文件未找到，查看生成的文件："
         ls -la *.deb 2>/dev/null || print_error "没有生成 DEB 文件"

@@ -7,22 +7,22 @@
 <p align="center">
     <a href="https://flathub.org/apps/details/io.github.tangsangsimida.easykiconverter"><img width="200" alt="Download on Flathub" src="https://flathub.org/assets/badges/flathub-badge-i-en.svg"/></a>
     <br/>
-    <img src="https://github.com/tangsangsimida/EasyKiConverter/workflows/Build/badge.svg" alt="Build Status" />
-    <img src="https://github.com/tangsangsimida/EasyKiConverter/workflows/Security/badge.svg" alt="Security Scan" />
-    <img src="https://img.shields.io/github/v/release/tangsangsimida/EasyKiConverter" alt="GitHub release" />
-    <img src="https://img.shields.io/github/downloads/tangsangsimida/EasyKiConverter/total" alt="GitHub downloads (total)" />
-    <img src="https://img.shields.io/github/license/tangsangsimida/EasyKiConverter" alt="License" />
-    <img src="https://img.shields.io/github/stars/tangsangsimida/EasyKiConverter" alt="Stars" />
-    <img src="https://img.shields.io/github/issues/tangsangsimida/EasyKiConverter" alt="Issues" />
+    <img src="https://github.com/EasyKiconverter/EasyKiConverter/actions/workflows/build.yml/badge.svg" alt="Build Status" />
+    <img src="https://github.com/EasyKiconverter/EasyKiConverter/actions/workflows/security.yml/badge.svg" alt="Security Scan" />
+    <img src="https://img.shields.io/github/v/release/EasyKiconverter/EasyKiConverter" alt="GitHub release" />
+    <img src="https://img.shields.io/github/downloads/EasyKiconverter/EasyKiConverter/total" alt="GitHub downloads (total)" />
+    <img src="https://img.shields.io/github/license/EasyKiconverter/EasyKiConverter" alt="License" />
+    <img src="https://img.shields.io/github/stars/EasyKiconverter/EasyKiConverter" alt="Stars" />
+    <img src="https://img.shields.io/github/issues/EasyKiconverter/EasyKiConverter" alt="Issues" />
 </p>
 
 
 
-**EasyKiConverter** is a modern C++ desktop tool based on Qt 6 and MVVM architecture, designed for electronics engineers to efficiently convert component data from LCSC and EasyEDA into KiCad library files. Supports both GUI and CLI modes.
+**EasyKiConverter** is a modern C++ desktop tool based on Qt 6 and MVVM architecture, designed for electronics engineers to convert LCSC and EasyEDA component data into symbol libraries, footprint libraries, and independent 3D model files for multiple EDA targets. It supports both GUI and CLI modes.
 
 ## Key Features
 
-*   **Complete Conversion**: Full export support for Symbols (.kicad_sym), Footprints (.kicad_mod) and 3D Models (STEP/WRL).
+*   **Multiple Targets**: Supports the implemented library export paths for KiCad, Altium, Xpedition, PADS, Eagle, P-CAD, and CADSTAR; each target's symbol, footprint, component-association, and 3D model scope is documented separately, and unsupported data produces diagnostics.
 *   **Multi-unit Symbols**: Support for multi-unit symbol conversion.
 *   **Efficient Batch Processing**: Multi-threaded parallel conversion and BOM file import support, fully utilizing multi-core performance.
 *   **Modern Experience**: Fluid UI based on Qt Quick, supporting dark/light theme switching.
@@ -34,9 +34,9 @@
 ## Quick Start
 
 ### Installation
-Please visit the [Releases](https://github.com/tangsangsimida/EasyKiConverter/releases) page to download the version for your platform:
+Please visit the [Releases](https://github.com/EasyKiconverter/EasyKiConverter/releases) page to download the version for your platform:
 
-*   **Windows**: x64 and ARM64 builds are available; download the matching `.exe` installer or `.zip` portable package for your device.
+*   **Windows**: x86_64 and arm64 builds are available. Intel/AMD 64-bit devices should use filenames containing `windows-x86_64`; Windows on Arm devices should use `windows-arm64`. Both architectures provide `.exe` installers, `.zip` portable packages, and `.msix` packages.
 *   **Linux**: Download the x86_64/ARM64 `.AppImage`. LoongArch64 currently requires separate build infrastructure and is not included in official release packages yet.
 *   **macOS**: Download `.dmg` image file.
 *   **Arch Linux**: `yay -S easykiconverter`
@@ -61,8 +61,8 @@ If you are a developer or wish to compile yourself, please refer to the [Build G
 
 We thank the following developers for their contributions to EasyKiConverter:
 
-<a href="https://github.com/tangsangsimida/EasyKiConverter/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=tangsangsimida/EasyKiConverter&max=50" />
+<a href="https://github.com/EasyKiconverter/EasyKiConverter/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EasyKiconverter/EasyKiConverter&max=50" />
 </a>
 
 Issues and Pull Requests are welcome! Please see the [Contributing Guide](docs/developer/CONTRIBUTING.md) for details.

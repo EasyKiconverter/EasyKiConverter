@@ -2,7 +2,7 @@
 
 #define MyAppName "EasyKiConverter"
 #define MyAppPublisher "tangsangsimida"
-#define MyAppURL "https://github.com/tangsangsimida/EasyKiConverter"
+#define MyAppURL "https://github.com/EasyKiconverter/EasyKiConverter"
 #define MyAppExeName "easykiconverter.exe"
 ; 用户数据目录名称（需与 ConfigService 中一致）
 ; 实际路径: %LOCALAPPDATA%/EasyKiConverter/EasyKiConverter/

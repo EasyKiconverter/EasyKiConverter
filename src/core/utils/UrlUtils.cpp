@@ -11,8 +11,15 @@ namespace EasyKiConverter::UrlUtils {
 
 namespace {
 
-// 按 ResourceType 返回允许的 host 集合
+/**
+ * @brief 按资源类型返回允许访问的 host 集合。
+ * @param type 资源类型。
+ * @return 对应的 host 白名单。
+ */
 QSet<QString> allowedHostsForType(ResourceType type) {
+    /**
+     * @brief 按资源类型选择对应的 host 白名单。
+     */
     switch (type) {
         case ResourceType::ComponentInfo:
         case ResourceType::CadData:
@@ -84,18 +91,23 @@ QSet<QString> allowedHostsForType(ResourceType type) {
     }
 }
 
-// 检查 host 是否匹配允许列表（支持子域名匹配）
+/**
+ * @brief 检查 host 是否匹配允许列表。
+ * @param host 待检查的 host。
+ * @param allowedHosts 允许访问的 host 集合。
+ * @return 精确匹配或合法子域名匹配时返回 true。
+ */
 bool isHostAllowed(const QString& host, const QSet<QString>& allowedHosts) {
     if (host.isEmpty()) {
         return false;
     }
 
-    // 精确匹配
+    // 先执行完整 host 的精确匹配。
     if (allowedHosts.contains(host)) {
         return true;
     }
 
-    // 子域名匹配：检查 host 是否以 ".allowedHost" 结尾
+    // 再检查 host 是否为允许 host 的子域名。
     for (const QString& allowed : allowedHosts) {
         if (host.endsWith(QLatin1Char('.') + allowed)) {
             return true;
@@ -107,8 +119,13 @@ bool isHostAllowed(const QString& host, const QSet<QString>& allowedHosts) {
 
 }  // namespace
 
+/**
+ * @brief 规范化 EasyEDA 预览图 URL。
+ * @param imageUrl 输入的原始图片 URL。
+ * @return 可供网络客户端使用的 HTTPS URL。
+ */
 QString normalizePreviewImageUrl(const QString& imageUrl) {
-    QString normalizedUrl = imageUrl.trimmed();
+    QString normalizedUrl = imageUrl.trimmed();  // 待规范化的 URL 副本。
     if (normalizedUrl.isEmpty()) {
         return QString();
     }
@@ -145,10 +162,15 @@ QString normalizePreviewImageUrl(const QString& imageUrl) {
     return normalizedUrl;
 }
 
+/**
+ * @brief 规范化并去除重复的预览图 URL。
+ * @param imageUrls 原始图片 URL 列表。
+ * @return 去重后的规范化 URL 列表。
+ */
 QStringList deduplicateAndNormalizeUrls(const QStringList& imageUrls) {
-    QStringList normalizedUrls;
-    for (const QString& imageUrl : imageUrls) {
-        const QString normalizedUrl = normalizePreviewImageUrl(imageUrl);
+    QStringList normalizedUrls;  // 规范化后的去重结果。
+    for (const QString& imageUrl : imageUrls) {  // 依次处理原始 URL。
+        const QString normalizedUrl = normalizePreviewImageUrl(imageUrl);  // 当前 URL 的规范化结果。
         if (!normalizedUrl.isEmpty() && !normalizedUrls.contains(normalizedUrl)) {
             normalizedUrls.append(normalizedUrl);
         }
@@ -156,6 +178,13 @@ QStringList deduplicateAndNormalizeUrls(const QStringList& imageUrls) {
     return normalizedUrls;
 }
 
+/**
+ * @brief 按资源类型验证 URL 是否属于允许的 HTTPS host。
+ * @param url 待验证的 URL。
+ * @param resourceType URL 对应的资源类型。
+ * @param errorMessage 可选的错误信息输出。
+ * @return URL 合法且 host 在白名单内时返回 true。
+ */
 bool isAllowedUrl(const QUrl& url, ResourceType resourceType, QString* errorMessage) {
     if (!url.isValid()) {
         if (errorMessage) {
@@ -165,7 +194,7 @@ bool isAllowedUrl(const QUrl& url, ResourceType resourceType, QString* errorMess
     }
 
     // 仅允许 https scheme
-    const QString scheme = url.scheme().toLower();
+    const QString scheme = url.scheme().toLower();  // 规范化后的协议名。
     if (scheme != QStringLiteral("https")) {
         if (errorMessage) {
             *errorMessage = QStringLiteral("URL scheme must be https, got: %1").arg(scheme);
@@ -173,11 +202,11 @@ bool isAllowedUrl(const QUrl& url, ResourceType resourceType, QString* errorMess
         return false;
     }
 
-    const QString host = url.host().toLower();
+    const QString host = url.host().toLower();  // 规范化后的 host。
 
     // Unknown 类型：仅允许已知域名（拒绝未知 host）
     if (resourceType == ResourceType::Unknown) {
-        static const QSet<QString> allKnown =
+        static const QSet<QString> allKnown =  // 所有资源类型合并后的 host 白名单。
             allowedHostsForType(ResourceType::ComponentInfo) + allowedHostsForType(ResourceType::ProductSearch) +
             allowedHostsForType(ResourceType::PreviewImage) + allowedHostsForType(ResourceType::Datasheet) +
             allowedHostsForType(ResourceType::Model3DObj) + allowedHostsForType(ResourceType::UpdateCheck) +
@@ -190,7 +219,7 @@ bool isAllowedUrl(const QUrl& url, ResourceType resourceType, QString* errorMess
         }
         return true;
     }
-    const QSet<QString> allowed = allowedHostsForType(resourceType);
+    const QSet<QString> allowed = allowedHostsForType(resourceType);  // 当前资源类型的 host 白名单。
 
     if (allowed.isEmpty()) {
         // 空白名单 = 允许所有（向后兼容）

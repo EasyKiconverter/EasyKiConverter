@@ -11,6 +11,7 @@ ColumnLayout {
     property string browseIcon: ""
     signal browseClicked
     signal textEdited(string text)
+    signal editingFinished(string text)
     Layout.fillWidth: true
     spacing: 2
     Text {
@@ -32,6 +33,11 @@ ColumnLayout {
                 if (tf.activeFocus && text !== fieldRoot.text) {
                     fieldRoot.textEdited(text);
                 }
+            }
+            onEditingFinished: {
+                fieldRoot.editingFinished(text);
+                // 提交失败时恢复当前已生效路径，避免输入框保留未保存的危险路径。
+                text = fieldRoot.text;
             }
             background: Rectangle {
                 color: AppStyle.colors.surface

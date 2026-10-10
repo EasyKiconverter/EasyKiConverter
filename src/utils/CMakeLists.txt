@@ -67,6 +67,8 @@ add_library(EasyKiConverterCli STATIC
     cli/FileReader.h
     cli/BaseConverter.cpp
     cli/BaseConverter.h
+    cli/CliExportWaiter.cpp
+    cli/CliExportWaiter.h
     cli/BomConverter.cpp
     cli/BomConverter.h
     cli/ComponentConverter.cpp

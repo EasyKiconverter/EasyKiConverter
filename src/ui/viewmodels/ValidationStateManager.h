@@ -35,11 +35,11 @@ private:
     void checkAndNotifyCompletion();
 
 private:
-    int m_pendingValidationCount;
-    int m_totalValidationCount;  // 记录需要验证的总数
-    QStringList m_validatedComponentIds;
-    QStringList m_failedComponentIds;
-    bool m_previewFetchEnabled{false};
+    int m_pendingValidationCount;  ///< 保存尚未完成验证的数量。
+    int m_totalValidationCount;  ///< 保存本轮需要验证的总数。
+    QStringList m_validatedComponentIds;  ///< 保存已验证成功的元器件编号。
+    QStringList m_failedComponentIds;  ///< 保存验证失败的元器件编号。
+    bool m_previewFetchEnabled{false};  ///< 标记验证完成后是否允许获取预览图。
 };
 
 }  // namespace EasyKiConverter

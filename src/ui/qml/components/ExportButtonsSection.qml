@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import EasyKiconverter_Cpp_Version.src.ui.qml.styles 1.0
-import EasyKiconverter_Cpp_Version 1.0
 
 ColumnLayout {
     id: exportButtonsSection
@@ -11,6 +10,8 @@ ColumnLayout {
     property var exportSettingsController
     property var exportTargetModel
     property var componentListController
+    // 由宿主窗口传入语言版本标识，用于触发翻译文本重新计算。
+    property string currentLanguage: ""
     property alias exportErrorDialog: errorDialog
     spacing: AppStyle.spacing.md
     // 错误提示对话框
@@ -52,7 +53,7 @@ ColumnLayout {
         backgroundColor: AppStyle.colors.primary
         hoverColor: AppStyle.colors.primaryHover
         pressedColor: AppStyle.colors.primaryPressed
-        visible: exportButtonsSection.exportProgressController && exportButtonsSection.exportProgressController.hasCompletedExport
+        visible: exportButtonsSection.exportProgressController ? exportButtonsSection.exportProgressController.hasCompletedExport : false
         onClicked: {
             if (exportButtonsSection.exportProgressController) {
                 var success = exportButtonsSection.exportProgressController.openLastExportedFolder();
@@ -74,12 +75,12 @@ ColumnLayout {
             Layout.fillWidth: true
             // 根据是否有失败项来决定按钮文本
             text: {
-                var lang = LanguageManager.currentLanguage; // Force update on language change
+                var lang = exportButtonsSection.currentLanguage;
                 var progressController = exportButtonsSection.exportProgressController;
                 if (progressController && progressController.isExporting)
                     return qsTranslate("MainWindow", "正在转换...");
                 if (progressController && progressController.failureCount > 0)
-                    return qsTranslate("MainWindow", "重试失败项");
+                    return progressController.retrySupported ? qsTranslate("MainWindow", "重试失败项") : qsTranslate("MainWindow", "不支持重试，请重新导出");
                 return qsTranslate("MainWindow", "开始转换");
             }
 
@@ -117,6 +118,8 @@ ColumnLayout {
                     return false;
                 if (!settingsController)
                     return false;
+                if (progressController && progressController.failureCount > 0 && !progressController.retrySupported)
+                    return false;
                 return settingsController.exportSymbol || settingsController.exportFootprint || settingsController.exportModel3D;
             }
             onClicked: {
@@ -128,9 +131,9 @@ ColumnLayout {
                     var idList = exportButtonsSection.componentListController ? exportButtonsSection.componentListController.getAllComponentIds() : [];
                     var settingsController = exportButtonsSection.exportSettingsController;
                     var targetModel = exportButtonsSection.exportTargetModel;
-                    var targetFormat = targetModel ? targetModel.currentIndex : 0;
+                    var targetFormat = targetModel ? targetModel.currentTargetFormat : 0;
                     if (progressController && settingsController) {
-                        progressController.startExport(idList, settingsController.outputPath || "", settingsController.libName || "", settingsController.exportSymbol || false, settingsController.exportFootprint || false, settingsController.exportModel3D || false, settingsController.exportModel3DFormat || 3, settingsController.exportModel3DPathMode || 0, settingsController.exportPreviewImages || false, settingsController.exportDatasheet || false, settingsController.overwriteExistingFiles || false, (settingsController.exportMode || 0) === 1, settingsController.debugMode || false, settingsController.symbolLibraryDescription || "", settingsController.footprintLibraryDescription || "", settingsController.footprintLibraryKeywords || "", targetFormat);
+                        progressController.startExport(idList, settingsController.outputPath || "", settingsController.libName || "", settingsController.exportSymbol || false, settingsController.exportFootprint || false, settingsController.exportModel3D || false, settingsController.exportModel3DFormat || 3, settingsController.exportModel3DPathMode || 0, settingsController.exportPreviewImages || false, settingsController.exportDatasheet || false, (settingsController.overwriteExistingFiles || false) || (settingsController.exportMode || 0) === 2, (settingsController.exportMode || 0) === 1, settingsController.debugMode || false, settingsController.symbolLibraryDescription || "", settingsController.footprintLibraryDescription || "", settingsController.footprintLibraryKeywords || "", targetFormat);
                     }
                 }
             }
@@ -143,7 +146,7 @@ ColumnLayout {
             Layout.preferredHeight: 56
             Layout.preferredWidth: 180
             // 仅在导出进行时可见
-            visible: exportButtonsSection.exportProgressController && exportButtonsSection.exportProgressController.isExporting
+            visible: exportButtonsSection.exportProgressController ? exportButtonsSection.exportProgressController.isExporting : false
             text: (exportButtonsSection.exportProgressController && exportButtonsSection.exportProgressController.isStopping) ? qsTranslate("MainWindow", "正在停止...") : qsTranslate("MainWindow", "停止转换")
             iconName: "close"
             font.pixelSize: AppStyle.fontSizes.xl

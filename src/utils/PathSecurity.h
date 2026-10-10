@@ -11,7 +11,7 @@ public:
     /**
      * @brief 验证路径分块（文件名）是否安全
      * @param name 要验证的文件名或目录名
-     * @return 如果不包含路径遍历字符（..）或分隔符，则返回 true
+     * @return 如果可作为跨平台文件名或目录名使用，则返回 true
      */
     static bool isValidPathComponent(const QString& name);
 

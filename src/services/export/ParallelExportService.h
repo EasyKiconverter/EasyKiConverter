@@ -18,6 +18,8 @@ namespace EasyKiConverter {
 class ComponentService;
 class ComponentData;
 class ExportTypeStage;
+class ExportStageLaunchCoordinator;
+class ParallelExportPreloadCoordinator;
 
 /**
  * @brief 并行导出服务
@@ -50,6 +52,9 @@ class ExportTypeStage;
  */
 class ParallelExportService : public QObject {
     Q_OBJECT
+
+    friend class ExportStageLaunchCoordinator;
+    friend class ParallelExportPreloadCoordinator;
 
 public:
     /**
@@ -230,6 +235,8 @@ private slots:
      * @param componentDataList 获取到的组件数据列表
      */
     void onAllComponentDataCollected(const QList<ComponentData>& componentDataList);
+    void onAllComponentDataCollectedWithErrors(const QList<ComponentData>& componentDataList,
+                                               const QMap<QString, QString>& failedComponents);
 
 private:
     void logNetworkRuntimeStats(const QString& context) const;

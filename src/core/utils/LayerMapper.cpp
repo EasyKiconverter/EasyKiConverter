@@ -5,15 +5,24 @@
 namespace EasyKiConverter {
 
 // 单位转换常量
-const double MIL_TO_MM = 0.0254;  // 1 mil = 0.0254 mm
-const double MM_TO_MIL = 39.3701;  // 1 mm = 39.3701 mil
+const double MIL_TO_MM = 0.0254;  ///< 1 mil 对应的毫米数。
+const double MM_TO_MIL = 39.3701;  ///< 1 毫米对应的 mil 数。
 
+/**
+ * @brief 构造图层映射器并初始化双向映射表。
+ */
 LayerMapper::LayerMapper() {
     initializeLayerMapping();
 }
 
+/**
+ * @brief 析构图层映射器。
+ */
 LayerMapper::~LayerMapper() {}
 
+/**
+ * @brief 初始化 EasyEDA 图层编号、名称与 KiCad 图层的双向映射。
+ */
 void LayerMapper::initializeLayerMapping() {
     // 初始KiCad 图层名称
     m_kicadLayerNames[F_Cu] = "F.Cu";
@@ -91,7 +100,7 @@ void LayerMapper::initializeLayerMapping() {
     m_layerNameMapping["BottomLayer"] = B_Cu;
     for (int i = 1; i <= 32; i++) {
         // 使用清晰的公式：In1_Cu + (i - 1)
-        // 与 LCKiConverter 的 In.(n-14).Cu 更直观
+        // 使用从 In1.Cu 开始的连续枚举值映射内部铜层。
         m_layerNameMapping[QString("Inner%1").arg(i)] = In1_Cu + (i - 1);
     }
     m_layerNameMapping["TopSilkLayer"] = F_SilkS;
@@ -117,6 +126,11 @@ void LayerMapper::initializeLayerMapping() {
     qDebug() << "LayerMapper initialized with" << m_layerIdMapping.size() << "layer mappings";
 }
 
+/**
+ * @brief 根据 EasyEDA 图层编号获取对应的 KiCad 图层编号。
+ * @param easyedaLayerId EasyEDA 图层编号。
+ * @return 对应的 KiCad 图层编号。
+ */
 int LayerMapper::mapToKiCadLayer(int easyedaLayerId) const {
     if (m_layerIdMapping.contains(easyedaLayerId)) {
         return m_layerIdMapping.value(easyedaLayerId);
@@ -126,6 +140,11 @@ int LayerMapper::mapToKiCadLayer(int easyedaLayerId) const {
     return Dwgs_User;  // 默认映射到用户绘图层
 }
 
+/**
+ * @brief 根据 EasyEDA 图层名称获取对应的 KiCad 图层编号。
+ * @param easyedaLayerName EasyEDA 图层名称。
+ * @return 对应的 KiCad 图层编号。
+ */
 int LayerMapper::mapToKiCadLayer(const QString& easyedaLayerName) const {
     if (m_layerNameMapping.contains(easyedaLayerName)) {
         return m_layerNameMapping.value(easyedaLayerName);
@@ -135,6 +154,11 @@ int LayerMapper::mapToKiCadLayer(const QString& easyedaLayerName) const {
     return Dwgs_User;  // 默认映射到用户绘图层
 }
 
+/**
+ * @brief 根据 KiCad 图层编号获取标准图层名称。
+ * @param kicadLayerId KiCad 图层编号。
+ * @return 标准图层名称。
+ */
 QString LayerMapper::getKiCadLayerName(int kicadLayerId) const {
     if (m_kicadLayerNames.contains(kicadLayerId)) {
         return m_kicadLayerNames.value(kicadLayerId);
@@ -143,42 +167,81 @@ QString LayerMapper::getKiCadLayerName(int kicadLayerId) const {
     return QString("Unknown(%1)").arg(kicadLayerId);
 }
 
+/**
+ * @brief 将 mil 长度转换为毫米。
+ * @param milValue mil 长度。
+ * @return 毫米长度。
+ */
 double LayerMapper::milToMm(double milValue) {
     return milValue * MIL_TO_MM;
 }
 
+/**
+ * @brief 将毫米长度转换为 mil。
+ * @param mmValue 毫米长度。
+ * @return mil 长度。
+ */
 double LayerMapper::mmToMil(double mmValue) {
     return mmValue * MM_TO_MIL;
 }
 
+/**
+ * @brief 判断 KiCad 图层编号是否属于信号层。
+ * @param kicadLayerId KiCad 图层编号。
+ * @return 属于信号层时返回 true。
+ */
 bool LayerMapper::isSignalLayer(int kicadLayerId) {
     // 信号层：F.Cu (0), B.Cu (31), In1.Cu~In30.Cu (1-30)
     return (kicadLayerId == F_Cu || kicadLayerId == B_Cu || (kicadLayerId >= In1_Cu && kicadLayerId <= In30_Cu));
 }
 
+/**
+ * @brief 判断 KiCad 图层编号是否属于丝印层。
+ * @param kicadLayerId KiCad 图层编号。
+ * @return 属于丝印层时返回 true。
+ */
 bool LayerMapper::isSilkLayer(int kicadLayerId) {
     // 丝印层：F.SilkS (32), B.SilkS (33)
     return (kicadLayerId == F_SilkS || kicadLayerId == B_SilkS);
 }
 
+/**
+ * @brief 判断 KiCad 图层编号是否属于阻焊层。
+ * @param kicadLayerId KiCad 图层编号。
+ * @return 属于阻焊层时返回 true。
+ */
 bool LayerMapper::isMaskLayer(int kicadLayerId) {
     // 阻焊层：F.Mask (34), B.Mask (35)
     return (kicadLayerId == F_Mask || kicadLayerId == B_Mask);
 }
 
+/**
+ * @brief 判断 KiCad 图层编号是否属于锡膏层。
+ * @param kicadLayerId KiCad 图层编号。
+ * @return 属于锡膏层时返回 true。
+ */
 bool LayerMapper::isPasteLayer(int kicadLayerId) {
     // 助焊层：F.Paste (36), B.Paste (37)
     return (kicadLayerId == F_Paste || kicadLayerId == B_Paste);
 }
 
+/**
+ * @brief 判断 KiCad 图层编号是否属于机械或用户层。
+ * @param kicadLayerId KiCad 图层编号。
+ * @return 属于机械或用户层时返回 true。
+ */
 bool LayerMapper::isMechanicalLayer(int kicadLayerId) {
     // 机械层：Edge.Cuts (44), F.CrtYd (45), B.CrtYd (46), F.Fab (47), B.Fab (48)
     //         Dwgs.User (49), Cmts.User (50), Eco1.User (51), Eco2.User (52), Margin (53)
     return (kicadLayerId >= Edge_Cuts && kicadLayerId <= Margin) || (kicadLayerId >= User_1 && kicadLayerId <= User_9);
 }
 
+/**
+ * @brief 生成供诊断和界面展示使用的图层映射说明。
+ * @return 图层映射说明文本。
+ */
 QString LayerMapper::getMappingDescription() const {
-    QString desc = "=== 嘉立EDA -> KiCad 图层映射===\n\n";
+    QString desc = "=== 嘉立EDA -> KiCad 图层映射===\n\n";  ///< 图层映射说明文本。
 
     desc += "【一、电气信号层】\n";
     desc += "  嘉立ID 1 (TopLayer)           -> KiCad F.Cu (0)\n";
@@ -229,23 +292,31 @@ QString LayerMapper::getMappingDescription() const {
     return desc;
 }
 
-// 元件外形层（边界层）判断
-// 元件外形用于布局避让，应映射F.CrtYd 或 B.CrtYd
+/**
+ * @brief 判断指定 EasyEDA 图层是否为元件外形层。
+ * @param easyedaLayerId EasyEDA 图层编号。
+ * @return 属于元件外形层时返回 true。
+ */
 bool LayerMapper::isCourtYardLayer(int easyedaLayerId) {
-    // 根据 LCKiConverter，元件外形层 ID 为 48
-    // 注意：需要验证这ID 是否正确
+    // EasyEDA 元件外形层使用固定 ID 48。
     return easyedaLayerId == 48;
 }
 
-// 移植LCKiConverter: src/jlc/pro_footprint.ts getLayer()
-// 内层判断
+/**
+ * @brief 根据 EasyEDA 内层编号范围判断是否为内部铜层。
+ * @param easyedaLayerId EasyEDA 图层编号。
+ * @return 属于内部铜层时返回 true。
+ */
 bool LayerMapper::isInnerLayer(int easyedaLayerId) {
     // 内层范围5-46 (对应 In1.Cu - In32.Cu)
-    // 参LCKiConverter: n>=15 && n<=46
     return easyedaLayerId >= 15 && easyedaLayerId <= 46;
 }
 
-// 焊盘层判
+/**
+ * @brief 判断 EasyEDA 图层是否可用于焊盘。
+ * @param easyedaLayerId EasyEDA 图层编号。
+ * @return 可用于焊盘时返回 true。
+ */
 bool LayerMapper::isPadLayer(int easyedaLayerId) {
     // 焊盘层包括：
     // 1, 2 (SMD焊盘)
@@ -255,8 +326,11 @@ bool LayerMapper::isPadLayer(int easyedaLayerId) {
            isInnerLayer(easyedaLayerId);
 }
 
-// 获取元件外形层对应的 KiCad 图层名称
-// 如果不是元件外形层，返回空字符串
+/**
+ * @brief 获取元件外形层对应的 KiCad 图层名称。
+ * @param easyedaLayerId EasyEDA 图层编号。
+ * @return 对应的 KiCad 图层名称；不属于外形层时返回空字符串。
+ */
 QString LayerMapper::getCourtYardLayerName(int easyedaLayerId) {
     if (isCourtYardLayer(easyedaLayerId)) {
         return "F.CrtYd";

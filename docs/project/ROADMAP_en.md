@@ -1,12 +1,16 @@
 # Project Roadmap
 
-This document shows the future direction of the project and the main features planned for the next few versions.
+This document separates released capabilities, development-branch capabilities, and future work so that development features are not mistaken for stable release features.
 
 ## Current Status
 
-- **Current Version**: 3.1.10
-- **Development Status**: Stable optimization phase, cross-platform support complete
-- **Completion**: ~99% (core features implemented, architecture refactoring complete, test framework integrated, cross-platform packaging mature)
+- **Latest stable release**: v3.1.13
+- **Current development branch**: `master` (source version 3.1.13)
+- **Development status**: Continued work on the shared intermediate representation and multi-target export
+
+The stable release currently focuses on KiCad export. The `master` branch contains the shared intermediate
+representation (IR), Altium Designer library export, and Xpedition ASCII library export implementations,
+but whether these capabilities are included in a stable package must be confirmed in the corresponding Release notes.
 
 ## Version Planning
 
@@ -69,6 +73,24 @@ This document shows the future direction of the project and the main features pl
 - [x] Integration testing improvements — completed in v3.1.8
 - [ ] Performance testing and optimization (compare with Python version)
 - [ ] Memory usage optimization
+
+### v3.2.0 - Intermediate Representation and Multi-Target Export (In Development)
+
+**Goal**: Improve multi-target export quality, diagnostics, and compatibility validation on top of the completed shared intermediate representation.
+
+**Completed foundation**:
+- [x] Create `src/core/ir/` with generic IR types, symbol, footprint, and 3D model structures
+- [x] Create EasyEDA layer, pad-shape, and pin-type mapping tables
+- [x] Build the shared symbol and footprint IR during import
+- [x] Keep the KiCad exporters on the shared IR
+- [x] Connect Altium SchLib/PcbLib exporters to the shared IR
+- [x] Connect Xpedition ASCII symbol and footprint exporters to the shared IR
+
+**Remaining work**:
+- [ ] Complete Golden-file and real-EDA compatibility regression testing for each target
+- [ ] Expand Altium and Xpedition format coverage and diagnostics
+- [ ] Complete stable-release notes and a capability matrix for each target format
+- [ ] Evaluate compatibility migration for legacy model serialization
 
 ## Feature Priorities
 
@@ -133,8 +155,8 @@ If you want to participate in project development:
 
 We welcome your feedback and suggestions:
 
-- Submit issues on [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter/issues)
-- Participate in discussions on [GitHub Discussions](https://github.com/tangsangsimida/EasyKiConverter/discussions)
+- Submit issues on [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues)
+- Participate in discussions on [GitHub Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions)
 - Contact project maintainers via email
 
 ## Changelog

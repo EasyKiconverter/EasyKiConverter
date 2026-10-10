@@ -1,0 +1,40 @@
+name: 'Setup MSVC'
+description: 'Initialize the Microsoft Visual C++ environment without a third-party Action'
+
+inputs:
+  arch:
+    description: 'Target architecture passed to VsDevCmd'
+    required: false
+    default: 'x64'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: 'Initialize Visual Studio environment'
+      shell: pwsh
+      run: |
+        $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio/Installer/vswhere.exe'
+        if (-not (Test-Path $vswhere)) {
+          throw "vswhere.exe was not found: $vswhere"
+        }
+
+        $installationPath = & $vswhere -latest -products * `
+          -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+          -property installationPath
+        if (-not $installationPath) {
+          throw 'A Visual Studio installation with MSVC tools was not found.'
+        }
+
+        $devCmd = Join-Path $installationPath 'Common7/Tools/VsDevCmd.bat'
+        if (-not (Test-Path $devCmd)) {
+          throw "VsDevCmd.bat was not found: $devCmd"
+        }
+
+        $environment = cmd.exe /d /s /c "`"$devCmd`" -arch=${{ inputs.arch }} -host_arch=x64 && set"
+        foreach ($line in $environment) {
+          if ($line -match '^([^=]+)=(.*)$') {
+            "$($Matches[1])=$($Matches[2])" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          }
+        }
+
+        "Visual Studio environment initialized for ${{ inputs.arch }}" | Write-Host

@@ -68,6 +68,7 @@ private:
      * @param timeoutMs 超时时间（毫秒）
      * @param status 导出状态对象（用于记录网络诊断）
      * @return QByteArray 响应数据
+     * @param resourceType 资源类型。
      */
     QByteArray httpGet(const QString& url,
                        int timeoutMs = 30000,
@@ -96,23 +97,23 @@ private:
     static int calculateRetryDelay(int retryCount);
 
 private:
-    QString m_componentId;
-    bool m_need3DModel;
+    QString m_componentId;  ///< 标识符。
+    bool m_need3DModel;  ///< 模型。
     bool m_fetch3DOnly;  // 是否只获取3D模型
     QString m_existing3DUuid;  // 已有的3D模型UUID
 
-    INetworkClient* m_networkClient;
-    AsyncNetworkRequest* m_currentRequest;
-    QMutex m_replyMutex;
-    QAtomicInt m_isAborted;
+    INetworkClient* m_networkClient;  ///< 网络客户端。
+    AsyncNetworkRequest* m_currentRequest;  ///< 请求。
+    QMutex m_replyMutex;  ///< 网络响应互斥量。
+    QAtomicInt m_isAborted;  ///< 是否已中止。
 
     // 超时配置（静态常量，可配置）
-    static const int COMPONENT_INFO_TIMEOUT_MS = 15000;  // 组件信息超时（毫秒）
-    static const int MODEL_3D_TIMEOUT_MS = 30000;  // 3D模型超时（毫秒）
-    static const int MAX_HTTP_RETRIES = 3;  // 最大HTTP重试次数
+    static const int COMPONENT_INFO_TIMEOUT_MS = 15000;  ///< 组件信息超时时间（毫秒）。
+    static const int MODEL_3D_TIMEOUT_MS = 30000;  ///< 三维模型请求超时时间（毫秒）。
+    static const int MAX_HTTP_RETRIES = 3;  ///< HTTP 请求最大重试次数。
 
     // 递增重试延迟（毫秒），对应第1/2/3次重试
-    static constexpr int RETRY_DELAYS_MS[] = {3000, 5000, 10000};
+    static constexpr int RETRY_DELAYS_MS[] = {3000, 5000, 10000};  ///< 各次重试的等待时间（毫秒）。
 
     // 速率限制检测（静态成员，所有 FetchWorker 共享）
     static QAtomicInt s_activeRequests;  // 活跃请求计数

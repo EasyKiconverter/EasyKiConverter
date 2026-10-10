@@ -23,118 +23,9 @@ Card {
         spacing: AppStyle.spacing.lg
         anchors.margins: AppStyle.spacing.md
         // ==================== 目标格式选择 ====================
-        Text {
+        TargetFormatSelector {
             Layout.fillWidth: true
-            text: qsTranslate("MainWindow", "目标格式")
-            font.pixelSize: AppStyle.fontSizes.md
-            font.bold: true
-            color: AppStyle.colors.textPrimary
-        }
-
-        RowLayout {
-            Layout.fillWidth: true
-            spacing: AppStyle.spacing.lg
-            Repeater {
-                model: baseCard.exportTargetModel ? baseCard.exportTargetModel.availableTargets : []
-                Rectangle {
-                    Layout.fillWidth: true
-                    Layout.preferredHeight: 72
-                    radius: AppStyle.radius.lg
-                    property bool isActive: baseCard.exportTargetModel ? baseCard.exportTargetModel.currentIndex === index : false
-                    property string targetId: modelData.id || ""
-                    color: isActive ? Qt.rgba(AppStyle.colors.primary.r, AppStyle.colors.primary.g, AppStyle.colors.primary.b, 0.12) : AppStyle.colors.surface
-                    border.color: isActive ? AppStyle.colors.primary : AppStyle.colors.border
-                    border.width: isActive ? 2 : 1
-                    Behavior on color {
-                        ColorAnimation {
-                            duration: AppStyle.durations.fast
-                        }
-                    }
-                    Behavior on border.color {
-                        ColorAnimation {
-                            duration: AppStyle.durations.fast
-                        }
-                    }
-
-                    // 选中指示条
-                    Rectangle {
-                        width: 3
-                        height: parent.height * 0.5
-                        anchors.left: parent.left
-                        anchors.leftMargin: 6
-                        anchors.verticalCenter: parent.verticalCenter
-                        radius: 2
-                        color: AppStyle.colors.primary
-                        visible: isActive
-                        opacity: isActive ? 1 : 0
-                        Behavior on opacity {
-                            NumberAnimation {
-                                duration: AppStyle.durations.fast
-                            }
-                        }
-                    }
-
-                    ColumnLayout {
-                        anchors.fill: parent
-                        anchors.margins: AppStyle.spacing.md
-                        anchors.leftMargin: AppStyle.spacing.lg
-                        spacing: 2
-                        Text {
-                            text: modelData.displayName || ""
-                            font.pixelSize: AppStyle.fontSizes.md
-                            font.bold: true
-                            color: isActive ? AppStyle.colors.primary : AppStyle.colors.textPrimary
-                        }
-
-                        Text {
-                            text: {
-                                if (targetId === "kicad")
-                                    return qsTranslate("MainWindow", ".kicad_sym / .kicad_mod");
-                                if (targetId === "altium")
-                                    return qsTranslate("MainWindow", ".SchLib / .PcbLib");
-                                return "";
-                            }
-                            font.pixelSize: AppStyle.fontSizes.xs
-                            color: AppStyle.colors.textSecondary
-                        }
-                    }
-
-                    // 选中勾
-                    Text {
-                        anchors.right: parent.right
-                        anchors.rightMargin: AppStyle.spacing.md
-                        anchors.verticalCenter: parent.verticalCenter
-                        text: "✓"
-                        font.pixelSize: AppStyle.fontSizes.lg
-                        font.bold: true
-                        color: AppStyle.colors.primary
-                        visible: isActive
-                        opacity: isActive ? 1 : 0
-                        scale: isActive ? 1 : 0.5
-                        Behavior on opacity {
-                            NumberAnimation {
-                                duration: AppStyle.durations.fast
-                            }
-                        }
-                        Behavior on scale {
-                            NumberAnimation {
-                                duration: AppStyle.durations.fast
-                                easing.type: Easing.BackOut
-                            }
-                        }
-                    }
-
-                    MouseArea {
-                        anchors.fill: parent
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if (baseCard.exportTargetModel) {
-                                baseCard.exportTargetModel.currentIndex = index;
-                            }
-                        }
-                    }
-                }
-            }
+            targetModel: baseCard.exportTargetModel
         }
 
         // 分隔线
@@ -199,6 +90,15 @@ Card {
                         pressedColor: AppStyle.colors.textPrimary
                         onClicked: baseCard.openOutputFolderDialog()
                     }
+                }
+                Text {
+                    visible: baseCard.exportTargetModel && baseCard.exportTargetModel.currentTargetId === "librepcb"
+                    Layout.fillWidth: true
+                    text: qsTranslate("MainWindow", "LibrePCB：项目根目录或 project/library 可自动安装；普通目录需将生成的 .lplib 复制到 Workspace/data/libraries/local/。")
+                    font.pixelSize: AppStyle.fontSizes.xs
+                    color: AppStyle.colors.textSecondary
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.25
                 }
             }
 
@@ -268,9 +168,10 @@ Card {
                         Layout.fillWidth: true
                         Layout.preferredHeight: 36
                         text: baseCard.exportSettingsController ? baseCard.exportSettingsController.cacheDir : ""
-                        onTextChanged: {
+                        onEditingFinished: {
                             if (baseCard.exportSettingsController) {
                                 baseCard.exportSettingsController.setCacheDir(text);
+                                text = baseCard.exportSettingsController.cacheDir;
                             }
                         }
                         placeholderText: qsTranslate("MainWindow", "默认缓存目录")
@@ -367,7 +268,7 @@ Card {
                 anchors.left: parent.left
                 anchors.right: parent.right
                 anchors.top: parent.top
-                active: baseCard.exportTargetModel !== null && baseCard.exportTargetModel.currentOptionsComponent !== ""
+                active: baseCard.exportTargetModel !== null && baseCard.exportTargetModel !== undefined ? baseCard.exportTargetModel.currentOptionsComponent !== "" : false
                 source: {
                     if (!baseCard.exportTargetModel)
                         return "";
@@ -465,7 +366,8 @@ Card {
             spacing: AppStyle.spacing.xl
             RadioButton {
                 id: appendModeRadio
-                text: qsTranslate("MainWindow", "追加模式")
+                text: baseCard.exportSettingsController && baseCard.exportSettingsController.requiresFullReplacement ? qsTranslate("MainWindow", "追加模式（不支持）") : qsTranslate("MainWindow", "追加模式")
+                enabled: !(baseCard.exportSettingsController && baseCard.exportSettingsController.requiresFullReplacement)
                 checked: baseCard.exportSettingsController ? baseCard.exportSettingsController.exportMode === 0 : true
                 onCheckedChanged: {
                     if (checked && baseCard.exportSettingsController) {
@@ -480,21 +382,21 @@ Card {
                     y: parent.height / 2 - height / 2
                     radius: AppStyle.sizes.radioButton / 2
                     color: "transparent"
-                    border.color: appendModeRadio.checked ? AppStyle.colors.primary : AppStyle.colors.textSecondary
+                    border.color: !appendModeRadio.enabled ? AppStyle.colors.textDisabled : appendModeRadio.checked ? AppStyle.colors.primary : AppStyle.colors.textSecondary
                     border.width: AppStyle.borderWidths.normal
                     Rectangle {
                         width: AppStyle.sizes.radioButtonIndicator
                         height: AppStyle.sizes.radioButtonIndicator
                         anchors.centerIn: parent
                         radius: AppStyle.sizes.radioButtonIndicator / 2
-                        color: AppStyle.colors.primary
+                        color: appendModeRadio.enabled ? AppStyle.colors.primary : AppStyle.colors.textDisabled
                         visible: appendModeRadio.checked
                     }
                 }
                 contentItem: Text {
                     text: appendModeRadio.text
                     font: appendModeRadio.font
-                    color: AppStyle.colors.textPrimary
+                    color: appendModeRadio.enabled ? AppStyle.colors.textPrimary : AppStyle.colors.textDisabled
                     verticalAlignment: Text.AlignVCenter
                     leftPadding: appendModeRadio.indicator.width + appendModeRadio.spacing
                 }
@@ -503,6 +405,7 @@ Card {
             RadioButton {
                 id: updateModeRadio
                 text: qsTranslate("MainWindow", "更新模式")
+                enabled: !(baseCard.exportSettingsController && baseCard.exportSettingsController.requiresFullReplacement)
                 checked: baseCard.exportSettingsController ? baseCard.exportSettingsController.exportMode === 1 : false
                 onCheckedChanged: {
                     if (checked && baseCard.exportSettingsController) {
@@ -517,7 +420,43 @@ Card {
                     y: parent.height / 2 - height / 2
                     radius: AppStyle.sizes.radioButton / 2
                     color: "transparent"
-                    border.color: updateModeRadio.checked ? AppStyle.colors.primary : AppStyle.colors.textSecondary
+                    border.color: !updateModeRadio.enabled ? AppStyle.colors.textDisabled : updateModeRadio.checked ? AppStyle.colors.primary : AppStyle.colors.textSecondary
+                    border.width: AppStyle.borderWidths.normal
+                    Rectangle {
+                        width: AppStyle.sizes.radioButtonIndicator
+                        height: AppStyle.sizes.radioButtonIndicator
+                        anchors.centerIn: parent
+                        radius: AppStyle.sizes.radioButtonIndicator / 2
+                        color: updateModeRadio.enabled ? AppStyle.colors.primary : AppStyle.colors.textDisabled
+                        visible: updateModeRadio.checked
+                    }
+                }
+                contentItem: Text {
+                    text: updateModeRadio.text
+                    font: updateModeRadio.font
+                    color: updateModeRadio.enabled ? AppStyle.colors.textPrimary : AppStyle.colors.textDisabled
+                    verticalAlignment: Text.AlignVCenter
+                    leftPadding: updateModeRadio.indicator.width + updateModeRadio.spacing
+                }
+            }
+
+            RadioButton {
+                id: overwriteModeRadio
+                text: baseCard.exportSettingsController && baseCard.exportSettingsController.requiresFullReplacement ? qsTranslate("MainWindow", "完整覆盖") : qsTranslate("MainWindow", "覆盖模式")
+                checked: baseCard.exportSettingsController ? baseCard.exportSettingsController.exportMode === 2 : false
+                onCheckedChanged: {
+                    if (checked && baseCard.exportSettingsController)
+                        baseCard.exportSettingsController.setExportMode(2);
+                }
+                font.pixelSize: AppStyle.fontSizes.sm
+                indicator: Rectangle {
+                    implicitWidth: AppStyle.sizes.radioButton
+                    implicitHeight: AppStyle.sizes.radioButton
+                    x: overwriteModeRadio.leftPadding
+                    y: parent.height / 2 - height / 2
+                    radius: AppStyle.sizes.radioButton / 2
+                    color: "transparent"
+                    border.color: overwriteModeRadio.checked ? AppStyle.colors.primary : AppStyle.colors.textSecondary
                     border.width: AppStyle.borderWidths.normal
                     Rectangle {
                         width: AppStyle.sizes.radioButtonIndicator
@@ -525,17 +464,34 @@ Card {
                         anchors.centerIn: parent
                         radius: AppStyle.sizes.radioButtonIndicator / 2
                         color: AppStyle.colors.primary
-                        visible: updateModeRadio.checked
+                        visible: overwriteModeRadio.checked
                     }
                 }
                 contentItem: Text {
-                    text: updateModeRadio.text
-                    font: updateModeRadio.font
+                    text: overwriteModeRadio.text
+                    font: overwriteModeRadio.font
                     color: AppStyle.colors.textPrimary
                     verticalAlignment: Text.AlignVCenter
-                    leftPadding: updateModeRadio.indicator.width + updateModeRadio.spacing
+                    leftPadding: overwriteModeRadio.indicator.width + overwriteModeRadio.spacing
                 }
             }
+        }
+
+        Text {
+            Layout.fillWidth: true
+            text: {
+                var mode = baseCard.exportSettingsController ? baseCard.exportSettingsController.exportMode : 0;
+                if (baseCard.exportSettingsController && baseCard.exportSettingsController.requiresFullReplacement)
+                    return qsTranslate("MainWindow", "当前目标仅支持覆盖模式；追加和更新不可用");
+                if (mode === 0)
+                    return qsTranslate("MainWindow", "追加：保留已有库内容，只加入新的元器件；已有同名内容不会被覆盖");
+                if (mode === 1)
+                    return qsTranslate("MainWindow", "更新：在已有库基础上处理缺失或变化内容，并保留未参与本次导出的内容");
+                return qsTranslate("MainWindow", "覆盖：重新生成完整库并替换已有输出，请确认输出路径中的旧库可以被替换");
+            }
+            font.pixelSize: AppStyle.fontSizes.xs
+            color: AppStyle.colors.textSecondary
+            wrapMode: Text.WordWrap
         }
     }
 }

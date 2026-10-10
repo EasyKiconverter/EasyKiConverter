@@ -405,7 +405,7 @@ flatpak build dev-sandbox /path/to/easykiconverter/build/bin/easykiconverter
 如果你在 Flatpak 构建或使用过程中遇到问题，请：
 
 1. 检查本文档的"常见问题"部分
-2. 查看项目的 [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter_QT/issues)
+2. 查看项目的 [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues)
 3. 提交新的 Issue，包含详细的错误信息和日志
 
 ## 更新日志

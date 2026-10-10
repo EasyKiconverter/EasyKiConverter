@@ -132,7 +132,7 @@
 
 ## 6. 多单元符号与 3D 关联
 
-多单元响应的 `subparts[i].dataStr` 独立包含 `head` 和 `shape`。导入器为每个单元创建 `SymbolPart`，不会把不同单元的引脚或图形混在一起。
+多单元响应的 `subparts[i].dataStr` 独立包含 `head` 和 `shape`。导入器为每个单元创建 `SymbolPart`，不会把不同单元的引脚或图形混在一起。对于带有 `commonToAllParts`、`common_to_all_parts`、`isCommon` 或 `is_common` 标记的子部分，导入器会保留公共 Part Zero 语义，后续 IR 转换使用负 `partIndex`。
 
 3D 下载不是 JSON：API 只返回二进制 OBJ/STEP。`lcsc.uuid` 或 `head.uuid_3d` 用于建立关联；目标格式是否嵌入以及是否额外写出文件，由具体导出器能力决定。
 

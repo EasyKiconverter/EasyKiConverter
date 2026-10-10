@@ -16,10 +16,14 @@ namespace IR {
 
 // ==================== EasyEDA 单位转换常量 ====================
 
-/** @brief EasyEDA 坐标单位 → mm 转换因子（1 EasyEDA 单位 = 10 mil = 0.254 mm） */
+/**
+ * @brief EasyEDA 坐标单位 → mm 转换因子（1 EasyEDA 单位 = 10 mil = 0.254 mm）
+ */
 constexpr double EASYEDA_PX_TO_MM = 0.254;
 
-/** @brief EasyEDA pt → mm 转换因子 */
+/**
+ * @brief EasyEDA pt → mm 转换因子
+ */
 constexpr double EASYEDA_PT_TO_MM = 0.352778;
 
 /**
@@ -92,7 +96,27 @@ enum class PinDecoration {
     Pulse,  ///< 脉冲
     GroupLine,  ///< 总线组
     FlagRight,  ///< 右侧标志
-    FlagLeft  ///< 左侧标志
+    FlagLeft,  ///< 左侧标志
+    ShiftRight,  ///< 右移符号
+    HighCurrent,  ///< 高电流
+    Schmitt,  ///< 施密特触发器
+    Delay,  ///< 延迟
+    ActiveLowOutput,  ///< 低电平有效输出
+    OpenCollectorPullUp,  ///< 上拉集电极开路
+    OpenEmitterPullUp,  ///< 上拉发射极开路
+    DigitalInput,  ///< 数字输入
+    GroupBinary,  ///< 二进制总线组
+    InputOutput,  ///< 输入输出
+    OpenCircuitOutput,  ///< 开路输出
+    Pi,  ///< Pi 符号
+    GreaterEqual,  ///< 大于等于
+    LessEqual,  ///< 小于等于
+    Sigma,  ///< Sigma 符号
+    And,  ///< 与逻辑符号
+    Inverter,  ///< 反相器符号
+    Or,  ///< 或逻辑符号
+    Xor,  ///< 异或逻辑符号
+    BidirectionalSignalFlow  ///< 双向信号流
 };
 
 /**

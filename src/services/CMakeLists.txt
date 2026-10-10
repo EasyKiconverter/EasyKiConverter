@@ -4,8 +4,57 @@
 add_library(EasyKiConverterServices STATIC
     BomParser.cpp
     LcscImageService.cpp
+    LcscProductParser.cpp
+    LcscProductParser.h
     ComponentService.cpp
+    ComponentCacheLoadCoordinator.cpp
+    ComponentCacheLoadCoordinator.h
+    ComponentApiCallbackCoordinator.cpp
+    ComponentApiCallbackCoordinator.h
+    ComponentCadFetchCoordinator.cpp
+    ComponentCadFetchCoordinator.h
     ComponentCacheService.cpp
+    ComponentCacheCadDataWriter.cpp
+    ComponentCacheCadDataWriter.h
+    ComponentCacheFileReadCoordinator.cpp
+    ComponentCacheFileReadCoordinator.h
+    ComponentCachePreviewImageWriter.cpp
+    ComponentCachePreviewImageWriter.h
+    ComponentCacheReadCoordinator.cpp
+    ComponentCacheReadCoordinator.h
+    ComponentCacheQuotaEnforcer.cpp
+    ComponentCacheQuotaEnforcer.h
+    CacheFileLayout.h
+    CacheDirectoryMigrator.cpp
+    CacheDirectoryMigrator.h
+    CacheSafety.cpp
+    CacheSafety.h
+    CacheMetadataStore.cpp
+    CacheMetadataStore.h
+    CacheDataValidator.cpp
+    CacheDataValidator.h
+    CacheComponentDataReader.cpp
+    CacheComponentDataReader.h
+    CacheMemoryStore.cpp
+    CacheMemoryStore.h
+    ComponentCacheMemoryStore.cpp
+    ComponentCacheMemoryStore.h
+    CacheTombstoneRegistry.cpp
+    CacheTombstoneRegistry.h
+    ComponentDataMemoryStore.cpp
+    ComponentDataMemoryStore.h
+    ComponentCacheBinaryFileStore.cpp
+    ComponentCacheBinaryFileStore.h
+    ComponentCacheLoadWorker.cpp
+    ComponentCacheLoadWorker.h
+    ComponentCacheWritePolicy.cpp
+    ComponentCacheWritePolicy.h
+    ComponentCacheMetadataWriter.cpp
+    ComponentCacheMetadataWriter.h
+    ComponentCacheModel3DCoordinator.cpp
+    ComponentCacheModel3DCoordinator.h
+    ComponentInfoParser.cpp
+    ComponentInfoParser.h
     CacheHealthManager.cpp
     CachePruner.cpp
     CadDataLoader.cpp
@@ -15,6 +64,30 @@ add_library(EasyKiConverterServices STATIC
     ComponentQueueManager.cpp
     ParallelFetchContext.cpp
     PreviewImageExporter.cpp
+    PreviewImageDataEncoder.cpp
+    PreviewImageDataEncoder.h
+    Model3DCacheFileStore.cpp
+    Model3DCacheFileStore.h
+    DatasheetCacheFileStore.cpp
+    DatasheetCacheFileStore.h
+    DatasheetDownloadService.cpp
+    DatasheetDownloadService.h
+    CachePathResolver.cpp
+    CachePathResolver.h
+    CacheDirectoryCoordinator.cpp
+    CacheDirectoryCoordinator.h
+    PreviewImageDownloadService.cpp
+    PreviewImageDownloadService.h
+    ComponentCacheMaintenance.cpp
+    ComponentCacheMaintenance.h
+    ComponentParallelFetchCoordinator.cpp
+    ComponentParallelFetchCoordinator.h
+    ComponentRequestCancellationCoordinator.cpp
+    ComponentRequestCancellationCoordinator.h
+    ComponentRequestCoordinator.cpp
+    ComponentRequestCoordinator.h
+    ComponentMediaCallbackCoordinator.cpp
+    ComponentMediaCallbackCoordinator.h
     DatasheetExporter.cpp
 )
 

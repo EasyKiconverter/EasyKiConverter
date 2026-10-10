@@ -5,17 +5,57 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include <algorithm>
+
 namespace EasyKiConverter {
 
 /**
- * @brief 构造函数
+ * @brief 创建导出目标模型。
+ * @param parent Qt 对象父级。
  */
 ExportTargetModel::ExportTargetModel(QObject* parent) : QObject(parent) {}
 
+/**
+ * @brief 获取当前选中的目标索引
+ * @return 当前目标在可见目标列表中的索引
+ */
 int ExportTargetModel::currentIndex() const {
     return m_currentIndex;
 }
 
+/**
+ * @brief 获取当前目标格式枚举值。
+ * @return 当前目标格式对应的内部枚举值。
+ */
+int ExportTargetModel::currentTargetFormat() const {
+    const QString id = currentTargetId();  // 当前目标的稳定标识符。
+    if (id == QStringLiteral("altium"))
+        return 1;
+    if (id == QStringLiteral("xpedition"))
+        return 2;
+    if (id == QStringLiteral("allegro"))
+        return 3;
+    if (id == QStringLiteral("pads"))
+        return 4;
+    if (id == QStringLiteral("eagle"))
+        return 5;
+    if (id == QStringLiteral("pcad"))
+        return 6;
+    if (id == QStringLiteral("cadstar"))
+        return 7;
+    if (id == QStringLiteral("orcad"))
+        return 8;
+    if (id == QStringLiteral("librepcb"))
+        return 9;
+    if (id == QStringLiteral("horizon"))
+        return 10;
+    return 0;
+}
+
+/**
+ * @brief 设置当前选中的目标索引
+ * @param index 目标在可见目标列表中的索引
+ */
 void ExportTargetModel::setCurrentIndex(int index) {
     if (index < 0 || index >= m_targets.size()) {
         return;
@@ -27,6 +67,10 @@ void ExportTargetModel::setCurrentIndex(int index) {
     emit currentTargetChanged();
 }
 
+/**
+ * @brief 获取当前目标标识符
+ * @return 当前目标的稳定标识符，无有效选择时返回空字符串
+ */
 QString ExportTargetModel::currentTargetId() const {
     if (m_currentIndex >= 0 && m_currentIndex < m_targets.size()) {
         return m_targets[m_currentIndex].id;
@@ -34,6 +78,10 @@ QString ExportTargetModel::currentTargetId() const {
     return QString();
 }
 
+/**
+ * @brief 获取当前目标显示名称
+ * @return 当前目标的显示名称，无有效选择时返回空字符串
+ */
 QString ExportTargetModel::currentDisplayName() const {
     if (m_currentIndex >= 0 && m_currentIndex < m_targets.size()) {
         return m_targets[m_currentIndex].displayName;
@@ -41,6 +89,10 @@ QString ExportTargetModel::currentDisplayName() const {
     return QString();
 }
 
+/**
+ * @brief 获取当前目标图标资源名
+ * @return 当前目标的图标资源名，无有效选择时返回空字符串
+ */
 QString ExportTargetModel::currentIcon() const {
     if (m_currentIndex >= 0 && m_currentIndex < m_targets.size()) {
         return m_targets[m_currentIndex].icon;
@@ -48,6 +100,10 @@ QString ExportTargetModel::currentIcon() const {
     return QString();
 }
 
+/**
+ * @brief 获取当前目标的 QML 设置组件
+ * @return 当前目标对应的 QML 组件文件名，无有效选择时返回空字符串
+ */
 QString ExportTargetModel::currentOptionsComponent() const {
     if (m_currentIndex >= 0 && m_currentIndex < m_targets.size()) {
         return m_targets[m_currentIndex].optionsComponent;
@@ -55,49 +111,81 @@ QString ExportTargetModel::currentOptionsComponent() const {
     return QString();
 }
 
+/**
+ * @brief 获取 GUI 可用目标列表
+ * @return 供 QML ComboBox 使用的目标元数据列表
+ */
 QVariantList ExportTargetModel::availableTargets() const {
     return m_availableTargetsCache;
 }
 
 /**
- * @brief 从 JSON 文件加载插件配置
+ * @brief 判断目标格式是否向 GUI 暴露
+ * @param targetId 目标格式标识符
+ * @return true 表示目标格式可以显示给 GUI 用户
+ */
+bool ExportTargetModel::isUserVisibleTarget(const QString& targetId) {
+    // 仅将已完成 GUI 导出流程接入的格式放入选择器。
+    return targetId == QStringLiteral("kicad") || targetId == QStringLiteral("altium") ||
+           targetId == QStringLiteral("horizon") || targetId == QStringLiteral("librepcb");
+}
+
+/**
+ * @brief 从 JSON 文件加载插件配置。
+ * @param configPath 插件配置文件路径。
  */
 void ExportTargetModel::loadPlugins(const QString& configPath) {
-    QFile file(configPath);
+    QFile file(configPath);  // 插件配置文件。
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "ExportTargetModel: Failed to open plugin config:" << configPath;
         return;
     }
 
-    QByteArray data = file.readAll();
+    QByteArray data = file.readAll();  // 插件配置文件内容。
     file.close();
 
-    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonDocument doc = QJsonDocument::fromJson(data);  // 解析后的 JSON 文档。
     if (doc.isNull() || !doc.isObject()) {
         qWarning() << "ExportTargetModel: Invalid JSON in plugin config:" << configPath;
         return;
     }
 
-    QJsonObject root = doc.object();
-    QJsonArray plugins = root["plugins"].toArray();
+    QJsonObject root = doc.object();  // 插件配置根对象。
+    QJsonArray plugins = root["plugins"].toArray();  // 插件配置数组。
 
     m_targets.clear();
     for (const QJsonValue& val : plugins) {
-        QJsonObject obj = val.toObject();
-        TargetInfo info;
+        QJsonObject obj = val.toObject();  // 当前插件配置对象。
+        TargetInfo info;  // 当前导出目标元数据。
         info.id = obj["id"].toString();
         info.displayName = obj["displayName"].toString();
         info.icon = obj["icon"].toString();
         info.optionsComponent = obj["optionsComponent"].toString();
-        if (!info.id.isEmpty() && !info.displayName.isEmpty()) {
+        if (isUserVisibleTarget(info.id) && !info.displayName.isEmpty()) {
             m_targets.append(info);
         }
     }
 
+    // 下拉索引会直接映射到 TargetEdaFormat，必须与枚举顺序保持一致，不能依赖配置文件顺序。
+    std::sort(m_targets.begin(), m_targets.end(), [](const TargetInfo& left, const TargetInfo& right) {
+        const auto targetOrder = [](const QString& id) {
+            if (id == QStringLiteral("kicad"))
+                return 0;
+            if (id == QStringLiteral("altium"))
+                return 1;
+            if (id == QStringLiteral("horizon"))
+                return 2;
+            if (id == QStringLiteral("librepcb"))
+                return 3;
+            return 4;
+        };
+        return targetOrder(left.id) < targetOrder(right.id);
+    });
+
     // 重建缓存
     m_availableTargetsCache.clear();
     for (const TargetInfo& info : m_targets) {
-        QVariantMap map;
+        QVariantMap map;  // 提供给 QML 的当前目标元数据。
         map["id"] = info.id;
         map["displayName"] = info.displayName;
         map["icon"] = info.icon;
@@ -106,7 +194,7 @@ void ExportTargetModel::loadPlugins(const QString& configPath) {
     }
 
     // 确保索引有效
-    bool indexChanged = false;
+    bool indexChanged = false;  // 当前选择索引是否因目标列表变化而调整。
     if (m_currentIndex >= m_targets.size()) {
         m_currentIndex = 0;
         indexChanged = true;

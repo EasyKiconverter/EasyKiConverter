@@ -72,11 +72,14 @@ signals:
 private:
     /**
      * @brief 开始下载下一个预览图
+     * @param index 预览图序号
+     * @param cache 组件缓存服务
      */
     void startPreviewDownload(int index, ComponentCacheService* cache);
 
     /**
      * @brief 开始下载数据手册
+     * @param cache 组件缓存服务
      */
     void startDatasheetDownload(ComponentCacheService* cache);
 
@@ -85,16 +88,16 @@ private:
      */
     void finishAllDownloads();
 
-    QString m_componentId;
-    QStringList m_previewImageUrls;
-    QString m_datasheetUrl;
-    QAtomicInt m_isAborted;
-    QAtomicInt m_pendingOperations;  // 待完成的异步操作计数
+    QString m_componentId;  ///< 当前元器件编号。
+    QStringList m_previewImageUrls;  ///< 待下载的预览图 URL 列表。
+    QString m_datasheetUrl;  ///< 待下载的数据手册 URL。
+    QAtomicInt m_isAborted;  ///< 当前任务是否已请求取消。
+    QAtomicInt m_pendingOperations;  ///< 待完成的异步操作数量。
 
     // 累积结果
-    QList<QByteArray> m_previewImageDataList;
-    QByteArray m_datasheetData;
-    QList<ComponentExportStatus::NetworkDiagnostics> m_diagnostics;
+    QList<QByteArray> m_previewImageDataList;  ///< 已完成下载的预览图数据。
+    QByteArray m_datasheetData;  ///< 已完成下载的数据手册数据。
+    QList<ComponentExportStatus::NetworkDiagnostics> m_diagnostics;  ///< 各媒体请求的网络诊断信息。
 };
 
 }  // namespace EasyKiConverter

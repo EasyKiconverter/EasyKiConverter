@@ -24,6 +24,7 @@ Rectangle {
     property string model3DStatus: "pending"
     property string previewStatus: "pending"
     property string datasheetStatus: "pending"
+    property bool retryEnabled: true
     signal retryClicked
     signal copyClicked
     signal deleteClicked
@@ -132,27 +133,18 @@ Rectangle {
         id: itemHover
     }
 
-    MouseArea {
-        id: itemMouseArea
+    // 共享复制和外链点击判定，提示动画仍由本列表项保留。
+    ListItemInteraction {
+        id: itemInteraction
         anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.ArrowCursor
-        acceptedButtons: Qt.RightButton | Qt.LeftButton
-        onClicked: mouse => {
-            if (mouse.button === Qt.RightButton) {
-                if (componentId) {
-                    copyHelper.text = componentId;
-                    copyHelper.selectAll();
-                    copyHelper.copy();
-                    item.copyClicked();
-                    copyFeedback.visible = true;
-                    copyFeedbackTimer.start();
-                }
-            } else if (mouse.button === Qt.LeftButton && (mouse.modifiers & Qt.ControlModifier)) {
-                if (componentId) {
-                    Qt.openUrlExternally("https://so.szlcsc.com/global.html?k=" + componentId);
-                }
-            }
+        itemId: componentId
+        onCopyClicked: {
+            copyHelper.text = componentId;
+            copyHelper.selectAll();
+            copyHelper.copy();
+            item.copyClicked();
+            copyFeedback.visible = true;
+            copyFeedbackTimer.start();
         }
     }
 
@@ -310,6 +302,7 @@ Rectangle {
             id: retryButton
             objectName: "retryResultButton"
             visible: status === "failed"
+            opacity: retryEnabled ? 1 : 0.45
             Layout.preferredWidth: 28
             Layout.preferredHeight: 28
             Layout.alignment: Qt.AlignVCenter
@@ -337,6 +330,7 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton
+                enabled: item.retryEnabled
                 onClicked: item.retryClicked()
             }
         }

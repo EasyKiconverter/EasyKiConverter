@@ -6,7 +6,7 @@
 
 ### EasyKiConverter 是什么？
 
-EasyKiConverter 是一个基于 Qt 6 Quick 和 MVVM 架构的 C++ 桌面应用程序，用于将嘉立创（LCSC）和 EasyEDA 元件转换为 KiCad 或 Altium 格式。它提供符号、封装和 3D 模型的完整转换功能。
+EasyKiConverter 是一个基于 Qt 6 Quick 和 MVVM 架构的 C++ 桌面应用程序，用于将嘉立创（LCSC）和 EasyEDA 元件转换为多种 EDA 库格式。它提供符号库、封装库和 3D 模型文件的转换功能；Xpedition 当前输出独立 3D 文件，不写入原生 3D 关联。
 
 ### EasyKiConverter 是免费的吗？
 
@@ -377,7 +377,7 @@ easykiconverter convert bom -i <bom_file> -o <output_dir>
 - [构建指南](../developer/BUILD.md) - 从源代码构建
 - [贡献指南](../developer/CONTRIBUTING.md) - 贡献代码
 - [开发者常见问题](../developer/FAQ.md) - 技术问题、根因分析和回归预防
-- [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter_QT/issues) - 报告问题
-- [GitHub Discussions](https://github.com/tangsangsimida/EasyKiConverter_QT/discussions) - 问答和讨论
+- [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues) - 报告问题
+- [GitHub Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions) - 问答和讨论
 
 如果您的问题不在这里，请随时在 GitHub 上创建新的 Issue。

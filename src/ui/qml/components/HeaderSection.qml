@@ -278,7 +278,7 @@ ColumnLayout {
                 }
             }
             onClicked: mouse => {
-                const projectUrl = "https://github.com/tangsangsimida/EasyKiConverter_QT";
+                const projectUrl = "https://github.com/EasyKiconverter/EasyKiConverter";
                 if (mouse.button === Qt.LeftButton) {
                     Qt.openUrlExternally(projectUrl);
                 } else if (mouse.button === Qt.RightButton) {

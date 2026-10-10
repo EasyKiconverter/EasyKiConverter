@@ -48,4 +48,4 @@
 如果您有任何问题或需要报告行为准则违规行为，请联系项目维护者：
 
 - Email: [dennisreyoonjiho@gmail.com]
-- GitHub: [https://github.com/tangsangsimida/EasyKiConverter_QT](https://github.com/tangsangsimida/EasyKiConverter_QT)
+- GitHub: [https://github.com/EasyKiconverter/EasyKiConverter](https://github.com/EasyKiconverter/EasyKiConverter)

@@ -22,9 +22,9 @@ class TempFileManager : public QObject {
 
 public:
     struct CommitItem {
-        QString tempPath;
-        QString finalPath;
-        bool isDirectory = false;
+        QString tempPath;  ///< 待提交的临时文件或目录路径。
+        QString finalPath;  ///< 提交后的最终文件或目录路径。
+        bool isDirectory = false;  ///< 路径是否指向目录。
     };
 
     /**
@@ -204,6 +204,7 @@ private:
     mutable QMutex m_mutex;  ///< 保护临时文件集合
     QSet<QString> m_tempFiles;  ///< 注册的临时文件集合
     QString m_tempDirName = QStringLiteral(".tmp");  ///< 临时目录名称
+    QString m_registeredTempDirectory;  ///< 当前实例登记的共享临时目录
 };
 
 }  // namespace EasyKiConverter

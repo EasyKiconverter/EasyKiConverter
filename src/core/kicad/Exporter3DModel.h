@@ -73,6 +73,30 @@ public:
     static double calculateObjMinZ(const QByteArray& objData);
 
     /**
+     * @brief 检查 OBJ 数据是否包含可导出的顶点和面
+     *
+     * @param objData OBJ 模型的原始数据
+     * @return true 表示数据至少包含一个有效顶点和一个有效面
+     */
+    static bool hasUsableObjGeometry(const QByteArray& objData);
+
+    /**
+     * @brief 检查 WRL 数据是否包含可显示的坐标和面索引
+     *
+     * @param wrlData WRL 模型的原始数据
+     * @return true 表示数据包含坐标点和面索引
+     */
+    static bool hasUsableWrlGeometry(const QByteArray& wrlData);
+
+    /**
+     * @brief 检查 STEP 数据是否具有可接受的交换文件结构
+     *
+     * @param stepData STEP 模型的原始数据
+     * @return true 表示数据包含完整的 STEP 文件头和结束标记
+     */
+    static bool hasUsableStepData(const QByteArray& stepData);
+
+    /**
      * @brief 计算 WRL 文件在 KiCad 显示单位下的最小 Z 坐标
      *
      * @param wrlData WRL 文件数据
@@ -153,19 +177,35 @@ private:
      */
     QString getModelUrl(const QString& uuid, ModelFormat format) const;
 
+    /**
+     * @brief 同步下载指定格式的三维模型。
+     * @param uuid 模型 UUID。
+     * @param savePath 保存路径。
+     * @param format 模型格式。
+     * @param errorMessage 可选的错误信息输出指针。
+     * @return 下载成功时返回 true。
+     */
     bool downloadModelSync(const QString& uuid,
                            const QString& savePath,
                            ModelFormat format,
                            QString* errorMessage = nullptr);
 
+    /**
+     * @brief 同步下载指定格式的三维模型数据。
+     * @param uuid 模型 UUID。
+     * @param format 模型格式。
+     * @param data 输出模型数据。
+     * @param errorMessage 可选的错误信息输出指针。
+     * @return 下载成功时返回 true。
+     */
     bool downloadModelDataSync(const QString& uuid,
                                ModelFormat format,
                                QByteArray* data,
                                QString* errorMessage = nullptr);
 
 private:
-    QString m_currentUuid;
-    QString m_savePath;
+    QString m_currentUuid;  ///< 当前处理的三维模型 UUID。
+    QString m_savePath;  ///< 当前三维模型的本地保存路径。
 };
 
 }  // namespace EasyKiConverter

@@ -60,6 +60,27 @@ ApplicationWindow {
         onCanceled: appWindowController.resumeExport()
     }
 
+    CacheDirectoryErrorDialog {
+        id: cacheDirectoryErrorDialog
+        property string pendingPath: ""
+        property string pendingReason: ""
+        selectedPath: pendingPath
+        rejectionReason: pendingReason
+        onRetrySelection: {
+            if (mainWindowLoader.item && mainWindowLoader.item.cacheFolderDialog)
+                mainWindowLoader.item.cacheFolderDialog.open();
+        }
+    }
+
+    Connections {
+        target: exportSettingsViewModel
+        function onCacheDirChangeRejected(path, reason) {
+            cacheDirectoryErrorDialog.pendingPath = path;
+            cacheDirectoryErrorDialog.pendingReason = reason;
+            cacheDirectoryErrorDialog.open();
+        }
+    }
+
     Shortcut {
         sequence: "Esc"
         onActivated: appWindowController.handleEsc()

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CacheSafety.h"
+
 #include <QJsonObject>
 #include <QString>
 
@@ -19,7 +21,9 @@ class ComponentCacheService;
  */
 class CacheHealthManager {
 public:
-    explicit CacheHealthManager(const QString& cacheRoot);
+    explicit CacheHealthManager(const QString& cacheRoot,
+                                // 可选的回收站移动策略。
+                                const CacheSafety::TrashFunction& trash = CacheSafety::TrashFunction());
     ~CacheHealthManager() = default;
 
     /**
@@ -57,7 +61,10 @@ private:
     QJsonObject loadMetadata(const QString& lcscId) const;
 
     /**
-     * @brief 保存元数据
+     * @brief 保存元数据。
+     * @param lcscId 元器件编号。
+     * @param metadata 待保存的元数据对象。
+     * @return 保存成功时返回 true。
      */
     bool saveMetadata(const QString& lcscId, const QJsonObject& metadata);
 
@@ -67,16 +74,24 @@ private:
     QString datasheetPath(const QString& lcscId) const;
 
     /**
-     * @brief 解析数据手册路径
+     * @brief 解析数据手册路径。
+     * @param lcscId 元器件编号。
+     * @param format 数据手册格式。
+     * @param migrate 是否迁移旧格式文件。
+     * @return 解析后的数据手册路径。
      */
     QString resolveDatasheetPath(const QString& lcscId, const QString& format, bool migrate) const;
 
     /**
-     * @brief 预览图路径
+     * @brief 获取预览图路径。
+     * @param lcscId 元器件编号。
+     * @param index 预览图索引。
+     * @return 预览图文件路径。
      */
     QString previewImagePath(const QString& lcscId, int index) const;
 
-    QString m_cacheRoot;
+    QString m_cacheRoot;  ///< 缓存根目录。
+    CacheSafety::TrashFunction m_trash;  ///< 回收站移动策略。
 };
 
 }  // namespace EasyKiConverter

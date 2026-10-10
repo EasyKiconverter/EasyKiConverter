@@ -12,15 +12,15 @@ Rectangle {
     property string searchText: ""
     // 导出状态（由父级传入，来自 ExportProgressViewModel）
     property var exportStatus: null
-    readonly property bool isExporting: exportStatus && (exportStatus.status === "in_progress" || exportStatus.status === "pending")
-    readonly property bool exportSuccess: exportStatus && exportStatus.status === "success"
-    readonly property bool exportFailed: exportStatus && exportStatus.status === "failed"
+    readonly property bool isExporting: exportStatus !== null && (exportStatus.status === "in_progress" || exportStatus.status === "pending")
+    readonly property bool exportSuccess: exportStatus !== null && exportStatus.status === "success"
+    readonly property bool exportFailed: exportStatus !== null && exportStatus.status === "failed"
     signal deleteClicked
     signal copyClicked
     signal retryClicked
     signal descriptionEditRequested(string componentId, string description)
     // 悬停效果
-    color: itemMouseArea.containsMouse ? AppStyle.colors.background : AppStyle.colors.surface
+    color: itemInteraction.containsMouse ? AppStyle.colors.background : AppStyle.colors.surface
     radius: AppStyle.radius.md
     border.color: {
         if (exportSuccess)
@@ -94,8 +94,11 @@ Rectangle {
         }
     }
     // 缓存搜索正则以优化性能
+    // 缓存最近一次参与匹配的搜索文本。
     property string cachedSearchText: ""
+    // 缓存根据搜索文本生成的高亮正则。
     property var cachedRegex: null
+    // 将后端返回的图片数据转换为 QML 图片源。
     function previewImageSource(imageData) {
         if (!imageData || imageData === "")
             return "";
@@ -111,6 +114,7 @@ Rectangle {
             return "data:image/webp;base64," + imageData;
         return "data:image/png;base64," + imageData;
     }
+    // 收集当前元件可显示的预览图源。
     function previewImageSources() {
         var result = [];
         if (!itemData || !itemData.previewImages)
@@ -127,6 +131,7 @@ Rectangle {
         interval: 100
         onTriggered: updateCachedRegex()
     }
+    // 在搜索文本变化后更新高亮正则缓存。
     function updateCachedRegex() {
         if (searchText !== cachedSearchText) {
             cachedSearchText = searchText;
@@ -211,32 +216,18 @@ Rectangle {
         onTriggered: copyFeedback.visible = false
     }
 
-    // 底层鼠标区域
-    MouseArea {
-        id: itemMouseArea
+    // 共享复制和外链点击判定，提示动画仍由本列表项保留。
+    ListItemInteraction {
+        id: itemInteraction
         anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.ArrowCursor
-        acceptedButtons: Qt.RightButton | Qt.LeftButton // 同时响应右键和左键
-        onClicked: mouse => {
-            // 右键点击复制 ID
-            if (mouse.button === Qt.RightButton) {
-                if (itemData && itemData.componentId) {
-                    copyHelper.text = itemData.componentId;
-                    copyHelper.selectAll();
-                    copyHelper.copy();
-                    rootItem.copyClicked();
-                    copyFeedback.visible = true;
-                    copyFeedbackTimer.start();
-                }
-            } else
-            // Ctrl + 左键点击打开浏览器
-            if (mouse.button === Qt.LeftButton && (mouse.modifiers & Qt.ControlModifier)) {
-                if (itemData && itemData.componentId) {
-                    var url = "https://so.szlcsc.com/global.html?k=" + itemData.componentId;
-                    Qt.openUrlExternally(url);
-                }
-            }
+        itemId: itemData ? itemData.componentId : ""
+        onCopyClicked: {
+            copyHelper.text = itemId;
+            copyHelper.selectAll();
+            copyHelper.copy();
+            rootItem.copyClicked();
+            copyFeedback.visible = true;
+            copyFeedbackTimer.start();
         }
     }
 
@@ -330,7 +321,7 @@ Rectangle {
                     fillMode: Image.PreserveAspectFit
                     cache: true
                     asynchronous: true
-                    visible: itemData && (itemData.validationPhase === "completed" || itemData.validationPhase === "fetching_preview") && itemData.previewImageCount > 0
+                    visible: itemData ? (itemData.validationPhase === "completed" || itemData.validationPhase === "fetching_preview") && itemData.previewImageCount > 0 : false
                 }
 
                 BusyIndicator {
@@ -338,7 +329,7 @@ Rectangle {
                     width: 24
                     height: 24
                     running: (itemData && (itemData.validationPhase === "validating" || itemData.validationPhase === "fetching_preview")) ? true : false
-                    visible: (itemData && (itemData.validationPhase === "validating" || itemData.validationPhase === "fetching_preview")) ? true : false
+                    visible: itemData ? (itemData.validationPhase === "validating" || itemData.validationPhase === "fetching_preview") : false
                 }
 
                 Rectangle {
@@ -349,7 +340,7 @@ Rectangle {
                     color: "transparent"
                     border.color: AppStyle.colors.success
                     border.width: AppStyle.borderWidths.thick
-                    visible: (itemData && (itemData.validationPhase === "completed" || itemData.validationPhase === "fetching_preview") && (!itemData.previewImageCount || itemData.previewImageCount === 0))
+                    visible: itemData ? ((itemData.validationPhase === "completed" || itemData.validationPhase === "fetching_preview") && (!itemData.previewImageCount || itemData.previewImageCount === 0)) : false
                     Shape {
                         id: checkShape
                         anchors.fill: parent
@@ -383,7 +374,7 @@ Rectangle {
                     color: "transparent"
                     border.color: AppStyle.colors.danger
                     border.width: AppStyle.borderWidths.thick
-                    visible: (itemData && itemData.validationPhase === "failed")
+                    visible: itemData ? itemData.validationPhase === "failed" : false
                     Shape {
                         id: crossShape
                         anchors.fill: parent
@@ -426,6 +417,7 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: (itemData && itemData.previewImageCount > 0) ? Qt.PointingHandCursor : Qt.ArrowCursor
                 acceptedButtons: Qt.LeftButton
+                // Ctrl+点击预览图时打开对应元件的详情页面。
                 onClicked: function (mouse) {
                     if (mouse.modifiers & Qt.ControlModifier) {
                         if (itemData && itemData.componentId) {
@@ -529,7 +521,8 @@ Rectangle {
             Layout.preferredWidth: 28
             Layout.preferredHeight: 28
             Layout.alignment: Qt.AlignVCenter
-            visible: itemData && itemData.isValid
+            // itemData 由异步模型提供，初始化阶段可能为空；避免将 undefined 绑定到 bool。
+            visible: itemData !== null && itemData !== undefined && itemData.isValid === true
             background: Rectangle {
                 color: parent.pressed ? AppStyle.colors.primaryPressed : parent.hovered ? "#dbeafe" : "transparent"
                 radius: AppStyle.radius.sm
@@ -560,7 +553,7 @@ Rectangle {
             Layout.preferredWidth: 28
             Layout.preferredHeight: 28
             Layout.alignment: Qt.AlignVCenter
-            visible: itemData && itemData.validationPhase === "failed" && itemData.retryable
+            visible: itemData ? (itemData.validationPhase === "failed" && itemData.retryable) : false
             background: Rectangle {
                 color: parent.pressed ? AppStyle.colors.primaryHover : parent.hovered ? "#dbeafe" : "transparent"
                 radius: AppStyle.radius.sm

@@ -53,6 +53,8 @@ inline LogModule& operator|=(LogModule& a, LogModule b) {
 
 /**
  * @brief 检查模块是否包含指定模块
+ * @param modules 日志模块集合。
+ * @param target 目标对象。
  */
 inline bool hasModule(LogModule modules, LogModule target) {
     return (static_cast<uint32_t>(modules) & static_cast<uint32_t>(target)) != 0;
@@ -60,6 +62,7 @@ inline bool hasModule(LogModule modules, LogModule target) {
 
 /**
  * @brief 将模块转换为字符串名称
+ * @param module 日志模块。
  */
 inline QString logModuleToString(LogModule module) {
     // 检查单一模块
@@ -116,9 +119,10 @@ inline QString logModuleToString(LogModule module) {
 
 /**
  * @brief 从字符串解析模块
+ * @param str 待解析的字符串。
  */
 inline LogModule logModuleFromString(const QString& str) {
-    QString upper = str.toUpper().trimmed();
+    QString upper = str.toUpper().trimmed();  ///< 规范化后的大写模块名称。
     if (upper == "CORE")
         return LogModule::Core;
     if (upper == "NETWORK")

@@ -6,20 +6,20 @@
 
 如果您是第一次贡献，请阅读以下内容：
 
-1. 阅读 [项目文档](https://github.com/tangsangsimida/EasyKiConverter_QT#readme)
-2. 搜索现有的 [Issue](https://github.com/tangsangsimida/EasyKiConverter_QT/issues)
-3. 在 [Discussions](https://github.com/tangsangsimida/EasyKiConverter_QT/discussions) 中讨论您的想法
+1. 阅读 [项目文档](https://github.com/EasyKiconverter/EasyKiConverter#readme)
+2. 搜索现有的 [Issue](https://github.com/EasyKiconverter/EasyKiConverter/issues)
+3. 在 [Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions) 中讨论您的想法
 4. 创建一个 fork，并提交您的更改，开始贡献！
 
 ## 如何贡献
 
 ### 报告 Bug
 
-在提交 Bug 报告之前，请先搜索现有的 Issue，确认该问题是否已经被报告。如果未被发现，请使用 [Bug 报告模板](https://github.com/tangsangsimida/EasyKiConverter_QT/issues/new?template=bug_report.md) 创建一个新的 Issue。
+在提交 Bug 报告之前，请先搜索现有的 Issue，确认该问题是否已经被报告。如果未被发现，请使用 [Bug 报告模板](https://github.com/EasyKiconverter/EasyKiConverter/issues/new?template=bug_report.md) 创建一个新的 Issue。
 
 ### 提出功能建议
 
-在提交功能建议之前，请先搜索现有的 Issue，确认该建议是否已经被提出。如果未被发现，请使用 [功能建议模板](https://github.com/tangsangsimida/EasyKiConverter_QT/issues/new?template=feature_request.md) 创建一个新的 Issue。
+在提交功能建议之前，请先搜索现有的 Issue，确认该建议是否已经被提出。如果未被发现，请使用 [功能建议模板](https://github.com/EasyKiconverter/EasyKiConverter/issues/new?template=feature_request.md) 创建一个新的 Issue。
 
 ### 提交代码
 
@@ -29,23 +29,26 @@
 2. **Clone 您的 Fork**到本地：
 
 ```bash
-git clone https://github.com/your-username/EasyKiConverter_QT.git
-cd EasyKiConverter_QT
+git clone https://github.com/your-username/EasyKiConverter.git
+cd EasyKiConverter
 ```
 
 3. **添加上游仓库**：
 
 ```bash
-git remote add upstream https://github.com/tangsangsimida/EasyKiConverter_QT.git
+git remote add upstream https://github.com/EasyKiconverter/EasyKiConverter.git
 ```
 
-4. **创建新的分支**：
+4. **从所属版本分支创建问题工作分支**：
 
 ```bash
-git checkout -b feature/your-feature-name
-# 或
-git checkout -b fix/your-bug-fix
+git fetch upstream <version-branch>
+git switch -c <topic-branch> --track upstream/<version-branch>
 ```
+
+一个相对完整的问题或主题对应一个工作分支；同一分支可以包含多个相关提交。不要为每个小改动、子任务或单个提交创建新分支。当前仓库没有发现强制的分支命名校验，`fix/cache-safety-v3.1.13` 等只是命名建议。完成后 PR 回到创建该分支时使用的同一版本分支，不要直接提交到版本分支，也不要默认将所有 PR 指向 `master`。
+
+在 Fork 流程中，`upstream` 用于获取正式仓库的版本分支，`origin` 仅用于推送工作分支。
 
 #### 代码规范
 
@@ -69,6 +72,7 @@ git checkout -b fix/your-bug-fix
 - 类和公共方法添加 Doxygen 风格注释
 - 复杂逻辑添加行内注释
 - 使用 `///` 或 `/** */` 格式的注释
+- 所有新增或修改的变量（包括成员变量、参数、函数内部临时变量、中间结果和常量）添加简体中文注释；声明优先使用 `///<`。
 
 #### 架构要求
 
@@ -93,18 +97,18 @@ git checkout -b fix/your-bug-fix
 
 ```bash
 git add .
-git commit -m "feat: add your feature description"
+git commit -m "feat(export): 修复封装解析"
 ```
 
-2. **推送到您的 Fork**：
+2. **推送工作分支**：
 
 ```bash
-git push origin feature/your-feature-name
+git push origin <topic-branch>
 ```
 
-3. **在 GitHub 上创建 Pull Request**
+3. **在 GitHub 上创建 Pull Request**：目标分支选择创建工作分支时对应的 `<version-branch>`。
 
-使用 [Pull Request 模板](https://github.com/tangsangsimida/EasyKiConverter_QT/compare) 创建 PR。
+使用 [Pull Request 模板](https://github.com/EasyKiconverter/EasyKiConverter/compare) 创建 PR。
 
 #### 提交信息规范
 
@@ -172,9 +176,9 @@ feat: add support for custom layer mapping
 
 如果您在贡献过程中遇到问题，可以通过以下方式获取帮助：
 
-- 在 [Issue](https://github.com/tangsangsimida/EasyKiConverter_QT/issues) 中提问
-- 在 [Pull Request](https://github.com/tangsangsimida/EasyKiConverter_QT/pulls) 中请求帮助
-- 在 [Discussions](https://github.com/tangsangsimida/EasyKiConverter_QT/discussions) 中讨论
+- 在 [Issue](https://github.com/EasyKiconverter/EasyKiConverter/issues) 中提问
+- 在 [Pull Request](https://github.com/EasyKiconverter/EasyKiConverter/pulls) 中请求帮助
+- 在 [Discussions](https://github.com/EasyKiconverter/EasyKiConverter/discussions) 中讨论
 - 联系项目维护者
 
 ## 许可证

@@ -19,11 +19,13 @@ target_link_libraries(test_fixture_to_kicad_export PRIVATE
 target_link_libraries(test_parallel_export_cancellation PRIVATE
     Qt6::Test
     Qt6::Gui
+    Qt6::Network
     EasyKiConverterLib
 )
 
 target_include_directories(test_fixture_to_kicad_export PRIVATE
     ${CMAKE_SOURCE_DIR}/src
+    ${CMAKE_SOURCE_DIR}/src/core/altium
     ${CMAKE_SOURCE_DIR}
 )
 

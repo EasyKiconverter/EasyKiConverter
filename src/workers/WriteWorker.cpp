@@ -1,5 +1,6 @@
 #include "WriteWorker.h"
 
+#include "WriteWorkerDebugExporter.h"
 #include "core/ir/FootprintDataConverter.h"
 #include "core/ir/Model3DDataConverter.h"
 #include "core/ir/SymbolDataConverter.h"
@@ -55,6 +56,9 @@ WriteWorker::WriteWorker(QSharedPointer<ComponentExportStatus> status,
 
 WriteWorker::~WriteWorker() {}
 
+/**
+ * @brief 并行执行当前元件的各类文件写入任务并汇总结果。
+ */
 void WriteWorker::run() {
     if (!m_status) {
         qWarning() << "WriteWorker: null export status, skip run";
@@ -71,6 +75,7 @@ void WriteWorker::run() {
         return;
     }
 
+    // 记录当前元件写入阶段的耗时。
     QElapsedTimer writeTimer;
     writeTimer.start();
 
@@ -132,8 +137,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视符号写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取符号写入任务的结果。
             bool result = watcher->result();
             m_status->symbolWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::Symbol), result);
@@ -157,8 +164,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视封装写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取封装写入任务的结果。
             bool result = watcher->result();
             m_status->footprintWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::Footprint), result);
@@ -183,8 +192,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视三维模型写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取三维模型写入任务的结果。
             bool result = watcher->result();
             m_status->model3DWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::Model3D), result);
@@ -207,8 +218,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视预览图写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取预览图写入任务的结果。
             bool result = watcher->result();
             m_status->previewImageWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::PreviewImage), result);
@@ -231,8 +244,10 @@ void WriteWorker::run() {
                 return false;
             }
         });
+        // 监视数据手册写入任务的完成状态。
         QFutureWatcher<bool>* watcher = new QFutureWatcher<bool>();
         connect(watcher, &QFutureWatcher<bool>::finished, this, [this, watcher]() {
+            // 读取数据手册写入任务的结果。
             bool result = watcher->result();
             m_status->datasheetWritten = result;
             emit itemWriteCompleted(m_status->componentId, static_cast<int>(ExportItemType::Datasheet), result);
@@ -263,16 +278,24 @@ void WriteWorker::run() {
     }
 
     // 根据用户请求的导出项和实际完成情况，决定最终的成功状态
+    // 计算符号写入是否满足用户请求。
     bool symbolSuccess = (!m_exportSymbol) || m_status->symbolWritten;
+    // 计算封装写入是否满足用户请求。
     bool footprintSuccess = (!m_exportFootprint) || m_status->footprintWritten;
+    // 计算三维模型写入是否满足用户请求。
     bool model3DSuccess = (!m_exportModel3D) || m_status->model3DWritten;
+    // 计算预览图写入是否满足用户请求。
     bool previewImageSuccess = (!m_exportPreviewImages) || m_status->previewImageWritten;
+    // 计算数据手册写入是否满足用户请求。
     bool datasheetSuccess = (!m_exportDatasheet) || m_status->datasheetWritten;
 
+    // 汇总所有已请求导出项的成功状态。
     bool overallSuccess =
         symbolSuccess && footprintSuccess && model3DSuccess && previewImageSuccess && datasheetSuccess;
 
+    // 收集成功和失败的导出项缩写，供诊断日志使用。
     QStringList successItems;
+    // 保存失败导出项的缩写。
     QStringList failedItems;
     if (m_exportSymbol) {
         symbolSuccess ? successItems.append("S") : failedItems.append("S");
@@ -317,6 +340,11 @@ void WriteWorker::run() {
     emit writeCompleted(m_status);
 }
 
+/**
+ * @brief 将符号 IR 原子写入临时目录中的 KiCad 符号文件。
+ * @param status 当前元件的导出状态。
+ * @return 写入成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::writeSymbolFile(ComponentExportStatus& status) {
     if (!status.symbolData) {
         return true;
@@ -331,10 +359,13 @@ bool WriteWorker::writeSymbolFile(ComponentExportStatus& status) {
         return false;
     }
 
+    // 构造符号文件的临时输出路径。
     QString finalFilePath = QString("%1/%2.kicad_sym").arg(m_tempDir, status.componentId);
 
+    // 通过临时文件写入并原子替换目标符号文件。
     bool success = AtomicFileWriter::writeAtomically(
         m_tempDir, finalFilePath, ".kicad_sym.tmp", [this, &status](const QString& tempPath) -> bool {
+            // 将组件模型转换为符号 IR。
             IR::SymbolComponentIR symbolIR = IR::toSymbolIR(*status.symbolData);
             return m_symbolExporter.exportSymbol(symbolIR, tempPath);
         });
@@ -349,6 +380,11 @@ bool WriteWorker::writeSymbolFile(ComponentExportStatus& status) {
     }
 }
 
+/**
+ * @brief 将封装 IR 和关联模型路径原子写入 KiCad 封装库。
+ * @param status 当前元件的导出状态。
+ * @return 写入成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
     if (!status.footprintData) {
         return true;
@@ -363,12 +399,14 @@ bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
         return false;
     }
 
+    // 构造 KiCad 封装库目录路径。
     QString footprintLibPath = QString("%1/%2.pretty").arg(m_outputPath, m_libName);
     if (!createOutputDirectory(footprintLibPath)) {
         status.addDebugLog(QString("ERROR: Failed to create footprint library directory: %1").arg(footprintLibPath));
         return false;
     }
 
+    // 构造三维模型输出目录路径。
     QString modelsDirPath = QString("%1/%2.3dmodels").arg(m_outputPath, m_libName);
     if (m_exportModel3D) {
         if (!createOutputDirectory(modelsDirPath)) {
@@ -376,10 +414,14 @@ bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
         }
     }
 
+    // 生成安全的封装名称和目标文件路径。
     QString footprintName = PathSecurity::sanitizeFilename(status.footprintData->info().name);
+    // 构造封装文件的完整输出路径。
     QString filePath = QString("%1/%2.kicad_mod").arg(footprintLibPath, footprintName);
 
+    // 保存封装文件中引用的 WRL 和 STEP 相对路径。
     QString model3DWrlPath;
+    // 保存封装中引用的 STEP 模型相对路径。
     QString model3DStepPath;
     if (m_exportModel3D && status.model3DData && !status.model3DData->uuid().isEmpty()) {
         model3DWrlPath = QString("../%1.3dmodels/%2.wrl").arg(m_libName, footprintName);
@@ -389,11 +431,13 @@ bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
         }
     }
 
+    // 通过临时文件写入并原子替换目标封装文件。
     bool success = AtomicFileWriter::writeAtomically(
         m_tempDir,
         filePath,
         ".kicad_mod.tmp",
         [this, &status, &model3DWrlPath, &model3DStepPath](const QString& tempPath) -> bool {
+            // 将组件模型转换为封装 IR。
             IR::FootprintComponentIR footprintIR = IR::toFootprintIR(*status.footprintData);
             if (!model3DStepPath.isEmpty()) {
                 return m_footprintExporter.exportFootprint(footprintIR, tempPath, model3DWrlPath, model3DStepPath);
@@ -414,10 +458,16 @@ bool WriteWorker::writeFootprintFile(ComponentExportStatus& status) {
     }
 }
 
+/**
+ * @brief 写入或复制当前元件的 WRL 与 STEP 三维模型文件。
+ * @param status 当前元件的导出状态。
+ * @return 至少一个请求的三维模型文件成功写入时返回 true。
+ */
 bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
     // 如果既没有原始数据也没有缓存路径，则跳过
     const bool hasWrlData =
         status.model3DData && (!status.model3DData->rawObj().isEmpty() || !status.cachedModel3DWrlPath.isEmpty());
+    // 判断是否存在可写入的 STEP 模型数据。
     const bool hasStepData = !status.model3DStepRaw.isEmpty() || !status.cachedModel3DStepPath.isEmpty();
     if (!hasWrlData && !hasStepData) {
         return true;
@@ -433,22 +483,27 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
         return false;
     }
 
+    // 构造三维模型输出目录路径。
     QString modelsDirPath = QString("%1/%2.3dmodels").arg(m_outputPath, m_libName);
     if (!createOutputDirectory(modelsDirPath)) {
         status.addDebugLog(QString("ERROR: Failed to create 3D models directory: %1").arg(modelsDirPath));
         return false;
     }
 
+    // 使用封装名称作为模型文件名，缺少封装时回退到元器件编号。
     QString footprintName = status.footprintData ? status.footprintData->info().name : status.componentId;
     footprintName = PathSecurity::sanitizeFilename(footprintName);
 
+    // 记录 WRL 模型写入结果。
     bool wrlSuccess = false;
 
     // WRL 是 OBJ 派生文件；如果有 OBJ 原始数据，始终重新生成，避免旧 WRL 缓存携带过期坐标归一化。
     if (status.model3DData && !status.model3DData->rawObj().isEmpty()) {
+        // 构造 WRL 模型目标路径。
         QString wrlFilePath = QString("%1/%2.wrl").arg(modelsDirPath, footprintName);
         wrlSuccess = AtomicFileWriter::writeAtomically(
             m_tempDir, wrlFilePath, ".wrl.tmp", [this, &status](const QString& tempPath) -> bool {
+                // 将模型数据转换为统一的三维模型 IR。
                 IR::Model3DIR modelIR = IR::toModel3DIR(*status.model3DData);
                 return m_model3DExporter.exportToWrl(modelIR, tempPath);
             });
@@ -458,6 +513,7 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
             status.addDebugLog(QString("ERROR: Failed to write WRL file"));
         }
     } else if (hasWrlData && !status.cachedModel3DWrlPath.isEmpty()) {
+        // 构造缓存 WRL 模型的目标路径。
         QString wrlFilePath = QString("%1/%2.wrl").arg(modelsDirPath, footprintName);
         wrlSuccess = AtomicFileWriter::copyAtomically(status.cachedModel3DWrlPath, wrlFilePath, m_tempDir);
         if (wrlSuccess) {
@@ -468,8 +524,10 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
     }
 
     // STEP 文件保持服务器原始坐标系，避免破坏它与 WRL 模型原本一致的装配关系。
+    // 记录 STEP 模型写入结果。
     bool stepSuccess = false;
     if (!status.cachedModel3DStepPath.isEmpty()) {
+        // 构造缓存 STEP 模型的目标路径。
         QString stepFilePath = QString("%1/%2.step").arg(modelsDirPath, footprintName);
         stepSuccess = AtomicFileWriter::copyAtomically(status.cachedModel3DStepPath, stepFilePath, m_tempDir);
         if (stepSuccess) {
@@ -478,13 +536,16 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
             status.addDebugLog(QString("WARNING: Failed to copy STEP file from cache: %1").arg(stepFilePath));
         }
     } else if (!status.model3DStepRaw.isEmpty()) {
+        // 构造原始 STEP 模型的目标路径。
         QString stepFilePath = QString("%1/%2.step").arg(modelsDirPath, footprintName);
         stepSuccess = AtomicFileWriter::writeAtomically(
             m_tempDir, stepFilePath, ".step.tmp", [&status](const QString& tempPath) -> bool {
+                // 打开原子写入阶段使用的临时 STEP 文件。
                 QFile file(tempPath);
                 if (!file.open(QIODevice::WriteOnly)) {
                     return false;
                 }
+                // 记录实际写入的 STEP 字节数。
                 qint64 written = file.write(status.model3DStepRaw);
                 file.close();
                 return written == status.model3DStepRaw.size();
@@ -502,7 +563,13 @@ bool WriteWorker::write3DModelFile(ComponentExportStatus& status) {
     return status.model3DWritten;
 }
 
+/**
+ * @brief 确保指定输出目录存在。
+ * @param path 待创建或检查的目录路径。
+ * @return 目录存在或创建成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::createOutputDirectory(const QString& path) {
+    // 使用目录对象检查并创建输出目录。
     QDir dir;
     if (!dir.exists(path)) {
         if (!dir.mkpath(path)) {
@@ -513,266 +580,37 @@ bool WriteWorker::createOutputDirectory(const QString& path) {
     return true;
 }
 
+/**
+ * @brief 将调试数据委托给独立的调试导出协作者。
+ * @param status 当前元件的导出状态。
+ * @return 调试数据导出成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::exportDebugData(ComponentExportStatus& status) {
-    QString debugDirPath = QString("%1/debug").arg(m_outputPath);
-    if (!createOutputDirectory(debugDirPath)) {
-        status.addDebugLog(QString("ERROR: Failed to create debug directory: %1").arg(debugDirPath));
-        return false;
-    }
-
-    QString componentDebugDir = QString("%1/%2").arg(debugDirPath, status.componentId);
-    if (!createOutputDirectory(componentDebugDir)) {
-        status.addDebugLog(QString("ERROR: Failed to create component debug directory: %1").arg(componentDebugDir));
-        return false;
-    }
-
-    status.addDebugLog(QString("Exporting debug data to: %1").arg(componentDebugDir));
-
-    if (!status.cinfoJsonRaw.isEmpty()) {
-        QString cinfoFilePath = QString("%1/cinfo_raw.json").arg(componentDebugDir);
-        QFile cinfoFile(cinfoFilePath);
-        if (cinfoFile.open(QIODevice::WriteOnly)) {
-            cinfoFile.write(status.cinfoJsonRaw);
-            cinfoFile.close();
-            status.addDebugLog("Debug: cinfo_raw.json written");
-        }
-    }
-
-    if (!status.cadJsonRaw.isEmpty()) {
-        QString cadFilePath = QString("%1/cad_raw.json").arg(componentDebugDir);
-        QFile cadFile(cadFilePath);
-        if (cadFile.open(QIODevice::WriteOnly)) {
-            cadFile.write(status.cadJsonRaw);
-            cadFile.close();
-            status.addDebugLog("Debug: cad_raw.json written");
-        }
-    }
-
-    if (!status.advJsonRaw.isEmpty()) {
-        QString advFilePath = QString("%1/adv_raw.json").arg(componentDebugDir);
-        QFile advFile(advFilePath);
-        if (advFile.open(QIODevice::WriteOnly)) {
-            advFile.write(status.advJsonRaw);
-            advFile.close();
-            qDebug() << "Debug: adv_raw.json written";
-        }
-    }
-
-    if (!status.model3DObjRaw.isEmpty()) {
-        QString objFilePath = QString("%1/model3d_raw.obj").arg(componentDebugDir);
-        QFile objFile(objFilePath);
-        if (objFile.open(QIODevice::WriteOnly)) {
-            objFile.write(status.model3DObjRaw);
-            objFile.close();
-            status.addDebugLog("Debug: model3d_raw.obj written");
-        }
-    }
-
-    if (!status.model3DStepRaw.isEmpty()) {
-        QString stepFilePath = QString("%1/model3d_raw.step").arg(componentDebugDir);
-        QFile stepFile(stepFilePath);
-        if (stepFile.open(QIODevice::WriteOnly)) {
-            stepFile.write(status.model3DStepRaw);
-            stepFile.close();
-            status.addDebugLog("Debug: model3d_raw.step written");
-        }
-    }
-
-    QJsonObject debugInfo;
-    debugInfo["componentId"] = status.componentId;
-    debugInfo["fetchSuccess"] = status.fetchSuccess;
-    debugInfo["fetchMessage"] = status.fetchMessage;
-    debugInfo["processSuccess"] = status.processSuccess;
-    debugInfo["processMessage"] = status.processMessage;
-    debugInfo["writeSuccess"] = status.writeSuccess;
-    debugInfo["writeMessage"] = status.writeMessage;
-
-    if (!status.debugLog.isEmpty()) {
-        QJsonArray logArray;
-        for (const QString& log : status.debugLog) {
-            logArray.append(log);
-        }
-        debugInfo["debugLog"] = logArray;
-    }
-
-    if (status.symbolData) {
-        QJsonObject symbolInfo = SymbolDataSerializer::toJson(status.symbolData->info());
-        symbolInfo["pinCount"] = status.symbolData->pins().size();
-        symbolInfo["rectangleCount"] = status.symbolData->rectangles().size();
-        symbolInfo["circleCount"] = status.symbolData->circles().size();
-        symbolInfo["arcCount"] = status.symbolData->arcs().size();
-        symbolInfo["polylineCount"] = status.symbolData->polylines().size();
-        symbolInfo["polygonCount"] = status.symbolData->polygons().size();
-        symbolInfo["pathCount"] = status.symbolData->paths().size();
-        symbolInfo["ellipseCount"] = status.symbolData->ellipses().size();
-
-        QJsonObject bbox;
-        bbox["x"] = status.symbolData->bbox().x;
-        bbox["y"] = status.symbolData->bbox().y;
-        bbox["width"] = status.symbolData->bbox().width;
-        bbox["height"] = status.symbolData->bbox().height;
-        symbolInfo["bbox"] = bbox;
-
-        QJsonArray pinsArray;
-        for (const SymbolPin& pin : status.symbolData->pins()) {
-            pinsArray.append(SymbolDataSerializer::toJson(pin));
-        }
-        symbolInfo["pins"] = pinsArray;
-
-        QJsonArray rectanglesArray;
-        for (const SymbolRectangle& rect : status.symbolData->rectangles()) {
-            rectanglesArray.append(SymbolDataSerializer::toJson(rect));
-        }
-        symbolInfo["rectangles"] = rectanglesArray;
-
-        QJsonArray circlesArray;
-        for (const SymbolCircle& circle : status.symbolData->circles()) {
-            circlesArray.append(SymbolDataSerializer::toJson(circle));
-        }
-        symbolInfo["circles"] = circlesArray;
-
-        QJsonArray arcsArray;
-        for (const SymbolArc& arc : status.symbolData->arcs()) {
-            arcsArray.append(SymbolDataSerializer::toJson(arc));
-        }
-        symbolInfo["arcs"] = arcsArray;
-
-        QJsonArray polylinesArray;
-        for (const SymbolPolyline& polyline : status.symbolData->polylines()) {
-            polylinesArray.append(SymbolDataSerializer::toJson(polyline));
-        }
-        symbolInfo["polylines"] = polylinesArray;
-
-        QJsonArray polygonsArray;
-        for (const SymbolPolygon& polygon : status.symbolData->polygons()) {
-            polygonsArray.append(SymbolDataSerializer::toJson(polygon));
-        }
-        symbolInfo["polygons"] = polygonsArray;
-
-        QJsonArray pathsArray;
-        for (const SymbolPath& path : status.symbolData->paths()) {
-            pathsArray.append(SymbolDataSerializer::toJson(path));
-        }
-        symbolInfo["paths"] = pathsArray;
-
-        QJsonArray ellipsesArray;
-        for (const SymbolEllipse& ellipse : status.symbolData->ellipses()) {
-            ellipsesArray.append(SymbolDataSerializer::toJson(ellipse));
-        }
-        symbolInfo["ellipses"] = ellipsesArray;
-
-        debugInfo["symbolData"] = symbolInfo;
-    }
-
-    if (status.footprintData) {
-        QJsonObject footprintInfo = FootprintDataSerializer::toJson(status.footprintData->info());
-        footprintInfo["padCount"] = status.footprintData->pads().size();
-        footprintInfo["trackCount"] = status.footprintData->tracks().size();
-        footprintInfo["holeCount"] = status.footprintData->holes().size();
-        footprintInfo["circleCount"] = status.footprintData->circles().size();
-        footprintInfo["arcCount"] = status.footprintData->arcs().size();
-        footprintInfo["rectangleCount"] = status.footprintData->rectangles().size();
-        footprintInfo["textCount"] = status.footprintData->texts().size();
-        footprintInfo["solidRegionCount"] = status.footprintData->solidRegions().size();
-        footprintInfo["outlineCount"] = status.footprintData->outlines().size();
-
-        QJsonObject bbox;
-        bbox["x"] = status.footprintData->bbox().x;
-        bbox["y"] = status.footprintData->bbox().y;
-        bbox["width"] = status.footprintData->bbox().width;
-        bbox["height"] = status.footprintData->bbox().height;
-        footprintInfo["bbox"] = bbox;
-
-        QJsonArray padsArray;
-        for (const FootprintPad& pad : status.footprintData->pads()) {
-            padsArray.append(FootprintDataSerializer::toJson(pad));
-        }
-        footprintInfo["pads"] = padsArray;
-
-        QJsonArray tracksArray;
-        for (const FootprintTrack& track : status.footprintData->tracks()) {
-            tracksArray.append(FootprintDataSerializer::toJson(track));
-        }
-        footprintInfo["tracks"] = tracksArray;
-
-        QJsonArray holesArray;
-        for (const FootprintHole& hole : status.footprintData->holes()) {
-            holesArray.append(FootprintDataSerializer::toJson(hole));
-        }
-        footprintInfo["holes"] = holesArray;
-
-        QJsonArray circlesArray;
-        for (const FootprintCircle& circle : status.footprintData->circles()) {
-            circlesArray.append(FootprintDataSerializer::toJson(circle));
-        }
-        footprintInfo["circles"] = circlesArray;
-
-        QJsonArray arcsArray;
-        for (const FootprintArc& arc : status.footprintData->arcs()) {
-            arcsArray.append(FootprintDataSerializer::toJson(arc));
-        }
-        footprintInfo["arcs"] = arcsArray;
-
-        QJsonArray rectanglesArray;
-        for (const FootprintRectangle& rect : status.footprintData->rectangles()) {
-            rectanglesArray.append(FootprintDataSerializer::toJson(rect));
-        }
-        footprintInfo["rectangles"] = rectanglesArray;
-
-        QJsonArray textsArray;
-        for (const FootprintText& text : status.footprintData->texts()) {
-            textsArray.append(FootprintDataSerializer::toJson(text));
-        }
-        footprintInfo["texts"] = textsArray;
-
-        QJsonArray solidRegionsArray;
-        for (const FootprintSolidRegion& region : status.footprintData->solidRegions()) {
-            solidRegionsArray.append(FootprintDataSerializer::toJson(region));
-        }
-        footprintInfo["solidRegions"] = solidRegionsArray;
-
-        QJsonArray outlinesArray;
-        for (const FootprintOutline& outline : status.footprintData->outlines()) {
-            outlinesArray.append(FootprintDataSerializer::toJson(outline));
-        }
-        footprintInfo["outlines"] = outlinesArray;
-
-        debugInfo["footprintData"] = footprintInfo;
-    }
-
-    if (status.model3DData) {
-        QJsonObject model3DInfo;
-        model3DInfo["uuid"] = status.model3DData->uuid();
-        model3DInfo["objSize"] = status.model3DObjRaw.size();
-        model3DInfo["stepSize"] = status.model3DStepRaw.size();
-        debugInfo["model3DData"] = model3DInfo;
-    }
-
-    QString debugInfoFilePath = QString("%1/%2_debug_info.json").arg(componentDebugDir, status.componentId);
-    QFile debugInfoFile(debugInfoFilePath);
-    if (debugInfoFile.open(QIODevice::WriteOnly)) {
-        QJsonDocument debugDoc(debugInfo);
-        debugInfoFile.write(debugDoc.toJson(QJsonDocument::Indented));
-        debugInfoFile.close();
-        status.addDebugLog("Debug: debug_info.json written");
-    }
-
-    status.addDebugLog(QString("Debug data export completed for component: %1").arg(status.componentId));
-    return true;
+    return WriteWorkerDebugExporter(*this).exportData(status);
 }
 
+/**
+ * @brief 将预览图数据写入 images 目录。
+ * @param status 当前元件的导出状态。
+ * @return 所有非空预览图写入成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::writePreviewImageFile(ComponentExportStatus& status) {
+    // 定位当前导出的根目录。
     QDir outputDir(m_outputPath);
+    // 构造预览图输出目录路径。
     QString imagesDir = outputDir.filePath("images");
     if (!createOutputDirectory(imagesDir)) {
         status.addDebugLog(QString("ERROR: Failed to create images directory: %1").arg(imagesDir));
         return false;
     }
 
+    // 将元器件编号转换为安全文件名。
     QString safeName = status.componentId;
     safeName.replace(INVALID_FILENAME_CHARS, "_");
 
+    // 记录所有预览图是否均写入成功。
     bool allSuccess = true;
+    // 统计实际写入的预览图数量。
     int exportedCount = 0;
 
     for (int i = 0; i < status.previewImageDataList.size(); ++i) {
@@ -780,7 +618,9 @@ bool WriteWorker::writePreviewImageFile(ComponentExportStatus& status) {
             continue;
         }
 
+        // 构造当前预览图的文件名。
         QString filename = QString("%1_%2.jpg").arg(safeName).arg(i);
+        // 构造当前预览图的完整输出路径。
         QString filePath = QDir(imagesDir).filePath(filename);
 
         QFile file(filePath);
@@ -801,28 +641,39 @@ bool WriteWorker::writePreviewImageFile(ComponentExportStatus& status) {
     return allSuccess;
 }
 
+/**
+ * @brief 根据内容格式将数据手册写入 datasheets 目录。
+ * @param status 当前元件的导出状态。
+ * @return 数据手册写入成功时返回 true，否则返回 false。
+ */
 bool WriteWorker::writeDatasheetFile(ComponentExportStatus& status) {
     if (status.datasheetData.isEmpty()) {
         return true;
     }
 
+    // 定位当前导出的根目录。
     QDir outputDir(m_outputPath);
+    // 构造数据手册输出目录路径。
     QString datasheetsDir = outputDir.filePath("datasheets");
     if (!createOutputDirectory(datasheetsDir)) {
         status.addDebugLog(QString("ERROR: Failed to create datasheets directory: %1").arg(datasheetsDir));
         return false;
     }
 
+    // 将元器件编号转换为安全文件名。
     QString safeName = status.componentId;
     safeName.replace(INVALID_FILENAME_CHARS, "_");
 
     // 根据数据内容判断格式
+    // 默认按 PDF 保存，检测到 HTML 时切换扩展名。
     QString extension = "pdf";
     if (status.datasheetData.startsWith("<!DOCTYPE html") || status.datasheetData.startsWith("<html")) {
         extension = "html";
     }
 
+    // 构造数据手册文件名。
     QString filename = QString("%1.%2").arg(safeName).arg(extension);
+    // 构造数据手册的完整输出路径。
     QString filePath = QDir(datasheetsDir).filePath(filename);
 
     QFile file(filePath);
@@ -838,6 +689,9 @@ bool WriteWorker::writeDatasheetFile(ComponentExportStatus& status) {
     return false;
 }
 
+/**
+ * @brief 设置取消标志并记录当前元件的取消请求。
+ */
 void WriteWorker::abort() {
     m_isAborted.storeRelaxed(1);
     m_status->addDebugLog(QString("WriteWorker abort requested for component: %1").arg(m_status->componentId));

@@ -2,6 +2,10 @@
 
 本文档将帮助您快速开始使用 EasyKiConverter。
 
+## 功能范围
+
+EasyKiConverter 可将 LCSC 和 EasyEDA 元件数据转换为多种 EDA 库输出。当前导出内容包括符号库、封装库、器件关联和 3D 模型文件，目标格式包括 KiCad、Altium、Xpedition、PADS、Eagle、P-CAD、CADSTAR 和 OrCAD Capture。不同目标的原生格式覆盖范围不同，请在导出前阅读对应的[格式能力矩阵](../project/UNIVERSAL_EDA_LIBRARY_CONVERTER.md)和目标格式说明；无法表达的数据会通过诊断报告提示。
+
 ## 环境要求
 
 ### 操作系统
@@ -93,7 +97,7 @@ sudo pacman -S qt6-base qt6-declarative cmake gcc
 ### Clone 仓库
 
 ```bash
-git clone https://github.com/tangsangsimida/EasyKiConverter.git
+git clone https://github.com/EasyKiconverter/EasyKiConverter.git
 cd EasyKiConverter
 ```
 
@@ -369,7 +373,7 @@ export PATH="/path/to/Qt/6.10.1/gcc_64/bin:$PATH"
 
 1. 查阅项目文档
 2. 查看 [常见问题](FAQ.md)
-3. 搜索 [GitHub Issues](https://github.com/tangsangsimida/EasyKiConverter/issues)
+3. 搜索 [GitHub Issues](https://github.com/EasyKiconverter/EasyKiConverter/issues)
 4. 提交新的 Issue
 
 ## 下一步
@@ -385,4 +389,4 @@ export PATH="/path/to/Qt/6.10.1/gcc_64/bin:$PATH"
 - [KiCad 官网](https://www.kicad.org/)
 - [Qt 官网](https://www.qt.io/)
 - [CMake 官网](https://cmake.org/)
-- [项目主页](https://github.com/tangsangsimida/EasyKiConverter)
+- [项目主页](https://github.com/EasyKiconverter/EasyKiConverter)

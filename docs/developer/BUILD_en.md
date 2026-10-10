@@ -2,6 +2,8 @@
 
 This document provides detailed instructions for building the EasyKiConverter project locally.
 
+VS Code users should first read the [VS Code setup guide](VSCODE_SETUP_en.md) for the boundary between shared repository settings and machine-specific settings.
+
 ## Prerequisites
 
 ### Operating System
@@ -107,10 +109,10 @@ qmake -query QT_VERSION       # must be 6.10.2
 
 Windows release builds support both architectures:
 
-- x64: Qt `win64_msvc2022_64`, vcpkg triplet `x64-windows`
+- x86_64: Qt `win64_msvc2022_64`, vcpkg triplet `x64-windows`; release filenames use `windows-x86_64`
 - ARM64: Windows 11 on Arm, Qt `win64_msvc2022_arm64`, vcpkg triplet `arm64-windows`
 
-The ARM64 release packages are built on the GitHub Actions `windows-11-arm` runner and include portable, installer, and MSIX packages.
+The ARM64 release packages are built on the GitHub Actions `windows-11-arm` runner and use the `windows-arm64` filename marker for portable, installer, and MSIX packages. x86_64 packages use `windows-x86_64`; the MSIX manifest still uses the Windows-required `x64` architecture value internally.
 
 ### LoongArch64
 
@@ -122,11 +124,7 @@ Once usable build infrastructure is available, add an independent Qt, toolchain,
 
 #### 1. Install Qt
 
-```bash
-brew install qt@6
-```
-
-Or download Qt installer from https://www.qt.io/download
+Download Qt 6.10.2 or newer from https://www.qt.io/download and install it into a project-specific directory. Do not use Homebrew Qt, `/usr/local/Qt`, or the system Qt installation. Before configuring the project, set `Qt6_DIR`, `CMAKE_PREFIX_PATH`, and `PATH` to that standalone Qt directory.
 
 #### 2. Install CMake
 
@@ -173,8 +171,9 @@ sudo apt-get install zlib1g-dev
 ### Linux (Arch Linux)
 
 ```bash
-# Install all dependencies
-sudo pacman -S --needed base-devel cmake ninja qt6-base qt6-declarative qt6-svg qt6-shadertools qt6-tools zlib
+# Install compiler and build dependencies. Qt must come from the standalone
+# project-specific installation described above, not from system packages.
+sudo pacman -S --needed base-devel cmake ninja zlib
 ```
 
 ## Building the Project
@@ -182,7 +181,7 @@ sudo pacman -S --needed base-devel cmake ninja qt6-base qt6-declarative qt6-svg 
 ### Clone the Repository
 
 ```bash
-git clone https://github.com/tangsangsimida/EasyKiConverter.git
+git clone https://github.com/EasyKiconverter/EasyKiConverter.git
 cd EasyKiConverter
 ```
 
@@ -209,12 +208,18 @@ cmake --build . --config Release
 ### macOS
 
 ```bash
+# Set the project-specific Qt root (replace with the actual install path).
+export PROJECT_QT_ROOT=/path/to/project/Qt/6.10.2/macos
+export Qt6_DIR="$PROJECT_QT_ROOT/lib/cmake/Qt6"
+export CMAKE_PREFIX_PATH="$PROJECT_QT_ROOT"
+export PATH="$PROJECT_QT_ROOT/bin:$PATH"
+
 # Create build directory
 mkdir build
 cd build
 
 # Configure project
-cmake .. -DCMAKE_PREFIX_PATH="/usr/local/Qt-6.10.2"
+cmake .. -DCMAKE_PREFIX_PATH="$PROJECT_QT_ROOT"
 
 # Build project (Debug version)
 cmake --build . --config Debug

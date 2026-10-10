@@ -13,8 +13,13 @@
 
 namespace EasyKiConverter {
 
+/**
+ * @brief 生成符号的全部图形文本。
+ * @param data 符号图形数据。
+ * @return KiCad 图形文本。
+ */
 QString SymbolGraphicsGenerator::generateDrawings(const IR::SymbolComponentIR& data) const {
-    QString content;
+    QString content;  // 全部图形的序列化文本。
     for (const IR::SymbolRectangleIR& rect : data.rectangles) {
         content += generateRectangle(rect);
     }
@@ -42,20 +47,30 @@ QString SymbolGraphicsGenerator::generateDrawings(const IR::SymbolComponentIR& d
     return content;
 }
 
+/**
+ * @brief 生成符号的全部引脚文本。
+ * @param pins 引脚列表。
+ * @return KiCad 引脚文本。
+ */
 QString SymbolGraphicsGenerator::generatePins(const QList<IR::SymbolPinIR>& pins) const {
-    QString content;
+    QString content;  // 全部引脚的序列化文本。
     for (const IR::SymbolPinIR& pin : pins) {
         content += generatePin(pin);
     }
     return content;
 }
 
+/**
+ * @brief 生成单个引脚及其文本属性。
+ * @param pin 引脚数据。
+ * @return KiCad 引脚文本。
+ */
 QString SymbolGraphicsGenerator::generatePin(const IR::SymbolPinIR& pin) const {
-    QString content;
+    QString content;  // 单个引脚的序列化文本。
 
     // 坐标已为 mm，直接计算相对位置
-    double x = pin.position.x() - m_originX;
-    double y = pin.position.y() - m_originY;
+    double x = pin.position.x() - m_originX;  // 引脚相对原点的 X 坐标。
+    double y = pin.position.y() - m_originY;  // 引脚相对原点的 Y 坐标。
 
     // 引脚长度（已为 mm）
     double length = pin.length;
@@ -84,7 +99,7 @@ QString SymbolGraphicsGenerator::generatePin(const IR::SymbolPinIR& pin) const {
     // 处理引脚名称和编号
     QString pinName = pin.name;
     pinName.replace(" ", "");
-    QString pinNumber = pin.designator;
+    QString pinNumber = pin.designator;  // 去除空格前的引脚编号。
     pinNumber.replace(" ", "");
 
     // 如果引脚名称为空，使用引脚编号
@@ -92,10 +107,8 @@ QString SymbolGraphicsGenerator::generatePin(const IR::SymbolPinIR& pin) const {
         pinName = pinNumber;
     }
 
-    const bool useOriginalNamePosition = pin.hasNamePosition && !pinName.isEmpty();
-    const bool useOriginalNumberPosition = pin.hasNumberPosition && !pinNumber.isEmpty();
-    const QString nameHide = useOriginalNamePosition ? QStringLiteral(" hide") : QString();
-    const QString numberHide = useOriginalNumberPosition ? QStringLiteral(" hide") : QString();
+    const bool useOriginalNamePosition = pin.hasNamePosition && !pinName.isEmpty();  // 是否保留原始名称位置。
+    const QString nameHide = useOriginalNamePosition ? QStringLiteral(" hide") : QString();  // 名称字段隐藏标记。
 
     // 使用 IR 方向枚举获取 KiCad 角度
     double kicadOrientation = KiCadTypeMap::toKicadAngle(pin.direction);
@@ -109,16 +122,12 @@ QString SymbolGraphicsGenerator::generatePin(const IR::SymbolPinIR& pin) const {
     } else {
         content += QString("      (name \"%1\" (effects (font (size 1.27 1.27) (thickness 0) )))\n").arg(pinName);
     }
-    if (useOriginalNumberPosition) {
-        content += QString("      (number \"%1\" (effects (font (size 1.27 1.27) (thickness 0))%2))\n")
-                       .arg(pinNumber, numberHide);
-    } else {
-        content += QString("      (number \"%1\" (effects (font (size 1.27 1.27) (thickness 0) )))\n").arg(pinNumber);
-    }
+    // 引脚编号使用 KiCad 原生字段，避免把原始编号再绘制成倾斜的普通文本图元。
+    content += QString("      (number \"%1\" (effects (font (size 1.27 1.27) (thickness 0) )))\n").arg(pinNumber);
     content += "    )\n";
 
     auto kicadJustification = [](const QString& anchor) {
-        const QString normalized = anchor.trimmed().toLower();
+        const QString normalized = anchor.trimmed().toLower();  // 统一后的文本锚点名称。
         if (normalized == QStringLiteral("start") || normalized == QStringLiteral("left"))
             return QStringLiteral(" (justify left)");
         if (normalized == QStringLiteral("end") || normalized == QStringLiteral("right"))
@@ -131,10 +140,10 @@ QString SymbolGraphicsGenerator::generatePin(const IR::SymbolPinIR& pin) const {
     };
     auto appendOriginalText =
         [&](const QString& text, const QPointF& position, double rotation, const QString& anchor, double fontSizeMm) {
-            double textRotation = rotation;
+            double textRotation = rotation;  // KiCad 文本旋转角度。
             if (textRotation != 0.0)
                 textRotation = 360.0 - textRotation;
-            const double size = fontSizeMm > 0.0 ? fontSizeMm : 1.27;
+            const double size = fontSizeMm > 0.0 ? fontSizeMm : 1.27;  // 文本字号，单位为毫米。
             content += "    (text\n";
             content += QString("      \"%1\"\n").arg(text);
             content += QString("      (at %1 %2 %3)\n")
@@ -148,21 +157,23 @@ QString SymbolGraphicsGenerator::generatePin(const IR::SymbolPinIR& pin) const {
         };
     if (useOriginalNamePosition)
         appendOriginalText(pinName, pin.namePosition, pin.nameRotation, pin.nameAnchor, pin.nameFontSizeMm);
-    if (useOriginalNumberPosition)
-        appendOriginalText(pinNumber, pin.numberPosition, pin.numberRotation, pin.numberAnchor, pin.numberFontSizeMm);
-
     return content;
 }
 
+/**
+ * @brief 生成矩形图形文本。
+ * @param rect 矩形数据。
+ * @return KiCad 矩形文本。
+ */
 QString SymbolGraphicsGenerator::generateRectangle(const IR::SymbolRectangleIR& rect) const {
-    QString content;
+    QString content;  // 矩形的序列化文本。
 
     // 坐标已为 mm，计算相对位置
-    double x0 = rect.x0 - m_originX;
-    double y0 = rect.y0 - m_originY;
-    double x1 = rect.x1 - m_originX;
-    double y1 = rect.y1 - m_originY;
-    double strokeWidth = rect.strokeWidth;
+    double x0 = rect.x0 - m_originX;  // 矩形起点 X 坐标。
+    double y0 = rect.y0 - m_originY;  // 矩形起点 Y 坐标。
+    double x1 = rect.x1 - m_originX;  // 矩形终点 X 坐标。
+    double y1 = rect.y1 - m_originY;  // 矩形终点 Y 坐标。
+    double strokeWidth = rect.strokeWidth;  // 矩形描边宽度。
 
     content += "    (rectangle\n";
     content += QString("      (start %1 %2)\n").arg(x0, 0, 'f', 2).arg(y0, 0, 'f', 2);
@@ -174,14 +185,19 @@ QString SymbolGraphicsGenerator::generateRectangle(const IR::SymbolRectangleIR& 
     return content;
 }
 
+/**
+ * @brief 生成圆形图形文本。
+ * @param circle 圆形数据。
+ * @return KiCad 圆形文本。
+ */
 QString SymbolGraphicsGenerator::generateCircle(const IR::SymbolCircleIR& circle) const {
-    QString content;
+    QString content;  // 圆形的序列化文本。
 
     // 坐标已为 mm，计算相对位置
-    double cx = circle.center.x() - m_originX;
-    double cy = circle.center.y() - m_originY;
-    double radius = circle.radius;
-    double strokeWidth = circle.strokeWidth;
+    double cx = circle.center.x() - m_originX;  // 圆心相对原点的 X 坐标。
+    double cy = circle.center.y() - m_originY;  // 圆心相对原点的 Y 坐标。
+    double radius = circle.radius;  // 圆半径。
+    double strokeWidth = circle.strokeWidth;  // 圆描边宽度。
 
     content += "    (circle\n";
     content += QString("      (center %1 %2)\n").arg(cx, 0, 'f', 2).arg(cy, 0, 'f', 2);
@@ -193,17 +209,22 @@ QString SymbolGraphicsGenerator::generateCircle(const IR::SymbolCircleIR& circle
     return content;
 }
 
+/**
+ * @brief 生成圆弧图形文本。
+ * @param arc 圆弧数据。
+ * @return KiCad 圆弧文本。
+ */
 QString SymbolGraphicsGenerator::generateArc(const IR::SymbolArcIR& arc) const {
-    QString content;
-    double strokeWidth = arc.strokeWidth;
+    QString content;  // 圆弧的序列化文本。
+    double strokeWidth = arc.strokeWidth;  // 圆弧描边宽度。
 
     // 使用三点法生成 KiCad 圆弧（与旧代码一致）
-    double startX = arc.startPoint.x() - m_originX;
-    double startY = arc.startPoint.y() - m_originY;
-    double midX = arc.midPoint.x() - m_originX;
-    double midY = arc.midPoint.y() - m_originY;
-    double endX = arc.endPoint.x() - m_originX;
-    double endY = arc.endPoint.y() - m_originY;
+    double startX = arc.startPoint.x() - m_originX;  // 圆弧起点 X 坐标。
+    double startY = arc.startPoint.y() - m_originY;  // 圆弧起点 Y 坐标。
+    double midX = arc.midPoint.x() - m_originX;  // 圆弧中点 X 坐标。
+    double midY = arc.midPoint.y() - m_originY;  // 圆弧中点 Y 坐标。
+    double endX = arc.endPoint.x() - m_originX;  // 圆弧终点 X 坐标。
+    double endY = arc.endPoint.y() - m_originY;  // 圆弧终点 Y 坐标。
 
     content += "    (arc\n";
     content += QString("      (start %1 %2)\n").arg(startX, 0, 'f', 2).arg(startY, 0, 'f', 2);
@@ -222,15 +243,20 @@ QString SymbolGraphicsGenerator::generateArc(const IR::SymbolArcIR& arc) const {
     return content;
 }
 
+/**
+ * @brief 生成椭圆图形文本。
+ * @param ellipse 椭圆数据。
+ * @return KiCad 椭圆文本。
+ */
 QString SymbolGraphicsGenerator::generateEllipse(const IR::SymbolEllipseIR& ellipse) const {
-    QString content;
+    QString content;  // 椭圆的序列化文本。
 
     // 坐标已为 mm，计算相对位置
-    double cx = ellipse.center.x() - m_originX;
-    double cy = ellipse.center.y() - m_originY;
-    double radiusX = ellipse.radiusX;
-    double radiusY = ellipse.radiusY;
-    double strokeWidth = ellipse.strokeWidth;
+    double cx = ellipse.center.x() - m_originX;  // 椭圆中心 X 坐标。
+    double cy = ellipse.center.y() - m_originY;  // 椭圆中心 Y 坐标。
+    double radiusX = ellipse.radiusX;  // 椭圆 X 方向半径。
+    double radiusY = ellipse.radiusY;  // 椭圆 Y 方向半径。
+    double strokeWidth = ellipse.strokeWidth;  // 椭圆描边宽度。
 
     // 如果是圆形（radiusX 等于 radiusY），使用 circle 元素
     if (qAbs(radiusX - radiusY) < 0.01) {
@@ -245,11 +271,11 @@ QString SymbolGraphicsGenerator::generateEllipse(const IR::SymbolEllipseIR& elli
         content += "    (polyline\n";
         content += "      (pts";
 
-        const int segments = 32;
+        const int segments = 32;  // 椭圆折线近似使用的分段数。
         for (int i = 0; i <= segments; ++i) {
-            double angle = 2.0 * M_PI * i / segments;
-            double x = cx + radiusX * std::cos(angle);
-            double y = cy + radiusY * std::sin(angle);
+            double angle = 2.0 * M_PI * i / segments;  // 当前近似点的角度。
+            double x = cx + radiusX * std::cos(angle);  // 近似点 X 坐标。
+            double y = cy + radiusY * std::sin(angle);  // 近似点 Y 坐标。
             content += QString(" (xy %1 %2)").arg(x, 0, 'f', 2).arg(y, 0, 'f', 2);
         }
 
@@ -267,21 +293,26 @@ QString SymbolGraphicsGenerator::generateEllipse(const IR::SymbolEllipseIR& elli
     return content;
 }
 
+/**
+ * @brief 生成多边形图形文本。
+ * @param polygon 多边形数据。
+ * @return KiCad 多边形文本。
+ */
 QString SymbolGraphicsGenerator::generatePolygon(const IR::SymbolPolygonIR& polygon) const {
-    QString content;
-    double strokeWidth = polygon.strokeWidth;
+    QString content;  // 多边形的序列化文本。
+    double strokeWidth = polygon.strokeWidth;  // 多边形描边宽度。
 
     // IR 中坐标已解析为 QList<QPointF>
     if (polygon.points.size() >= 2) {
         // KiCad V6 不支持 polygon 元素，使用 polyline 代替
         content += "    (polyline\n";
         content += "      (pts";
-        QString firstPoint;
-        QString lastPoint;
+        QString firstPoint;  // 首个去重后的顶点文本。
+        QString lastPoint;  // 最近一次写入的顶点文本。
         for (const QPointF& pt : polygon.points) {
-            double x = pt.x() - m_originX;
-            double y = pt.y() - m_originY;
-            QString point = QString(" (xy %1 %2)").arg(x, 0, 'f', 2).arg(y, 0, 'f', 2);
+            double x = pt.x() - m_originX;  // 顶点相对原点的 X 坐标。
+            double y = pt.y() - m_originY;  // 顶点相对原点的 Y 坐标。
+            QString point = QString(" (xy %1 %2)").arg(x, 0, 'f', 2).arg(y, 0, 'f', 2);  // KiCad 顶点文本。
 
             // 避免重复点
             if (point != lastPoint) {
@@ -309,20 +340,25 @@ QString SymbolGraphicsGenerator::generatePolygon(const IR::SymbolPolygonIR& poly
     return content;
 }
 
+/**
+ * @brief 生成折线图形文本。
+ * @param polyline 折线数据。
+ * @return KiCad 折线文本。
+ */
 QString SymbolGraphicsGenerator::generatePolyline(const IR::SymbolPolylineIR& polyline) const {
-    QString content;
-    double strokeWidth = polyline.strokeWidth;
+    QString content;  // 折线的序列化文本。
+    double strokeWidth = polyline.strokeWidth;  // 折线描边宽度。
 
     // IR 中坐标已解析为 QList<QPointF>
     if (polyline.points.size() >= 2) {
         content += "    (polyline\n";
         content += "      (pts";
-        QString firstPoint;
-        QString lastPoint;
+        QString firstPoint;  // 首个去重后的顶点文本。
+        QString lastPoint;  // 最近一次写入的顶点文本。
         for (const QPointF& pt : polyline.points) {
-            double x = pt.x() - m_originX;
-            double y = pt.y() - m_originY;
-            QString point = QString(" (xy %1 %2)").arg(x, 0, 'f', 2).arg(y, 0, 'f', 2);
+            double x = pt.x() - m_originX;  // 顶点相对原点的 X 坐标。
+            double y = pt.y() - m_originY;  // 顶点相对原点的 Y 坐标。
+            QString point = QString(" (xy %1 %2)").arg(x, 0, 'f', 2).arg(y, 0, 'f', 2);  // KiCad 顶点文本。
 
             // 避免重复点
             if (point != lastPoint) {
@@ -350,21 +386,26 @@ QString SymbolGraphicsGenerator::generatePolyline(const IR::SymbolPolylineIR& po
     return content;
 }
 
+/**
+ * @brief 生成路径图形文本。
+ * @param path 路径数据。
+ * @return KiCad 路径文本。
+ */
 QString SymbolGraphicsGenerator::generatePath(const IR::SymbolPathIR& path) const {
-    QString content;
+    QString content;  // 路径的序列化文本。
 
     // IR 中路径坐标已解析为 QList<QPointF>
     if (!path.points.isEmpty()) {
         content += "    (polyline\n";
         content += "      (pts";
 
-        QString lastPoint;
+        QString lastPoint;  // 最近一次写入的顶点文本。
         for (const QPointF& pt : path.points) {
             // 坐标已为 mm，计算相对位置
-            double x = pt.x() - m_originX;
-            double y = pt.y() - m_originY;
+            double x = pt.x() - m_originX;  // 顶点相对原点的 X 坐标。
+            double y = pt.y() - m_originY;  // 顶点相对原点的 Y 坐标。
 
-            QString point = QString(" (xy %1 %2)").arg(x, 0, 'f', 2).arg(y, 0, 'f', 2);
+            QString point = QString(" (xy %1 %2)").arg(x, 0, 'f', 2).arg(y, 0, 'f', 2);  // KiCad 顶点文本。
 
             // 避免重复点
             if (point != lastPoint) {
@@ -394,16 +435,21 @@ QString SymbolGraphicsGenerator::generatePath(const IR::SymbolPathIR& path) cons
     return content;
 }
 
+/**
+ * @brief 生成文本图形文本。
+ * @param text 文本数据。
+ * @return KiCad 文本图元。
+ */
 QString SymbolGraphicsGenerator::generateText(const IR::SymbolTextIR& text) const {
-    QString content;
+    QString content;  // 文本图元的序列化文本。
 
     // 坐标已为 mm，计算相对位置
-    double x = text.position.x() - m_originX;
-    double y = text.position.y() - m_originY;
+    double x = text.position.x() - m_originX;  // 文本相对原点的 X 坐标。
+    double y = text.position.y() - m_originY;  // 文本相对原点的 Y 坐标。
 
     // IR 中 fontSizeMm 已从 pt 转换；部分 EasyEDA 文本记录未提供字号，
     // 使用与平台属性一致的默认字号，避免生成 0.00 的不可见文本。
-    double fontSize = text.fontSizeMm > 0.0 ? text.fontSizeMm : 1.27;
+    double fontSize = text.fontSizeMm > 0.0 ? text.fontSizeMm : 1.27;  // 文本字号，单位为毫米。
 
     // 处理粗体和斜体（IR 中 italic 已为 bool）
     QString fontStyle = "";

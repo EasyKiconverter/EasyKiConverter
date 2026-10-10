@@ -136,8 +136,8 @@ EasyKiConverter 使用 **Inno Setup** 创建的 Windows 安装程序（.exe 格�
 
 如果遇到安装问题，请通过以下方式联系：
 
-- **GitHub Issues**: https://github.com/tangsangsimida/EasyKiConverter/issues
-- **文档**: https://tangsangsimida.github.io/EasyKiConverter/
+- **GitHub Issues**: https://github.com/EasyKiconverter/EasyKiConverter/issues
+- **文档**: https://easykiconverter.github.io/EasyKiConverter/
 - **电子邮件**: 请参考开发者联系信息
 
 ## 参考文档
