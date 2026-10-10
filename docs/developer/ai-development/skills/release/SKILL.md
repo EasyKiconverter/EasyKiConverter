@@ -26,7 +26,7 @@ description: 按 EasyKiConverter 当前仓库规则准备并执行版本发布�
 ## 发布边界
 
 - 以当前 checkout 的源码、测试、工作流和配置为准；每次发布前重新确认资产矩阵、脚本参数、平台状态和分发渠道要求，不依赖本 Skill 中的历史版本号或旧资产清单。
-- 遵循项目分支约定：一个主题分支可有多个相关提交，PR 回到对应版本分支；正式发布前由维护者确认版本分支已验收，并按当前发布计划合并到 `master`。不得直接改写受保护分支。
+- 遵循项目分支约定：一个主题分支可有多个相关提交，PR 回到对应版本分支。发布目标分支由维护者按本次发布计划确认；不要把“必须先合并到 `master`”当作通用前置条件。目标 commit 必须同时满足当前发布政策和 `release.yml` 的分支准入校验，不得直接改写受保护分支。
 - 版本号、更新日志、发布说明、应用元数据和打包配置必须一致。运行版本管理脚本前先读 `--help` 和脚本实现；脚本中的 `--push-aur` 会进行远端写入，不得与本地版本同步步骤混为一谈。
 - 不得移动、重建或强制推送已存在的版本标签；若标签已存在，先比较标签对象和目标 commit，发现不一致立即停止。
 - GitHub 发布工作流会依据标签打包 Linux、Windows 和 macOS 制品，校验资产和 SHA256 后创建 Draft Release；公开发布由 `release-approval` Environment 单独审批。Agent 不得绕过该门禁直接发布。
@@ -39,7 +39,7 @@ description: 按 EasyKiConverter 当前仓库规则准备并执行版本发布�
 ### 1. 建立发布基线
 
 1. 读取 `git status --short --branch`、当前分支、HEAD、远端跟踪状态和待发布版本；保留用户现有修改，不清理或覆盖工作区。
-2. 确认目标版本、目标版本分支、目标 commit、是否已合并到 `master`、是否已有同名标签或 Release。用 Git 和 GitHub 当前状态交叉核实，不根据分支名推测。
+2. 确认目标版本、维护者指定的发布分支、目标 commit、是否已有同名标签或 Release。用 Git 和 GitHub 当前状态交叉核实，不根据分支名推测，也不自行要求目标 commit 必须已合并到 `master`。
 3. 检查 Issue/PR、全平台 CI、文档检查、安全检查、已知回归和发布阻塞项。v3.1.13 需要特别核实 Issue #210 的最终验收证据。
 4. 检查版本号、更新日志、README 下载表、应用元数据、Flathub manifest 和 Arch 包版本是否有遗漏或互相矛盾。只在用户要求准备版本内容时修改仓库文件；否则报告缺项并等待授权。
 5. 形成发布计划，列明版本、目标 commit、将创建/更新的远端对象、各平台包、Flathub/AUR 状态和阻塞项。
@@ -56,8 +56,8 @@ description: 按 EasyKiConverter 当前仓库规则准备并执行版本发布�
 
 在任何远端写操作前，向用户一次性列出精确动作和目标，包括：
 
-- 将要创建并推送的标签及其目标 commit；
-- 是否启动 GitHub Release workflow，以及其生成 Draft Release 的行为；
+- 将要创建并推送的标签及其目标 commit；明确说明 `.github/workflows/release.yml` 中 `v*`/`V*` 标签 push 事件会自动启动 GitHub Release 工作流，因此推送此标签与启动该工作流是耦合动作；
+- 工作流会打包 Linux、Windows、macOS 并创建/更新 Draft Release；只有用户授权这项组合操作时才可推送触发标签。用户若只授权创建标签但不授权其自动触发的工作流，不得推送标签；
 - 公开发布仍须由 GitHub `release-approval` 环境的 Required reviewer 完成；
 - 是否创建 Flathub PR；
 - 是否向 AUR 远端推送提交；
@@ -67,11 +67,12 @@ description: 按 EasyKiConverter 当前仓库规则准备并执行版本发布�
 
 ### 4. 标签与 GitHub Release
 
-1. 在最终目标 commit 上确认版本文件和发布阻塞均通过；再确认远端没有同名 tag，避免覆盖现有对象。
-2. 经授权后创建指向精确 commit 的带注释版本标签，并核对 tag peeling 后的 commit SHA；未经授权不得 `git push` 标签。
-3. 经授权后按当前 workflow 支持的方式触发发布（tag push 或 workflow_dispatch）。持续跟踪 `resolve-target`、Linux、Windows、macOS、制品校验、Draft 上传和审批 job；失败时保留日志并定位，不重复创建标签或绕过门禁。
-4. Draft Release 生成后核对当前 workflow 规定的全部平台/架构制品、版本和 commit 对应关系、每个 `.sha256sum` 以及汇总 `SHA256SUMS`。下载到临时目录后执行适用的校验和验证，确认汇总文件只使用制品 basename。
-5. 完成草稿审核后，将公开发布交给配置好的 GitHub Environment Required reviewer 批准；Agent 不得移除 reviewer、改 Environment 或直接把 Draft 改为公开。
+1. 在最终目标 commit 上确认版本文件和发布阻塞均通过；读取远端同名标签及 Release 状态，并检查该版本已有的 workflow runs。
+2. **首次发布（远端标签不存在）**：经用户明确授权“创建并推送此标签，同时启动其自动触发的 Release 工作流”后，创建指向精确 commit 的带注释标签，核对 peeled commit SHA，再推送标签。标签 push 已触发工作流时，不得再为同一发布调用 `workflow_dispatch`。
+3. **已有标签重试**：若标签已存在，禁止重建、移动或覆盖；标签指向与目标 commit 不一致时停止。若指向一致，检查该版本所有 workflow run、Draft/正式 Release 状态及是否有运行中的任务：运行中则等待并复核；先前运行已成功则不得重复启动；确需重试时，先向用户说明拟采用的单一重试路径，经明确授权后优先重跑适用的失败 job；只有确认没有活动/重复 run 且重跑不适用时，才考虑通过 `workflow_dispatch` 重试。一次重试只使用一种路径，不能同时 rerun 和 dispatch。
+4. 经授权后按所选路径触发或重试工作流。持续跟踪 `resolve-target`、Linux、Windows、macOS、制品校验、Draft 上传和审批 job；失败时保留日志并定位，不重复创建标签或绕过门禁。
+5. Draft Release 生成后核对当前 workflow 规定的全部平台/架构制品、版本和 commit 对应关系、每个 `.sha256sum` 以及汇总 `SHA256SUMS`。下载到临时目录后执行适用的校验和验证，确认汇总文件只使用制品 basename。
+6. 完成草稿审核后，将公开发布交给配置好的 GitHub Environment Required reviewer 批准；Agent 不得移除 reviewer、改 Environment 或直接把 Draft 改为公开。
 
 ### 5. Flathub 与 Arch Linux/AUR
 
