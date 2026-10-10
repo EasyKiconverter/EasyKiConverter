@@ -20,12 +20,6 @@
 
 **EasyKiConverter** is a modern C++ desktop tool based on Qt 6 and MVVM architecture, designed for electronics engineers to convert LCSC and EasyEDA component data into symbol libraries, footprint libraries, and independent 3D model files for multiple EDA targets. It supports both GUI and CLI modes.
 
-### Version and Capability Boundaries
-
-- The latest stable release is **v3.1.11**. Stable downloads and capabilities are defined by the [v3.1.11 Release](https://github.com/EasyKiconverter/EasyKiConverter/releases/tag/v3.1.11).
-- **v3.1.12** is currently a pre-release. It contains subsequent cross-platform packaging and Xpedition improvements and is not the stable release line.
-- `master` is the development branch. The Altium, Xpedition, and unified IR capabilities described below reflect the source branch; check the relevant Release notes before using a stable package.
-
 ## Key Features
 
 *   **Multiple Targets**: Supports the implemented library export paths for KiCad, Altium, Xpedition, PADS, Eagle, P-CAD, and CADSTAR; each target's symbol, footprint, component-association, and 3D model scope is documented separately, and unsupported data produces diagnostics.
