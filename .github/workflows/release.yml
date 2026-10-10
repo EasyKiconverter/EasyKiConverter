@@ -434,4 +434,5 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG_NAME: ${{ needs.resolve-target.outputs.tag_name }}
-        run: gh release edit "$TAG_NAME" --draft=false
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: gh release edit "$TAG_NAME" --repo "$GITHUB_REPOSITORY" --draft=false
