@@ -84,8 +84,10 @@ void TestCacheSafety::acceptsEmptyCustomChildDirectory() {
     // tempDir：隔离的临时文件系统根目录。
     QTemporaryDir tempDir;
     QVERIFY(tempDir.isValid());
+    // tempPath：去除 macOS 临时目录别名后的真实临时根目录。
+    const QString tempPath = canonicalTempPath(tempDir);
     // customChild：临时根目录下的空自定义缓存子目录。
-    const QString customChild = QDir(tempDir.path()).filePath(QStringLiteral("custom-cache"));
+    const QString customChild = QDir(tempPath).filePath(QStringLiteral("custom-cache"));
     QVERIFY(QDir().mkpath(customChild));
 
     // normalized：规范化后的测试数据。
