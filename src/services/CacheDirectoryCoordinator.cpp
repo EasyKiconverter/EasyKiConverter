@@ -10,12 +10,19 @@
 
 namespace EasyKiConverter {
 
-/** @brief 保存缓存服务引用。 */
+/**
+ * @brief 保存缓存服务引用。
+ * @param owner 所属缓存服务。
+ */
 CacheDirectoryCoordinator::CacheDirectoryCoordinator(ComponentCacheService& owner) : m_owner(owner) {}
 
 /**
  * @brief 在统一锁边界内完成缓存目录切换。
  * @details 切换目录会使旧代次写入失效，并清空没有目录归属信息的一级缓存。
+ * @param cacheDir 新缓存根目录。
+ * @param migrateExistingCache 是否迁移旧目录内容。
+ * @param error 可选的错误信息输出指针。
+ * @return 切换成功时返回 true。
  */
 bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migrateExistingCache, QString* error) {
     const auto fail = [error](const QString& reason) {
@@ -23,20 +30,20 @@ bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migra
             *error = reason;
         return false;
     };
-    QString newCacheDir;
-    QString validationError;
+    QString newCacheDir;  // 通过安全校验后的新缓存根目录。
+    QString validationError;  // 目录选择或所有权校验的具体错误。
     if (!CacheSafety::validateSelection(cacheDir, &newCacheDir, &validationError) ||
         !CacheSafety::ensureOwnedRoot(newCacheDir, &validationError)) {
         emit m_owner.cacheMaintenanceWarning(validationError);
         return fail(validationError);
     }
-    QString oldCacheDir;
+    QString oldCacheDir;  // 当前生效的旧缓存根目录。
     {
         QMutexLocker locker(&m_owner.m_cacheDirMutex);
         oldCacheDir = m_owner.m_cacheDir;
     }
 
-    const bool cacheDirChanged = oldCacheDir != newCacheDir;
+    const bool cacheDirChanged = oldCacheDir != newCacheDir;  // 是否需要执行目录切换和一级缓存失效。
     {
         QMutexLocker diskLocker(&m_owner.m_diskWriteMutex);
         if (cacheDirChanged) {
@@ -47,13 +54,14 @@ bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migra
 
         // 迁移期间持有磁盘写锁，避免异步写入与目录迁移交错。
         if (migrateExistingCache && !oldCacheDir.isEmpty() && cacheDirChanged) {
-            QString model3dError;
+            QString model3dError;  // 新目录三维模型子目录所有权错误。
             if (!CacheSafety::ensureOwnedModel3DDirectory(newCacheDir, &model3dError)) {
                 emit m_owner.cacheMaintenanceWarning(model3dError);
                 return fail(model3dError);
             }
-            QString migrationError;
+            QString migrationError;  // 目录迁移失败的具体原因。
             if (!CacheDirectoryMigrator::migrate(oldCacheDir, newCacheDir, &migrationError)) {
+                // 优先保留迁移器提供的具体错误，避免覆盖可操作的失败原因。
                 const QString message = migrationError.isEmpty()
                                             ? QStringLiteral("缓存目录迁移失败，源目录已保留：%1").arg(oldCacheDir)
                                             : migrationError;
@@ -67,7 +75,7 @@ bool CacheDirectoryCoordinator::setDirectory(const QString& cacheDir, bool migra
         if (!dir.exists(newCacheDir)) {
             dir.mkpath(newCacheDir);
         }
-        QString model3dError;
+        QString model3dError;  // 新目录三维模型子目录所有权错误。
         if (!CacheSafety::ensureOwnedModel3DDirectory(newCacheDir, &model3dError)) {
             emit m_owner.cacheMaintenanceWarning(model3dError);
             return fail(model3dError);

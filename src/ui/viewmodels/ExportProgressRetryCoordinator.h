@@ -13,10 +13,17 @@ class ExportProgressViewModel;
  */
 class ExportProgressRetryCoordinator final {
 public:
-    /** @brief 重试指定元件的失败导出。 */
+    /**
+     * @brief 重试指定元件的失败导出。
+     * @param owner 所属导出进度视图模型。
+     * @param componentId 元器件编号。
+     */
     static void retryComponent(ExportProgressViewModel& owner, const QString& componentId);
 
-    /** @brief 重试当前结果列表中的全部失败元件。 */
+    /**
+     * @brief 重试当前结果列表中的全部失败元件。
+     * @param owner 所属导出进度视图模型。
+     */
     static void retryFailedComponents(ExportProgressViewModel& owner);
 };
 

@@ -15,17 +15,17 @@ namespace EasyKiConverter {
 struct SvgPathSegment {
     enum class Type { Line, QuadraticBezier, CubicBezier, CircularArc, EllipticalArc };
 
-    Type type = Type::Line;
-    QPointF start;
-    QPointF control1;
-    QPointF control2;
-    QPointF arcMid;
-    QPointF arcCenter;
-    double radiusX = 0.0;
-    double radiusY = 0.0;
-    double arcStartAngle = 0.0;
-    double arcEndAngle = 0.0;
-    QPointF end;
+    Type type = Type::Line;  ///< 几何段类型。
+    QPointF start;  ///< 几何段起点。
+    QPointF control1;  ///< Bézier 第一控制点。
+    QPointF control2;  ///< 三次 Bézier 第二控制点。
+    QPointF arcMid;  ///< 圆弧中间点。
+    QPointF arcCenter;  ///< 圆弧或椭圆弧中心。
+    double radiusX = 0.0;  ///< 椭圆弧 X 方向半径。
+    double radiusY = 0.0;  ///< 椭圆弧 Y 方向半径。
+    double arcStartAngle = 0.0;  ///< 弧段起始角度（弧度）。
+    double arcEndAngle = 0.0;  ///< 弧段结束角度（弧度）。
+    QPointF end;  ///< 几何段终点。
 };
 
 /**
@@ -77,8 +77,7 @@ private:
      * @param startPoint 起始
          * @param rx X轴半
          * @param ry Y轴半
-         * @param
-     * xRotation X轴旋转角
+     * @param xRotation X 轴旋转角。
          * @param largeArcFlag 大弧标志
      * @param sweepFlag 扫描标志
      * @param endPoint 终点

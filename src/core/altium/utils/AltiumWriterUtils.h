@@ -34,11 +34,12 @@ inline bool isValidImageStorageName(const QString& name) {
         name.contains(QChar(0xFEFF)))
         return false;
 
-    QString deviceName = name;
-    const qsizetype extensionStart = deviceName.indexOf(QChar('.'));
+    QString deviceName = name;  // 去除扩展名后用于保留设备名检查的字符串。
+    const qsizetype extensionStart = deviceName.indexOf(QChar('.'));  // 第一个扩展名分隔点。
     if (extensionStart >= 0)
         deviceName.truncate(extensionStart);
     static const QStringList reservedNames = {
+        // Windows 保留设备名列表。
         QStringLiteral("CON"),  QStringLiteral("PRN"),  QStringLiteral("AUX"),  QStringLiteral("NUL"),
         QStringLiteral("COM1"), QStringLiteral("COM2"), QStringLiteral("COM3"), QStringLiteral("COM4"),
         QStringLiteral("COM5"), QStringLiteral("COM6"), QStringLiteral("COM7"), QStringLiteral("COM8"),
@@ -48,7 +49,7 @@ inline bool isValidImageStorageName(const QString& name) {
     if (reservedNames.contains(deviceName.trimmed(), Qt::CaseInsensitive))
         return false;
 
-    const QByteArray encodedName = name.toLocal8Bit();
+    const QByteArray encodedName = name.toLocal8Bit();  // 当前平台本地编码后的文件名。
     return encodedName.size() <= 255 && QString::fromLocal8Bit(encodedName) == name;
 }
 
@@ -67,13 +68,13 @@ inline bool isValidImageStorageName(const QString& name) {
  * @endcode
  */
 inline QString getSectionKey(const QString& name) {
-    QString key;
-    const QString trimmed = name.trimmed();
+    QString key;  // 生成中的 OLE 存储键。
+    const QString trimmed = name.trimmed();  // 去除首尾空白后的元件名称。
     for (const QChar ch : trimmed) {
         if (key.size() >= 31) {
             break;
         }
-        const bool asciiAlphaNumeric = ch.unicode() < 128 && ch.isLetterOrNumber();
+        const bool asciiAlphaNumeric = ch.unicode() < 128 && ch.isLetterOrNumber();  // 是否为可保留的 ASCII 字符。
         key += asciiAlphaNumeric || ch == '_' || ch == '-' || ch == '.' ? ch : QChar('_');
     }
     if (key.isEmpty()) {
@@ -84,17 +85,18 @@ inline QString getSectionKey(const QString& name) {
 
 /**
  * @brief 为一组库条目生成互不冲突的 CFB storage 名称
+ * @param names 原始库条目名称列表
  * @details CFB 名称比较不区分大小写；截断后的冲突通过 _2、_3 后缀消解。
  */
 inline QStringList makeUniqueSectionKeys(const QStringList& names) {
-    QStringList result;
-    QSet<QString> used;
+    QStringList result;  // 生成后的唯一存储键列表。
+    QSet<QString> used;  // 已使用的大小写折叠键集合。
     for (const QString& name : names) {
-        const QString base = getSectionKey(name);
-        QString candidate = base;
-        int suffixNumber = 2;
+        const QString base = getSectionKey(name);  // 当前名称的基础存储键。
+        QString candidate = base;  // 当前尝试使用的存储键。
+        int suffixNumber = 2;  // 冲突后缀起始编号。
         while (used.contains(candidate.toCaseFolded())) {
-            const QString suffix = QString("_%1").arg(suffixNumber++);
+            const QString suffix = QString("_%1").arg(suffixNumber++);  // 当前冲突后缀。
             candidate = base.left(qMax(1, 31 - suffix.size())) + suffix;
         }
         used.insert(candidate.toCaseFolded());

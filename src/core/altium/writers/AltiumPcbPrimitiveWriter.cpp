@@ -6,12 +6,19 @@
 
 namespace EasyKiConverter {
 
-/** @brief 保存协作者所属的 PcbLib 主写入器。 */
+/**
+ * @brief 创建 PCB 图元写入器。
+ * @param owner 所属的 PcbLib 主写入器。
+ */
 AltiumPcbPrimitiveWriter::AltiumPcbPrimitiveWriter(AltiumPcbLibWriter& owner) : m_owner(owner) {
     // 图元写入必须复用主写入器的文件级状态，避免层映射和字符串表出现分叉。
 }
 
-/** @brief 写入一个焊盘图元及其扩展参数。 */
+/**
+ * @brief 写入一个焊盘图元及其扩展参数。
+ * @param writer 目标二进制写入器。
+ * @param pad 待写入的焊盘数据。
+ */
 void AltiumPcbPrimitiveWriter::writePad(AltiumBinaryWriter& writer, const AltiumPcbPad& pad) {
     writer.writeUInt8(AltiumConstants::PCB_OBJECT_PAD);
 
@@ -32,8 +39,8 @@ void AltiumPcbPrimitiveWriter::writePad(AltiumBinaryWriter& writer, const Altium
     // 子记录 5: 主焊盘数据
     writer.beginBlock();
     {
-        uint8_t layer = pad.isSMD ? pad.layer : AltiumConstants::PCB_LAYER_MULTI;
-        uint16_t flags =
+        uint8_t layer = pad.isSMD ? pad.layer : AltiumConstants::PCB_LAYER_MULTI;  // 焊盘写入层。
+        uint16_t flags =  // 焊盘图元标志位。
             m_owner.encodePrimitiveFlags(pad.isLocked, pad.isTentingTop, pad.isTentingBottom, pad.isKeepout);
         m_owner.writeCommonPrimitiveHeader(writer, layer, flags);
 
@@ -96,6 +103,8 @@ void AltiumPcbPrimitiveWriter::writePad(AltiumBinaryWriter& writer, const Altium
  *          布局：29层尺寸X(116) + 29层尺寸Y(116) + 29层形状及保留位(30) +
  *                孔元数据(13) + 两组32层保留坐标(256) +
  *                圆角标记(1) + 32层形状(32) + 32层圆角(32) = 596
+ * @param writer 目标二进制写入器。
+ * @param pad 待写入扩展块的焊盘数据。
  */
 void AltiumPcbPrimitiveWriter::writePadExtendedBlock(AltiumBinaryWriter& writer, const AltiumPcbPad& pad) {
     // 尺寸 X 覆盖：29 层 × 4 字节 = 116 字节
@@ -122,7 +131,7 @@ void AltiumPcbPrimitiveWriter::writePadExtendedBlock(AltiumBinaryWriter& writer,
     writer.writeBytes(QByteArray(32 * 4, 0));
 
     // 圆角矩形标记
-    bool hasRoundedRect = (pad.shapeTop == AltiumConstants::PCB_PAD_SHAPE_ROUNDED_RECT) ||
+    bool hasRoundedRect = (pad.shapeTop == AltiumConstants::PCB_PAD_SHAPE_ROUNDED_RECT) ||  // 是否存在圆角矩形。
                           (pad.shapeMid == AltiumConstants::PCB_PAD_SHAPE_ROUNDED_RECT) ||
                           (pad.shapeBot == AltiumConstants::PCB_PAD_SHAPE_ROUNDED_RECT);
     writer.writeUInt8(hasRoundedRect ? 1 : 0);
@@ -142,13 +151,16 @@ void AltiumPcbPrimitiveWriter::writePadExtendedBlock(AltiumBinaryWriter& writer,
 
 /**
  * @brief 写入走线记录 (Object ID = 4)
+ * @param writer 目标二进制写入器。
+ * @param track 待写入的走线数据。
+ * @param componentIndex 所属元件在库中的索引。
  */
 void AltiumPcbPrimitiveWriter::writeTrack(AltiumBinaryWriter& writer, const AltiumPcbTrack& track, int componentIndex) {
     writer.writeUInt8(AltiumConstants::PCB_OBJECT_TRACK);
 
     writer.beginBlock();
     {
-        uint16_t flags = m_owner.encodePrimitiveFlags(false, false, false, false);
+        uint16_t flags = m_owner.encodePrimitiveFlags(false, false, false, false);  // 走线图元标志位。
         m_owner.writeCommonPrimitiveHeader(writer, track.layer, flags);
 
         writer.writeInt32(track.startX);
@@ -165,13 +177,15 @@ void AltiumPcbPrimitiveWriter::writeTrack(AltiumBinaryWriter& writer, const Alti
 
 /**
  * @brief 写入弧线记录 (Object ID = 1)
+ * @param writer 目标二进制写入器。
+ * @param arc 待写入的弧线数据。
  */
 void AltiumPcbPrimitiveWriter::writeArc(AltiumBinaryWriter& writer, const AltiumPcbArc& arc) {
     writer.writeUInt8(AltiumConstants::PCB_OBJECT_ARC);
 
     writer.beginBlock();
     {
-        uint16_t flags = m_owner.encodePrimitiveFlags(false, false, false, false);
+        uint16_t flags = m_owner.encodePrimitiveFlags(false, false, false, false);  // 弧线图元标志位。
         m_owner.writeCommonPrimitiveHeader(writer, arc.layer, flags);
 
         writer.writeInt32(arc.centerX);
@@ -186,13 +200,15 @@ void AltiumPcbPrimitiveWriter::writeArc(AltiumBinaryWriter& writer, const Altium
 
 /**
  * @brief 写入文本记录 (Object ID = 5)
+ * @param writer 目标二进制写入器。
+ * @param text 待写入的文本数据。
  */
 void AltiumPcbPrimitiveWriter::writeText(AltiumBinaryWriter& writer, const AltiumPcbText& text) {
     writer.writeUInt8(5);  // Object ID
 
     writer.beginBlock();
     {
-        uint16_t flags = 0x08;
+        uint16_t flags = 0x08;  // 文本图元标志位。
         m_owner.writeCommonPrimitiveHeader(writer, text.layer, flags);
 
         writer.writeInt32(text.locationX);
@@ -208,11 +224,11 @@ void AltiumPcbPrimitiveWriter::writeText(AltiumBinaryWriter& writer, const Altiu
         writer.writeUInt8(0);  // base font type (Stroke)
 
         // 剩余填充到文本记录总大小（已写字段精确占 44 字节）。
-        constexpr int WRITTEN_TEXT_HEADER_SIZE = 44;
-        QByteArray padding(AltiumConstants::PCB_TEXT_RECORD_SIZE - WRITTEN_TEXT_HEADER_SIZE, 0);
+        constexpr int WRITTEN_TEXT_HEADER_SIZE = 44;  ///< 已写入的文本头字节数。
+        QByteArray padding(AltiumConstants::PCB_TEXT_RECORD_SIZE - WRITTEN_TEXT_HEADER_SIZE, 0);  // 文本尾部填充。
         // wide string index
-        int wsIdx = m_owner.addWideString(text.text);
-        int wsBase = AltiumConstants::PCB_TEXT_WS_INDEX_FIELD_OFFSET - WRITTEN_TEXT_HEADER_SIZE;
+        int wsIdx = m_owner.addWideString(text.text);  // 宽字符串索引。
+        int wsBase = AltiumConstants::PCB_TEXT_WS_INDEX_FIELD_OFFSET - WRITTEN_TEXT_HEADER_SIZE;  // 索引字段偏移。
         padding[wsBase] = static_cast<char>(wsIdx & 0xFF);
         padding[wsBase + 1] = static_cast<char>((wsIdx >> 8) & 0xFF);
         padding[wsBase + 2] = static_cast<char>((wsIdx >> 16) & 0xFF);
@@ -220,8 +236,8 @@ void AltiumPcbPrimitiveWriter::writeText(AltiumBinaryWriter& writer, const Altiu
         // text kind = Stroke
         padding[AltiumConstants::PCB_TEXT_KIND_FIELD_OFFSET - WRITTEN_TEXT_HEADER_SIZE] = 0;
         // V7 layer ID
-        uint32_t v7id = m_owner.toV7LayerId(text.layer);
-        int v7Base = AltiumConstants::PCB_TEXT_V7LAYER_FIELD_OFFSET - WRITTEN_TEXT_HEADER_SIZE;
+        uint32_t v7id = m_owner.toV7LayerId(text.layer);  // 文本对应的 V7 层标识。
+        int v7Base = AltiumConstants::PCB_TEXT_V7LAYER_FIELD_OFFSET - WRITTEN_TEXT_HEADER_SIZE;  // 层字段偏移。
         padding[v7Base] = static_cast<char>(v7id & 0xFF);
         padding[v7Base + 1] = static_cast<char>((v7id >> 8) & 0xFF);
         padding[v7Base + 2] = static_cast<char>((v7id >> 16) & 0xFF);
@@ -237,13 +253,15 @@ void AltiumPcbPrimitiveWriter::writeText(AltiumBinaryWriter& writer, const Altiu
 
 /**
  * @brief 写入填充记录 (Object ID = 6, 50 字节)
+ * @param writer 目标二进制写入器。
+ * @param fill 待写入的填充数据。
  */
 void AltiumPcbPrimitiveWriter::writeFill(AltiumBinaryWriter& writer, const AltiumPcbFill& fill) {
     writer.writeUInt8(6);  // Object ID
 
     writer.beginBlock();
     {
-        uint16_t flags = 0x08;
+        uint16_t flags = 0x08;  // 填充图元标志位。
         m_owner.writeCommonPrimitiveHeader(writer, fill.layer, flags);
 
         writer.writeInt32(fill.corner1X);
@@ -262,21 +280,25 @@ void AltiumPcbPrimitiveWriter::writeFill(AltiumBinaryWriter& writer, const Altiu
 
 /**
  * @brief 写入区域记录 (Object ID = 11)
+ * @param writer 目标二进制写入器。
+ * @param region 待写入的区域数据。
  */
 void AltiumPcbPrimitiveWriter::writeRegion(AltiumBinaryWriter& writer, const AltiumPcbRegion& region) {
     writer.writeUInt8(AltiumConstants::PCB_OBJECT_REGION);
 
     writer.beginBlock();
     {
-        uint16_t flags = m_owner.encodePrimitiveFlags(false, false, false, false);
+        uint16_t flags = m_owner.encodePrimitiveFlags(false, false, false, false);  // 区域图元标志位。
         m_owner.writeCommonPrimitiveHeader(writer, region.layer, flags);
 
         writer.writeUInt32(0);
         writer.writeUInt8(0);
 
         // 嵌套参数块
-        QMap<QString, QString> params;
-        QString v7Name = region.v7LayerName.isEmpty() ? AltiumLayerMap::toLayerName(region.layer) : region.v7LayerName;
+        QMap<QString, QString> params;  // 区域参数键值表。
+        // 根据显式层名称或 Altium 层映射确定 V7 层名称。
+        QString v7Name = region.v7LayerName.isEmpty() ? AltiumLayerMap::toLayerName(region.layer)
+                                                      : region.v7LayerName;  ///< V7 层名称。
         params["V7_LAYER"] = v7Name;
         params["KIND"] = QString::number(region.kind);
         params["SUBPOLYINDEX"] = "0";
@@ -294,7 +316,8 @@ void AltiumPcbPrimitiveWriter::writeRegion(AltiumBinaryWriter& writer, const Alt
 
         // 轮廓顶点
         writer.writeUInt32(static_cast<uint32_t>(region.vertices.size()));
-        for (const QPointF& v : region.vertices) {
+        // 按输入顺序写入区域轮廓的每个顶点。
+        for (const QPointF& v : region.vertices) {  // 当前待写入的区域轮廓顶点。
             writer.writeDouble(m_owner.normalizeFiniteValue(v.x(), 0.0, QStringLiteral("PCB 区域 X 坐标")));
             writer.writeDouble(m_owner.normalizeFiniteValue(v.y(), 0.0, QStringLiteral("PCB 区域 Y 坐标")));
         }
@@ -304,18 +327,20 @@ void AltiumPcbPrimitiveWriter::writeRegion(AltiumBinaryWriter& writer, const Alt
 
 /**
  * @brief 写入 3D 元件体记录 (Object ID = 12)
+ * @param writer 目标二进制写入器。
+ * @param body 待写入的 3D 元件体数据。
  */
 void AltiumPcbPrimitiveWriter::writeComponentBody(AltiumBinaryWriter& writer, const AltiumPcbComponentBody& body) {
     writer.writeUInt8(AltiumConstants::PCB_OBJECT_COMPONENT_BODY);
 
     writer.beginBlock();
     {
-        uint16_t flags = m_owner.encodePrimitiveFlags(false, false, false, false);
-        uint8_t layer = 57;
-        const QString normalizedLayer = body.layerName.trimmed().toUpper();
+        uint16_t flags = m_owner.encodePrimitiveFlags(false, false, false, false);  // 元件体图元标志位。
+        uint8_t layer = 57;  // 默认机械层编号。
+        const QString normalizedLayer = body.layerName.trimmed().toUpper();  // 规范化后的机械层名称。
         if (normalizedLayer.startsWith("MECHANICAL")) {
-            bool ok = false;
-            const int number = normalizedLayer.mid(10).toInt(&ok);
+            bool ok = false;  // 机械层编号转换是否成功。
+            const int number = normalizedLayer.mid(10).toInt(&ok);  // 解析得到的机械层编号。
             if (ok && number >= 1 && number <= 16) {
                 layer = static_cast<uint8_t>(56 + number);
             }
@@ -325,7 +350,7 @@ void AltiumPcbPrimitiveWriter::writeComponentBody(AltiumBinaryWriter& writer, co
         writer.writeUInt32(0);  // reserved
         writer.writeUInt8(0);  // reserved
 
-        QMap<QString, QString> params;
+        QMap<QString, QString> params;  // 元件体参数键值表。
         params["V7_LAYER"] = normalizedLayer;
         params["NAME"] = body.name;
         params["KIND"] = QString::number(body.kind);

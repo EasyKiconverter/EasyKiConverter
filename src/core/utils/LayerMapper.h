@@ -242,9 +242,9 @@ private:
     void initializeLayerMapping();
 
 private:
-    QMap<int, int> m_layerIdMapping;  // 嘉立创图ID -> KiCad 图层 ID
-    QMap<QString, int> m_layerNameMapping;  // 嘉立创图层名-> KiCad 图层 ID
-    QMap<int, QString> m_kicadLayerNames;  // KiCad 图层 ID -> 图层名称
+    QMap<int, int> m_layerIdMapping;  ///< 嘉立创图层 ID 到 KiCad 图层 ID 的映射。
+    QMap<QString, int> m_layerNameMapping;  ///< 嘉立创图层名称到 KiCad 图层 ID 的映射。
+    QMap<int, QString> m_kicadLayerNames;  ///< KiCad 图层 ID 到标准名称的映射。
 };
 
 }  // namespace EasyKiConverter

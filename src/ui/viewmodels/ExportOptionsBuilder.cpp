@@ -7,9 +7,16 @@
 
 namespace EasyKiConverter {
 
-// 解析输出目录，确保空路径和相对路径都落到用户文档目录下。
+/**
+ * @brief 解析输出目录，确保空路径和相对路径都落到用户文档目录下。
+ * @param configuredPath 用户配置的输出路径。
+ * @param libName 导出库名称。
+ * @return 规范化后的输出目录路径。
+ */
 static QString resolveOutputPath(const QString& configuredPath, const QString& libName) {
+    // 保存待解析的输出路径。
     QString outputPath = configuredPath;
+    // 获取用户文档目录作为相对路径的默认根目录。
     const QString documentsPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QDir exportRoot(documentsPath);
     if (!exportRoot.exists(QStringLiteral("EasyKiConverter")))
@@ -25,7 +32,11 @@ static QString resolveOutputPath(const QString& configuredPath, const QString& l
     return exportRoot.absoluteFilePath(outputPath);
 }
 
-// 将目标格式转换为日志可读名称，保持目标格式来源只有一个。
+/**
+ * @brief 将目标格式转换为日志可读名称，保持目标格式来源只有一个。
+ * @param format 目标 EDA 格式枚举值。
+ * @return 目标格式的日志名称。
+ */
 static const char* targetFormatName(TargetEdaFormat format) {
     if (format == TargetEdaFormat::Altium)
         return "Altium";
@@ -43,14 +54,24 @@ static const char* targetFormatName(TargetEdaFormat format) {
         return "P-CAD";
     if (format == TargetEdaFormat::Orcad)
         return "OrCAD Capture";
+    if (format == TargetEdaFormat::LibrePcb)
+        return "LibrePCB";
+    if (format == TargetEdaFormat::Horizon)
+        return "Horizon EDA";
     return "KiCad";
 }
 
-// 组装所有导出选项并输出一次完整的诊断快照。
+/**
+ * @brief 组装所有导出选项并输出一次完整的诊断快照。
+ * @param viewModel 导出设置视图模型。
+ * @return 已组装的导出选项。
+ */
 ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewModel) {
+    // 保存组装后的导出选项。
     ExportOptions options;
     options.outputPath = resolveOutputPath(viewModel.m_outputPath, viewModel.m_libName);
     if (options.outputPath.isEmpty()) {
+        // 获取桌面目录作为输出路径的最终回退位置。
         const QString desktopPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation);
         options.outputPath = QDir(desktopPath).absoluteFilePath(viewModel.m_libName);
     }
@@ -71,23 +92,33 @@ ExportOptions ExportOptionsBuilder::build(const ExportSettingsViewModel& viewMod
     options.footprintLibraryDescription = viewModel.m_footprintLibraryDescription;
     options.footprintLibraryKeywords = viewModel.m_footprintLibraryKeywords;
     options.targetFormat = viewModel.m_targetModel
-                               ? static_cast<TargetEdaFormat>(viewModel.m_targetModel->currentIndex())
+                               ? static_cast<TargetEdaFormat>(viewModel.m_targetModel->currentTargetFormat())
                                : TargetEdaFormat::KiCad;
     // Xpedition ZIP 只能完整替换，界面的“覆盖”选项不能被误传成更新模式。
+    // 标记各类目标格式是否需要特殊的完整替换策略。
     const bool xpeditionTarget = options.targetFormat == TargetEdaFormat::Xpedition;
+    // 标记是否选择 Allegro 目标格式。
     const bool allegroTarget = options.targetFormat == TargetEdaFormat::Allegro;
+    // 标记是否选择 PADS 目标格式。
     const bool padsTarget = options.targetFormat == TargetEdaFormat::Pads;
+    // 标记是否选择 Eagle 目标格式。
     const bool eagleTarget = options.targetFormat == TargetEdaFormat::Eagle;
+    // 标记是否选择 P-CAD 目标格式。
     const bool pcadTarget = options.targetFormat == TargetEdaFormat::Pcad;
+    // 标记是否选择 OrCAD 目标格式。
     const bool orcadTarget = options.targetFormat == TargetEdaFormat::Orcad;
+    // 标记是否选择 LibrePCB 目标格式。
+    const bool librePcbTarget = options.targetFormat == TargetEdaFormat::LibrePcb;
+    // 汇总所有仅支持完整替换的目标格式。
+    const bool requiresFullReplacement = xpeditionTarget || allegroTarget || padsTarget || eagleTarget || pcadTarget ||
+                                         orcadTarget || librePcbTarget ||
+                                         options.targetFormat == TargetEdaFormat::Cadstar;
     if (allegroTarget)
         options.exportSymbol = false;
     if (orcadTarget)
         options.exportFootprint = false;
-    options.overwriteExistingFiles =
-        viewModel.m_overwriteExistingFiles || (xpeditionTarget && viewModel.m_exportMode == 1);
-    options.updateMode = viewModel.m_exportMode == 1 && !xpeditionTarget && !allegroTarget && !padsTarget &&
-                         !eagleTarget && !pcadTarget && !orcadTarget;
+    options.overwriteExistingFiles = viewModel.m_overwriteExistingFiles || viewModel.m_exportMode == 2;
+    options.updateMode = viewModel.m_exportMode == 1 && !requiresFullReplacement;
 
     qInfo() << "Export options:" << "OutputPath:" << options.outputPath << "LibName:" << options.libName
             << "TargetFormat:" << targetFormatName(options.targetFormat) << "Symbol:" << options.exportSymbol

@@ -46,7 +46,7 @@ public:
         m_tempPaths = tempPaths;
         // 从 tempPaths 提取输出目录并更新 m_options.outputPath
         if (!m_tempPaths.isEmpty()) {
-            const QString firstPath = m_tempPaths.first();
+            const QString firstPath = m_tempPaths.first();  ///< 第一项临时文件路径，用于推导输出目录。
             m_options.outputPath = QFileInfo(firstPath).absolutePath();
         }
     }
@@ -67,12 +67,18 @@ public:
      */
     void cancel() override;
 
-    /** @brief 获取元器件ID */
+    /**
+     * @brief 获取元器件 ID。
+     * @return 元器件编号。
+     */
     QString componentId() const override {
         return m_componentId;
     }
 
-    /** @brief 设置导出选项 */
+    /**
+     * @brief 设置导出选项。
+     * @param options 导出选项。
+     */
     void setOptions(const ExportOptions& options);
 
 signals:

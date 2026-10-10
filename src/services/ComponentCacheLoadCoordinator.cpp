@@ -15,16 +15,22 @@
 
 namespace EasyKiConverter {
 
-/** @brief 启动后台缓存加载并将结果交回服务对象的主线程。 */
+/**
+ * @brief 启动后台缓存加载并将结果交回服务对象的主线程。
+ * @param owner 元器件服务。
+ * @param normalizedId 规范化后的元器件编号。
+ * @param fetch3DModel 是否获取三维模型。
+ * @param cache 缓存服务。
+ */
 void ComponentCacheLoadCoordinator::load(ComponentService& owner,
                                          const QString& normalizedId,
                                          bool fetch3DModel,
                                          ComponentCacheService* cache) {
     // 从请求状态读取创建时的缓存代次，防止取消后旧任务污染新请求。
-    uint64_t generation = 0;
+    uint64_t generation = 0;  // 本次请求捕获的缓存代次。
     {
         QMutexLocker locker(&owner.m_fetchingComponentsMutex);
-        const auto it = owner.m_fetchingComponents.find(normalizedId);
+        const auto it = owner.m_fetchingComponents.find(normalizedId);  // 当前请求状态。
         if (it != owner.m_fetchingComponents.end()) {
             generation = it->cacheGeneration;
         }
@@ -35,22 +41,23 @@ void ComponentCacheLoadCoordinator::load(ComponentService& owner,
     }
 
     // 缓存加载属于 I/O 密集型工作，放到后台线程避免阻塞界面线程。
-    const QFuture<ComponentCacheLoadResult> future = QtConcurrent::run([normalizedId, fetch3DModel, cache]() {
-        return ComponentCacheLoadWorker::load(normalizedId, fetch3DModel, cache);
-    });
-    auto* watcher = new QFutureWatcher<ComponentCacheLoadResult>(&owner);
+    const QFuture<ComponentCacheLoadResult> future =
+        QtConcurrent::run([normalizedId, fetch3DModel, cache]() {  // 后台加载任务。
+            return ComponentCacheLoadWorker::load(normalizedId, fetch3DModel, cache);
+        });
+    auto* watcher = new QFutureWatcher<ComponentCacheLoadResult>(&owner);  // 缓存加载完成观察器。
     QObject::connect(
         watcher,
         &QFutureWatcher<ComponentCacheLoadResult>::finished,
         &owner,
         [&owner, watcher, normalizedId, fetch3DModel, generation]() {
-            ComponentCacheLoadResult result = watcher->result();
+            ComponentCacheLoadResult result = watcher->result();  // 后台缓存加载结果。
             watcher->deleteLater();
 
             // 取消和重试会替换代次，旧缓存结果只能被丢弃。
             {
                 QMutexLocker locker(&owner.m_fetchingComponentsMutex);
-                const auto it = owner.m_fetchingComponents.find(normalizedId);
+                const auto it = owner.m_fetchingComponents.find(normalizedId);  // 当前请求状态。
                 if (it == owner.m_fetchingComponents.end() || it->cacheGeneration != generation) {
                     qDebug() << "ComponentService: Discarding stale cache result for" << normalizedId;
                     return;
@@ -60,15 +67,15 @@ void ComponentCacheLoadCoordinator::load(ComponentService& owner,
             if (!result.success || !result.cachedData) {
                 qWarning() << "ComponentService: Failed to load cache for" << normalizedId
                            << ", falling back to network fetch";
-                uint64_t retryGeneration = 0;
+                uint64_t retryGeneration = 0;  // 网络重试使用的新缓存代次。
                 {
                     QMutexLocker locker(&owner.m_fetchingComponentsMutex);
-                    const auto it = owner.m_fetchingComponents.find(normalizedId);
+                    const auto it = owner.m_fetchingComponents.find(normalizedId);  // 当前请求状态。
                     if (it == owner.m_fetchingComponents.end() || it->cacheGeneration != generation) {
                         qDebug() << "ComponentService: Discarding stale cache retry for" << normalizedId;
                         return;
                     }
-                    ComponentService::FetchingComponent& fetchingComponent = *it;
+                    ComponentService::FetchingComponent& fetchingComponent = *it;  // 当前元器件请求状态。
                     owner.initializeFetchingComponent(fetchingComponent, normalizedId, fetch3DModel);
                     retryGeneration = fetchingComponent.cacheGeneration;
                 }
@@ -77,14 +84,14 @@ void ComponentCacheLoadCoordinator::load(ComponentService& owner,
                     return;
                 }
 
-                const auto retryFuture =
+                const auto retryFuture =  // CAD 网络重试任务。
                     QtConcurrent::run([normalizedId]() { return CadDataLoader::fetchAndParseCadData(normalizedId); });
-                auto* retryWatcher = new QFutureWatcher<CadFetchTaskResult>(&owner);
+                auto* retryWatcher = new QFutureWatcher<CadFetchTaskResult>(&owner);  // 网络重试观察器。
                 QObject::connect(retryWatcher,
                                  &QFutureWatcher<CadFetchTaskResult>::finished,
                                  &owner,
                                  [&owner, retryWatcher, retryGeneration]() {
-                                     const CadFetchTaskResult retryResult = retryWatcher->result();
+                                     const CadFetchTaskResult retryResult = retryWatcher->result();  // 网络重试结果。
                                      retryWatcher->deleteLater();
                                      owner.handleCadFetchResult(retryResult, retryGeneration);
                                  });
@@ -103,12 +110,12 @@ void ComponentCacheLoadCoordinator::load(ComponentService& owner,
 
             {
                 QMutexLocker locker(&owner.m_fetchingComponentsMutex);
-                const auto it = owner.m_fetchingComponents.find(normalizedId);
+                const auto it = owner.m_fetchingComponents.find(normalizedId);  // 当前请求状态。
                 if (it == owner.m_fetchingComponents.end() || it->cacheGeneration != generation) {
                     qDebug() << "ComponentService: Discarding stale cached component for" << normalizedId;
                     return;
                 }
-                ComponentService::FetchingComponent& fetchingComponent = *it;
+                ComponentService::FetchingComponent& fetchingComponent = *it;  // 当前元器件请求状态。
                 fetchingComponent.componentId = normalizedId;
                 fetchingComponent.data = *result.cachedData;
                 fetchingComponent.fetch3DModel = fetch3DModel;
@@ -129,7 +136,7 @@ void ComponentCacheLoadCoordinator::load(ComponentService& owner,
             }
 
             if (!result.encodedPreviewImages.isEmpty()) {
-                const QStringList encodedImages = result.encodedPreviewImages;
+                const QStringList encodedImages = result.encodedPreviewImages;  // 待派发的 Base64 预览图。
                 QTimer::singleShot(0, &owner, [&owner, normalizedId, encodedImages]() {
                     emit owner.previewImagesReady(normalizedId, encodedImages);
                 });

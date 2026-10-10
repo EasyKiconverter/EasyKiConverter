@@ -16,9 +16,13 @@ using AltiumSymbolConversionUtils::toAltiumOwnerPartId;
 
 }  // namespace
 
-/** @brief 将矩形边界和填充样式映射到 Altium 矩形记录。 */
+/**
+ * @brief 将矩形边界和填充样式映射到 Altium 矩形记录。
+ * @param rect 统一 IR 中的矩形图元。
+ * @return 转换后的 Altium 矩形记录。
+ */
 AltiumSchRectangle AltiumSymbolPrimitiveConverter::convertRectangle(const IR::SymbolRectangleIR& rect) {
-    AltiumSchRectangle altiumRect;
+    AltiumSchRectangle altiumRect;  // 转换后的 Altium 矩形记录。
     altiumRect.locationX = AltiumCoord::mmToRaw(rect.x0);
     altiumRect.locationY = AltiumCoord::mmToRaw(rect.y0);
     altiumRect.cornerX = AltiumCoord::mmToRaw(rect.x1);
@@ -32,9 +36,13 @@ AltiumSchRectangle AltiumSymbolPrimitiveConverter::convertRectangle(const IR::Sy
     return altiumRect;
 }
 
-/** @brief 将圆角半径、边界和填充样式映射到 Altium 圆角矩形记录。 */
+/**
+ * @brief 将圆角半径、边界和填充样式映射到 Altium 圆角矩形记录。
+ * @param rect 统一 IR 中的圆角矩形图元。
+ * @return 转换后的 Altium 圆角矩形记录。
+ */
 AltiumSchRoundRectangle AltiumSymbolPrimitiveConverter::convertRoundRectangle(const IR::SymbolRectangleIR& rect) {
-    AltiumSchRoundRectangle altiumRect;
+    AltiumSchRoundRectangle altiumRect;  // 转换后的 Altium 圆角矩形记录。
     altiumRect.locationX = AltiumCoord::mmToRaw(rect.x0);
     altiumRect.locationY = AltiumCoord::mmToRaw(rect.y0);
     altiumRect.cornerX = AltiumCoord::mmToRaw(rect.x1);
@@ -50,12 +58,16 @@ AltiumSchRoundRectangle AltiumSymbolPrimitiveConverter::convertRoundRectangle(co
     return altiumRect;
 }
 
-/** @brief 将圆心、半径和填充样式映射到 Altium 椭圆记录。 */
+/**
+ * @brief 将圆心、半径和填充样式映射到 Altium 椭圆记录。
+ * @param circle 统一 IR 中的圆形图元。
+ * @return 转换后的 Altium 椭圆记录。
+ */
 AltiumSchEllipse AltiumSymbolPrimitiveConverter::convertCircle(const IR::SymbolCircleIR& circle) {
-    AltiumSchEllipse altiumEllipse;
+    AltiumSchEllipse altiumEllipse;  // 转换后的 Altium 椭圆记录。
     altiumEllipse.centerX = AltiumCoord::mmToRaw(circle.center.x());
     altiumEllipse.centerY = AltiumCoord::mmToRaw(circle.center.y());
-    const double radius = finiteNonNegative(circle.radius);
+    const double radius = finiteNonNegative(circle.radius);  // 经过有限值和非负约束的半径。
     altiumEllipse.radiusX = AltiumCoord::mmToRaw(radius);
     altiumEllipse.radiusY = AltiumCoord::mmToRaw(radius);
     altiumEllipse.lineWidth = AltiumCoord::lineWidthMmToIndex(circle.strokeWidth);
@@ -67,9 +79,13 @@ AltiumSchEllipse AltiumSymbolPrimitiveConverter::convertCircle(const IR::SymbolC
     return altiumEllipse;
 }
 
-/** @brief 将 IEEE 图元编号、方向和颜色映射到 Altium 记录。 */
+/**
+ * @brief 将 IEEE 图元编号、方向和颜色映射到 Altium 记录。
+ * @param ieee 统一 IR 中的 IEEE 图元。
+ * @return 转换后的 Altium IEEE 记录。
+ */
 AltiumSchIeee AltiumSymbolPrimitiveConverter::convertIeee(const IR::SymbolIeeeIR& ieee) {
-    AltiumSchIeee altiumIeee;
+    AltiumSchIeee altiumIeee;  // 转换后的 Altium IEEE 记录。
     altiumIeee.symbol = qBound(0, ieee.symbol, 34);
     altiumIeee.locationX = AltiumCoord::mmToRaw(ieee.position.x());
     altiumIeee.locationY = AltiumCoord::mmToRaw(ieee.position.y());

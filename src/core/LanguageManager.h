@@ -67,11 +67,11 @@ private:
     void saveLanguageSettings();
     void installTranslator(const QString& languageCode);
 
-    static LanguageManager* s_instance;
-    QString m_currentLanguage;
-    QTranslator* m_translator;
-    bool m_isInitializing;
-    bool m_loadedFromConfig;
+    static LanguageManager* s_instance;  ///< 语言管理器的全局实例指针。
+    QString m_currentLanguage;  ///< 当前生效的语言代码。
+    QTranslator* m_translator;  ///< 当前安装的 Qt 翻译器。
+    bool m_isInitializing;  ///< 是否处于初始化保护阶段。
+    bool m_loadedFromConfig;  ///< 是否已从配置加载语言设置。
 };
 
 }  // namespace EasyKiConverter

@@ -4,13 +4,19 @@
 
 namespace EasyKiConverter {
 
+/**
+ * @brief 创建 SchLib 图片记录写入器。
+ * @param owner 所属的 SchLib 主写入器。
+ */
 AltiumSchImageRecordWriter::AltiumSchImageRecordWriter(AltiumSchLibWriter& owner) : m_owner(owner) {}
 
 /**
  * @brief 写入图片几何、显示属性和嵌入图片引用
+ * @param writer 目标二进制写入器。
+ * @param image 待写入的图片数据。
  */
 void AltiumSchImageRecordWriter::write(AltiumBinaryWriter& writer, const AltiumSchImage& image) {
-    QMap<QString, QString> params;
+    QMap<QString, QString> params;  // RECORD=30 图片字段。
     params["RECORD"] = "30";
     m_owner.addOwnerParams(params, image.ownerPartId);
     m_owner.addCoordParam(params, "Location.X", image.locationX);
@@ -34,11 +40,14 @@ void AltiumSchImageRecordWriter::write(AltiumBinaryWriter& writer, const AltiumS
         params["ShowBorder"] = "T";
     if (image.keepAspect)
         params["KeepAspect"] = "T";
-    const bool isEmbeddedImage = image.embedImage;
-    const QString storageFileName = isEmbeddedImage ? m_owner.m_embeddedImageNames.value(&image) : image.fileName;
+    const bool isEmbeddedImage = image.embedImage;  // 是否请求将图片嵌入 SchLib Storage。
+    const QString storageFileName =
+        isEmbeddedImage ? m_owner.m_embeddedImageNames.value(&image) : image.fileName;  // 最终引用文件名。
+    // 只有数据、文件名和长度均符合约束时才声明图片已嵌入。
     const bool hasEmbeddedImage = isEmbeddedImage && !image.data.isEmpty() && !storageFileName.isEmpty() &&
-                                  storageFileName.toLocal8Bit().size() <= 255;
-    const bool canUseExternalFallback = isEmbeddedImage && image.data.isEmpty() && !image.fileName.trimmed().isEmpty();
+                                  storageFileName.toLocal8Bit().size() <= 255;  // 是否具备有效的嵌入图片引用。
+    const bool canUseExternalFallback =
+        isEmbeddedImage && image.data.isEmpty() && !image.fileName.trimmed().isEmpty();  // 是否可回退为外部文件。
     if (hasEmbeddedImage)
         params["EmbedImage"] = "T";
     if (!isEmbeddedImage && !storageFileName.isEmpty())

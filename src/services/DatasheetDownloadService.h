@@ -47,7 +47,9 @@ public:
                         uint64_t expectedGeneration);
 
 private:
-    /** @brief 保存所属缓存服务引用，不负责其生命周期。 */
+    /**
+     * @brief 保存所属缓存服务引用，不负责其生命周期。
+     */
     ComponentCacheService& m_owner;
 };
 

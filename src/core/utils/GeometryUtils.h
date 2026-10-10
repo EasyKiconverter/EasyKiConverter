@@ -153,8 +153,8 @@ public:
      * @brief SVG 点结构体
      */
     struct SvgPoint {
-        double x;
-        double y;
+        double x;  ///< 点的 X 坐标。
+        double y;  ///< 点的 Y 坐标。
 
         SvgPoint(double x = 0.0, double y = 0.0) : x(x), y(y) {}
     };

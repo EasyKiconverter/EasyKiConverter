@@ -27,6 +27,7 @@ These documents help other developers (or your future self) understand the proje
 - [Architecture](developer/ARCHITECTURE_en.md) - Project architecture design
 - [Xpedition Export](developer/XPEDITION_EXPORT_en.md) - Xpedition ASCII symbol and footprint export scope, limitations, and verification
 - [CADSTAR Export](developer/CADSTAR_EXPORT_en.md) - CADSTAR ASCII symbol, footprint, Pad, and Part export scope, limitations, and verification
+- [LibrePCB Export](developer/LIBREPCB_EXPORT_en.md) - LibrePCB 2.1.1 native library directory export progress, limitations, and validation boundary
 - [OrCAD Capture XML Symbol Export](developer/ORCAD_EXPORT_en.md) - OrCAD Capture XML symbol and footprint-name association scope, limitations, and verification
 - [Format Parsing Architecture](developer/PARSER_ARCHITECTURE_en.md) - Shared text parsing infrastructure, diagnostics, and format support boundaries
 - [Testing Guide](developer/TESTING_GUIDE_en.md) - Testing architecture & Mocking strategy

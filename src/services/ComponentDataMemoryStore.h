@@ -52,7 +52,9 @@ public:
      */
     bool updateDescription(const QString& normalizedId, const QString& description);
 
-    /** @brief 清空全部组件数据缓存。 */
+    /**
+     * @brief 清空全部组件数据缓存。
+     */
     void clear();
 
     /**
@@ -62,8 +64,8 @@ public:
     void removeIfInvalid(const QString& normalizedId);
 
 private:
-    mutable QMutex m_mutex;
-    QMap<QString, ComponentData> m_data;
+    mutable QMutex m_mutex;  ///< 保护组件数据缓存的互斥锁。
+    QMap<QString, ComponentData> m_data;  ///< 按规范化编号存储的组件数据。
 };
 
 }  // namespace EasyKiConverter

@@ -21,21 +21,53 @@ public:
      */
     explicit AltiumBinaryReader(const QByteArray& buffer);
 
-    /** @brief 读取有符号 8 位整数 */
+    /**
+     * @brief 读取有符号 8 位整数
+     * @param value 用于接收整数的输出指针
+     * @return 读取成功时返回 true
+     */
     bool readInt8(int8_t* value);
-    /** @brief 读取无符号 8 位整数 */
+    /**
+     * @brief 读取无符号 8 位整数
+     * @param value 用于接收整数的输出指针
+     * @return 读取成功时返回 true
+     */
     bool readUInt8(uint8_t* value);
-    /** @brief 读取有符号 16 位整数 */
+    /**
+     * @brief 读取有符号 16 位整数
+     * @param value 用于接收整数的输出指针
+     * @return 读取成功时返回 true
+     */
     bool readInt16(int16_t* value);
-    /** @brief 读取无符号 16 位整数 */
+    /**
+     * @brief 读取无符号 16 位整数
+     * @param value 用于接收整数的输出指针
+     * @return 读取成功时返回 true
+     */
     bool readUInt16(uint16_t* value);
-    /** @brief 读取有符号 32 位整数 */
+    /**
+     * @brief 读取有符号 32 位整数
+     * @param value 用于接收整数的输出指针
+     * @return 读取成功时返回 true
+     */
     bool readInt32(int32_t* value);
-    /** @brief 读取无符号 32 位整数 */
+    /**
+     * @brief 读取无符号 32 位整数
+     * @param value 用于接收整数的输出指针
+     * @return 读取成功时返回 true
+     */
     bool readUInt32(uint32_t* value);
-    /** @brief 读取单精度浮点数 */
+    /**
+     * @brief 读取单精度浮点数
+     * @param value 用于接收浮点数的输出指针
+     * @return 读取成功时返回 true
+     */
     bool readFloat(float* value);
-    /** @brief 读取双精度浮点数 */
+    /**
+     * @brief 读取双精度浮点数
+     * @param value 用于接收浮点数的输出指针
+     * @return 读取成功时返回 true
+     */
     bool readDouble(double* value);
 
     /**
@@ -52,16 +84,24 @@ public:
      */
     bool readBlock(QByteArray* payload, uint8_t* flags = nullptr);
 
-    /** @brief 读取 Pascal 短字符串 */
+    /**
+     * @brief 读取 Pascal 短字符串
+     */
     bool readPascalShortString(QString* value);
-    /** @brief 读取字符串块 */
+    /**
+     * @brief 读取字符串块
+     */
     bool readStringBlock(QString* value);
-    /** @brief 读取带额外 NUL 的 Pascal 字符串块 */
+    /**
+     * @brief 读取带额外 NUL 的 Pascal 字符串块
+     */
     bool readPascalString(QString* value);
 
     /**
      * @brief 读取 C 字符串参数块
+     * @param params 用于接收参数键值表的输出指针
      * @details 自动应用 `%UTF8%KEY=VALUE` 对对应 ANSI 值的覆盖。
+     * @return 读取成功时返回 true
      */
     bool readCStringParameterBlock(QMap<QString, QString>* params);
     /**
@@ -72,13 +112,21 @@ public:
      */
     bool parseCStringParameterData(const QByteArray& data, QMap<QString, QString>* params);
 
-    /** @brief 获取当前读取位置 */
+    /**
+     * @brief 获取当前读取位置
+     */
     int position() const;
-    /** @brief 获取剩余字节数 */
+    /**
+     * @brief 获取剩余字节数
+     */
     int remaining() const;
-    /** @brief 获取是否发生读取错误 */
+    /**
+     * @brief 获取是否发生读取错误
+     */
     bool hasError() const;
-    /** @brief 获取读取错误说明 */
+    /**
+     * @brief 获取读取错误说明
+     */
     QString errorString() const;
 
 private:
@@ -86,9 +134,9 @@ private:
     bool fail(const QString& message);
     bool readUInt32Internal(uint32_t* value);
 
-    const QByteArray& m_buffer;
-    int m_position = 0;
-    QString m_errorMessage;
+    const QByteArray& m_buffer;  ///< 待读取的二进制缓冲区引用。
+    int m_position = 0;  ///< 当前读取偏移。
+    QString m_errorMessage;  ///< 最近一次读取错误说明。
 };
 
 }  // namespace EasyKiConverter

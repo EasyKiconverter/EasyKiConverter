@@ -39,6 +39,7 @@ public:
 
     /**
      * @brief 设置 Qt 日志的默认模块
+     * @param module 日志模块。
      */
     static void setDefaultModule(LogModule module);
 
@@ -49,6 +50,7 @@ public:
 
     /**
      * @brief 设置是否保留原始 Qt 日志行为（同时输出到原目标）
+     * @param preserve 是否保留原始内容。
      */
     static void setPreserveOriginal(bool preserve);
 
@@ -67,10 +69,10 @@ public:
 private:
     static void qtMessageHandler(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
-    static QtMessageHandler s_originalHandler;
-    static LogModule s_defaultModule;
-    static bool s_preserveOriginal;
-    static bool s_installed;
+    static QtMessageHandler s_originalHandler;  ///< 安装前保存的 Qt 消息处理器。
+    static LogModule s_defaultModule;  ///< Qt 消息默认映射的日志模块。
+    static bool s_preserveOriginal;  ///< 是否保留调用原始 Qt 消息处理器。
+    static bool s_installed;  ///< 是否已经安装自定义 Qt 消息处理器。
 
     // 线程本地递归检测标志 — thread_local 确保每个线程独立，避免并发线程的 Qt 消息互相阻塞
     static thread_local bool s_inHandler;

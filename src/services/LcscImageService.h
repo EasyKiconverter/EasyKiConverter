@@ -114,6 +114,8 @@ signals:
 
     /**
      * @brief 错误信号
+     * @param componentId 元器件编号。
+     * @param errorMessage 输出错误信息的指针。
      */
     void error(const QString& componentId, const QString& errorMessage);
 
@@ -145,12 +147,12 @@ private:
 
     // 跟踪异步加载的 watcher，用于非阻塞预览图加载
     QList<QFutureWatcher<QByteArray>*> m_pendingImageWatchers;
-    QList<QPointer<AsyncNetworkRequest>> m_activeAsyncRequests;
+    QList<QPointer<AsyncNetworkRequest>> m_activeAsyncRequests;  ///< 活动异步请求列表。
 
     QAtomicInt m_isCancelled;  // 取消标志，防止 cancelAll() 后 pending 回调继续执行
-    static const int MAX_CONCURRENT_REQUESTS = 10;  // 最大并发下载数（缓存加载）
-    static const int MAX_IMAGES_PER_COMPONENT = 3;  // 每个组件最多下载3张预览图
-    static const int MAX_RETRY_COUNT = 3;  // 下载失败时的最大重试次数
+    static const int MAX_CONCURRENT_REQUESTS = 10;  ///< 缓存加载的最大并发下载数。
+    static const int MAX_IMAGES_PER_COMPONENT = 3;  ///< 每个组件允许下载的预览图数量上限。
+    static const int MAX_RETRY_COUNT = 3;  ///< 预览图下载失败时的最大重试次数。
 };
 
 }  // namespace EasyKiConverter

@@ -16,13 +16,21 @@
 #include <QTemporaryDir>
 #include <QTest>
 
+#include <algorithm>
+
 using namespace EasyKiConverter;
 using namespace EasyKiConverter::Test;
 
 namespace {
 
 // 为压缩数据恢复 Qt 解压所需的原始长度头。
+/**
+ * @brief 验证 restoreQtCompressionHeader 测试场景。
+ * @param compressed 待处理的压缩数据。
+ * @param uncompressedSize 解压后数据的字节数。
+ */
 QByteArray restoreQtCompressionHeader(const QByteArray& compressed, int uncompressedSize) {
+    // withHeader：带文件头的测试数据。
     QByteArray withHeader;
     withHeader.reserve(compressed.size() + 4);
     withHeader.append(static_cast<char>((uncompressedSize >> 24) & 0xFF));
@@ -41,12 +49,19 @@ class TestEasyedaImporterFixtures : public QObject {
 private slots:
 
     // 验证符号夹具能够导入元数据和几何图元。
+    /**
+     * @brief 验证 testSymbolFixtureImportsMetadataAndGeometry 测试场景。
+     */
     void testSymbolFixtureImportsMetadataAndGeometry() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/symbol_basic.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaSymbolImporter importer;
+        // symbol：测试用符号数据。
         const QSharedPointer<SymbolData> symbol = importer.importSymbolData(fixture);
 
         QVERIFY(symbol);
@@ -83,6 +98,7 @@ private slots:
         QCOMPARE(symbol->rectangles().first().height, 40.0);
         QCOMPARE(symbol->rectangles().first().rx, 4.0);
         QCOMPARE(symbol->rectangles().first().ry, 6.0);
+        // symbolIr：测试用符号数据。
         const IR::SymbolComponentIR symbolIr = IR::toSymbolIR(*symbol);
         QCOMPARE(symbolIr.rectangles.size(), 1);
         QVERIFY(symbolIr.rectangles.first().cornerRadiusX > 0.0);
@@ -119,6 +135,7 @@ private slots:
         QCOMPARE(symbolIr.images.size(), 1);
         QCOMPARE(symbolIr.images.first().fileName, QStringLiteral("image.png"));
         QVERIFY(!symbolIr.images.first().data.isEmpty());
+        // restored：恢复后的测试数据。
         SymbolData restored;
         QVERIFY(restored.fromJson(symbol->toJson()));
         QCOMPARE(restored.images().size(), 1);
@@ -141,6 +158,7 @@ private slots:
         QCOMPARE(symbolIr.texts.first().color, QColor(QStringLiteral("#112233")));
 
         QCOMPARE(symbol->pins().size(), 1);
+        // pin：测试用引脚数据。
         const SymbolPin pin = symbol->pins().first();
         QCOMPARE(pin.settings.spicePinNumber, QStringLiteral("1"));
         QCOMPARE(pin.settings.posX, 10.0);
@@ -156,43 +174,57 @@ private slots:
      * @details 未知 designator 以无效顺序引用保留，供模型校验和下游导出报告使用。
      */
     void testUnsupportedShapeIsReportedInGraphicOrder() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/symbol_basic.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // dataStr：测试使用的文本或数据内容。
         QJsonObject dataStr = fixture.value(QStringLiteral("dataStr")).toObject();
+        // shapes：测试用图形集合。
         QJsonArray shapes = dataStr.value(QStringLiteral("shape")).toArray();
         shapes.append(QStringLiteral("UNKNOWN~payload"));
         dataStr[QStringLiteral("shape")] = shapes;
         fixture[QStringLiteral("dataStr")] = dataStr;
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaSymbolImporter importer;
+        // symbol：测试用符号数据。
         const QSharedPointer<SymbolData> symbol = importer.importSymbolData(fixture);
         QVERIFY(symbol);
         QCOMPARE(symbol->graphicOrder().size(), 7);
         QCOMPARE(symbol->graphicOrder().last().type, QStringLiteral("UNKNOWN"));
         QCOMPARE(symbol->graphicOrder().last().index, -1);
 
+        // validationErrors：测试使用的元器件标识或名称。
         const QStringList validationErrors = symbol->validationErrors();
         QVERIFY(validationErrors.join('\n').contains(QStringLiteral("unknown type UNKNOWN")));
 
+        // restored：恢复后的测试数据。
         SymbolData restored;
         QVERIFY(restored.fromJson(symbol->toJson()));
         QCOMPARE(restored.graphicOrder().last().type, QStringLiteral("UNKNOWN"));
         QCOMPARE(restored.graphicOrder().last().index, -1);
         QVERIFY(restored.validationErrors().join('\n').contains(QStringLiteral("unknown type UNKNOWN")));
 
+        // symbolIr：测试用符号数据。
         const IR::SymbolComponentIR symbolIr = IR::toSymbolIR(restored);
+        // outputDir：测试使用的文件系统路径。
         QTemporaryDir outputDir;
         QVERIFY(outputDir.isValid());
+        // outputPath：测试使用的文件系统路径。
         const QString outputPath = outputDir.filePath(QStringLiteral("unsupported-shape.SchLib"));
+        // exporter：负责生成测试输出的导出器实例。
         ExporterAltiumSymbol exporter;
         QVERIFY(exporter.exportSymbolLibrary({symbolIr}, QStringLiteral("unsupported-shape"), outputPath, false));
         QVERIFY(exporter.diagnostics().contains(
             QStringLiteral("符号 FIXTURE_SYMBOL 的 graphicOrder 不完整或包含无效引用，已回退到默认图元顺序")));
 
+        // reader：负责回读生成内容的 reader 实例。
         AltiumSchLibReader reader;
         QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
+        // records：回读得到的记录集合。
         QVector<AltiumSchLibReader::Record> records;
         QVERIFY2(reader.readComponentRecords(0, &records), qPrintable(reader.errorString()));
         QVERIFY(!records.isEmpty());
@@ -203,14 +235,20 @@ private slots:
      * @details 覆盖公共 Part 的导入分支，避免单部分修复与多部分逻辑出现行为分歧。
      */
     void testUnsupportedShapeIsReportedInMultipartGraphicOrder() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/symbol_multipart.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // subparts：测试使用的元器件标识或名称。
         QJsonArray subparts = fixture.value(QStringLiteral("subparts")).toArray();
         QVERIFY(!subparts.isEmpty());
+        // commonPart：测试使用的元器件标识或名称。
         QJsonObject commonPart = subparts.first().toObject();
+        // dataStr：测试使用的文本或数据内容。
         QJsonObject dataStr = commonPart.value(QStringLiteral("dataStr")).toObject();
+        // shapes：测试用图形集合。
         QJsonArray shapes = dataStr.value(QStringLiteral("shape")).toArray();
         shapes.append(QStringLiteral("UNKNOWN~payload"));
         dataStr[QStringLiteral("shape")] = shapes;
@@ -218,7 +256,9 @@ private slots:
         subparts[0] = commonPart;
         fixture[QStringLiteral("subparts")] = subparts;
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaSymbolImporter importer;
+        // symbol：测试用符号数据。
         const QSharedPointer<SymbolData> symbol = importer.importSymbolData(fixture);
         QVERIFY(symbol);
         QVERIFY(symbol->isMultiPart());
@@ -232,14 +272,19 @@ private slots:
      * @details 覆盖源 JSON、SymbolData、通用 IR 和 SchLib 导出之间的完整链路。
      */
     void testSymbolFixtureExportsThroughCompleteAltiumChain() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/symbol_basic.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaSymbolImporter importer;
+        // symbol：测试用符号数据。
         const QSharedPointer<SymbolData> symbol = importer.importSymbolData(fixture);
         QVERIFY(symbol);
 
+        // symbolIr：测试用符号数据。
         const IR::SymbolComponentIR symbolIr = IR::toSymbolIR(*symbol);
         QVERIFY(!symbolIr.name.isEmpty());
         QVERIFY(!symbolIr.rectangles.isEmpty());
@@ -259,9 +304,12 @@ private slots:
         QVERIFY(symbolIr.texts.first().bold);
         QCOMPARE(symbolIr.texts.first().color, QColor(QStringLiteral("#112233")));
 
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
+        // outputPath：测试使用的文件系统路径。
         const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("fixture.SchLib"));
+        // exporter：负责生成测试输出的导出器实例。
         ExporterAltiumSymbol exporter;
         QVERIFY(exporter.exportSymbolLibrary({symbolIr}, QStringLiteral("fixture"), outputPath, false, false));
         QVERIFY(QFileInfo::exists(outputPath));
@@ -270,6 +318,7 @@ private slots:
 
         QFile outputFile(outputPath);
         QVERIFY(outputFile.open(QIODevice::ReadOnly));
+        // schLibData：测试使用的文本或数据内容。
         const QByteArray schLibData = outputFile.readAll();
         QVERIFY(schLibData.contains("RECORD=10"));  // 圆角矩形
         QVERIFY(schLibData.contains("RECORD=5"));  // 路径中的三次 Bézier
@@ -285,10 +334,12 @@ private slots:
         QVERIFY(schLibData.contains("IndexInSheet=1"));
         QVERIFY(schLibData.contains("IndexInSheet=2"));
 
+        // reader：负责回读生成内容的 reader 实例。
         AltiumSchLibReader reader;
         QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
         QCOMPARE(reader.components().size(), 1);
         QCOMPARE(reader.components().first().name, QStringLiteral("FIXTURE_SYMBOL"));
+        // imageEntries：测试用图像条目集合。
         QVector<AltiumSchLibReader::ImageStorageEntry> imageEntries;
         QVERIFY2(reader.readImageStorage(&imageEntries), qPrintable(reader.errorString()));
         QCOMPARE(imageEntries.size(), 1);
@@ -296,7 +347,9 @@ private slots:
         QCOMPARE(qUncompress(restoreQtCompressionHeader(imageEntries.first().compressedData,
                                                         symbolIr.images.first().data.size())),
                  symbolIr.images.first().data);
+        // fonts：解析得到的字体集合。
         const QVector<AltiumSchLibReader::FontInfo> fonts = reader.fonts();
+        // foundArialFont：检测到的 Arial 字体。
         bool foundArialFont = false;
         for (const auto& font : fonts) {
             if (font.name == QStringLiteral("Arial") && font.size == 7 && font.bold) {
@@ -305,22 +358,34 @@ private slots:
             }
         }
         QVERIFY(foundArialFont);
+        // records：回读得到的记录集合。
         QVector<AltiumSchLibReader::Record> records;
         QVERIFY(reader.readComponentRecords(QStringLiteral("FIXTURE_SYMBOL"), &records));
         QVERIFY(records.size() >= 7);
         QVERIFY(records.first().hasParameters);
         QCOMPARE(records.first().parameters.value(QStringLiteral("RECORD")), QStringLiteral("1"));
         QCOMPARE(records.first().parameters.value(QStringLiteral("LibReference")), QStringLiteral("FIXTURE_SYMBOL"));
+        // foundRoundedRectangle：检测到的圆角矩形图元。
         bool foundRoundedRectangle = false;
+        // foundBezier：检测到的贝塞尔曲线。
         bool foundBezier = false;
+        // foundLine：检测到的线段图元。
         bool foundLine = false;
+        // foundArc：检测到的圆弧图元。
         bool foundArc = false;
+        // foundText：测试使用的文本或数据内容。
         bool foundText = false;
+        // foundBinaryPin：测试用引脚数据。
         bool foundBinaryPin = false;
+        // foundManufacturer：检测到的制造商字段。
         bool foundManufacturer = false;
+        // foundLCSCPart：测试使用的元器件标识或名称。
         bool foundLCSCPart = false;
+        // foundSupplier：检测到的供应商字段。
         bool foundSupplier = false;
+        // foundManufacturerPart：测试使用的元器件标识或名称。
         bool foundManufacturerPart = false;
+        // foundJlcpcbPartClass：测试使用的元器件标识或名称。
         bool foundJlcpcbPartClass = false;
         for (const auto& record : records) {
             if (!record.hasParameters) {
@@ -329,6 +394,7 @@ private slots:
                     foundBinaryPin = true;
                 continue;
             }
+            // recordType：测试使用的配置值或状态。
             const QString recordType = record.parameters.value(QStringLiteral("RECORD"));
             foundRoundedRectangle |= recordType == QStringLiteral("10");
             foundBezier |= recordType == QStringLiteral("5");
@@ -342,7 +408,9 @@ private slots:
                 QCOMPARE(fonts.at(record.fontId - 1).name, QStringLiteral("Arial"));
             }
             if (recordType == QStringLiteral("41")) {
+                // name：测试使用的元器件标识或名称。
                 const QString name = record.parameters.value(QStringLiteral("NAME"));
+                // text：测试使用的文本或数据内容。
                 const QString text = record.parameters.value(QStringLiteral("TEXT"));
                 foundManufacturer |= name == QStringLiteral("Manufacturer") && text == QStringLiteral("Fixture Inc");
                 foundLCSCPart |= name == QStringLiteral("LCSC Part") && text == QStringLiteral("C12345");
@@ -370,30 +438,42 @@ private slots:
      * @details Golden 只保留稳定语义字段，不冻结随机 UniqueID 和 OLE 物理布局。
      */
     void testSymbolFixtureMatchesAltiumRecordGolden() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/symbol_basic.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaSymbolImporter importer;
+        // symbol：测试用符号数据。
         const QSharedPointer<SymbolData> symbol = importer.importSymbolData(fixture);
         QVERIFY(symbol);
 
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
+        // outputPath：测试使用的文件系统路径。
         const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("fixture.SchLib"));
+        // exporter：负责生成测试输出的导出器实例。
         ExporterAltiumSymbol exporter;
         QVERIFY(exporter.exportSymbolLibrary(
             {IR::toSymbolIR(*symbol)}, QStringLiteral("fixture"), outputPath, false, false));
 
+        // reader：负责回读生成内容的 reader 实例。
         AltiumSchLibReader reader;
         QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
+        // records：回读得到的记录集合。
         QVector<AltiumSchLibReader::Record> records;
         QVERIFY(reader.readComponentRecords(QStringLiteral("FIXTURE_SYMBOL"), &records));
+        // weightOk：测试用权重校验结果。
         bool weightOk = false;
+        // declaredWeight：声明的测试权重。
         const int declaredWeight = reader.headerParameters().value(QStringLiteral("WEIGHT")).toInt(&weightOk);
         QVERIFY(weightOk);
         QCOMPARE(declaredWeight, records.size());
 
+        // actual：测试得到的实际结果数据。
         QString actual;
         for (const auto& record : records) {
             if (record.recordType != 1 && record.recordType != 2 && record.recordType != 4 && record.recordType != 5 &&
@@ -419,7 +499,9 @@ private slots:
         QVERIFY2(TestPaths::compareTextToGolden(actual, QStringLiteral("altium/symbol_basic_records.txt"), &error),
                  qPrintable(error));
 
+        // contentIndexes：测试使用的文本或数据内容。
         QList<int> contentIndexes;
+        // hasBinaryPin：测试用引脚数据。
         bool hasBinaryPin = false;
         for (const auto& record : records) {
             if (!record.hasParameters && record.recordType == 2) {
@@ -438,11 +520,15 @@ private slots:
      * @details 覆盖公共 Part 0、两个普通部件、图形和引脚的 OWNERPARTID 映射。
      */
     void testMultipartSymbolFixturePreservesPartOwnership() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/symbol_multipart.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaSymbolImporter importer;
+        // symbol：测试用符号数据。
         const QSharedPointer<SymbolData> symbol = importer.importSymbolData(fixture);
         QVERIFY(symbol);
         QCOMPARE(symbol->parts().size(), 3);
@@ -450,6 +536,7 @@ private slots:
         QVERIFY(!symbol->parts().at(1).commonToAllParts);
         QVERIFY(!symbol->parts().at(2).commonToAllParts);
 
+        // restored：恢复后的测试数据。
         SymbolData restored;
         QVERIFY(restored.fromJson(symbol->toJson()));
         QCOMPARE(restored.parts().size(), 3);
@@ -460,6 +547,7 @@ private slots:
         QCOMPARE(restored.parts().at(1).images.first().fileName, QStringLiteral("image.png"));
         QVERIFY(!restored.parts().at(1).images.first().data.isEmpty());
 
+        // symbolIr：测试用符号数据。
         IR::SymbolComponentIR symbolIr = IR::toSymbolIR(restored);
         QCOMPARE(symbolIr.partCount, 2);
         QCOMPARE(symbolIr.pins.size(), 3);
@@ -468,6 +556,7 @@ private slots:
         QCOMPARE(symbolIr.images.first().partIndex, 0);
         QCOMPARE(symbolIr.images.first().fileName, QStringLiteral("image.png"));
 
+        // partParameter：测试使用的元器件标识或名称。
         IR::SymbolParameterIR partParameter;
         partParameter.name = QStringLiteral("PART_PARAMETER");
         partParameter.value = QStringLiteral("PART_B_VALUE");
@@ -477,8 +566,11 @@ private slots:
         partParameter.partIndex = 1;
         symbolIr.parameters.append(partParameter);
 
+        // commonPinCount：测试使用的数量或索引值。
         int commonPinCount = 0;
+        // partOnePinCount：测试使用的元器件标识或名称。
         int partOnePinCount = 0;
+        // partTwoPinCount：测试使用的元器件标识或名称。
         int partTwoPinCount = 0;
         for (const auto& pin : symbolIr.pins) {
             if (pin.partIndex == -1) {
@@ -493,17 +585,22 @@ private slots:
         QCOMPARE(partOnePinCount, 1);
         QCOMPARE(partTwoPinCount, 1);
 
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
+        // outputPath：测试使用的文件系统路径。
         const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("multipart.SchLib"));
+        // exporter：负责生成测试输出的导出器实例。
         ExporterAltiumSymbol exporter;
         QVERIFY(exporter.exportSymbolLibrary({symbolIr}, QStringLiteral("multipart"), outputPath, false, false));
         QVERIFY2(exporter.diagnostics().isEmpty(), qPrintable(exporter.diagnostics().join('\n')));
 
+        // reader：负责回读生成内容的 reader 实例。
         AltiumSchLibReader reader;
         QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
         QCOMPARE(reader.components().size(), 1);
         QCOMPARE(reader.components().first().partCount, 2);
+        // imageEntries：测试用图像条目集合。
         QVector<AltiumSchLibReader::ImageStorageEntry> imageEntries;
         QVERIFY2(reader.readImageStorage(&imageEntries), qPrintable(reader.errorString()));
         QCOMPARE(imageEntries.size(), 1);
@@ -512,17 +609,28 @@ private slots:
                                                         symbolIr.images.first().data.size())),
                  symbolIr.images.first().data);
 
+        // records：回读得到的记录集合。
         QVector<AltiumSchLibReader::Record> records;
         QVERIFY(reader.readComponentRecords(QStringLiteral("MULTIPART_SYMBOL"), &records));
+        // commonRecordCount：测试使用的数量或索引值。
         int commonRecordCount = 0;
+        // partOneRecordCount：测试使用的元器件标识或名称。
         int partOneRecordCount = 0;
+        // partTwoRecordCount：测试使用的元器件标识或名称。
         int partTwoRecordCount = 0;
+        // binaryPinCount：测试使用的数量或索引值。
         int binaryPinCount = 0;
+        // commonParameterCount：测试使用的数量或索引值。
         int commonParameterCount = 0;
+        // partOneRectangleCount：测试使用的元器件标识或名称。
         int partOneRectangleCount = 0;
+        // partTwoRectangleCount：测试使用的元器件标识或名称。
         int partTwoRectangleCount = 0;
+        // partOneImageCount：测试使用的元器件标识或名称。
         int partOneImageCount = 0;
+        // partTwoParameterCount：测试使用的元器件标识或名称。
         int partTwoParameterCount = 0;
+        // contentIndexes：测试使用的文本或数据内容。
         QList<int> contentIndexes;
         for (const auto& record : records) {
             if (record.indexInSheet >= 0)
@@ -572,12 +680,19 @@ private slots:
     }
 
     // 验证封装夹具能够导入元数据和几何图元。
+    /**
+     * @brief 验证 testFootprintFixtureImportsMetadataAndGeometry 测试场景。
+     */
     void testFootprintFixtureImportsMetadataAndGeometry() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/footprint_basic.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaFootprintImporter importer;
+        // footprint：测试用封装数据。
         const QSharedPointer<FootprintData> footprint = importer.importFootprintData(fixture);
 
         QVERIFY(footprint);
@@ -588,6 +703,7 @@ private slots:
         QCOMPARE(footprint->bbox().height, 50.0);
 
         QCOMPARE(footprint->pads().size(), 1);
+        // pad：测试用焊盘数据。
         const FootprintPad pad = footprint->pads().first();
         QCOMPARE(pad.shape, QStringLiteral("rect"));
         QCOMPARE(pad.centerX, 10.0);
@@ -607,60 +723,87 @@ private slots:
     }
 
     // 验证不支持的封装图形会产生诊断并保留序列化信息。
+    /**
+     * @brief 验证 testUnsupportedFootprintShapeIsReportedAndSerialized 测试场景。
+     */
     void testUnsupportedFootprintShapeIsReportedAndSerialized() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/footprint_basic.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // packageDetail：测试用 JSON 对象。
         QJsonObject packageDetail = fixture.value(QStringLiteral("packageDetail")).toObject();
+        // dataStr：测试使用的文本或数据内容。
         QJsonObject dataStr = packageDetail.value(QStringLiteral("dataStr")).toObject();
+        // shapes：测试用图形集合。
         QJsonArray shapes = dataStr.value(QStringLiteral("shape")).toArray();
         shapes.append(QStringLiteral("UNSUPPORTED_SHAPE~payload"));
         dataStr.insert(QStringLiteral("shape"), shapes);
         packageDetail.insert(QStringLiteral("dataStr"), dataStr);
         fixture.insert(QStringLiteral("packageDetail"), packageDetail);
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaFootprintImporter importer;
+        // footprint：测试用封装数据。
         const QSharedPointer<FootprintData> footprint = importer.importFootprintData(fixture);
         QVERIFY(footprint);
         QVERIFY(footprint->validationErrors().join('\n').contains(QStringLiteral("UNSUPPORTED_SHAPE")));
 
+        // restored：恢复后的测试数据。
         FootprintData restored;
         QVERIFY(restored.fromJson(footprint->toJson()));
         QVERIFY(restored.validationErrors().join('\n').contains(QStringLiteral("UNSUPPORTED_SHAPE")));
     }
 
     // 验证封装夹具能够通过完整 Altium 导出链路生成结果。
+    /**
+     * @brief 验证 testFootprintFixtureExportsThroughCompleteAltiumChain 测试场景。
+     */
     void testFootprintFixtureExportsThroughCompleteAltiumChain() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/footprint_basic.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaFootprintImporter importer;
+        // footprint：测试用封装数据。
         const QSharedPointer<FootprintData> footprint = importer.importFootprintData(fixture);
         QVERIFY(footprint);
 
+        // footprintIr：测试用封装数据。
         const IR::FootprintComponentIR footprintIr = IR::toFootprintIR(*footprint);
         QCOMPARE(footprintIr.name, QStringLiteral("FIXTURE_FOOTPRINT"));
         QCOMPARE(footprintIr.pads.size(), 1);
         QCOMPARE(footprintIr.tracks.size(), 1);
         QCOMPARE(footprintIr.rectangles.size(), 1);
 
+        // outputDir：测试使用的文件系统路径。
         QTemporaryDir outputDir;
         QVERIFY(outputDir.isValid());
+        // outputPath：测试使用的文件系统路径。
         const QString outputPath = outputDir.filePath(QStringLiteral("fixture.PcbLib"));
+        // exporter：负责生成测试输出的导出器实例。
         ExporterAltiumFootprint exporter;
         QVERIFY(exporter.exportFootprintLibrary({footprintIr}, QStringLiteral("fixture"), outputPath));
         QVERIFY2(exporter.diagnostics().isEmpty(), qPrintable(exporter.diagnostics().join('\n')));
 
+        // reader：负责回读生成内容的 reader 实例。
         AltiumPcbLibReader reader;
         QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
+        // objects：测试构造的 JSON 数据对象。
         QVector<AltiumPcbLibReader::PrimitiveRecord> objects;
         QVERIFY2(reader.readFootprintObjects(QStringLiteral("FIXTURE_FOOTPRINT"), &objects),
                  qPrintable(reader.errorString()));
 
+        // foundPad：测试用焊盘数据。
         bool foundPad = false;
+        // foundTrack：检测到的导线图元。
         bool foundTrack = false;
+        // foundFill：测试发现的填充属性。
         bool foundFill = false;
         for (const auto& object : objects) {
             if (object.objectId == AltiumConstants::PCB_OBJECT_PAD) {
@@ -680,6 +823,9 @@ private slots:
     }
 
     // 验证几何规范化器接受不同类型的空白分隔符。
+    /**
+     * @brief 验证 testGeometryNormalizerAcceptsAllWhitespaceSeparators 测试场景。
+     */
     void testGeometryNormalizerAcceptsAllWhitespaceSeparators() {
         const QList<QPointF> flatPoints =
             IR::GeometryNormalizer::parseFlatPointString(QStringLiteral(" 0\t0\n10 20\r\n30\t40 "), 1.0);
@@ -691,12 +837,19 @@ private slots:
     }
 
     // 验证包含三维数据的 CAD 夹具能够导入符号和封装。
+    /**
+     * @brief 验证 testRealCadFixtureWith3DImportsSymbolAndFootprint 测试场景。
+     */
     void testRealCadFixtureWith3DImportsSymbolAndFootprint() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/cad_basic.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // symbolImporter：负责读取测试输入的导入器实例。
         EasyedaSymbolImporter symbolImporter;
+        // symbol：测试用符号数据。
         const QSharedPointer<SymbolData> symbol = symbolImporter.importSymbolData(fixture);
 
         QVERIFY(symbol);
@@ -706,7 +859,9 @@ private slots:
         QCOMPARE(symbol->info().lcscId, QStringLiteral("C23186"));
         QVERIFY(symbol->pins().size() >= 2);
 
+        // footprintImporter：负责读取测试输入的导入器实例。
         EasyedaFootprintImporter footprintImporter;
+        // footprint：测试用封装数据。
         const QSharedPointer<FootprintData> footprint = footprintImporter.importFootprintData(fixture);
 
         QVERIFY(footprint);
@@ -717,14 +872,30 @@ private slots:
         QCOMPARE(footprint->model3D().name(), QStringLiteral("R0603"));
         QVERIFY(footprint->pads().size() >= 2);
         QVERIFY(footprint->outlines().size() >= 1);
+
+        // footprintIr：测试用封装数据。
+        const IR::FootprintComponentIR footprintIr = IR::toFootprintIR(*footprint);
+        QVERIFY(!footprintIr.pads.isEmpty());
+        // smdPad：测试用焊盘数据。
+        const auto smdPad = std::find_if(
+            footprintIr.pads.cbegin(), footprintIr.pads.cend(), [](const auto& pad) { return pad.isSmd(); });
+        QVERIFY(smdPad != footprintIr.pads.cend());
+        QCOMPARE(smdPad->solderMaskExpansionMm, 0.3);
+        QCOMPARE(smdPad->pasteMaskContractionMm, 0.0);
     }
 
     // 验证缺少三维 UUID 时仍能从轮廓数据导入模型信息。
+    /**
+     * @brief 验证 testRealCadFixtureWithoutUuid3DStillImportsOutlineModel 测试场景。
+     */
     void testRealCadFixtureWithoutUuid3DStillImportsOutlineModel() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // fixture：测试隔离环境中的临时对象。
         const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/cad_no_3d.json"), &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
 
+        // packageHead：测试用 JSON 对象。
         const QJsonObject packageHead = fixture.value(QStringLiteral("packageDetail"))
                                             .toObject()
                                             .value(QStringLiteral("dataStr"))
@@ -733,7 +904,9 @@ private slots:
                                             .toObject();
         QVERIFY(!packageHead.contains(QStringLiteral("uuid_3d")));
 
+        // importer：负责读取测试输入的导入器实例。
         EasyedaFootprintImporter importer;
+        // footprint：测试用封装数据。
         const QSharedPointer<FootprintData> footprint = importer.importFootprintData(fixture);
 
         QVERIFY(footprint);
@@ -746,7 +919,12 @@ private slots:
     }
 
     // 验证真实三维模型夹具被识别为 OBJ 数据。
+    /**
+     * @brief 验证 testRealModel3DFixtureIsObjData 测试场景。
+     * @param errorMessage 用于接收错误或诊断信息的输出参数。
+     */
     void testRealModel3DFixtureIsObjData() {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
         const QByteArray modelData =
             TestPaths::readBytes(TestPaths::fixturePath(QStringLiteral("easyeda/model3d_r0603.obj")), &error);
@@ -759,13 +937,20 @@ private slots:
 
 private:
     // 读取并解析测试夹具中的 JSON 对象。
+    /**
+     * @brief 验证 loadFixtureObject 测试场景。
+     * @param relativePath 待处理的文件系统路径。
+     */
     QJsonObject loadFixtureObject(const QString& relativePath, QString* errorMessage) const {
+        // bytes：读取到的二进制文件内容。
         const QByteArray bytes = TestPaths::readBytes(TestPaths::fixturePath(relativePath), errorMessage);
         if (errorMessage != nullptr && !errorMessage->isEmpty()) {
             return {};
         }
 
+        // parseError：测试期间收集的错误或诊断信息。
         QJsonParseError parseError;
+        // document：测试用文档对象。
         const QJsonDocument document = QJsonDocument::fromJson(bytes, &parseError);
         if (parseError.error != QJsonParseError::NoError) {
             if (errorMessage != nullptr) {

@@ -47,11 +47,11 @@ Rectangle {
                     var sc = root.exportSettingsController;
                     var lc = root.componentListController;
                     var tm = root.exportTargetModel;
-                    var tf = tm ? tm.currentIndex : 0;
+                    var tf = tm ? tm.currentTargetFormat : 0;
                     if (pc && pc.failureCount > 0) {
                         pc.retryFailedComponents();
                     } else if (pc && sc && lc) {
-                        pc.startExport(lc.getAllComponentIds(), sc.outputPath || "", sc.libName || "", sc.exportSymbol || false, sc.exportFootprint || false, sc.exportModel3D || false, sc.exportModel3DFormat || 3, sc.exportModel3DPathMode || 0, sc.exportPreviewImages || false, sc.exportDatasheet || false, sc.overwriteExistingFiles || false, (sc.exportMode || 0) === 1, sc.debugMode || false, sc.symbolLibraryDescription || "", sc.footprintLibraryDescription || "", sc.footprintLibraryKeywords || "", tf);
+                        pc.startExport(lc.getAllComponentIds(), sc.outputPath || "", sc.libName || "", sc.exportSymbol || false, sc.exportFootprint || false, sc.exportModel3D || false, sc.exportModel3DFormat || 3, sc.exportModel3DPathMode || 0, sc.exportPreviewImages || false, sc.exportDatasheet || false, (sc.overwriteExistingFiles || false) || (sc.exportMode || 0) === 2, (sc.exportMode || 0) === 1, sc.debugMode || false, sc.symbolLibraryDescription || "", sc.footprintLibraryDescription || "", sc.footprintLibraryKeywords || "", tf);
                     }
                 }
 

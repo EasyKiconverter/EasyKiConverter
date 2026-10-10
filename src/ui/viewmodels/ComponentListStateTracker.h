@@ -28,7 +28,9 @@ public:
      */
     bool setFilterMode(const QString& mode);
 
-    /** @brief 返回当前过滤模式。 */
+    /**
+     * @brief 返回当前过滤模式。
+     */
     QString filterMode() const;
 
     /**
@@ -37,24 +39,32 @@ public:
      */
     int filteredCount(int totalCount) const;
 
-    /** @brief 返回验证中的元件数量。 */
+    /**
+     * @brief 返回验证中的元件数量。
+     */
     int validatingCount() const;
 
-    /** @brief 返回验证成功的元件数量。 */
+    /**
+     * @brief 返回验证成功的元件数量。
+     */
     int validCount() const;
 
-    /** @brief 返回验证失败的元件数量。 */
+    /**
+     * @brief 返回验证失败的元件数量。
+     */
     int invalidCount() const;
 
-    /** @brief 判断是否存在可重试的失败元件。 */
+    /**
+     * @brief 判断是否存在可重试的失败元件。
+     */
     bool hasRetryableInvalidComponents() const;
 
 private:
-    QString m_filterMode = QStringLiteral("all");
-    int m_validatingCount = 0;
-    int m_validCount = 0;
-    int m_invalidCount = 0;
-    int m_retryableInvalidCount = 0;
+    QString m_filterMode = QStringLiteral("all");  ///< 保存当前过滤模式。
+    int m_validatingCount = 0;  ///< 保存正在验证的元件数量。
+    int m_validCount = 0;  ///< 保存验证成功的元件数量。
+    int m_invalidCount = 0;  ///< 保存验证失败的元件数量。
+    int m_retryableInvalidCount = 0;  ///< 保存可重试失败元件数量。
 };
 
 }  // namespace EasyKiConverter

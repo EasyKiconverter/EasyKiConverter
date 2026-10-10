@@ -13,17 +13,22 @@
 
 namespace EasyKiConverter {
 
-/** @brief 保存维护协调器所属的缓存服务。 */
+/**
+ * @brief 创建绑定到缓存服务的维护协调器。
+ * @param owner 所属缓存服务。
+ * @param trash 回收站移动策略。
+ */
 ComponentCacheMaintenance::ComponentCacheMaintenance(ComponentCacheService& owner,
                                                      const CacheSafety::TrashFunction& trash)
     : m_owner(owner), m_trash(trash) {}
 
 /**
  * @brief 删除指定元器件的一级和二级缓存。
+ * @param componentId 元器件编号。
  * @details 先递增代次并锁定 tombstone，再删除磁盘和内存内容，避免旧异步回调复活缓存。
  */
 void ComponentCacheMaintenance::remove(const QString& componentId) {
-    const QString normalizedId = componentId.toUpper();
+    const QString normalizedId = componentId.toUpper();  // 规范化后的元器件编号。
     if (!BomParser::validateId(normalizedId)) {
         qWarning() << "removeCache: invalid lcscId, ignoring:" << componentId;
         return;
@@ -32,15 +37,15 @@ void ComponentCacheMaintenance::remove(const QString& componentId) {
     m_owner.m_cacheGeneration.fetch_add(1);
     {
         // 锁顺序保持为 disk 后 tombstone，与缓存写入策略一致。
-        QMutexLocker diskLocker(&m_owner.m_diskWriteMutex);
+        QMutexLocker diskLocker(&m_owner.m_diskWriteMutex);  // 保护磁盘缓存维护。
         m_owner.m_tombstones.blockComponent(normalizedId);
-        const QString dirPath = m_owner.componentCacheDir(normalizedId);
+        const QString dirPath = m_owner.componentCacheDir(normalizedId);  // 组件缓存目录。
         if (dirPath.isEmpty())
             return;
-        const QStringList files = CacheSafety::ownedComponentFiles(m_owner.cacheDir(), dirPath);
-        bool allFilesMoved = true;
+        const QStringList files = CacheSafety::ownedComponentFiles(m_owner.cacheDir(), dirPath);  // 可处理文件。
+        bool allFilesMoved = true;  // 是否所有已验证文件均已移入回收站。
         for (const QString& filePath : files) {
-            QString error;
+            QString error;  // 当前回收站操作的错误文本。
             if (!CacheSafety::moveToTrash(filePath, &error, m_trash)) {
                 allFilesMoved = false;
                 emit m_owner.cacheMaintenanceWarning(error);
@@ -48,7 +53,7 @@ void ComponentCacheMaintenance::remove(const QString& componentId) {
         }
         if (allFilesMoved && !files.isEmpty() &&
             QDir(dirPath).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
-            QString error;
+            QString error;  // 组件目录回收站操作的错误文本。
             if (!CacheSafety::moveToTrash(dirPath, &error, m_trash))
                 emit m_owner.cacheMaintenanceWarning(error);
         }
@@ -56,9 +61,9 @@ void ComponentCacheMaintenance::remove(const QString& componentId) {
             LOG_DEBUG(LogModule::Core, "Moved owned disk cache files to trash for: {}", normalizedId);
     }
 
-    qint64 sizeAfterUpdate = 0;
+    qint64 sizeAfterUpdate = 0;  // 删除后的一级缓存大小。
     {
-        QMutexLocker locker(&m_owner.m_mutex);
+        QMutexLocker locker(&m_owner.m_mutex);  // 保护一级缓存删除。
         sizeAfterUpdate = m_owner.m_memoryCache.removeComponent(normalizedId);
     }
     emit m_owner.memoryCacheSizeChanged(sizeAfterUpdate);
@@ -72,13 +77,14 @@ void ComponentCacheMaintenance::remove(const QString& componentId) {
 void ComponentCacheMaintenance::clearAll() {
     m_owner.m_cacheGeneration.fetch_add(1);
     {
-        QMutexLocker diskLocker(&m_owner.m_diskWriteMutex);
+        QMutexLocker diskLocker(&m_owner.m_diskWriteMutex);  // 保护磁盘缓存清空。
         m_owner.m_tombstones.blockAll();
         for (const QString& componentDir : CacheSafety::ownedComponentDirectories(m_owner.cacheDir())) {
-            const QStringList files = CacheSafety::ownedComponentFiles(m_owner.cacheDir(), componentDir);
-            bool allFilesMoved = true;
+            const QStringList files =
+                CacheSafety::ownedComponentFiles(m_owner.cacheDir(), componentDir);  // 可处理文件。
+            bool allFilesMoved = true;  // 是否所有文件均已移入回收站。
             for (const QString& filePath : files) {
-                QString error;
+                QString error;  // 当前回收站操作的错误文本。
                 if (!CacheSafety::moveToTrash(filePath, &error, m_trash)) {
                     allFilesMoved = false;
                     emit m_owner.cacheMaintenanceWarning(error);
@@ -86,13 +92,13 @@ void ComponentCacheMaintenance::clearAll() {
             }
             if (allFilesMoved && !files.isEmpty() &&
                 QDir(componentDir).entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot).isEmpty()) {
-                QString error;
+                QString error;  // 组件目录回收站操作的错误文本。
                 if (!CacheSafety::moveToTrash(componentDir, &error, m_trash))
                     emit m_owner.cacheMaintenanceWarning(error);
             }
         }
         for (const QString& entry : CacheSafety::ownedModel3DFiles(m_owner.cacheDir())) {
-            QString error;
+            QString error;  // 当前三维模型回收站操作的错误文本。
             if (!CacheSafety::moveToTrash(entry, &error, m_trash))
                 emit m_owner.cacheMaintenanceWarning(error);
         }
@@ -104,7 +110,9 @@ void ComponentCacheMaintenance::clearAll() {
     emit m_owner.cacheSizeChanged(0);
 }
 
-/** @brief 清空一级内存缓存并递增缓存代次。 */
+/**
+ * @brief 清空一级内存缓存并递增缓存代次。
+ */
 void ComponentCacheMaintenance::clearMemory() {
     m_owner.m_cacheGeneration.fetch_add(1);
     m_owner.m_tombstones.reset();
@@ -115,13 +123,14 @@ void ComponentCacheMaintenance::clearMemory() {
 
 /**
  * @brief 枚举有效的元器件缓存目录。
+ * @param owner 所属缓存服务。
  * @details 目录枚举与元数据读取共享磁盘锁，并过滤 model3d 和损坏或身份不匹配的目录。
  */
 QStringList ComponentCacheMaintenance::cachedComponentIds(const ComponentCacheService& owner) {
     QMutexLocker diskLocker(&owner.m_diskWriteMutex);
-    QStringList result;
-    QSet<QString> seenIds;
-    const QDir dir(owner.cacheDir());
+    QStringList result;  // 有效元器件编号结果。
+    QSet<QString> seenIds;  // 已加入结果的规范化编号。
+    const QDir dir(owner.cacheDir());  // 缓存根目录。
     if (!dir.exists())
         return result;
 
@@ -129,10 +138,10 @@ QStringList ComponentCacheMaintenance::cachedComponentIds(const ComponentCacheSe
         if (entry == QStringLiteral(".") || entry == QStringLiteral("..") || entry == QStringLiteral("model3d") ||
             entry == CacheSafety::ownershipMarkerName())
             continue;
-        const QString normalizedId = entry.toUpper();
-        const QJsonObject metadata = CacheMetadataStore::read(owner.metadataPath(entry));
-        const QJsonValue metadataId = metadata.value(QStringLiteral("lcscId"));
-        const bool matchesEntry =
+        const QString normalizedId = entry.toUpper();  // 规范化后的目录编号。
+        const QJsonObject metadata = CacheMetadataStore::read(owner.metadataPath(entry));  // 组件元数据。
+        const QJsonValue metadataId = metadata.value(QStringLiteral("lcscId"));  // 元数据中的编号。
+        const bool matchesEntry =  // 元数据编号是否与目录名一致。
             metadataId.isString() && metadataId.toString().compare(entry, Qt::CaseInsensitive) == 0;
         if (CacheSafety::isOwnedComponentDirectory(owner.cacheDir(), dir.filePath(entry)) && matchesEntry &&
             CacheMetadataStore::hasValidModel3D(metadata) && !seenIds.contains(normalizedId)) {
@@ -143,10 +152,14 @@ QStringList ComponentCacheMaintenance::cachedComponentIds(const ComponentCacheSe
     return result;
 }
 
-/** @brief 在磁盘锁保护下递归统计缓存目录大小。 */
+/**
+ * @brief 在磁盘锁保护下递归统计缓存目录大小。
+ * @param owner 所属缓存服务。
+ * @return 已验证归属的缓存文件总大小。
+ */
 qint64 ComponentCacheMaintenance::cacheSize(const ComponentCacheService& owner) {
-    QMutexLocker diskLocker(&owner.m_diskWriteMutex);
-    qint64 size = 0;
+    QMutexLocker diskLocker(&owner.m_diskWriteMutex);  // 保护缓存目录统计。
+    qint64 size = 0;  // 已验证文件的累计大小。
     for (const QString& componentDir : CacheSafety::ownedComponentDirectories(owner.cacheDir())) {
         for (const QString& filePath : CacheSafety::ownedComponentFiles(owner.cacheDir(), componentDir))
             size += QFileInfo(filePath).size();

@@ -15,7 +15,9 @@ namespace EasyKiConverter {
  */
 class CacheTombstoneRegistry final {
 public:
-    /** @brief 清空所有屏蔽状态，准备切换到新的缓存上下文。 */
+    /**
+     * @brief 清空所有屏蔽状态，准备切换到新的缓存上下文。
+     */
     void reset();
 
     /**
@@ -30,10 +32,14 @@ public:
      */
     void clearComponent(const QString& componentId);
 
-    /** @brief 屏蔽所有元器件的旧异步写入。 */
+    /**
+     * @brief 屏蔽所有元器件的旧异步写入。
+     */
     void blockAll();
 
-    /** @brief 仅解除全局屏蔽，保留组件级屏蔽状态。 */
+    /**
+     * @brief 仅解除全局屏蔽，保留组件级屏蔽状态。
+     */
     void clearGlobal();
 
     /**
@@ -44,9 +50,9 @@ public:
     bool isBlocked(const QString& componentId) const;
 
 private:
-    mutable QMutex m_mutex;
-    QSet<QString> m_components;
-    bool m_allBlocked = false;
+    mutable QMutex m_mutex;  ///< 保护组件级和全局屏蔽状态的互斥锁。
+    QSet<QString> m_components;  ///< 已被屏蔽的组件编号集合。
+    bool m_allBlocked = false;  ///< 是否启用全局屏蔽。
 };
 
 }  // namespace EasyKiConverter

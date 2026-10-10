@@ -11,41 +11,65 @@ namespace EasyKiConverter {
 
 namespace {
 
-/** @brief 转义 CADSTAR ASCII 的带引号字段。 */
+/**
+ * @brief 转义 CADSTAR ASCII 的带引号字段。
+ * @param value 原始字段值。
+ * @return 转义后的带引号字段。
+ */
 QString quote(const QString& value) {
-    QString escaped = value;
+    QString escaped = value;  // 需要进行 CADSTAR 转义的字段副本。
     escaped.replace('\\', QStringLiteral("\\\\"));
     escaped.replace('"', QStringLiteral("\\\""));
     return QStringLiteral("\"%1\"").arg(escaped);
 }
 
-/** @brief 使用固定精度输出毫米坐标。 */
+/**
+ * @brief 使用固定精度输出毫米坐标。
+ * @param value 毫米数值。
+ * @return 格式化后的数值文本。
+ */
 QString number(double value) {
     return QString::number(value, 'g', 12);
 }
 
-/** @brief 输出 CADSTAR 点。 */
+/**
+ * @brief 输出 CADSTAR 点。
+ * @param value 点坐标。
+ * @return CADSTAR 点文本。
+ */
 QString point(const QPointF& value) {
     return QStringLiteral("(%1 %2)").arg(number(value.x()), number(value.y()));
 }
 
-/** @brief 为同一封装中的焊盘生成稳定且唯一的定义名称。 */
+/**
+ * @brief 为同一封装中的焊盘生成稳定且唯一的定义名称。
+ * @param footprint 所属封装。
+ * @param pad 焊盘数据。
+ * @param index 焊盘在封装中的索引。
+ * @return 稳定的焊盘定义名称。
+ */
 QString padName(const IR::FootprintComponentIR& footprint, const IR::FootprintPadIR& pad, int index) {
-    QString base = footprint.name.trimmed();
+    QString base = footprint.name.trimmed();  // 清理后的封装基础名称。
     base.replace(QRegularExpression(QStringLiteral("[^A-Za-z0-9_]+")), QStringLiteral("_"));
     if (base.isEmpty())
         base = QStringLiteral("PACKAGE");
-    QString pin = pad.number.trimmed();
+    QString pin = pad.number.trimmed();  // 清理后的焊盘编号。
     pin.replace(QRegularExpression(QStringLiteral("[^A-Za-z0-9_]+")), QStringLiteral("_"));
     if (pin.isEmpty())
         pin = QString::number(index + 1);
     return QStringLiteral("%1_PAD_%2").arg(base, pin);
 }
 
-/** @brief 判断图元是否可以表达为 CADSTAR ASCII 的基础图形。 */
+/**
+ * @brief 判断图元是否可以表达为 CADSTAR ASCII 的基础图形。
+ * @param stream 输出流。
+ * @param footprint 封装数据。
+ * @param diagnostics 诊断列表。
+ * @return 图元全部可表达时返回 true。
+ */
 bool writeGraphic(QTextStream& stream, const IR::FootprintComponentIR& footprint, QStringList& diagnostics) {
     for (const auto& rectangle : footprint.rectangles) {
-        const QRectF bounds = rectangle.bounds.normalized();
+        const QRectF bounds = rectangle.bounds.normalized();  // 归一化后的矩形边界。
         stream << "RECT " << point(bounds.topLeft()) << ' ' << point(bounds.bottomRight()) << " WIDTH "
                << number(rectangle.strokeWidth) << '\n';
     }
@@ -85,7 +109,14 @@ bool writeGraphic(QTextStream& stream, const IR::FootprintComponentIR& footprint
     return true;
 }
 
-/** @brief 将统一焊盘映射为 CADSTAR Pad 定义。 */
+/**
+ * @brief 将统一焊盘映射为 CADSTAR Pad 定义。
+ * @param stream 输出流。
+ * @param name 焊盘定义名称。
+ * @param pad 焊盘数据。
+ * @param diagnostics 诊断列表。
+ * @return 写入成功返回 true。
+ */
 bool writePad(QTextStream& stream, const QString& name, const IR::FootprintPadIR& pad, QStringList& diagnostics) {
     stream << "PAD " << quote(name) << '\n';
     // 按统一 IR 焊盘形状选择 CADSTAR 可以准确表达的定义。
@@ -135,15 +166,22 @@ bool writePad(QTextStream& stream, const QString& name, const IR::FootprintPadIR
     return true;
 }
 
-/** @brief 在 Package 定义之前输出该库所引用的全局 Pad 定义。 */
+/**
+ * @brief 在 Package 定义之前输出该库所引用的全局 Pad 定义。
+ * @param stream 输出流。
+ * @param components 组件列表。
+ * @param diagnostics 诊断列表。
+ * @param padNames 已写入的焊盘名称集合。
+ * @return 写入成功返回 true。
+ */
 bool writePadDefinitions(QTextStream& stream,
                          const QList<IR::ComponentIR>& components,
                          QStringList& diagnostics,
                          QSet<QString>& padNames) {
     for (const auto& component : components) {
         for (int index = 0; index < component.footprint.pads.size(); ++index) {
-            const auto& pad = component.footprint.pads.at(index);
-            const QString name = padName(component.footprint, pad, index);
+            const auto& pad = component.footprint.pads.at(index);  // 当前组件焊盘。
+            const QString name = padName(component.footprint, pad, index);  // 稳定焊盘定义名称。
             if (padNames.contains(name))
                 continue;
             if (!writePad(stream, name, pad, diagnostics))
@@ -154,7 +192,13 @@ bool writePadDefinitions(QTextStream& stream,
     return true;
 }
 
-/** @brief 将统一符号写为 CADSTAR Component 定义。 */
+/**
+ * @brief 将统一符号写为 CADSTAR Component 定义。
+ * @param stream 输出流。
+ * @param symbol 符号数据。
+ * @param diagnostics 诊断列表。
+ * @return 写入成功返回 true。
+ */
 bool writeComponent(QTextStream& stream, const IR::SymbolComponentIR& symbol, QStringList& diagnostics) {
     if (symbol.name.isEmpty()) {
         diagnostics.append(QStringLiteral("CADSTAR: 符号名称为空"));
@@ -169,8 +213,8 @@ bool writeComponent(QTextStream& stream, const IR::SymbolComponentIR& symbol, QS
             return false;
         }
         stream << "PIN " << quote(pin.designator) << '\n';
-        const QPointF end = pin.position;
-        QPointF start = end;
+        const QPointF end = pin.position;  // 引脚终点坐标。
+        QPointF start = end;  // 根据方向反推的引脚起点。
         // 根据统一 IR 的引脚方向反推 CADSTAR 引脚起点。
         switch (pin.direction) {
             case IR::PinDirection::Left:
@@ -220,7 +264,15 @@ bool writeComponent(QTextStream& stream, const IR::SymbolComponentIR& symbol, QS
     return true;
 }
 
-/** @brief 将一个完整组件写为 CADSTAR Package 和 Part。 */
+/**
+ * @brief 将一个完整组件写为 CADSTAR Package 和 Part。
+ * @param stream 输出流。
+ * @param component 完整组件数据。
+ * @param diagnostics 诊断列表。
+ * @param packageNames 已写入的封装名称集合。
+ * @param includePart 是否同时写入 Part 定义。
+ * @return 写入成功返回 true。
+ */
 bool writePackageAndPart(QTextStream& stream,
                          const IR::ComponentIR& component,
                          QStringList& diagnostics,
@@ -230,14 +282,14 @@ bool writePackageAndPart(QTextStream& stream,
         diagnostics.append(QStringLiteral("CADSTAR: 组件缺少名称或封装名称"));
         return false;
     }
-    QString packageName = component.footprint.name;
+    QString packageName = component.footprint.name;  // 当前组件封装名称。
     if (!packageNames.contains(packageName)) {
         stream << "PACKAGE " << quote(packageName) << '\n';
         if (!component.footprint.description.isEmpty())
             stream << "DESCRIPTION " << quote(component.footprint.description) << '\n';
         for (int index = 0; index < component.footprint.pads.size(); ++index) {
-            const auto& pad = component.footprint.pads.at(index);
-            const QString name = padName(component.footprint, pad, index);
+            const auto& pad = component.footprint.pads.at(index);  // 当前组件焊盘。
+            const QString name = padName(component.footprint, pad, index);  // 稳定焊盘定义名称。
             stream << "PIN " << quote(pad.number) << "\nPOSITION " << point(pad.position) << "\nPAD " << quote(name)
                    << "\nENDPIN\n";
         }
@@ -247,7 +299,7 @@ bool writePackageAndPart(QTextStream& stream,
         packageNames.insert(packageName);
     }
     if (includePart) {
-        QSet<QString> padNumbers;
+        QSet<QString> padNumbers;  // 当前封装中可用的焊盘编号集合。
         for (const IR::FootprintPadIR& pad : component.footprint.pads)
             padNumbers.insert(pad.number);
         for (const IR::SymbolPinIR& pin : component.symbol.pins) {
@@ -257,7 +309,8 @@ bool writePackageAndPart(QTextStream& stream,
                 return false;
             }
         }
-        const QString symbolName = component.symbol.name.isEmpty() ? component.name : component.symbol.name;
+        const QString symbolName =
+            component.symbol.name.isEmpty() ? component.name : component.symbol.name;  // 完整组件符号名称。
         stream << "PART " << quote(component.name) << "\nCOMPONENT " << quote(symbolName) << "\nPACKAGE "
                << quote(packageName) << '\n';
         if (!component.description.isEmpty())
@@ -269,22 +322,48 @@ bool writePackageAndPart(QTextStream& stream,
 
 }  // namespace
 
-/** @brief 返回 CADSTAR ASCII 库文件扩展名。 */
+/**
+ * @brief 返回 CADSTAR ASCII 库文件扩展名。
+ * @return 库文件扩展名。
+ */
 QString ExporterCadstarLibrary::libraryFileExtension() const {
     return QStringLiteral(".lib");
 }
 
-/** @brief 声明 CADSTAR 导出为单个文件而非目录。 */
+/**
+ * @brief 声明 CADSTAR 导出为单个文件而非目录。
+ * @return 始终返回 false。
+ */
 bool ExporterCadstarLibrary::isDirectoryOutput() const {
     return false;
 }
 
+/**
+ * @brief 导出单个 CADSTAR 封装。
+ * @param footprint 封装数据。
+ * @param filePath 输出文件路径。
+ * @param libraryDescription 库描述，当前接口不使用。
+ * @return 导出成功返回 true。
+ */
 bool ExporterCadstarLibrary::exportFootprint(const IR::FootprintComponentIR& footprint,
                                              const QString& filePath,
                                              const QString&) {
     return exportFootprintLibrary({footprint}, footprint.name, filePath);
 }
 
+/**
+ * @brief 导出 CADSTAR 封装库。
+ * @param footprints 封装列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @param appendMode 是否追加，当前格式不使用。
+ * @param updateMode 是否更新，当前格式不使用。
+ * @param libraryDescription 库描述。
+ * @param libraryVersion 库版本，当前格式不使用。
+ * @param export3D 是否导出三维模型，当前格式不使用。
+ * @param model3DBasePath 三维模型基础路径，当前格式不使用。
+ * @return 导出成功返回 true。
+ */
 bool ExporterCadstarLibrary::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                     const QString& libName,
                                                     const QString& filePath,
@@ -300,21 +379,21 @@ bool ExporterCadstarLibrary::exportFootprintLibrary(const QList<IR::FootprintCom
         m_diagnostics.append(QStringLiteral("CADSTAR: 没有可导出的封装"));
         return false;
     }
-    QFile file(filePath);
+    QFile file(filePath);  // 封装库输出文件。
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         m_diagnostics.append(QStringLiteral("CADSTAR: 无法写入 ASCII 库：%1").arg(filePath));
         return false;
     }
-    QTextStream stream(&file);
+    QTextStream stream(&file);  // CADSTAR ASCII 输出流。
     stream.setEncoding(QStringConverter::Utf8);
     stream << "UNITS MM\n";
     if (!libraryDescription.isEmpty())
         stream << "PROPERTY DESCRIPTION " << quote(libraryDescription) << '\n';
-    QSet<QString> padNames;
-    QSet<QString> packageNames;
-    QList<IR::ComponentIR> components;
+    QSet<QString> padNames;  // 已写入的焊盘定义名称。
+    QSet<QString> packageNames;  // 已写入的封装名称。
+    QList<IR::ComponentIR> components;  // 由封装转换得到的组件列表。
     for (const auto& footprint : footprints) {
-        IR::ComponentIR component;
+        IR::ComponentIR component;  // 当前封装对应的临时组件。
         component.name = footprint.name;
         component.footprint = footprint;
         components.append(component);
@@ -322,7 +401,7 @@ bool ExporterCadstarLibrary::exportFootprintLibrary(const QList<IR::FootprintCom
     if (!writePadDefinitions(stream, components, m_diagnostics, padNames))
         return false;
     for (const auto& footprint : footprints) {
-        IR::ComponentIR component;
+        IR::ComponentIR component;  // 当前封装对应的临时组件。
         component.name = footprint.name;
         component.footprint = footprint;
         if (!writePackageAndPart(stream, component, m_diagnostics, packageNames, false))
@@ -331,6 +410,13 @@ bool ExporterCadstarLibrary::exportFootprintLibrary(const QList<IR::FootprintCom
     return true;
 }
 
+/**
+ * @brief 导出 CADSTAR 符号库。
+ * @param symbols 符号列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @return 导出成功返回 true。
+ */
 bool ExporterCadstarLibrary::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                                  const QString& libName,
                                                  const QString& filePath) {
@@ -340,18 +426,18 @@ bool ExporterCadstarLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
         return false;
     }
 
-    QFile file(filePath);
+    QFile file(filePath);  // 符号库输出文件。
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         m_diagnostics.append(QStringLiteral("CADSTAR: 无法写入符号库：%1").arg(filePath));
         return false;
     }
-    QTextStream stream(&file);
+    QTextStream stream(&file);  // CADSTAR ASCII 输出流。
     stream.setEncoding(QStringConverter::Utf8);
     stream << "UNITS MM\n";
     if (!libName.isEmpty())
         stream << "PROPERTY DESCRIPTION " << quote(libName) << '\n';
 
-    QSet<QString> symbolNames;
+    QSet<QString> symbolNames;  // 已写入的符号名称集合。
     for (const IR::SymbolComponentIR& symbol : symbols) {
         if (symbol.name.isEmpty() || symbolNames.contains(symbol.name)) {
             m_diagnostics.append(QStringLiteral("CADSTAR: 符号名称为空或重复：%1").arg(symbol.name));
@@ -364,7 +450,16 @@ bool ExporterCadstarLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
     return true;
 }
 
-/** 通过通用符号接口复用 CADSTAR 的符号库写入器，并拒绝未实现的合并模式。 */
+/**
+ * @brief 通过通用符号接口复用 CADSTAR 的符号库写入器。
+ * @param symbols 符号列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @param appendMode 是否追加。
+ * @param updateMode 是否更新。
+ * @param libraryDescription 库描述。
+ * @return 导出成功返回 true。
+ */
 bool ExporterCadstarLibrary::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                                  const QString& libName,
                                                  const QString& filePath,
@@ -379,11 +474,25 @@ bool ExporterCadstarLibrary::exportSymbolLibrary(const QList<IR::SymbolComponent
     return exportSymbolLibrary(symbols, libName, filePath);
 }
 
-/** 通过通用符号接口导出单个 CADSTAR 符号。 */
+/**
+ * @brief 通过通用符号接口导出单个 CADSTAR 符号。
+ * @param symbol 符号数据。
+ * @param filePath 输出文件路径。
+ * @return 导出成功返回 true。
+ */
 bool ExporterCadstarLibrary::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
     return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
 }
 
+/**
+ * @brief 导出 CADSTAR 完整组件库。
+ * @param components 完整组件列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @param exportModel3D 是否导出三维模型，当前格式不使用。
+ * @param model3DBasePath 三维模型基础路径，当前格式不使用。
+ * @return 导出成功返回 true。
+ */
 bool ExporterCadstarLibrary::exportComponentLibrary(const QList<IR::ComponentIR>& components,
                                                     const QString& libName,
                                                     const QString& filePath,
@@ -394,21 +503,22 @@ bool ExporterCadstarLibrary::exportComponentLibrary(const QList<IR::ComponentIR>
         m_diagnostics.append(QStringLiteral("CADSTAR: 没有可导出的完整组件"));
         return false;
     }
-    QFile file(filePath);
+    QFile file(filePath);  // 完整组件库输出文件。
     if (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         m_diagnostics.append(QStringLiteral("CADSTAR: 无法写入完整 ASCII 库：%1").arg(filePath));
         return false;
     }
-    QTextStream stream(&file);
+    QTextStream stream(&file);  // CADSTAR ASCII 输出流。
     stream.setEncoding(QStringConverter::Utf8);
     stream << "UNITS MM\nPROPERTY DESCRIPTION " << quote(libName) << '\n';
-    QSet<QString> symbols;
-    QSet<QString> padNames;
-    QSet<QString> packageNames;
+    QSet<QString> symbols;  // 已写入的符号名称集合。
+    QSet<QString> padNames;  // 已写入的焊盘定义名称。
+    QSet<QString> packageNames;  // 已写入的封装名称。
     if (!writePadDefinitions(stream, components, m_diagnostics, padNames))
         return false;
     for (const auto& component : components) {
-        const QString symbolName = component.symbol.name.isEmpty() ? component.name : component.symbol.name;
+        const QString symbolName =
+            component.symbol.name.isEmpty() ? component.name : component.symbol.name;  // 当前组件符号名称。
         if (symbols.contains(symbolName)) {
             m_diagnostics.append(QStringLiteral("CADSTAR: 符号名称冲突：%1").arg(symbolName));
             return false;
@@ -424,7 +534,10 @@ bool ExporterCadstarLibrary::exportComponentLibrary(const QList<IR::ComponentIR>
     return true;
 }
 
-/** @brief 返回最近一次导出的诊断信息。 */
+/**
+ * @brief 返回最近一次导出的诊断信息。
+ * @return 诊断信息列表。
+ */
 QStringList ExporterCadstarLibrary::diagnostics() const {
     return m_diagnostics;
 }

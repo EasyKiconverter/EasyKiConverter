@@ -22,7 +22,11 @@ namespace EasyKiConverter {
 
 namespace {
 
-// 将缓存服务的稳定诊断映射为当前界面的语言，避免英文界面直接显示中文后端错误。
+/**
+ * @brief 将缓存服务的稳定诊断映射为当前界面的语言，避免英文界面直接显示中文后端错误。
+ * @param error 缓存服务返回的错误信息。
+ * @return 当前界面语言对应的错误信息。
+ */
 QString translateCacheDirectoryError(const QString& error) {
     const auto translate = [](const char* source) {
         return QCoreApplication::translate("CacheDirectoryErrors", source);
@@ -104,6 +108,7 @@ ExportSettingsViewModel::ExportSettingsViewModel(ParallelExportService* exportSe
     // 初始化时检查调试模式（命令行参数优先，环境变量向后兼容）
     bool envDebugMode = qEnvironmentVariableIsSet("EASYKICONVERTER_DEBUG_MODE");
     if (envDebugMode) {
+        // 读取环境变量提供的调试模式文本值。
         QString debugValue = qEnvironmentVariable("EASYKICONVERTER_DEBUG_MODE", "false").toLower();
         m_debugMode = (debugValue == "true" || debugValue == "1" || debugValue == "yes");
     } else {
@@ -143,7 +148,10 @@ ExportSettingsViewModel::ExportSettingsViewModel(ParallelExportService* exportSe
 
 ExportSettingsViewModel::~ExportSettingsViewModel() {}
 
-// 设置输出目录并持久化配置。
+/**
+ * @brief 设置输出目录并持久化配置。
+ * @param path 路径或目录路径。
+ */
 void ExportSettingsViewModel::setOutputPath(const QString& path) {
     if (m_outputPath != path) {
         m_outputPath = path;
@@ -152,7 +160,10 @@ void ExportSettingsViewModel::setOutputPath(const QString& path) {
     }
 }
 
-// 清理库名称后更新并持久化配置。
+/**
+ * @brief 清理库名称后更新并持久化配置。
+ * @param name 库名称。
+ */
 void ExportSettingsViewModel::setLibName(const QString& name) {
     // 清洗 libName，防止路径穿越（如 ../foo）和非法字符
     const QString safeName = PathSecurity::sanitizeFilename(name);
@@ -163,9 +174,12 @@ void ExportSettingsViewModel::setLibName(const QString& name) {
     }
 }
 
-// 设置是否导出符号库。
+/**
+ * @brief 设置是否导出符号库。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setExportSymbol(bool enabled) {
-    if (enabled && m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro))
+    if (enabled && m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Allegro))
         enabled = false;
     if (m_exportSymbol != enabled) {
         m_exportSymbol = enabled;
@@ -174,9 +188,12 @@ void ExportSettingsViewModel::setExportSymbol(bool enabled) {
     }
 }
 
-// 设置是否导出封装库。
+/**
+ * @brief 设置是否导出封装库。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setExportFootprint(bool enabled) {
-    if (enabled && m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+    if (enabled && m_targetModel && m_targetModel->currentTargetFormat() == static_cast<int>(TargetEdaFormat::Orcad))
         enabled = false;
     if (m_exportFootprint != enabled) {
         m_exportFootprint = enabled;
@@ -185,7 +202,10 @@ void ExportSettingsViewModel::setExportFootprint(bool enabled) {
     }
 }
 
-// 设置是否导出三维模型。
+/**
+ * @brief 设置是否导出三维模型。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setExportModel3D(bool enabled) {
     if (m_exportModel3D != enabled) {
         m_exportModel3D = enabled;
@@ -194,7 +214,10 @@ void ExportSettingsViewModel::setExportModel3D(bool enabled) {
     }
 }
 
-// 设置三维模型导出格式。
+/**
+ * @brief 设置三维模型导出格式。
+ * @param format 三维模型格式位掩码。
+ */
 void ExportSettingsViewModel::setExportModel3DFormat(int format) {
     if (m_exportModel3DFormat != format) {
         m_exportModel3DFormat = format;
@@ -203,8 +226,12 @@ void ExportSettingsViewModel::setExportModel3DFormat(int format) {
     }
 }
 
-// 设置三维模型路径模式并规范化取值。
+/**
+ * @brief 设置三维模型路径模式并规范化取值。
+ * @param mode 三维模型路径模式或导出模式。
+ */
 void ExportSettingsViewModel::setExportModel3DPathMode(int mode) {
+    // 将输入的三维模型路径模式规范化到支持的枚举值。
     const int normalizedMode = ExportOptions::normalizePathMode(mode);
     if (m_exportModel3DPathMode != normalizedMode) {
         m_exportModel3DPathMode = normalizedMode;
@@ -213,7 +240,10 @@ void ExportSettingsViewModel::setExportModel3DPathMode(int mode) {
     }
 }
 
-// 设置是否导出预览图片。
+/**
+ * @brief 设置是否导出预览图片。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setExportPreviewImages(bool enabled) {
     if (m_exportPreviewImages != enabled) {
         m_exportPreviewImages = enabled;
@@ -222,7 +252,10 @@ void ExportSettingsViewModel::setExportPreviewImages(bool enabled) {
     }
 }
 
-// 设置是否导出数据手册。
+/**
+ * @brief 设置是否导出数据手册。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setExportDatasheet(bool enabled) {
     if (m_exportDatasheet != enabled) {
         m_exportDatasheet = enabled;
@@ -231,7 +264,10 @@ void ExportSettingsViewModel::setExportDatasheet(bool enabled) {
     }
 }
 
-// 设置是否覆盖已有导出文件。
+/**
+ * @brief 设置是否覆盖已有导出文件。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setOverwriteExistingFiles(bool enabled) {
     if (m_overwriteExistingFiles != enabled) {
         m_overwriteExistingFiles = enabled;
@@ -240,7 +276,10 @@ void ExportSettingsViewModel::setOverwriteExistingFiles(bool enabled) {
     }
 }
 
-// 设置弱网络适配选项。
+/**
+ * @brief 设置弱网络适配选项。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setWeakNetworkSupport(bool enabled) {
     if (m_weakNetworkSupport != enabled) {
         m_weakNetworkSupport = enabled;
@@ -249,18 +288,47 @@ void ExportSettingsViewModel::setWeakNetworkSupport(bool enabled) {
     }
 }
 
-// 设置库导出的追加或更新模式。
+/**
+ * @brief 设置库导出的追加、更新或覆盖模式。
+ * @param mode 三维模型路径模式或导出模式。
+ */
 void ExportSettingsViewModel::setExportMode(int mode) {
+    if (mode < 0 || mode > 2)
+        mode = 0;
+    if (requiresFullReplacement() && mode != 2) {
+        qWarning() << "The selected target only supports full replacement export";
+        mode = 2;
+    }
     if (m_exportMode != mode) {
         m_exportMode = mode;
         m_configService->setExportMode(mode);
         emit exportModeChanged();
-        qDebug() << "Export mode changed to:" << mode << "(0=append, 1=update)";
+        qDebug() << "Export mode changed to:" << mode << "(0=append, 1=update, 2=overwrite)";
     }
 }
 
-// 设置调试模式，环境变量存在时由环境变量优先控制。
+/**
+ * @brief 判断当前目标格式是否只支持完整替换导出。
+ * @return 当前目标不支持追加和更新时返回 true。
+ */
+bool ExportSettingsViewModel::requiresFullReplacement() const {
+    if (!m_targetModel)
+        return false;
+
+    const auto target =  // 当前目标格式枚举值。
+        static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
+    return target == TargetEdaFormat::Xpedition || target == TargetEdaFormat::Allegro ||
+           target == TargetEdaFormat::Pads || target == TargetEdaFormat::Eagle || target == TargetEdaFormat::Pcad ||
+           target == TargetEdaFormat::Cadstar || target == TargetEdaFormat::Orcad ||
+           target == TargetEdaFormat::LibrePcb;
+}
+
+/**
+ * @brief 设置调试模式，环境变量存在时由环境变量优先控制。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setDebugMode(bool enabled) {
+    // 判断调试模式是否由环境变量接管。
     bool envDebugMode = qEnvironmentVariableIsSet("EASYKICONVERTER_DEBUG_MODE");
 
     if (envDebugMode) {
@@ -276,41 +344,59 @@ void ExportSettingsViewModel::setDebugMode(bool enabled) {
     }
 }
 
-// 绑定目标格式模型并同步目标格式相关限制。
+/**
+ * @brief 绑定目标格式模型并同步目标格式相关限制。
+ * @param model 导出目标模型实例。
+ */
 void ExportSettingsViewModel::setTargetModel(ExportTargetModel* model) {
     if (m_targetModel == model)
         return;
     m_targetModel = model;
     if (m_targetModel) {
         connect(m_targetModel, &ExportTargetModel::currentTargetChanged, this, [this]() {
-            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro)) {
+            if (requiresFullReplacement() && m_exportMode != 2)
+                setExportMode(2);
+            // 读取目标格式，以应用目标格式专属导出限制。
+            const auto targetFormat = static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
+            if (targetFormat == TargetEdaFormat::Allegro) {
                 setExportSymbol(false);
                 if (m_exportModel3D)
                     setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
             }
-            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+            if (targetFormat == TargetEdaFormat::Orcad)
                 setExportFootprint(false);
-            if (m_targetModel && m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Altium) &&
+            if ((targetFormat == TargetEdaFormat::Altium || targetFormat == TargetEdaFormat::LibrePcb ||
+                 targetFormat == TargetEdaFormat::Horizon) &&
                 (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
-                // Altium PcbLib 只能可靠嵌入 STEP，切换目标时移除 WRL 位。
+                // 这些原生库只接受 STEP，切换目标时移除 WRL 位。
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
             }
+            emit requiresFullReplacementChanged();
         });
-        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Allegro)) {
+        if (requiresFullReplacement() && m_exportMode != 2)
+            setExportMode(2);
+        // 初始化当前目标格式对应的导出限制。
+        const auto targetFormat = static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
+        if (targetFormat == TargetEdaFormat::Allegro) {
             setExportSymbol(false);
             if (m_exportModel3D)
                 setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
         }
-        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Orcad))
+        if (targetFormat == TargetEdaFormat::Orcad)
             setExportFootprint(false);
-        if (m_targetModel->currentIndex() == static_cast<int>(TargetEdaFormat::Altium) &&
+        if ((targetFormat == TargetEdaFormat::Altium || targetFormat == TargetEdaFormat::LibrePcb ||
+             targetFormat == TargetEdaFormat::Horizon) &&
             (m_exportModel3DFormat & ExportOptions::MODEL_3D_FORMAT_WRL)) {
             setExportModel3DFormat(ExportOptions::MODEL_3D_FORMAT_STEP);
         }
+        emit requiresFullReplacementChanged();
     }
 }
 
-// 设置是否导出符号描述信息。
+/**
+ * @brief 设置是否导出符号描述信息。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setExportSymbolDescription(bool enabled) {
     if (m_exportSymbolDescription != enabled) {
         m_exportSymbolDescription = enabled;
@@ -318,7 +404,10 @@ void ExportSettingsViewModel::setExportSymbolDescription(bool enabled) {
     }
 }
 
-// 设置是否导出封装描述信息。
+/**
+ * @brief 设置是否导出封装描述信息。
+ * @param enabled 开关状态。
+ */
 void ExportSettingsViewModel::setExportFootprintDescription(bool enabled) {
     if (m_exportFootprintDescription != enabled) {
         m_exportFootprintDescription = enabled;
@@ -326,7 +415,10 @@ void ExportSettingsViewModel::setExportFootprintDescription(bool enabled) {
     }
 }
 
-// 设置符号库描述文本。
+/**
+ * @brief 设置符号库描述文本。
+ * @param desc 库描述文本。
+ */
 void ExportSettingsViewModel::setSymbolLibraryDescription(const QString& desc) {
     if (m_symbolLibraryDescription != desc) {
         m_symbolLibraryDescription = desc;
@@ -334,7 +426,10 @@ void ExportSettingsViewModel::setSymbolLibraryDescription(const QString& desc) {
     }
 }
 
-// 设置封装库描述文本。
+/**
+ * @brief 设置封装库描述文本。
+ * @param desc 库描述文本。
+ */
 void ExportSettingsViewModel::setFootprintLibraryDescription(const QString& desc) {
     if (m_footprintLibraryDescription != desc) {
         m_footprintLibraryDescription = desc;
@@ -342,7 +437,10 @@ void ExportSettingsViewModel::setFootprintLibraryDescription(const QString& desc
     }
 }
 
-// 设置封装库关键词文本。
+/**
+ * @brief 设置封装库关键词文本。
+ * @param keywords 库关键词。
+ */
 void ExportSettingsViewModel::setFootprintLibraryKeywords(const QString& keywords) {
     if (m_footprintLibraryKeywords != keywords) {
         m_footprintLibraryKeywords = keywords;
@@ -350,11 +448,17 @@ void ExportSettingsViewModel::setFootprintLibraryKeywords(const QString& keyword
     }
 }
 
-// 校验缓存目录后再持久化配置并迁移已有缓存。
+/**
+ * @brief 校验缓存目录后再持久化配置并迁移已有缓存。
+ * @param path 路径或目录路径。
+ */
 void ExportSettingsViewModel::setCacheDir(const QString& path) {
+    // 保存安全校验返回的规范化缓存目录路径。
     QString normalizedPath;
+    // 保存缓存目录校验或迁移失败的原始错误信息。
     QString error;
     if (!CacheSafety::validateSelection(path, &normalizedPath, &error)) {
+        // 将安全校验错误转换为当前界面语言。
         const QString localizedError = translateCacheDirectoryError(error);
         setStatus(localizedError);
         emit cacheDirChangeRejected(path, localizedError);
@@ -364,6 +468,7 @@ void ExportSettingsViewModel::setCacheDir(const QString& path) {
         return;
 
     if (!ComponentCacheService::instance()->setCacheDir(normalizedPath, /*migrateExistingCache=*/true, &error)) {
+        // 保存迁移失败的可读原因，供状态和拒绝信号共同使用。
         const QString reason = translateCacheDirectoryError(error.isEmpty() ? QStringLiteral("迁移失败") : error);
         setStatus(QStringLiteral("缓存目录未切换：%1").arg(reason));
         emit cacheDirChangeRejected(path, reason);
@@ -375,8 +480,12 @@ void ExportSettingsViewModel::setCacheDir(const QString& path) {
     emit cacheDirChanged();
 }
 
-// 设置磁盘缓存上限并限制在允许范围内。
+/**
+ * @brief 设置磁盘缓存上限并限制在允许范围内。
+ * @param maxSizeMB 磁盘缓存上限（MB）。
+ */
 void ExportSettingsViewModel::setDiskCacheLimitMB(int maxSizeMB) {
+    // 将磁盘缓存上限限制在配置服务允许的范围内。
     const int normalizedSize = qBound(1, maxSizeMB, ConfigService::MAX_DISK_CACHE_LIMIT_MB);
     if (m_diskCacheLimitMB != normalizedSize) {
         m_diskCacheLimitMB = normalizedSize;
@@ -386,7 +495,10 @@ void ExportSettingsViewModel::setDiskCacheLimitMB(int maxSizeMB) {
     }
 }
 
-// 构建导出选项、预加载组件数据并启动导出。
+/**
+ * @brief 构建导出选项、预加载组件数据并启动导出。
+ * @param componentIds 待导出的元器件编号列表。
+ */
 void ExportSettingsViewModel::startExport(const QStringList& componentIds) {
     qDebug() << "Starting export for" << componentIds.size() << "components";
 
@@ -420,15 +532,20 @@ void ExportSettingsViewModel::startExport(const QStringList& componentIds) {
     m_exportService->startPreload(componentIds);
 }
 
-// 将界面设置转换为导出服务使用的选项对象。
+/**
+ * @brief 将界面设置转换为导出服务使用的选项对象。
+ */
 void ExportSettingsViewModel::buildExportOptions() {
+    // 根据当前界面设置构造导出服务选项。
     const ExportOptions options = ExportOptionsBuilder::build(*this);
 
     m_exportService->setOptions(options);
     m_exportService->setOutputPath(options.outputPath);
 }
 
-// 请求导出服务取消当前导出并更新界面状态。
+/**
+ * @brief 请求导出服务取消当前导出并更新界面状态。
+ */
 void ExportSettingsViewModel::cancelExport() {
     qDebug() << "Cancelling export";
 
@@ -441,28 +558,39 @@ void ExportSettingsViewModel::cancelExport() {
     setStatus("Export cancelled");
 }
 
-// 创建并打开当前输出目录。
+/**
+ * @brief 创建并打开当前输出目录。
+ */
 bool ExportSettingsViewModel::openOutputFolder() {
     if (m_outputPath.isEmpty()) {
         return false;
     }
 
+    // 保存即将打开的输出目录路径。
     QString pathToOpen = m_outputPath;
     if (!QDir(pathToOpen).exists()) {
         QDir().mkpath(pathToOpen);
     }
 
+    // 使用文件工具打开输出目录。
     FileUtils utils;
     return utils.openFolder(pathToOpen);
 }
 
-// 将预加载进度转换为界面状态文本。
+/**
+ * @brief 将预加载进度转换为界面状态文本。
+ * @param progress 导出总体进度。
+ */
 void ExportSettingsViewModel::handlePreloadProgressChanged(const PreloadProgress& progress) {
     Q_UNUSED(progress);
     setStatus(QString("Preloading... %1/%2").arg(progress.completedCount).arg(progress.totalCount));
 }
 
-// 处理预加载完成信号并进入实际导出阶段。
+/**
+ * @brief 处理预加载完成信号并进入实际导出阶段。
+ * @param successCount 成功项目数量。
+ * @param failedCount 失败项目数量。
+ */
 void ExportSettingsViewModel::handlePreloadCompleted(int successCount, int failedCount) {
     qDebug() << "Preload completed: success=" << successCount << "failed=" << failedCount;
 
@@ -476,13 +604,22 @@ void ExportSettingsViewModel::handlePreloadCompleted(int successCount, int faile
     m_exportService->startExport();
 }
 
-// 处理整体导出进度变化并更新状态文本。
+/**
+ * @brief 处理整体导出进度变化并更新状态文本。
+ * @param progress 导出总体进度。
+ */
 void ExportSettingsViewModel::handleProgressChanged(const ExportOverallProgress& progress) {
     Q_UNUSED(progress);
     setStatus("Exporting...");
 }
 
-// 记录单个导出类型完成后的统计信息。
+/**
+ * @brief 记录单个导出类型完成后的统计信息。
+ * @param typeName 导出类型名称。
+ * @param successCount 成功数量。
+ * @param failedCount 失败数量。
+ * @param skippedCount 跳过数量。
+ */
 void ExportSettingsViewModel::handleTypeCompleted(const QString& typeName,
                                                   int successCount,
                                                   int failedCount,
@@ -491,7 +628,11 @@ void ExportSettingsViewModel::handleTypeCompleted(const QString& typeName,
     qDebug() << "Type completed:" << typeName << "success=" << successCount << "failed=" << failedCount;
 }
 
-// 处理全部导出完成信号并更新成功或失败状态。
+/**
+ * @brief 处理全部导出完成信号并更新成功或失败状态。
+ * @param successCount 成功项目数量。
+ * @param failedCount 失败项目数量。
+ */
 void ExportSettingsViewModel::handleCompleted(int successCount, int failedCount) {
     qDebug() << "Export completed: success=" << successCount << "failed=" << failedCount;
     setIsExporting(false);
@@ -503,21 +644,29 @@ void ExportSettingsViewModel::handleCompleted(int successCount, int failedCount)
     }
 }
 
-// 处理导出取消信号并恢复空闲状态。
+/**
+ * @brief 处理导出取消信号并恢复空闲状态。
+ */
 void ExportSettingsViewModel::handleCancelled() {
     qDebug() << "Export cancelled";
     setIsExporting(false);
     setStatus("Export cancelled");
 }
 
-// 处理导出失败信号并向界面展示错误信息。
+/**
+ * @brief 处理导出失败信号并向界面展示错误信息。
+ * @param error 错误信息。
+ */
 void ExportSettingsViewModel::handleFailed(const QString& error) {
     qWarning() << "Export failed:" << error;
     setIsExporting(false);
     setStatus(QString("Export failed: %1").arg(error));
 }
 
-// 更新导出中状态并通知 QML 绑定。
+/**
+ * @brief 更新导出中状态并通知 QML 绑定。
+ * @param exporting 是否正在导出。
+ */
 void ExportSettingsViewModel::setIsExporting(bool exporting) {
     if (m_isExporting != exporting) {
         m_isExporting = exporting;
@@ -525,7 +674,10 @@ void ExportSettingsViewModel::setIsExporting(bool exporting) {
     }
 }
 
-// 更新状态文本并通知 QML 绑定。
+/**
+ * @brief 更新状态文本并通知 QML 绑定。
+ * @param status 状态文本。
+ */
 void ExportSettingsViewModel::setStatus(const QString& status) {
     if (m_status != status) {
         m_status = status;
@@ -533,23 +685,39 @@ void ExportSettingsViewModel::setStatus(const QString& status) {
     }
 }
 
-// 从配置服务加载设置并仅对发生变化的属性发出通知。
+/**
+ * @brief 从配置服务加载设置并仅对发生变化的属性发出通知。
+ */
 void ExportSettingsViewModel::loadFromConfig() {
     // 保存旧值以便比较，仅在值变化时发射信号（避免不必要的 QML 绑定刷新）
     const QString oldOutputPath = m_outputPath;
+    // 保存加载配置前的库名称，用于判断是否需要通知界面。
     const QString oldLibName = m_libName;
+    // 保存加载配置前的符号导出开关。
     const bool oldExportSymbol = m_exportSymbol;
+    // 保存加载配置前的封装导出开关。
     const bool oldExportFootprint = m_exportFootprint;
+    // 保存加载配置前的 3D 模型导出开关。
     const bool oldExportModel3D = m_exportModel3D;
+    // 保存加载配置前的 3D 模型格式选项。
     const int oldExportModel3DFormat = m_exportModel3DFormat;
+    // 保存加载配置前的 3D 模型路径模式。
     const int oldExportModel3DPathMode = m_exportModel3DPathMode;
+    // 保存加载配置前的预览图导出开关。
     const bool oldExportPreviewImages = m_exportPreviewImages;
+    // 保存加载配置前的数据手册导出开关。
     const bool oldExportDatasheet = m_exportDatasheet;
+    // 保存加载配置前的覆盖已有文件开关。
     const bool oldOverwriteExistingFiles = m_overwriteExistingFiles;
+    // 保存加载配置前的弱网络模式开关。
     const bool oldWeakNetworkSupport = m_weakNetworkSupport;
+    // 保存加载配置前的导出模式。
     const int oldExportMode = m_exportMode;
+    // 保存加载配置前的调试模式开关。
     const bool oldDebugMode = m_debugMode;
+    // 保存加载配置前的缓存目录路径。
     const QString oldCacheDir = m_cacheDir;
+    // 保存加载配置前的磁盘缓存上限。
     const int oldDiskCacheLimitMB = m_diskCacheLimitMB;
 
     m_outputPath = m_configService->getOutputPath();
@@ -563,8 +731,10 @@ void ExportSettingsViewModel::loadFromConfig() {
     m_exportDatasheet = m_configService->getExportDatasheet();
     m_overwriteExistingFiles = m_configService->getOverwriteExistingFiles();
     m_weakNetworkSupport = m_configService->getWeakNetworkSupport();
-    m_exportMode = m_configService->getExportMode();
+    m_exportMode = qBound(0, m_configService->getExportMode(), 2);
+    // 读取配置文件中保存的缓存目录路径。
     const QString configuredCacheDir = m_configService->getCacheDir();
+    // 保存安全校验返回的规范化缓存目录路径。
     QString normalizedCacheDir;
     if (CacheSafety::validateSelection(configuredCacheDir, &normalizedCacheDir, nullptr))
         m_cacheDir = normalizedCacheDir;
@@ -572,8 +742,10 @@ void ExportSettingsViewModel::loadFromConfig() {
         m_cacheDir = ComponentCacheService::instance()->cacheDir();
     m_diskCacheLimitMB = m_configService->getDiskCacheLimitMB();
 
+    // 判断调试模式是否由环境变量控制。
     bool envDebugMode = qEnvironmentVariableIsSet("EASYKICONVERTER_DEBUG_MODE");
     if (envDebugMode) {
+        // 读取环境变量提供的调试模式文本值。
         QString debugValue = qEnvironmentVariable("EASYKICONVERTER_DEBUG_MODE", "false").toLower();
         m_debugMode = (debugValue == "true" || debugValue == "1" || debugValue == "yes");
     } else {
@@ -626,12 +798,16 @@ void ExportSettingsViewModel::loadFromConfig() {
         emit diskCacheLimitMBChanged();
 }
 
-// 请求配置服务保存当前设置。
+/**
+ * @brief 请求配置服务保存当前设置。
+ */
 void ExportSettingsViewModel::saveConfig() {
     m_configService->saveConfig();
 }
 
-// 恢复界面设置的默认值并同步配置服务。
+/**
+ * @brief 恢复界面设置的默认值并同步配置服务。
+ */
 void ExportSettingsViewModel::resetConfig() {
     m_outputPath = "";
     m_libName = "MyLibrary";
@@ -651,8 +827,11 @@ void ExportSettingsViewModel::resetConfig() {
     m_symbolLibraryDescription.clear();
     m_footprintLibraryDescription.clear();
     m_footprintLibraryKeywords.clear();
+    // 读取配置文件中保存的缓存目录路径。
     const QString configuredCacheDir = m_configService->getCacheDir();
+    // 保存安全校验返回的规范化缓存目录路径。
     QString normalizedCacheDir;
+    // 保存缓存目录校验失败的具体原因。
     QString cacheDirError;
     if (CacheSafety::validateSelection(configuredCacheDir, &normalizedCacheDir, &cacheDirError)) {
         m_cacheDir = normalizedCacheDir;

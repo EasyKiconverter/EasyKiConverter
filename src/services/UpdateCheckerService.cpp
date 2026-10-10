@@ -16,26 +16,30 @@ namespace EasyKiConverter {
 
 namespace {
 
-constexpr auto RELEASES_URL = "https://api.github.com/repos/EasyKiconverter/EasyKiConverter/releases/latest";
+constexpr auto RELEASES_URL =
+    "https://api.github.com/repos/EasyKiconverter/EasyKiConverter/releases/latest";  ///< GitHub 最新 Release 接口地址。
 
 struct SemanticVersion {
-    int major = 0;
-    int minor = 0;
-    int patch = 0;
-    QStringList prerelease;
-    bool valid = false;
+    int major = 0;  ///< 主版本号。
+    int minor = 0;  ///< 次版本号。
+    int patch = 0;  ///< 补丁版本号。
+    QStringList prerelease;  ///< 预发布标识列表。
+    bool valid = false;  ///< 校验结果。
 };
 
-// 解析并校验更新服务使用的 SemVer 字符串。
+/**
+ * @brief 解析并校验更新服务使用的 SemVer 字符串。
+ * @param value 待处理的值。
+ */
 SemanticVersion parseVersion(const QString& value) {
     const QRegularExpression expression(
         QStringLiteral("^v?(\\d+)(?:\\.(\\d+))?(?:\\.(\\d+))?(?:-([0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*))?(?:\\+[0-9A-Za-"
                        "z-]+(?:\\.[0-9A-Za-z-]+)*)?$"));
-    const QRegularExpressionMatch match = expression.match(value.trimmed());
+    const QRegularExpressionMatch match = expression.match(value.trimmed());  ///< 版本正则匹配结果。
     if (!match.hasMatch())
         return {};
 
-    SemanticVersion result;
+    SemanticVersion result;  ///< 结果。
     result.major = match.captured(1).toInt();
     result.minor = match.captured(2).isEmpty() ? 0 : match.captured(2).toInt();
     result.patch = match.captured(3).isEmpty() ? 0 : match.captured(3).toInt();
@@ -44,7 +48,11 @@ SemanticVersion parseVersion(const QString& value) {
     return result;
 }
 
-// 按 SemVer 规则比较两个已解析的版本。
+/**
+ * @brief 按 SemVer 规则比较两个已解析的版本。
+ * @param left 左侧比较值。
+ * @param right 右侧比较值。
+ */
 int compareVersions(const SemanticVersion& left, const SemanticVersion& right) {
     if (left.major != right.major)
         return left.major < right.major ? -1 : 1;
@@ -60,16 +68,16 @@ int compareVersions(const SemanticVersion& left, const SemanticVersion& right) {
         return -1;
 
     const QRegularExpression numeric(QStringLiteral("^[0-9]+$"));
-    const int count = qMax(left.prerelease.size(), right.prerelease.size());
+    const int count = qMax(left.prerelease.size(), right.prerelease.size());  ///< 数量。
     for (int index = 0; index < count; ++index) {
         if (index >= left.prerelease.size())
             return -1;
         if (index >= right.prerelease.size())
             return 1;
-        const QString& leftPart = left.prerelease.at(index);
-        const QString& rightPart = right.prerelease.at(index);
-        const bool leftNumeric = numeric.match(leftPart).hasMatch();
-        const bool rightNumeric = numeric.match(rightPart).hasMatch();
+        const QString& leftPart = left.prerelease.at(index);  ///< 左侧预发布标识。
+        const QString& rightPart = right.prerelease.at(index);  ///< 右侧预发布标识。
+        const bool leftNumeric = numeric.match(leftPart).hasMatch();  ///< 左侧标识是否为数字。
+        const bool rightNumeric = numeric.match(rightPart).hasMatch();  ///< 右侧标识是否为数字。
         if (leftNumeric && rightNumeric && leftPart.toLongLong() != rightPart.toLongLong())
             return leftPart.toLongLong() < rightPart.toLongLong() ? -1 : 1;
         if (leftNumeric != rightNumeric)
@@ -80,9 +88,11 @@ int compareVersions(const SemanticVersion& left, const SemanticVersion& right) {
     return 0;
 }
 
-// 返回当前平台支持的资产架构名称候选。
+/**
+ * @brief 返回当前平台支持的资产架构名称候选。
+ */
 QStringList assetArchitectureTokens() {
-    QStringList preferred;
+    QStringList preferred;  ///< 首选架构标记列表。
 #if defined(Q_OS_WIN)
     preferred << (QSysInfo::currentCpuArchitecture().contains(QStringLiteral("arm"), Qt::CaseInsensitive)
                       ? QStringList{QStringLiteral("arm64")}
@@ -99,7 +109,10 @@ QStringList assetArchitectureTokens() {
     return preferred;
 }
 
-// 判断资产扩展名是否属于当前平台的可分发格式。
+/**
+ * @brief 判断资产扩展名是否属于当前平台的可分发格式。
+ * @param name 名称。
+ */
 bool isPlatformAssetName(const QString& name) {
 #if defined(Q_OS_WIN)
     return name.endsWith(QStringLiteral(".zip")) || name.endsWith(QStringLiteral(".msix"));
@@ -113,14 +126,17 @@ bool isPlatformAssetName(const QString& name) {
 #endif
 }
 
-// 从 Release 资产中选择当前平台和架构的下载地址。
+/**
+ * @brief 从 Release 资产中选择当前平台和架构的下载地址。
+ * @param assets 发布资产列表。
+ */
 QString chooseAsset(const QJsonArray& assets) {
-    const QStringList preferred = assetArchitectureTokens();
+    const QStringList preferred = assetArchitectureTokens();  ///< 首选架构标记列表。
 
     for (const QJsonValue& value : assets) {
-        const QJsonObject asset = value.toObject();
-        const QString name = asset.value(QStringLiteral("name")).toString().toLower();
-        const QString url = asset.value(QStringLiteral("browser_download_url")).toString();
+        const QJsonObject asset = value.toObject();  ///< 发布资产 JSON 对象。
+        const QString name = asset.value(QStringLiteral("name")).toString().toLower();  ///< 名称。
+        const QString url = asset.value(QStringLiteral("browser_download_url")).toString();  ///< URL。
         if (url.isEmpty() || !isPlatformAssetName(name))
             continue;
         for (const QString& token : preferred) {
@@ -133,21 +149,33 @@ QString chooseAsset(const QJsonArray& assets) {
 
 }  // namespace
 
-// 创建更新服务并载入最近一次有效的本地缓存。
+/**
+ * @brief 创建更新服务并载入最近一次有效的本地缓存。
+ */
 UpdateCheckerService::UpdateCheckerService(QObject* parent)
-    // 使用项目默认网络客户端保持原有构造方式兼容。
+    /**
+     * @brief 使用项目默认网络客户端保持原有构造方式兼容。
+     * @param instance 服务实例。
+     */
     : QObject(parent), m_networkClient(&NetworkClient::instance()) {
     loadCachedRelease();
 }
 
-// 创建更新服务并载入最近一次有效的本地缓存。
+/**
+ * @brief 创建更新服务并载入最近一次有效的本地缓存。
+ */
 UpdateCheckerService::UpdateCheckerService(INetworkClient& networkClient, QObject* parent)
-    // 初始化网络客户端并保持可测试的依赖注入边界。
+    /**
+     * @brief 初始化网络客户端并保持可测试的依赖注入边界。
+     * @param networkClient 网络客户端。
+     */
     : QObject(parent), m_networkClient(&networkClient) {
     loadCachedRelease();
 }
 
-// 释放正在进行的请求，避免服务销毁后继续回调。
+/**
+ * @brief 释放正在进行的请求，避免服务销毁后继续回调。
+ */
 UpdateCheckerService::~UpdateCheckerService() {
     if (m_activeRequest) {
         m_activeRequest->cancel();
@@ -156,12 +184,16 @@ UpdateCheckerService::~UpdateCheckerService() {
     }
 }
 
-// 返回由应用元数据提供并经过规范化的当前版本。
+/**
+ * @brief 返回由应用元数据提供并经过规范化的当前版本。
+ */
 QString UpdateCheckerService::currentVersion() const {
     return normalizeVersion(QCoreApplication::applicationVersion());
 }
 
-// 返回供 QML 稳定判断的状态键。
+/**
+ * @brief 返回供 QML 稳定判断的状态键。
+ */
 QString UpdateCheckerService::statusText() const {
     // 将内部枚举映射为不会随语言变化的 QML 状态键。
     switch (m_status) {
@@ -181,29 +213,38 @@ QString UpdateCheckerService::statusText() const {
     }
 }
 
-// 读取启动自动检查开关。
+/**
+ * @brief 读取启动自动检查开关。
+ */
 bool UpdateCheckerService::autoCheckEnabled() const {
     return ConfigService::instance()->getUpdateAutoCheck();
 }
 
-// 读取最近一次检查开始时间。
+/**
+ * @brief 读取最近一次检查开始时间。
+ */
 qint64 UpdateCheckerService::lastCheckTime() const {
     return ConfigService::instance()->getUpdateLastCheckTime();
 }
 
-// 读取最近一次成功检查时间。
+/**
+ * @brief 读取最近一次成功检查时间。
+ */
 qint64 UpdateCheckerService::lastSuccessfulCheckTime() const {
     return ConfigService::instance()->getUpdateLastSuccessfulCheckTime();
 }
 
-// 按自动检查策略发起一次不会重复并发的 Release 请求。
+/**
+ * @brief 按自动检查策略发起一次不会重复并发的 Release 请求。
+ * @param force 是否强制执行。
+ */
 void UpdateCheckerService::checkForUpdates(bool force) {
     if (m_checking)
         return;
 
-    ConfigService* config = ConfigService::instance();
-    const qint64 now = QDateTime::currentSecsSinceEpoch();
-    const qint64 interval = static_cast<qint64>(config->getUpdateCheckIntervalHours()) * 3600;
+    ConfigService* config = ConfigService::instance();  ///< 配置服务实例。
+    const qint64 now = QDateTime::currentSecsSinceEpoch();  ///< 当前 Unix 时间。
+    const qint64 interval = static_cast<qint64>(config->getUpdateCheckIntervalHours()) * 3600;  ///< 更新检查间隔。
     if (!force && !config->getUpdateAutoCheck())
         return;
     if (!force && config->getUpdateLastCheckTime() > 0 && now - config->getUpdateLastCheckTime() < interval)
@@ -244,8 +285,8 @@ void UpdateCheckerService::checkForUpdates(bool force) {
         }
 
         m_rateLimited = false;
-        QJsonParseError parseError;
-        const QJsonDocument document = QJsonDocument::fromJson(result.data, &parseError);
+        QJsonParseError parseError;  ///< 错误。
+        const QJsonDocument document = QJsonDocument::fromJson(result.data, &parseError);  ///< JSON 文档。
         if (parseError.error != QJsonParseError::NoError || !document.isObject()) {
             setError(QStringLiteral("Invalid release response"));
             setStatus(Status::Failed);
@@ -255,7 +296,9 @@ void UpdateCheckerService::checkForUpdates(bool force) {
     });
 }
 
-// 持久化当前版本的稍后提醒选择。
+/**
+ * @brief 持久化当前版本的稍后提醒选择。
+ */
 void UpdateCheckerService::dismissUpdate() {
     if (!m_hasUpdate)
         return;
@@ -265,7 +308,9 @@ void UpdateCheckerService::dismissUpdate() {
     emit updateStateChanged();
 }
 
-// 持久化忽略当前版本的选择，并清除稍后提醒标记。
+/**
+ * @brief 持久化忽略当前版本的选择，并清除稍后提醒标记。
+ */
 void UpdateCheckerService::ignoreUpdate() {
     if (m_latestVersion.isEmpty())
         return;
@@ -274,7 +319,9 @@ void UpdateCheckerService::ignoreUpdate() {
     ConfigService::instance()->setUpdateRemindedVersion(QString());
 }
 
-// 清除当前运行实例中的提示关闭状态。
+/**
+ * @brief 清除当前运行实例中的提示关闭状态。
+ */
 void UpdateCheckerService::resetDismissed() {
     if (!m_dismissed)
         return;
@@ -283,7 +330,10 @@ void UpdateCheckerService::resetDismissed() {
     emit updateStateChanged();
 }
 
-// 保存启动自动检查开关并通知界面。
+/**
+ * @brief 保存启动自动检查开关并通知界面。
+ * @param enabled 是否启用。
+ */
 void UpdateCheckerService::setAutoCheckEnabled(bool enabled) {
     if (autoCheckEnabled() == enabled)
         return;
@@ -291,38 +341,52 @@ void UpdateCheckerService::setAutoCheckEnabled(bool enabled) {
     emit autoCheckEnabledChanged();
 }
 
-// 从 ConfigService 读取并应用最近一次有效 Release 缓存。
+/**
+ * @brief 从 ConfigService 读取并应用最近一次有效 Release 缓存。
+ */
 void UpdateCheckerService::loadCachedRelease() {
-    const QJsonObject cached = ConfigService::instance()->getUpdateCachedRelease();
+    const QJsonObject cached = ConfigService::instance()->getUpdateCachedRelease();  ///< 缓存的发布信息。
     if (!cached.isEmpty())
         applyRelease(cached, true);
 }
 
-// 将带 v 前缀的版本规范化为统一的 SemVer 表示。
+/**
+ * @brief 将带 v 前缀的版本规范化为统一的 SemVer 表示。
+ * @param version 版本号。
+ */
 QString UpdateCheckerService::normalizeVersion(const QString& version) {
-    const SemanticVersion parsed = parseVersion(version);
+    const SemanticVersion parsed = parseVersion(version);  ///< 解析后的版本。
     if (!parsed.valid)
         return QString();
+    // 规范化后的 SemVer 文本。
     QString normalized = QStringLiteral("%1.%2.%3").arg(parsed.major).arg(parsed.minor).arg(parsed.patch);
     if (!parsed.prerelease.isEmpty())
         normalized += QStringLiteral("-") + parsed.prerelease.join('.');
-    const int buildMarker = version.indexOf('+');
+    const int buildMarker = version.indexOf('+');  ///< 构建元数据起始位置。
     if (buildMarker >= 0)
         normalized += version.mid(buildMarker).trimmed();
     return normalized;
 }
 
-// 判断远程版本是否严格高于当前版本。
+/**
+ * @brief 判断远程版本是否严格高于当前版本。
+ * @param current 当前版本号。
+ * @param latest 最新版本号。
+ */
 bool UpdateCheckerService::isRemoteVersionNewer(const QString& current, const QString& latest) {
-    const SemanticVersion currentVersion = parseVersion(current);
-    const SemanticVersion latestVersion = parseVersion(latest);
+    const SemanticVersion currentVersion = parseVersion(current);  ///< 当前版本。
+    const SemanticVersion latestVersion = parseVersion(latest);  ///< 最新版本。
     return currentVersion.valid && latestVersion.valid && compareVersions(currentVersion, latestVersion) < 0;
 }
 
-// 校验 GitHub Release 的稳定性、版本和下载元数据。
+/**
+ * @brief 校验 GitHub Release 的稳定性、版本和下载元数据。
+ * @param release 发布信息 JSON 对象。
+ * @param reason 失败原因。
+ */
 bool UpdateCheckerService::validateRelease(const QJsonObject& release, QString* reason) const {
-    const QString tag = release.value(QStringLiteral("tag_name")).toString();
-    const QString name = release.value(QStringLiteral("name")).toString();
+    const QString tag = release.value(QStringLiteral("tag_name")).toString();  ///< 发布标签。
+    const QString name = release.value(QStringLiteral("name")).toString();  ///< 名称。
     const QUrl url(release.value(QStringLiteral("html_url")).toString());
     if (release.value(QStringLiteral("draft")).toBool(false) ||
         release.value(QStringLiteral("prerelease")).toBool(false)) {
@@ -344,18 +408,22 @@ bool UpdateCheckerService::validateRelease(const QJsonObject& release, QString* 
     return true;
 }
 
-// 应用远程或缓存 Release，并同步持久化检查结果。
+/**
+ * @brief 应用远程或缓存 Release，并同步持久化检查结果。
+ * @param release 发布信息 JSON 对象。
+ * @param fromCache 是否来自缓存。
+ */
 bool UpdateCheckerService::applyRelease(const QJsonObject& release, bool fromCache) {
-    QString reason;
+    QString reason;  ///< 失败原因。
     if (!validateRelease(release, &reason)) {
         setError(reason);
         setStatus(Status::Failed);
         return false;
     }
-    const QString version = normalizeVersion(release.value(QStringLiteral("tag_name")).toString());
-    ConfigService* config = ConfigService::instance();
-    const QString ignored = config->getUpdateIgnoredVersion();
-    const QString reminded = config->getUpdateRemindedVersion();
+    const QString version = normalizeVersion(release.value(QStringLiteral("tag_name")).toString());  ///< 规范化版本号。
+    ConfigService* config = ConfigService::instance();  ///< 配置服务实例。
+    const QString ignored = config->getUpdateIgnoredVersion();  ///< 被忽略的版本号。
+    const QString reminded = config->getUpdateRemindedVersion();  ///< 已提醒的版本号。
     config->beginBatchUpdate();
     if (!fromCache) {
         config->setUpdateCachedRelease(release);
@@ -377,7 +445,10 @@ bool UpdateCheckerService::applyRelease(const QJsonObject& release, bool fromCac
     return true;
 }
 
-// 更新检查中标志并发出对应通知。
+/**
+ * @brief 更新检查中标志并发出对应通知。
+ * @param checking 是否正在检查。
+ */
 void UpdateCheckerService::setChecking(bool checking) {
     if (m_checking == checking)
         return;
@@ -385,7 +456,10 @@ void UpdateCheckerService::setChecking(bool checking) {
     emit checkingChanged();
 }
 
-// 更新状态枚举并通知 QML。
+/**
+ * @brief 更新状态枚举并通知 QML。
+ * @param status 状态值。
+ */
 void UpdateCheckerService::setStatus(Status status) {
     if (m_status == status)
         return;
@@ -393,16 +467,22 @@ void UpdateCheckerService::setStatus(Status status) {
     emit statusChanged();
 }
 
-// 将 Release 元数据映射到公开属性和用户提醒策略。
+/**
+ * @brief 将 Release 元数据映射到公开属性和用户提醒策略。
+ * @param version 版本号。
+ * @param name 名称。
+ * @param url 资源 URL。
+ * @param asset 发布资产 JSON 对象。
+ */
 void UpdateCheckerService::applyUpdateInfo(const QString& version,
                                            const QString& name,
                                            const QString& url,
                                            const QString& asset) {
-    const QString ignoredVersion = ConfigService::instance()->getUpdateIgnoredVersion();
-    const QString remindedVersion = ConfigService::instance()->getUpdateRemindedVersion();
-    const bool oldState = m_hasUpdate;
-    const QString oldVersion = m_latestVersion;
-    const bool oldDismissed = m_dismissed;
+    const QString ignoredVersion = ConfigService::instance()->getUpdateIgnoredVersion();  ///< 被忽略的版本号。
+    const QString remindedVersion = ConfigService::instance()->getUpdateRemindedVersion();  ///< 被提醒的版本号。
+    const bool oldState = m_hasUpdate;  ///< 旧的更新状态。
+    const QString oldVersion = m_latestVersion;  ///< 旧的最新版本号。
+    const bool oldDismissed = m_dismissed;  ///< 旧的忽略状态。
     m_latestVersion = version;
     m_releaseName = name;
     m_releaseUrl = url;
@@ -414,7 +494,10 @@ void UpdateCheckerService::applyUpdateInfo(const QString& version,
         emit updateStateChanged();
 }
 
-// 保存诊断信息并触发状态刷新。
+/**
+ * @brief 保存诊断信息并触发状态刷新。
+ * @param error 错误信息。
+ */
 void UpdateCheckerService::setError(const QString& error) {
     if (m_error == error)
         return;

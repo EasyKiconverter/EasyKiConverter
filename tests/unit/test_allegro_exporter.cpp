@@ -15,33 +15,53 @@ class TestAllegroExporter final : public QObject {
     Q_OBJECT
 
 private slots:
-    /** @brief 验证基本 Padstack 去重、Pin 关联、Place Bound 回退和 Import Package 文件。 */
+    /**
+     * @brief 验证基本 Padstack 去重、Pin 关联、Place Bound 回退和 Import Package 文件。
+     */
     void packageContainsNormalizedFootprint();
-    /** @brief 验证重复 Pin 编号会阻断导出，而不是生成歧义文件。 */
+    /**
+     * @brief 验证重复 Pin 编号会阻断导出，而不是生成歧义文件。
+     */
     void duplicatePinNumberFails();
-    /** @brief 验证空编号焊盘不会被错误地写成无引用 Pin。 */
+    /**
+     * @brief 验证空编号焊盘不会被错误地写成无引用 Pin。
+     */
     void emptyPinNumberFails();
-    /** @brief 验证未知层不会被静默映射到铜层。 */
+    /**
+     * @brief 验证未知层不会被静默映射到铜层。
+     */
     void unknownLayerProducesFailure();
-    /** @brief 验证目标格式输出后缀和 Allegro 层语义映射。 */
+    /**
+     * @brief 验证目标格式输出后缀和 Allegro 层语义映射。
+     */
     void targetContractIsExplicit();
-    /** @brief 验证缺失 STEP 的前置模型不会导致后续有效模型错配或丢失。 */
+    /**
+     * @brief 验证缺失 STEP 的前置模型不会导致后续有效模型错配或丢失。
+     */
     void writesValidStepAfterMissingModel();
-    /** @brief 验证 Allegro Import Package 会保存符号和引脚语义。 */
+    /**
+     * @brief 验证 Allegro Import Package 会保存符号和引脚语义。
+     */
     void symbolPackageContainsNormalizedData();
-    /** @brief 验证完整 Import Package 会保存符号、封装和器件关联。 */
+    /**
+     * @brief 验证完整 Import Package 会保存符号、封装和器件关联。
+     */
     void componentPackageContainsSymbolAssociation();
-    /** @brief 验证符号引脚缺少对应焊盘时拒绝生成不完整关联。 */
+    /**
+     * @brief 验证符号引脚缺少对应焊盘时拒绝生成不完整关联。
+     */
     void componentPackageRejectsMissingPadAssociation();
 };
 
 static IR::SymbolComponentIR makeSymbolFixture() {
+    // symbol：测试用符号数据。
     IR::SymbolComponentIR symbol;
     symbol.name = QStringLiteral("QFN_SYMBOL_测试");
     symbol.description = QStringLiteral("Allegro normalized symbol");
     symbol.designatorPrefix = QStringLiteral("U");
     symbol.partCount = 2;
     symbol.rectangles.append({-2.0, -1.0, 2.0, 1.0});
+    // pin：测试用引脚数据。
     IR::SymbolPinIR pin;
     pin.name = QStringLiteral("VCC");
     pin.designator = QStringLiteral("1");
@@ -54,11 +74,13 @@ static IR::SymbolComponentIR makeSymbolFixture() {
 }
 
 static IR::FootprintComponentIR makeQfnFixture() {
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint;
     footprint.name = QStringLiteral("QFN-4_Unicode_测试");
     footprint.description = QStringLiteral("QFN fixture with exposed pad");
     footprint.shouldGenerateCourtyard = true;
     for (int i = 0; i < 4; ++i) {
+        // pad：测试用焊盘数据。
         IR::FootprintPadIR pad;
         pad.number = QString::number(i + 1);
         pad.position = QPointF(i * 0.5, 0.0);
@@ -67,6 +89,7 @@ static IR::FootprintComponentIR makeQfnFixture() {
         pad.layer = IR::LayerType::TopCopper;
         footprint.pads.append(pad);
     }
+    // exposed：中心散热焊盘。
     IR::FootprintPadIR exposed;
     exposed.number = QStringLiteral("EP");
     exposed.position = QPointF(0.75, 0.8);
@@ -75,6 +98,7 @@ static IR::FootprintComponentIR makeQfnFixture() {
     exposed.customShapePoints = {QPointF(-1, -1), QPointF(1, -1), QPointF(1, 1), QPointF(-1, 1)};
     exposed.layer = IR::LayerType::TopCopper;
     footprint.pads.append(exposed);
+    // mountingPad：测试用焊盘数据。
     IR::FootprintPadIR mountingPad;
     mountingPad.number = QStringLiteral("MH1");
     mountingPad.position = QPointF(3.0, 0.0);
@@ -99,6 +123,7 @@ static IR::FootprintComponentIR makeQfnFixture() {
                             false,
                             false,
                             {}});
+    // model：测试使用的配置值或状态。
     IR::Model3DIR model;
     model.setName(QStringLiteral("qfn.step"));
     model.setTranslation({0.1, 0.2, 0.3});
@@ -109,15 +134,21 @@ static IR::FootprintComponentIR makeQfnFixture() {
     return footprint;
 }
 
-/** 验证 QFN fixture 能生成完整的 Allegro Import Package。 */
+/**
+ * @brief 验证 QFN fixture 能生成完整的 Allegro Import Package。
+ */
 void TestAllegroExporter::packageContainsNormalizedFootprint() {
+    // fixturePath：测试使用的文件系统路径。
     const QString fixturePath = Test::TestPaths::fixturePath(QStringLiteral("allegro/qfn56_fixture.json"));
     QFile fixture(fixturePath);
     QVERIFY2(fixture.open(QIODevice::ReadOnly), qPrintable(fixturePath));
     QVERIFY(!QJsonDocument::fromJson(fixture.readAll()).isNull());
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
+    // output：测试得到的实际结果数据。
     const QString output = temporary.path() + QStringLiteral("/unsafe/../QFN package");
     QVERIFY(exporter.exportFootprintLibrary({makeQfnFixture()}, QStringLiteral("QFN/56"), output, false, true));
     QVERIFY(QFileInfo::exists(output + QStringLiteral("/manifest.json")));
@@ -130,51 +161,71 @@ void TestAllegroExporter::packageContainsNormalizedFootprint() {
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("Place Bound")));
     QFile manifestFile(output + QStringLiteral("/manifest.json"));
     QVERIFY(manifestFile.open(QIODevice::ReadOnly));
+    // manifest：导出清单对象。
     const QJsonObject manifest = QJsonDocument::fromJson(manifestFile.readAll()).object();
     QCOMPARE(manifest.value(QStringLiteral("native_database_generated")).toBool(), false);
     QCOMPARE(manifest.value(QStringLiteral("packages")).toArray().size(), 1);
 }
 
-/** 验证重复 Pin 编号会阻止产生歧义的目标包。 */
+/**
+ * @brief 验证重复 Pin 编号会阻止产生歧义的目标包。
+ */
 void TestAllegroExporter::duplicatePinNumberFails() {
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint;
     footprint.name = QStringLiteral("duplicate");
     footprint.pads = {IR::FootprintPadIR{}, IR::FootprintPadIR{}};
     footprint.pads[0].number = QStringLiteral("1");
     footprint.pads[1].number = QStringLiteral("1");
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
     QVERIFY(!exporter.exportFootprintLibrary({footprint}, QStringLiteral("duplicate"), temporary.path()));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("重复 Pin")));
 }
 
-/** 验证空 Pin 编号会被报告为不可恢复的关联错误。 */
+/**
+ * @brief 验证空 Pin 编号会被报告为不可恢复的关联错误。
+ */
 void TestAllegroExporter::emptyPinNumberFails() {
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint;
     footprint.name = QStringLiteral("empty-pin");
     footprint.pads.append(IR::FootprintPadIR{});
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
     QVERIFY(!exporter.exportFootprintLibrary({footprint}, QStringLiteral("empty"), temporary.path()));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("空编号")));
 }
 
-/** 验证未知 IR 图层不会被静默映射到错误的 Allegro 层。 */
+/**
+ * @brief 验证未知 IR 图层不会被静默映射到错误的 Allegro 层。
+ */
 void TestAllegroExporter::unknownLayerProducesFailure() {
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint;
     footprint.name = QStringLiteral("unknown-layer");
+    // pad：测试用焊盘数据。
     IR::FootprintPadIR pad;
     pad.number = QStringLiteral("1");
     footprint.pads.append(pad);
     footprint.regions.append({{QPointF(0, 0), QPointF(1, 0), QPointF(1, 1)}, IR::LayerType::UserDefined, false, false});
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
     QVERIFY(!exporter.exportFootprintLibrary({footprint}, QStringLiteral("unknown"), temporary.path()));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("无法映射")));
 }
 
-/** 验证 Allegro 导出器的目录契约和核心层映射语义。 */
+/**
+ * @brief 验证 Allegro 导出器的目录契约和核心层映射语义。
+ */
 void TestAllegroExporter::targetContractIsExplicit() {
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
     QCOMPARE(exporter.libraryFileExtension(), QStringLiteral("_Allegro"));
     QVERIFY(exporter.isDirectoryOutput());
@@ -183,74 +234,99 @@ void TestAllegroExporter::targetContractIsExplicit() {
     QVERIFY(!AllegroLayerMapper::map(IR::LayerType::Unknown).has_value());
 }
 
-/** 验证多个模型中间存在无 STEP 数据时，后续有效模型仍能正确写入。 */
+/**
+ * @brief 验证多个模型中间存在无 STEP 数据时，后续有效模型仍能正确写入。
+ */
 void TestAllegroExporter::writesValidStepAfterMissingModel() {
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint;
     footprint.name = QStringLiteral("MULTI_MODEL");
 
+    // pad：测试用焊盘数据。
     IR::FootprintPadIR pad;
     pad.number = QStringLiteral("1");
     pad.size = QSizeF(1.0, 1.0);
     footprint.pads.append(pad);
 
+    // missing：缺失字段或条目集合。
     IR::Model3DIR missing;
     missing.setName(QStringLiteral("missing.step"));
     footprint.models3d.append(missing);
 
+    // valid：测试使用的元器件标识或名称。
     IR::Model3DIR valid;
     valid.setName(QStringLiteral("valid.step"));
     valid.setStepData(QByteArrayLiteral("ISO-10303-21;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
     footprint.models3d.append(valid);
 
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
     QVERIFY(exporter.exportFootprintLibrary({footprint}, QStringLiteral("multi"), temporary.path(), false, true));
+    // modelPath：测试使用的文件系统路径。
     const QString modelPath = temporary.filePath(QStringLiteral("models/MULTI_MODEL_valid.step"));
     QVERIFY(QFileInfo::exists(modelPath));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("缺少数据")));
 }
 
-/** 验证符号 Import Package 的 JSON 可回读且保留多部件和引脚字段。 */
+/**
+ * @brief 验证符号 Import Package 的 JSON 可回读且保留多部件和引脚字段。
+ */
 void TestAllegroExporter::symbolPackageContainsNormalizedData() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
+    // output：测试得到的实际结果数据。
     const QString output = temporary.filePath(QStringLiteral("symbols_Allegro"));
     QVERIFY(exporter.exportSymbolLibrary({makeSymbolFixture()}, QStringLiteral("symbols"), output));
 
     QFile symbolFile(output + QStringLiteral("/symbols/QFN_SYMBOL____.json"));
     if (!symbolFile.exists()) {
+        // files：测试使用的文件系统路径。
         const QStringList files = QDir(output + QStringLiteral("/symbols")).entryList(QDir::Files);
         QCOMPARE(files.size(), 1);
         symbolFile.setFileName(output + QStringLiteral("/symbols/") + files.first());
     }
     QVERIFY(symbolFile.open(QIODevice::ReadOnly));
+    // symbol：测试用符号数据。
     const QJsonObject symbol = QJsonDocument::fromJson(symbolFile.readAll()).object();
     QCOMPARE(symbol.value(QStringLiteral("part_count")).toInt(), 2);
     QCOMPARE(symbol.value(QStringLiteral("pins")).toArray().size(), 1);
     QVERIFY(QFileInfo::exists(output + QStringLiteral("/manifest.json")));
 }
 
-/** 验证完整 Allegro Import Package 的 manifest 建立符号、封装和 Pin-Pad 关系。 */
+/**
+ * @brief 验证完整 Allegro Import Package 的 manifest 建立符号、封装和 Pin-Pad 关系。
+ */
 void TestAllegroExporter::componentPackageContainsSymbolAssociation() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // component：测试使用的缓存或元器件对象。
     IR::ComponentIR component;
     component.name = QStringLiteral("C_ALLEGRO");
     component.symbol = makeSymbolFixture();
     component.footprint = makeQfnFixture();
     component.footprint.name = QStringLiteral("QFN_PACKAGE");
 
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
+    // output：测试得到的实际结果数据。
     const QString output = temporary.filePath(QStringLiteral("component_Allegro"));
     QVERIFY(exporter.exportComponentLibrary({component}, QStringLiteral("component"), output, true));
     QFile manifestFile(output + QStringLiteral("/manifest.json"));
     QVERIFY(manifestFile.open(QIODevice::ReadOnly));
+    // manifest：导出清单对象。
     const QJsonObject manifest = QJsonDocument::fromJson(manifestFile.readAll()).object();
     QCOMPARE(manifest.value(QStringLiteral("symbols")).toArray().size(), 1);
     QCOMPARE(manifest.value(QStringLiteral("components")).toArray().size(), 1);
+    // relation：引脚与焊盘的关联记录。
     const QJsonObject relation = manifest.value(QStringLiteral("components")).toArray().first().toObject();
+    // symbolEntry：测试使用的缓存或元器件对象。
     const QJsonObject symbolEntry = manifest.value(QStringLiteral("symbols")).toArray().first().toObject();
     QCOMPARE(relation.value(QStringLiteral("symbol")).toString(),
              QFileInfo(symbolEntry.value(QStringLiteral("path")).toString()).completeBaseName());
@@ -258,10 +334,14 @@ void TestAllegroExporter::componentPackageContainsSymbolAssociation() {
     QCOMPARE(relation.value(QStringLiteral("pin_to_pad")).toArray().size(), 1);
 }
 
-/** 验证 Pin-Pad 关联不能把不存在的焊盘静默写入 Import Package。 */
+/**
+ * @brief 验证 Pin-Pad 关联不能把不存在的焊盘静默写入 Import Package。
+ */
 void TestAllegroExporter::componentPackageRejectsMissingPadAssociation() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // component：测试使用的缓存或元器件对象。
     IR::ComponentIR component;
     component.name = QStringLiteral("MISSING_PAD");
     component.symbol = makeSymbolFixture();
@@ -269,7 +349,9 @@ void TestAllegroExporter::componentPackageRejectsMissingPadAssociation() {
     component.footprint = makeQfnFixture();
     component.footprint.name = QStringLiteral("QFN_PACKAGE");
 
+    // exporter：负责生成测试输出的导出器实例。
     ExporterAllegroFootprint exporter;
+    // output：测试得到的实际结果数据。
     const QString output = temporary.filePath(QStringLiteral("missing_pad_Allegro"));
     QVERIFY(!exporter.exportComponentLibrary({component}, QStringLiteral("missing_pad"), output));
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("找不到对应封装焊盘")));

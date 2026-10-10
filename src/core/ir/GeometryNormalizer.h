@@ -36,7 +36,7 @@ namespace GeometryNormalizer {
  * @return 通用线型
  */
 inline StrokeStyle parseStrokeStyle(const QString& style) {
-    const QString normalized = style.trimmed().toLower();
+    const QString normalized = style.trimmed().toLower();  // 规范化后的线型名称。
     if (normalized.contains(QStringLiteral("dash")))
         return StrokeStyle::Dashed;
     if (normalized.contains(QStringLiteral("dot")))
@@ -53,12 +53,14 @@ inline StrokeStyle parseStrokeStyle(const QString& style) {
  * @return 解析后的点列表
  */
 inline QList<QPointF> parseFlatPointString(const QString& pointsStr, double scaleFactor = EASYEDA_PX_TO_MM) {
-    QList<QPointF> points;
-    const QStringList parts = pointsStr.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts);
+    QList<QPointF> points;  // 解析得到的缩放后坐标点列表。
+    // 将输入字符串按连续空白拆分为数值字段。
+    const QStringList parts = pointsStr.trimmed().split(QRegularExpression(QStringLiteral("\\s+")),
+                                                        Qt::SkipEmptyParts);  // 空格分隔的数值字段。
     for (int i = 0; i + 1 < parts.size(); i += 2) {
-        bool ok1 = false, ok2 = false;
-        const double x = parts[i].toDouble(&ok1);
-        const double y = parts[i + 1].toDouble(&ok2);
+        bool ok1 = false, ok2 = false;  // X/Y 字符串是否解析成功。
+        const double x = parts[i].toDouble(&ok1);  // 原始 X 坐标。
+        const double y = parts[i + 1].toDouble(&ok2);  // 原始 Y 坐标。
         if (ok1 && ok2) {
             points.append(QPointF(x * scaleFactor, y * scaleFactor));
         }
@@ -73,14 +75,15 @@ inline QList<QPointF> parseFlatPointString(const QString& pointsStr, double scal
  * @return 解析后的点列表
  */
 inline QList<QPointF> parseCommaSeparatedPoints(const QString& pointsStr, double scaleFactor = EASYEDA_PX_TO_MM) {
-    QList<QPointF> points;
-    const QStringList pairs = pointsStr.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts);
+    QList<QPointF> points;  // 解析得到的缩放后坐标点列表。
+    const QStringList pairs =
+        pointsStr.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts);  // 坐标对字段。
     for (const auto& pair : pairs) {
-        const QStringList xy = pair.split(',');
+        const QStringList xy = pair.split(',');  // 当前坐标对的 X/Y 字段。
         if (xy.size() >= 2) {
-            bool ok1 = false, ok2 = false;
-            const double x = xy[0].toDouble(&ok1);
-            const double y = xy[1].toDouble(&ok2);
+            bool ok1 = false, ok2 = false;  // X/Y 字符串是否解析成功。
+            const double x = xy[0].toDouble(&ok1);  // 原始 X 坐标。
+            const double y = xy[1].toDouble(&ok2);  // 原始 Y 坐标。
             if (ok1 && ok2) {
                 points.append(QPointF(x * scaleFactor, y * scaleFactor));
             }
@@ -99,7 +102,7 @@ inline QList<QPointF> parseCommaSeparatedPoints(const QString& pointsStr, double
  * @return 解析后的点列表
  */
 inline QList<QPointF> parseSimpleSvgPath(const QString& pathStr, double scaleFactor = EASYEDA_PX_TO_MM) {
-    QList<QPointF> points = SvgPathParser::parsePath(pathStr);
+    QList<QPointF> points = SvgPathParser::parsePath(pathStr);  // SVG 解析器返回的原始点序列。
     for (QPointF& point : points)
         point *= scaleFactor;
     return points;
@@ -139,7 +142,7 @@ inline QPointF transformPoint(double rawX,
  * @return 变换后的点列表
  */
 inline QList<QPointF> transformPoints(const QList<QPointF>& points, const QPointF& originMm) {
-    QList<QPointF> result;
+    QList<QPointF> result;  // 平移并翻转后的点列表。
     result.reserve(points.size());
     for (const auto& pt : points) {
         result.append(QPointF(pt.x() - originMm.x(), -(pt.y() - originMm.y())));
@@ -156,9 +159,9 @@ inline QList<QPointF> transformPoints(const QList<QPointF>& points, const QPoint
  * @return 边界框左上角 (minX, minY)，若无图元则返回 (0, 0)
  */
 struct BBoxOrigin {
-    double x = 0.0;
-    double y = 0.0;
-    bool valid = false;
+    double x = 0.0;  ///< 边界框原点 X 坐标。
+    double y = 0.0;  ///< 边界框原点 Y 坐标。
+    bool valid = false;  ///< 是否已收集到有效图元。
 };
 
 }  // namespace GeometryNormalizer

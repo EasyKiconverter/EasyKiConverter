@@ -14,14 +14,27 @@ JLCDatasheet::~JLCDatasheet() {
     cancel();
 }
 
+/**
+ * @brief 设置弱网重试支持开关。
+ * @param enabled 是否启用弱网支持。
+ */
 void JLCDatasheet::setWeakNetworkSupport(bool enabled) {
     m_weakNetworkSupport = enabled;
 }
 
+/**
+ * @brief 返回弱网重试支持状态。
+ * @return 启用时返回 true。
+ */
 bool JLCDatasheet::weakNetworkSupport() const {
     return m_weakNetworkSupport;
 }
 
+/**
+ * @brief 异步下载数据手册并保存到指定路径。
+ * @param datasheetUrl 数据手册 URL。
+ * @param savePath 本地保存路径。
+ */
 void JLCDatasheet::downloadDatasheet(const QString& datasheetUrl, const QString& savePath) {
     if (m_isDownloading) {
         qWarning() << "Already downloading datasheet";
@@ -29,7 +42,7 @@ void JLCDatasheet::downloadDatasheet(const QString& datasheetUrl, const QString&
     }
 
     if (datasheetUrl.isEmpty()) {
-        const QString errorMsg = "Datasheet URL is empty";
+        const QString errorMsg = "Datasheet URL is empty";  // 缺少下载地址时返回的错误信息。
         qWarning() << errorMsg;
         emit downloadError(errorMsg);
         return;
@@ -39,13 +52,13 @@ void JLCDatasheet::downloadDatasheet(const QString& datasheetUrl, const QString&
     m_savePath = savePath;
     m_isDownloading = true;
 
-    RequestProfile profile = RequestProfiles::datasheet();
+    RequestProfile profile = RequestProfiles::datasheet();  // 数据手册请求的网络策略。
     m_activeRequest = NetworkClient::instance().getAsync(
         QUrl(datasheetUrl), ResourceType::Datasheet, RetryPolicy::fromProfile(profile, m_weakNetworkSupport));
 
     connect(m_activeRequest, &AsyncNetworkRequest::downloadProgress, this, &JLCDatasheet::downloadProgress);
     connect(m_activeRequest, &AsyncNetworkRequest::finished, this, [this](const NetworkResult& result) {
-        AsyncNetworkRequest* finishedRequest = m_activeRequest;
+        AsyncNetworkRequest* finishedRequest = m_activeRequest;  // 已完成请求，用于延迟释放。
         m_activeRequest = nullptr;
         m_isDownloading = false;
 
@@ -85,6 +98,9 @@ void JLCDatasheet::downloadDatasheet(const QString& datasheetUrl, const QString&
     });
 }
 
+/**
+ * @brief 取消当前数据手册下载。
+ */
 void JLCDatasheet::cancel() {
     if (m_activeRequest && !m_activeRequest->isFinished()) {
         m_activeRequest->cancel();

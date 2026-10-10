@@ -8,17 +8,37 @@ namespace EasyKiConverter::Parser {
 
 namespace {
 
-/** @brief 按空白拆分 Xpedition 符号命令字段。 */
+/**
+ * @brief 按空白拆分 Xpedition 符号命令字段。
+ * @param line 原始命令行。
+ * @return 去除空白项后的字段列表。
+ */
 QStringList fields(const QString& line) {
     return line.trimmed().split(QRegularExpression(QStringLiteral("\\s+")), Qt::SkipEmptyParts);
 }
 
-/** @brief 解析符号数值并将非法输入交给统一诊断器。 */
+/**
+ * @brief 解析符号数值并将非法输入交给统一诊断器。
+ * @param text 数值文本。
+ * @param diagnostics 诊断接收器。
+ * @param field 字段名称。
+ * @param line 源文件行号。
+ * @return 解析得到的数值。
+ */
 double number(const QString& text, ParseDiagnostics* diagnostics, const QString& field, int line) {
     return StrictNumberParser::parseDouble(text, diagnostics, field, line);
 }
 
-/** @brief 从字段列表读取坐标，并在字段不足时记录错误。 */
+/**
+ * @brief 从字段列表读取坐标，并在字段不足时记录错误。
+ * @param values 命令字段列表。
+ * @param xIndex X 坐标字段索引。
+ * @param yIndex Y 坐标字段索引。
+ * @param diagnostics 诊断接收器。
+ * @param field 字段名称。
+ * @param line 源文件行号。
+ * @return 解析得到的坐标。
+ */
 QPointF point(const QStringList& values,
               int xIndex,
               int yIndex,
@@ -34,28 +54,47 @@ QPointF point(const QStringList& values,
     return {number(values.at(xIndex), diagnostics, field, line), number(values.at(yIndex), diagnostics, field, line)};
 }
 
-/** @brief 解析整数属性并返回本次解析是否没有新增错误。 */
+/**
+ * @brief 解析整数属性并返回本次解析是否没有新增错误。
+ * @param text 整数文本。
+ * @param diagnostics 诊断接收器。
+ * @param field 字段名称。
+ * @param line 源文件行号。
+ * @param result 输出整数。
+ * @return 若本次解析没有新增错误则返回 true。
+ */
 bool integer(const QString& text, ParseDiagnostics* diagnostics, const QString& field, int line, int& result) {
-    const int before = diagnostics ? diagnostics->items().size() : 0;
+    const int before = diagnostics ? diagnostics->items().size() : 0;  // 解析前诊断数量。
     result = static_cast<int>(StrictNumberParser::parseInteger(text, diagnostics, field, line));
     return !diagnostics || diagnostics->items().size() == before;
 }
 
-/** @brief 从命令字段中提取第一个键值属性。 */
+/**
+ * @brief 从命令字段中提取第一个键值属性。
+ * @param values 命令字段列表。
+ * @return 第一个键值属性文本。
+ */
 QString propertyValue(const QStringList& values) {
-    const int separator = values.indexOf(QRegularExpression(QStringLiteral("^[^=]+=.*$")));
+    const int separator = values.indexOf(QRegularExpression(QStringLiteral("^[^=]+=.*$")));  // 键值字段起始位置。
     if (separator < 0)
         return {};
     return values.mid(separator).join(QStringLiteral(" "));
 }
 
-/** @brief 展开 Xpedition 引脚编号的范围表达式并保留普通编号。 */
+/**
+ * @brief 展开 Xpedition 引脚编号的范围表达式并保留普通编号。
+ * @param value 编号或范围表达式。
+ * @param diagnostics 诊断接收器。
+ * @param line 源文件行号。
+ * @return 展开后的引脚编号列表。
+ */
 QStringList expandPinNumbers(const QString& value, ParseDiagnostics* diagnostics, int line) {
-    QStringList numbers;
-    const QStringList entries = value.split(QChar(','), Qt::KeepEmptyParts);
-    const QRegularExpression rangeExpression(QStringLiteral(R"(^\[\s*(\d+)\s*:\s*(\d+)(?:\s*:\s*(\d+))?\s*\]$)"));
+    QStringList numbers;  // 展开后的编号列表。
+    const QStringList entries = value.split(QChar(','), Qt::KeepEmptyParts);  // 逗号分隔的原始项。
+    const QRegularExpression rangeExpression(
+        QStringLiteral(R"(^\[\s*(\d+)\s*:\s*(\d+)(?:\s*:\s*(\d+))?\s*\]$)"));  // 范围表达式。
     for (const QString& rawEntry : entries) {
-        const QString entry = rawEntry.trimmed();
+        const QString entry = rawEntry.trimmed();  // 当前编号项。
         if (entry.isEmpty()) {
             if (diagnostics)
                 diagnostics->add(ParseSeverity::Error,
@@ -65,7 +104,7 @@ QStringList expandPinNumbers(const QString& value, ParseDiagnostics* diagnostics
                                  line);
             continue;
         }
-        const QRegularExpressionMatch match = rangeExpression.match(entry);
+        const QRegularExpressionMatch match = rangeExpression.match(entry);  // 当前项的范围匹配结果。
         if (!match.hasMatch()) {
             if (entry.startsWith(QChar('[')) || entry.endsWith(QChar(']'))) {
                 if (diagnostics)
@@ -80,12 +119,12 @@ QStringList expandPinNumbers(const QString& value, ParseDiagnostics* diagnostics
             continue;
         }
 
-        bool startOk = false;
-        bool endOk = false;
-        bool stepOk = true;
-        const int start = match.captured(1).toInt(&startOk);
-        const int end = match.captured(2).toInt(&endOk);
-        const int step = match.captured(3).isEmpty() ? 1 : match.captured(3).toInt(&stepOk);
+        bool startOk = false;  // 起始值解析状态。
+        bool endOk = false;  // 结束值解析状态。
+        bool stepOk = true;  // 步长解析状态。
+        const int start = match.captured(1).toInt(&startOk);  // 范围起点。
+        const int end = match.captured(2).toInt(&endOk);  // 范围终点。
+        const int step = match.captured(3).isEmpty() ? 1 : match.captured(3).toInt(&stepOk);  // 范围步长。
         if (!startOk || !endOk || !stepOk || step <= 0 || end < start) {
             if (diagnostics)
                 diagnostics->add(ParseSeverity::Error,
@@ -101,7 +140,12 @@ QStringList expandPinNumbers(const QString& value, ParseDiagnostics* diagnostics
     return numbers;
 }
 
-/** @brief 为字段不足的符号命令记录结构化错误。 */
+/**
+ * @brief 为字段不足的符号命令记录结构化错误。
+ * @param diagnostics 诊断接收器。
+ * @param command 命令名称。
+ * @param line 源文件行号。
+ */
 void diagnoseMalformed(ParseDiagnostics* diagnostics, const QString& command, int line) {
     if (diagnostics)
         diagnostics->add(ParseSeverity::Error,
@@ -113,24 +157,32 @@ void diagnoseMalformed(ParseDiagnostics* diagnostics, const QString& command, in
 
 }  // namespace
 
-/** @brief 判断解析结果是否包含可识别的符号内容。 */
+/**
+ * @brief 判断解析结果是否包含可识别的符号内容。
+ * @return 若模型包含版本、图形或引脚数据则返回 true。
+ */
 bool XpeditionSymbolDocument::isRecognized() const {
     return model.version > 0 || !model.pins.isEmpty() || !model.polylines.isEmpty() || !model.rectangles.isEmpty() ||
            !model.circles.isEmpty() || !model.arcs.isEmpty() || !model.texts.isEmpty();
 }
 
-/** @brief 逐行解析 Xpedition V54 符号文本并保留不支持字段的诊断。 */
+/**
+ * @brief 逐行解析 Xpedition V54 符号文本并保留不支持字段的诊断。
+ * @param content 符号文本内容。
+ * @param filePath 可选源文件路径。
+ * @return 格式专用模型和结构化诊断。
+ */
 XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, const QString& filePath) {
-    XpeditionSymbolDocument document;
+    XpeditionSymbolDocument document;  // 当前符号文档及其诊断。
     document.diagnostics.setFilePath(filePath);
-    XpeditionSymbolPin* currentPin = nullptr;
-    int currentPart = 0;
-    bool closeNextPolyline = false;
+    XpeditionSymbolPin* currentPin = nullptr;  // 当前正在读取属性的引脚。
+    int currentPart = 0;  // 当前符号单元索引。
+    bool closeNextPolyline = false;  // 下一条折线是否需要闭合。
 
-    const QStringList lines = content.split(QRegularExpression(QStringLiteral("\\r?\\n")));
+    const QStringList lines = content.split(QRegularExpression(QStringLiteral("\\r?\\n")));  // 按行拆分的源文本。
     for (int index = 0; index < lines.size(); ++index) {
-        const int line = index + 1;
-        const QString raw = lines.at(index).trimmed();
+        const int line = index + 1;  // 当前源文件行号。
+        const QString raw = lines.at(index).trimmed();  // 去除外围空白后的命令行。
         if (raw.isEmpty())
             continue;
         if (raw.startsWith(QChar('+'))) {
@@ -142,8 +194,8 @@ XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, con
         if (raw.startsWith(QChar('|')))
             continue;
 
-        const QString command = raw.left(1);
-        const QStringList values = fields(raw.mid(1));
+        const QString command = raw.left(1);  // Xpedition 命令字符。
+        const QStringList values = fields(raw.mid(1));  // 命令参数字段。
         if (command == QStringLiteral("V")) {
             if (values.isEmpty() ||
                 !integer(values.first(), &document.diagnostics, QStringLiteral("V"), line, document.model.version))
@@ -172,11 +224,11 @@ XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, con
             else
                 document.model.zoomLevel = number(values.first(), &document.diagnostics, QStringLiteral("Z"), line);
         } else if (command == QStringLiteral("U")) {
-            const QString property = propertyValue(values);
-            const int equal = property.indexOf(QChar('='));
+            const QString property = propertyValue(values);  // U 命令的键值属性。
+            const int equal = property.indexOf(QChar('='));  // 键值分隔符位置。
             if (equal > 0) {
-                const QString key = property.left(equal);
-                const QString value = property.mid(equal + 1);
+                const QString key = property.left(equal);  // 属性名称。
+                const QString value = property.mid(equal + 1);  // 属性值。
                 document.model.properties.insert(key, value);
                 if (key == QStringLiteral("PARTS"))
                     integer(value, &document.diagnostics, key, line, document.model.partCount);
@@ -192,23 +244,23 @@ XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, con
                 currentPin = nullptr;
                 continue;
             }
-            XpeditionSymbolPin pin;
+            XpeditionSymbolPin pin;  // 当前命令解析出的引脚。
             pin.id = static_cast<int>(number(values.at(0), &document.diagnostics, QStringLiteral("P.ID"), line));
             pin.start = point(values, 1, 2, &document.diagnostics, QStringLiteral("P"), line);
             pin.end = point(values, 3, 4, &document.diagnostics, QStringLiteral("P"), line);
             integer(values.at(6), &document.diagnostics, QStringLiteral("P.ROTATION"), line, pin.rotation);
-            int inverted = 0;
+            int inverted = 0;  // 反相标记数值。
             integer(values.at(7), &document.diagnostics, QStringLiteral("P.INVERTED"), line, inverted);
             pin.inverted = inverted != 0;
             pin.partIndex = currentPart;
             document.model.pins.append(pin);
             currentPin = &document.model.pins.last();
         } else if (command == QStringLiteral("A")) {
-            const QString property = propertyValue(values);
-            const int equal = property.indexOf(QChar('='));
+            const QString property = propertyValue(values);  // A 命令的键值属性。
+            const int equal = property.indexOf(QChar('='));  // 键值分隔符位置。
             if (currentPin != nullptr && equal > 0) {
-                const QString key = property.left(equal);
-                const QString value = property.mid(equal + 1);
+                const QString key = property.left(equal);  // 属性名称。
+                const QString value = property.mid(equal + 1);  // 属性值。
                 if (key == QStringLiteral("PINTYPE"))
                     currentPin->pinType = value;
                 else if (key == QStringLiteral("#"))
@@ -226,8 +278,8 @@ XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, con
             currentPin->namePosition = point(values, 0, 1, &document.diagnostics, QStringLiteral("L"), line);
             currentPin->nameSize = number(values.at(2), &document.diagnostics, QStringLiteral("L.SIZE"), line);
             currentPin->nameRotation = number(values.at(3), &document.diagnostics, QStringLiteral("L.ROTATION"), line);
-            const int nameStart = values.size() >= 9 ? 8 : 6;
-            const int visibilityIndex = values.size() >= 9 ? 6 : 5;
+            const int nameStart = values.size() >= 9 ? 8 : 6;  // 名称文本起始字段。
+            const int visibilityIndex = values.size() >= 9 ? 6 : 5;  // 可见性字段索引。
             currentPin->nameVisible = values.at(visibilityIndex) != QStringLiteral("0");
             currentPin->name = values.mid(nameStart).join(QStringLiteral(" "));
         } else if (command == QStringLiteral("l")) {
@@ -235,13 +287,13 @@ XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, con
                 diagnoseMalformed(&document.diagnostics, command, line);
                 continue;
             }
-            int count = 0;
+            int count = 0;  // 折线顶点数量。
             integer(values.first(), &document.diagnostics, QStringLiteral("l.COUNT"), line, count);
             if (values.size() < 1 + count * 2) {
                 diagnoseMalformed(&document.diagnostics, command, line);
                 continue;
             }
-            XpeditionSymbolPolyline polyline;
+            XpeditionSymbolPolyline polyline;  // 当前折线图形。
             polyline.partIndex = currentPart;
             for (int valueIndex = 1; valueIndex < 1 + count * 2; valueIndex += 2)
                 polyline.points.append(
@@ -301,12 +353,17 @@ XpeditionSymbolDocument XpeditionSymbolParser::parse(const QString& content, con
     return document;
 }
 
-/** @brief 先检测文本编码，再复用统一字符串解析流程。 */
+/**
+ * @brief 先检测文本编码，再复用统一字符串解析流程。
+ * @param data 原始文件字节。
+ * @param filePath 可选源文件路径。
+ * @return 解码并解析后的符号文档。
+ */
 XpeditionSymbolDocument XpeditionSymbolParser::parseBytes(const QByteArray& data, const QString& filePath) {
-    ParseDiagnostics decodingDiagnostics;
+    ParseDiagnostics decodingDiagnostics;  // 编码检测阶段的诊断。
     decodingDiagnostics.setFilePath(filePath);
-    const QString content = EncodingDetector::decode(data, &decodingDiagnostics, filePath);
-    XpeditionSymbolDocument document = parse(content, filePath);
+    const QString content = EncodingDetector::decode(data, &decodingDiagnostics, filePath);  // 解码后的文本。
+    XpeditionSymbolDocument document = parse(content, filePath);  // 复用文本解析流程。
     document.diagnostics.append(decodingDiagnostics);
     return document;
 }

@@ -275,6 +275,7 @@ Loader {
                     model3DStatus: modelData.model3DStatus || "pending"
                     previewStatus: modelData.previewStatus || "pending"
                     datasheetStatus: modelData.datasheetStatus || "pending"
+                    retryEnabled: resultsLoader.exportProgressController ? resultsLoader.exportProgressController.retrySupported : true
                     onRetryClicked: resultsLoader.exportProgressController.retryComponent(componentId)
                     onDeleteClicked: resultsLoader.exportProgressController.removeResult(componentId)
                 }

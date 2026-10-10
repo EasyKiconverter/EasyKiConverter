@@ -15,10 +15,18 @@ class ParallelExportService;
  */
 class ParallelExportPreloadCoordinator final {
 public:
-    /** @brief 处理没有网络服务时的磁盘缓存分批预加载。 */
+    /**
+     * @brief 处理没有网络服务时的磁盘缓存分批预加载。
+     * @param service 并行导出服务实例。
+     */
     static void processNextBatch(ParallelExportService& service);
 
-    /** @brief 合并网络批量获取结果并完成预加载统计。 */
+    /**
+     * @brief 合并网络批量获取结果并完成预加载统计。
+     * @param service 并行导出服务实例。
+     * @param componentDataList 预加载得到的组件数据列表。
+     * @param failedComponents 预加载失败的元器件编号和错误信息。
+     */
     static void handleCollectedData(ParallelExportService& service,
                                     const QList<ComponentData>& componentDataList,
                                     const QMap<QString, QString>& failedComponents);

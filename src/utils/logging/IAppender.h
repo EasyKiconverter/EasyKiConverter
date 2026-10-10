@@ -37,6 +37,7 @@ public:
 
     /**
      * @brief 设置格式化器
+     * @param formatter 日志格式化器。
      */
     void setFormatter(QSharedPointer<IFormatter> formatter) {
         m_formatter = formatter;
@@ -51,6 +52,7 @@ public:
 
     /**
      * @brief 格式化日志记录（使用设置的格式化器）
+     * @param record 日志记录。
      */
     QString formatRecord(const LogRecord& record) const {
         if (m_formatter) {
@@ -60,7 +62,7 @@ public:
     }
 
 protected:
-    QSharedPointer<IFormatter> m_formatter;
+    QSharedPointer<IFormatter> m_formatter;  ///< 当前日志格式化器。
 };
 
 }  // namespace EasyKiConverter

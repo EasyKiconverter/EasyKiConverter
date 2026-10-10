@@ -11,37 +11,63 @@ class TestEagleExporter final : public QObject {
     Q_OBJECT
 
 private slots:
-    /** @brief 验证 Eagle XML library 包含 package、Pad 和独立机械孔。 */
+    /**
+     * @brief 验证 Eagle XML library 包含 package、Pad 和独立机械孔。
+     */
     void writesXmlLibrary();
-    /** @brief 验证清洗名称冲突会阻止生成歧义 package。 */
+    /**
+     * @brief 验证清洗名称冲突会阻止生成歧义 package。
+     */
     void rejectsNameCollision();
-    /** @brief 验证完整 Eagle XML 库包含符号、器件集和引脚映射。 */
+    /**
+     * @brief 验证完整 Eagle XML 库包含符号、器件集和引脚映射。
+     */
     void writesCompleteComponentLibrary();
-    /** @brief 验证仅符号导出不会伪造封装和器件关联。 */
+    /**
+     * @brief 验证仅符号导出不会伪造封装和器件关联。
+     */
     void writesSymbolOnlyLibrary();
-    /** @brief 验证缺失封装焊盘时拒绝生成无效器件关联。 */
+    /**
+     * @brief 验证缺失封装焊盘时拒绝生成无效器件关联。
+     */
     void rejectsMissingPadMapping();
-    /** @brief 验证圆弧会写入 Eagle wire 的 curve 属性。 */
+    /**
+     * @brief 验证圆弧会写入 Eagle wire 的 curve 属性。
+     */
     void writesArcAsCurvedWire();
-    /** @brief 验证非法圆弧参数会失败并生成诊断。 */
+    /**
+     * @brief 验证非法圆弧参数会失败并生成诊断。
+     */
     void rejectsInvalidArc();
-    /** @brief 验证符号三点圆弧会写入 Eagle wire 的 curve 属性。 */
+    /**
+     * @brief 验证符号三点圆弧会写入 Eagle wire 的 curve 属性。
+     */
     void writesSymbolArcAsCurvedWire();
-    /** @brief 验证 Eagle 不会静默丢弃符号圆弧的填充和线型语义。 */
+    /**
+     * @brief 验证 Eagle 不会静默丢弃符号圆弧的填充和线型语义。
+     */
     void rejectsUnsupportedSymbolArcStyle();
-    /** @brief 验证清洗后的 DeviceSet 名称冲突会阻止生成歧义器件集。 */
+    /**
+     * @brief 验证清洗后的 DeviceSet 名称冲突会阻止生成歧义器件集。
+     */
     void rejectsDeviceSetNameCollision();
-    /** @brief 验证封装旋转矩形会保留旋转后的端点坐标。 */
+    /**
+     * @brief 验证封装旋转矩形会保留旋转后的端点坐标。
+     */
     void writesRotatedRectangle();
-    /** @brief 验证非圆形通孔焊盘不会被静默压成圆形。 */
+    /**
+     * @brief 验证非圆形通孔焊盘不会被静默压成圆形。
+     */
     void rejectsNonCircularThroughHole();
 };
 
 static IR::FootprintComponentIR makeFixture(const QString& name) {
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint;
     footprint.name = name;
     footprint.description = QStringLiteral("Eagle XML fixture");
 
+    // smd：测试用 SMD 焊盘。
     IR::FootprintPadIR smd;
     smd.number = QStringLiteral("1");
     smd.position = QPointF(-1.0, 0.0);
@@ -49,6 +75,7 @@ static IR::FootprintComponentIR makeFixture(const QString& name) {
     smd.size = QSizeF(1.2, 0.8);
     footprint.pads.append(smd);
 
+    // through：测试用通孔焊盘。
     IR::FootprintPadIR through;
     through.number = QStringLiteral("2");
     through.position = QPointF(1.0, 0.0);
@@ -65,6 +92,7 @@ static IR::FootprintComponentIR makeFixture(const QString& name) {
 }
 
 static IR::ComponentIR makeComponentFixture() {
+    // component：测试使用的缓存或元器件对象。
     IR::ComponentIR component;
     component.name = QStringLiteral("R_10K");
     component.description = QStringLiteral("完整 Eagle 组件测试");
@@ -82,6 +110,7 @@ static IR::ComponentIR makeComponentFixture() {
                                   Qt::transparent,
                                   false,
                                   0});
+    // pin：测试用引脚数据。
     IR::SymbolPinIR pin;
     pin.name = QStringLiteral("1");
     pin.designator = QStringLiteral("1");
@@ -95,20 +124,29 @@ static IR::ComponentIR makeComponentFixture() {
     return component;
 }
 
-/** 验证 Eagle XML library 可解析且包含基础封装元素。 */
+/**
+ * @brief 验证 Eagle XML library 可解析且包含基础封装元素。
+ */
 void TestEagleExporter::writesXmlLibrary() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // path：测试使用的文件系统路径。
     const QString path = temporary.path() + QStringLiteral("/library.lbr");
     QVERIFY(exporter.exportFootprintLibrary({makeFixture(QStringLiteral("QFN 4"))}, QStringLiteral("library"), path));
 
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader reader(&file);
+    // packageSeen：已观察到的封装集合。
     bool packageSeen = false;
+    // smdSeen：已观察到的 SMD 焊盘。
     bool smdSeen = false;
+    // padSeen：测试用焊盘数据。
     bool padSeen = false;
+    // holeSeen：已观察到的孔。
     bool holeSeen = false;
     while (!reader.atEnd()) {
         reader.readNext();
@@ -130,10 +168,14 @@ void TestEagleExporter::writesXmlLibrary() {
     QVERIFY(holeSeen);
 }
 
-/** 验证不同原名清洗为同一 package 名称时会失败。 */
+/**
+ * @brief 验证不同原名清洗为同一 package 名称时会失败。
+ */
 void TestEagleExporter::rejectsNameCollision() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
     QVERIFY(!exporter.exportFootprintLibrary({makeFixture(QStringLiteral("A B")), makeFixture(QStringLiteral("A/B"))},
                                              QStringLiteral("library"),
@@ -141,21 +183,31 @@ void TestEagleExporter::rejectsNameCollision() {
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("冲突")));
 }
 
-/** 验证完整 Eagle XML library 可被回读并保留组件关联关系。 */
+/**
+ * @brief 验证完整 Eagle XML library 可被回读并保留组件关联关系。
+ */
 void TestEagleExporter::writesCompleteComponentLibrary() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // path：测试使用的文件系统路径。
     const QString path = temporary.path() + QStringLiteral("/complete.lbr");
     QVERIFY(exporter.exportComponentLibrary({makeComponentFixture()}, QStringLiteral("complete"), path));
 
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader reader(&file);
+    // symbolSeen：已观察到的符号集合。
     bool symbolSeen = false;
+    // devicesetSeen：已观察到的器件集合。
     bool devicesetSeen = false;
+    // gateSeen：已观察到的门。
     bool gateSeen = false;
+    // deviceSeen：已观察到的器件。
     bool deviceSeen = false;
+    // connectSeen：已观察到的连接集合。
     bool connectSeen = false;
     while (!reader.atEnd()) {
         reader.readNext();
@@ -175,20 +227,29 @@ void TestEagleExporter::writesCompleteComponentLibrary() {
     QVERIFY(connectSeen);
 }
 
-/** 验证 Eagle 符号单独导出仍生成可回读 XML，且不包含未选择的关联段。 */
+/**
+ * @brief 验证 Eagle 符号单独导出仍生成可回读 XML，且不包含未选择的关联段。
+ */
 void TestEagleExporter::writesSymbolOnlyLibrary() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // component：测试使用的缓存或元器件对象。
     const IR::ComponentIR component = makeComponentFixture();
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // path：测试使用的文件系统路径。
     const QString path = temporary.path() + QStringLiteral("/symbols.lbr");
     QVERIFY(exporter.exportSymbolLibrary({component.symbol}, QStringLiteral("symbols"), path));
 
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader reader(&file);
+    // symbolSeen：已观察到的符号集合。
     bool symbolSeen = false;
+    // packageSeen：已观察到的封装集合。
     bool packageSeen = false;
+    // deviceSetSeen：已观察到的器件集合。
     bool deviceSetSeen = false;
     while (!reader.atEnd()) {
         reader.readNext();
@@ -204,11 +265,16 @@ void TestEagleExporter::writesSymbolOnlyLibrary() {
     QVERIFY(!deviceSetSeen);
 }
 
-/** 验证 pin-to-pad 关联缺失时导出失败且报告原因。 */
+/**
+ * @brief 验证 pin-to-pad 关联缺失时导出失败且报告原因。
+ */
 void TestEagleExporter::rejectsMissingPadMapping() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // component：测试使用的缓存或元器件对象。
     IR::ComponentIR component = makeComponentFixture();
     component.symbol.pins.first().designator = QStringLiteral("99");
     QVERIFY(!exporter.exportComponentLibrary(
@@ -216,17 +282,23 @@ void TestEagleExporter::rejectsMissingPadMapping() {
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("找不到对应焊盘")));
 }
 
-/** 验证 Eagle XML 圆弧使用端点和 curve 属性保留扫掠角。 */
+/**
+ * @brief 验证 Eagle XML 圆弧使用端点和 curve 属性保留扫掠角。
+ */
 void TestEagleExporter::writesArcAsCurvedWire() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // path：测试使用的文件系统路径。
     const QString path = temporary.path() + QStringLiteral("/arc.lbr");
     QVERIFY(exporter.exportFootprintLibrary({makeFixture(QStringLiteral("ARC_PACKAGE"))}, QStringLiteral("arc"), path));
 
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader reader(&file);
+    // curvedWireSeen：已观察到的曲线导线。
     bool curvedWireSeen = false;
     while (!reader.atEnd()) {
         reader.readNext();
@@ -240,11 +312,16 @@ void TestEagleExporter::writesArcAsCurvedWire() {
     QVERIFY(curvedWireSeen);
 }
 
-/** 验证起止角度相同的圆弧不会被静默写成不确定几何。 */
+/**
+ * @brief 验证起止角度相同的圆弧不会被静默写成不确定几何。
+ */
 void TestEagleExporter::rejectsInvalidArc() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint = makeFixture(QStringLiteral("INVALID_ARC"));
     footprint.arcs.first().endAngle = footprint.arcs.first().startAngle;
     QVERIFY(!exporter.exportFootprintLibrary(
@@ -252,17 +329,23 @@ void TestEagleExporter::rejectsInvalidArc() {
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("起止角度相同")));
 }
 
-/** 验证 Eagle Symbol 的三点圆弧被序列化为带曲率的 wire。 */
+/**
+ * @brief 验证 Eagle Symbol 的三点圆弧被序列化为带曲率的 wire。
+ */
 void TestEagleExporter::writesSymbolArcAsCurvedWire() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // path：测试使用的文件系统路径。
     const QString path = temporary.path() + QStringLiteral("/symbol-arc.lbr");
     QVERIFY(exporter.exportComponentLibrary({makeComponentFixture()}, QStringLiteral("symbol-arc"), path));
 
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader reader(&file);
+    // symbolArcSeen：测试用符号数据。
     bool symbolArcSeen = false;
     while (!reader.atEnd()) {
         reader.readNext();
@@ -277,11 +360,16 @@ void TestEagleExporter::writesSymbolArcAsCurvedWire() {
     QVERIFY(symbolArcSeen);
 }
 
-/** 验证符号圆弧的不可表达样式会失败并生成诊断。 */
+/**
+ * @brief 验证符号圆弧的不可表达样式会失败并生成诊断。
+ */
 void TestEagleExporter::rejectsUnsupportedSymbolArcStyle() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // component：测试使用的缓存或元器件对象。
     IR::ComponentIR component = makeComponentFixture();
     component.symbol.arcs.first().isFilled = true;
     QVERIFY(!exporter.exportComponentLibrary(
@@ -289,12 +377,18 @@ void TestEagleExporter::rejectsUnsupportedSymbolArcStyle() {
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("填充")));
 }
 
-/** 验证不同原始组件名称不会清洗为同一个 Eagle DeviceSet 名称。 */
+/**
+ * @brief 验证不同原始组件名称不会清洗为同一个 Eagle DeviceSet 名称。
+ */
 void TestEagleExporter::rejectsDeviceSetNameCollision() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // first：第一个测试结果。
     IR::ComponentIR first = makeComponentFixture();
+    // second：第二个测试结果。
     IR::ComponentIR second = makeComponentFixture();
     first.name = QStringLiteral("A B");
     second.name = QStringLiteral("A/B");
@@ -307,11 +401,16 @@ void TestEagleExporter::rejectsDeviceSetNameCollision() {
     QVERIFY(exporter.diagnostics().join(QStringLiteral("\n")).contains(QStringLiteral("冲突")));
 }
 
-/** 验证旋转矩形的 Eagle wire 端点体现了 IR 中的旋转角度。 */
+/**
+ * @brief 验证旋转矩形的 Eagle wire 端点体现了 IR 中的旋转角度。
+ */
 void TestEagleExporter::writesRotatedRectangle() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // path：测试使用的文件系统路径。
     const QString path = temporary.path() + QStringLiteral("/rotated.lbr");
     QVERIFY(exporter.exportFootprintLibrary(
         {makeFixture(QStringLiteral("ROTATED_PACKAGE"))}, QStringLiteral("rotated"), path));
@@ -319,15 +418,20 @@ void TestEagleExporter::writesRotatedRectangle() {
     QFile file(path);
     QVERIFY(file.open(QIODevice::ReadOnly));
     QXmlStreamReader reader(&file);
+    // rotatedWireSeen：已观察到的旋转导线。
     bool rotatedWireSeen = false;
     while (!reader.atEnd()) {
         reader.readNext();
         if (!reader.isStartElement() || reader.name() != QStringLiteral("wire") ||
             reader.attributes().value(QStringLiteral("layer")) != QStringLiteral("21"))
             continue;
+        // x1：测试使用的数值结果。
         const double x1 = reader.attributes().value(QStringLiteral("x1")).toDouble();
+        // y1：测试使用的数值结果。
         const double y1 = reader.attributes().value(QStringLiteral("y1")).toDouble();
+        // x2：测试使用的数值结果。
         const double x2 = reader.attributes().value(QStringLiteral("x2")).toDouble();
+        // y2：测试使用的数值结果。
         const double y2 = reader.attributes().value(QStringLiteral("y2")).toDouble();
         if (qAbs(x1 - 11.5) < 1e-6 && qAbs(y1 - 9.5) < 1e-6 && qAbs(x2 - 11.5) < 1e-6 && qAbs(y2 - 11.5) < 1e-6) {
             rotatedWireSeen = true;
@@ -338,11 +442,16 @@ void TestEagleExporter::writesRotatedRectangle() {
     QVERIFY(rotatedWireSeen);
 }
 
-/** 验证非圆形通孔焊盘导出失败并给出形状诊断。 */
+/**
+ * @brief 验证非圆形通孔焊盘导出失败并给出形状诊断。
+ */
 void TestEagleExporter::rejectsNonCircularThroughHole() {
+    // temporary：测试隔离环境中的临时对象。
     QTemporaryDir temporary;
     QVERIFY(temporary.isValid());
+    // exporter：负责生成测试输出的导出器实例。
     ExporterEagleFootprint exporter;
+    // footprint：测试用封装数据。
     IR::FootprintComponentIR footprint = makeFixture(QStringLiteral("OVAL_HOLE"));
     footprint.pads.last().size = QSizeF(2.0, 1.0);
     QVERIFY(!exporter.exportFootprintLibrary(

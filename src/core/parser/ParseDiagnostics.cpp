@@ -6,6 +6,15 @@
 
 namespace EasyKiConverter::Parser {
 
+/**
+ * @brief 添加一条解析诊断。
+ * @param severity 诊断严重级别。
+ * @param scope 诊断作用域。
+ * @param message 诊断信息。
+ * @param entity 相关实体名称。
+ * @param line 相关行号。
+ * @param column 相关列号。
+ */
 void ParseDiagnostics::add(ParseSeverity severity,
                            ParseScope scope,
                            const QString& message,
@@ -15,22 +24,34 @@ void ParseDiagnostics::add(ParseSeverity severity,
     m_items.append({severity, scope, m_filePath, entity, message, line, column});
 }
 
-// 设置后续诊断共享的源文件位置。
+/**
+ * @brief 设置后续诊断共享的源文件位置。
+ * @param filePath 源文件路径。
+ */
 void ParseDiagnostics::setFilePath(const QString& filePath) {
     m_filePath = filePath;
 }
 
-// 以解析顺序返回诊断，供读取器和测试检查。
+/**
+ * @brief 以解析顺序返回诊断列表。
+ * @return 当前诊断列表。
+ */
 const QList<ParseDiagnostic>& ParseDiagnostics::items() const {
     return m_items;
 }
 
-// 合并不同文件或阶段的诊断，保留每条记录原有的文件路径。
+/**
+ * @brief 合并另一组解析诊断。
+ * @param other 要追加的诊断集合。
+ */
 void ParseDiagnostics::append(const ParseDiagnostics& other) {
     m_items.append(other.items());
 }
 
-// 判断本次解析是否存在阻止可靠转换的错误。
+/**
+ * @brief 判断本次解析是否存在错误。
+ * @return 存在错误时返回 true。
+ */
 bool ParseDiagnostics::hasErrors() const {
     for (const ParseDiagnostic& item : m_items) {
         if (item.severity == ParseSeverity::Error)
@@ -39,22 +60,35 @@ bool ParseDiagnostics::hasErrors() const {
     return false;
 }
 
-// 判断是否没有产生任何诊断。
+/**
+ * @brief 判断是否没有产生任何诊断。
+ * @return 没有诊断时返回 true。
+ */
 bool ParseDiagnostics::isEmpty() const {
     return m_items.isEmpty();
 }
 
-// 清理上一轮解析的诊断，准备复用接收器。
+/**
+ * @brief 清理上一轮解析的诊断。
+ */
 void ParseDiagnostics::clear() {
     m_items.clear();
 }
 
+/**
+ * @brief 严格解析有限双精度数值。
+ * @param text 待解析文本。
+ * @param diagnostics 可选的诊断接收器。
+ * @param field 字段名称。
+ * @param line 源文件行号。
+ * @return 解析出的数值，失败时返回 0。
+ */
 double StrictNumberParser::parseDouble(const QString& text,
                                        ParseDiagnostics* diagnostics,
                                        const QString& field,
                                        int line) {
-    bool ok = false;
-    const double value = QLocale::c().toDouble(text.trimmed(), &ok);
+    bool ok = false;  // Qt 数值转换是否成功。
+    const double value = QLocale::c().toDouble(text.trimmed(), &ok);  // 按 C locale 解析的数值。
     if (!ok || !std::isfinite(value)) {
         if (diagnostics)
             diagnostics->add(
@@ -64,13 +98,20 @@ double StrictNumberParser::parseDouble(const QString& text,
     return value;
 }
 
-// 严格解析整数，避免非法字段被静默转换为零。
+/**
+ * @brief 严格解析整数，避免非法字段被静默转换为零。
+ * @param text 待解析文本。
+ * @param diagnostics 可选的诊断接收器。
+ * @param field 字段名称。
+ * @param line 源文件行号。
+ * @return 解析出的整数，失败时返回 0。
+ */
 qint64 StrictNumberParser::parseInteger(const QString& text,
                                         ParseDiagnostics* diagnostics,
                                         const QString& field,
                                         int line) {
-    bool ok = false;
-    const qint64 value = text.trimmed().toLongLong(&ok);
+    bool ok = false;  // Qt 整数转换是否成功。
+    const qint64 value = text.trimmed().toLongLong(&ok);  // 解析出的整数值。
     if (!ok) {
         if (diagnostics)
             diagnostics->add(

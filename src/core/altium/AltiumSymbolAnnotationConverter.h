@@ -11,13 +11,25 @@ namespace EasyKiConverter {
  */
 class AltiumSymbolAnnotationConverter final {
 public:
-    /** @brief 转换符号文本。 */
+    /**
+     * @brief 转换符号文本。
+     * @param text 待转换的符号文本。
+     * @return Altium 文本记录。
+     */
     static AltiumSchText convertText(const IR::SymbolTextIR& text);
 
-    /** @brief 转换符号文本框。 */
+    /**
+     * @brief 转换符号文本框。
+     * @param frame 待转换的文本框。
+     * @return Altium 文本框记录。
+     */
     static AltiumSchTextFrame convertTextFrame(const IR::SymbolTextFrameIR& frame);
 
-    /** @brief 转换符号图片。 */
+    /**
+     * @brief 转换符号图片。
+     * @param image 待转换的符号图片。
+     * @return Altium 图片记录。
+     */
     static AltiumSchImage convertImage(const IR::SymbolImageIR& image);
 };
 

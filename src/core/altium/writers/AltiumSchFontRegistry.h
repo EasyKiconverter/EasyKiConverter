@@ -49,7 +49,9 @@ public:
     int size() const;
 
 private:
-    /** @brief 保存已注册字体，列表下标加一即为 Altium 字体 ID。 */
+    /**
+     * @brief 保存已注册字体，列表下标加一即为 Altium 字体 ID。
+     */
     QList<AltiumModels::FontEntry> m_entries;
 };
 

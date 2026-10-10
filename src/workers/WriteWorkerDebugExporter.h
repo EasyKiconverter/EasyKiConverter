@@ -12,14 +12,22 @@ class WriteWorker;
  */
 class WriteWorkerDebugExporter final {
 public:
-    /** @brief 保存所属写入工作线程的状态引用。 */
+    /**
+     * @brief 保存所属写入工作线程的状态引用。
+     * @param owner 所属写入工作线程。
+     */
     explicit WriteWorkerDebugExporter(WriteWorker& owner);
 
-    /** @brief 将当前元件的调试数据写入输出目录。 */
+    /**
+     * @brief 将当前元件的调试数据写入输出目录。
+     * @param status 当前元件的导出状态。
+     */
     bool exportData(ComponentExportStatus& status);
 
 private:
-    /** @brief 被复用输出目录策略的写入工作线程。 */
+    /**
+     * @brief 被复用输出目录策略的写入工作线程。
+     */
     WriteWorker& m_owner;
 };
 

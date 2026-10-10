@@ -14,16 +14,31 @@ class ComponentListViewModel;
  */
 class ComponentListMutationCoordinator final {
 public:
-    /** @brief 添加单个元件并启动其数据验证。 */
+    /**
+     * @brief 添加单个元件并启动其数据验证。
+     * @param owner 所属组件列表视图模型。
+     * @param componentId 元器件编号。
+     */
     static void add(ComponentListViewModel& owner, const QString& componentId);
 
-    /** @brief 按列表位置删除元件并取消相关请求。 */
+    /**
+     * @brief 按列表位置删除元件并取消相关请求。
+     * @param owner 所属组件列表视图模型。
+     * @param index 列表索引。
+     */
     static void remove(ComponentListViewModel& owner, int index);
 
-    /** @brief 按元件编号删除元件。 */
+    /**
+     * @brief 按元件编号删除元件。
+     * @param owner 所属组件列表视图模型。
+     * @param componentId 元器件编号。
+     */
     static void removeById(ComponentListViewModel& owner, const QString& componentId);
 
-    /** @brief 清空元件列表及其缓存、验证状态。 */
+    /**
+     * @brief 清空元件列表及其缓存、验证状态。
+     * @param owner 所属组件列表视图模型。
+     */
     static void clear(ComponentListViewModel& owner);
 };
 

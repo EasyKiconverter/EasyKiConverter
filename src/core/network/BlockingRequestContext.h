@@ -15,7 +15,7 @@ class BlockingRequestContext final {
 public:
     /**
      * @brief 保存请求结果并唤醒等待线程。
-     * @param result 异步请求产生的结果
+     * @param result 异步请求产生的结果。
      */
     void complete(const NetworkResult& result) {
         QMutexLocker locker(&m_mutex);
@@ -29,7 +29,7 @@ public:
 
     /**
      * @brief 阻塞等待请求完成。
-     * @return 已保存的网络请求结果
+     * @return 已保存的网络请求结果。
      */
     NetworkResult wait() {
         QMutexLocker locker(&m_mutex);
@@ -40,10 +40,10 @@ public:
     }
 
 private:
-    QMutex m_mutex;
-    QWaitCondition m_condition;
-    NetworkResult m_result;
-    bool m_finished = false;
+    QMutex m_mutex;  ///< 保护完成状态和结果对象的互斥锁。
+    QWaitCondition m_condition;  ///< 等待和唤醒同步请求线程的条件变量。
+    NetworkResult m_result;  ///< 最近一次保存的网络请求结果。
+    bool m_finished = false;  ///< 是否已经收到并保存请求结果。
 };
 
 }  // namespace EasyKiConverter

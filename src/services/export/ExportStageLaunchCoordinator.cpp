@@ -15,7 +15,10 @@
 
 namespace EasyKiConverter {
 
-/** @brief 根据预加载结果初始化并启动所有需要的导出阶段。 */
+/**
+ * @brief 根据预加载结果初始化并启动所有需要的导出阶段。
+ * @param owner 并行导出服务所有者。
+ */
 void ExportStageLaunchCoordinator::start(ParallelExportService& owner) {
     if (owner.m_progress.currentStage == ExportOverallProgress::Stage::Exporting) {
         qWarning() << "ParallelExportService: Export already in progress";
@@ -42,7 +45,8 @@ void ExportStageLaunchCoordinator::start(ParallelExportService& owner) {
     // 从 ComponentService 刷新最新的组件数据，确保用户在 UI 中的编辑生效。
     if (owner.m_componentService) {
         for (auto it = owner.m_cachedData.begin(); it != owner.m_cachedData.end(); ++it) {
-            ComponentData freshData = owner.m_componentService->getComponentData(it.key());
+            ComponentData freshData =
+                owner.m_componentService->getComponentData(it.key());  ///< 当前组件的最新编辑数据。
             if (freshData.symbolData() && it.value() && it.value()->symbolData()) {
                 it.value()->symbolData()->setInfo(freshData.symbolData()->info());
             }
@@ -51,7 +55,7 @@ void ExportStageLaunchCoordinator::start(ParallelExportService& owner) {
             }
         }
     }
-    const quint64 runGeneration = owner.m_activeRunGeneration;
+    const quint64 runGeneration = owner.m_activeRunGeneration;  ///< 当前导出运行代次。
 
     qDebug() << "ParallelExportService: Starting export for" << owner.m_componentIds.size() << "components"
              << (owner.m_options.retryMode ? "(retry mode)" : "");
@@ -64,19 +68,20 @@ void ExportStageLaunchCoordinator::start(ParallelExportService& owner) {
     // Altium PcbLib 将 STEP 直接嵌入 Library/Models，不生成 KiCad 风格的
     // 外部 .3dmodels 目录；封装阶段仍会按需获取 STEP 并交给写入器。
     // Model3D 统计项仍需保留，Altium 下由封装阶段镜像完成状态。
-    const ExportRunPlan plan = buildExportRunPlan(owner.m_options, owner.m_componentIds, owner.m_cachedData);
-    const bool enableSymbol = plan.enableSymbol;
-    const bool enableFootprint = plan.enableFootprint;
-    const bool runExternalModel3DStage = plan.runExternalModel3DStage;
-    const bool enablePreview = plan.enablePreview;
-    const bool enableDatasheet = plan.enableDatasheet;
+    const ExportRunPlan plan =
+        buildExportRunPlan(owner.m_options, owner.m_componentIds, owner.m_cachedData);  ///< 当前导出阶段计划。
+    const bool enableSymbol = plan.enableSymbol;  ///< 是否启动符号导出阶段。
+    const bool enableFootprint = plan.enableFootprint;  ///< 是否启动封装导出阶段。
+    const bool runExternalModel3DStage = plan.runExternalModel3DStage;  ///< 是否启动独立三维模型阶段。
+    const bool enablePreview = plan.enablePreview;  ///< 是否启动预览图阶段。
+    const bool enableDatasheet = plan.enableDatasheet;  ///< 是否启动数据手册阶段。
     if (!plan.missingDataComponentIds.isEmpty()) {
         qWarning() << "ParallelExportService: Missing preloaded component data for"
                    << plan.missingDataComponentIds.size() << "components:" << plan.missingDataComponentIds;
     }
 
-    const auto initTypeProgress = [&owner](const QString& typeName) {
-        ExportTypeProgress progress;
+    const auto initTypeProgress = [&owner](const QString& typeName) {  ///< 初始化一种导出类型的进度对象。
+        ExportTypeProgress progress;  ///< 当前导出类型进度。
         progress.typeName = typeName;
         progress.totalCount = owner.m_componentIds.size();
         owner.m_progress.exportTypeProgress[typeName] = progress;
@@ -86,9 +91,9 @@ void ExportStageLaunchCoordinator::start(ParallelExportService& owner) {
         initTypeProgress(typeName);
     }
 
-    const auto markMissingDataFailures = [&owner, &plan](const QString& typeName) {
-        for (const QString& componentId : plan.missingDataComponentIds) {
-            ExportItemStatus status;
+    const auto markMissingDataFailures = [&owner, &plan](const QString& typeName) {  ///< 标记缺失缓存数据的失败项。
+        for (const QString& componentId : plan.missingDataComponentIds) {  ///< 当前缺失数据的元器件编号。
+            ExportItemStatus status;  ///< 当前元器件的失败状态。
             status.status = ExportItemStatus::Status::Failed;
             status.errorMessage = QStringLiteral("Component preload data missing");
             owner.onExportItemStatusChanged(componentId, typeName, status);
@@ -116,13 +121,13 @@ void ExportStageLaunchCoordinator::start(ParallelExportService& owner) {
 
     // 创建并启动各导出类型的 Stage。
     if (enableSymbol) {
-        auto* stage = new SymbolExportStage(&owner);
+        auto* stage = new SymbolExportStage(&owner);  ///< 新建的符号导出阶段。
         stage->setOptions(owner.m_options);
         owner.registerStageAndStart(stage, QStringLiteral("Symbol"), plan.exportableComponentIds, runGeneration);
     }
 
     if (enableFootprint) {
-        auto* stage = new FootprintExportStage(&owner);
+        auto* stage = new FootprintExportStage(&owner);  ///< 新建的封装导出阶段。
         stage->setOptions(owner.m_options);
         owner.registerStageAndStart(
             stage,
@@ -132,19 +137,19 @@ void ExportStageLaunchCoordinator::start(ParallelExportService& owner) {
     }
 
     if (runExternalModel3DStage) {
-        auto* stage = new Model3DExportStage(&owner);
+        auto* stage = new Model3DExportStage(&owner);  ///< 新建的独立三维模型导出阶段。
         stage->setOptions(owner.m_options);
         owner.registerStageAndStart(stage, QStringLiteral("Model3D"), plan.exportableComponentIds, runGeneration);
     }
 
     if (enablePreview) {
-        auto* stage = new PreviewImagesExportStage(&owner);
+        auto* stage = new PreviewImagesExportStage(&owner);  ///< 新建的预览图导出阶段。
         stage->setOptions(owner.m_options);
         owner.registerStageAndStart(stage, QStringLiteral("PreviewImages"), plan.exportableComponentIds, runGeneration);
     }
 
     if (enableDatasheet) {
-        auto* stage = new DatasheetExportStage(&owner);
+        auto* stage = new DatasheetExportStage(&owner);  ///< 新建的数据手册导出阶段。
         stage->setOptions(owner.m_options);
         owner.registerStageAndStart(stage, QStringLiteral("Datasheet"), plan.exportableComponentIds, runGeneration);
     }

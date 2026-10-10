@@ -11,7 +11,11 @@ namespace EasyKiConverter {
  */
 class AltiumSymbolImplementationConverter final {
 public:
-    /** @brief 根据符号 IR 构造去重后的封装和模型实现列表。 */
+    /**
+     * @brief 根据符号 IR 构造去重后的封装和模型实现列表。
+     * @param symbol 符号 IR 数据。
+     * @return 封装和三维模型实现列表。
+     */
     static QList<AltiumSchComponent::Implementation> convert(const IR::SymbolComponentIR& symbol);
 };
 

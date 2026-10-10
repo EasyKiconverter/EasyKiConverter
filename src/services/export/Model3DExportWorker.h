@@ -33,8 +33,8 @@ class Model3DExportWorker : public QObject, public QRunnable, public IExportWork
 
 public:
     struct OutputPaths {
-        QString wrlTempPath;
-        QString stepTempPath;
+        QString wrlTempPath;  ///< WRL 临时文件路径。
+        QString stepTempPath;  ///< STEP 临时文件路径。
     };
 
     /**
@@ -61,6 +61,7 @@ public:
     /**
      * @brief 设置临时文件路径
      * @param tempPath 临时文件路径（写入位置）
+     * @param paths 待处理的路径列表。
      */
     void setOutputPaths(const OutputPaths& paths) {
         m_outputPaths = paths;
@@ -84,12 +85,18 @@ public:
      */
     void cancel() override;
 
-    /** @brief 获取元器件ID */
+    /**
+     * @brief 获取元器件 ID。
+     * @return 元器件编号。
+     */
     QString componentId() const override {
         return m_componentId;
     }
 
-    /** @brief 设置导出选项 */
+    /**
+     * @brief 设置导出选项。
+     * @param options 导出选项。
+     */
     void setOptions(const ExportOptions& options);
 
 signals:

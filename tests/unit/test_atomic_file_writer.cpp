@@ -12,12 +12,19 @@ class TestAtomicFileWriter : public QObject {
 
 private slots:
 
+    /**
+     * @brief 验证 writeAtomicallyWritesDataAndCreatesTempDirectory 测试场景。
+     */
     void writeAtomicallyWritesDataAndCreatesTempDirectory() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // workDir：测试使用的文件系统路径。
         const QString workDir = tempDir.path();
+        // atomicTempDir：测试使用的文件系统路径。
         const QString atomicTempDir = QDir(workDir).filePath(QStringLiteral(".atomic"));
+        // finalPath：测试使用的文件系统路径。
         const QString finalPath = QDir(workDir).filePath(QStringLiteral("output.txt"));
 
         QVERIFY(AtomicFileWriter::writeAtomically(
@@ -28,12 +35,19 @@ private slots:
         QVERIFY(tempFiles(atomicTempDir).isEmpty());
     }
 
+    /**
+     * @brief 验证 writeAtomicallyKeepsExistingFileAndRemovesTempOnWriterFailure 测试场景。
+     */
     void writeAtomicallyKeepsExistingFileAndRemovesTempOnWriterFailure() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // workDir：测试使用的文件系统路径。
         const QString workDir = tempDir.path();
+        // atomicTempDir：测试使用的文件系统路径。
         const QString atomicTempDir = QDir(workDir).filePath(QStringLiteral(".atomic"));
+        // finalPath：测试使用的文件系统路径。
         const QString finalPath = QDir(workDir).filePath(QStringLiteral("output.txt"));
         QVERIFY(writeFile(finalPath, QByteArrayLiteral("old content")));
 
@@ -52,12 +66,19 @@ private slots:
         QVERIFY(tempFiles(atomicTempDir).isEmpty());
     }
 
+    /**
+     * @brief 验证 writeAtomicallyReplacesExistingFile 测试场景。
+     */
     void writeAtomicallyReplacesExistingFile() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // workDir：测试使用的文件系统路径。
         const QString workDir = tempDir.path();
+        // atomicTempDir：测试使用的文件系统路径。
         const QString atomicTempDir = QDir(workDir).filePath(QStringLiteral(".atomic"));
+        // finalPath：测试使用的文件系统路径。
         const QString finalPath = QDir(workDir).filePath(QStringLiteral("output.txt"));
         QVERIFY(writeFile(finalPath, QByteArrayLiteral("old content")));
 
@@ -68,13 +89,21 @@ private slots:
         QVERIFY(tempFiles(atomicTempDir).isEmpty());
     }
 
+    /**
+     * @brief 验证 copyAtomicallyCopiesAndReplacesExistingFile 测试场景。
+     */
     void copyAtomicallyCopiesAndReplacesExistingFile() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // workDir：测试使用的文件系统路径。
         const QString workDir = tempDir.path();
+        // atomicTempDir：测试使用的文件系统路径。
         const QString atomicTempDir = QDir(workDir).filePath(QStringLiteral(".atomic"));
+        // sourcePath：测试使用的文件系统路径。
         const QString sourcePath = QDir(workDir).filePath(QStringLiteral("source.step"));
+        // finalPath：测试使用的文件系统路径。
         const QString finalPath = QDir(workDir).filePath(QStringLiteral("model.step"));
 
         QVERIFY(writeFile(sourcePath, QByteArrayLiteral("source model")));
@@ -87,13 +116,21 @@ private slots:
         QVERIFY(tempFiles(atomicTempDir).isEmpty());
     }
 
+    /**
+     * @brief 验证 copyAtomicallyFailsForMissingSourceWithoutTouchingDestination 测试场景。
+     */
     void copyAtomicallyFailsForMissingSourceWithoutTouchingDestination() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // workDir：测试使用的文件系统路径。
         const QString workDir = tempDir.path();
+        // atomicTempDir：测试使用的文件系统路径。
         const QString atomicTempDir = QDir(workDir).filePath(QStringLiteral(".atomic"));
+        // sourcePath：测试使用的文件系统路径。
         const QString sourcePath = QDir(workDir).filePath(QStringLiteral("missing.step"));
+        // finalPath：测试使用的文件系统路径。
         const QString finalPath = QDir(workDir).filePath(QStringLiteral("model.step"));
         QVERIFY(writeFile(finalPath, QByteArrayLiteral("old model")));
 

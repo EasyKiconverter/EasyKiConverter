@@ -36,7 +36,10 @@ struct SymbolPinStyle {
     bool activeLow = false;  ///< 低电平有效（语义标记，与 inverted 不同）
     PinDecoration decoration = PinDecoration::None;  ///< IEEE 图形装饰
 
-    /** @brief 是否有任何样式标记 */
+    /**
+     * @brief 判断是否存在任一样式标记。
+     * @return 存在取反、时钟、低有效或图形装饰时返回 true。
+     */
     bool hasAny() const {
         return inverted || clock || activeLow || decoration != PinDecoration::None;
     }
@@ -132,11 +135,11 @@ struct SymbolRectangleIR {
 struct SymbolCircleIR {
     QPointF center;  ///< 圆心（已解析，单位 mm）
     double radius = 0.0;  ///< 半径（mm）
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    QColor fillColor = Qt::transparent;
-    bool isFilled = false;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    bool isFilled = false;  ///< 是否填充图形。
     int partIndex = 0;  ///< 所属部件索引（多部件符号使用）
 };
 
@@ -150,11 +153,11 @@ struct SymbolArcIR {
     QPointF startPoint;  ///< 起点（已解析，单位 mm）
     QPointF midPoint;  ///< 中点（已解析，单位 mm）
     QPointF endPoint;  ///< 终点（已解析，单位 mm）
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    QColor fillColor = Qt::transparent;
-    bool isFilled = false;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    bool isFilled = false;  ///< 是否填充图形。
     int partIndex = 0;  ///< 所属部件索引（多部件符号使用）
 };
 
@@ -165,11 +168,11 @@ struct SymbolEllipseIR {
     QPointF center;  ///< 中心点（已解析，单位 mm）
     double radiusX = 0.0;  ///< X 轴半径（mm）
     double radiusY = 0.0;  ///< Y 轴半径（mm）
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    QColor fillColor = Qt::transparent;
-    bool isFilled = false;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    bool isFilled = false;  ///< 是否填充图形。
     int partIndex = 0;  ///< 所属部件索引（多部件符号使用）
 };
 
@@ -182,11 +185,11 @@ struct SymbolPieIR {
     double radius = 0.0;  ///< 半径（mm）
     double startAngle = 0.0;  ///< 起始角度（度）
     double endAngle = 360.0;  ///< 结束角度（度）
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    QColor fillColor = Qt::transparent;
-    bool isFilled = false;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    bool isFilled = false;  ///< 是否填充图形。
     int partIndex = 0;  ///< 所属部件索引
 };
 
@@ -200,11 +203,11 @@ struct SymbolEllipticalArcIR {
     double radiusY = 0.0;  ///< Y 方向半径（mm）
     double startAngle = 0.0;  ///< 起始角度（度）
     double endAngle = 360.0;  ///< 结束角度（度）
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    QColor fillColor = Qt::transparent;
-    bool isFilled = false;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    bool isFilled = false;  ///< 是否填充图形。
     int partIndex = 0;  ///< 所属部件索引
 };
 
@@ -214,11 +217,11 @@ struct SymbolEllipticalArcIR {
  */
 struct SymbolPolylineIR {
     QList<QPointF> points;  ///< 顶点列表（已解析，单位 mm）
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    QColor fillColor = Qt::transparent;
-    bool isFilled = false;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    bool isFilled = false;  ///< 是否填充图形。
     int partIndex = 0;  ///< 所属部件索引（多部件符号使用）
 };
 
@@ -228,11 +231,11 @@ struct SymbolPolylineIR {
  */
 struct SymbolPolygonIR {
     QList<QPointF> points;  ///< 顶点列表（已解析，单位 mm）
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    QColor fillColor = Qt::transparent;
-    bool isFilled = false;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    bool isFilled = false;  ///< 是否填充多边形。
     int partIndex = 0;  ///< 所属部件索引（多部件符号使用）
 };
 
@@ -244,17 +247,17 @@ struct SymbolPolygonIR {
 struct SymbolPathSegmentIR {
     enum class Type { Line, QuadraticBezier, CubicBezier, CircularArc, EllipticalArc };
 
-    Type type = Type::Line;
-    QPointF start;
+    Type type = Type::Line;  ///< 路径段类型。
+    QPointF start;  ///< 路径段起点。
     QPointF control1;  ///< 二次曲线控制点，或三次曲线第一个控制点
-    QPointF control2;
-    QPointF arcMid;
-    QPointF arcCenter;
-    double radiusX = 0.0;
-    double radiusY = 0.0;
-    double arcStartAngle = 0.0;
-    double arcEndAngle = 0.0;
-    QPointF end;
+    QPointF control2;  ///< 三次曲线第二个控制点。
+    QPointF arcMid;  ///< 圆弧中点。
+    QPointF arcCenter;  ///< 圆弧中心。
+    double radiusX = 0.0;  ///< 椭圆弧 X 轴半径，单位为毫米。
+    double radiusY = 0.0;  ///< 椭圆弧 Y 轴半径，单位为毫米。
+    double arcStartAngle = 0.0;  ///< 圆弧起始角度，单位为度。
+    double arcEndAngle = 0.0;  ///< 圆弧终止角度，单位为度。
+    QPointF end;  ///< 路径段终点。
 };
 
 /**
@@ -264,11 +267,11 @@ struct SymbolPathSegmentIR {
 struct SymbolPathIR {
     QList<QPointF> points;  ///< 路径坐标序列（已解析，单位 mm）
     QList<SymbolPathSegmentIR> segments;  ///< 原生直线/二次与三次 Bézier/圆弧段（已解析，单位 mm）
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    QColor fillColor = Qt::transparent;
-    bool isFilled = false;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    bool isFilled = false;  ///< 是否填充图形。
     int partIndex = 0;  ///< 所属部件索引（多部件符号使用）
 };
 
@@ -278,9 +281,9 @@ struct SymbolPathIR {
  */
 struct SymbolBezierIR {
     QList<QPointF> controlPoints;  ///< 起点、两个控制点和终点
-    QColor strokeColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
     int partIndex = 0;  ///< 所属部件索引（多部件符号使用）
 };
 
@@ -294,7 +297,7 @@ struct SymbolIeeeIR {
     int scaleFactor = 10;  ///< Altium 图形缩放因子
     int orientation = 0;  ///< 0-3，表示 0°/90°/180°/270°
     bool mirrored = false;  ///< 是否镜像
-    QColor color = Qt::black;
+    QColor color = Qt::black;  ///< 图形颜色。
     int partIndex = 0;  ///< 所属部件索引（多部件符号使用）
 };
 
@@ -324,25 +327,25 @@ struct SymbolTextFrameIR {
     double x0 = 0.0, y0 = 0.0;  ///< 第一角点（mm）
     double x1 = 0.0, y1 = 0.0;  ///< 第二角点（mm）
     QString text;  ///< 多行文本
-    QColor strokeColor = Qt::black;
-    QColor fillColor = Qt::transparent;
-    QColor textColor = Qt::black;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
+    QColor strokeColor = Qt::black;  ///< 边框颜色。
+    QColor fillColor = Qt::transparent;  ///< 填充颜色。
+    QColor textColor = Qt::black;  ///< 文本颜色。
+    double strokeWidth = 0.0;  ///< 边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 边框线型。
     double textMargin = 0.0;  ///< 文本边距（mm）
     QString fontFamily;  ///< 字体族；为空时使用 Altium 默认字体
     double fontSizeMm = 0.0;  ///< 字体大小（mm，0 表示使用字体编号默认值）
     bool bold = false;  ///< 是否粗体
     bool italic = false;  ///< 是否斜体
-    int fontId = 0;
-    int orientation = 0;
-    int alignment = 0;
-    bool isFilled = false;
-    bool showBorder = false;
-    bool wordWrap = false;
-    bool clipToRect = false;
-    bool transparent = false;
-    int partIndex = 0;
+    int fontId = 0;  ///< 目标格式字体编号。
+    int orientation = 0;  ///< 文本框方向编号。
+    int alignment = 0;  ///< 文本对齐方式编号。
+    bool isFilled = false;  ///< 是否填充文本框。
+    bool showBorder = false;  ///< 是否显示文本框边框。
+    bool wordWrap = false;  ///< 是否自动换行。
+    bool clipToRect = false;  ///< 是否裁剪到文本框边界。
+    bool transparent = false;  ///< 是否使用透明背景。
+    int partIndex = 0;  ///< 所属部件索引。
 };
 
 /**
@@ -355,15 +358,15 @@ struct SymbolImageIR {
     double rotation = 0.0;  ///< 旋转角度（度）
     QString fileName;  ///< 图片文件名或外部路径
     QByteArray data;  ///< 图片原始字节；非空时可嵌入
-    QColor strokeColor = Qt::black;
-    QColor fillColor = Qt::transparent;
-    double strokeWidth = 0.0;
-    StrokeStyle strokeStyle = StrokeStyle::Solid;
-    bool isFilled = false;
-    bool showBorder = false;
-    bool keepAspect = true;
-    bool transparent = false;
-    int partIndex = 0;
+    QColor strokeColor = Qt::black;  ///< 图片边框颜色。
+    QColor fillColor = Qt::transparent;  ///< 图片填充颜色。
+    double strokeWidth = 0.0;  ///< 图片边框宽度，单位为毫米。
+    StrokeStyle strokeStyle = StrokeStyle::Solid;  ///< 图片边框线型。
+    bool isFilled = false;  ///< 是否填充图片区域。
+    bool showBorder = false;  ///< 是否显示图片边框。
+    bool keepAspect = true;  ///< 是否保持图片宽高比。
+    bool transparent = false;  ///< 是否使用透明背景。
+    int partIndex = 0;  ///< 所属部件索引。
 };
 
 /**
@@ -373,7 +376,7 @@ struct SymbolImageIR {
  */
 struct SymbolParameterIR {
     QString name;  ///< 参数名称
-    QString value;  ///< 参数值
+    QString value;  ///< 符号属性对应的文本值。
     bool visible = false;  ///< 是否在符号图面显示
     bool readOnly = false;  ///< 是否禁止在目标 EDA 中编辑
     QPointF position;  ///< 参数位置（mm）
@@ -401,9 +404,9 @@ struct SymbolModelIR {
  * @details index 是对应图元类型在指定部件中的局部索引。
  */
 struct SymbolGraphicOrderIR {
-    QString type;
-    int index = -1;
-    int partIndex = 0;
+    QString type;  ///< 图元类型名称。
+    int index = -1;  ///< 图元在对应列表中的局部索引。
+    int partIndex = 0;  ///< 所属部件索引。
 };
 
 /**
@@ -421,43 +424,42 @@ struct SymbolComponentIR {
     double originY = 0.0;  ///< 原点 Y 坐标（mm）
     bool preserveLogicalOrigin = false;  ///< 坐标已按来源逻辑原点归一化，导出器不得再次按图形居中
 
-    // 图形原语列表
-    QList<SymbolPinIR> pins;
-    QList<SymbolRectangleIR> rectangles;
-    QList<SymbolCircleIR> circles;
-    QList<SymbolArcIR> arcs;
-    QList<SymbolEllipseIR> ellipses;
-    QList<SymbolPieIR> pies;
-    QList<SymbolEllipticalArcIR> ellipticalArcs;
-    QList<SymbolPolylineIR> polylines;
-    QList<SymbolPolygonIR> polygons;
-    QList<SymbolPathIR> paths;
-    QList<SymbolBezierIR> beziers;
-    QList<SymbolIeeeIR> ieeeSymbols;
-    QList<SymbolTextIR> texts;
-    QList<SymbolTextFrameIR> textFrames;
-    QList<SymbolImageIR> images;
-    QList<SymbolParameterIR> parameters;
-    QList<SymbolModelIR> models;
-    QList<SymbolGraphicOrderIR> graphicOrder;
+    QList<SymbolPinIR> pins;  ///< 符号引脚列表。
+    QList<SymbolRectangleIR> rectangles;  ///< 矩形图元列表。
+    QList<SymbolCircleIR> circles;  ///< 圆形图元列表。
+    QList<SymbolArcIR> arcs;  ///< 圆弧图元列表。
+    QList<SymbolEllipseIR> ellipses;  ///< 椭圆图元列表。
+    QList<SymbolPieIR> pies;  ///< 扇形图元列表。
+    QList<SymbolEllipticalArcIR> ellipticalArcs;  ///< 椭圆弧图元列表。
+    QList<SymbolPolylineIR> polylines;  ///< 折线图元列表。
+    QList<SymbolPolygonIR> polygons;  ///< 多边形图元列表。
+    QList<SymbolPathIR> paths;  ///< 路径图元列表。
+    QList<SymbolBezierIR> beziers;  ///< 三次 Bézier 图元列表。
+    QList<SymbolIeeeIR> ieeeSymbols;  ///< IEEE 图形列表。
+    QList<SymbolTextIR> texts;  ///< 文本图元列表。
+    QList<SymbolTextFrameIR> textFrames;  ///< 文本框图元列表。
+    QList<SymbolImageIR> images;  ///< 图片图元列表。
+    QList<SymbolParameterIR> parameters;  ///< 参数字段列表。
+    QList<SymbolModelIR> models;  ///< 关联模型列表。
+    QList<SymbolGraphicOrderIR> graphicOrder;  ///< 图元原始顺序列表。
 
-    /** @brief 封装关联名称 */
-    QString footprintName;
-    /** @brief 多个候选封装名称（为空时使用 footprintName） */
-    QStringList footprintNames;
+    QString footprintName;  ///< 首选封装关联名称。
+    QStringList footprintNames;  ///< 候选封装名称列表。
+    QStringList aliases;  ///< 符号别名列表。
+    QMap<QString, QString> sourceMetadata;  ///< 来源平台特有元数据。
 
-    /** @brief 符号别名列表 */
-    QStringList aliases;
-
-    /** @brief 来源平台特有元数据（如 LCSC ID、制造商等） */
-    QMap<QString, QString> sourceMetadata;
-
-    /** @brief 是否为多部件符号 */
+    /**
+     * @brief 判断是否为多部件符号。
+     * @return 部件数量大于一时返回 true。
+     */
     bool isMultiPart() const {
         return partCount > 1;
     }
 
-    /** @brief 是否包含任何图形数据 */
+    /**
+     * @brief 判断是否包含任何图形数据。
+     * @return 任一图元列表非空时返回 true。
+     */
     bool hasGraphics() const {
         return !pins.isEmpty() || !rectangles.isEmpty() || !circles.isEmpty() || !arcs.isEmpty() ||
                !ellipses.isEmpty() || !pies.isEmpty() || !ellipticalArcs.isEmpty() || !polylines.isEmpty() ||
@@ -465,7 +467,9 @@ struct SymbolComponentIR {
                !texts.isEmpty() || !textFrames.isEmpty() || !images.isEmpty();
     }
 
-    /** @brief 清空符号组件的名称、几何数据和多单元状态。 */
+    /**
+     * @brief 清空符号组件的名称、几何数据和多单元状态。
+     */
     void clear() {
         name.clear();
         description.clear();

@@ -9,26 +9,38 @@
 namespace EasyKiConverter {
 namespace {
 
-constexpr double kMillimetersPerMil = 0.0254;
+constexpr double kMillimetersPerMil = 0.0254;  ///< 毫米到 mil 的换算系数。
 
-// 按 P-CAD ASCII 字符串规则转义字段，避免引号和反斜杠破坏括号结构。
+/**
+ * @brief 按 P-CAD ASCII 字符串规则转义字段。
+ * @param value 原始字段值。
+ * @return 转义后的带引号字段。
+ */
 QString quote(const QString& value) {
-    QString escaped = value;
+    QString escaped = value;  // 可修改的字段副本。
     escaped.replace(QChar('\\'), QStringLiteral("\\\\"));
     escaped.replace(QChar('"'), QStringLiteral("\\\""));
     return QStringLiteral("\"%1\"").arg(escaped);
 }
 
-// 将统一 IR 的毫米坐标转换为 P-CAD 使用的 mil 文本。
+/**
+ * @brief 将统一 IR 的毫米坐标转换为 P-CAD 使用的 mil 文本。
+ * @param value 毫米数值。
+ * @return mil 文本。
+ */
 QString number(double value) {
     return QString::number(value / kMillimetersPerMil, 'f', 6);
 }
 
-// 将符号名称清洗为稳定的 ASCII 标识符，调用方负责检查清洗后冲突。
+/**
+ * @brief 将符号名称清洗为稳定的 ASCII 标识符。
+ * @param value 原始名称。
+ * @return 清洗后的 ASCII 名称。
+ */
 QString safeName(const QString& value) {
-    QString result;
-    for (const QChar character : value) {
-        const ushort code = character.unicode();
+    QString result;  // 清洗后的名称。
+    for (const QChar character : value) {  // 逐字符处理原始名称。
+        const ushort code = character.unicode();  // 当前字符编码。
         if ((code >= 'A' && code <= 'Z') || (code >= 'a' && code <= 'z') || (code >= '0' && code <= '9') ||
             character == QChar('_') || character == QChar('-'))
             result.append(character);
@@ -38,7 +50,11 @@ QString safeName(const QString& value) {
     return result.left(64);
 }
 
-// 检查原始文本能否按当前 ASCII 变体安全写入，并避免静默丢失 Unicode。
+/**
+ * @brief 检查文本是否仅包含 ASCII 字符。
+ * @param value 待检查文本。
+ * @return 仅含 ASCII 字符时返回 true。
+ */
 bool isAscii(const QString& value) {
     for (const unsigned char byte : value.toUtf8()) {
         if (byte >= 0x80)
@@ -47,7 +63,11 @@ bool isAscii(const QString& value) {
     return true;
 }
 
-// 将统一符号方向转换为 P-CAD 的角度约定。
+/**
+ * @brief 将统一符号方向转换为 P-CAD 的角度约定。
+ * @param direction 统一 IR 引脚方向。
+ * @return P-CAD 旋转角度。
+ */
 double pinRotation(IR::PinDirection direction) {
     // 方向映射保持引脚连接端朝向，不能用绝对坐标重新猜测旋转。
     switch (direction) {
@@ -63,7 +83,11 @@ double pinRotation(IR::PinDirection direction) {
     return 0.0;
 }
 
-// 将电气类型转换为 P-CAD compPin 可识别的文本枚举。
+/**
+ * @brief 将电气类型转换为 P-CAD compPin 可识别的文本枚举。
+ * @param type 统一 IR 电气类型。
+ * @return P-CAD 引脚类型文本。
+ */
 QString pinType(IR::PinElectricalType type) {
     // 未指定类型按无源处理，避免把不确定语义误报为输入或输出。
     switch (type) {
@@ -86,12 +110,21 @@ QString pinType(IR::PinElectricalType type) {
     }
 }
 
-// 检查坐标是否为有限数，拒绝 NaN 和无穷值进入目标文件。
+/**
+ * @brief 检查坐标是否为有限数。
+ * @param point 待检查坐标。
+ * @return 坐标有限时返回 true。
+ */
 bool finitePoint(const QPointF& point) {
     return std::isfinite(point.x()) && std::isfinite(point.y());
 }
 
-// 写入 P-CAD 的 poly 图元；矩形、折线和多边形都使用同一组点记录。
+/**
+ * @brief 写入 P-CAD 的 poly 图元。
+ * @param stream P-CAD 文本流。
+ * @param points 图元顶点列表。
+ * @return 写入成功时返回 true。
+ */
 bool writePoly(QTextStream& stream, const QList<QPointF>& points) {
     if (points.size() < 2)
         return false;
@@ -102,7 +135,12 @@ bool writePoly(QTextStream& stream, const QList<QPointF>& points) {
     return stream.status() == QTextStream::Ok;
 }
 
-// 在写文件前统一检查 P-CAD ASCII 无法表达的符号字段和图元。
+/**
+ * @brief 检查 P-CAD ASCII 无法表达的符号字段和图元。
+ * @param symbol 待检查符号。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 符号可导出时返回 true。
+ */
 bool validateSymbol(const IR::SymbolComponentIR& symbol, QStringList& diagnostics) {
     if (safeName(symbol.name).isEmpty()) {
         diagnostics.append(QStringLiteral("P-CAD: 符号名称清洗后为空：%1").arg(symbol.name));
@@ -133,6 +171,15 @@ bool validateSymbol(const IR::SymbolComponentIR& symbol, QStringList& diagnostic
     return true;
 }
 
+/**
+ * @brief 写入 P-CAD 符号定义。
+ * @param stream P-CAD 文本流。
+ * @param symbol 符号 IR。
+ * @param name 当前部件名称。
+ * @param part 部件索引。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 写入成功时返回 true。
+ */
 bool writeSymbolDef(QTextStream& stream,
                     const IR::SymbolComponentIR& symbol,
                     const QString& name,
@@ -184,12 +231,21 @@ bool writeSymbolDef(QTextStream& stream,
     return stream.status() == QTextStream::Ok;
 }
 
+/**
+ * @brief 写入 P-CAD 组件定义及部件关联。
+ * @param stream P-CAD 文本流。
+ * @param symbol 符号 IR。
+ * @param componentName 组件名称。
+ * @param partNames 部件名称列表。
+ * @param diagnostics 诊断信息输出列表。
+ * @return 写入成功时返回 true。
+ */
 bool writeComponentDef(QTextStream& stream,
                        const IR::SymbolComponentIR& symbol,
                        const QString& componentName,
                        const QList<QString>& partNames,
                        QStringList& diagnostics) {
-    QSet<QString> pinNumbers;
+    QSet<QString> pinNumbers;  // 已出现的引脚编号集合。
     stream << "    (compDef " << quote(componentName) << "\n"
            << "      (originalName " << quote(symbol.name) << ")\n"
            << "      (compHeader (compType Normal) (numPins " << symbol.pins.size() << ") (numParts "
@@ -210,7 +266,7 @@ bool writeComponentDef(QTextStream& stream,
     for (int part = 0; part < partNames.size(); ++part)
         stream << "      (attachedSymbol (partNum " << part + 1 << ") (altType Normal) (symbolName "
                << quote(partNames.at(part)) << "))\n";
-    const QString footprintName = safeName(symbol.footprintName);
+    const QString footprintName = safeName(symbol.footprintName);  // 清洗后的封装名称。
     if (!symbol.footprintName.isEmpty() && !footprintName.isEmpty())
         stream << "      (attachedPattern (patternNum 1) (patternName " << quote(footprintName) << "))\n";
     else
@@ -221,17 +277,34 @@ bool writeComponentDef(QTextStream& stream,
 
 }  // namespace
 
-// 返回独立的原理图库后缀，避免覆盖同名 PCB 封装库。
+/**
+ * @brief 返回独立的原理图库后缀。
+ * @return P-CAD 原理图库扩展名。
+ */
 QString ExporterPcadSymbol::libraryFileExtension() const {
     return QStringLiteral("_PCAD_SCH.lia");
 }
 
-// 单符号导出复用库级 writer，确保头尾记录和关联格式一致。
+/**
+ * @brief 导出单个 P-CAD 符号。
+ * @param symbol 符号 IR。
+ * @param filePath 输出文件路径。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterPcadSymbol::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
     return exportSymbolLibrary({symbol}, symbol.name, filePath, false, false);
 }
 
-// 完整重写 P-CAD 原理图库，并在同一文件中写入 Component/Part 关联。
+/**
+ * @brief 完整重写 P-CAD 原理图库并写入 Component/Part 关联。
+ * @param symbols 符号列表。
+ * @param libName 库名称。
+ * @param filePath 输出文件路径。
+ * @param appendMode 是否追加。
+ * @param updateMode 是否更新。
+ * @param libraryDescription 库描述。
+ * @return 导出成功时返回 true。
+ */
 bool ExporterPcadSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                              const QString& libName,
                                              const QString& filePath,
@@ -257,19 +330,19 @@ bool ExporterPcadSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>&
     stream << "(ACCEL_ASCII " << quote(libName.isEmpty() ? QStringLiteral("EasyKiConverter") : libName) << "\n"
            << "  (asciiHeader\n    (asciiVersion 4 0)\n    (fileUnits MM)\n  )\n"
            << "  (library\n";
-    QSet<QString> usedNames;
+    QSet<QString> usedNames;  // 已使用的组件名称。
     for (const IR::SymbolComponentIR& symbol : symbols) {
         if (!validateSymbol(symbol, m_diagnostics))
             return false;
-        const QString componentName = safeName(symbol.name);
+        const QString componentName = safeName(symbol.name);  // 当前清洗后的组件名称。
         if (usedNames.contains(componentName.toLower())) {
             m_diagnostics.append(QStringLiteral("P-CAD: 符号名称清洗后冲突：%1").arg(symbol.name));
             return false;
         }
         usedNames.insert(componentName.toLower());
-        QList<QString> partNames;
+        QList<QString> partNames;  // 当前组件部件名称列表。
         for (int part = 0; part < symbol.partCount; ++part) {
-            const QString partName =
+            const QString partName =  // 当前部件名称。
                 symbol.partCount == 1 ? componentName : componentName + QStringLiteral("_P%1").arg(part + 1);
             partNames.append(partName);
             if (!writeSymbolDef(stream, symbol, partName, part, m_diagnostics))
@@ -289,7 +362,10 @@ bool ExporterPcadSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>&
     return true;
 }
 
-// 返回最近一次写入过程中收集的可读诊断。
+/**
+ * @brief 返回最近一次写入过程中收集的诊断信息。
+ * @return 诊断信息列表。
+ */
 QStringList ExporterPcadSymbol::diagnostics() const {
     return m_diagnostics;
 }

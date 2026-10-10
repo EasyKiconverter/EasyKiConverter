@@ -2,12 +2,19 @@
 
 namespace EasyKiConverter {
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param bbox 符号或封装边界框。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintBBox& bbox) {
     return {{"x", bbox.x}, {"y", bbox.y}, {"width", bbox.width}, {"height", bbox.height}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param bbox 符号或封装边界框。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintBBox& bbox, const QJsonObject& json) {
     bbox.x = json["x"].toDouble();
     bbox.y = json["y"].toDouble();
@@ -16,7 +23,10 @@ bool FootprintShapeSerializer::fromJson(FootprintBBox& bbox, const QJsonObject& 
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param pad 焊盘图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintPad& pad) {
     return {{"shape", pad.shape},
             {"center_x", pad.centerX},
@@ -36,7 +46,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintPad& pad) {
             {"is_locked", pad.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param pad 焊盘图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintPad& pad, const QJsonObject& json) {
     pad.shape = json["shape"].toString();
     pad.centerX = json["center_x"].toDouble();
@@ -57,7 +71,10 @@ bool FootprintShapeSerializer::fromJson(FootprintPad& pad, const QJsonObject& js
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param track 走线图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintTrack& track) {
     return {{"stroke_width", track.strokeWidth},
             {"layer_id", track.layerId},
@@ -67,7 +84,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintTrack& track) {
             {"is_locked", track.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param track 走线图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintTrack& track, const QJsonObject& json) {
     track.strokeWidth = json["stroke_width"].toDouble();
     track.layerId = json["layer_id"].toInt();
@@ -78,7 +99,10 @@ bool FootprintShapeSerializer::fromJson(FootprintTrack& track, const QJsonObject
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param hole 机械孔图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintHole& hole) {
     return {{"center_x", hole.centerX},
             {"center_y", hole.centerY},
@@ -87,7 +111,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintHole& hole) {
             {"is_locked", hole.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param hole 机械孔图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintHole& hole, const QJsonObject& json) {
     hole.centerX = json["center_x"].toDouble();
     hole.centerY = json["center_y"].toDouble();
@@ -97,7 +125,10 @@ bool FootprintShapeSerializer::fromJson(FootprintHole& hole, const QJsonObject& 
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param circle 圆形图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintCircle& circle) {
     return {{"cx", circle.cx},
             {"cy", circle.cy},
@@ -108,7 +139,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintCircle& circle) {
             {"is_locked", circle.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param circle 圆形图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintCircle& circle, const QJsonObject& json) {
     circle.cx = json["cx"].toDouble();
     circle.cy = json["cy"].toDouble();
@@ -120,7 +155,10 @@ bool FootprintShapeSerializer::fromJson(FootprintCircle& circle, const QJsonObje
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param rect 矩形图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintRectangle& rect) {
     return {{"x", rect.x},
             {"y", rect.y},
@@ -132,7 +170,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintRectangle& rect) {
             {"is_locked", rect.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param rect 矩形图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintRectangle& rect, const QJsonObject& json) {
     rect.x = json["x"].toDouble();
     rect.y = json["y"].toDouble();
@@ -145,7 +187,10 @@ bool FootprintShapeSerializer::fromJson(FootprintRectangle& rect, const QJsonObj
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param arc 圆弧图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintArc& arc) {
     return {{"stroke_width", arc.strokeWidth},
             {"layer_id", arc.layerId},
@@ -156,7 +201,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintArc& arc) {
             {"is_locked", arc.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param arc 圆弧图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintArc& arc, const QJsonObject& json) {
     arc.strokeWidth = json["stroke_width"].toDouble();
     arc.layerId = json["layer_id"].toInt();
@@ -168,7 +217,10 @@ bool FootprintShapeSerializer::fromJson(FootprintArc& arc, const QJsonObject& js
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param text 文本图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintText& text) {
     return {{"type", text.type},
             {"center_x", text.centerX},
@@ -186,7 +238,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintText& text) {
             {"is_locked", text.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param text 文本图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintText& text, const QJsonObject& json) {
     text.type = json["type"].toString();
     text.centerX = json["center_x"].toDouble();
@@ -205,7 +261,10 @@ bool FootprintShapeSerializer::fromJson(FootprintText& text, const QJsonObject& 
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param region 实心区域图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintSolidRegion& region) {
     return {{"path", region.path},
             {"layer_id", region.layerId},
@@ -215,7 +274,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintSolidRegion& region)
             {"is_locked", region.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param region 实心区域图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintSolidRegion& region, const QJsonObject& json) {
     region.path = json["path"].toString();
     region.layerId = json["layer_id"].toInt();
@@ -226,7 +289,10 @@ bool FootprintShapeSerializer::fromJson(FootprintSolidRegion& region, const QJso
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param outline 封装外形图元。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const FootprintOutline& outline) {
     return {{"path", outline.path},
             {"layer_id", outline.layerId},
@@ -235,7 +301,11 @@ QJsonObject FootprintShapeSerializer::toJson(const FootprintOutline& outline) {
             {"is_locked", outline.isLocked}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param outline 封装外形图元。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(FootprintOutline& outline, const QJsonObject& json) {
     outline.path = json["path"].toString();
     outline.layerId = json["layer_id"].toInt();
@@ -245,7 +315,10 @@ bool FootprintShapeSerializer::fromJson(FootprintOutline& outline, const QJsonOb
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param layer 层定义。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const LayerDefinition& layer) {
     return {{"layer_id", layer.layerId},
             {"name", layer.name},
@@ -255,7 +328,11 @@ QJsonObject FootprintShapeSerializer::toJson(const LayerDefinition& layer) {
             {"expansion", layer.expansion}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param layer 层定义。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(LayerDefinition& layer, const QJsonObject& json) {
     layer.layerId = json["layer_id"].toInt();
     layer.name = json["name"].toString();
@@ -266,14 +343,21 @@ bool FootprintShapeSerializer::fromJson(LayerDefinition& layer, const QJsonObjec
     return true;
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param visibility 图元可见性配置。
+ */
 QJsonObject FootprintShapeSerializer::toJson(const ObjectVisibility& visibility) {
     return {{"object_type", visibility.objectType},
             {"is_enabled", visibility.isEnabled},
             {"is_visible", visibility.isVisible}};
 }
 
-// 保持封装序列化接口与 JSON 字段映射兼容。
+/**
+ * @brief 保持封装序列化接口与 JSON 字段映射兼容。
+ * @param visibility 图元可见性配置。
+ * @param json 待读取或写入的 JSON 对象。
+ */
 bool FootprintShapeSerializer::fromJson(ObjectVisibility& visibility, const QJsonObject& json) {
     visibility.objectType = json["object_type"].toString();
     visibility.isEnabled = json["is_enabled"].toBool();

@@ -16,15 +16,23 @@ class TestExportReportGenerator : public QObject {
 private slots:
 
     // 清理网络客户端单例，避免影响其他测试。
+    /**
+     * @brief 清理测试用例使用的资源。
+     */
     void cleanupTestCase() {
         NetworkClient::destroyInstance();
     }
 
     // 验证关闭调试模式时不生成详细报告。
+    /**
+     * @brief 验证 debugModeDisabledDoesNotWriteReport 测试场景。
+     */
     void debugModeDisabledDoesNotWriteReport() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path());
         options.debugMode = false;
 
@@ -34,7 +42,11 @@ private slots:
     }
 
     // 验证输出目录为空时不生成详细报告。
+    /**
+     * @brief 验证 emptyOutputPathDoesNotWriteReport 测试场景。
+     */
     void emptyOutputPathDoesNotWriteReport() {
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(QString());
         options.debugMode = true;
 
@@ -44,16 +56,24 @@ private slots:
     }
 
     // 验证详细报告会创建目录并写入导出进度快照。
+    /**
+     * @brief 验证 detailedReportCreatesOutputDirectoryAndWritesProgressSnapshot 测试场景。
+     */
     void detailedReportCreatesOutputDirectoryAndWritesProgressSnapshot() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // outputPath：测试使用的文件系统路径。
         const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("nested/reports"));
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(outputPath);
+        // progress：测试用导出进度状态。
         const ExportOverallProgress progress = makeProgress();
 
         ExportReportGenerator::writeDetailedReport(QStringLiteral("export-failed-test"), options, progress);
 
+        // content：测试使用的文本或数据内容。
         const QString content = readText(reportPath(outputPath));
         QVERIFY(content.contains(QStringLiteral("# EasyKiConverter Export Detailed Report")));
         QVERIFY(content.contains(QStringLiteral("- Reason: export-failed-test")));
@@ -99,23 +119,31 @@ private slots:
     }
 
     // 验证网络拒绝原因会原样进入预加载失败报告。
+    /**
+     * @brief 验证 detailedReportIncludesNetworkFailureReason 测试场景。
+     */
     void detailedReportIncludesNetworkFailureReason() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path());
+        // progress：测试用导出进度状态。
         ExportOverallProgress progress = makeProgress();
         progress.preloadProgress.failedComponents.insert(
             QStringLiteral("C403"), QStringLiteral("HTTP 403: Forbidden; response: access denied"));
 
         ExportReportGenerator::writeDetailedReport(QStringLiteral("preload-completed"), options, progress);
 
+        // content：测试使用的文本或数据内容。
         const QString content = readText(reportPath(tempDir.path()));
         QVERIFY(content.contains(QStringLiteral("- `C403`: HTTP 403: Forbidden; response: access denied")));
     }
 
 private:
     static ExportOptions makeOptions(const QString& outputPath) {
+        // options：当前测试使用的导出选项。
         ExportOptions options;
         options.outputPath = outputPath;
         options.libName = QStringLiteral("ReportLib");
@@ -132,6 +160,7 @@ private:
     }
 
     static ExportOverallProgress makeProgress() {
+        // progress：测试用导出进度状态。
         ExportOverallProgress progress;
         progress.currentStage = ExportOverallProgress::Stage::Failed;
         progress.totalComponents = 3;
@@ -145,6 +174,7 @@ private:
         progress.preloadProgress.inProgressCount = 0;
         progress.preloadProgress.failedComponents.insert(QStringLiteral("C404"), QStringLiteral("Not found"));
 
+        // symbolProgress：符号导出进度状态。
         ExportTypeProgress symbolProgress;
         symbolProgress.typeName = QStringLiteral("Symbol");
         symbolProgress.totalCount = 3;
@@ -154,6 +184,7 @@ private:
         symbolProgress.skippedCount = 1;
         symbolProgress.inProgressCount = 0;
         symbolProgress.diagnostics = {QStringLiteral("组件 IMAGE_DIAGNOSTICS 图片 0 的嵌入数据为空，已跳过 Storage")};
+        // symbolStatus：测试用符号数据。
         ExportItemStatus symbolStatus;
         symbolStatus.status = ExportItemStatus::Status::Success;
         symbolStatus.diagnostics = {QStringLiteral("Rectangle 0 has a non-positive size"),
@@ -161,6 +192,7 @@ private:
         symbolProgress.itemStatus.insert(QStringLiteral("C123"), symbolStatus);
         progress.exportTypeProgress.insert(QStringLiteral("Symbol"), symbolProgress);
 
+        // footprintProgress：封装导出进度状态。
         ExportTypeProgress footprintProgress;
         footprintProgress.typeName = QStringLiteral("Footprint");
         footprintProgress.totalCount = 3;
@@ -169,6 +201,7 @@ private:
         footprintProgress.failedCount = 1;
         footprintProgress.skippedCount = 0;
         footprintProgress.inProgressCount = 1;
+        // footprintFailure：测试用封装数据。
         ExportItemStatus footprintFailure;
         footprintFailure.status = ExportItemStatus::Status::Failed;
         footprintFailure.errorMessage = QStringLiteral("Footprint export failed");

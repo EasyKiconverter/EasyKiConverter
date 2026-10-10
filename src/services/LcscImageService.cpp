@@ -18,32 +18,43 @@ namespace EasyKiConverter {
 
 namespace {
 
-// 读取当前配置中的弱网络适配开关。
+/**
+ * @brief 读取当前配置中的弱网络适配开关。
+ * @return 启用弱网络策略时返回 true
+ */
 bool isWeakNetworkEnabled() {
     return ConfigService::instance()->getWeakNetworkSupport();
 }
 
 }  // namespace
 
-// 初始化图片缓存线程池和取消状态。
+/**
+ * @brief 初始化图片缓存线程池和取消状态。
+ * @param parent Qt 对象父级，可为空
+ */
 LcscImageService::LcscImageService(QObject* parent)
     // 初始化线程池和请求取消标志。
     : QObject(parent), m_cacheThreadPool(new QThreadPool(this)), m_isCancelled(0) {
     m_cacheThreadPool->setMaxThreadCount(MAX_CONCURRENT_REQUESTS);
 }
 
-// 请求单个元器件的预览图，并优先尝试磁盘缓存。
+/**
+ * @brief 请求单个元器件的预览图，并优先尝试磁盘缓存。
+ * @param componentId 元器件编号
+ */
 void LcscImageService::fetchPreviewImages(const QString& componentId) {
     if (componentId.isEmpty()) {
         return;
     }
     m_isCancelled = 0;
+    // 将调用方编号规范化为大写，作为后续缓存和请求状态的键。
     const QString normalizedId = componentId.toUpper();
 
     if (m_requestedComponents.contains(normalizedId)) {
         qDebug() << "Component" << normalizedId << "already requested, skipping duplicate request";
         return;
     }
+    // 为本次预览图请求分配单调递增令牌。
     const quint64 requestToken = beginRequest(normalizedId);
 
     if (tryLoadCachedPreviewImages(normalizedId)) {
@@ -58,7 +69,10 @@ void LcscImageService::fetchPreviewImages(const QString& componentId) {
     performApiSearch(normalizedId, requestToken);
 }
 
-// 批量请求多个元器件的预览图，并复用已有缓存。
+/**
+ * @brief 批量请求多个元器件的预览图，并复用已有缓存。
+ * @param componentIds 元器件编号列表
+ */
 void LcscImageService::fetchBatchPreviewImages(const QStringList& componentIds) {
     m_isCancelled = 0;
 
@@ -66,11 +80,13 @@ void LcscImageService::fetchBatchPreviewImages(const QStringList& componentIds) 
         if (componentId.isEmpty()) {
             continue;
         }
+        // 将当前调用方编号规范化为大写，统一批量请求状态键。
         const QString normalizedId = componentId.toUpper();
 
         if (m_requestedComponents.contains(normalizedId)) {
             continue;
         }
+        // 为当前批量项分配独立的请求令牌。
         const quint64 requestToken = beginRequest(normalizedId);
 
         if (tryLoadCachedPreviewImages(normalizedId)) {
@@ -86,7 +102,9 @@ void LcscImageService::fetchBatchPreviewImages(const QStringList& componentIds) 
     }
 }
 
-// 清理图片请求状态，保留磁盘缓存供后续请求使用。
+/**
+ * @brief 清理图片请求状态，保留磁盘缓存供后续请求使用。
+ */
 void LcscImageService::clearCache() {
     qDebug() << "LcscImageService: Clearing all cache data";
 
@@ -99,7 +117,9 @@ void LcscImageService::clearCache() {
     qDebug() << "LcscImageService: Cache cleared, ready for new requests";
 }
 
-// 取消所有正在进行的预览图请求并清空请求状态。
+/**
+ * @brief 取消所有正在进行的预览图请求并清空请求状态。
+ */
 void LcscImageService::cancelAll() {
     qDebug() << "LcscImageService: Cancelling all pending preview image fetches";
 
@@ -120,11 +140,15 @@ void LcscImageService::cancelAll() {
     qDebug() << "LcscImageService: All pending preview image fetches cancelled";
 }
 
-// 取消指定元器件的请求并忽略其后续回调。
+/**
+ * @brief 取消指定元器件的请求并忽略其后续回调。
+ * @param componentId 元器件编号
+ */
 void LcscImageService::cancelRequestForComponent(const QString& componentId) {
     qDebug() << "LcscImageService: Cancelling request for component" << componentId;
 
     // 从请求组件列表中移除
+    // 将待取消的编号规范化为请求状态键。
     const QString normalizedId = componentId.toUpper();
     m_requestTokens.remove(normalizedId);
     m_datasheetTokens.remove(normalizedId);
@@ -139,7 +163,11 @@ void LcscImageService::cancelRequestForComponent(const QString& componentId) {
     qDebug() << "LcscImageService: Request cancelled for component" << componentId;
 }
 
-// 请求下载指定元器件的数据手册。
+/**
+ * @brief 请求下载指定元器件的数据手册。
+ * @param componentId 元器件编号
+ * @param datasheetUrl 数据手册 URL
+ */
 void LcscImageService::fetchDatasheet(const QString& componentId, const QString& datasheetUrl) {
     if (componentId.isEmpty() || datasheetUrl.isEmpty()) {
         qWarning() << "LcscImageService::fetchDatasheet called with empty componentId or datasheetUrl";
@@ -148,21 +176,30 @@ void LcscImageService::fetchDatasheet(const QString& componentId, const QString&
 
     m_isCancelled = 0;
 
+    // 将数据手册请求编号规范化为缓存状态键。
     const QString normalizedId = componentId.toUpper();
+    // 为本次数据手册请求分配单调递增令牌。
     const quint64 requestToken = beginDatasheetRequest(normalizedId);
     qDebug() << "LcscImageService: fetchDatasheet called for" << normalizedId;
     performDatasheetDownload(normalizedId, datasheetUrl, requestToken);
 }
 
-// 检查指定元器件是否存在预览图缓存，并安排异步读取。
+/**
+ * @brief 检查指定元器件是否存在预览图缓存，并安排异步读取。
+ * @param componentId 元器件编号
+ * @return 存在至少一张缓存图片时返回 true
+ */
 bool LcscImageService::tryLoadCachedPreviewImages(const QString& componentId) {
+    // 访问统一缓存服务，查询已保存的预览图文件。
     ComponentCacheService* cache = ComponentCacheService::instance();
     if (!cache) {
         return false;
     }
 
+    // 统计当前元器件已有的预览图缓存数量。
     int cachedCount = 0;
     for (int i = 0; i < MAX_IMAGES_PER_COMPONENT; ++i) {
+        // 解析当前预览图序号对应的缓存路径。
         QString path = cache->previewImagePath(componentId, i);
         if (QFileInfo::exists(path)) {
             cachedCount++;
@@ -180,7 +217,12 @@ bool LcscImageService::tryLoadCachedPreviewImages(const QString& componentId) {
     return true;
 }
 
-// 在后台线程读取预览图缓存，并在全部读取结束后统一处理。
+/**
+ * @brief 在后台线程读取预览图缓存，并在全部读取结束后统一处理。
+ * @param componentId 元器件编号
+ * @param cache 缓存服务
+ * @param requestToken 当前请求令牌
+ */
 void LcscImageService::loadCachedPreviewImagesAsync(const QString& componentId,
                                                     ComponentCacheService* cache,
                                                     quint64 requestToken) {
@@ -188,8 +230,10 @@ void LcscImageService::loadCachedPreviewImagesAsync(const QString& componentId,
         return;
     }
 
+    // 保存需要在后台线程读取的预览图序号和路径。
     QList<QPair<int, QString>> pathsToLoad;
     for (int i = 0; i < MAX_IMAGES_PER_COMPONENT; ++i) {
+        // 解析当前预览图缓存路径。
         QString path = cache->previewImagePath(componentId, i);
         if (QFileInfo::exists(path)) {
             pathsToLoad.append({i, path});
@@ -207,11 +251,15 @@ void LcscImageService::loadCachedPreviewImagesAsync(const QString& componentId,
     m_expectedCounts[componentId] = pathsToLoad.size();
     m_downloadCounts[componentId] = 0;
 
+    // 按图片序号保存后台读取到的图片数据。
     auto componentImageData = QSharedPointer<QMap<int, QByteArray>>::create();
+    // 统计已完成读取的图片数量，并由回调共享更新。
     auto loadedCount = QSharedPointer<int>::create(0);
+    // 保存本次需要读取的图片总数，用于判断批量读取是否结束。
     const int totalImages = pathsToLoad.size();
 
     for (const auto& [imageIndex, path] : pathsToLoad) {
+        // 在缓存专用线程池中异步读取当前图片文件。
         QFuture<QByteArray> future = QtConcurrent::run(m_cacheThreadPool, [path]() {
             QFile file(path);
             if (file.open(QIODevice::ReadOnly)) {
@@ -220,11 +268,13 @@ void LcscImageService::loadCachedPreviewImagesAsync(const QString& componentId,
             return QByteArray();
         });
 
+        // 监听当前图片读取任务，并在所属线程回调中汇总结果。
         auto* watcher = new QFutureWatcher<QByteArray>(this);
         connect(watcher,
                 &QFutureWatcher<QByteArray>::finished,
                 this,
                 [this, watcher, componentId, imageIndex, componentImageData, loadedCount, totalImages, requestToken]() {
+                    // 获取当前异步读取任务返回的图片数据。
                     QByteArray imageData = watcher->result();
                     if (!isCurrentRequest(componentId, requestToken)) {
                         m_pendingImageWatchers.removeOne(watcher);
@@ -250,13 +300,19 @@ void LcscImageService::loadCachedPreviewImagesAsync(const QString& componentId,
     }
 }
 
-// 根据规范化后的地址启动预览图下载任务。
+/**
+ * @brief 根据规范化后的地址启动预览图下载任务。
+ * @param componentId 元器件编号
+ * @param imageUrls 规范化后的预览图地址列表
+ * @param requestToken 当前请求令牌
+ */
 void LcscImageService::startPreviewImageDownloads(const QString& componentId,
                                                   const QStringList& imageUrls,
                                                   quint64 requestToken) {
     if (!isCurrentRequest(componentId, requestToken)) {
         return;
     }
+    // 去重并规范化图片地址，避免重复下载同一资源。
     const QStringList normalizedUrls = UrlUtils::deduplicateAndNormalizeUrls(imageUrls);
     if (normalizedUrls.isEmpty()) {
         m_requestedComponents.remove(componentId);
@@ -273,13 +329,19 @@ void LcscImageService::startPreviewImageDownloads(const QString& componentId,
     }
 }
 
-// 向产品搜索接口发起请求并解析匹配产品信息。
+/**
+ * @brief 向产品搜索接口发起请求并解析匹配产品信息。
+ * @param componentId 元器件编号
+ * @param requestToken 当前请求令牌
+ */
 void LcscImageService::performApiSearch(const QString& componentId, quint64 requestToken) {
     if (m_isCancelled) {
         return;
     }
 
+    // 保存产品搜索请求的表单编码数据。
     QByteArray postData;
+    // 构造产品搜索请求的查询参数。
     QUrlQuery query;
     query.addQueryItem("keyword", componentId);
     query.addQueryItem("currPage", "1");
@@ -287,11 +349,13 @@ void LcscImageService::performApiSearch(const QString& componentId, quint64 requ
     query.addQueryItem("needAggs", "true");
     postData = query.toString(QUrl::FullyEncoded).toUtf8();
 
+    // 使用产品搜索接口的默认网络策略，并覆盖本服务的超时和重试配置。
     RequestProfile profile = RequestProfiles::productSearch();
     profile.connectTimeoutMs = 30000;
     profile.readTimeoutMs = 30000;
     profile.maxRetries = MAX_RETRY_COUNT;
 
+    // 启动异步产品搜索请求，完成后解析精确匹配的产品信息。
     AsyncNetworkRequest* request =
         NetworkClient::instance().postAsync(QUrl("https://pro.lceda.cn/api/v2/eda/product/search"),
                                             postData,
@@ -328,6 +392,7 @@ void LcscImageService::performApiSearch(const QString& componentId, quint64 requ
                 return;
             }
 
+            // 解析搜索响应中的精确匹配产品信息。
             const std::optional<LcscProductInfo> productInfo = LcscProductParser::parse(componentId, result.data);
             if (!productInfo.has_value()) {
                 qWarning() << "LcscImageService: No matching product found for component:" << componentId;
@@ -339,6 +404,7 @@ void LcscImageService::performApiSearch(const QString& componentId, quint64 requ
                 return;
             }
 
+            // 提取产品提供的预览图地址并通知调用方。
             const QStringList imageUrls = productInfo->imageUrls;
             emit lcscDataReady(componentId, productInfo->manufacturerPart, productInfo->datasheetUrl, imageUrls);
 
@@ -354,7 +420,13 @@ void LcscImageService::performApiSearch(const QString& componentId, quint64 requ
         });
 }
 
-// 下载单张预览图并写入经过校验的磁盘缓存。
+/**
+ * @brief 下载单张预览图并写入经过校验的磁盘缓存。
+ * @param componentId 元器件编号
+ * @param imageUrl 预览图地址
+ * @param imageIndex 预览图序号
+ * @param requestToken 当前请求令牌
+ */
 void LcscImageService::performDownload(const QString& componentId,
                                        const QString& imageUrl,
                                        int imageIndex,
@@ -363,7 +435,9 @@ void LcscImageService::performDownload(const QString& componentId,
         return;
     }
 
+    // 捕获当前缓存代次，防止目录切换后旧响应写入新缓存。
     const uint64_t gen = ComponentCacheService::instance()->currentGeneration();
+    // 启动当前预览图的异步下载请求。
     AsyncNetworkRequest* request = NetworkClient::instance().getAsync(
         QUrl(imageUrl),
         ResourceType::PreviewImage,
@@ -399,6 +473,7 @@ void LcscImageService::performDownload(const QString& componentId,
                     return;
                 }
 
+                // 读取网络响应内容，后续检查是否为有效图片而非错误页。
                 const QByteArray imageData = result.data;
                 if (!imageData.isEmpty() && !QString::fromUtf8(imageData).contains("<!DOCTYPE", Qt::CaseInsensitive)) {
                     ComponentCacheService::instance()->savePreviewImage(componentId, imageData, imageIndex, gen);
@@ -417,7 +492,11 @@ void LcscImageService::performDownload(const QString& componentId,
             });
 }
 
-// 检查当前元器件的预览图下载任务是否全部结束。
+/**
+ * @brief 检查当前元器件的预览图下载任务是否全部结束。
+ * @param componentId 元器件编号
+ * @param requestToken 当前请求令牌
+ */
 void LcscImageService::checkDownloadCompletion(const QString& componentId, quint64 requestToken) {
     if (!isCurrentRequest(componentId, requestToken)) {
         return;
@@ -426,7 +505,9 @@ void LcscImageService::checkDownloadCompletion(const QString& componentId, quint
         return;
     }
 
+    // 获取当前组件预期下载的图片数量。
     int expectedCount = m_expectedCounts[componentId];
+    // 获取当前组件已经完成下载的图片数量。
     int downloadedCount = m_downloadCounts.value(componentId, 0);
 
     if (downloadedCount >= expectedCount) {
@@ -434,14 +515,21 @@ void LcscImageService::checkDownloadCompletion(const QString& componentId, quint
     }
 }
 
-// 汇总并校验预览图缓存，然后发出完成或失败信号。
+/**
+ * @brief 汇总并校验预览图缓存，然后发出完成或失败信号。
+ * @param componentId 元器件编号
+ * @param requestToken 当前请求令牌
+ */
 void LcscImageService::emitAllImagesReady(const QString& componentId, quint64 requestToken) {
     if (!isCurrentRequest(componentId, requestToken)) {
         return;
     }
+    // 访问统一缓存服务，重新校验最终可用的图片文件。
     ComponentCacheService* cache = ComponentCacheService::instance();
+    // 保存通过内容校验并将通知给调用方的图片路径。
     QStringList imagePaths;
     for (int i = 0; i < MAX_IMAGES_PER_COMPONENT; ++i) {
+        // 解析当前图片序号对应的缓存路径。
         const QString path = cache->previewImagePath(componentId, i);
         // 最终通知前重新读取并校验缓存，避免错误页或损坏图片仅因文件存在而被上层使用。
         if (!cache->loadPreviewImage(componentId, i).isEmpty()) {
@@ -461,7 +549,12 @@ void LcscImageService::emitAllImagesReady(const QString& componentId, quint64 re
     m_requestTokens.remove(componentId);
 }
 
-// 下载数据手册并将有效内容写入缓存。
+/**
+ * @brief 下载数据手册并将有效内容写入缓存。
+ * @param componentId 元器件编号
+ * @param datasheetUrl 数据手册 URL
+ * @param requestToken 当前请求令牌
+ */
 void LcscImageService::performDatasheetDownload(const QString& componentId,
                                                 const QString& datasheetUrl,
                                                 quint64 requestToken) {
@@ -469,7 +562,9 @@ void LcscImageService::performDatasheetDownload(const QString& componentId,
         return;
     }
 
+    // 捕获当前缓存代次，防止目录切换后旧响应写入新缓存。
     const uint64_t gen = ComponentCacheService::instance()->currentGeneration();
+    // 启动当前数据手册的异步下载请求。
     AsyncNetworkRequest* request = NetworkClient::instance().getAsync(
         QUrl(datasheetUrl),
         ResourceType::Datasheet,
@@ -504,10 +599,13 @@ void LcscImageService::performDatasheetDownload(const QString& componentId,
                     return;
                 }
 
+                // 读取网络响应中的数据手册内容。
                 const QByteArray datasheetData = result.data;
                 if (!datasheetData.isEmpty()) {
+                    // 根据地址后缀推断缓存格式，供后续内容校验使用。
                     QString format = datasheetUrl.toLower().contains(".html") ? "html" : "pdf";
                     ComponentCacheService::instance()->saveDatasheet(componentId, datasheetData, format, gen);
+                    // 从磁盘重新读取实际保存的数据，确保通知内容与缓存一致。
                     QByteArray savedData = ComponentCacheService::instance()->loadDatasheet(componentId);
                     emit datasheetReady(componentId, savedData);
                     m_datasheetTokens.remove(componentId);
@@ -520,7 +618,10 @@ void LcscImageService::performDatasheetDownload(const QString& componentId,
             });
 }
 
-// 跟踪尚未完成的异步网络请求。
+/**
+ * @brief 跟踪尚未完成的异步网络请求。
+ * @param request 异步网络请求对象
+ */
 void LcscImageService::trackAsyncRequest(AsyncNetworkRequest* request) {
     if (!request) {
         return;
@@ -528,31 +629,54 @@ void LcscImageService::trackAsyncRequest(AsyncNetworkRequest* request) {
     m_activeAsyncRequests.append(QPointer<AsyncNetworkRequest>(request));
 }
 
-// 移除已经完成或取消的异步网络请求。
+/**
+ * @brief 移除已经完成或取消的异步网络请求。
+ * @param request 异步网络请求对象
+ */
 void LcscImageService::untrackAsyncRequest(AsyncNetworkRequest* request) {
     m_activeAsyncRequests.removeOne(QPointer<AsyncNetworkRequest>(request));
 }
 
-// 为新的组件媒体请求分配单调递增令牌。
+/**
+ * @brief 为新的组件媒体请求分配单调递增令牌。
+ * @param componentId 元器件编号
+ * @return 新分配的请求令牌
+ */
 quint64 LcscImageService::beginRequest(const QString& componentId) {
+    // 为新请求分配下一个唯一令牌。
     const quint64 requestToken = ++m_nextRequestToken;
     m_requestTokens[componentId] = requestToken;
     return requestToken;
 }
 
-// 判断异步回调是否仍属于当前组件请求。
+/**
+ * @brief 判断异步回调是否仍属于当前组件请求。
+ * @param componentId 元器件编号
+ * @param requestToken 待验证的请求令牌
+ * @return 回调仍属于当前请求时返回 true
+ */
 bool LcscImageService::isCurrentRequest(const QString& componentId, quint64 requestToken) const {
     return m_requestTokens.value(componentId, 0) == requestToken && m_requestedComponents.contains(componentId);
 }
 
-// 为新的数据手册请求分配单调递增令牌。
+/**
+ * @brief 为新的数据手册请求分配单调递增令牌。
+ * @param componentId 元器件编号
+ * @return 新分配的请求令牌
+ */
 quint64 LcscImageService::beginDatasheetRequest(const QString& componentId) {
+    // 为新数据手册请求分配下一个唯一令牌。
     const quint64 requestToken = ++m_nextRequestToken;
     m_datasheetTokens[componentId] = requestToken;
     return requestToken;
 }
 
-// 判断数据手册异步回调是否仍属于当前请求。
+/**
+ * @brief 判断数据手册异步回调是否仍属于当前请求。
+ * @param componentId 元器件编号
+ * @param requestToken 待验证的请求令牌
+ * @return 回调仍属于当前请求时返回 true
+ */
 bool LcscImageService::isCurrentDatasheetRequest(const QString& componentId, quint64 requestToken) const {
     return m_datasheetTokens.value(componentId, 0) == requestToken;
 }

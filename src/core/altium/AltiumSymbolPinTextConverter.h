@@ -11,7 +11,13 @@ namespace EasyKiConverter {
  */
 class AltiumSymbolPinTextConverter final {
 public:
-    /** @brief 转换一个引脚上声明的名称和编号文本。 */
+    /**
+     * @brief 转换一个引脚上声明的名称和编号文本。
+     * @param pin 待转换的符号引脚。
+     * @param symbolName 符号名称，用于诊断。
+     * @param diagnostics 接收转换诊断的列表。
+     * @return Altium 文本记录列表。
+     */
     static QList<AltiumSchText> convert(const IR::SymbolPinIR& pin,
                                         const QString& symbolName,
                                         QStringList* diagnostics);

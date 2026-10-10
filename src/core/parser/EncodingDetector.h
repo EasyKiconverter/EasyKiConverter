@@ -12,14 +12,18 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief 当前解析器可识别的文本编码。 */
+/**
+ * @brief 当前解析器可识别的文本编码。
+ */
 enum class TextEncoding { Utf8, Utf16LittleEndian, Utf16BigEndian, Latin1, Unknown };
 
-/** @brief 编码检测结果。 */
+/**
+ * @brief 编码检测结果。
+ */
 struct EncodingDetectionResult {
-    TextEncoding encoding = TextEncoding::Unknown;
-    bool valid = false;
-    int confidence = 0;
+    TextEncoding encoding = TextEncoding::Unknown;  ///< 检测出的文本编码。
+    bool valid = false;  ///< 检测结果是否有效。
+    int confidence = 0;  ///< 检测置信度，范围为 0 到 100。
 };
 
 /**

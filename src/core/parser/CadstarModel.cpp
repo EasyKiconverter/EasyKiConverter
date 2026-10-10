@@ -9,15 +9,27 @@ namespace EasyKiConverter::Parser {
 
 namespace {
 
+// 为 Cadstar 分段节点提供简短别名，减少解析代码噪声。
 using Node = DelimitedSectionNode;
 
-/** @brief 返回节点的第一个参数，缺失时返回空字符串。 */
+/**
+ * @brief 返回节点的第一个参数，缺失时返回空字符串。
+ * @param node 待读取参数的分段节点。
+ * @return 第一个参数或空字符串。
+ */
 QString firstArgument(const Node& node) {
     return node.arguments.value(0);
 }
 
-/** @brief 解析 Cadstar 的形状名称。 */
+/**
+ * @brief 解析 Cadstar 的形状名称。
+ * @param value 源文件中的形状名称。
+ * @param diagnostics 接收未知形状诊断的对象。
+ * @param line 形状字段所在的源文件行号。
+ * @return 对应的标准焊盘形状。
+ */
 CadstarPadShape parsePadShape(const QString& value, ParseDiagnostics* diagnostics, int line) {
+    // 规范化大小写，兼容不同 Cadstar 导出器的命名风格。
     const QString shape = value.trimmed().toUpper();
     if (shape == QStringLiteral("ROUND") || shape == QStringLiteral("CIRCLE"))
         return CadstarPadShape::Round;
@@ -40,12 +52,27 @@ CadstarPadShape parsePadShape(const QString& value, ParseDiagnostics* diagnostic
     return CadstarPadShape::Unknown;
 }
 
-/** @brief 严格解析 Cadstar 数值字段。 */
+/**
+ * @brief 严格解析 Cadstar 数值字段。
+ * @param value 待读取的数值文本。
+ * @param diagnostics 接收解析诊断的对象。
+ * @param field 数值字段的诊断路径。
+ * @param line 数值字段所在的源文件行号。
+ * @return 解析后的数值。
+ */
 double number(const QString& value, ParseDiagnostics* diagnostics, const QString& field, int line) {
     return StrictNumberParser::parseDouble(value, diagnostics, field, line);
 }
 
-/** @brief 从一个或两个参数中读取坐标，并报告非法坐标。 */
+/**
+ * @brief 从一个或两个参数中读取坐标，并报告非法坐标。
+ * @param values 坐标参数列表。
+ * @param start 坐标起始参数索引。
+ * @param diagnostics 接收解析诊断的对象。
+ * @param field 坐标字段的诊断路径。
+ * @param line 坐标字段所在的源文件行号。
+ * @return 解析后的坐标，格式错误时返回原点。
+ */
 QPointF point(const QStringList& values, int start, ParseDiagnostics* diagnostics, const QString& field, int line) {
     if (start >= values.size()) {
         if (diagnostics)
@@ -54,6 +81,7 @@ QPointF point(const QStringList& values, int start, ParseDiagnostics* diagnostic
         return {};
     }
 
+    // 读取并清理首个坐标令牌，支持括号坐标和分离坐标两种写法。
     const QString token = values.at(start).trimmed();
     if (token.startsWith(QChar('(')) && token.endsWith(QChar(')'))) {
         const QStringList pair =
@@ -75,8 +103,16 @@ QPointF point(const QStringList& values, int start, ParseDiagnostics* diagnostic
     return {};
 }
 
-/** @brief 从节点参数中读取全部括号坐标。 */
+/**
+ * @brief 从节点参数中读取全部括号坐标。
+ * @param values 节点参数列表。
+ * @param diagnostics 接收解析诊断的对象。
+ * @param field 坐标字段的诊断路径。
+ * @param line 坐标字段所在的源文件行号。
+ * @return 按源文件顺序解析出的坐标列表。
+ */
 QList<QPointF> points(const QStringList& values, ParseDiagnostics* diagnostics, const QString& field, int line) {
+    // 收集参数中以左括号开始的坐标项。
     QList<QPointF> result;
     for (int index = 0; index < values.size(); ++index) {
         if (!values.at(index).startsWith(QChar('(')))
@@ -86,7 +122,15 @@ QList<QPointF> points(const QStringList& values, ParseDiagnostics* diagnostics, 
     return result;
 }
 
-/** @brief 找到形如 WIDTH 0.2 的键值参数。 */
+/**
+ * @brief 找到形如 WIDTH 0.2 的键值参数。
+ * @param values 待搜索的键值参数列表。
+ * @param name 要查找的键名。
+ * @param diagnostics 接收数值解析诊断的对象。
+ * @param field 数值字段的诊断路径。
+ * @param line 字段所在的源文件行号。
+ * @return 找到的数值，缺失时返回 0。
+ */
 double namedNumber(const QStringList& values,
                    const QString& name,
                    ParseDiagnostics* diagnostics,
@@ -99,19 +143,29 @@ double namedNumber(const QStringList& values,
     return 0.0;
 }
 
-/** @brief 展开 Cadstar 的连续编号范围。 */
+/**
+ * @brief 展开 Cadstar 的连续编号范围。
+ * @param value 编号范围或逗号分隔编号文本。
+ * @param diagnostics 接收范围解析诊断的对象。
+ * @param line 编号字段所在的源文件行号。
+ * @return 展开后的编号列表。
+ */
 QStringList expandNumbers(const QString& value, ParseDiagnostics* diagnostics, int line) {
+    // 匹配 [起始:结束:步长] 形式的编号范围。
     static const QRegularExpression range(QStringLiteral(R"(^\[(\d+)\s*:\s*(\d+)(?:\s*:\s*(\d+))?\]$)"));
+    // 保存范围匹配结果。
     const QRegularExpressionMatch match = range.match(value.trimmed());
     if (!match.hasMatch())
         return value.split(QRegularExpression(QStringLiteral("\\s*,\\s*")), Qt::SkipEmptyParts);
 
-    bool startOk = false;
-    bool endOk = false;
-    bool stepOk = true;
-    const int start = match.captured(1).toInt(&startOk);
-    const int end = match.captured(2).toInt(&endOk);
-    const int step = match.captured(3).isEmpty() ? 1 : match.captured(3).toInt(&stepOk);
+    // 记录范围各部分的整数转换结果。
+    bool startOk = false;  // 记录起始编号的整数转换结果。
+    bool endOk = false;  // 记录结束编号的整数转换结果。
+    bool stepOk = true;  // 记录步长的整数转换结果。
+    // 解析范围起点、终点和步长。
+    const int start = match.captured(1).toInt(&startOk);  // 编号范围起点。
+    const int end = match.captured(2).toInt(&endOk);  // 编号范围终点。
+    const int step = match.captured(3).isEmpty() ? 1 : match.captured(3).toInt(&stepOk);  // 编号步长。
     if (!startOk || !endOk || !stepOk || step <= 0 || start > end) {
         if (diagnostics)
             diagnostics->add(ParseSeverity::Error,
@@ -122,14 +176,22 @@ QStringList expandNumbers(const QString& value, ParseDiagnostics* diagnostics, i
         return {};
     }
 
+    // 按步长展开闭区间编号。
     QStringList result;
     for (int numberValue = start; numberValue <= end; numberValue += step)
         result.append(QString::number(numberValue));
     return result;
 }
 
-/** @brief 解析图形节点的类型和基础几何数据。 */
+/**
+ * @brief 解析图形节点的类型和基础几何数据。
+ * @param node 待读取的图形节点。
+ * @param graphic 接收解析结果的图形对象。
+ * @param diagnostics 接收几何诊断的对象。
+ * @return 图形类型和基础数据均可识别时返回 true。
+ */
 bool parseGraphic(const Node& node, CadstarGraphic& graphic, ParseDiagnostics* diagnostics) {
+    // 统一图形关键字大小写后进行类型匹配。
     const QString keyword = node.keyword.toUpper();
     if (keyword == QStringLiteral("LINE"))
         graphic.type = CadstarGraphicType::Line;
@@ -176,13 +238,21 @@ bool parseGraphic(const Node& node, CadstarGraphic& graphic, ParseDiagnostics* d
     return true;
 }
 
-/** @brief 在重名定义上报告错误，避免关联结果静默覆盖。 */
+/**
+ * @brief 在重名定义上报告错误，避免关联结果静默覆盖。
+ * @param definitions 同类定义集合。
+ * @param name 待检查的定义名称。
+ * @param diagnostics 接收重复名称诊断的对象。
+ * @param type 定义类型名称。
+ * @param line 定义所在的源文件行号。
+ */
 template <typename T>
 void reportDuplicate(const QList<T>& definitions,
                      const QString& name,
                      ParseDiagnostics* diagnostics,
                      const QString& type,
                      int line) {
+    // 统计同名定义数量。
     int count = 0;
     for (const T& definition : definitions) {
         if (definition.name == name)
@@ -196,6 +266,7 @@ void reportDuplicate(const QList<T>& definitions,
                          line);
 }
 
+// Cadstar 分段解析器中必须视为叶节点的关键字集合。
 const QStringList kCadstarLeafKeywords = {
     QStringLiteral("UNITS"),       QStringLiteral("SHAPE"),
     QStringLiteral("DIAMETER"),    QStringLiteral("WIDTH"),
@@ -215,11 +286,18 @@ const QStringList kCadstarLeafKeywords = {
     QStringLiteral("PACKAGE"),
 };
 
-/** @brief 根据已使用名称生成跨文件合并时稳定的唯一名称。 */
+/**
+ * @brief 根据已使用名称生成跨文件合并时稳定的唯一名称。
+ * @param name 原始定义名称。
+ * @param usedNames 已占用的名称集合。
+ * @return 未占用的原名或带稳定后缀的唯一名称。
+ */
 QString mergedName(const QString& name, const QSet<QString>& usedNames) {
     if (!usedNames.contains(name))
         return name;
+    // 从 2 开始递增，保持同一输入的重命名结果稳定。
     int suffix = 2;
+    // 保存当前尝试的候选名称。
     QString candidate;
     do {
         candidate = QStringLiteral("%1_%2").arg(name).arg(suffix++);
@@ -227,7 +305,12 @@ QString mergedName(const QString& name, const QSet<QString>& usedNames) {
     return candidate;
 }
 
-/** @brief 从源文件名称候选表反向找出定义的原始名称。 */
+/**
+ * @brief 从源文件名称候选表反向找出定义的原始名称。
+ * @param variants 原始名称到合并后候选名称的索引。
+ * @param uniqueNameValue 合并后的唯一名称。
+ * @return 对应的原始名称，找不到时返回输入名称。
+ */
 QString originalName(const QMap<QString, QStringList>& variants, const QString& uniqueNameValue) {
     for (auto iterator = variants.cbegin(); iterator != variants.cend(); ++iterator) {
         if (iterator.value().contains(uniqueNameValue))
@@ -236,7 +319,17 @@ QString originalName(const QMap<QString, QStringList>& variants, const QString& 
     return uniqueNameValue;
 }
 
-/** @brief 合并一种 Cadstar 定义并更新原始名称候选索引。 */
+/**
+ * @brief 合并一种 Cadstar 定义并更新原始名称候选索引。
+ * @param source 待合并的源定义。
+ * @param target 接收合并定义的目标集合。
+ * @param variants 原始名称到合并名称的索引。
+ * @param usedNames 已占用的目标名称集合。
+ * @param sourceVariants 源库的原始名称索引。
+ * @param diagnostics 接收重命名诊断的对象。
+ * @param scope 诊断所属范围。
+ * @param type 定义类型名称。
+ */
 template <typename Definition>
 void appendMergedDefinition(const Definition& source,
                             QList<Definition>& target,
@@ -246,7 +339,9 @@ void appendMergedDefinition(const Definition& source,
                             ParseDiagnostics* diagnostics,
                             ParseScope scope,
                             const QString& type) {
+    // 复制定义后在目标库命名空间中调整名称。
     Definition merged = source;
+    // 保留跨文件合并前的原始名称，供诊断和关联使用。
     const QString rawName = originalName(sourceVariants, source.name);
     merged.name = mergedName(source.name, usedNames);
     if (merged.name != source.name && diagnostics)
@@ -259,7 +354,13 @@ void appendMergedDefinition(const Definition& source,
     variants[rawName].append(merged.name);
 }
 
-/** @brief 对合并后的候选索引报告无法安全自动选择的原始名称。 */
+/**
+ * @brief 对合并后的候选索引报告无法安全自动选择的原始名称。
+ * @param variants 原始名称到合并名称候选的索引。
+ * @param diagnostics 接收歧义诊断的对象。
+ * @param scope 诊断所属范围。
+ * @param type 定义类型名称。
+ */
 void reportAmbiguousNames(const QMap<QString, QStringList>& variants,
                           ParseDiagnostics* diagnostics,
                           ParseScope scope,
@@ -275,35 +376,61 @@ void reportAmbiguousNames(const QMap<QString, QStringList>& variants,
 
 }  // namespace
 
-/** @brief 判断 Cadstar 库模型是否包含可转换定义。 */
+/**
+ * @brief 判断 Cadstar 库模型是否包含可转换定义。
+ * @return 至少包含一种可转换定义时返回 true。
+ */
 bool CadstarLibrary::isRecognized() const {
     return !pads.isEmpty() || !packages.isEmpty() || !components.isEmpty() || !parts.isEmpty();
 }
 
-/** @brief 判断焊盘原始名称是否对应多个定义。 */
+/**
+ * @brief 判断焊盘原始名称是否对应多个定义。
+ * @param name 待检查的原始焊盘名称。
+ * @return 名称对应多个定义时返回 true。
+ */
 bool CadstarLibrary::isPadAmbiguous(const QString& name) const {
     return padNameVariants.value(name).size() > 1;
 }
 
-/** @brief 判断封装原始名称是否对应多个定义。 */
+/**
+ * @brief 判断封装原始名称是否对应多个定义。
+ * @param name 待检查的原始封装名称。
+ * @return 名称对应多个定义时返回 true。
+ */
 bool CadstarLibrary::isPackageAmbiguous(const QString& name) const {
     return packageNameVariants.value(name).size() > 1;
 }
 
-/** @brief 判断符号原始名称是否对应多个定义。 */
+/**
+ * @brief 判断符号原始名称是否对应多个定义。
+ * @param name 待检查的原始符号名称。
+ * @return 名称对应多个定义时返回 true。
+ */
 bool CadstarLibrary::isComponentAmbiguous(const QString& name) const {
     return componentNameVariants.value(name).size() > 1;
 }
 
-/** @brief 判断器件原始名称是否对应多个定义。 */
+/**
+ * @brief 判断器件原始名称是否对应多个定义。
+ * @param name 待检查的原始器件名称。
+ * @return 名称对应多个定义时返回 true。
+ */
 bool CadstarLibrary::isPartAmbiguous(const QString& name) const {
     return partNameVariants.value(name).size() > 1;
 }
 
-/** @brief 解析 Cadstar 分段树并构建格式专用模型。 */
+/**
+ * @brief 解析 Cadstar 分段树并构建格式专用模型。
+ * @param content Cadstar 文本内容。
+ * @param filePath 源文件路径，用于诊断定位。
+ * @return 解析得到的 Cadstar 库模型。
+ */
 CadstarLibrary CadstarParser::parse(const QString& content, const QString& filePath) {
+    // 保存当前文件的所有定义、索引和解析诊断。
     CadstarLibrary library;
     library.diagnostics.setFilePath(filePath);
+    // 将文本解析为 Cadstar 顶层分段节点。
     const QList<DelimitedSectionNode> sections =
         DelimitedSectionParser::parse(content, kCadstarLeafKeywords, &library.diagnostics);
 
@@ -313,6 +440,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
             continue;
         }
         if (root.keyword == QStringLiteral("PAD")) {
+            // 保存当前焊盘定义及其几何、钻孔参数。
             CadstarPad pad;
             pad.name = firstArgument(root);
             for (const Node& child : root.children) {
@@ -338,6 +466,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                         points(child.arguments, &library.diagnostics, QStringLiteral("PAD.POLYGON"), child.line);
                 // 读取圆孔或槽孔参数，非法数值由严格解析器诊断。
                 else if (child.keyword == QStringLiteral("HOLE")) {
+                    // 读取钻孔形状，用于区分圆孔和槽孔。
                     const QString shape = child.arguments.value(0).toUpper();
                     if (shape == QStringLiteral("SLOT")) {
                         pad.holeWidth = number(child.arguments.value(1),
@@ -365,6 +494,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
             continue;
         }
         if (root.keyword == QStringLiteral("PACKAGE")) {
+            // 保存当前封装定义及其引脚和图形。
             CadstarPackage packageModel;
             packageModel.name = firstArgument(root);
             for (const Node& child : root.children) {
@@ -375,6 +505,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                                                    child.arguments.mid(1).join(QStringLiteral(" ")));
                 // 解析封装引脚及其焊盘引用。
                 else if (child.keyword == QStringLiteral("PIN")) {
+                    // 保存当前封装引脚及其焊盘关联。
                     CadstarPackagePin pin;
                     pin.number = firstArgument(child);
                     for (const Node& pinChild : child.children) {
@@ -400,6 +531,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                                                 child.line);
                     packageModel.pins.append(pin);
                 } else {
+                    // 尝试将未被专门处理的子节点解析为封装图形。
                     CadstarGraphic graphic;
                     if (parseGraphic(child, graphic, &library.diagnostics))
                         packageModel.graphics.append(graphic);
@@ -415,6 +547,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
             continue;
         }
         if (root.keyword == QStringLiteral("COMPONENT")) {
+            // 保存当前符号定义及其引脚和图形。
             CadstarComponent component;
             component.name = firstArgument(root);
             for (const Node& child : root.children) {
@@ -426,6 +559,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                                                 child.arguments.mid(1).join(QStringLiteral(" ")));
                 // 解析符号引脚、编号范围和显示属性。
                 else if (child.keyword == QStringLiteral("PIN")) {
+                    // 保存当前符号引脚及其编号、类型和标签。
                     CadstarComponentPin pin;
                     pin.id = firstArgument(child);
                     for (const Node& pinChild : child.children) {
@@ -476,6 +610,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
                     }
                     component.pins.append(pin);
                 } else {
+                    // 尝试将未被专门处理的子节点解析为符号图形。
                     CadstarGraphic graphic;
                     if (parseGraphic(child, graphic, &library.diagnostics))
                         component.graphics.append(graphic);
@@ -491,6 +626,7 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
             continue;
         }
         if (root.keyword == QStringLiteral("PART")) {
+            // 保存当前器件定义及其符号、封装关联。
             CadstarPart part;
             part.name = firstArgument(root);
             for (const Node& child : root.children) {
@@ -519,18 +655,32 @@ CadstarLibrary CadstarParser::parse(const QString& content, const QString& fileP
     return library;
 }
 
-/** @brief 先检测文本编码，再复用统一字符串解析流程。 */
+/**
+ * @brief 先检测文本编码，再复用统一字符串解析流程。
+ * @param data 源文件原始字节。
+ * @param filePath 源文件路径，用于编码和诊断定位。
+ * @return 解析得到的 Cadstar 库模型。
+ */
 CadstarLibrary CadstarParser::parseBytes(const QByteArray& data, const QString& filePath) {
+    // 保存编码检测阶段产生的诊断。
     ParseDiagnostics decodingDiagnostics;
     decodingDiagnostics.setFilePath(filePath);
+    // 按文件特征解码为统一 UTF-16 字符串。
     const QString content = EncodingDetector::decode(data, &decodingDiagnostics, filePath);
+    // 复用字符串解析流程构建库模型。
     CadstarLibrary library = parse(content, filePath);
     library.diagnostics.append(decodingDiagnostics);
     return library;
 }
 
-/** @brief 合并 Cadstar 库并校验单位、重名和跨文件器件关联。 */
+/**
+ * @brief 合并 Cadstar 库并校验单位、重名和跨文件器件关联。
+ * @param libraries 待合并的 Cadstar 库列表。
+ * @param filePath 合并结果的逻辑路径，用于诊断定位。
+ * @return 合并后的 Cadstar 库模型。
+ */
 CadstarLibrary CadstarMerger::merge(const QList<CadstarLibrary>& libraries, const QString& filePath) {
+    // 保存合并后的定义、名称索引和诊断。
     CadstarLibrary merged;
     merged.diagnostics.setFilePath(filePath);
     if (libraries.isEmpty()) {
@@ -538,10 +688,11 @@ CadstarLibrary CadstarMerger::merge(const QList<CadstarLibrary>& libraries, cons
         return merged;
     }
 
-    QSet<QString> padNames;
-    QSet<QString> packageNames;
-    QSet<QString> componentNames;
-    QSet<QString> partNames;
+    // 分别记录各类定义已占用的目标名称。
+    QSet<QString> padNames;  // 已占用的焊盘名称。
+    QSet<QString> packageNames;  // 已占用的封装名称。
+    QSet<QString> componentNames;  // 已占用的符号名称。
+    QSet<QString> partNames;  // 已占用的器件名称。
     for (const CadstarLibrary& library : libraries) {
         merged.diagnostics.append(library.diagnostics);
         if (merged.unit != LengthUnit::Unknown && library.unit != LengthUnit::Unknown && merged.unit != library.unit)
@@ -578,8 +729,8 @@ CadstarLibrary CadstarMerger::merge(const QList<CadstarLibrary>& libraries, cons
                                    ParseScope::Symbol,
                                    QStringLiteral("符号"));
         for (const CadstarPart& part : library.parts) {
-            const QString rawName = originalName(library.partNameVariants, part.name);
-            CadstarPart mergedPart = part;
+            const QString rawName = originalName(library.partNameVariants, part.name);  // 合并前的器件名称。
+            CadstarPart mergedPart = part;  // 当前器件的合并副本。
             mergedPart.name = mergedName(part.name, partNames);
             if (mergedPart.name != part.name)
                 merged.diagnostics.add(

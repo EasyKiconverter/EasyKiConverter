@@ -22,13 +22,18 @@ struct BoardIR {
     QList<FootprintRegionIR> regions;  ///< 板级多边形或填充区域。
     QList<FootprintOutlineIR> outlines;  ///< 板框轮廓图元。
 
-    /** @brief 判断板级图形集合是否为空。 */
+    /**
+     * @brief 判断板级图形集合是否为空。
+     * @return 未包含任何板级图形时返回 true。
+     */
     bool isEmpty() const {
         return tracks.isEmpty() && circles.isEmpty() && rectangles.isEmpty() && arcs.isEmpty() && texts.isEmpty() &&
                regions.isEmpty() && outlines.isEmpty();
     }
 
-    /** @brief 清空全部板级图形。 */
+    /**
+     * @brief 清空全部板级图形。
+     */
     void clear() {
         tracks.clear();
         circles.clear();

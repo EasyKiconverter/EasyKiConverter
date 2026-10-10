@@ -28,6 +28,10 @@ LanguageManager::LanguageManager(QObject* parent)
 
 LanguageManager::~LanguageManager() {}
 
+/**
+ * @brief 返回语言管理器单例。
+ * @return 语言管理器实例。
+ */
 LanguageManager* LanguageManager::instance() {
     if (!s_instance) {
         s_instance = new LanguageManager();
@@ -35,6 +39,11 @@ LanguageManager* LanguageManager::instance() {
     return s_instance;
 }
 
+/**
+ * @brief 设置当前界面语言并刷新翻译器。
+ * @param languageCode 语言代码。
+ * @param force 是否忽略初始化阶段的配置保护。
+ */
 void LanguageManager::setLanguage(const QString& languageCode, bool force) {
     qInfo() << "[LanguageManager] setLanguage() called with:" << languageCode << " (current:" << m_currentLanguage
             << ", initializing:" << m_isInitializing << ", loadedFromConfig:" << m_loadedFromConfig
@@ -80,15 +89,26 @@ void LanguageManager::setLanguage(const QString& languageCode, bool force) {
     qInfo() << "[LanguageManager] Language changed signal emitted:" << languageCode;
 }
 
+/**
+ * @brief 返回当前界面语言代码。
+ * @return 当前语言代码。
+ */
 QString LanguageManager::currentLanguage() const {
     return m_currentLanguage;
 }
 
+/**
+ * @brief 返回系统语言检测结果。
+ * @return 当前实现使用的默认语言代码。
+ */
 QString LanguageManager::detectSystemLanguage() const {
     // 不再使用系统语言检测，直接返回英文
     return "en";
 }
 
+/**
+ * @brief 从配置服务加载语言设置并安装翻译器。
+ */
 void LanguageManager::loadLanguageSettings() {
     // 从 ConfigService 加载语言设置
     auto* configService = ConfigService::instance();
@@ -107,6 +127,9 @@ void LanguageManager::loadLanguageSettings() {
     installTranslator(m_currentLanguage);
 }
 
+/**
+ * @brief 将当前语言设置保存到配置服务。
+ */
 void LanguageManager::saveLanguageSettings() {
     // 保存到 ConfigService
     auto* configService = ConfigService::instance();
@@ -118,8 +141,12 @@ void LanguageManager::saveLanguageSettings() {
     }
 }
 
+/**
+ * @brief 加载并安装指定语言的 Qt 翻译器。
+ * @param languageCode 要安装的语言代码。
+ */
 void LanguageManager::installTranslator(const QString& languageCode) {
-    QCoreApplication* app = QCoreApplication::instance();
+    QCoreApplication* app = QCoreApplication::instance();  // 当前 Qt 应用实例。
     if (!app) {
         qWarning() << "[LanguageManager] QCoreApplication instance not available";
         return;

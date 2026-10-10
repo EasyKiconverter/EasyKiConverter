@@ -15,10 +15,17 @@ class ComponentService;
  */
 class ComponentRequestCancellationCoordinator final {
 public:
-    /** @brief 取消所有未完成的元器件和媒体请求。 */
+    /**
+     * @brief 取消所有未完成的元器件和媒体请求。
+     * @param service 组件服务实例。
+     */
     static void cancelAll(ComponentService& service);
 
-    /** @brief 取消指定元器件的请求并清理其状态。 */
+    /**
+     * @brief 取消指定元器件的请求并清理其状态。
+     * @param service 组件服务实例。
+     * @param componentId 元器件编号。
+     */
     static void cancelForComponent(ComponentService& service, const QString& componentId);
 };
 

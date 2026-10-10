@@ -35,6 +35,17 @@ Item {
                 onBrowseClicked: root.openOutputFolderDialog()
             }
 
+            Text {
+                visible: root.exportTargetModel && root.exportTargetModel.currentTargetId === "librepcb"
+                Layout.fillWidth: true
+                Layout.leftMargin: AppStyle.spacing.lg
+                text: qsTranslate("MainWindow", "LibrePCB：选择项目根目录或项目的 library 目录可自动安装到项目和 Workspace 本地库；选择普通目录时，将生成 .lplib 目录，需手动复制到 Workspace/data/libraries/local/。")
+                color: AppStyle.colors.textSecondary
+                font.pixelSize: AppStyle.fontSizes.xs
+                wrapMode: Text.WordWrap
+                lineHeight: 1.25
+            }
+
             SidebarTextField {
                 label: qsTranslate("MainWindow", "库名称")
                 text: root.exportSettingsController ? root.exportSettingsController.libName : ""
@@ -63,7 +74,7 @@ Item {
             title: qsTranslate("MainWindow", "导出内容")
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "符号库")
-                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 8)
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentTargetId === "orcad")
                 checked: root.exportSettingsController ? root.exportSettingsController.exportSymbol : false
                 onToggled: val => {
                     if (root.exportSettingsController)
@@ -73,7 +84,7 @@ Item {
 
             SidebarToggleRow {
                 label: qsTranslate("MainWindow", "封装库")
-                enabled: !(root.exportTargetModel && root.exportTargetModel.currentIndex === 8)
+                enabled: !(root.exportTargetModel && root.exportTargetModel.currentTargetId === "orcad")
                 checked: root.exportSettingsController ? root.exportSettingsController.exportFootprint : false
                 onToggled: val => {
                     if (root.exportSettingsController)
@@ -82,7 +93,7 @@ Item {
             }
 
             Text {
-                visible: root.exportTargetModel && root.exportTargetModel.currentIndex === 8
+                visible: root.exportTargetModel && root.exportTargetModel.currentTargetId === "orcad"
                 Layout.fillWidth: true
                 Layout.leftMargin: AppStyle.spacing.lg
                 text: qsTranslate("MainWindow", "OrCAD Capture XML 只保存符号和封装名称关联，PCB 封装几何需要单独导出")
@@ -98,7 +109,7 @@ Item {
                 SidebarToggleRow {
                     id: model3dToggle
                     label: qsTranslate("MainWindow", "3D 模型")
-                    property bool isAllegroTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 3
+                    property bool isAllegroTarget: root.exportTargetModel && root.exportTargetModel.currentTargetId === "allegro"
                     checked: root.exportSettingsController ? root.exportSettingsController.exportModel3D : false
                     onToggled: val => {
                         if (root.exportSettingsController)
@@ -232,14 +243,14 @@ Item {
                                     Layout.fillWidth: true
                                     height: 30
                                     radius: AppStyle.radius.sm
-                                    property bool isAltiumTarget: root.exportTargetModel && root.exportTargetModel.currentIndex === 1
+                                    property bool isStepOnlyTarget: root.exportTargetModel && (root.exportTargetModel.currentTargetId === "altium" || root.exportTargetModel.currentTargetId === "librepcb" || root.exportTargetModel.currentTargetId === "horizon")
                                     color: AppStyle.isDarkMode ? Qt.rgba(255, 255, 255, 0.06) : Qt.rgba(0, 0, 0, 0.06)
                                     property int currentFormatIndex: {
                                         if (!root.exportSettingsController)
                                             return 0;
-                                        // Altium 只允许 STEP，指示器也必须固定在 STEP，
+                                        // 这些原生库只允许 STEP，指示器也必须固定在 STEP，
                                         // 避免旧配置值让滑块视觉上移动到 WRL/Both。
-                                        if (isAltiumTarget)
+                                        if (isStepOnlyTarget)
                                             return 1;
                                         var fmt = root.exportSettingsController.exportModel3DFormat;
                                         if (fmt === 3)
@@ -273,8 +284,8 @@ Item {
                                             Item {
                                                 width: parent.width / 3
                                                 height: parent.height
-                                                // Altium PcbLib 仅支持嵌入 STEP，WRL 和 Both 都不可选。
-                                                opacity: parent.parent.isAltiumTarget && index !== 1 ? 0.4 : 1
+                                                // 这些原生库仅支持嵌入 STEP，WRL 和 Both 都不可选。
+                                                opacity: parent.parent.isStepOnlyTarget && index !== 1 ? 0.4 : 1
                                                 Text {
                                                     anchors.centerIn: parent
                                                     text: modelData
@@ -290,7 +301,7 @@ Item {
 
                                                 MouseArea {
                                                     anchors.fill: parent
-                                                    enabled: !(parent.parent.isAltiumTarget && index !== 1)
+                                                    enabled: !(parent.parent.isStepOnlyTarget && index !== 1)
                                                     cursorShape: Qt.PointingHandCursor
                                                     onClicked: {
                                                         if (!root.exportSettingsController)
@@ -414,152 +425,193 @@ Item {
             }
         }
 
-        // ==================== Altium 导出说明（仅 Altium 格式显示，带动画） ====================
-        Item {
+        // ==================== 目标格式说明（单容器避免隐藏项重复占用间距） ====================
+        ColumnLayout {
+            id: targetInfoStack
             Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 1 ? altiumInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
-            clip: true
-            Behavior on Layout.preferredHeight {
-                NumberAnimation {
-                    duration: 400
-                    easing.type: Easing.OutQuart
-                }
-            }
-
-            Rectangle {
-                id: altiumInfoBox
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                implicitHeight: altiumInfoText.implicitHeight + AppStyle.spacing.md * 2
-                radius: AppStyle.radius.sm
-                color: AppStyle.colors.surface
-                border.color: AppStyle.colors.border
-                border.width: 1
-                opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 1) ? 1 : 0
-                scale: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 1) ? 1 : 0.97
-                y: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 1) ? 0 : 20
-                Behavior on opacity {
+            spacing: 0
+            // ==================== Altium 导出说明（仅 Altium 格式显示，带动画） ====================
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "altium" ? altiumInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+                clip: true
+                Behavior on Layout.preferredHeight {
                     NumberAnimation {
-                        duration: 500
-                        easing.type: Easing.OutCubic
-                    }
-                }
-                Behavior on scale {
-                    NumberAnimation {
-                        duration: 500
-                        easing.type: Easing.OutQuart
-                    }
-                }
-                Behavior on y {
-                    NumberAnimation {
-                        duration: 500
+                        duration: 400
                         easing.type: Easing.OutQuart
                     }
                 }
 
-                Text {
-                    id: altiumInfoText
-                    anchors.fill: parent
-                    anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Altium 导出说明：\n" + "- 符号库导出为 .SchLib 格式\n" + "- 封装库导出为 .PcbLib 格式\n" + "- 3D 模型以 STEP 格式嵌入封装\n" + "- 生成的文件可直接在 Altium Designer 中打开")
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    color: AppStyle.colors.textSecondary
-                    wrapMode: Text.WordWrap
-                    lineHeight: 1.4
-                }
-            }
-        }
+                Rectangle {
+                    id: altiumInfoBox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    implicitHeight: altiumInfoText.implicitHeight + AppStyle.spacing.md * 2
+                    radius: AppStyle.radius.sm
+                    color: AppStyle.colors.surface
+                    border.color: AppStyle.colors.border
+                    border.width: 1
+                    opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 1 : 0
+                    scale: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 1 : 0.97
+                    y: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "altium") ? 0 : 20
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+                    Behavior on scale {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutQuart
+                        }
+                    }
+                    Behavior on y {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutQuart
+                        }
+                    }
 
-        // ==================== Xpedition 导出说明（仅 Xpedition 格式显示，带动画） ====================
-        Item {
-            Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 2 ? xpeditionInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
-            clip: true
-            Behavior on Layout.preferredHeight {
-                NumberAnimation {
-                    duration: 400
-                    easing.type: Easing.OutQuart
-                }
-            }
-
-            Rectangle {
-                id: xpeditionInfoBox
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                implicitHeight: xpeditionInfoText.implicitHeight + AppStyle.spacing.md * 2
-                radius: AppStyle.radius.sm
-                color: AppStyle.colors.surface
-                border.color: AppStyle.colors.border
-                border.width: 1
-                opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 2) ? 1 : 0
-                scale: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 2) ? 1 : 0.97
-                y: (root.exportTargetModel !== null && root.exportTargetModel.currentIndex === 2) ? 0 : 20
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: 500
-                        easing.type: Easing.OutCubic
+                    Text {
+                        id: altiumInfoText
+                        anchors.fill: parent
+                        anchors.margins: AppStyle.spacing.md
+                        text: qsTranslate("MainWindow", "Altium 导出说明：\n" + "- 符号库导出为 .SchLib 格式\n" + "- 封装库导出为 .PcbLib 格式\n" + "- 3D 模型以 STEP 格式嵌入封装\n" + "- 生成的文件可直接在 Altium Designer 中打开")
+                        font.pixelSize: AppStyle.fontSizes.xs
+                        color: AppStyle.colors.textSecondary
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.4
                     }
                 }
-                Behavior on scale {
+            }
+
+            // ==================== Xpedition 导出说明（仅 Xpedition 格式显示，带动画） ====================
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "xpedition" ? xpeditionInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+                clip: true
+                Behavior on Layout.preferredHeight {
                     NumberAnimation {
-                        duration: 500
+                        duration: 400
                         easing.type: Easing.OutQuart
                     }
                 }
-                Behavior on y {
+
+                Rectangle {
+                    id: xpeditionInfoBox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    implicitHeight: xpeditionInfoText.implicitHeight + AppStyle.spacing.md * 2
+                    radius: AppStyle.radius.sm
+                    color: AppStyle.colors.surface
+                    border.color: AppStyle.colors.border
+                    border.width: 1
+                    opacity: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 1 : 0
+                    scale: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 1 : 0.97
+                    y: (root.exportTargetModel !== null && root.exportTargetModel.currentTargetId === "xpedition") ? 0 : 20
+                    Behavior on opacity {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutCubic
+                        }
+                    }
+                    Behavior on scale {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutQuart
+                        }
+                    }
+                    Behavior on y {
+                        NumberAnimation {
+                            duration: 500
+                            easing.type: Easing.OutQuart
+                        }
+                    }
+
+                    Text {
+                        id: xpeditionInfoText
+                        anchors.fill: parent
+                        anchors.margins: AppStyle.spacing.md
+                        text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
+                        font.pixelSize: AppStyle.fontSizes.xs
+                        color: AppStyle.colors.textSecondary
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.4
+                    }
+                }
+            }
+
+            // ==================== Allegro 导出说明（符号、封装和三维语义包） ====================
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "allegro" ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+                clip: true
+                Behavior on Layout.preferredHeight {
                     NumberAnimation {
-                        duration: 500
+                        duration: 400
                         easing.type: Easing.OutQuart
                     }
                 }
 
-                Text {
-                    id: xpeditionInfoText
-                    anchors.fill: parent
-                    anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Xpedition 导出说明：\n" + "- 符号库导出为 _Symbols.zip\n" + "- 封装库导出为 _Footprints.zip\n" + "- 三维模型由独立阶段输出为 WRL/STEP 文件，不写入原生关联\n" + "- 当前仅支持覆盖导出，不支持追加、更新或重试\n" + "- 当前支持基础引脚、矩形、折线、圆形和圆弧图元")
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    color: AppStyle.colors.textSecondary
-                    wrapMode: Text.WordWrap
-                    lineHeight: 1.4
+                Rectangle {
+                    id: allegroInfoBox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    implicitHeight: allegroInfoText.implicitHeight + AppStyle.spacing.md * 2
+                    radius: AppStyle.radius.sm
+                    color: AppStyle.colors.surface
+                    border.color: AppStyle.colors.border
+                    border.width: 1
+                    opacity: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "allegro" ? 1 : 0
+                    Text {
+                        id: allegroInfoText
+                        anchors.fill: parent
+                        anchors.margins: AppStyle.spacing.md
+                        text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- Import Package 包含规范化 Symbol、Footprint、Pin-Pad 关联和 STEP 数据\n" + "- 不生成原生 Allegro Symbol、OLB、.dra/.psm/.pad\n" + "- 需要在 Cadence Allegro 环境中继续生成目标库\n" + "- 不支持更新和重试模式\n" + "- Place Bound 缺失时会在诊断中说明回退策略")
+                        font.pixelSize: AppStyle.fontSizes.xs
+                        color: AppStyle.colors.textSecondary
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.4
+                    }
                 }
             }
-        }
 
-        // ==================== Allegro 导出说明（符号、封装和三维语义包） ====================
-        Item {
-            Layout.fillWidth: true
-            Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? allegroInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
-            clip: true
-            Behavior on Layout.preferredHeight {
-                NumberAnimation {
-                    duration: 400
-                    easing.type: Easing.OutQuart
+            // ==================== LibrePCB 导出说明（仅 LibrePCB 格式显示） ====================
+            Item {
+                Layout.fillWidth: true
+                Layout.preferredHeight: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentTargetId === "librepcb" ? librePcbInfoBox.implicitHeight + AppStyle.spacing.md * 2 : 0
+                clip: true
+                Behavior on Layout.preferredHeight {
+                    NumberAnimation {
+                        duration: 400
+                        easing.type: Easing.OutQuart
+                    }
                 }
-            }
 
-            Rectangle {
-                id: allegroInfoBox
-                anchors.left: parent.left
-                anchors.right: parent.right
-                anchors.top: parent.top
-                implicitHeight: allegroInfoText.implicitHeight + AppStyle.spacing.md * 2
-                radius: AppStyle.radius.sm
-                color: AppStyle.colors.surface
-                border.color: AppStyle.colors.border
-                border.width: 1
-                opacity: root.exportTargetModel !== null && root.exportTargetModel !== undefined && root.exportTargetModel.currentIndex === 3 ? 1 : 0
-                Text {
-                    id: allegroInfoText
-                    anchors.fill: parent
-                    anchors.margins: AppStyle.spacing.md
-                    text: qsTranslate("MainWindow", "Allegro 导出说明：\n" + "- Import Package 包含规范化 Symbol、Footprint、Pin-Pad 关联和 STEP 数据\n" + "- 不生成原生 Allegro Symbol、OLB、.dra/.psm/.pad\n" + "- 需要在 Cadence Allegro 环境中继续生成目标库\n" + "- 不支持更新和重试模式\n" + "- Place Bound 缺失时会在诊断中说明回退策略")
-                    font.pixelSize: AppStyle.fontSizes.xs
-                    color: AppStyle.colors.textSecondary
-                    wrapMode: Text.WordWrap
-                    lineHeight: 1.4
+                Rectangle {
+                    id: librePcbInfoBox
+                    anchors.left: parent.left
+                    anchors.right: parent.right
+                    anchors.top: parent.top
+                    implicitHeight: librePcbInfoText.implicitHeight + AppStyle.spacing.md * 2
+                    radius: AppStyle.radius.sm
+                    color: AppStyle.colors.surface
+                    border.color: AppStyle.colors.border
+                    border.width: 1
+                    Text {
+                        id: librePcbInfoText
+                        anchors.fill: parent
+                        anchors.margins: AppStyle.spacing.md
+                        text: qsTranslate("MainWindow", "LibrePCB 导出说明：\n" + "- 原生库只支持完整覆盖导出\n" + "- 不支持追加、更新或失败重试\n" + "- 符号必须是单部件，缺失或重复引脚编号会拒绝导出\n" + "- 不可表达的焊盘和图元会产生诊断或拒绝导出\n" + "- 三维模型使用 IR 中的 STEP 数据，WRL 选项不可用")
+                        font.pixelSize: AppStyle.fontSizes.xs
+                        color: AppStyle.colors.textSecondary
+                        wrapMode: Text.WordWrap
+                        lineHeight: 1.4
+                    }
                 }
             }
         }
@@ -567,7 +619,7 @@ Item {
         // ==================== 运行策略（滑块式导出模式选择） ====================
         SidebarSection {
             title: qsTranslate("MainWindow", "运行策略")
-            // 导出模式：滑块式二选一
+            // 导出模式：滑块式三选一
             ColumnLayout {
                 Layout.fillWidth: true
                 spacing: 2
@@ -585,14 +637,14 @@ Item {
                     // 滑块指示器
                     Rectangle {
                         id: modeSlider
-                        width: parent.width / 2
+                        width: parent.width / 3
                         height: parent.height - 4
                         anchors.verticalCenter: parent.verticalCenter
                         radius: AppStyle.radius.sm - 1
                         color: AppStyle.colors.surface
                         border.width: AppStyle.borderWidths.thin
                         border.color: AppStyle.colors.border
-                        x: (root.exportSettingsController ? root.exportSettingsController.exportMode : 0) === 0 ? 2 : parent.width / 2
+                        x: (root.exportSettingsController ? root.exportSettingsController.exportMode : 0) * parent.width / 3 + 2
                         Behavior on x {
                             NumberAnimation {
                                 duration: 200
@@ -605,10 +657,12 @@ Item {
                         anchors.fill: parent
                         anchors.margins: 2
                         Repeater {
-                            model: [qsTranslate("MainWindow", "追加"), qsTranslate("MainWindow", "覆盖")]
+                            model: root.exportSettingsController && root.exportSettingsController.requiresFullReplacement ? [qsTranslate("MainWindow", "追加（不支持）"), qsTranslate("MainWindow", "更新（不支持）"), qsTranslate("MainWindow", "完整覆盖")] : [qsTranslate("MainWindow", "追加"), qsTranslate("MainWindow", "更新"), qsTranslate("MainWindow", "覆盖")]
                             Item {
-                                width: parent.width / 2
+                                width: parent.width / 3
                                 height: parent.height
+                                enabled: !(root.exportSettingsController && root.exportSettingsController.requiresFullReplacement && index !== 2)
+                                opacity: enabled ? 1 : 0.45
                                 Text {
                                     anchors.centerIn: parent
                                     text: modelData
@@ -624,6 +678,7 @@ Item {
 
                                 MouseArea {
                                     anchors.fill: parent
+                                    enabled: parent.enabled
                                     cursorShape: Qt.PointingHandCursor
                                     onClicked: {
                                         if (root.exportSettingsController)
@@ -636,10 +691,22 @@ Item {
                 }
 
                 Text {
-                    text: (root.exportSettingsController ? root.exportSettingsController.exportMode : 0) === 0 ? qsTranslate("MainWindow", "保留已有元器件，追加新的") : qsTranslate("MainWindow", "覆盖已有元器件，追加新的")
+                    Layout.fillWidth: true
+                    text: {
+                        var mode = root.exportSettingsController ? root.exportSettingsController.exportMode : 0;
+                        if (root.exportSettingsController && root.exportSettingsController.requiresFullReplacement)
+                            return qsTranslate("MainWindow", "覆盖：重新生成完整库；当前目标不支持追加、更新或失败重试");
+                        if (mode === 0)
+                            return qsTranslate("MainWindow", "追加：保留已有库内容，只加入新的元器件；已有同名内容不会被覆盖");
+                        if (mode === 1)
+                            return qsTranslate("MainWindow", "更新：在已有库基础上处理缺失或变化内容，并保留未参与本次导出的内容");
+                        return qsTranslate("MainWindow", "覆盖：重新生成完整库并替换已有输出，请确认旧库可以被替换");
+                    }
                     font.pixelSize: AppStyle.fontSizes.xs - 1
                     color: AppStyle.colors.textSecondary
                     opacity: 0.7
+                    wrapMode: Text.WordWrap
+                    lineHeight: 1.25
                 }
             }
 
@@ -656,7 +723,7 @@ Item {
         // ==================== 库信息（短窗口时自动隐藏，仅 KiCad 格式显示） ====================
         SidebarSection {
             title: qsTranslate("MainWindow", "库信息 (可选)")
-            visible: !ResponsiveHelper.isShortWindow && (root.exportTargetModel === null || root.exportTargetModel === undefined || root.exportTargetModel.currentIndex === 0)
+            visible: !ResponsiveHelper.isShortWindow && (root.exportTargetModel === null || root.exportTargetModel === undefined || root.exportTargetModel.currentTargetId === "kicad")
             SidebarTextField {
                 label: qsTranslate("MainWindow", "符号库描述")
                 text: root.exportSettingsController ? root.exportSettingsController.symbolLibraryDescription : ""

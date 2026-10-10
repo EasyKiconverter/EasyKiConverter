@@ -10,20 +10,22 @@ namespace EasyKiConverter {
 /**
  * @brief 检查来源图元顺序是否覆盖所有可排序图元。
  * @details 不完整的顺序会导致图元被静默跳过，并使 FileHeader 的 WEIGHT 与 Data 流不一致。
+ * @param component 待校验来源顺序的原理图元件。
+ * @return 来源顺序完整且无重复引用时返回 true。
  */
 bool AltiumSchGraphicOrderValidator::validate(const AltiumSchComponent& component) {
-    QSet<QString> expected;
-    QSet<QString> actual;
-    QMap<QString, QSet<int>> pathSegments;
-    QSet<QString> unsplitPaths;
+    QSet<QString> expected;  // 按组件图元计算出的完整顺序键集合。
+    QSet<QString> actual;  // 来源顺序中实际出现的顺序键集合。
+    QMap<QString, QSet<int>> pathSegments;  // 按路径键收集的已出现片段索引。
+    QSet<QString> unsplitPaths;  // 没有片段索引、需要整体写出的路径集合。
     const auto key = [](const QString& type, int index, int partIndex) {
         return QStringLiteral("%1:%2:%3").arg(type).arg(index).arg(partIndex);
     };
 
-    QMap<int, int> partPinIndexes;
-    QMap<int, int> commonPinIndexes;
+    QMap<int, int> partPinIndexes;  // 各部件普通引脚的局部索引计数。
+    QMap<int, int> commonPinIndexes;  // 公共引脚的局部索引计数。
     for (const AltiumSchPin& pin : component.pins) {
-        const int partIndex = pin.sourcePartIndex;
+        const int partIndex = pin.sourcePartIndex;  // 当前引脚的来源部件索引。
         expected.insert(key(QStringLiteral("P"), partPinIndexes[partIndex]++, partIndex));
         if (pin.ownerPartId == -1)
             expected.insert(key(QStringLiteral("P"), commonPinIndexes[-1]++, -1));
@@ -32,7 +34,7 @@ bool AltiumSchGraphicOrderValidator::validate(const AltiumSchComponent& componen
     const auto addUniqueIndexed = [&expected, &key](const QString& type, int index, int partIndex) {
         if (index < 0)
             return true;
-        const QString orderKey = key(type, index, partIndex);
+        const QString orderKey = key(type, index, partIndex);  // 当前图元的唯一顺序键。
         if (expected.contains(orderKey))
             return false;
         expected.insert(orderKey);
@@ -89,11 +91,11 @@ bool AltiumSchGraphicOrderValidator::validate(const AltiumSchComponent& componen
                                     const QString& type, int index, int segmentIndex, int partIndex) {
         if (type != QStringLiteral("PT") || index < 0)
             return true;
-        const QString pathKey = key(type, index, partIndex);
+        const QString pathKey = key(type, index, partIndex);  // 当前路径的唯一顺序键。
         if (segmentIndex < 0)
             unsplitPaths.insert(pathKey);
         else {
-            QSet<int>& segments = pathSegments[pathKey];
+            QSet<int>& segments = pathSegments[pathKey];  // 当前路径已登记的片段索引集合。
             if (segments.contains(segmentIndex))
                 return false;
             segments.insert(segmentIndex);
@@ -147,19 +149,19 @@ bool AltiumSchGraphicOrderValidator::validate(const AltiumSchComponent& componen
     for (const AltiumSchGraphicOrder& order : component.graphicOrder) {
         if (order.index < 0 || order.type.isEmpty())
             return false;
-        const QString orderKey = key(order.type, order.index, order.partIndex);
+        const QString orderKey = key(order.type, order.index, order.partIndex);  // 当前来源顺序项的唯一键。
         if (actual.contains(orderKey))
             return false;
         actual.insert(orderKey);
     }
 
-    QSet<int> emittedPins;
+    QSet<int> emittedPins;  // 已由来源顺序覆盖的组件引脚索引。
     for (const AltiumSchGraphicOrder& order : component.graphicOrder) {
         if (order.type != QStringLiteral("P"))
             continue;
-        int localIndex = 0;
+        int localIndex = 0;  // 当前部件范围内的引脚局部索引。
         for (int pinIndex = 0; pinIndex < component.pins.size(); ++pinIndex) {
-            const AltiumSchPin& pin = component.pins.at(pinIndex);
+            const AltiumSchPin& pin = component.pins.at(pinIndex);  // 当前候选引脚。
             const bool matchesPart =
                 order.partIndex < 0 ? pin.ownerPartId == -1 : pin.sourcePartIndex == order.partIndex;
             if (!matchesPart)

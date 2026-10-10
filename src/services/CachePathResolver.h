@@ -20,13 +20,29 @@ public:
      */
     static QString componentDir(const QString& cacheRoot, const QString& componentId);
 
-    /** @brief 返回组件元数据文件路径。 */
+    /**
+     * @brief 返回组件元数据文件路径。
+     * @param cacheRoot 缓存根目录。
+     * @param componentId 元件编号。
+     * @return 组件元数据文件路径；输入非法时为空。
+     */
     static QString metadataPath(const QString& cacheRoot, const QString& componentId);
 
-    /** @brief 返回指定序号的预览图文件路径。 */
+    /**
+     * @brief 返回指定序号的预览图文件路径。
+     * @param cacheRoot 缓存根目录。
+     * @param componentId 元件编号。
+     * @param index 预览图序号。
+     * @return 预览图文件路径；输入非法时为空。
+     */
     static QString previewImagePath(const QString& cacheRoot, const QString& componentId, int index);
 
-    /** @brief 返回数据手册的无扩展名基础路径。 */
+    /**
+     * @brief 返回数据手册的无扩展名基础路径。
+     * @param cacheRoot 缓存根目录。
+     * @param componentId 元件编号。
+     * @return 数据手册基础路径；输入非法时为空。
+     */
     static QString datasheetPath(const QString& cacheRoot, const QString& componentId);
 
     /**

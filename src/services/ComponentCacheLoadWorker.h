@@ -20,15 +20,15 @@ class SymbolData;
  * @details 结果只携带后台读取和解析数据，不负责代次校验或 Qt 信号派发。
  */
 struct ComponentCacheLoadResult {
-    QString componentId;
-    bool success = false;
-    QSharedPointer<ComponentData> cachedData;
-    QByteArray cadDataJson;
-    QList<QPair<int, QByteArray>> previewImageData;
-    QStringList encodedPreviewImages;
-    QByteArray datasheetData;
-    QSharedPointer<SymbolData> symbolData;
-    QSharedPointer<FootprintData> footprintData;
+    QString componentId;  ///< 元器件编号。
+    bool success = false;  ///< 缓存读取和解析是否成功。
+    QSharedPointer<ComponentData> cachedData;  ///< 解析后的元器件数据。
+    QByteArray cadDataJson;  ///< CAD JSON 原始数据。
+    QList<QPair<int, QByteArray>> previewImageData;  ///< 带索引的预览图数据。
+    QStringList encodedPreviewImages;  ///< Base64 编码的预览图列表。
+    QByteArray datasheetData;  ///< 数据手册数据。
+    QSharedPointer<SymbolData> symbolData;  ///< 解析后的符号数据。
+    QSharedPointer<FootprintData> footprintData;  ///< 解析后的封装数据。
 };
 
 /**

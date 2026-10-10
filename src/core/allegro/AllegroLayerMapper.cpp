@@ -2,7 +2,11 @@
 
 namespace EasyKiConverter {
 
-/** 将统一 IR 图层映射为 Allegro 的 Class/Subclass 语义。 */
+/**
+ * @brief 将统一 IR 图层映射为 Allegro 的 Class/Subclass 语义。
+ * @param layer 待映射的统一 IR 图层。
+ * @return Allegro Class/Subclass 映射；无法表达时返回空值。
+ */
 std::optional<AllegroLayerAssignment> AllegroLayerMapper::map(IR::LayerType layer) {
     // 按 Allegro 的 Class/Subclass 语义处理每个已知 IR 图层。
     switch (layer) {

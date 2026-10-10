@@ -4,6 +4,7 @@ namespace EasyKiConverter {
 
 /**
  * @brief 判断错误是否会使元件验证失败
+ * @param error 错误信息。
  */
 bool ComponentValidationErrorPolicy::isCadDataFailure(const QString& error) {
     return error.contains(QStringLiteral("CAD data")) || error.contains(QStringLiteral("Symbol data")) ||
@@ -25,6 +26,7 @@ bool ComponentValidationErrorPolicy::isCadDataFailure(const QString& error) {
 
 /**
  * @brief 判断验证失败是否不应自动重试
+ * @param error 错误信息。
  */
 bool ComponentValidationErrorPolicy::isNonRetryable(const QString& error) {
     return error.contains(QStringLiteral("HTTP 404"), Qt::CaseInsensitive) ||
@@ -37,6 +39,7 @@ bool ComponentValidationErrorPolicy::isNonRetryable(const QString& error) {
 
 /**
  * @brief 判断错误是否属于资源不存在
+ * @param error 错误信息。
  */
 bool ComponentValidationErrorPolicy::isNotFound(const QString& error) {
     return error.contains(QStringLiteral("No result"), Qt::CaseInsensitive) ||
@@ -46,6 +49,7 @@ bool ComponentValidationErrorPolicy::isNotFound(const QString& error) {
 
 /**
  * @brief 将预览图错误映射为稳定的显示分类
+ * @param error 错误信息。
  */
 ComponentValidationErrorPolicy::PreviewErrorKind ComponentValidationErrorPolicy::classifyPreviewError(
     const QString& error) {

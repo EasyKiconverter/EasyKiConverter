@@ -11,7 +11,12 @@ namespace EasyKiConverter {
  */
 class AltiumSymbolPathConverter final {
 public:
-    /** @brief 将符号中的所有路径追加到目标组件并记录诊断。 */
+    /**
+     * @brief 将符号中的所有路径追加到目标组件并记录诊断。
+     * @param symbol 待转换的符号 IR。
+     * @param component 接收路径记录的 Altium 组件。
+     * @param diagnostics 接收转换诊断的列表。
+     */
     static void append(const IR::SymbolComponentIR& symbol, AltiumSchComponent& component, QStringList& diagnostics);
 };
 

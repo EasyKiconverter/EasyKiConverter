@@ -35,5 +35,7 @@ jobs:
           fi
           python3 tools/python/check_comment_rate.py \
             --threshold 90 \
+            --check-doxygen \
+            --forbid-generic-comments \
             --forbid-external-references \
             "${files[@]}"

@@ -37,9 +37,9 @@ struct LogRecord {
      * @brief 获取简化的文件名（不含路径）
      */
     QString shortFileName() const {
-        int lastSlash = fileName.lastIndexOf('/');
-        int lastBackslash = fileName.lastIndexOf('\\');
-        int pos = qMax(lastSlash, lastBackslash);
+        int lastSlash = fileName.lastIndexOf('/');  ///< Unix 路径分隔符位置。
+        int lastBackslash = fileName.lastIndexOf('\\');  ///< Windows 路径分隔符位置。
+        int pos = qMax(lastSlash, lastBackslash);  ///< 最后一个路径分隔符位置。
         return pos >= 0 ? fileName.mid(pos + 1) : fileName;
     }
 };

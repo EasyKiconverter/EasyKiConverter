@@ -30,9 +30,14 @@ class TestParallelExportCancellation : public QObject {
 private slots:
 
     // 验证阶段完成统计不会覆盖预加载失败项的逐项状态。
+    /**
+     * @brief 验证 testStageCompletionPreservesPreloadFailures 测试场景。
+     */
     void testStageCompletionPreservesPreloadFailures() {
+        // service：被测服务实例。
         ParallelExportService service;
 
+        // preloadFailure：预加载阶段的失败诊断。
         ExportItemStatus preloadFailure;
         preloadFailure.status = ExportItemStatus::Status::Failed;
         preloadFailure.errorMessage = QStringLiteral("Component preload data missing");
@@ -43,6 +48,7 @@ private slots:
                                           Q_ARG(QString, QStringLiteral("Model3D")),
                                           Q_ARG(ExportItemStatus, preloadFailure)));
 
+        // exported：已完成导出的元器件集合。
         ExportItemStatus exported;
         exported.status = ExportItemStatus::Status::Success;
         QVERIFY(QMetaObject::invokeMethod(&service,
@@ -60,6 +66,7 @@ private slots:
                                           Q_ARG(int, 0),
                                           Q_ARG(int, 0)));
 
+        // progress：测试用导出进度状态。
         const ExportTypeProgress progress = service.getTypeProgress(QStringLiteral("Model3D"));
         QCOMPARE(progress.successCount, 1);
         QCOMPARE(progress.failedCount, 1);
@@ -67,6 +74,9 @@ private slots:
     }
 
     // 注册跨线程测试所需的 Qt 元类型。
+    /**
+     * @brief 验证 initTestCase 测试场景。
+     */
     void initTestCase() {
         qRegisterMetaType<ExportOverallProgress>();
         qRegisterMetaType<ExportItemStatus>();
@@ -74,7 +84,11 @@ private slots:
     }
 
     // 验证空闲服务收到退出清理请求时不会伪造取消事件或取消报告。
+    /**
+     * @brief 验证 testIdleCancelIsNoOp 测试场景。
+     */
     void testIdleCancelIsNoOp() {
+        // service：被测服务实例。
         ParallelExportService service;
         QSignalSpy cancelledSpy(&service, &ParallelExportService::cancelled);
 
@@ -86,21 +100,30 @@ private slots:
     }
 
     // 验证实际夹具数据可以完成完整导出流程。
+    /**
+     * @brief 验证 testFixtureDataCompletesExportPipeline 测试场景。
+     */
     void testFixtureDataCompletesExportPipeline() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // libName：测试使用的元器件标识或名称。
         const QString libName = QStringLiteral("FixturePipeline");
         service.setOptions(makeOptions(tempDir.path(), libName));
         service.setOutputPath(tempDir.path());
 
+        // componentIds：测试使用的元器件标识或名称。
         const QStringList componentIds = makeComponentIds(3);
+        // componentData：测试使用的文本或数据内容。
         const QList<ComponentData> componentData = makeFixtureComponents(componentIds);
 
         service.startPreload(componentIds);
 
         QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        // preloadInjected：注入的预加载失败结果。
         const bool preloadInjected = QMetaObject::invokeMethod(
             &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData));
         QVERIFY(preloadInjected);
@@ -120,31 +143,143 @@ private slots:
         QCOMPARE(failedSpy.count(), 0);
         QCOMPARE(service.getProgress().currentStage, ExportOverallProgress::Stage::Completed);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // symbolLibraryPath：测试使用的文件系统路径。
         const QString symbolLibraryPath = tempDir.filePath(libName + QStringLiteral(".kicad_sym"));
         QVERIFY2(QFileInfo::exists(symbolLibraryPath), qPrintable(symbolLibraryPath));
+        // symbolContent：测试使用的文本或数据内容。
         const QString symbolContent = TestPaths::readText(symbolLibraryPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QVERIFY(symbolContent.contains(QStringLiteral("(kicad_symbol_lib")));
         QVERIFY(symbolContent.contains(QStringLiteral("(symbol \"CANCEL_SYM_0\"")));
         QVERIFY(symbolContent.contains(QStringLiteral("\"FixturePipeline:CANCEL_FP_0\"")));
 
+        // prettyDirPath：测试使用的文件系统路径。
         const QString prettyDirPath = tempDir.filePath(libName + QStringLiteral(".pretty"));
         QVERIFY2(QDir(prettyDirPath).exists(), qPrintable(prettyDirPath));
+        // footprintPath：测试使用的文件系统路径。
         const QString footprintPath = QDir(prettyDirPath).filePath(QStringLiteral("CANCEL_FP_0.kicad_mod"));
         QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
+        // footprintContent：测试使用的文本或数据内容。
         const QString footprintContent = TestPaths::readText(footprintPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QVERIFY(footprintContent.contains(QStringLiteral("(footprint easykiconverter:CANCEL_FP_0")));
         QVERIFY(footprintContent.contains(QStringLiteral("(pad 1 smd rect")));
     }
 
-    // 验证完整导出流程同时生成符号库、封装库和独立三维模型关联。
-    void testPipelineExportsSymbolFootprintAndModel() {
+    // 验证 Horizon 符号-only 导出使用目录事务提交，并完成官方 Pool 更新。
+    /**
+     * @brief 验证 testHorizonSymbolOnlyPipelineCommitsPoolDirectory 测试场景。
+     */
+    void testHorizonSymbolOnlyPipelineCommitsPoolDirectory() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // moduleDir：测试使用的文件系统路径。
+        const QString moduleDir = tempDir.filePath(QStringLiteral("horizon-python"));
+        QVERIFY(QDir().mkpath(moduleDir));
+        QFile module(QDir(moduleDir).filePath(QStringLiteral("horizon.py")));
+        QVERIFY(module.open(QIODevice::WriteOnly | QIODevice::Text));
+        const QByteArray moduleSource =
+            "import json, os\n"
+            "class Pool:\n"
+            "    @staticmethod\n"
+            "    def update(path):\n"
+            "        open(os.path.join(path, 'pool.db'), 'wb').write(b'updated')\n"
+            "class PoolManager:\n"
+            "    pools = {}\n"
+            "    @staticmethod\n"
+            "    def get_pools():\n"
+            "        return dict(PoolManager.pools)\n"
+            "    @staticmethod\n"
+            "    def add_pool(path):\n"
+            "        with open(os.path.join(path, 'pool.json'), encoding='utf-8') as f:\n"
+            "            PoolManager.pools[os.path.abspath(path)] = json.load(f)['uuid']\n";
+        QVERIFY(module.write(moduleSource) == moduleSource.size());
+        module.close();
+
+        // previousPython：用于观察信号发射结果的 QSignalSpy。
+        const QByteArray previousPython = qgetenv("EASYKICONVERTER_HORIZON_PYTHON");
+        // previousPythonPath：用于观察信号发射结果的 QSignalSpy。
+        const QByteArray previousPythonPath = qgetenv("EASYKICONVERTER_HORIZON_PYTHONPATH");
+        qputenv("EASYKICONVERTER_HORIZON_PYTHON", "python3");
+        qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", moduleDir.toLocal8Bit());
+
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
+        ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("HorizonSymbolsOnly"));
+        options.targetFormat = TargetEdaFormat::Horizon;
+        options.exportFootprint = false;
+        options.exportSymbol = true;
+        service.setOptions(options);
+        service.setOutputPath(tempDir.path());
+
+        // componentId：测试使用的元器件标识或名称。
+        const QString componentId = QStringLiteral("C91006");
+        // componentData：测试使用的文本或数据内容。
+        QList<ComponentData> componentData = makeFixtureComponents({componentId});
+        QVERIFY(componentData.size() == 1);
+        // 仅保留 Horizon 测试需要的矩形和引脚，避免把 EasyEDA 图片等无关图元带入阶段测试。
+        const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
+        auto symbol = QSharedPointer<SymbolData>::create();
+        symbol->setInfo(sourceSymbol->info());
+        symbol->setBbox(sourceSymbol->bbox());
+        symbol->setPins(sourceSymbol->pins());
+        symbol->setRectangles(sourceSymbol->rectangles());
+        componentData.first().setSymbolData(symbol);
+        service.startPreload({componentId});
+        QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        QVERIFY(QMetaObject::invokeMethod(
+            &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData)));
+        QCOMPARE(preloadSpy.count(), 1);
+
+        QSignalSpy completedSpy(&service, &ParallelExportService::completed);
+        QSignalSpy failedSpy(&service, &ParallelExportService::failed);
+        service.startExport();
+        // completed：导出完成状态。
+        const bool completed = completedSpy.wait(30000);
+
+        if (previousPython.isNull())
+            qunsetenv("EASYKICONVERTER_HORIZON_PYTHON");
+        else
+            qputenv("EASYKICONVERTER_HORIZON_PYTHON", previousPython);
+        if (previousPythonPath.isNull())
+            qunsetenv("EASYKICONVERTER_HORIZON_PYTHONPATH");
+        else
+            qputenv("EASYKICONVERTER_HORIZON_PYTHONPATH", previousPythonPath);
+
+        QVERIFY2(completed, "Horizon symbol-only export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(failedSpy.count(), 0);
+
+        // poolPath：测试使用的文件系统路径。
+        const QString poolPath = tempDir.filePath(QStringLiteral("HorizonSymbolsOnly.pool"));
+        QVERIFY(QDir(poolPath).exists());
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("pool.json"))));
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("pool.db"))));
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("units/CANCEL_SYM_0-1.json"))));
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("symbols/CANCEL_SYM_0-1.json"))));
+        QVERIFY(QFileInfo::exists(QDir(poolPath).filePath(QStringLiteral("entities/CANCEL_SYM_0.json"))));
+    }
+
+    // 验证完整导出流程同时生成符号库、封装库和独立三维模型关联。
+    /**
+     * @brief 验证 testPipelineExportsSymbolFootprintAndModel 测试场景。
+     */
+    void testPipelineExportsSymbolFootprintAndModel() {
+        // tempDir：测试使用的文件系统路径。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        // service：被测服务实例。
+        ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("CompletePipeline"));
         options.targetFormat = TargetEdaFormat::KiCad;
         options.exportModel3D = true;
@@ -152,14 +287,18 @@ private slots:
         service.setOptions(options);
         service.setOutputPath(tempDir.path());
 
+        // componentIds：测试使用的元器件标识或名称。
         const QStringList componentIds = {QStringLiteral("C91001")};
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents(componentIds);
         QVERIFY(componentData.size() == 1);
 
         // KiCad 只接受本测试需要的矩形和引脚，显式移除 EasyEDA 夹具中的非兼容图元。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
+        // bbox：测试用几何边界框。
         SymbolBBox bbox = sourceSymbol->bbox();
         bbox.x = -2.0;
         bbox.y = -3.0;
@@ -193,9 +332,13 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // symbolPath：测试使用的文件系统路径。
         const QString symbolPath = tempDir.filePath(QStringLiteral("CompletePipeline.kicad_sym"));
+        // footprintDir：测试使用的文件系统路径。
         const QString footprintDir = tempDir.filePath(QStringLiteral("CompletePipeline.pretty"));
+        // footprintPath：测试使用的文件系统路径。
         const QString footprintPath = QDir(footprintDir).filePath(QStringLiteral("CANCEL_FP_0.kicad_mod"));
         QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
         QVERIFY2(QFileInfo::exists(footprintDir), qPrintable(footprintDir));
@@ -203,14 +346,19 @@ private slots:
         QVERIFY(TestPaths::readText(symbolPath, &error).contains(QStringLiteral("(kicad_symbol_lib")));
         QVERIFY(TestPaths::readText(footprintPath, &error).contains(QStringLiteral("(footprint")));
 
+        // modelDir：测试使用的文件系统路径。
         const QString modelDir = tempDir.filePath(QStringLiteral("CompletePipeline.3dmodels"));
+        // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
         QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        // manifest：导出清单对象。
         const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::KiCad));
+        // components：测试使用的缓存或元器件对象。
         const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
         QCOMPARE(components.size(), 1);
+        // component：测试使用的缓存或元器件对象。
         const QJsonObject component = components.first().toObject();
         QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
@@ -219,18 +367,26 @@ private slots:
     }
 
     // 验证 Xpedition 分离归档会同时生成符号库、封装库和独立三维模型清单。
+    /**
+     * @brief 验证 testXpeditionPipelineExportsAllLibraryArtifacts 测试场景。
+     */
     void testXpeditionPipelineExportsAllLibraryArtifacts() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C91009");
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents({componentId});
         QVERIFY(componentData.size() == 1);
 
         // Xpedition 符号测试只保留当前 ASCII writer 可直接表达的矩形和引脚。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
+        // bbox：测试用几何边界框。
         SymbolBBox bbox = sourceSymbol->bbox();
         bbox.x = -2.0;
         bbox.y = -3.0;
@@ -248,7 +404,9 @@ private slots:
         componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
         componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("XpeditionCompletePipeline"));
         options.targetFormat = TargetEdaFormat::Xpedition;
         options.exportModel3D = true;
@@ -272,8 +430,11 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // symbolPath：测试使用的文件系统路径。
         const QString symbolPath = tempDir.filePath(QStringLiteral("XpeditionCompletePipeline_Symbols.zip"));
+        // footprintPath：测试使用的文件系统路径。
         const QString footprintPath = tempDir.filePath(QStringLiteral("XpeditionCompletePipeline_Footprints.zip"));
         QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
         QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
@@ -281,14 +442,19 @@ private slots:
         QVERIFY(TestPaths::readBytes(footprintPath, &error).contains(QByteArray("CANCEL_FP_0_Pads.hkp")));
         QVERIFY(TestPaths::readBytes(footprintPath, &error).contains(QByteArray("CANCEL_FP_0_Cell.hkp")));
 
+        // modelDir：测试使用的文件系统路径。
         const QString modelDir = tempDir.filePath(QStringLiteral("XpeditionCompletePipeline.3dmodels"));
+        // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
         QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        // manifest：导出清单对象。
         const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Xpedition));
+        // components：测试使用的缓存或元器件对象。
         const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
         QCOMPARE(components.size(), 1);
+        // component：测试使用的缓存或元器件对象。
         const QJsonObject component = components.first().toObject();
         QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
@@ -297,18 +463,26 @@ private slots:
     }
 
     // 验证 Altium 管线分别生成 SchLib、PcbLib，并将 STEP 嵌入封装库。
+    /**
+     * @brief 验证 testAltiumPipelineExportsSymbolFootprintAndEmbeddedStep 测试场景。
+     */
     void testAltiumPipelineExportsSymbolFootprintAndEmbeddedStep() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C91007");
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents({componentId});
         QVERIFY(componentData.size() == 1);
 
         // Altium 符号夹具只保留当前 writer 可直接表达的矩形和引脚，避免把源格式高级图元混入管线测试。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
+        // bbox：测试用几何边界框。
         SymbolBBox bbox = sourceSymbol->bbox();
         bbox.x = -2.0;
         bbox.y = -3.0;
@@ -316,6 +490,7 @@ private slots:
         bbox.height = 6.0;
         symbol->setBbox(bbox);
         symbol->setPins(sourceSymbol->pins());
+        // rectangles：测试用矩形图元集合。
         QList<SymbolRectangle> rectangles = sourceSymbol->rectangles();
         for (SymbolRectangle& rectangle : rectangles) {
             rectangle.rx = 0.0;
@@ -332,7 +507,9 @@ private slots:
         componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
         componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("AltiumCompletePipeline"));
         options.targetFormat = TargetEdaFormat::Altium;
         options.exportModel3D = true;
@@ -356,8 +533,11 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // symbolPath：测试使用的文件系统路径。
         const QString symbolPath = tempDir.filePath(QStringLiteral("AltiumCompletePipeline.SchLib"));
+        // footprintPath：测试使用的文件系统路径。
         const QString footprintPath = tempDir.filePath(QStringLiteral("AltiumCompletePipeline.PcbLib"));
+        // error：测试期间收集的错误或诊断信息。
         QString error;
         QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
         QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
@@ -368,17 +548,22 @@ private slots:
         AltiumSchLibReader symbolReader;
         QVERIFY2(symbolReader.open(symbolPath), qPrintable(symbolReader.errorString()));
         QCOMPARE(symbolReader.components().size(), 1);
+        // symbolData：测试使用的文本或数据内容。
         QByteArray symbolData;
         QVERIFY(symbolReader.readComponentData(0, &symbolData));
         QVERIFY(symbolData.contains("LibReference=CANCEL_SYM_0"));
 
+        // footprintReader：负责回读生成内容的 reader 实例。
         AltiumPcbLibReader footprintReader;
         QVERIFY2(footprintReader.open(footprintPath), qPrintable(footprintReader.errorString()));
         QCOMPARE(footprintReader.components().size(), 1);
+        // primitives：测试用图元集合。
         QVector<AltiumPcbLibReader::PrimitiveRecord> primitives;
         QVERIFY(footprintReader.readFootprintObjects(0, &primitives));
         QVERIFY(!primitives.isEmpty());
+        // hasPad：测试用焊盘数据。
         bool hasPad = false;
+        // hasModelBody：测试使用的配置值或状态。
         bool hasModelBody = false;
         for (const AltiumPcbLibReader::PrimitiveRecord& primitive : primitives) {
             hasPad = hasPad || primitive.hasPadFields;
@@ -389,16 +574,23 @@ private slots:
     }
 
     // 验证 OrCAD 管线输出 XML 符号库和独立三维模型，不虚构 Capture PCB 库。
+    /**
+     * @brief 验证 testOrcadPipelineExportsSymbolAndStandaloneModel 测试场景。
+     */
     void testOrcadPipelineExportsSymbolAndStandaloneModel() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C91008");
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents({componentId});
         QVERIFY(componentData.size() == 1);
 
         // OrCAD XML 测试只保留矩形和引脚，确保失败时能区分符号数据问题和管线问题。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
         symbol->setBbox(sourceSymbol->bbox());
@@ -406,13 +598,16 @@ private slots:
         symbol->setRectangles(sourceSymbol->rectangles());
         componentData.first().setSymbolData(symbol);
 
+        // model：测试使用的配置值或状态。
         Model3DData model;
         model.setName(QStringLiteral("OrcadCompleteModel"));
         model.setUuid(QStringLiteral("orcad-complete-model"));
         componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
         componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("OrcadCompletePipeline"));
         options.targetFormat = TargetEdaFormat::Orcad;
         options.exportFootprint = false;
@@ -437,20 +632,27 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // symbolPath：测试使用的文件系统路径。
         const QString symbolPath = tempDir.filePath(QStringLiteral("OrcadCompletePipeline.xml"));
         QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
+        // symbolText：测试使用的文本或数据内容。
         const QString symbolText = TestPaths::readText(symbolPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QVERIFY(symbolText.contains(QStringLiteral("<Lib")));
         QVERIFY(symbolText.contains(QStringLiteral("pcbFootprint=")));
 
+        // modelDir：测试使用的文件系统路径。
         const QString modelDir = tempDir.filePath(QStringLiteral("OrcadCompletePipeline.3dmodels"));
+        // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
         QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        // manifest：导出清单对象。
         const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Orcad));
+        // components：测试使用的缓存或元器件对象。
         const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
         QCOMPARE(components.size(), 1);
         QCOMPARE(components.first().toObject().value(QStringLiteral("status")).toString(), QStringLiteral("success"));
@@ -458,11 +660,17 @@ private slots:
     }
 
     // 验证 Allegro Import Package 同时保存符号、封装、Pin-Pad 关联和 STEP 模型。
+    /**
+     * @brief 验证 testAllegroPipelineExportsAllLibraryArtifacts 测试场景。
+     */
     void testAllegroPipelineExportsAllLibraryArtifacts() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C91006");
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents({componentId});
         QVERIFY(componentData.size() == 1);
 
@@ -474,7 +682,9 @@ private slots:
         componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
         componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("AllegroCompletePipeline"));
         options.targetFormat = TargetEdaFormat::Allegro;
         options.exportModel3D = true;
@@ -498,40 +708,53 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // packageDir：测试使用的文件系统路径。
         const QString packageDir = tempDir.filePath(QStringLiteral("AllegroCompletePipeline_Allegro"));
+        // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(packageDir).filePath(QStringLiteral("manifest.json"));
+        // error：测试期间收集的错误或诊断信息。
         QString error;
         QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        // manifest：导出清单对象。
         const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QCOMPARE(manifest.value(QStringLiteral("target")).toString(),
                  QStringLiteral("Allegro semantic symbol and PCB package"));
         QCOMPARE(manifest.value(QStringLiteral("native_database_generated")).toBool(), false);
 
+        // symbols：测试用符号集合。
         const QJsonArray symbols = manifest.value(QStringLiteral("symbols")).toArray();
         QCOMPARE(symbols.size(), 1);
         QCOMPARE(symbols.first().toObject().value(QStringLiteral("name")).toString(), QStringLiteral("CANCEL_SYM_0"));
 
+        // packages：测试用封装集合。
         const QJsonArray packages = manifest.value(QStringLiteral("packages")).toArray();
         QCOMPARE(packages.size(), 1);
+        // package：测试用封装数据。
         const QJsonObject package = packages.first().toObject();
         QCOMPARE(package.value(QStringLiteral("name")).toString(), QStringLiteral("CANCEL_FP_0"));
         QCOMPARE(package.value(QStringLiteral("pin_count")).toInt(), 1);
         QCOMPARE(package.value(QStringLiteral("step_count")).toInt(), 1);
 
+        // components：测试使用的缓存或元器件对象。
         const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
         QCOMPARE(components.size(), 1);
+        // component：测试使用的缓存或元器件对象。
         const QJsonObject component = components.first().toObject();
         QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
         QCOMPARE(component.value(QStringLiteral("pin_to_pad")).toArray().size(), 1);
 
+        // normalizedPath：测试使用的文件系统路径。
         const QString normalizedPath = QDir(packageDir).filePath(QStringLiteral("normalized-data/CANCEL_FP_0.json"));
+        // symbolPath：测试使用的文件系统路径。
         const QString symbolPath = QDir(packageDir).filePath(QStringLiteral("symbols/CANCEL_SYM_0.json"));
         QVERIFY2(QFileInfo::exists(normalizedPath), qPrintable(normalizedPath));
         QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
+        // normalized：规范化后的测试数据。
         const QJsonObject normalized = TestPaths::readJsonObject(normalizedPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
+        // stepModels：测试使用的配置值或状态。
         const QJsonArray stepModels = normalized.value(QStringLiteral("step_models")).toArray();
         QCOMPARE(stepModels.size(), 1);
         const QString stepPath =
@@ -541,18 +764,26 @@ private slots:
     }
 
     // 验证 PADS 的符号、封装、器件关联文件和独立三维模型可以由同一条导出管线完成。
+    /**
+     * @brief 验证 testPadsPipelineExportsAllLibraryArtifacts 测试场景。
+     */
     void testPadsPipelineExportsAllLibraryArtifacts() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C91003");
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents({componentId});
         QVERIFY(componentData.size() == 1);
 
         // PADS 当前只对本测试使用的矩形和引脚提供稳定 ASCII 映射，其他源图元仍由生产代码拒绝并报告诊断。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
+        // bbox：测试用几何边界框。
         SymbolBBox bbox = sourceSymbol->bbox();
         bbox.x = -2.0;
         bbox.y = -3.0;
@@ -560,6 +791,7 @@ private slots:
         bbox.height = 6.0;
         symbol->setBbox(bbox);
         symbol->setPins(sourceSymbol->pins());
+        // rectangles：测试用矩形图元集合。
         QList<SymbolRectangle> rectangles = sourceSymbol->rectangles();
         for (SymbolRectangle& rectangle : rectangles) {
             rectangle.rx = 0.0;
@@ -568,13 +800,16 @@ private slots:
         symbol->setRectangles(rectangles);
         componentData.first().setSymbolData(symbol);
 
+        // model：测试使用的配置值或状态。
         Model3DData model;
         model.setName(QStringLiteral("PadsCompleteModel"));
         model.setUuid(QStringLiteral("pads-complete-model"));
         componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
         componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("PadsCompletePipeline"));
         options.targetFormat = TargetEdaFormat::Pads;
         options.exportModel3D = true;
@@ -598,10 +833,15 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // symbolPath：测试使用的文件系统路径。
         const QString symbolPath = tempDir.filePath(QStringLiteral("PadsCompletePipeline_PADS.c"));
+        // partTypePath：测试使用的文件系统路径。
         const QString partTypePath = tempDir.filePath(QStringLiteral("PadsCompletePipeline_PADS.p"));
+        // footprintDir：测试使用的文件系统路径。
         const QString footprintDir = tempDir.filePath(QStringLiteral("PadsCompletePipeline_PADS"));
+        // footprintPath：测试使用的文件系统路径。
         const QString footprintPath = QDir(footprintDir).filePath(QStringLiteral("CANCEL_FP_0.d"));
         QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
         QVERIFY2(QFileInfo::exists(partTypePath), qPrintable(partTypePath));
@@ -611,14 +851,19 @@ private slots:
         QVERIFY(TestPaths::readText(partTypePath, &error).contains(QStringLiteral("CANCEL_FP_0")));
         QVERIFY(TestPaths::readText(footprintPath, &error).contains(QStringLiteral("CANCEL_FP_0 I")));
 
+        // modelDir：测试使用的文件系统路径。
         const QString modelDir = tempDir.filePath(QStringLiteral("PadsCompletePipeline.3dmodels"));
+        // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
         QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        // manifest：导出清单对象。
         const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Pads));
+        // components：测试使用的缓存或元器件对象。
         const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
         QCOMPARE(components.size(), 1);
+        // component：测试使用的缓存或元器件对象。
         const QJsonObject component = components.first().toObject();
         QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
@@ -627,18 +872,26 @@ private slots:
     }
 
     // 验证 CADSTAR 组合库会同时输出符号、封装、Part 关联和独立三维模型。
+    /**
+     * @brief 验证 testCadstarPipelineExportsAllLibraryArtifacts 测试场景。
+     */
     void testCadstarPipelineExportsAllLibraryArtifacts() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C91004");
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents({componentId});
         QVERIFY(componentData.size() == 1);
 
         // CADSTAR ASCII 组合库只保留当前 writer 可无损表达的符号图元。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
+        // bbox：测试用几何边界框。
         SymbolBBox bbox = sourceSymbol->bbox();
         bbox.x = -2.0;
         bbox.y = -3.0;
@@ -646,6 +899,7 @@ private slots:
         bbox.height = 6.0;
         symbol->setBbox(bbox);
         symbol->setPins(sourceSymbol->pins());
+        // rectangles：测试用矩形图元集合。
         QList<SymbolRectangle> rectangles = sourceSymbol->rectangles();
         for (SymbolRectangle& rectangle : rectangles) {
             rectangle.rx = 0.0;
@@ -654,13 +908,16 @@ private slots:
         symbol->setRectangles(rectangles);
         componentData.first().setSymbolData(symbol);
 
+        // model：测试使用的配置值或状态。
         Model3DData model;
         model.setName(QStringLiteral("CadstarCompleteModel"));
         model.setUuid(QStringLiteral("cadstar-complete-model"));
         componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
         componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("CadstarCompletePipeline"));
         options.targetFormat = TargetEdaFormat::Cadstar;
         options.exportModel3D = true;
@@ -684,23 +941,31 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // libraryPath：测试使用的文件系统路径。
         const QString libraryPath = tempDir.filePath(QStringLiteral("CadstarCompletePipeline.lib"));
         QVERIFY2(QFileInfo::exists(libraryPath), qPrintable(libraryPath));
+        // libraryText：测试使用的文本或数据内容。
         const QString libraryText = TestPaths::readText(libraryPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QVERIFY(libraryText.contains(QStringLiteral("COMPONENT")));
         QVERIFY(libraryText.contains(QStringLiteral("PACKAGE")));
         QVERIFY(libraryText.contains(QStringLiteral("PART")));
 
+        // modelDir：测试使用的文件系统路径。
         const QString modelDir = tempDir.filePath(QStringLiteral("CadstarCompletePipeline.3dmodels"));
+        // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
         QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        // manifest：导出清单对象。
         const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Cadstar));
+        // components：测试使用的缓存或元器件对象。
         const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
         QCOMPARE(components.size(), 1);
+        // component：测试使用的缓存或元器件对象。
         const QJsonObject component = components.first().toObject();
         QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
@@ -709,18 +974,26 @@ private slots:
     }
 
     // 验证 P-CAD 分离库会同时输出原理图符号、PCB Pattern 和独立三维模型。
+    /**
+     * @brief 验证 testPcadPipelineExportsAllLibraryArtifacts 测试场景。
+     */
     void testPcadPipelineExportsAllLibraryArtifacts() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C91005");
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents({componentId});
         QVERIFY(componentData.size() == 1);
 
         // P-CAD ASCII 符号库只保留当前 writer 可无损表达的矩形和引脚。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
+        // bbox：测试用几何边界框。
         SymbolBBox bbox = sourceSymbol->bbox();
         bbox.x = -2.0;
         bbox.y = -3.0;
@@ -728,6 +1001,7 @@ private slots:
         bbox.height = 6.0;
         symbol->setBbox(bbox);
         symbol->setPins(sourceSymbol->pins());
+        // rectangles：测试用矩形图元集合。
         QList<SymbolRectangle> rectangles = sourceSymbol->rectangles();
         for (SymbolRectangle& rectangle : rectangles) {
             rectangle.rx = 0.0;
@@ -736,13 +1010,16 @@ private slots:
         symbol->setRectangles(rectangles);
         componentData.first().setSymbolData(symbol);
 
+        // model：测试使用的配置值或状态。
         Model3DData model;
         model.setName(QStringLiteral("PcadCompleteModel"));
         model.setUuid(QStringLiteral("pcad-complete-model"));
         componentData.first().setModel3DData(QSharedPointer<Model3DData>::create(model));
         componentData.first().setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("PcadCompletePipeline"));
         options.targetFormat = TargetEdaFormat::Pcad;
         options.exportModel3D = true;
@@ -766,28 +1043,38 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // symbolPath：测试使用的文件系统路径。
         const QString symbolPath = tempDir.filePath(QStringLiteral("PcadCompletePipeline_PCAD_SCH.lia"));
+        // footprintPath：测试使用的文件系统路径。
         const QString footprintPath = tempDir.filePath(QStringLiteral("PcadCompletePipeline.lia"));
         QVERIFY2(QFileInfo::exists(symbolPath), qPrintable(symbolPath));
         QVERIFY2(QFileInfo::exists(footprintPath), qPrintable(footprintPath));
+        // symbolText：测试使用的文本或数据内容。
         const QString symbolText = TestPaths::readText(symbolPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QVERIFY(symbolText.contains(QStringLiteral("symbolDef")));
         QVERIFY(symbolText.contains(QStringLiteral("attachedPattern")));
+        // footprintText：测试使用的文本或数据内容。
         const QString footprintText = TestPaths::readText(footprintPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QVERIFY(footprintText.contains(QStringLiteral("patternDef")));
         QVERIFY(footprintText.contains(QStringLiteral("padStyle")));
 
+        // modelDir：测试使用的文件系统路径。
         const QString modelDir = tempDir.filePath(QStringLiteral("PcadCompletePipeline.3dmodels"));
+        // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
         QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        // manifest：导出清单对象。
         const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Pcad));
+        // components：测试使用的缓存或元器件对象。
         const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
         QCOMPARE(components.size(), 1);
+        // component：测试使用的缓存或元器件对象。
         const QJsonObject component = components.first().toObject();
         QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
@@ -796,11 +1083,17 @@ private slots:
     }
 
     // 验证 Eagle 组合库会同时输出符号、封装、器件映射和独立三维模型。
+    /**
+     * @brief 验证 testEaglePipelineExportsAllLibraryArtifacts 测试场景。
+     */
     void testEaglePipelineExportsAllLibraryArtifacts() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("EagleCompletePipeline"));
         options.targetFormat = TargetEdaFormat::Eagle;
         options.exportModel3D = true;
@@ -808,12 +1101,15 @@ private slots:
         service.setOptions(options);
         service.setOutputPath(tempDir.path());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C91002");
+        // componentData：测试使用的文本或数据内容。
         QList<ComponentData> componentData = makeFixtureComponents({componentId});
         QVERIFY(componentData.size() == 1);
 
         // Eagle XML 组合库只接受本测试需要的矩形和引脚，移除 EasyEDA 夹具中的不可表达图元。
         const QSharedPointer<SymbolData> sourceSymbol = componentData.first().symbolData();
+        // symbol：测试用符号数据。
         auto symbol = QSharedPointer<SymbolData>::create();
         symbol->setInfo(sourceSymbol->info());
         const auto isEagleRectangle = [](const SymbolRectangle& rectangle) {
@@ -821,8 +1117,10 @@ private slots:
                    (rectangle.strokeStyle.isEmpty() || rectangle.strokeStyle == QStringLiteral("solid"));
         };
         if (sourceSymbol->isMultiPart()) {
+            // eagleParts：测试使用的元器件标识或名称。
             QList<SymbolPart> eagleParts;
             for (SymbolPart part : sourceSymbol->parts()) {
+                // eagleRectangles：Eagle 矩形图元集合。
                 QList<SymbolRectangle> eagleRectangles;
                 for (const SymbolRectangle& rectangle : part.rectangles) {
                     if (isEagleRectangle(rectangle))
@@ -834,6 +1132,7 @@ private slots:
             symbol->setParts(eagleParts);
         } else {
             symbol->setPins(sourceSymbol->pins());
+            // eagleRectangles：Eagle 矩形图元集合。
             QList<SymbolRectangle> eagleRectangles;
             for (const SymbolRectangle& rectangle : sourceSymbol->rectangles()) {
                 if (isEagleRectangle(rectangle))
@@ -852,7 +1151,9 @@ private slots:
 
         // 在启动并行阶段前验证同一份 IR，确保失败信息来自 Eagle writer 而不是线程调度。
         ExporterEagleFootprint directExporter;
+        // directLibraryPath：测试使用的文件系统路径。
         const QString directLibraryPath = tempDir.filePath(QStringLiteral("direct-eagle.lbr"));
+        // directComponent：测试使用的文件系统路径。
         const IR::ComponentIR directComponent = IR::toComponentIR(componentData.first());
         QVERIFY2(directExporter.exportComponentLibrary({directComponent}, QStringLiteral("direct"), directLibraryPath),
                  qPrintable(directExporter.diagnostics().join(QStringLiteral("\n"))));
@@ -873,15 +1174,21 @@ private slots:
         QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(failedSpy.count(), 0);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
+        // libraryPath：测试使用的文件系统路径。
         const QString libraryPath = tempDir.filePath(QStringLiteral("EagleCompletePipeline.lbr"));
         QVERIFY2(QFileInfo::exists(libraryPath), qPrintable(libraryPath));
         QFile libraryFile(libraryPath);
         QVERIFY(libraryFile.open(QIODevice::ReadOnly));
         QXmlStreamReader reader(&libraryFile);
+        // symbolSeen：已观察到的符号集合。
         bool symbolSeen = false;
+        // packageSeen：已观察到的封装集合。
         bool packageSeen = false;
+        // deviceSetSeen：已观察到的器件集合。
         bool deviceSetSeen = false;
+        // connectSeen：已观察到的连接集合。
         bool connectSeen = false;
         while (!reader.atEnd()) {
             reader.readNext();
@@ -898,14 +1205,19 @@ private slots:
         QVERIFY(deviceSetSeen);
         QVERIFY(connectSeen);
 
+        // modelDir：测试使用的文件系统路径。
         const QString modelDir = tempDir.filePath(QStringLiteral("EagleCompletePipeline.3dmodels"));
+        // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(modelDir).filePath(QStringLiteral("manifest.json"));
         QVERIFY2(QFileInfo::exists(manifestPath), qPrintable(manifestPath));
+        // manifest：导出清单对象。
         const QJsonObject manifest = TestPaths::readJsonObject(manifestPath, &error);
         QVERIFY2(error.isEmpty(), qPrintable(error));
         QCOMPARE(manifest.value(QStringLiteral("targetFormat")).toInt(), static_cast<int>(TargetEdaFormat::Eagle));
+        // components：测试使用的缓存或元器件对象。
         const QJsonArray components = manifest.value(QStringLiteral("components")).toArray();
         QCOMPARE(components.size(), 1);
+        // component：测试使用的缓存或元器件对象。
         const QJsonObject component = components.first().toObject();
         QCOMPARE(component.value(QStringLiteral("symbol")).toString(), QStringLiteral("CANCEL_SYM_0"));
         QCOMPARE(component.value(QStringLiteral("footprint")).toString(), QStringLiteral("CANCEL_FP_0"));
@@ -914,21 +1226,30 @@ private slots:
     }
 
     // 验证预加载数据不完整时导出流程会明确失败。
+    /**
+     * @brief 验证 testMissingPreloadedDataFailsExportPipeline 测试场景。
+     */
     void testMissingPreloadedDataFailsExportPipeline() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // libName：测试使用的元器件标识或名称。
         const QString libName = QStringLiteral("MissingDataPipeline");
         service.setOptions(makeOptions(tempDir.path(), libName));
         service.setOutputPath(tempDir.path());
 
+        // componentIds：测试使用的元器件标识或名称。
         const QStringList componentIds = makeComponentIds(2);
+        // invalidComponentData：测试使用的元器件标识或名称。
         const QList<ComponentData> invalidComponentData = makeInvalidComponents(componentIds);
 
         service.startPreload(componentIds);
 
         QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        // preloadInjected：注入的预加载失败结果。
         const bool preloadInjected = QMetaObject::invokeMethod(&service,
                                                                "onAllComponentDataCollected",
                                                                Qt::DirectConnection,
@@ -960,20 +1281,29 @@ private slots:
     }
 
     // 验证未注入 ComponentService 时，预加载可以使用实际磁盘缓存完成。
+    /**
+     * @brief 验证 testPreloadFallsBackToDiskCacheWithoutComponentService 测试场景。
+     */
     void testPreloadFallsBackToDiskCacheWithoutComponentService() {
+        // cacheDir：测试使用的文件系统路径。
         QTemporaryDir cacheDir;
         QVERIFY(cacheDir.isValid());
 
+        // cache：测试使用的缓存或元器件对象。
         ComponentCacheService* cache = ComponentCacheService::instance();
+        // originalCacheDir：测试使用的文件系统路径。
         const QString originalCacheDir = cache->cacheDir();
         cache->setCacheDir(cacheDir.path());
 
+        // componentId：测试使用的元器件标识或名称。
         const QString componentId = QStringLiteral("C77777");
+        // metadata：测试使用的文本或数据内容。
         ComponentData metadata;
         metadata.setLcscId(componentId);
         metadata.setName(QStringLiteral("Disk Cached Fixture"));
         cache->saveComponentMetadata(componentId, metadata);
 
+        // error：测试期间收集的错误或诊断信息。
         QString error;
         const QString cadData =
             TestPaths::readText(TestPaths::fixturePath(QStringLiteral("easyeda/cad_basic.json")), &error);
@@ -981,7 +1311,9 @@ private slots:
         QVERIFY(!cadData.isEmpty());
         cache->saveCadDataJson(componentId, cadData.toUtf8());
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // componentIds：测试使用的元器件标识或名称。
         const QStringList componentIds = {componentId};
         QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
         service.startPreload(componentIds);
@@ -998,7 +1330,11 @@ private slots:
     }
 
     // 验证空组件列表会立即结束预加载并报告零成功、零失败。
+    /**
+     * @brief 验证 testEmptyPreloadCompletesImmediately 测试场景。
+     */
     void testEmptyPreloadCompletesImmediately() {
+        // service：被测服务实例。
         ParallelExportService service;
         QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
 
@@ -1012,7 +1348,11 @@ private slots:
     }
 
     // 验证预加载入口会统一大小写并删除重复或空的组件编号。
+    /**
+     * @brief 验证 testPreloadNormalizesAndDeduplicatesComponentIds 测试场景。
+     */
     void testPreloadNormalizesAndDeduplicatesComponentIds() {
+        // service：被测服务实例。
         ParallelExportService service;
         QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
 
@@ -1021,6 +1361,7 @@ private slots:
         QCOMPARE(preloadSpy.count(), 1);
         QCOMPARE(preloadSpy.at(0).at(0).toInt(), 0);
         QCOMPARE(preloadSpy.at(0).at(1).toInt(), 1);
+        // progress：测试用导出进度状态。
         const ExportOverallProgress progress = service.getProgress();
         QCOMPARE(progress.totalComponents, 1);
         QCOMPARE(progress.preloadProgress.totalCount, 1);
@@ -1028,9 +1369,14 @@ private slots:
     }
 
     // 验证状态更新会保留先前产生的诊断信息。
+    /**
+     * @brief 验证 testItemStatusPreservesDiagnosticsAcrossUpdates 测试场景。
+     */
     void testItemStatusPreservesDiagnosticsAcrossUpdates() {
+        // service：被测服务实例。
         ParallelExportService service;
 
+        // initialStatus：测试过程中的状态数据。
         ExportItemStatus initialStatus;
         initialStatus.status = ExportItemStatus::Status::Success;
         initialStatus.diagnostics = {QStringLiteral("输入图元 UNKNOWN 未支持")};
@@ -1041,6 +1387,7 @@ private slots:
                                           Q_ARG(QString, QStringLiteral("Symbol")),
                                           Q_ARG(ExportItemStatus, initialStatus)));
 
+        // failedStatus：失败状态结果。
         ExportItemStatus failedStatus;
         failedStatus.status = ExportItemStatus::Status::Failed;
         failedStatus.errorMessage = QStringLiteral("库写入失败");
@@ -1051,6 +1398,7 @@ private slots:
                                           Q_ARG(QString, QStringLiteral("Symbol")),
                                           Q_ARG(ExportItemStatus, failedStatus)));
 
+        // progress：测试用导出进度状态。
         const ExportOverallProgress progress = service.getProgress();
         QVERIFY(progress.exportTypeProgress.contains(QStringLiteral("Symbol")));
         const ExportItemStatus finalStatus =
@@ -1061,13 +1409,19 @@ private slots:
     }
 
     // 验证 Altium 三维失败状态不会被封装成功覆盖。
+    /**
+     * @brief 验证 testAltiumModel3DFailureIsNotOverwrittenByFootprintSuccess 测试场景。
+     */
     void testAltiumModel3DFailureIsNotOverwrittenByFootprintSuccess() {
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options;
         options.targetFormat = TargetEdaFormat::Altium;
         options.exportModel3D = true;
         service.setOptions(options);
 
+        // modelFailure：测试使用的配置值或状态。
         ExportItemStatus modelFailure;
         modelFailure.status = ExportItemStatus::Status::Failed;
         modelFailure.errorMessage = QStringLiteral("STEP 3D model was not embedded in PcbLib");
@@ -1078,6 +1432,7 @@ private slots:
                                           Q_ARG(QString, QStringLiteral("Model3D")),
                                           Q_ARG(ExportItemStatus, modelFailure)));
 
+        // footprintSuccess：测试用封装数据。
         ExportItemStatus footprintSuccess;
         footprintSuccess.status = ExportItemStatus::Status::Success;
         QVERIFY(QMetaObject::invokeMethod(&service,
@@ -1087,20 +1442,28 @@ private slots:
                                           Q_ARG(QString, QStringLiteral("Footprint")),
                                           Q_ARG(ExportItemStatus, footprintSuccess)));
 
+        // modelProgress：测试使用的配置值或状态。
         const ExportTypeProgress modelProgress = service.getTypeProgress(QStringLiteral("Model3D"));
+        // finalStatus：测试完成后的最终状态。
         const ExportItemStatus finalStatus = modelProgress.itemStatus.value(QStringLiteral("C90003"));
         QCOMPARE(finalStatus.status, ExportItemStatus::Status::Failed);
         QCOMPARE(finalStatus.errorMessage, modelFailure.errorMessage);
     }
 
     // 验证 Altium 最终库写入失败会覆盖此前的三维成功状态。
+    /**
+     * @brief 验证 testAltiumModel3DFinalFailureReplacesEarlierSuccess 测试场景。
+     */
     void testAltiumModel3DFinalFailureReplacesEarlierSuccess() {
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options;
         options.targetFormat = TargetEdaFormat::Altium;
         options.exportModel3D = true;
         service.setOptions(options);
 
+        // modelSuccess：测试使用的配置值或状态。
         ExportItemStatus modelSuccess;
         modelSuccess.status = ExportItemStatus::Status::Success;
         QVERIFY(QMetaObject::invokeMethod(&service,
@@ -1110,6 +1473,7 @@ private slots:
                                           Q_ARG(QString, QStringLiteral("Model3D")),
                                           Q_ARG(ExportItemStatus, modelSuccess)));
 
+        // finalFailure：最终失败结果。
         ExportItemStatus finalFailure;
         finalFailure.status = ExportItemStatus::Status::Failed;
         finalFailure.errorMessage = QStringLiteral("Altium PcbLib 导出失败，3D 模型未写入最终库");
@@ -1127,16 +1491,23 @@ private slots:
     }
 
     // 验证取消报告会保留已经收集到的诊断信息。
+    /**
+     * @brief 验证 testCancellationReportPreservesCollectedDiagnostics 测试场景。
+     */
     void testCancellationReportPreservesCollectedDiagnostics() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // service：被测服务实例。
         ParallelExportService service;
+        // options：当前测试使用的导出选项。
         ExportOptions options = makeOptions(tempDir.path(), QStringLiteral("CancelledReport"));
         options.debugMode = true;
         service.setOptions(options);
         service.setOutputPath(tempDir.path());
 
+        // status：测试用状态对象。
         ExportItemStatus status;
         status.status = ExportItemStatus::Status::Success;
         status.diagnostics = {QStringLiteral("输入图元 UNKNOWN 未支持")};
@@ -1150,29 +1521,39 @@ private slots:
         service.cancelExport();
         QTest::qWait(100);
 
+        // reportPath：测试使用的文件系统路径。
         const QString reportPath = tempDir.filePath(QStringLiteral("easykiconverter_export_detailed_report.md"));
         QVERIFY2(QFileInfo::exists(reportPath), qPrintable(reportPath));
+        // report：测试生成的诊断报告。
         const QString report = TestPaths::readText(reportPath);
         QVERIFY(report.contains(QStringLiteral("export-cancelled")));
         QVERIFY(report.contains(QStringLiteral("输入图元 UNKNOWN 未支持")));
     }
 
     // 验证取消请求可以停止正在运行的完整导出流程。
+    /**
+     * @brief 验证 testCancellationStopsRunningExportPipeline 测试场景。
+     */
     void testCancellationStopsRunningExportPipeline() {
+        // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
 
+        // service：被测服务实例。
         ParallelExportService service;
         service.setOptions(makeOptions(tempDir.path(), QStringLiteral("CancelledPipeline")));
         service.setOutputPath(tempDir.path());
 
+        // componentIds：测试使用的元器件标识或名称。
         const QStringList componentIds = makeComponentIds(80);
+        // componentData：测试使用的文本或数据内容。
         const QList<ComponentData> componentData = makeFixtureComponents(componentIds);
         QCOMPARE(componentData.size(), componentIds.size());
 
         service.startPreload(componentIds);
 
         QSignalSpy preloadSpy(&service, &ParallelExportService::preloadCompleted);
+        // preloadInjected：注入的预加载失败结果。
         const bool preloadInjected = QMetaObject::invokeMethod(
             &service, "onAllComponentDataCollected", Qt::DirectConnection, Q_ARG(QList<ComponentData>, componentData));
         QVERIFY(preloadInjected);
@@ -1200,6 +1581,7 @@ private slots:
 
 private:
     static ExportOptions makeOptions(const QString& outputPath, const QString& libName) {
+        // options：当前测试使用的导出选项。
         ExportOptions options;
         options.outputPath = outputPath;
         options.libName = libName;
@@ -1213,6 +1595,7 @@ private:
     }
 
     static QStringList makeComponentIds(int count) {
+        // ids：测试使用的元器件标识或名称。
         QStringList ids;
         ids.reserve(count);
         for (int i = 0; i < count; ++i) {
@@ -1222,10 +1605,12 @@ private:
     }
 
     static QList<ComponentData> makeInvalidComponents(const QStringList& componentIds) {
+        // components：测试使用的缓存或元器件对象。
         QList<ComponentData> components;
         components.reserve(componentIds.size());
 
         for (const QString& componentId : componentIds) {
+            // component：测试使用的缓存或元器件对象。
             ComponentData component;
             component.setLcscId(componentId);
             component.setName(QStringLiteral("Invalid Fixture %1").arg(componentId));
@@ -1236,6 +1621,7 @@ private:
     }
 
     static QList<ComponentData> makeFixtureComponents(const QStringList& componentIds) {
+        // error：测试期间收集的错误或诊断信息。
         QString error;
         const QJsonObject symbolFixture =
             TestPaths::readJsonObject(TestPaths::fixturePath(QStringLiteral("easyeda/symbol_basic.json")), &error);
@@ -1249,33 +1635,45 @@ private:
             qFatal("Unable to read footprint fixture: %s", qPrintable(error));
         }
 
+        // symbolImporter：负责读取测试输入的导入器实例。
         EasyedaSymbolImporter symbolImporter;
+        // footprintImporter：负责读取测试输入的导入器实例。
         EasyedaFootprintImporter footprintImporter;
+        // baseSymbol：测试用符号数据。
         const QSharedPointer<SymbolData> baseSymbol = symbolImporter.importSymbolData(symbolFixture);
+        // baseFootprint：测试用封装数据。
         const QSharedPointer<FootprintData> baseFootprint = footprintImporter.importFootprintData(footprintFixture);
         if (!baseSymbol || !baseFootprint) {
             qFatal("Unable to import EasyEDA fixtures");
         }
 
+        // components：测试使用的缓存或元器件对象。
         QList<ComponentData> components;
         components.reserve(componentIds.size());
 
         for (int i = 0; i < componentIds.size(); ++i) {
+            // componentId：测试使用的元器件标识或名称。
             const QString& componentId = componentIds.at(i);
+            // suffix：测试用文件后缀。
             const QString suffix = QString::number(i);
 
+            // symbol：测试用符号数据。
             auto symbol = QSharedPointer<SymbolData>::create(*baseSymbol);
+            // symbolInfo：测试用符号数据。
             SymbolInfo symbolInfo = symbol->info();
             symbolInfo.name = QStringLiteral("CANCEL_SYM_%1").arg(suffix);
             symbolInfo.package = QStringLiteral("CANCEL_FP_%1").arg(suffix);
             symbolInfo.lcscId = componentId;
             symbol->setInfo(symbolInfo);
 
+            // footprint：测试用封装数据。
             auto footprint = QSharedPointer<FootprintData>::create(*baseFootprint);
+            // footprintInfo：测试用封装数据。
             FootprintInfo footprintInfo = footprint->info();
             footprintInfo.name = QStringLiteral("CANCEL_FP_%1").arg(suffix);
             footprint->setInfo(footprintInfo);
 
+            // component：测试使用的缓存或元器件对象。
             ComponentData component;
             component.setLcscId(componentId);
             component.setName(QStringLiteral("Cancellation Fixture %1").arg(suffix));

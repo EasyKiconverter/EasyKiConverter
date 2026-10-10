@@ -9,16 +9,24 @@
 
 namespace EasyKiConverter {
 
-/** @brief 保存顺序调度器所属的 SchLib 写入器。 */
+/**
+ * @brief 创建 SchLib 图元顺序调度器。
+ * @param owner 所属的 SchLib 主写入器。
+ */
 AltiumSchGraphicOrderWriter::AltiumSchGraphicOrderWriter(AltiumSchLibWriter& owner) : m_owner(owner) {}
 
-/** @brief 查找来源图元并委托给对应的记录写入方法。 */
+/**
+ * @brief 查找来源图元并委托给对应的记录写入方法。
+ * @param writer 当前组件 Data 流写入器。
+ * @param component 待写入的原理图元件。
+ * @param order 来源图元顺序信息。
+ */
 void AltiumSchGraphicOrderWriter::write(AltiumBinaryWriter& writer,
                                         const AltiumSchComponent& component,
                                         const AltiumSchGraphicOrder& order) {
     const auto matchesPart = [&order](int sourcePartIndex) { return sourcePartIndex == order.partIndex; };
     if (order.type == QStringLiteral("P")) {
-        int localIndex = 0;
+        int localIndex = 0;  // 当前部件范围内的引脚局部索引。
         for (const AltiumSchPin& pin : component.pins) {
             const bool matchesSourcePart =
                 order.partIndex < 0 ? pin.ownerPartId == -1 : pin.sourcePartIndex == order.partIndex;
@@ -114,7 +122,7 @@ void AltiumSchGraphicOrderWriter::write(AltiumBinaryWriter& writer,
         }
     }
 
-    QSet<int> segmentIndexSet;
+    QSet<int> segmentIndexSet;  // 当前路径中已发现的片段索引集合。
     const auto collectSegmentIndices = [&order, &matchesPart, &segmentIndexSet](const auto& graphics) {
         for (const auto& graphic : graphics) {
             if (graphic.sourceGraphicType == order.type && graphic.sourceGraphicIndex == order.index &&
@@ -128,7 +136,7 @@ void AltiumSchGraphicOrderWriter::write(AltiumBinaryWriter& writer,
     collectSegmentIndices(component.arcs);
     collectSegmentIndices(component.ellipticalArcs);
 
-    QList<int> segmentIndices = segmentIndexSet.values();
+    QList<int> segmentIndices = segmentIndexSet.values();  // 按序写入的路径片段索引列表。
     std::sort(segmentIndices.begin(), segmentIndices.end());
     for (const int segmentIndex : segmentIndices) {
         for (const AltiumSchPath& path : component.paths) {

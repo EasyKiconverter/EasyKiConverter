@@ -12,10 +12,17 @@ class ParallelExportService;
  */
 class CliExportWaiter final {
 public:
-    /** @brief 启动预加载并等待完成或失败信号。 */
+    /**
+     * @brief 启动预加载并等待完成或失败信号。
+     * @param service 导出服务。
+     * @param componentIds 待预加载的元器件编号列表。
+     */
     static void waitForPreload(ParallelExportService* service, const QStringList& componentIds);
 
-    /** @brief 启动导出并等待完成或失败信号。 */
+    /**
+     * @brief 启动导出并等待完成或失败信号。
+     * @param service 导出服务。
+     */
     static void waitForExport(ParallelExportService* service);
 };
 

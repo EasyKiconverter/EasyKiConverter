@@ -12,12 +12,51 @@ class TestExportProgressViewModel : public QObject {
 
 private slots:
 
+    /**
+     * @brief 验证 initTestCase 测试场景。
+     */
     void initTestCase() {
         qRegisterMetaType<ExportOverallProgress>();
         qRegisterMetaType<ExportItemStatus>();
     }
 
+    /**
+     * @brief 验证 fullReplacementTargetsNormalizeUpdateMode 测试场景。
+     */
+    void fullReplacementTargetsNormalizeUpdateMode() {
+        // service：被测服务实例。
+        ParallelExportService service;
+        ExportProgressViewModel viewModel(&service, nullptr, nullptr);
+
+        viewModel.startExport({"C2040"},
+                              "/tmp/easykiconverter-test",
+                              "testlib",
+                              false,
+                              true,
+                              false,
+                              0,
+                              0,
+                              false,
+                              false,
+                              false,
+                              true,
+                              false,
+                              QString(),
+                              QString(),
+                              QString(),
+                              static_cast<int>(TargetEdaFormat::LibrePcb));
+
+        // options：当前测试使用的导出选项。
+        const ExportOptions options = service.options();
+        QVERIFY(options.overwriteExistingFiles);
+        QVERIFY(!options.updateMode);
+    }
+
+    /**
+     * @brief 验证 stageProgressRespectsPipelineOrdering 测试场景。
+     */
     void stageProgressRespectsPipelineOrdering() {
+        // service：被测服务实例。
         ParallelExportService service;
         ExportProgressViewModel viewModel(&service, nullptr, nullptr);
 
@@ -35,34 +74,40 @@ private slots:
                               false,
                               false);
 
+        // progress：测试用导出进度状态。
         ExportOverallProgress progress;
         progress.currentStage = ExportOverallProgress::Stage::Exporting;
         progress.totalComponents = 4;
 
+        // preview：预览图导出结果。
         ExportTypeProgress preview;
         preview.typeName = QStringLiteral("PreviewImages");
         preview.totalCount = 4;
         preview.completedCount = 2;
         progress.exportTypeProgress.insert(preview.typeName, preview);
 
+        // symbol：测试用符号数据。
         ExportTypeProgress symbol;
         symbol.typeName = QStringLiteral("Symbol");
         symbol.totalCount = 4;
         symbol.completedCount = 4;
         progress.exportTypeProgress.insert(symbol.typeName, symbol);
 
+        // footprint：测试用封装数据。
         ExportTypeProgress footprint;
         footprint.typeName = QStringLiteral("Footprint");
         footprint.totalCount = 4;
         footprint.completedCount = 4;
         progress.exportTypeProgress.insert(footprint.typeName, footprint);
 
+        // model3D：测试使用的配置值或状态。
         ExportTypeProgress model3D;
         model3D.typeName = QStringLiteral("Model3D");
         model3D.totalCount = 4;
         model3D.completedCount = 4;
         progress.exportTypeProgress.insert(model3D.typeName, model3D);
 
+        // invoked：回调调用次数。
         const bool invoked = QMetaObject::invokeMethod(
             &viewModel, "handleProgressChanged", Qt::DirectConnection, Q_ARG(ExportOverallProgress, progress));
         QVERIFY(invoked);
@@ -73,7 +118,11 @@ private slots:
         QCOMPARE(viewModel.progress(), 75);
     }
 
+    /**
+     * @brief 验证 itemStatusesAggregateToComponentAndTypeCounts 测试场景。
+     */
     void itemStatusesAggregateToComponentAndTypeCounts() {
+        // service：被测服务实例。
         ParallelExportService service;
         ExportProgressViewModel viewModel(&service, nullptr, nullptr);
 
@@ -92,6 +141,7 @@ private slots:
                               false);
 
         auto makeStatus = [](ExportItemStatus::Status state, const QString& error = QString()) {
+            // status：测试用状态对象。
             ExportItemStatus status;
             status.status = state;
             status.errorMessage = error;
@@ -146,19 +196,26 @@ private slots:
         QCOMPARE(viewModel.model3DSuccessCount(), 2);
         QCOMPARE(viewModel.filteredPendingCount(), 0);
 
+        // results：测试得到的实际结果数据。
         const QVariantList results = viewModel.resultsList();
         QCOMPARE(results.size(), 2);
 
+        // first：第一个测试结果。
         const QVariantMap first = results.at(0).toMap();
         QCOMPARE(first.value("status").toString(), QStringLiteral("success"));
 
+        // second：第二个测试结果。
         const QVariantMap second = results.at(1).toMap();
         QCOMPARE(second.value("status").toString(), QStringLiteral("failed"));
         QCOMPARE(second.value("footprintStatus").toString(), QStringLiteral("failed"));
         QCOMPARE(second.value("error").toString(), QStringLiteral("broken"));
     }
 
+    /**
+     * @brief 验证 cancelExportMarksPendingItemsCancelledAndResetsState 测试场景。
+     */
     void cancelExportMarksPendingItemsCancelledAndResetsState() {
+        // service：被测服务实例。
         ParallelExportService service;
         ExportProgressViewModel viewModel(&service, nullptr, nullptr);
         QSignalSpy stoppingSpy(&viewModel, &ExportProgressViewModel::isStoppingChanged);
@@ -191,9 +248,11 @@ private slots:
         QVERIFY(stoppingSpy.count() >= 2);
         QVERIFY(exportingSpy.count() >= 2);
 
+        // results：测试得到的实际结果数据。
         const QVariantList results = viewModel.resultsList();
         QCOMPARE(results.size(), 2);
         for (const QVariant& resultVariant : results) {
+            // result：测试得到的实际结果数据。
             const QVariantMap result = resultVariant.toMap();
             QCOMPARE(result.value("status").toString(), QStringLiteral("failed"));
             QCOMPARE(result.value("symbolStatus").toString(), QStringLiteral("failed"));
@@ -203,7 +262,11 @@ private slots:
         }
     }
 
+    /**
+     * @brief 验证 retryFailedComponentsResetsOnlyFailedItems 测试场景。
+     */
     void retryFailedComponentsResetsOnlyFailedItems() {
+        // service：被测服务实例。
         ParallelExportService service;
         ExportProgressViewModel viewModel(&service, nullptr, nullptr);
 
@@ -222,6 +285,7 @@ private slots:
                               false);
 
         auto makeStatus = [](ExportItemStatus::Status state, const QString& error = QString()) {
+            // status：测试用状态对象。
             ExportItemStatus status;
             status.status = state;
             status.errorMessage = error;
@@ -277,15 +341,18 @@ private slots:
         QCOMPARE(viewModel.failureCount(), 0);
         QCOMPARE(viewModel.filteredPendingCount(), 2);
 
+        // results：测试得到的实际结果数据。
         const QVariantList results = viewModel.resultsList();
         QCOMPARE(results.size(), 3);
 
+        // success：测试结果是否成功。
         const QVariantMap success = results.at(0).toMap();
         QCOMPARE(success.value("componentId").toString(), QStringLiteral("C1"));
         QCOMPARE(success.value("status").toString(), QStringLiteral("success"));
         QCOMPARE(success.value("symbolStatus").toString(), QStringLiteral("success"));
         QCOMPARE(success.value("footprintStatus").toString(), QStringLiteral("success"));
 
+        // retrySymbol：测试用符号数据。
         const QVariantMap retrySymbol = results.at(1).toMap();
         QCOMPARE(retrySymbol.value("componentId").toString(), QStringLiteral("C2"));
         QCOMPARE(retrySymbol.value("status").toString(), QStringLiteral("pending"));
@@ -293,6 +360,7 @@ private slots:
         QCOMPARE(retrySymbol.value("footprintStatus").toString(), QStringLiteral("pending"));
         QCOMPARE(retrySymbol.value("error").toString(), QString());
 
+        // retryFootprint：测试用封装数据。
         const QVariantMap retryFootprint = results.at(2).toMap();
         QCOMPARE(retryFootprint.value("componentId").toString(), QStringLiteral("C3"));
         QCOMPARE(retryFootprint.value("status").toString(), QStringLiteral("pending"));

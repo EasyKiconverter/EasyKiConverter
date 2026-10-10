@@ -13,7 +13,9 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief Xpedition HKP 文件类型。 */
+/**
+ * @brief Xpedition HKP 文件类型。
+ */
 enum class XpeditionHkpType { Unknown, PadstackLibrary, CellLibrary, PartsDatabase };
 
 /**
@@ -21,13 +23,16 @@ enum class XpeditionHkpType { Unknown, PadstackLibrary, CellLibrary, PartsDataba
  * @details 节点树保留格式字段，后续格式模型可以在此基础上解析 Padstack、Cell 和器件关联。
  */
 struct XpeditionHkpDocument {
-    XpeditionHkpType type = XpeditionHkpType::Unknown;
-    LengthUnit unit = LengthUnit::Unknown;
-    QList<SectionNode> sections;
-    XpeditionHkpModel model;
-    ParseDiagnostics diagnostics;
+    XpeditionHkpType type = XpeditionHkpType::Unknown;  ///< HKP 文件类型。
+    LengthUnit unit = LengthUnit::Unknown;  ///< 文件声明的长度单位。
+    QList<SectionNode> sections;  ///< 解析得到的分层节点。
+    XpeditionHkpModel model;  ///< 格式专用模型。
+    ParseDiagnostics diagnostics;  ///< 解析过程中的结构化诊断。
 
-    /** @brief 判断文档是否具备可继续映射的文件类型。 */
+    /**
+     * @brief 判断文档是否具备可继续映射的文件类型。
+     * @return 若文件类型已识别则返回 true。
+     */
     bool isRecognized() const {
         return type != XpeditionHkpType::Unknown;
     }

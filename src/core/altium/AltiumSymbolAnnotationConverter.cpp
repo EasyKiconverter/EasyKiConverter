@@ -16,9 +16,13 @@ using AltiumSymbolConversionUtils::toAltiumOwnerPartId;
 
 }  // namespace
 
-/** @brief 将符号文本的通用属性映射到 Altium 文本记录。 */
+/**
+ * @brief 将符号文本的通用属性映射到 Altium 文本记录。
+ * @param text 统一 IR 中的符号文本。
+ * @return 转换后的 Altium 文本记录。
+ */
 AltiumSchText AltiumSymbolAnnotationConverter::convertText(const IR::SymbolTextIR& text) {
-    AltiumSchText altiumText;
+    AltiumSchText altiumText;  // 转换后的 Altium 文本记录。
     altiumText.locationX = AltiumCoord::mmToRaw(text.position.x());
     altiumText.locationY = AltiumCoord::mmToRaw(text.position.y());
     altiumText.text = text.text;
@@ -35,9 +39,13 @@ AltiumSchText AltiumSymbolAnnotationConverter::convertText(const IR::SymbolTextI
     return altiumText;
 }
 
-/** @brief 将符号文本框的边界、样式和文本属性映射到 Altium 记录。 */
+/**
+ * @brief 将符号文本框的边界、样式和文本属性映射到 Altium 记录。
+ * @param frame 统一 IR 中的符号文本框。
+ * @return 转换后的 Altium 文本框记录。
+ */
 AltiumSchTextFrame AltiumSymbolAnnotationConverter::convertTextFrame(const IR::SymbolTextFrameIR& frame) {
-    AltiumSchTextFrame altiumFrame;
+    AltiumSchTextFrame altiumFrame;  // 转换后的 Altium 文本框记录。
     altiumFrame.locationX = AltiumCoord::mmToRaw(frame.x0);
     altiumFrame.locationY = AltiumCoord::mmToRaw(frame.y0);
     altiumFrame.cornerX = AltiumCoord::mmToRaw(frame.x1);
@@ -65,9 +73,13 @@ AltiumSchTextFrame AltiumSymbolAnnotationConverter::convertTextFrame(const IR::S
     return altiumFrame;
 }
 
-/** @brief 将符号图片的边界、样式和嵌入数据映射到 Altium 记录。 */
+/**
+ * @brief 将符号图片的边界、样式和嵌入数据映射到 Altium 记录。
+ * @param image 统一 IR 中的符号图片。
+ * @return 转换后的 Altium 图片记录。
+ */
 AltiumSchImage AltiumSymbolAnnotationConverter::convertImage(const IR::SymbolImageIR& image) {
-    AltiumSchImage altiumImage;
+    AltiumSchImage altiumImage;  // 转换后的 Altium 图片记录。
     altiumImage.locationX = AltiumCoord::mmToRaw(image.x0);
     altiumImage.locationY = AltiumCoord::mmToRaw(image.y0);
     altiumImage.cornerX = AltiumCoord::mmToRaw(image.x1);

@@ -12,7 +12,12 @@ class AltiumSchLibWriter;
  */
 class AltiumSchOwnershipValidator final {
 public:
-    /** @brief 校验组件中全部可拥有记录的部件归属。 */
+    /**
+     * @brief 校验组件中全部可拥有记录的部件归属。
+     * @param writer 所属的 SchLib 主写入器。
+     * @param component 待校验的原理图元件。
+     * @return 所有记录归属均有效时返回 true。
+     */
     static bool validate(AltiumSchLibWriter& writer, const AltiumSchComponent& component);
 };
 

@@ -17,7 +17,12 @@ ExporterSymbol::ExporterSymbol() {}
 
 ExporterSymbol::~ExporterSymbol() {}
 
-// 导出单个符号文件并写入完整的 KiCad 符号定义。
+/**
+ * @brief 导出单个符号文件并写入完整的 KiCad 符号定义。
+ * @param symbol 待导出的符号数据。
+ * @param filePath 输出文件路径。
+ * @return 导出成功返回 true。
+ */
 bool ExporterSymbol::exportSymbol(const IR::SymbolComponentIR& symbol, const QString& filePath) {
     QFile file(filePath);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -38,6 +43,16 @@ bool ExporterSymbol::exportSymbol(const IR::SymbolComponentIR& symbol, const QSt
     return true;
 }
 
+/**
+ * @brief 导出 KiCad 符号库并按模式合并已有内容。
+ * @param symbols 待导出的符号列表。
+ * @param libName 库名称。
+ * @param filePath 输出库文件路径。
+ * @param appendMode 是否追加新符号。
+ * @param updateMode 是否更新同名符号。
+ * @param libraryDescription 库描述。
+ * @return 导出成功返回 true。
+ */
 bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& symbols,
                                          const QString& libName,
                                          const QString& filePath,
@@ -57,7 +72,7 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
     m_detectedVersion.clear();
 
     QFile file(filePath);
-    bool fileExists = file.exists();
+    bool fileExists = file.exists();  // 输出库文件是否已经存在。
 
     // 如果文件不存在，直接创建新库
     if (!fileExists) {
@@ -104,7 +119,7 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
 
     // 检测现有文件的版本
     QRegularExpression versionRegex(R"(^\s*\(version\s+(\d+)\))", QRegularExpression::MultilineOption);
-    QRegularExpressionMatch versionMatch = versionRegex.match(existingContent);
+    QRegularExpressionMatch versionMatch = versionRegex.match(existingContent);  // 已有库版本匹配结果。
     if (versionMatch.hasMatch()) {
         m_detectedVersion = versionMatch.captured(1);
         qDebug() << "Detected existing library version:" << m_detectedVersion;
@@ -118,20 +133,20 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
     QSet<QString> subSymbolNames;  // 属于分体式符号的子符号名称
 
     // 使用栈来正确追踪符号的嵌套关系
-    QStringList lines = existingContent.split('\n');
-    int braceCount = 0;
+    QStringList lines = existingContent.split('\n');  // 已有库的逐行内容。
+    int braceCount = 0;  // 当前符号定义的括号嵌套层级。
 
     // 栈元素: (symbolName, startLine, braceCountAfterStart)
     struct SymbolInfo {
-        QString name;
-        int startLine;
-        int braceAfterStart;
+        QString name;  // 已发现符号的名称。
+        int startLine;  // 符号定义的起始行号。
+        int braceAfterStart;  // 起始行之后的括号层级。
     };
 
-    QList<SymbolInfo> symbolStack;
+    QList<SymbolInfo> symbolStack;  // 正在解析的嵌套符号栈。
 
     for (int i = 0; i < lines.size(); ++i) {
-        QString line = lines[i];
+        QString line = lines[i];  // 当前正在解析的库文件行。
 
         // 逐字符计算括号变化
         for (int j = 0; j < line.length(); ++j) {
@@ -143,13 +158,13 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
         }
 
         // 检查是否有符号开始
-        int symbolPosInLine = line.indexOf("(symbol \"");
+        int symbolPosInLine = line.indexOf("(symbol \"");  // 当前行中的符号定义位置。
         if (symbolPosInLine >= 0) {
-            int nameStart = line.indexOf("\"", symbolPosInLine) + 1;
-            int nameEnd = line.indexOf("\"", nameStart);
+            int nameStart = line.indexOf("\"", symbolPosInLine) + 1;  // 符号名称起始位置。
+            int nameEnd = line.indexOf("\"", nameStart);  // 符号名称结束位置。
             if (nameEnd > nameStart) {
-                QString symbolName = line.mid(nameStart, nameEnd - nameStart);
-                SymbolInfo info;
+                QString symbolName = line.mid(nameStart, nameEnd - nameStart);  // 已有符号名称。
+                SymbolInfo info;  // 当前符号的范围信息。
                 info.name = symbolName;
                 info.startLine = i;
                 info.braceAfterStart = braceCount;
@@ -160,7 +175,7 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
 
         // 检查是否有符号结束 - 当 braceCount 回到符号开始后的值时
         while (!symbolStack.isEmpty() && braceCount < symbolStack.last().braceAfterStart) {
-            SymbolInfo info = symbolStack.last();
+            SymbolInfo info = symbolStack.last();  // 已完成符号的范围信息。
             symbolStack.removeLast();
 
             // 检查是否是子符号 - 如果栈不为空，说明有父符号
@@ -170,7 +185,7 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
                 qDebug() << "Found sub-symbol (skipping):" << info.name << "inside parent" << symbolStack.last().name;
             } else {
                 // 这是一个顶层符号，提取它
-                QString symbolContent;
+                QString symbolContent;  // 已有符号的完整文本。
                 for (int k = info.startLine; k <= i; ++k) {
                     symbolContent += lines[k] + "\n";
                 }
@@ -184,13 +199,13 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
     qDebug() << "Sub-symbol names:" << subSymbolNames;
 
     // 确定要导出的符号
-    QList<IR::SymbolComponentIR> symbolsToExport;
-    int overwriteCount = 0;
-    int appendCount = 0;
-    int skipCount = 0;
+    QList<IR::SymbolComponentIR> symbolsToExport;  // 实际需要写入的符号集合。
+    int overwriteCount = 0;  // 被覆盖的同名符号数量。
+    int appendCount = 0;  // 新追加符号数量。
+    int skipCount = 0;  // 被跳过的符号数量。
 
     for (const IR::SymbolComponentIR& symbol : symbols) {
-        QString symbolName = symbol.name;
+        QString symbolName = symbol.name;  // 当前待处理符号名称。
 
         if (existingSymbols.contains(symbolName)) {
             if (appendMode && !updateMode) {
@@ -233,26 +248,26 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
     out << generateHeader(libName);
 
     // 生成所有符号（包括未覆盖的现有符号和新导出的符号）
-    int index = 0;
+    int index = 0;  // 当前导出符号序号。
 
     // 收集要被覆盖的符号名
-    QSet<QString> overwrittenSymbolNames;
+    QSet<QString> overwrittenSymbolNames;  // 需要替换的已有符号名称集合。
     for (const IR::SymbolComponentIR& symbol : symbolsToExport) {
         overwrittenSymbolNames.insert(symbol.name);
     }
 
     // 收集要被删除的子符号名称（属于被覆盖的父符号的子符号）
-    QSet<QString> subSymbolsToDelete;
+    QSet<QString> subSymbolsToDelete;  // 因覆盖操作需要删除的子符号集合。
 
     // 首先分析现有符号，确定哪些是分体式符号（有多个子符号）
     QMap<QString, QStringList> parentToSubSymbols;  // 父符号名 -> 子符号列
     for (const QString& subSymbolName : subSymbolNames) {
         // 子符号格式：{parentName}_{unitNumber}_1
-        int lastUnderscore = subSymbolName.lastIndexOf('_');
+        int lastUnderscore = subSymbolName.lastIndexOf('_');  // 子符号末段分隔符位置。
         if (lastUnderscore > 0) {
-            int secondLastUnderscore = subSymbolName.lastIndexOf('_', lastUnderscore - 1);
+            int secondLastUnderscore = subSymbolName.lastIndexOf('_', lastUnderscore - 1);  // 部件编号分隔符位置。
             if (secondLastUnderscore > 0) {
-                QString parentName = subSymbolName.left(secondLastUnderscore);
+                QString parentName = subSymbolName.left(secondLastUnderscore);  // 父符号名称。
                 parentToSubSymbols[parentName].append(subSymbolName);
             }
         }
@@ -269,8 +284,8 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
             }
         } else {
             // 这是一个单体符号，查找其子符号
-            QString expectedSubSymbolName_v1 = parentSymbolName + "_0_1";
-            QString expectedSubSymbolName_v2 = parentSymbolName + "_1_1";
+            QString expectedSubSymbolName_v1 = parentSymbolName + "_0_1";  // V1 格式的预期子符号名称。
+            QString expectedSubSymbolName_v2 = parentSymbolName + "_1_1";  // V2 格式的预期子符号名称。
             if (subSymbolNames.contains(expectedSubSymbolName_v1)) {
                 subSymbolsToDelete.insert(expectedSubSymbolName_v1);
                 qDebug() << "Marking sub-symbol for deletion (single part v1):" << expectedSubSymbolName_v1
@@ -285,10 +300,10 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
 
     // 先导出未覆盖的现有符号（需要过滤掉被覆盖的子符号和以被覆盖符号名开头的顶层符号）
     for (const QString& symbolName : existingSymbols.keys()) {
-        bool isOverwritten = overwrittenSymbolNames.contains(symbolName);
+        bool isOverwritten = overwrittenSymbolNames.contains(symbolName);  // 当前符号是否需要覆盖。
 
         // 检查是否是以被覆盖符号名开头的顶层符号
-        bool isOrphanedSubSymbol = false;
+        bool isOrphanedSubSymbol = false;  // 当前子符号是否失去父符号。
         if (!isOverwritten) {
             for (const QString& parentSymbolName : overwrittenSymbolNames) {
                 if (symbolName.startsWith(parentSymbolName + "_")) {
@@ -302,21 +317,21 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
 
         if (!isOverwritten && !isOrphanedSubSymbol) {
             // 导出未覆盖的符号，但需要过滤掉子符号
-            QString symbolContent = existingSymbols[symbolName];
-            QStringList contentLines = symbolContent.split('\n');
-            QString filteredContent;
-            bool skipNextSymbol = false;
-            int nestedBraceCount = 0;
+            QString symbolContent = existingSymbols[symbolName];  // 已有符号的文本内容。
+            QStringList contentLines = symbolContent.split('\n');  // 已有符号的逐行内容。
+            QString filteredContent;  // 过滤删除目标后的符号文本。
+            bool skipNextSymbol = false;  // 是否正在跳过嵌套子符号。
+            int nestedBraceCount = 0;  // 被跳过子符号的括号层级。
 
             for (const QString& line : contentLines) {
-                QString trimmedLine = line.trimmed();
+                QString trimmedLine = line.trimmed();  // 去除缩进后的当前行。
 
                 // 检查是否是子符号定义的开始
                 if (trimmedLine.startsWith("(symbol \"")) {
-                    int nameStart = trimmedLine.indexOf("\"") + 1;
-                    int nameEnd = trimmedLine.indexOf("\"", nameStart);
+                    int nameStart = trimmedLine.indexOf("\"") + 1;  // 子符号名称起始位置。
+                    int nameEnd = trimmedLine.indexOf("\"", nameStart);  // 子符号名称结束位置。
                     if (nameEnd > nameStart) {
-                        QString subSymbolName = trimmedLine.mid(nameStart, nameEnd - nameStart);
+                        QString subSymbolName = trimmedLine.mid(nameStart, nameEnd - nameStart);  // 当前子符号名称。
                         if (subSymbolsToDelete.contains(subSymbolName)) {
                             skipNextSymbol = true;
                             nestedBraceCount = 1;
@@ -331,7 +346,9 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
                     for (int j = 0; j < line.length(); ++j) {
                         if (line[j] == '(')
                             nestedBraceCount++;
-                        // 遇到右括号时收敛被跳过符号的嵌套层级。
+                        /**
+                         * @brief 处理右括号并收敛被跳过符号的嵌套层级。
+                         */
                         else if (line[j] == ')') {
                             nestedBraceCount--;
                             if (nestedBraceCount == 0) {
@@ -365,11 +382,15 @@ bool ExporterSymbol::exportSymbolLibrary(const QList<IR::SymbolComponentIR>& sym
     return true;
 }
 
-// 生成 KiCad 符号库头部并选择兼容的文件版本。
+/**
+ * @brief 生成 KiCad 符号库头部并选择兼容的文件版本。
+ * @param libName 库名称。
+ * @return 符号库头部文本。
+ */
 QString ExporterSymbol::generateHeader(const QString& libName) const {
     Q_UNUSED(libName);
-    QString version = m_detectedVersion.isEmpty() ? "20211014" : m_detectedVersion;
-    QString header = QString(
+    QString version = m_detectedVersion.isEmpty() ? "20211014" : m_detectedVersion;  // 兼容的 KiCad 文件版本。
+    QString header = QString(  // 符号库头部文本。
                          "(kicad_symbol_lib\n"
                          "  (version %1)\n"
                          "  (generator %2)\n")
@@ -378,12 +399,17 @@ QString ExporterSymbol::generateHeader(const QString& libName) const {
     return header;
 }
 
-// 生成单个符号的属性、图形和引脚内容。
+/**
+ * @brief 生成单个符号的属性、图形和引脚内容。
+ * @param symbol 待生成的符号数据。
+ * @param libName 所属库名称。
+ * @return 符号定义文本。
+ */
 QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbol, const QString& libName) const {
-    QString content;
+    QString content;  // 当前符号的序列化文本。
 
     // V6 格式 - 主符号定义（包含属性）
-    QString cleanSymbolName = symbol.name;
+    QString cleanSymbolName = symbol.name;  // 清理后的符号名称。
     content += QString("  (symbol \"%1\"\n").arg(cleanSymbolName);
     content += "    (in_bom yes)\n";
     content += "    (on_board yes)\n";
@@ -393,14 +419,14 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
      * @details 已按来源逻辑原点归一化的符号必须保持该原点；旧的直接构造 IR
      *          数据没有原点标记时，继续使用几何包围盒中心作为兼容回退。
      */
-    double originX = 0.0;
-    double originY = 0.0;
-    const QList<IR::SymbolPinIR>& pins = symbol.pins;
+    double originX = 0.0;  // 符号逻辑原点 X 坐标。
+    double originY = 0.0;  // 符号逻辑原点 Y 坐标。
+    const QList<IR::SymbolPinIR>& pins = symbol.pins;  // 符号引脚列表。
     if (!symbol.preserveLogicalOrigin) {
-        double minOriginX = std::numeric_limits<double>::max();
-        double minOriginY = std::numeric_limits<double>::max();
-        double maxOriginX = -std::numeric_limits<double>::max();
-        double maxOriginY = -std::numeric_limits<double>::max();
+        double minOriginX = std::numeric_limits<double>::max();  // 几何原点包围盒最小 X。
+        double minOriginY = std::numeric_limits<double>::max();  // 几何原点包围盒最小 Y。
+        double maxOriginX = -std::numeric_limits<double>::max();  // 几何原点包围盒最大 X。
+        double maxOriginY = -std::numeric_limits<double>::max();  // 几何原点包围盒最大 Y。
         auto includeOriginPoint = [&](double x, double y) {
             minOriginX = qMin(minOriginX, x);
             minOriginY = qMin(minOriginY, y);
@@ -409,10 +435,10 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
         };
         for (const auto& pin : pins) {
             includeOriginPoint(pin.position.x(), pin.position.y());
-            const double dx = pin.direction == IR::PinDirection::Right  ? pin.length
+            const double dx = pin.direction == IR::PinDirection::Right ? pin.length  // 引脚方向投影到 X 轴的长度。
                               : pin.direction == IR::PinDirection::Left ? -pin.length
                                                                         : 0.0;
-            const double dy = pin.direction == IR::PinDirection::Up     ? pin.length
+            const double dy = pin.direction == IR::PinDirection::Up ? pin.length  // 引脚方向投影到 Y 轴的长度。
                               : pin.direction == IR::PinDirection::Down ? -pin.length
                                                                         : 0.0;
             includeOriginPoint(pin.position.x() + dx, pin.position.y() + dy);
@@ -457,13 +483,13 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
 
     // 计算所有图形元素的实际边界，用于文本左右居中对齐
     // 多部件符号的属性使用默认值，不计算图形边界
-    double graphCenterOffsetX = 0.0;
+    double graphCenterOffsetX = 0.0;  // 图形中心相对逻辑原点的 X 偏移。
     double yHigh = 2.54;  // 默认值：100mil
     double yLow = -2.54;  // 默认值：-100mil
 
     if (!symbol.isMultiPart()) {
-        double minX = std::numeric_limits<double>::max();
-        double maxX = -std::numeric_limits<double>::max();
+        double minX = std::numeric_limits<double>::max();  // 图形包围盒最小 X。
+        double maxX = -std::numeric_limits<double>::max();  // 图形包围盒最大 X。
         auto updateBounds = [&](double x, double w) {
             minX = qMin(minX, x);
             maxX = qMax(maxX, x + w);
@@ -475,7 +501,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
             maxX = qMax(maxX, rect.x1);
         }
         for (const auto& circle : symbol.circles) {
-            double r = circle.radius;
+            double r = circle.radius;  // 当前圆形图元半径。
             minX = qMin(minX, circle.center.x() - r);
             maxX = qMax(maxX, circle.center.x() + r);
         }
@@ -512,7 +538,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
             maxX = qMax(maxX, pin.position.x());
         }
         // 如果没有任何图形元素，使用默认宽度
-        double graphWidth = (minX <= maxX) ? (maxX - minX) : 0.0;
+        double graphWidth = (minX <= maxX) ? (maxX - minX) : 0.0;  // 图形主体宽度。
         if (minX <= maxX) {
             graphCenterOffsetX = minX + graphWidth / 2.0 - originX;
         }
@@ -523,7 +549,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
         // 综合引脚和图形元素的 Y 坐标
         if (!pins.isEmpty()) {
             for (const IR::SymbolPinIR& pin : pins) {
-                double pinY = pin.position.y() - originY;
+                double pinY = pin.position.y() - originY;  // 引脚相对逻辑原点的 Y 坐标。
                 yHigh = qMax(yHigh, pinY);
                 yLow = qMin(yLow, pinY);
             }
@@ -536,7 +562,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
             yLow = qMin(yLow, rect.y1 - originY);
         }
         for (const auto& circle : symbol.circles) {
-            double r = circle.radius;
+            double r = circle.radius;  // 当前圆形图元半径。
             yHigh = qMax(yHigh, circle.center.y() + r - originY);
             yLow = qMin(yLow, circle.center.y() - r - originY);
         }
@@ -547,23 +573,23 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
      * @details 所有字段共用同一水平锚点，按可见字段在上、隐藏字段在下的顺序垂直排列。
      */
     constexpr double propertySpacing = 2.54;  // 100mil
-    const double symbolCenterY = (yHigh + yLow) / 2.0;
-    const double visibleTopY = symbolCenterY + propertySpacing / 2.0;
-    double hiddenFieldY = yLow - propertySpacing;
-    double fontSize = 1.27;  // PROPERTY_FONT_SIZE
+    const double symbolCenterY = (yHigh + yLow) / 2.0;  // 符号主体中心 Y 坐标。
+    const double visibleTopY = symbolCenterY + propertySpacing / 2.0;  // 可见属性顶部 Y 坐标。
+    double hiddenFieldY = yLow - propertySpacing;  // 隐藏属性的起始 Y 坐标。
+    double fontSize = 1.27;  // KiCad 属性文字字号，单位为毫米。
 
     /**
      * @brief 计算 Value 属性锚点
      * @details Value 使用主体中心，不复用 EasyEDA 文本的自由坐标和旋转。
      */
     // 原点已经是完整几何包围盒中心，属性统一使用局部中心 X=0。
-    double valueX = 0.0;
-    double valueY = symbolCenterY - propertySpacing / 2.0;
-    double valueRotation = 0.0;
+    double valueX = 0.0;  // 属性值文本 X 坐标。
+    double valueY = symbolCenterY - propertySpacing / 2.0;  // 属性值文本 Y 坐标。
+    double valueRotation = 0.0;  // 属性值文本旋转角度。
 
     // 辅助函数：转义属性值
     auto escapePropertyValue = [](const QString& value) -> QString {
-        QString escaped = value;
+        QString escaped = value;  // 经过 KiCad 字符串规则转义的属性值。
         escaped.replace("\"", "\\\"");
         escaped.replace("\n", " ");
         escaped.replace("\t", " ");
@@ -571,7 +597,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
     };
 
     // Reference 属性（主体中心上方）
-    QString refPrefix = symbol.designatorPrefix;
+    QString refPrefix = symbol.designatorPrefix;  // 符号参考标号前缀。
     refPrefix.replace("?", "");
     content += QString("    (property\n");
     content += QString("      \"Reference\"\n");
@@ -599,7 +625,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
     if (!symbol.footprintName.isEmpty()) {
         content += QString("    (property\n");
         content += QString("      \"Footprint\"\n");
-        QString footprintPath = QString("%1:%2").arg(libName, symbol.footprintName);
+        QString footprintPath = QString("%1:%2").arg(libName, symbol.footprintName);  // 关联封装库路径。
         content += QString("      \"%1\"\n").arg(escapePropertyValue(footprintPath));
         content += "      (id 2)\n";
         content += QString("      (at %1 %2 0)\n").arg(valueX, 0, 'f', 2).arg(hiddenFieldY, 0, 'f', 2);
@@ -611,7 +637,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
     }
 
     // LCSC Part 属性（隐藏，同一高度）
-    const QString lcscId = symbol.sourceMetadata.value("lcscId");
+    const QString lcscId = symbol.sourceMetadata.value("lcscId");  // 源器件 LCSC 编号。
     if (!lcscId.isEmpty()) {
         content += QString("    (property\n");
         content += QString("      \"LCSC Part\"\n");
@@ -626,7 +652,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
     }
 
     // ki_description 属性（隐藏，同一高度）
-    const QString symbolDescription = symbol.description.trimmed();
+    const QString symbolDescription = symbol.description.trimmed();  // 去除首尾空白的符号描述。
     if (!symbolDescription.isEmpty()) {
         content += QString("    (property\n");
         content += QString("      \"ki_description\"\n");
@@ -641,7 +667,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
     }
 
     // 检查是否为多部分符号
-    bool isMultiPart = symbol.isMultiPart();
+    bool isMultiPart = symbol.isMultiPart();  // 是否需要生成多部件单元。
     qDebug() << "=== Symbol Type Check ===";
     qDebug() << "Symbol name:" << cleanSymbolName;
     qDebug() << "Is multi-part:" << isMultiPart;
@@ -658,7 +684,7 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
             content += QString("    (symbol \"%1_%2_1\"\n").arg(cleanSymbolName).arg(partIdx + 1);
 
             // 收集属于此 part 的引脚和图形
-            QList<IR::SymbolPinIR> partPins;
+            QList<IR::SymbolPinIR> partPins;  // 当前部件的引脚列表。
             for (const auto& pin : pins) {
                 if (pin.partIndex == partIdx) {
                     partPins.append(pin);
@@ -666,8 +692,8 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
             }
 
             // 设置原点为 part 的坐标原点（在 IR 中为0,0，因为转换器已减去 part 原点）
-            double partOriginX = 0.0;
-            double partOriginY = 0.0;
+            double partOriginX = 0.0;  // 当前部件原点 X 坐标。
+            double partOriginY = 0.0;  // 当前部件原点 Y 坐标。
             m_graphicsGenerator.setCurrentOrigin(partOriginX, partOriginY);
 
             // 生成属于此 part 的图形元素
@@ -687,24 +713,24 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
          * @details API 文本坐标可能使用独立画布基准，超出主体边界时将其按可见顺序
          *          放置到主体中心区域；不依赖文本内容进行判断。
          */
-        IR::SymbolComponentIR drawingSymbol = symbol;
+        IR::SymbolComponentIR drawingSymbol = symbol;  // 当前绘制阶段使用的符号副本。
         if (!symbol.rectangles.isEmpty()) {
-            double bodyMinX = std::numeric_limits<double>::max();
-            double bodyMinY = std::numeric_limits<double>::max();
-            double bodyMaxX = -std::numeric_limits<double>::max();
-            double bodyMaxY = -std::numeric_limits<double>::max();
+            double bodyMinX = std::numeric_limits<double>::max();  // 主体包围盒最小 X。
+            double bodyMinY = std::numeric_limits<double>::max();  // 主体包围盒最小 Y。
+            double bodyMaxX = -std::numeric_limits<double>::max();  // 主体包围盒最大 X。
+            double bodyMaxY = -std::numeric_limits<double>::max();  // 主体包围盒最大 Y。
             for (const auto& rect : symbol.rectangles) {
                 bodyMinX = qMin(bodyMinX, qMin(rect.x0, rect.x1));
                 bodyMinY = qMin(bodyMinY, qMin(rect.y0, rect.y1));
                 bodyMaxX = qMax(bodyMaxX, qMax(rect.x0, rect.x1));
                 bodyMaxY = qMax(bodyMaxY, qMax(rect.y0, rect.y1));
             }
-            const double textCenterX = (bodyMinX + bodyMaxX) / 2.0;
-            const double textCenterY = (bodyMinY + bodyMaxY) / 2.0;
-            int visibleTextOrder = 0;
+            const double textCenterX = (bodyMinX + bodyMaxX) / 2.0;  // 主体中心 X 坐标。
+            const double textCenterY = (bodyMinY + bodyMaxY) / 2.0;  // 主体中心 Y 坐标。
+            int visibleTextOrder = 0;  // 主体外文本的排列序号。
             for (IR::SymbolTextIR& text : drawingSymbol.texts) {
-                const double localX = text.position.x();
-                const double localY = text.position.y();
+                const double localX = text.position.x();  // 文本局部 X 坐标。
+                const double localY = text.position.y();  // 文本局部 Y 坐标。
                 const bool outsideBody =
                     localX < bodyMinX || localX > bodyMaxX || localY < bodyMinY || localY > bodyMaxY;
                 if (!outsideBody)
@@ -727,9 +753,14 @@ QString ExporterSymbol::generateSymbolContent(const IR::SymbolComponentIR& symbo
     return content;
 }
 
-// 生成指定多部件单元的图形内容。
+/**
+ * @brief 生成指定多部件单元的图形内容。
+ * @param symbol 待生成的符号数据。
+ * @param partIdx 多部件单元索引。
+ * @return 指定单元的图形文本。
+ */
 QString ExporterSymbol::generatePartDrawings(const IR::SymbolComponentIR& symbol, int partIdx) const {
-    QString content;
+    QString content;  // 当前部件的图形文本。
     for (const auto& rect : symbol.rectangles) {
         if (rect.partIndex == partIdx)
             content += m_graphicsGenerator.generateRectangle(rect);

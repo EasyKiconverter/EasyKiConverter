@@ -10,7 +10,8 @@
 namespace EasyKiConverter {
 
 /**
- * @brief 构造函数
+ * @brief 创建导出目标模型。
+ * @param parent Qt 对象父级。
  */
 ExportTargetModel::ExportTargetModel(QObject* parent) : QObject(parent) {}
 
@@ -20,6 +21,35 @@ ExportTargetModel::ExportTargetModel(QObject* parent) : QObject(parent) {}
  */
 int ExportTargetModel::currentIndex() const {
     return m_currentIndex;
+}
+
+/**
+ * @brief 获取当前目标格式枚举值。
+ * @return 当前目标格式对应的内部枚举值。
+ */
+int ExportTargetModel::currentTargetFormat() const {
+    const QString id = currentTargetId();  // 当前目标的稳定标识符。
+    if (id == QStringLiteral("altium"))
+        return 1;
+    if (id == QStringLiteral("xpedition"))
+        return 2;
+    if (id == QStringLiteral("allegro"))
+        return 3;
+    if (id == QStringLiteral("pads"))
+        return 4;
+    if (id == QStringLiteral("eagle"))
+        return 5;
+    if (id == QStringLiteral("pcad"))
+        return 6;
+    if (id == QStringLiteral("cadstar"))
+        return 7;
+    if (id == QStringLiteral("orcad"))
+        return 8;
+    if (id == QStringLiteral("librepcb"))
+        return 9;
+    if (id == QStringLiteral("horizon"))
+        return 10;
+    return 0;
 }
 
 /**
@@ -90,41 +120,43 @@ QVariantList ExportTargetModel::availableTargets() const {
 }
 
 /**
- * @brief 判断目标格式是否达到 GUI 的发布验证门槛
+ * @brief 判断目标格式是否向 GUI 暴露
  * @param targetId 目标格式标识符
  * @return true 表示目标格式可以显示给 GUI 用户
  */
 bool ExportTargetModel::isUserVisibleTarget(const QString& targetId) {
-    // GUI 只展示当前已完成发布级验证的格式；其他格式保留内部/CLI 入口，待验证完成后再开放。
-    return targetId == QStringLiteral("kicad") || targetId == QStringLiteral("altium");
+    // 仅将已完成 GUI 导出流程接入的格式放入选择器。
+    return targetId == QStringLiteral("kicad") || targetId == QStringLiteral("altium") ||
+           targetId == QStringLiteral("horizon") || targetId == QStringLiteral("librepcb");
 }
 
 /**
- * @brief 从 JSON 文件加载插件配置
+ * @brief 从 JSON 文件加载插件配置。
+ * @param configPath 插件配置文件路径。
  */
 void ExportTargetModel::loadPlugins(const QString& configPath) {
-    QFile file(configPath);
+    QFile file(configPath);  // 插件配置文件。
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "ExportTargetModel: Failed to open plugin config:" << configPath;
         return;
     }
 
-    QByteArray data = file.readAll();
+    QByteArray data = file.readAll();  // 插件配置文件内容。
     file.close();
 
-    QJsonDocument doc = QJsonDocument::fromJson(data);
+    QJsonDocument doc = QJsonDocument::fromJson(data);  // 解析后的 JSON 文档。
     if (doc.isNull() || !doc.isObject()) {
         qWarning() << "ExportTargetModel: Invalid JSON in plugin config:" << configPath;
         return;
     }
 
-    QJsonObject root = doc.object();
-    QJsonArray plugins = root["plugins"].toArray();
+    QJsonObject root = doc.object();  // 插件配置根对象。
+    QJsonArray plugins = root["plugins"].toArray();  // 插件配置数组。
 
     m_targets.clear();
     for (const QJsonValue& val : plugins) {
-        QJsonObject obj = val.toObject();
-        TargetInfo info;
+        QJsonObject obj = val.toObject();  // 当前插件配置对象。
+        TargetInfo info;  // 当前导出目标元数据。
         info.id = obj["id"].toString();
         info.displayName = obj["displayName"].toString();
         info.icon = obj["icon"].toString();
@@ -136,14 +168,24 @@ void ExportTargetModel::loadPlugins(const QString& configPath) {
 
     // 下拉索引会直接映射到 TargetEdaFormat，必须与枚举顺序保持一致，不能依赖配置文件顺序。
     std::sort(m_targets.begin(), m_targets.end(), [](const TargetInfo& left, const TargetInfo& right) {
-        const auto targetOrder = [](const QString& id) { return id == QStringLiteral("kicad") ? 0 : 1; };
+        const auto targetOrder = [](const QString& id) {
+            if (id == QStringLiteral("kicad"))
+                return 0;
+            if (id == QStringLiteral("altium"))
+                return 1;
+            if (id == QStringLiteral("horizon"))
+                return 2;
+            if (id == QStringLiteral("librepcb"))
+                return 3;
+            return 4;
+        };
         return targetOrder(left.id) < targetOrder(right.id);
     });
 
     // 重建缓存
     m_availableTargetsCache.clear();
     for (const TargetInfo& info : m_targets) {
-        QVariantMap map;
+        QVariantMap map;  // 提供给 QML 的当前目标元数据。
         map["id"] = info.id;
         map["displayName"] = info.displayName;
         map["icon"] = info.icon;
@@ -152,7 +194,7 @@ void ExportTargetModel::loadPlugins(const QString& configPath) {
     }
 
     // 确保索引有效
-    bool indexChanged = false;
+    bool indexChanged = false;  // 当前选择索引是否因目标列表变化而调整。
     if (m_currentIndex >= m_targets.size()) {
         m_currentIndex = 0;
         indexChanged = true;

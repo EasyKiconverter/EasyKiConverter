@@ -10,10 +10,14 @@
 
 namespace EasyKiConverter::Parser {
 
-/** @brief 解析诊断严重级别。 */
+/**
+ * @brief 解析诊断严重级别。
+ */
 enum class ParseSeverity { Info, Warning, Error, Skipped };
 
-/** @brief 诊断所关联的对象范围。 */
+/**
+ * @brief 诊断所关联的对象范围。
+ */
 enum class ParseScope { File, Component, Symbol, Footprint, Field };
 
 /**
@@ -21,13 +25,13 @@ enum class ParseScope { File, Component, Symbol, Footprint, Field };
  * @details 诊断同时保留文件、行列和实体信息，避免非法输入被静默归零。
  */
 struct ParseDiagnostic {
-    ParseSeverity severity = ParseSeverity::Info;
-    ParseScope scope = ParseScope::File;
-    QString filePath;
-    QString entity;
-    QString message;
-    int line = 0;
-    int column = 0;
+    ParseSeverity severity = ParseSeverity::Info;  ///< 诊断严重级别。
+    ParseScope scope = ParseScope::File;  ///< 诊断关联的对象范围。
+    QString filePath;  ///< 诊断来源文件路径。
+    QString entity;  ///< 诊断关联的实体标识。
+    QString message;  ///< 面向用户或日志的诊断文本。
+    int line = 0;  ///< 源文件行号。
+    int column = 0;  ///< 源文件列号。
 };
 
 /**
@@ -35,7 +39,15 @@ struct ParseDiagnostic {
  */
 class ParseDiagnostics {
 public:
-    /** @brief 添加一条解析诊断。 */
+    /**
+     * @brief 添加一条解析诊断。
+     * @param severity 诊断严重级别。
+     * @param scope 诊断关联范围。
+     * @param message 诊断文本。
+     * @param entity 可选的实体标识。
+     * @param line 可选的源文件行号。
+     * @param column 可选的源文件列号。
+     */
     void add(ParseSeverity severity,
              ParseScope scope,
              const QString& message,
@@ -43,27 +55,41 @@ public:
              int line = 0,
              int column = 0);
 
-    /** @brief 设置当前诊断关联的源文件路径。 */
+    /**
+     * @brief 设置当前诊断关联的源文件路径。
+     * @param filePath 源文件路径。
+     */
     void setFilePath(const QString& filePath);
 
-    /** @brief 返回全部诊断，顺序与解析发生顺序一致。 */
+    /**
+     * @brief 返回全部诊断，顺序与解析发生顺序一致。
+     */
     const QList<ParseDiagnostic>& items() const;
 
-    /** @brief 追加另一阶段的诊断并保留其原始文件和位置。 */
+    /**
+     * @brief 追加另一阶段的诊断并保留其原始文件和位置。
+     * @param other 待追加的诊断集合。
+     */
     void append(const ParseDiagnostics& other);
 
-    /** @brief 判断是否存在错误诊断。 */
+    /**
+     * @brief 判断是否存在错误诊断。
+     */
     bool hasErrors() const;
 
-    /** @brief 判断是否为空。 */
+    /**
+     * @brief 判断是否为空。
+     */
     bool isEmpty() const;
 
-    /** @brief 清空当前诊断。 */
+    /**
+     * @brief 清空当前诊断。
+     */
     void clear();
 
 private:
-    QString m_filePath;
-    QList<ParseDiagnostic> m_items;
+    QString m_filePath;  ///< 当前诊断集合关联的源文件路径。
+    QList<ParseDiagnostic> m_items;  ///< 按产生顺序保存的诊断条目。
 };
 
 /**

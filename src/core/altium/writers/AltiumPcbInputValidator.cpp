@@ -12,6 +12,10 @@ namespace EasyKiConverter {
 /**
  * @brief 校验封装名称、图元结构和输出路径。
  * @details 诊断统一写入主写入器，确保调用方仍可通过 diagnostics() 获取拒绝原因。
+ * @param owner 所属的 PCB 库写入器
+ * @param components 待校验的封装列表
+ * @param filePath 目标文件路径
+ * @return 输入有效时返回 true
  */
 bool AltiumPcbInputValidator::validate(AltiumPcbLibWriter& owner,
                                        const QList<AltiumPcbComponent>& components,
@@ -30,22 +34,22 @@ bool AltiumPcbInputValidator::validate(AltiumPcbLibWriter& owner,
         filePath.contains(QChar('\n')))
         return reject(QStringLiteral("Altium PcbLib 输出路径包含参数分隔符、换行或 NUL，已拒绝写入"));
 
-    const auto normalizedModelId = [](QString value) {
+    const auto normalizedModelId = [](QString value) {  // 规范化 3D 模型标识。
         value.replace('|', ' ');
         value.replace('\0', ' ');
         value.replace('\r', ' ');
         value.replace('\n', ' ');
         return value.trimmed().toCaseFolded();
     };
-    const auto isLosslessLatin1 = [](const QString& value) {
-        const QByteArray encoded = value.toLatin1();
+    const auto isLosslessLatin1 = [](const QString& value) {  // 检查字符串是否可无损编码为 Latin-1。
+        const QByteArray encoded = value.toLatin1();  // Latin-1 编码结果。
         return QString::fromLatin1(encoded) == value;
     };
-    const auto hasModelMetadataDelimiter = [](const QString& value) {
+    const auto hasModelMetadataDelimiter = [](const QString& value) {  // 检查模型元数据分隔符。
         return value.contains(QChar('|')) || value.contains(QChar::Null) || value.contains(QChar('\r')) ||
                value.contains(QChar('\n'));
     };
-    QSet<QString> componentNames;
+    QSet<QString> componentNames;  // 已校验的封装名称集合。
     for (const AltiumPcbComponent& component : components) {
         const auto validateCStringField = [&reject, &component, &isLosslessLatin1](const QString& value,
                                                                                    const QString& context) {
@@ -75,7 +79,7 @@ bool AltiumPcbInputValidator::validate(AltiumPcbLibWriter& owner,
         if (!std::isfinite(component.height) || component.height < 0.0)
             return reject(
                 QStringLiteral("Altium PcbLib 封装 %1 的高度必须为非负有限值，已拒绝写入").arg(component.name));
-        const QString foldedName = component.name.trimmed().toCaseFolded();
+        const QString foldedName = component.name.trimmed().toCaseFolded();  // 用于重复检查的折叠名称。
         if (componentNames.contains(foldedName))
             return reject(
                 QStringLiteral("Altium PcbLib 封装名称重复（不区分大小写）: %1，已拒绝写入").arg(component.name));
@@ -90,7 +94,7 @@ bool AltiumPcbInputValidator::validate(AltiumPcbLibWriter& owner,
                                   .arg(component.name));
             if (pad.isSMD && (pad.layer < 1 || pad.layer > 74))
                 return reject(QStringLiteral("Altium PcbLib 封装 %1 包含无效焊盘层号，已拒绝写入").arg(component.name));
-            const auto isValidPadShape = [](uint8_t shape) {
+            const auto isValidPadShape = [](uint8_t shape) {  // 检查焊盘形状编码。
                 return shape == static_cast<uint8_t>(AltiumModels::PadShape::Round) ||
                        shape == static_cast<uint8_t>(AltiumModels::PadShape::Rectangular) ||
                        shape == static_cast<uint8_t>(AltiumModels::PadShape::Octagonal) ||
@@ -151,7 +155,7 @@ bool AltiumPcbInputValidator::validate(AltiumPcbLibWriter& owner,
                 !validateCStringField(region.name, QStringLiteral("区域名称")))
                 return false;
         }
-        QSet<QString> modelIds;
+        QSet<QString> modelIds;  // 当前封装已声明的 3D 模型标识集合。
         for (const AltiumPcbComponent::Model3D& model : component.models) {
             if (model.name.trimmed().isEmpty())
                 return reject(
@@ -169,7 +173,7 @@ bool AltiumPcbInputValidator::validate(AltiumPcbLibWriter& owner,
             if (!model.id.isEmpty() && !isLosslessLatin1(model.id))
                 return reject(QStringLiteral("Altium PcbLib 封装 %1 的 3D 模型 ID 包含无法编码的字符，已拒绝写入")
                                   .arg(component.name));
-            const QString modelId = normalizedModelId(model.id.isEmpty() ? model.name : model.id);
+            const QString modelId = normalizedModelId(model.id.isEmpty() ? model.name : model.id);  // 规范化模型标识。
             if (!model.id.isEmpty() && modelId.isEmpty())
                 return reject(
                     QStringLiteral("Altium PcbLib 封装 %1 的 3D 模型 ID 规范化后为空，已拒绝写入").arg(component.name));
@@ -186,9 +190,9 @@ bool AltiumPcbInputValidator::validate(AltiumPcbLibWriter& owner,
                 !validateCStringField(body.modelName, QStringLiteral("3D 元件体模型名称")) ||
                 !validateCStringField(body.modelSource, QStringLiteral("3D 元件体模型来源")))
                 return false;
-            const QString normalizedLayer = body.layerName.trimmed().toUpper();
-            bool layerNumberOk = false;
-            int layerNumber = 0;
+            const QString normalizedLayer = body.layerName.trimmed().toUpper();  // 规范化后的机械层名称。
+            bool layerNumberOk = false;  // 机械层编号转换是否成功。
+            int layerNumber = 0;  // 解析得到的机械层编号。
             if (normalizedLayer.startsWith(QStringLiteral("MECHANICAL")))
                 layerNumber = normalizedLayer.mid(10).toInt(&layerNumberOk);
             if (!layerNumberOk || layerNumber < 1 || layerNumber > 16)
@@ -204,14 +208,14 @@ bool AltiumPcbInputValidator::validate(AltiumPcbLibWriter& owner,
                 return reject(
                     QStringLiteral("Altium PcbLib 封装 %1 包含无效 3D 模型类型，已拒绝写入").arg(component.name));
             if (!component.models.isEmpty()) {
-                const QString bodyModelId = normalizedModelId(body.modelId);
+                const QString bodyModelId = normalizedModelId(body.modelId);  // 元件体关联模型标识。
                 if (bodyModelId.isEmpty() || !modelIds.contains(bodyModelId))
                     return reject(QStringLiteral("Altium PcbLib 封装 %1 的 3D 元件体未关联有效模型，已拒绝写入")
                                       .arg(component.name));
             }
         }
-        const int primitiveCount = owner.countPrimitives(component);
-        QSet<int> extendedPrimitiveIndices;
+        const int primitiveCount = owner.countPrimitives(component);  // 当前封装图元总数。
+        QSet<int> extendedPrimitiveIndices;  // 已使用的扩展图元索引集合。
         for (const AltiumPcbExtendedPrimitiveInfo& info : component.extendedPrimitives) {
             if (info.primitiveIndex < 0 || info.primitiveIndex >= primitiveCount)
                 return reject(QStringLiteral("Altium PcbLib 封装 %1 的扩展图元索引无效: %2，已拒绝写入")

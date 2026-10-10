@@ -8,10 +8,15 @@
 
 namespace EasyKiConverter {
 
-/** @brief 添加单个元件并启动其数据验证。 */
+/**
+ * @brief 添加单个元件并启动其数据验证。
+ * @param owner 元件列表视图模型。
+ * @param componentId 元器件编号。
+ */
 void ComponentListMutationCoordinator::add(ComponentListViewModel& owner, const QString& componentId) {
     owner.clearAttentionHints();
     owner.m_bomImportComplete = false;
+    // 保存去除首尾空白后的元器件编号。
     QString trimmedId = componentId.trimmed();
 
     if (trimmedId.isEmpty()) {
@@ -27,6 +32,7 @@ void ComponentListMutationCoordinator::add(ComponentListViewModel& owner, const 
         qWarning() << "Invalid component ID format:" << trimmedId;
 
         // 尝试从文本中智能提取元件编号。
+        // 保存从输入文本中提取出的元器件编号。
         const QStringList extractedIds = owner.extractComponentIdFromText(trimmedId);
         if (extractedIds.isEmpty()) {
             qWarning() << "Failed to extract component ID from text:" << trimmedId;
@@ -49,11 +55,13 @@ void ComponentListMutationCoordinator::add(ComponentListViewModel& owner, const 
     }
 
     // 创建新元件项，在锁外构造对象以避免扩大共享列表锁的范围。
+    // 创建待加入列表的元件项。
     auto* item = new ComponentListItemData(trimmedId, &owner);
     item->setFetching(true);
     item->setValid(false);
     item->setValidationPhase("validating");
 
+    // 保存新元件在列表中的插入位置。
     int insertIndex;
     {
         QMutexLocker locker(&owner.m_listMutex);
@@ -74,10 +82,15 @@ void ComponentListMutationCoordinator::add(ComponentListViewModel& owner, const 
     emit owner.componentAdded(trimmedId, true, "Component added");
 }
 
-/** @brief 按列表位置删除元件并同步所有关联状态。 */
+/**
+ * @brief 按列表位置删除元件并同步所有关联状态。
+ * @param owner 元件列表视图模型。
+ * @param index 待删除的列表索引。
+ */
 void ComponentListMutationCoordinator::remove(ComponentListViewModel& owner, int index) {
     owner.clearAttentionHints();
 
+    // 保存当前列表项数量。
     int listCount;
     {
         QMutexLocker locker(&owner.m_listMutex);
@@ -93,7 +106,9 @@ void ComponentListMutationCoordinator::remove(ComponentListViewModel& owner, int
         return;
     }
 
+    // 保存待删除的列表项。
     ComponentListItemData* item = nullptr;
+    // 保存被删除元件的编号。
     QString removedId;
     {
         QMutexLocker locker(&owner.m_listMutex);
@@ -107,6 +122,7 @@ void ComponentListMutationCoordinator::remove(ComponentListViewModel& owner, int
         owner.m_service->cancelRequestForComponent(removedId);
     }
 
+    // 记录被删除元件是否正在验证。
     const bool wasInFlight = owner.m_validationQueue.isInFlight(removedId);
     owner.m_validationQueue.remove(removedId);
 
@@ -128,8 +144,13 @@ void ComponentListMutationCoordinator::remove(ComponentListViewModel& owner, int
     emit owner.componentRemoved(removedId);
 }
 
-/** @brief 根据编号查找并删除元件。 */
+/**
+ * @brief 根据编号查找并删除元件。
+ * @param owner 元件列表视图模型。
+ * @param componentId 元器件编号。
+ */
 void ComponentListMutationCoordinator::removeById(ComponentListViewModel& owner, const QString& componentId) {
+    // 保存待删除元件的列表索引。
     int indexToRemove = -1;
     {
         QMutexLocker locker(&owner.m_listMutex);
@@ -140,7 +161,10 @@ void ComponentListMutationCoordinator::removeById(ComponentListViewModel& owner,
     }
 }
 
-/** @brief 清空列表、缓存、请求队列和验证统计。 */
+/**
+ * @brief 清空列表、缓存、请求队列和验证统计。
+ * @param owner 元件列表视图模型。
+ */
 void ComponentListMutationCoordinator::clear(ComponentListViewModel& owner) {
     owner.clearAttentionHints();
     owner.m_bomImportComplete = false;
@@ -150,6 +174,7 @@ void ComponentListMutationCoordinator::clear(ComponentListViewModel& owner) {
     owner.m_pendingPreviewFetchIds.clear();
     owner.m_previewUpdateBuffer.clear();
 
+    // 保存清理前的列表项数量。
     int listCount;
     {
         QMutexLocker locker(&owner.m_listMutex);

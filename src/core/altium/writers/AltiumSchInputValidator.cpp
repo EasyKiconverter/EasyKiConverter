@@ -11,14 +11,26 @@ namespace EasyKiConverter {
 
 namespace {
 
-/** @brief 向写入器诊断列表记录错误并返回失败结果。 */
+/**
+ * @brief 向写入器诊断列表记录错误并返回失败结果。
+ * @param diagnostics 诊断信息列表。
+ * @param message 待记录的错误消息。
+ * @return 始终返回 false。
+ */
 bool reject(QStringList& diagnostics, const QString& message) {
     diagnostics.append(message);
     qWarning() << "AltiumSchLibWriter:" << message;
     return false;
 }
 
-/** @brief 检查会进入 Altium 参数块的字符串是否包含非法分隔符。 */
+/**
+ * @brief 检查会进入 Altium 参数块的字符串是否包含非法分隔符。
+ * @param diagnostics 诊断信息列表。
+ * @param component 所属的原理图元件。
+ * @param value 待检查的字符串值。
+ * @param context 字符串字段的语义上下文。
+ * @return 字符串可安全写入时返回 true。
+ */
 bool validateParameterValue(QStringList& diagnostics,
                             const AltiumSchComponent& component,
                             const QString& value,
@@ -31,7 +43,14 @@ bool validateParameterValue(QStringList& diagnostics,
         QStringLiteral("Altium SchLib 组件 %1 的%2包含参数分隔符或 NUL，已拒绝写入").arg(component.name, context));
 }
 
-/** @brief 检查参数名是否非空且不会破坏参数块格式。 */
+/**
+ * @brief 检查参数名是否非空且不会破坏参数块格式。
+ * @param diagnostics 诊断信息列表。
+ * @param component 所属的原理图元件。
+ * @param name 待检查的参数名。
+ * @param context 参数名的语义上下文。
+ * @return 参数名有效时返回 true。
+ */
 bool validateParameterName(QStringList& diagnostics,
                            const AltiumSchComponent& component,
                            const QString& name,
@@ -46,10 +65,15 @@ bool validateParameterName(QStringList& diagnostics,
 
 }  // namespace
 
-/** @brief 校验 SchLib 组件输入并复用几何及部件归属校验器。 */
+/**
+ * @brief 校验 SchLib 组件输入并复用几何及部件归属校验器。
+ * @param owner SchLib 写入器，用于复用诊断和几何校验状态。
+ * @param components 待写入的组件列表。
+ * @return 输入可写入时返回 true。
+ */
 bool AltiumSchInputValidator::validate(AltiumSchLibWriter& owner, const QList<AltiumSchComponent>& components) {
-    QStringList& diagnostics = owner.m_diagnostics;
-    QSet<QString> componentNames;
+    QStringList& diagnostics = owner.m_diagnostics;  // 主写入器共享的诊断列表。
+    QSet<QString> componentNames;  // 已出现组件名称的大小写折叠集合。
     for (const AltiumSchComponent& component : components) {
         if (component.name.trimmed().isEmpty()) {
             return reject(diagnostics, QStringLiteral("Altium SchLib 组件名称为空，已拒绝写入"));
@@ -129,7 +153,7 @@ bool AltiumSchInputValidator::validate(AltiumSchLibWriter& owner, const QList<Al
             }
         }
 
-        const QString foldedName = component.name.trimmed().toCaseFolded();
+        const QString foldedName = component.name.trimmed().toCaseFolded();  // 用于检测重名的规范化名称。
         if (componentNames.contains(foldedName)) {
             return reject(
                 diagnostics,

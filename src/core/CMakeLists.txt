@@ -14,6 +14,8 @@ add_subdirectory(allegro)
 add_subdirectory(pads)
 add_subdirectory(eagle)
 add_subdirectory(orcad)
+add_subdirectory(librepcb)
+add_subdirectory(horizon)
 
 add_library(EasyKiConverterCore STATIC)
 
@@ -45,6 +47,8 @@ target_link_libraries(EasyKiConverterCore
         EasyKiConverterCadstar
         EasyKiConverterPcad
         EasyKiConverterOrcad
+        EasyKiConverterLibrePcb
+        EasyKiConverterHorizon
 )
 
 target_include_directories(EasyKiConverterCore

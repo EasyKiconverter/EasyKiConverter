@@ -13,10 +13,18 @@ class ExportProgressViewModel;
  */
 class ExportProgressStageCoordinator final {
 public:
-    /** @brief 处理预加载进度并更新抓取阶段。 */
+    /**
+     * @brief 处理预加载进度并更新抓取阶段。
+     * @param viewModel 导出进度视图模型。
+     * @param progress 预加载阶段进度。
+     */
     static void handlePreloadProgress(ExportProgressViewModel& viewModel, const PreloadProgress& progress);
 
-    /** @brief 处理整体进度并更新三段式进度条。 */
+    /**
+     * @brief 处理整体进度并更新三段式进度条。
+     * @param viewModel 导出进度视图模型。
+     * @param progress 整体导出进度。
+     */
     static void handleProgress(ExportProgressViewModel& viewModel, const ExportOverallProgress& progress);
 
 private:

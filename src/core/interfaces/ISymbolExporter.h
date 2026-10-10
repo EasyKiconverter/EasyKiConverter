@@ -26,6 +26,14 @@ public:
     virtual ~ISymbolExporter() = default;
 
     /**
+     * @brief 判断符号库输出是否为目录。
+     * @return 目录型符号库返回 true；默认单文件符号库返回 false。
+     */
+    virtual bool isDirectoryOutput() const {
+        return false;
+    }
+
+    /**
      * @brief 获取符号库文件扩展名
      * @return 文件扩展名（如 ".kicad_sym"、".SchLib"），包含点号
      */

@@ -15,11 +15,17 @@ class TestCliConverters : public QObject {
     Q_OBJECT
 
 private:
+    // m_argStorage：命令行参数字符串存储。
     QList<QByteArray> m_argStorage;
+    // m_argvPtrs：命令行参数指针数组。
     QList<char*> m_argvPtrs;
     int m_argc{0};
     char** m_argv{nullptr};
 
+    /**
+     * @brief 验证 makeParser 测试场景。
+     * @param args 命令行参数列表。
+     */
     CommandLineParser* makeParser(const QStringList& args) {
         m_argStorage.clear();
         m_argvPtrs.clear();
@@ -41,7 +47,11 @@ private slots:
 
     // ========== CliConverter 分发 ==========
 
+    /**
+     * @brief 验证 cliConverterRejectsUnknownCliMode 测试场景。
+     */
     void cliConverterRejectsUnknownCliMode() {
+        // parser：负责解析测试输入的解析器实例。
         auto* parser = makeParser({"easykiconverter", "convert", "unknown", "-o", "out"});
         QVERIFY(parser->parse());
 
@@ -52,7 +62,11 @@ private slots:
         delete parser;
     }
 
+    /**
+     * @brief 验证 cliConverterDispatchesToBomConverter 测试场景。
+     */
     void cliConverterDispatchesToBomConverter() {
+        // outDir：测试使用的文件系统路径。
         QTemporaryDir outDir;
         QVERIFY(outDir.isValid());
 
@@ -67,7 +81,11 @@ private slots:
         delete parser;
     }
 
+    /**
+     * @brief 验证 cliConverterDispatchesToBatchConverter 测试场景。
+     */
     void cliConverterDispatchesToBatchConverter() {
+        // outDir：测试使用的文件系统路径。
         QTemporaryDir outDir;
         QVERIFY(outDir.isValid());
 
@@ -84,7 +102,11 @@ private slots:
 
     // ========== ComponentConverter 前置验证 ==========
 
+    /**
+     * @brief 验证 componentConverterFailsWhenComponentIdIsEmpty 测试场景。
+     */
     void componentConverterFailsWhenComponentIdIsEmpty() {
+        // parser：负责解析测试输入的解析器实例。
         auto* parser = makeParser({"easykiconverter", "convert", "component", "-o", "/tmp/out"});
         QVERIFY(parser->parse());
 
@@ -96,7 +118,11 @@ private slots:
         delete parser;
     }
 
+    /**
+     * @brief 验证 componentConverterErrorMessageForEmptyId 测试场景。
+     */
     void componentConverterErrorMessageForEmptyId() {
+        // parser：负责解析测试输入的解析器实例。
         auto* parser = makeParser({"easykiconverter", "convert", "component", "-o", "/tmp/out"});
         QVERIFY(parser->parse());
 
@@ -110,7 +136,11 @@ private slots:
 
     // ========== BomConverter 前置验证 ==========
 
+    /**
+     * @brief 验证 bomConverterFailsWhenInputFileIsMissing 测试场景。
+     */
     void bomConverterFailsWhenInputFileIsMissing() {
+        // outDir：测试使用的文件系统路径。
         QTemporaryDir outDir;
         QVERIFY(outDir.isValid());
 
@@ -128,7 +158,11 @@ private slots:
 
     // ========== BatchConverter 前置验证 ==========
 
+    /**
+     * @brief 验证 batchConverterFailsWhenInputFileIsMissing 测试场景。
+     */
     void batchConverterFailsWhenInputFileIsMissing() {
+        // outDir：测试使用的文件系统路径。
         QTemporaryDir outDir;
         QVERIFY(outDir.isValid());
 

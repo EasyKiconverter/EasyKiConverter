@@ -37,7 +37,7 @@ public:
                                 bool replaceModel3DMetadata);
 
 private:
-    ComponentCacheService& m_owner;
+    ComponentCacheService& m_owner;  ///< 所属缓存服务。
 };
 
 }  // namespace EasyKiConverter

@@ -7,12 +7,15 @@ import EasyKiconverter_Cpp_Version.src.ui.qml.styles 1.0
 ColumnLayout {
     id: root
     property var targetModel
+    property string currentDescription: targetModel ? descriptionFor(targetModel.currentTargetId) : ""
     spacing: AppStyle.spacing.sm
     function descriptionFor(targetId) {
         if (targetId === "kicad")
             return qsTranslate("MainWindow", ".kicad_sym / .kicad_mod");
         if (targetId === "altium")
             return qsTranslate("MainWindow", ".SchLib / .PcbLib");
+        if (targetId === "horizon")
+            return qsTranslate("MainWindow", "Horizon EDA 原生 Pool：导出后自动更新官方索引并注册到 Horizon；已运行的 Horizon 需要重新加载或重启。");
         if (targetId === "xpedition")
             return qsTranslate("MainWindow", "_Symbols.zip / _Footprints.zip");
         if (targetId === "pads")
@@ -152,7 +155,7 @@ ColumnLayout {
     RowLayout {
         Layout.fillWidth: true
         spacing: AppStyle.spacing.sm
-        visible: targetModel && targetModel.currentIndex >= 0 && targetModel.currentTargetId.length > 0
+        visible: root.currentDescription.length > 0
         Rectangle {
             Layout.preferredWidth: 3
             Layout.fillHeight: true
@@ -163,7 +166,7 @@ ColumnLayout {
 
         Text {
             Layout.fillWidth: true
-            text: root.targetModel ? root.descriptionFor(root.targetModel.currentTargetId) : ""
+            text: root.currentDescription
             font.pixelSize: AppStyle.fontSizes.xs
             color: AppStyle.colors.textSecondary
             wrapMode: Text.WordWrap

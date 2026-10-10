@@ -15,13 +15,23 @@ class ComponentListViewModel;
  */
 class ComponentValidationCoordinator final {
 public:
-    /** @brief 启动当前列表中尚未验证的元件请求。 */
+    /**
+     * @brief 启动当前列表中尚未验证的元件请求。
+     * @param viewModel 列表视图模型。
+     */
     static void start(ComponentListViewModel& viewModel);
 
-    /** @brief 从待验证队列中调度下一个元件请求。 */
+    /**
+     * @brief 从待验证队列中调度下一个元件请求。
+     * @param viewModel 列表视图模型。
+     */
     static void processNext(ComponentListViewModel& viewModel);
 
-    /** @brief 完成单个元件验证并推进后续请求。 */
+    /**
+     * @brief 完成单个元件验证并推进后续请求。
+     * @param viewModel 列表视图模型。
+     * @param componentId 元器件编号。
+     */
     static void complete(ComponentListViewModel& viewModel, const QString& componentId);
 };
 

@@ -83,7 +83,7 @@ private:
      * @return 只包含安全字符且不为空的名称。
      */
     QString safeName(QString name) const;
-    QStringList m_diagnostics;
+    QStringList m_diagnostics;  ///< 最近一次导出的诊断信息。
 };
 
 }  // namespace EasyKiConverter

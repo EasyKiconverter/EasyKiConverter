@@ -111,7 +111,9 @@ public:
      */
     bool hasActiveWorkers() const;
 
-    /** @brief 获取导出类型名称 */
+    /**
+     * @brief 获取导出类型名称。
+     */
     QString typeName() const {
         return m_typeName;
     }

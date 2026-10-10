@@ -61,12 +61,16 @@ public:
      */
     void cancel() override;
 
-    /** @brief 获取元器件ID */
+    /**
+     * @brief 获取元器件ID
+     */
     QString componentId() const override {
         return m_componentId;
     }
 
-    /** @brief 设置导出选项 */
+    /**
+     * @brief 设置导出选项
+     */
     void setOptions(const ExportOptions& options);
 
 signals:

@@ -14,8 +14,8 @@ namespace EasyKiConverter {
 
 namespace {
 
-constexpr double kThousandthInchMm = 0.0254;
-constexpr double kSolderMaskExpansionTh = 8.0;
+constexpr double kThousandthInchMm = 0.0254;  ///< Xpedition thousandth inch 对应的毫米数。
+constexpr double kSolderMaskExpansionTh = 8.0;  ///< 默认阻焊扩展值（thousandth inch）。
 
 /**
  * @brief 将毫米转换为 Xpedition 使用的千分之一英寸单位。
@@ -39,6 +39,7 @@ QString fmt(double value) {
  * @brief 将统一表示中的焊盘形状映射到目标格式名称。
  * @param shape 统一表示中的焊盘形状。
  * @return Xpedition Pad 定义使用的形状名称。
+ * @param pad 待处理的焊盘。
  */
 QString padShape(const IR::FootprintPadIR& pad) {
     // 目标格式可以直接表达圆、长圆、矩形和自定义多边形；其余形状必须先有可用顶点。
@@ -76,6 +77,7 @@ bool hasCustomPadGeometry(const IR::FootprintPadIR& pad) {
  * @return 稳定且可去重的 Pad 名称。
  */
 QString padName(const IR::FootprintPadIR& pad) {
+    // 几何对象。
     QString geometry = QStringLiteral("%1_%2x%3")
                            .arg(padShape(pad))
                            .arg(fmt(toTh(pad.size.width())))
@@ -108,8 +110,8 @@ QString solderMaskPadName(const QString& baseName) {
 }
 
 struct LayerSection {
-    QString name;
-    QString side;
+    QString name;  ///< 名称。
+    QString side;  ///< 当前侧面名称。
 };
 
 /**
@@ -118,18 +120,19 @@ struct LayerSection {
  * @return 按顺时针方向排列并重复首点的矩形顶点。
  */
 QList<QPointF> rectanglePoints(const IR::FootprintRectangleIR& rectangle) {
-    const QPointF center = rectangle.bounds.center();
-    const double angle = qDegreesToRadians(rectangle.rotation);
-    const double cosine = std::cos(angle);
-    const double sine = std::sin(angle);
+    const QPointF center = rectangle.bounds.center();  ///< 几何中心。
+    const double angle = qDegreesToRadians(rectangle.rotation);  ///< 旋转角度。
+    const double cosine = std::cos(angle);  ///< 旋转余弦值。
+    const double sine = std::sin(angle);  ///< 旋转正弦值。
+    // 矩形顶点列表。
     const QList<QPointF> corners = {rectangle.bounds.topLeft(),
                                     rectangle.bounds.topRight(),
                                     rectangle.bounds.bottomRight(),
                                     rectangle.bounds.bottomLeft()};
-    QList<QPointF> points;
+    QList<QPointF> points;  ///< 点列表。
     points.reserve(corners.size() + 1);
     for (const QPointF& corner : corners) {
-        const QPointF relative = corner - center;
+        const QPointF relative = corner - center;  ///< 相对路径。
         points.append(
             center + QPointF(relative.x() * cosine - relative.y() * sine, relative.x() * sine + relative.y() * cosine));
     }
@@ -193,9 +196,10 @@ QString escapedText(QString text) {
  * @param diameterMm 钻孔直径，单位为毫米。
  * @param slotLengthMm 槽孔总长度，单位为毫米；不大于孔径时按圆孔处理。
  * @return 稳定的 Hole 名称。
+ * @param isPlated 是否电镀。
  */
 QString holeName(double diameterMm, double slotLengthMm = 0.0, bool isPlated = true) {
-    QString name;
+    QString name;  ///< 名称。
     if (slotLengthMm > diameterMm)
         name = QStringLiteral("HOLE_%1x%2").arg(fmt(toTh(diameterMm))).arg(fmt(toTh(slotLengthMm)));
     else
@@ -240,11 +244,11 @@ QString padstackSideSuffix(const IR::FootprintPadIR& pad) {
  * @return 包含焊盘、线条、圆、孔和轮廓的包围盒。
  */
 QRectF footprintBounds(const IR::FootprintComponentIR& footprint) {
-    double minX = 0.0;
-    double minY = 0.0;
-    double maxX = 0.0;
-    double maxY = 0.0;
-    bool initialized = false;
+    double minX = 0.0;  ///< 最小 X 坐标。
+    double minY = 0.0;  ///< 最小 Y 坐标。
+    double maxX = 0.0;  ///< 最大 X 坐标。
+    double maxY = 0.0;  ///< 最大 Y 坐标。
+    bool initialized = false;  ///< 是否已初始化。
     const auto addPoint = [&](const QPointF& point) {
         if (!initialized) {
             minX = maxX = point.x();
@@ -307,6 +311,7 @@ QRectF footprintBounds(const IR::FootprintComponentIR& footprint) {
 QString shapeBlock(const QString& kind, const QList<QPointF>& points, double width = 0.0, bool filled = false) {
     if (points.isEmpty())
         return {};
+    // 输出对象。
     QString output = QStringLiteral(" ...%1\n  ....WIDTH %2\n  ....XY (%3, %4)")
                          .arg(kind)
                          .arg(fmt(toTh(width)))
@@ -323,25 +328,37 @@ QString shapeBlock(const QString& kind, const QList<QPointF>& points, double wid
 
 }  // namespace
 
-// 封装归档由 Padstack 和 Cell 两类 HKP 文件组成，使用专用扩展名标识。
+/**
+ * @brief 封装归档由 Padstack 和 Cell 两类 HKP 文件组成，使用专用扩展名标识。
+ */
 QString ExporterXpeditionFootprint::libraryFileExtension() const {
-    // 封装导出结果由多个 HKP 文件组成，因此使用专用 ZIP 扩展名区分符号库。
+    /**
+     * @brief 封装导出结果由多个 HKP 文件组成，因此使用专用 ZIP 扩展名区分符号库。
+     * @param zip 压缩归档写入器。
+     */
     return QStringLiteral("_Footprints.zip");
 }
 
-// 目录输出能力由导出接口统一查询，当前归档实现始终返回单文件结果。
+/**
+ * @brief 目录输出能力由导出接口统一查询，当前归档实现始终返回单文件结果。
+ */
 bool ExporterXpeditionFootprint::isDirectoryOutput() const {
     // 写入器会在内存中组装归档，外部接口看到的是单个文件而不是目录。
     return false;
 }
 
-// 诊断接口不改写内部列表，保证调用方可以区分多个封装的处理结果。
+/**
+ * @brief 诊断接口不改写内部列表，保证调用方可以区分多个封装的处理结果。
+ */
 QStringList ExporterXpeditionFootprint::diagnostics() const {
     // 返回值按导出顺序保留，调用方可以直接展示降级和跳过原因。
     return m_diagnostics;
 }
 
-// 清理名称后再同时用于 ZIP 条目和 HKP 逻辑名称，避免两处命名不一致。
+/**
+ * @brief 清理名称后再同时用于 ZIP 条目和 HKP 逻辑名称，避免两处命名不一致。
+ * @param name 名称。
+ */
 QString ExporterXpeditionFootprint::safeName(QString name) const {
     // 文件名必须同时适合 ZIP 条目和 HKP 逻辑名称，因此在导出边界统一清理。
     name = name.trimmed();
@@ -349,20 +366,23 @@ QString ExporterXpeditionFootprint::safeName(QString name) const {
     return name.isEmpty() ? QStringLiteral("unnamed") : name;
 }
 
-// Padstack 文件集中声明可复用焊盘、钻孔以及两者的技术组合。
+/**
+ * @brief Padstack 文件集中声明可复用焊盘、钻孔以及两者的技术组合。
+ * @param footprint 待处理的封装。
+ */
 QByteArray ExporterXpeditionFootprint::padstackFile(const IR::FootprintComponentIR& footprint) const {
     // Pad 与 Padstack 分开去重，保证相同尺寸的焊盘只生成一次定义。
     QString output = QStringLiteral(".FILETYPE PADSTACK_LIBRARY\n.VERSION \"VB99.0\"\n.SCHEMA_VERSION 13\n") +
                      QStringLiteral(".CREATOR \"EasyKiConverter\"\n\n.UNITS TH\n\n");
-    QSet<QString> writtenPads;
-    QSet<QString> writtenStacks;
+    QSet<QString> writtenPads;  ///< 已写入焊盘集合。
+    QSet<QString> writtenStacks;  ///< 已写入 Padstack 集合。
 
     // IR 没有独立的阻焊扩展字段，使用明确的 8 TH 默认扩展生成工艺层焊盘。
     const auto appendPad = [&](const QString& name, const IR::FootprintPadIR& pad, double expansionTh) {
         if (writtenPads.contains(name))
             return;
-        const double width = toTh(pad.size.width()) + expansionTh;
-        const double height = toTh(pad.size.height()) + expansionTh;
+        const double width = toTh(pad.size.width()) + expansionTh;  ///< 宽度。
+        const double height = toTh(pad.size.height()) + expansionTh;  ///< 高度。
         output += QStringLiteral(".PAD \"%1\"\n..PAD_OPTIONS USER_GENERATED_NAME\n..OFFSET (0, 0)\n..%2\n")
                       .arg(name, padShape(pad));
         if (pad.shape == IR::PadShape::Ellipse && qFuzzyCompare(pad.size.width(), pad.size.height())) {
@@ -370,7 +390,8 @@ QByteArray ExporterXpeditionFootprint::padstackFile(const IR::FootprintComponent
         } else if (hasCustomPadGeometry(pad)) {
             // 自定义焊盘按 X/Y 尺寸比例扩展，保持多边形的相对形状。
             const double scaleX = pad.size.width() > 0.0 ? width / toTh(pad.size.width()) : 1.0;
-            const double scaleY = pad.size.height() > 0.0 ? height / toTh(pad.size.height()) : 1.0;
+            const double scaleY =
+                pad.size.height() > 0.0 ? height / toTh(pad.size.height()) : 1.0;  ///< Y 方向缩放比例。
             output += QStringLiteral("...POLYLINE_SHAPE\n....XY");
             for (const QPointF& point : pad.customShapePoints)
                 output +=
@@ -383,13 +404,14 @@ QByteArray ExporterXpeditionFootprint::padstackFile(const IR::FootprintComponent
     };
 
     for (const auto& pad : footprint.pads) {
-        const QString baseName = padName(pad);
+        const QString baseName = padName(pad);  ///< 名称。
         // 先写入铜焊盘，再写入供阻焊层引用的放大定义。
         appendPad(baseName, pad, 0.0);
-        const QString maskName = solderMaskPadName(baseName);
+        const QString maskName = solderMaskPadName(baseName);  ///< 名称。
         appendPad(maskName, pad, kSolderMaskExpansionTh);
 
-        const QString stackName = baseName + (pad.isThroughHole() ? QStringLiteral("_TH") : padstackSideSuffix(pad));
+        const QString stackName =
+            baseName + (pad.isThroughHole() ? QStringLiteral("_TH") : padstackSideSuffix(pad));  ///< 名称。
         if (writtenStacks.contains(stackName))
             continue;
         output += QStringLiteral(".PADSTACK \"%1\"\n..PADSTACK_TYPE %2\n..TECHNOLOGY \"(Default)\"\n")
@@ -429,9 +451,9 @@ QByteArray ExporterXpeditionFootprint::padstackFile(const IR::FootprintComponent
         // IR 中没有焊盘的独立孔仍需转换为可定位的安装孔引脚。
         if (hole.radius <= 0.0)
             continue;
-        const double diameterMm = hole.radius * 2.0;
-        const QString baseName = holePadName(diameterMm);
-        const QString stackName = standaloneHoleStackName(diameterMm);
+        const double diameterMm = hole.radius * 2.0;  ///< 孔径尺寸。
+        const QString baseName = holePadName(diameterMm);  ///< 名称。
+        const QString stackName = standaloneHoleStackName(diameterMm);  ///< 名称。
         if (!writtenPads.contains(baseName)) {
             output += QStringLiteral(
                           ".PAD \"%1\"\n..PAD_OPTIONS USER_GENERATED_NAME\n..OFFSET (0, 0)\n..ROUND\n...DIAMETER %2\n")
@@ -441,7 +463,7 @@ QByteArray ExporterXpeditionFootprint::padstackFile(const IR::FootprintComponent
         }
         if (writtenStacks.contains(stackName))
             continue;
-        const QString drillName = holeName(diameterMm, 0.0, false);
+        const QString drillName = holeName(diameterMm, 0.0, false);  ///< 名称。
         output += QStringLiteral(".PADSTACK \"%1\"\n..PADSTACK_TYPE PIN_THROUGH\n..TECHNOLOGY \"(Default)\"\n")
                       .arg(stackName);
         output += QStringLiteral(
@@ -456,11 +478,14 @@ QByteArray ExporterXpeditionFootprint::padstackFile(const IR::FootprintComponent
     return output.toUtf8();
 }
 
-// Cell 文件保存引脚、图形、文本和安装孔的相对位置。
+/**
+ * @brief Cell 文件保存引脚、图形、文本和安装孔的相对位置。
+ * @param footprint 待处理的封装。
+ */
 QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& footprint) const {
     // Cell 的局部原点取包围盒中心，能让没有明确原点的封装保持几何居中。
     const QRectF bounds = footprintBounds(footprint);
-    const QPointF origin = bounds.center();
+    const QPointF origin = bounds.center();  ///< 几何原点。
     QString output =
         QStringLiteral(".FILETYPE CELL_LIBRARY\n.VERSION \"1.01.01\"\n.CREATOR \"EasyKiConverter\"\n\n.UNITS TH\n\n");
     output += QStringLiteral(".PACKAGE_CELL \"%1\"\n ..NUMBER_LAYERS 2\n ..PACKAGE_GROUP General\n ..MOUNT_TYPE %2\n")
@@ -468,7 +493,7 @@ QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& 
                        footprint.hasThroughHolePads() || !footprint.holes.isEmpty() ? QStringLiteral("THROUGH")
                                                                                     : QStringLiteral("SURFACE"));
 
-    int pinIndex = 1;
+    int pinIndex = 1;  ///< 索引。
     for (const auto& pad : footprint.pads) {
         const QString stackName =
             padName(pad) + (pad.isThroughHole() ? QStringLiteral("_TH") : padstackSideSuffix(pad));
@@ -488,7 +513,7 @@ QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& 
             // 目标坐标系的 Y 轴方向与 IR 相反，这里集中完成平移和翻转。
             if (layer.name.isEmpty() || points.isEmpty())
                 return;
-            QList<QPointF> normalized;
+            QList<QPointF> normalized;  ///< 规范化坐标或文本。
             for (const QPointF& point : points)
                 normalized.append(QPointF(point.x() - origin.x(), -(point.y() - origin.y())));
             output += QStringLiteral(" ..%1\n  ...SIDE %2\n").arg(layer.name, layer.side);
@@ -502,7 +527,7 @@ QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& 
     for (const auto& rect : footprint.rectangles)
         appendPolyline(layerSection(rect.layer), rectanglePoints(rect), rect.strokeWidth, false);
     for (const auto& circle : footprint.circles) {
-        const LayerSection layer = layerSection(circle.layer);
+        const LayerSection layer = layerSection(circle.layer);  ///< 图层。
         if (layer.name.isEmpty())
             continue;
         output += QStringLiteral(
@@ -518,14 +543,14 @@ QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& 
         const LayerSection layer = layerSection(arc.layer);
         if (layer.name.isEmpty() || arc.radius <= 0.0)
             continue;
-        double sweep = arc.endAngle - arc.startAngle;
+        double sweep = arc.endAngle - arc.startAngle;  ///< 圆弧扫掠角度。
         if (qFuzzyIsNull(sweep))
             sweep = 360.0;
-        const int segments = qMax(8, static_cast<int>(std::ceil(std::abs(sweep) / 15.0)));
-        QList<QPointF> points;
+        const int segments = qMax(8, static_cast<int>(std::ceil(std::abs(sweep) / 15.0)));  ///< 圆弧离散线段数量。
+        QList<QPointF> points;  ///< 点列表。
         points.reserve(segments + 1);
         for (int index = 0; index <= segments; ++index) {
-            const double angle = qDegreesToRadians(arc.startAngle + sweep * index / segments);
+            const double angle = qDegreesToRadians(arc.startAngle + sweep * index / segments);  ///< 旋转角度。
             points.append(
                 QPointF(arc.center.x() + arc.radius * std::cos(angle), arc.center.y() + arc.radius * std::sin(angle)));
         }
@@ -536,12 +561,12 @@ QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& 
         const LayerSection layer = layerSection(region.layer);
         if (layer.name.isEmpty() || region.vertices.size() < 3)
             continue;
-        QList<QPointF> points = region.vertices;
+        QList<QPointF> points = region.vertices;  ///< 点列表。
         if (points.first() != points.last())
             points.append(points.first());
         appendPolyline(layer, points, 0.0, true);
     }
-    int holeIndex = 1;
+    int holeIndex = 1;  ///< 索引。
     for (const auto& hole : footprint.holes) {
         // 独立孔通过 MH 前缀的无电气引脚表达，保持其位置可被 Cell 引用。
         if (hole.radius <= 0.0)
@@ -558,11 +583,11 @@ QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& 
         // 仅导出可见文本；隐藏文本不应改变目标封装的视觉结果。
         if (!text.isDisplayed || text.text.isEmpty())
             continue;
-        const LayerSection layer = layerSection(text.layer);
+        const LayerSection layer = layerSection(text.layer);  ///< 图层。
         if (layer.name.isEmpty())
             continue;
-        const double height = text.fontSize > 0.0 ? toTh(text.fontSize) : 50.0;
-        const double stroke = text.strokeWidth > 0.0 ? toTh(text.strokeWidth) : 3.0;
+        const double height = text.fontSize > 0.0 ? toTh(text.fontSize) : 50.0;  ///< 高度。
+        const double stroke = text.strokeWidth > 0.0 ? toTh(text.strokeWidth) : 3.0;  ///< 文本描边宽度。
         output += QStringLiteral(" ..TEXT \"%1\"\n  ...TEXT_TYPE USER_DEFINED\n   ...DISPLAY_ATTR\n")
                       .arg(escapedText(text.text));
         output += QStringLiteral("    ....XY (%1, %2)\n    ....TEXT_LYR %3\n    ....HORZ_JUST CENTER\n")
@@ -582,7 +607,12 @@ QByteArray ExporterXpeditionFootprint::cellFile(const IR::FootprintComponentIR& 
     return output.toUtf8();
 }
 
-// 单个封装入口沿用批量导出实现，以保持诊断和命名规则一致。
+/**
+ * @brief 单个封装入口沿用批量导出实现，以保持诊断和命名规则一致。
+ * @param footprint 待处理的封装。
+ * @param filePath 输出文件路径。
+ * @param model3DPath 三维模型路径。
+ */
 bool ExporterXpeditionFootprint::exportFootprint(const IR::FootprintComponentIR& footprint,
                                                  const QString& filePath,
                                                  const QString& model3DPath) {
@@ -593,7 +623,11 @@ bool ExporterXpeditionFootprint::exportFootprint(const IR::FootprintComponentIR&
     return success;
 }
 
-// 批量入口负责去重名称、收集诊断并提交最终 ZIP 文件。
+/**
+ * @brief 批量入口负责去重名称、收集诊断并提交最终 ZIP 文件。
+ * @param footprints 封装列表。
+ * @param filePath 输出文件路径。
+ */
 bool ExporterXpeditionFootprint::exportFootprintLibrary(const QList<IR::FootprintComponentIR>& footprints,
                                                         const QString&,
                                                         const QString& filePath,
@@ -605,16 +639,16 @@ bool ExporterXpeditionFootprint::exportFootprintLibrary(const QList<IR::Footprin
                                                         const QString&) {
     // 每次批量导出都清空旧诊断，避免上一次任务的消息污染当前结果。
     m_diagnostics.clear();
-    XpeditionZipWriter archive;
-    QSet<QString> usedNames;
+    XpeditionZipWriter archive;  ///< 压缩归档写入器。
+    QSet<QString> usedNames;  ///< 名称集合。
     for (const auto& footprint : footprints) {
         if (footprint.name.trimmed().isEmpty()) {
             m_diagnostics.append(QStringLiteral("跳过名称为空的 Xpedition 封装"));
             continue;
         }
-        const QString baseName = safeName(footprint.name);
-        QString name = baseName;
-        int suffix = 2;
+        const QString baseName = safeName(footprint.name);  ///< 名称。
+        QString name = baseName;  ///< 名称。
+        int suffix = 2;  ///< 名称冲突后缀。
         while (usedNames.contains(name))
             name = QStringLiteral("%1_%2").arg(baseName).arg(suffix++);
         if (name != baseName)
@@ -642,7 +676,7 @@ bool ExporterXpeditionFootprint::exportFootprintLibrary(const QList<IR::Footprin
             m_diagnostics.append(QStringLiteral("Xpedition 封装 %1 已将 %2 个独立孔写为安装孔引脚")
                                      .arg(footprint.name)
                                      .arg(footprint.holes.size()));
-        bool hasUnsupportedLayer = false;
+        bool hasUnsupportedLayer = false;  ///< 图层。
         for (const auto& track : footprint.tracks)
             hasUnsupportedLayer |= layerSection(track.layer).name.isEmpty();
         for (const auto& rectangle : footprint.rectangles)

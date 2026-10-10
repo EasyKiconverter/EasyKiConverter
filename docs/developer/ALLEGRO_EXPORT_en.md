@@ -28,7 +28,7 @@ Exporting `MyLib` creates `MyLib_Allegro/` with `manifest.json`, `generator.il`,
 - Padstacks are reused when geometry, drill, slot, plating, layer behavior, rotation, and custom vertices are equivalent.
 - Standalone mounting holes are emitted as mechanical geometry and are never invented as electrical pins.
 - Duplicate or empty pin numbers, invalid shape references, and unmappable layers stop the export.
-- The current IR has no independent solder-mask or paste-expansion fields. The package records this limitation instead of fabricating manufacturing data.
+- The IR exposes independent solder-mask expansion, paste contraction, and layer-enable fields. Known values from EasyEDA layer records are carried into the IR; missing values remain zero and unsupported target semantics produce diagnostics.
 - If no reliable place bound is present, a pad bounding-box fallback is emitted with a diagnostic.
 - STEP translation, rotation, offset, and coordinate-system notes are recorded in normalized JSON; model files are written only when valid STEP data is present.
 

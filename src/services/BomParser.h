@@ -61,6 +61,8 @@ private:
 
     /**
      * @brief 处理单元格文本并提取 ID
+     * @param text 单元格文本。
+     * @param result 输出的元件编号列表。
      */
     void processCellText(const QString& text, QStringList& result);
 };

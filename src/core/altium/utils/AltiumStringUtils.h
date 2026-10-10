@@ -27,14 +27,15 @@ namespace AltiumStringUtils {
  * @endcode
  */
 inline QList<QPointF> parsePointsString(const QString& pointsStr) {
-    QList<QPointF> result;
-    QStringList pairs = pointsStr.trimmed().split(' ', Qt::SkipEmptyParts);
+    QList<QPointF> result;  // 解析得到的坐标点列表。
+    QStringList pairs = pointsStr.trimmed().split(' ', Qt::SkipEmptyParts);  // 空格分隔的点字符串。
     for (const QString& pair : pairs) {
-        QStringList coords = pair.split(',');
+        QStringList coords = pair.split(',');  // 当前点的 X/Y 字段。
         if (coords.size() >= 2) {
-            bool ok1, ok2;
-            double x = coords[0].toDouble(&ok1);
-            double y = coords[1].toDouble(&ok2);
+            bool ok1 = false;  // X 坐标转换是否成功。
+            bool ok2 = false;  // Y 坐标转换是否成功。
+            double x = coords[0].toDouble(&ok1);  // 当前点 X 坐标。
+            double y = coords[1].toDouble(&ok2);  // 当前点 Y 坐标。
             if (ok1 && ok2) {
                 result.append(QPointF(x, y));
             }
@@ -57,19 +58,20 @@ inline QList<QPointF> parsePointsString(const QString& pointsStr) {
  * @endcode
  */
 inline QList<QPointF> parsePathString(const QString& pathStr) {
-    QList<QPointF> result;
-    QString cleaned = pathStr;
+    QList<QPointF> result;  // 解析得到的坐标点列表。
+    QString cleaned = pathStr;  // 删除 SVG 命令后的路径文本。
     // 单遍替换：SVG 路径命令字母和逗号统一替换为空格
     for (int i = 0; i < cleaned.size(); ++i) {
-        QChar c = cleaned[i];
+        QChar c = cleaned[i];  // 当前路径字符。
         if (c == ',' || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
             cleaned[i] = ' ';
     }
-    QStringList nums = cleaned.split(' ', Qt::SkipEmptyParts);
+    QStringList nums = cleaned.split(' ', Qt::SkipEmptyParts);  // 空格分隔的数字字段。
     for (int i = 0; i + 1 < nums.size(); i += 2) {
-        bool ok1, ok2;
-        double x = nums[i].toDouble(&ok1);
-        double y = nums[i + 1].toDouble(&ok2);
+        bool ok1 = false;  // X 坐标转换是否成功。
+        bool ok2 = false;  // Y 坐标转换是否成功。
+        double x = nums[i].toDouble(&ok1);  // 当前点 X 坐标。
+        double y = nums[i + 1].toDouble(&ok2);  // 当前点 Y 坐标。
         if (ok1 && ok2) {
             result.append(QPointF(x, y));
         }

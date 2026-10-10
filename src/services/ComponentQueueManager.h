@@ -26,8 +26,8 @@ public:
     bool isRunning() const;
     int maxConcurrentRequests() const;
 
-    static const int QUEUE_CHECK_INTERVAL_MS = 200;
-    static const int TOTAL_TIMEOUT_MS = 300000;
+    static const int QUEUE_CHECK_INTERVAL_MS = 200;  ///< 队列检查间隔（毫秒）。
+    static const int TOTAL_TIMEOUT_MS = 300000;  ///< 队列整体超时时间（毫秒）。
 
 signals:
     void requestReady(const QString& componentId);
@@ -40,12 +40,12 @@ private slots:
     void onTotalTimeout();
 
 private:
-    QStringList m_requestQueue;
-    QSet<QString> m_pendingComponents;
-    int m_maxConcurrentRequests;
-    QTimer* m_checkTimer;
-    QTimer* m_totalTimer;
-    bool m_isRunning;
+    QStringList m_requestQueue;  ///< 队列。
+    QSet<QString> m_pendingComponents;  ///< 待处理元器件集合。
+    int m_maxConcurrentRequests;  ///< 最大并发请求数。
+    QTimer* m_checkTimer;  ///< 更新检查定时器。
+    QTimer* m_totalTimer;  ///< 更新检查总计时器。
+    bool m_isRunning;  ///< 服务运行状态。
 };
 
 }  // namespace EasyKiConverter

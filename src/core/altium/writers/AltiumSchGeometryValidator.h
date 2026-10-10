@@ -12,7 +12,12 @@ class AltiumSchLibWriter;
  */
 class AltiumSchGeometryValidator final {
 public:
-    /** @brief 校验组件中全部图元的几何约束。 */
+    /**
+     * @brief 校验组件中全部图元的几何约束。
+     * @param writer 所属的 SchLib 主写入器。
+     * @param component 待校验的原理图元件。
+     * @return 所有图元均符合约束时返回 true。
+     */
     static bool validate(AltiumSchLibWriter& writer, const AltiumSchComponent& component);
 };
 

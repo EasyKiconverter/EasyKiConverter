@@ -18,6 +18,9 @@ class TestCoreUtils : public QObject {
 
 private slots:
 
+    /**
+     * @brief 验证 normalizePreviewImageUrls 测试场景。
+     */
     void normalizePreviewImageUrls() {
         QCOMPARE(UrlUtils::normalizePreviewImageUrl(QStringLiteral(" //image.lceda.cn/files/a.png ")),
                  QStringLiteral("https://image.lceda.cn/files/a.png"));
@@ -33,29 +36,44 @@ private slots:
                  QStringLiteral("https://alimg.szlcsc.com/upload/a.png"));
     }
 
+    /**
+     * @brief 验证 fileUtilsRoundTripsSpecialCharacters 测试场景。
+     */
     void fileUtilsRoundTripsSpecialCharacters() {
+        // fileUtils：测试使用的文件系统路径。
         const FileUtils fileUtils;
 #ifdef Q_OS_WIN
+        // path：测试使用的文件系统路径。
         const QString path = QStringLiteral("C:/tmp/work#1/folder?2");
         const QString expectedUrl = QStringLiteral("file:///C:/tmp/work%231/folder%3F2");
 #else
+        // path：测试使用的文件系统路径。
         const QString path = QStringLiteral("/tmp/work#1/folder?2");
         const QString expectedUrl = QStringLiteral("file:///tmp/work%231/folder%3F2");
 #endif
+        // url：测试用资源地址。
         const QUrl url = fileUtils.localPathToFileUrl(path);
 
         QCOMPARE(url.toString(QUrl::FullyEncoded), expectedUrl);
         QCOMPARE(fileUtils.urlToLocalPath(url), path);
     }
 
+    /**
+     * @brief 验证 fileUtilsParsesUncFileUrl 测试场景。
+     */
     void fileUtilsParsesUncFileUrl() {
+        // fileUtils：测试使用的文件系统路径。
         const FileUtils fileUtils;
         const QUrl url(QStringLiteral("file://server/share/folder%231"));
+        // localPath：测试使用的文件系统路径。
         const QString localPath = fileUtils.urlToLocalPath(url);
 
         QCOMPARE(QDir::fromNativeSeparators(localPath), QStringLiteral("//server/share/folder#1"));
     }
 
+    /**
+     * @brief 验证 deduplicateAndNormalizeUrlsKeepsFirstOccurrenceOrder 测试场景。
+     */
     void deduplicateAndNormalizeUrlsKeepsFirstOccurrenceOrder() {
         const QStringList urls = {
             QStringLiteral("//image.lceda.cn/a.png"),
@@ -70,26 +88,37 @@ private slots:
                               QStringLiteral("https://image.lceda.cn/relative/b.png")}));
     }
 
+    /**
+     * @brief 验证 gzipDetectionAndDecompression 测试场景。
+     */
     void gzipDetectionAndDecompression() {
+        // plain：未压缩的测试数据。
         const QByteArray plain = QByteArrayLiteral("plain text payload long enough");
         QVERIFY(!GzipUtils::isGzipped(plain));
 
+        // plainResult：测试得到的实际结果数据。
         const GzipUtils::DecompressResult plainResult = GzipUtils::decompress(plain);
         QVERIFY(plainResult.success);
         QCOMPARE(plainResult.data, plain);
 
+        // gzipped：Gzip 压缩的测试数据。
         const QByteArray gzipped = QByteArray::fromHex("1f8b08001f3c036a02ffcb48cdc9c95748afca2c0000196ad2df0a000000");
         QVERIFY(GzipUtils::isGzipped(gzipped));
 
+        // gzipResult：测试得到的实际结果数据。
         const GzipUtils::DecompressResult gzipResult = GzipUtils::decompress(gzipped);
         QVERIFY(gzipResult.success);
         QCOMPARE(gzipResult.data, QByteArrayLiteral("hello gzip"));
 
+        // invalidResult：测试使用的元器件标识或名称。
         const GzipUtils::DecompressResult invalidResult = GzipUtils::decompress(QByteArray::fromHex("1f8b"));
         QVERIFY(!invalidResult.success);
         QVERIFY(invalidResult.data.isEmpty());
     }
 
+    /**
+     * @brief 验证 kicadTableValueEscaping 测试场景。
+     */
     void kicadTableValueEscaping() {
         QCOMPARE(KiCadTableUtils::escapeTableValue(QStringLiteral("Plain")), QStringLiteral("Plain"));
         QCOMPARE(KiCadTableUtils::escapeTableValue(QStringLiteral("A \"quoted\" value")),
@@ -98,7 +127,11 @@ private slots:
                  QStringLiteral("C:\\\\KiCad\\\\Lib"));
     }
 
+    /**
+     * @brief 验证 layerMapperMapsIdsNamesAndFallbacks 测试场景。
+     */
     void layerMapperMapsIdsNamesAndFallbacks() {
+        // mapper：测试用映射器。
         const LayerMapper mapper;
 
         QCOMPARE(mapper.mapToKiCadLayer(1), static_cast<int>(LayerMapper::F_Cu));
@@ -116,6 +149,9 @@ private slots:
         QCOMPARE(mapper.getKiCadLayerName(9999), QStringLiteral("Unknown(9999)"));
     }
 
+    /**
+     * @brief 验证 layerMapperClassifiesLayersAndConvertsUnits 测试场景。
+     */
     void layerMapperClassifiesLayersAndConvertsUnits() {
         QVERIFY(LayerMapper::isSignalLayer(LayerMapper::F_Cu));
         QVERIFY(LayerMapper::isSignalLayer(LayerMapper::B_Cu));

@@ -28,10 +28,18 @@ public:
         m_originY = originY;
     }
 
+    /**
+     * @brief 返回当前原点 X 坐标。
+     * @return 原点 X 坐标，单位为毫米。
+     */
     double originX() const {
         return m_originX;
     }
 
+    /**
+     * @brief 返回当前原点 Y 坐标。
+     * @return 原点 Y 坐标，单位为毫米。
+     */
     double originY() const {
         return m_originY;
     }

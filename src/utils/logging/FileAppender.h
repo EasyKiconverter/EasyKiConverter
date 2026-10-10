@@ -45,6 +45,8 @@ public:
 
     /**
      * @brief 输出日志到文件
+     * @param record 待写入的日志记录。
+     * @param formatted 已格式化的日志文本。
      */
     void append(const LogRecord& record, const QString& formatted) override;
 
@@ -60,6 +62,7 @@ public:
 
     /**
      * @brief 设置最大文件大小
+     * @param maxSize 最大文件大小（字节）。
      */
     void setMaxSize(qint64 maxSize) {
         m_maxSize = maxSize;
@@ -74,6 +77,7 @@ public:
 
     /**
      * @brief 设置最大文件数
+     * @param maxFiles 最大保留文件数。
      */
     void setMaxFiles(int maxFiles) {
         m_maxFiles = maxFiles;
@@ -130,35 +134,39 @@ public:
     }
 
 private:
-    QString m_filePath;
-    QString m_canonicalPath;  // 规范化后的路径
-    QString m_baseDir;  // 基础目录
-    qint64 m_maxSize;
-    int m_maxFiles;
-    bool m_async;
-    int m_maxQueueSize = 10000;  // 默认队列大小限制
-    bool m_pathValid = false;
-    QString m_lastError;
+    QString m_filePath;  ///< 当前日志文件路径。
+    QString m_canonicalPath;  ///< 解析后的规范化日志路径。
+    QString m_baseDir;  ///< 日志文件所在基础目录。
+    qint64 m_maxSize;  ///< 单个日志文件的最大字节数。
+    int m_maxFiles;  ///< 保留的历史日志文件数量上限。
+    bool m_async;  ///< 是否使用异步写入线程。
+    int m_maxQueueSize = 10000;  ///< 异步日志队列大小上限。
+    bool m_pathValid = false;  ///< 当前日志路径是否通过安全校验。
+    QString m_lastError;  ///< 最近一次路径或文件操作错误。
 
-    QFile m_file;
-    mutable QRecursiveMutex m_fileMutex;  // 使用递归锁支持嵌套调用
+    QFile m_file;  ///< 当前打开的日志文件。
+    mutable QRecursiveMutex m_fileMutex;  ///< 支持嵌套调用的文件递归锁。
 
     // 异步写入相关
-    QThread* m_writerThread = nullptr;
-    QQueue<QString> m_writeQueue;
-    mutable QMutex m_queueMutex;
-    QWaitCondition m_queueCondition;
-    QAtomicInt m_running;
-    QAtomicInt m_flushRequested;
-    QAtomicInt m_queueOverflow;  // 队列溢出标记
+    QThread* m_writerThread = nullptr;  ///< 异步日志写入线程。
+    QQueue<QString> m_writeQueue;  ///< 待写入的日志消息队列。
+    mutable QMutex m_queueMutex;  ///< 保护日志消息队列的互斥量。
+    QWaitCondition m_queueCondition;  ///< 唤醒异步写入线程的条件变量。
+    QAtomicInt m_running;  ///< 异步写入线程运行状态。
+    QAtomicInt m_flushRequested;  ///< 异步刷新请求标志。
+    QAtomicInt m_queueOverflow;  ///< 队列溢出标志。
 
     /**
      * @brief 验证和规范化文件路径
+     * @param filePath 待校验的日志文件路径。
+     * @return 路径安全且规范化成功时返回 true。
      */
     bool validateAndNormalizePath(const QString& filePath);
 
     /**
      * @brief 检查路径是否在允许的目录范围内
+     * @param path 待检查的日志文件路径。
+     * @return 路径位于允许目录内时返回 true。
      */
     bool isPathInAllowedDir(const QString& path) const;
 
@@ -179,6 +187,8 @@ private:
 
     /**
      * @brief 生成滚动文件名
+     * @param index 历史日志滚动序号。
+     * @return 生成的历史日志文件路径。
      */
     QString generateRolledFileName(int index) const;
 
@@ -189,6 +199,7 @@ private:
 
     /**
      * @brief 直接写入（同步模式或关闭时使用）
+     * @param formatted 已格式化的日志文本。
      */
     void writeDirect(const QString& formatted);
 

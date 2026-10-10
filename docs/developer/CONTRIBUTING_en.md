@@ -112,6 +112,8 @@ Follow Qt coding standards:
   double centerX = ...;
   ```
 
+- Add Simplified Chinese comments to every new or modified variable, including member variables, parameters, local temporaries, intermediate results, and constants; prefer `///<` on declarations.
+
 #### C++ Features
 
 - Use C++17 features

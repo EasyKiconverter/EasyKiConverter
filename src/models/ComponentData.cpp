@@ -21,9 +21,12 @@ ComponentData::ComponentData()
     , m_footprintData(nullptr)
     , m_model3DData(nullptr) {}
 
-/** @brief 将组件数据序列化为 JSON 对象。 */
+/**
+ * @brief 将组件数据序列化为 JSON 对象。
+ * @return 组件数据 JSON 对象。
+ */
 QJsonObject ComponentData::toJson() const {
-    QJsonObject json;
+    QJsonObject json;  ///< 组件数据的 JSON 输出对象。
 
     // 基本信息
     json["lcsc_id"] = m_lcscId;
@@ -59,7 +62,11 @@ QJsonObject ComponentData::toJson() const {
     return json;
 }
 
-/** @brief 从 JSON 对象替换当前组件数据。 */
+/**
+ * @brief 从 JSON 对象替换当前组件数据。
+ * @param json 组件数据 JSON 对象。
+ * @return 解析成功时返回 true。
+ */
 bool ComponentData::fromJson(const QJsonObject& json) {
     // 反序列化表示替换完整对象，先清理未出现在新 JSON 中的旧数据。
     clear();
@@ -75,7 +82,7 @@ bool ComponentData::fromJson(const QJsonObject& json) {
 
     // 读取预览图列表
     if (json.contains("preview_images") && json["preview_images"].isArray()) {
-        QJsonArray previewImagesArray = json["preview_images"].toArray();
+        QJsonArray previewImagesArray = json["preview_images"].toArray();  ///< 预览图链接 JSON 数组。
         m_previewImages.clear();
         for (const QJsonValue& value : previewImagesArray) {
             m_previewImages.append(value.toString());
@@ -118,7 +125,10 @@ bool ComponentData::fromJson(const QJsonObject& json) {
     return true;
 }
 
-/** @brief 检查组件是否包含有效身份和基础元数据。 */
+/**
+ * @brief 检查组件是否包含有效身份和基础元数据。
+ * @return 组件数据有效时返回 true。
+ */
 bool ComponentData::isValid() const {
     // 验证 LCSC ID 格式（以 C 开头，后面跟数字）
     if (m_lcscId.isEmpty()) {
@@ -131,7 +141,7 @@ bool ComponentData::isValid() const {
 
     // 检查后面是否为数字
     bool ok = false;
-    QString numberPart = m_lcscId.mid(1);
+    QString numberPart = m_lcscId.mid(1);  ///< 去除 C 前缀后的数字部分。
     if (numberPart.length() > 0) {
         numberPart.toInt(&ok);
     }
@@ -147,7 +157,10 @@ bool ComponentData::isValid() const {
     return true;
 }
 
-/** @brief 返回组件数据的校验错误。 */
+/**
+ * @brief 返回组件数据的校验错误。
+ * @return 首个校验错误；无错误时返回空字符串。
+ */
 QString ComponentData::validate() const {
     if (m_lcscId.isEmpty()) {
         return "LCSC ID is empty";
@@ -159,7 +172,7 @@ QString ComponentData::validate() const {
 
     // 检查后面是否为数字
     bool ok = false;
-    QString numberPart = m_lcscId.mid(1);
+    QString numberPart = m_lcscId.mid(1);  ///< 去除 C 前缀后的数字部分。
     if (numberPart.length() > 0) {
         numberPart.toInt(&ok);
     }
@@ -172,14 +185,14 @@ QString ComponentData::validate() const {
     }
 
     if (m_symbolData) {
-        QString symbolError = m_symbolData->validate();
+        QString symbolError = m_symbolData->validate();  ///< 符号数据的校验错误。
         if (!symbolError.isEmpty()) {
             return QString("Symbol validation failed: %1").arg(symbolError);
         }
     }
 
     if (m_footprintData) {
-        QString footprintError = m_footprintData->validate();
+        QString footprintError = m_footprintData->validate();  ///< 封装数据的校验错误。
         if (!footprintError.isEmpty()) {
             return QString("Footprint validation failed: %1").arg(footprintError);
         }
@@ -188,7 +201,9 @@ QString ComponentData::validate() const {
     return QString();  // 返回空字符串表示验证通过
 }
 
-/** @brief 清空组件数据及其关联对象。 */
+/**
+ * @brief 清空组件数据及其关联对象。
+ */
 void ComponentData::clear() {
     m_lcscId.clear();
     m_name.clear();

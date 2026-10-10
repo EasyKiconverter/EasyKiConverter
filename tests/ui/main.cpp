@@ -13,12 +13,23 @@ class FakeLanguageManager : public QObject {
     Q_PROPERTY(QString currentLanguage READ currentLanguage WRITE setLanguage NOTIFY languageChanged)
 
 public:
+    /**
+     * @brief 验证 FakeLanguageManager 测试场景。
+     * @param parent Qt 父对象。
+     */
     explicit FakeLanguageManager(QObject* parent = nullptr) : QObject(parent) {}
 
+    /**
+     * @brief 验证 currentLanguage 测试场景。
+     */
     QString currentLanguage() const {
         return m_currentLanguage;
     }
 
+    /**
+     * @brief 验证 setLanguage 测试场景。
+     * @param language 待设置的语言代码。
+     */
     Q_INVOKABLE void setLanguage(const QString& language) {
         if (m_currentLanguage == language) {
             return;
@@ -45,6 +56,10 @@ public:
 
 public slots:
 
+    /**
+     * @brief 验证 qmlEngineAvailable 测试场景。
+     * @param engine 待执行的 QML 引擎。
+     */
     void qmlEngineAvailable(QQmlEngine* engine) {
         engine->addImportPath("qrc:/qt/qml");
         engine->rootContext()->setContextProperty("LanguageManager", new FakeLanguageManager(engine));
