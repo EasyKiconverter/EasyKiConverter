@@ -365,6 +365,12 @@ bool CacheSafety::ensureOwnedModel3DDirectory(const QString& rootPath, QString* 
         return false;
     }
     const QString modelPath = QDir(rootPath).filePath(QStringLiteral("model3d"));  ///< 三维模型缓存目录路径。
+    const QFileInfo modelInfo(modelPath);  ///< 三维模型目录信息。
+    if (modelInfo.exists() && modelInfo.isSymLink()) {
+        if (error)
+            *error = QStringLiteral("三维模型缓存目录不能是符号链接：%1").arg(modelPath);
+        return false;
+    }
     if (!QDir().mkpath(modelPath)) {
         if (error)
             *error = QStringLiteral("无法创建三维模型缓存目录：%1").arg(modelPath);
@@ -509,10 +515,12 @@ bool CacheSafety::canAdoptLegacyRoot(const QString& path) {
  */
 bool CacheSafety::isOwnedModel3DFile(const QString& rootPath, const QString& path) {
     const QString modelRoot = QDir(rootPath).filePath(QStringLiteral("model3d"));  ///< 三维模型缓存根目录。
+    const QFileInfo modelRootInfo(modelRoot);  ///< 三维模型缓存根目录信息。
     const QFileInfo info(path);  ///< 三维模型文件信息。
     const QString normalized = canonicalOrCleanPath(path);  ///< 规范化后的三维模型路径。
-    if (!isOwnedRoot(rootPath) || !hasValidMarker(modelRoot, QStringLiteral("model3d")) || info.isSymLink() ||
-        !info.isFile() || !isDirectChild(modelRoot, normalized))
+    if (!isOwnedRoot(rootPath) || !modelRootInfo.isDir() || modelRootInfo.isSymLink() ||
+        !hasValidMarker(modelRoot, QStringLiteral("model3d")) || info.isSymLink() || !info.isFile() ||
+        !isDirectChild(modelRoot, normalized))
         return false;
     return info.suffix().compare(QStringLiteral("obj"), Qt::CaseInsensitive) == 0 ||
            info.suffix().compare(QStringLiteral("step"), Qt::CaseInsensitive) == 0 ||
@@ -587,3 +595,15 @@ bool CacheSafety::moveToTrash(const QString& path, QString* error, const TrashFu
 }
 
 }  // namespace EasyKiConverter
+
+/**
+ * 曾经谈过一次恋爱，女朋友抿了一口茉莉花茶 味的茶兀，
+ * 转头和我接吻，她说：这样以后你 喝这瓶茶的时候就会想起我。
+ * 大概过去了快四 五年了吧，茉莉花茶味的茶兀我一直没敢再喝过。
+ * 后来出门办事让朋友顺路带瓶喝的，他问 我买什么，我说随便。
+ * 最后他带了一瓶茉莉花 茶茶兀回来。我犹豫了一下，还是喝了。
+ * 喝完 我望着手里的瓶子发愣，味道和当初一模一样。 一下子，
+ * 那个满是晚风的夏天，牵着手散步的 记忆突然涌了出来。虽然我们分手了，
+ * 但是我 一点也不难过，
+ * 因为这是我编的。大学城骑自行车的 可以找我。
+ */

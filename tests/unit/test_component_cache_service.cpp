@@ -11,6 +11,7 @@
 #include <QFileInfo>
 #include <QImage>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
 #include <QTemporaryDir>
 #include <QtTest>
@@ -889,6 +890,20 @@ private slots:
         data.setLcscId(componentId);
         data.setName(QStringLiteral("Legacy migrated component"));
         m_cache->saveComponentMetadata(componentId, data);
+        // legacyMetadataPath：等价旧版本缓存的元数据路径。
+        const QString legacyMetadataPath =
+            QDir(m_cache->componentCacheDir(componentId)).filePath(QStringLiteral("component.json"));
+        QFile legacyMetadata(legacyMetadataPath);
+        QVERIFY(legacyMetadata.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QJsonObject legacyMetadataObject =
+            QJsonDocument::fromJson(legacyMetadata.readAll()).object();  // 旧版本元数据对象。
+        legacyMetadata.close();
+        QJsonObject oldLayoutMetadata = legacyMetadataObject;  // 去除当前版本所有权字段的旧版元数据。
+        oldLayoutMetadata.remove(QStringLiteral("cacheOwner"));
+        oldLayoutMetadata.remove(QStringLiteral("cacheEntryVersion"));
+        QVERIFY(legacyMetadata.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate));
+        QVERIFY(legacyMetadata.write(QJsonDocument(oldLayoutMetadata).toJson(QJsonDocument::Compact)) > 0);
+        legacyMetadata.close();
         QVERIFY(QFile::remove(QDir(m_cache->cacheDir()).filePath(CacheSafety::ownershipMarkerName())));
 
         // newCacheDir：测试使用的文件系统路径。

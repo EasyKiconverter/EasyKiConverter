@@ -1,7 +1,6 @@
 #include "services/CacheSafety.h"
 #include "services/ConfigService.h"
 
-#include <QCoreApplication>
 #include <QDir>
 #include <QFile>
 #include <QTemporaryDir>
@@ -25,10 +24,11 @@ class TestCacheSafety : public QObject {
 private slots:
     void rejectsNonEmptyUnownedDirectory();
     void rejectsHomeDirectory();
-    void acceptsEmptyHomeChildDirectory();
+    void acceptsEmptyCustomChildDirectory();
     void rejectsSymlinkParentDirectory();
     void acceptsApplicationDefaultCachePath();
     void adoptsRecognizableLegacyCacheRoot();
+    void rejectsSymlinkedModel3DDirectory();
     void movesOwnedEntryThroughInjectedTrash();
     void preservesEntryWhenTrashFails();
     void ignoresUnknownAndSymlinkEntries();
@@ -76,26 +76,25 @@ void TestCacheSafety::rejectsHomeDirectory() {
     QVERIFY(!error.isEmpty());
 }
 
-// 验证用户主目录下的空子目录可以被选择并在接管后建立所有权标记。
+// 验证隔离临时目录下的空子目录可以被选择并在接管后建立所有权标记。
 /**
- * @brief 验证 acceptsEmptyHomeChildDirectory 测试场景。
+ * @brief 验证 acceptsEmptyCustomChildDirectory 测试场景。
  */
-void TestCacheSafety::acceptsEmptyHomeChildDirectory() {
-    const QString homeChild =
-        QDir(QDir::homePath())
-            .filePath(QStringLiteral(".easykiconverter-cache-test-%1").arg(QCoreApplication::applicationPid()));
-    QDir(homeChild).removeRecursively();
-    QVERIFY(QDir().mkpath(homeChild));
+void TestCacheSafety::acceptsEmptyCustomChildDirectory() {
+    // tempDir：隔离的临时文件系统根目录。
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+    // customChild：临时根目录下的空自定义缓存子目录。
+    const QString customChild = QDir(tempDir.path()).filePath(QStringLiteral("custom-cache"));
+    QVERIFY(QDir().mkpath(customChild));
 
     // normalized：规范化后的测试数据。
     QString normalized;
     // error：测试期间收集的错误或诊断信息。
     QString error;
-    QVERIFY2(CacheSafety::validateSelection(homeChild, &normalized, &error), qPrintable(error));
-    QVERIFY2(CacheSafety::ensureOwnedRoot(homeChild, &error), qPrintable(error));
-    QVERIFY(CacheSafety::isOwnedRoot(homeChild));
-
-    QVERIFY(QDir(homeChild).removeRecursively());
+    QVERIFY2(CacheSafety::validateSelection(customChild, &normalized, &error), qPrintable(error));
+    QVERIFY2(CacheSafety::ensureOwnedRoot(customChild, &error), qPrintable(error));
+    QVERIFY(CacheSafety::isOwnedRoot(customChild));
 }
 
 // 验证父级符号链接不能把缓存目录绕过真实路径安全边界。
@@ -173,6 +172,32 @@ void TestCacheSafety::adoptsRecognizableLegacyCacheRoot() {
     QVERIFY(CacheSafety::isOwnedRoot(tempPath));
     QVERIFY(CacheSafety::isOwnedComponentDirectory(tempPath, componentPath));
     QVERIFY(CacheSafety::isOwnedModel3DFile(tempPath, modelPath));
+}
+
+// 验证模型目录符号链接不会被标记或枚举为应用拥有的缓存目录。
+/**
+ * @brief 验证 rejectsSymlinkedModel3DDirectory 测试场景。
+ */
+void TestCacheSafety::rejectsSymlinkedModel3DDirectory() {
+    // rootDir：应用缓存根目录。
+    QTemporaryDir rootDir;
+    // externalDir：符号链接指向的外部目录。
+    QTemporaryDir externalDir;
+    QVERIFY(rootDir.isValid());
+    QVERIFY(externalDir.isValid());
+    const QString rootPath = canonicalTempPath(rootDir);  // 规范化后的应用缓存根目录。
+    const QString modelPath = QDir(rootPath).filePath(QStringLiteral("model3d"));  // 符号链接模型目录路径。
+    QVERIFY(CacheSafety::ensureOwnedRoot(rootPath));
+    if (!QFile::link(externalDir.path(), modelPath))
+        QSKIP("当前平台不支持创建目录符号链接");
+    if (!QFileInfo(modelPath).isSymLink())
+        QSKIP("当前平台未创建 Qt 可识别的目录符号链接");
+
+    // error：测试期间收集的错误或诊断信息。
+    QString error;
+    QVERIFY(!CacheSafety::ensureOwnedModel3DDirectory(rootPath, &error));
+    QVERIFY(!error.isEmpty());
+    QVERIFY(!QFileInfo::exists(QDir(externalDir.path()).filePath(CacheSafety::model3DMarkerName())));
 }
 
 // 验证已托管缓存条目通过可注入回收站移动，并且原路径消失。
