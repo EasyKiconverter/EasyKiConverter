@@ -1,0 +1,21 @@
+{
+  "id": "release",
+  "purpose": "按仓库当前规则准备并执行多平台版本发布，同时隔离标签、GitHub Release、Flathub 和 AUR 的授权与验收边界。",
+  "triggers": ["准备版本发布", "发布新版本", "创建并推送版本标签", "更新 Flathub 或 AUR"],
+  "required_sources": [
+    "docs/developer/ai-development/policy/AI_POLICY.md",
+    "docs/developer/CONTRIBUTING.md",
+    ".github/workflows/release.yml",
+    ".github/workflows/pack-linux.yml",
+    ".github/workflows/pack-windows.yml",
+    ".github/workflows/pack-macos.yml",
+    "tools/python/manage_version.py",
+    "deploy/archlinux/PKGBUILD",
+    "deploy/archlinux/README.md"
+  ],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md", "docs/developer/ai-development/verification-policy.json"],
+  "side_effects": ["release-file-edits", "local-build-artifacts", "git-tag-creation", "remote-tag-push", "github-release-workflow", "flathub-pull-request", "aur-remote-push"],
+  "verification": ["current-release-workflow-and-platform-matrix", "target-commit-and-tag-sha", "all-required-release-assets-and-sha256", "flathub-manifest-and-build", "aur-source-checksum-srcinfo-and-build", "post-release-channel-status"],
+  "stop_conditions": ["unresolved-p0-or-p1-risk", "required-ci-failure-or-running", "existing-tag-target-mismatch", "missing-release-approval-reviewer", "external-write-without-specific-user-authorization", "distribution-source-or-build-unverified"],
+  "evidence_outputs": ["version-and-target-commit", "tag-and-github-release-status", "per-platform-assets-and-checksums", "flathub-pr-and-review-status", "aur-commit-and-package-status", "commands-with-exit-codes", "not-run-items-and-blockers"]
+}

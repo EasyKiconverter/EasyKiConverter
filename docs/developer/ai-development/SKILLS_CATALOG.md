@@ -14,6 +14,7 @@
 | [format-research](skills/format-research/SKILL.md) | 研究 EDA 格式、样本、许可证和第三方算法思想 | [元数据](skills/format-research/SKILL.meta.json) | 可能修改研究记录；不复制第三方代码 |
 | [parser-development](skills/parser-development/SKILL.md) | 实现源格式 Parser/Model 到 IR 的确定性链路 | [元数据](skills/parser-development/SKILL.meta.json) | 可能修改源码、测试和 fixture |
 | [exporter-development](skills/exporter-development/SKILL.md) | 实现 IR 到目标格式的导出、诊断和结构验证 | [元数据](skills/exporter-development/SKILL.meta.json) | 可能修改源码、测试和 fixture |
+| [release](skills/release/SKILL.md) | 准备并执行多平台版本发布、标签、Flathub 和 AUR 更新 | [元数据](skills/release/SKILL.meta.json) | 可能修改版本文件、创建标签/Release、创建 Flathub PR 或推送 AUR；每项远端写入都需要针对性授权 |
 
 ## 选择原则
 
@@ -21,6 +22,7 @@
 - EDA 格式研究先用 `format-research`；进入 Parser 实现后使用 `parser-development`，进入目标导出后使用 `exporter-development`。
 - 用户明确要求审查时只用 `code-review`，不要顺手修改。
 - 文档任务使用 `documentation`，并按项目事实核对源码和工作流。
+- 正式版本发布使用 `release`；版本标签推送、GitHub Release、Flathub PR 和 AUR 推送均为独立远端动作，必须逐项核实授权和当前仓库状态。
 - 提交和 PR 不作为默认 Skill；只有用户明确要求时，按项目规则手动执行 Git/GitHub 操作。
 
 Skills 只补充任务专属步骤，规则正文仍以 [AI 协作政策](policy/AI_POLICY.md) 为准；`skill-index.json`、front matter 和机器可读元数据由 docs-check 校验。
