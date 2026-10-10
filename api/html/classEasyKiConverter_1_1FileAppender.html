@@ -1,0 +1,1659 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::FileAppender类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1FileAppender.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1FileAppender-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::FileAppender类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>文件日志输出器  
+ <a href="classEasyKiConverter_1_1FileAppender.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="FileAppender_8h_source.html">FileAppender.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::FileAppender 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1FileAppender__inherit__graph.svg" width="226" height="970"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::FileAppender 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1FileAppender__coll__graph.svg" width="226" height="970"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a51c18a625f83eb94079c9df8d4917f10" id="r_a51c18a625f83eb94079c9df8d4917f10"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a51c18a625f83eb94079c9df8d4917f10">FileAppender</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1FileAppender.html#af038dfce21941416e1b21d97bcf6de40">filePath</a>, qint64 <a class="el" href="classEasyKiConverter_1_1FileAppender.html#a2a9d8f6ff66f7e1d53606bfb4d224b1f">maxSize</a>=10 *1024 *1024, int <a class="el" href="classEasyKiConverter_1_1FileAppender.html#ae05a1d78a3b3a34ec1a93edfb8c6017f">maxFiles</a>=5, bool async=true)</td></tr>
+<tr class="memdesc:a51c18a625f83eb94079c9df8d4917f10"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a51c18a625f83eb94079c9df8d4917f10"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad462fecf7a0284206dc526f81325241c" id="r_ad462fecf7a0284206dc526f81325241c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#ad462fecf7a0284206dc526f81325241c">~FileAppender</a> () override</td></tr>
+<tr class="memdesc:ad462fecf7a0284206dc526f81325241c"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:ad462fecf7a0284206dc526f81325241c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a413179f36a1f41aeda58a9c478b8f298" id="r_a413179f36a1f41aeda58a9c478b8f298"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a413179f36a1f41aeda58a9c478b8f298">append</a> (const <a class="el" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a> &amp;record, const QString &amp;formatted) override</td></tr>
+<tr class="memdesc:a413179f36a1f41aeda58a9c478b8f298"><td class="mdescLeft">&#160;</td><td class="mdescRight">输出日志到文件  <br /></td></tr>
+<tr class="separator:a413179f36a1f41aeda58a9c478b8f298"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a788d36cf0b69b16e12ba0f6a3896f135" id="r_a788d36cf0b69b16e12ba0f6a3896f135"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a788d36cf0b69b16e12ba0f6a3896f135">flush</a> () override</td></tr>
+<tr class="memdesc:a788d36cf0b69b16e12ba0f6a3896f135"><td class="mdescLeft">&#160;</td><td class="mdescRight">刷新缓冲区到文件  <br /></td></tr>
+<tr class="separator:a788d36cf0b69b16e12ba0f6a3896f135"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a030859e563f0136bcb6dfd1d5d54be94" id="r_a030859e563f0136bcb6dfd1d5d54be94"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a030859e563f0136bcb6dfd1d5d54be94">close</a> () override</td></tr>
+<tr class="memdesc:a030859e563f0136bcb6dfd1d5d54be94"><td class="mdescLeft">&#160;</td><td class="mdescRight">关闭文件和后台线程  <br /></td></tr>
+<tr class="separator:a030859e563f0136bcb6dfd1d5d54be94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe8449c167523a531c5b5f719977c302" id="r_afe8449c167523a531c5b5f719977c302"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#afe8449c167523a531c5b5f719977c302">setMaxSize</a> (qint64 <a class="el" href="classEasyKiConverter_1_1FileAppender.html#a2a9d8f6ff66f7e1d53606bfb4d224b1f">maxSize</a>)</td></tr>
+<tr class="memdesc:afe8449c167523a531c5b5f719977c302"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置最大文件大小  <br /></td></tr>
+<tr class="separator:afe8449c167523a531c5b5f719977c302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a9d8f6ff66f7e1d53606bfb4d224b1f" id="r_a2a9d8f6ff66f7e1d53606bfb4d224b1f"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a2a9d8f6ff66f7e1d53606bfb4d224b1f">maxSize</a> () const</td></tr>
+<tr class="memdesc:a2a9d8f6ff66f7e1d53606bfb4d224b1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最大文件大小  <br /></td></tr>
+<tr class="separator:a2a9d8f6ff66f7e1d53606bfb4d224b1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09393291b94e8f9a7cdea6df63f7bfc8" id="r_a09393291b94e8f9a7cdea6df63f7bfc8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a09393291b94e8f9a7cdea6df63f7bfc8">setMaxFiles</a> (int <a class="el" href="classEasyKiConverter_1_1FileAppender.html#ae05a1d78a3b3a34ec1a93edfb8c6017f">maxFiles</a>)</td></tr>
+<tr class="memdesc:a09393291b94e8f9a7cdea6df63f7bfc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置最大文件数  <br /></td></tr>
+<tr class="separator:a09393291b94e8f9a7cdea6df63f7bfc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae05a1d78a3b3a34ec1a93edfb8c6017f" id="r_ae05a1d78a3b3a34ec1a93edfb8c6017f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#ae05a1d78a3b3a34ec1a93edfb8c6017f">maxFiles</a> () const</td></tr>
+<tr class="memdesc:ae05a1d78a3b3a34ec1a93edfb8c6017f"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最大文件数  <br /></td></tr>
+<tr class="separator:ae05a1d78a3b3a34ec1a93edfb8c6017f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af038dfce21941416e1b21d97bcf6de40" id="r_af038dfce21941416e1b21d97bcf6de40"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#af038dfce21941416e1b21d97bcf6de40">filePath</a> () const</td></tr>
+<tr class="memdesc:af038dfce21941416e1b21d97bcf6de40"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前日志文件路径  <br /></td></tr>
+<tr class="separator:af038dfce21941416e1b21d97bcf6de40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3afc2c9e34ec83ec925d5f463fabdf0a" id="r_a3afc2c9e34ec83ec925d5f463fabdf0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a3afc2c9e34ec83ec925d5f463fabdf0a">isAsync</a> () const</td></tr>
+<tr class="memdesc:a3afc2c9e34ec83ec925d5f463fabdf0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否启用异步写入  <br /></td></tr>
+<tr class="separator:a3afc2c9e34ec83ec925d5f463fabdf0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0985f49ad8980d6468b729d0ef9b722a" id="r_a0985f49ad8980d6468b729d0ef9b722a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a0985f49ad8980d6468b729d0ef9b722a">setMaxQueueSize</a> (int <a class="el" href="classEasyKiConverter_1_1FileAppender.html#a2a9d8f6ff66f7e1d53606bfb4d224b1f">maxSize</a>)</td></tr>
+<tr class="memdesc:a0985f49ad8980d6468b729d0ef9b722a"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置异步队列最大大小  <br /></td></tr>
+<tr class="separator:a0985f49ad8980d6468b729d0ef9b722a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5e5e85e0c07361e4a792819baf36d53" id="r_aa5e5e85e0c07361e4a792819baf36d53"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#aa5e5e85e0c07361e4a792819baf36d53">maxQueueSize</a> () const</td></tr>
+<tr class="memdesc:aa5e5e85e0c07361e4a792819baf36d53"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取异步队列最大大小  <br /></td></tr>
+<tr class="separator:aa5e5e85e0c07361e4a792819baf36d53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b31ce56be99f6596febdda933f692e" id="r_a60b31ce56be99f6596febdda933f692e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a60b31ce56be99f6596febdda933f692e">isValidPath</a> () const</td></tr>
+<tr class="memdesc:a60b31ce56be99f6596febdda933f692e"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查文件路径是否有效  <br /></td></tr>
+<tr class="separator:a60b31ce56be99f6596febdda933f692e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc6997a24c8ada8a69c332fa12636b45" id="r_afc6997a24c8ada8a69c332fa12636b45"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#afc6997a24c8ada8a69c332fa12636b45">lastError</a> () const</td></tr>
+<tr class="memdesc:afc6997a24c8ada8a69c332fa12636b45"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最后一次错误信息  <br /></td></tr>
+<tr class="separator:afc6997a24c8ada8a69c332fa12636b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classEasyKiConverter_1_1IAppender"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classEasyKiConverter_1_1IAppender')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1IAppender.html">EasyKiConverter::IAppender</a></td></tr>
+<tr class="memitem:a9d96f6aa55f877aa34ec1a6f18b97426 inherit pub_methods_classEasyKiConverter_1_1IAppender" id="r_a9d96f6aa55f877aa34ec1a6f18b97426"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IAppender.html#a9d96f6aa55f877aa34ec1a6f18b97426">~IAppender</a> ()=default</td></tr>
+<tr class="separator:a9d96f6aa55f877aa34ec1a6f18b97426 inherit pub_methods_classEasyKiConverter_1_1IAppender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad43635c600f52460742a5af08ee8cee6 inherit pub_methods_classEasyKiConverter_1_1IAppender" id="r_ad43635c600f52460742a5af08ee8cee6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IAppender.html#ad43635c600f52460742a5af08ee8cee6">setFormatter</a> (QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1IFormatter.html">IFormatter</a> &gt; <a class="el" href="classEasyKiConverter_1_1IAppender.html#ab34fc0ddc23e09f5f911e1ecdf51501b">formatter</a>)</td></tr>
+<tr class="memdesc:ad43635c600f52460742a5af08ee8cee6 inherit pub_methods_classEasyKiConverter_1_1IAppender"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置格式化器  <br /></td></tr>
+<tr class="separator:ad43635c600f52460742a5af08ee8cee6 inherit pub_methods_classEasyKiConverter_1_1IAppender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab34fc0ddc23e09f5f911e1ecdf51501b inherit pub_methods_classEasyKiConverter_1_1IAppender" id="r_ab34fc0ddc23e09f5f911e1ecdf51501b"><td class="memItemLeft" align="right" valign="top">QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1IFormatter.html">IFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IAppender.html#ab34fc0ddc23e09f5f911e1ecdf51501b">formatter</a> () const</td></tr>
+<tr class="memdesc:ab34fc0ddc23e09f5f911e1ecdf51501b inherit pub_methods_classEasyKiConverter_1_1IAppender"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取格式化器  <br /></td></tr>
+<tr class="separator:ab34fc0ddc23e09f5f911e1ecdf51501b inherit pub_methods_classEasyKiConverter_1_1IAppender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a368af03a4f8301b63d13293debf251c1 inherit pub_methods_classEasyKiConverter_1_1IAppender" id="r_a368af03a4f8301b63d13293debf251c1"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IAppender.html#a368af03a4f8301b63d13293debf251c1">formatRecord</a> (const <a class="el" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a> &amp;record) const</td></tr>
+<tr class="memdesc:a368af03a4f8301b63d13293debf251c1 inherit pub_methods_classEasyKiConverter_1_1IAppender"><td class="mdescLeft">&#160;</td><td class="mdescRight">格式化日志记录（使用设置的格式化器）  <br /></td></tr>
+<tr class="separator:a368af03a4f8301b63d13293debf251c1 inherit pub_methods_classEasyKiConverter_1_1IAppender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a261432dea9cda076dff43dadd5196e81" id="r_a261432dea9cda076dff43dadd5196e81"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a261432dea9cda076dff43dadd5196e81">validateAndNormalizePath</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1FileAppender.html#af038dfce21941416e1b21d97bcf6de40">filePath</a>)</td></tr>
+<tr class="memdesc:a261432dea9cda076dff43dadd5196e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">验证和规范化文件路径  <br /></td></tr>
+<tr class="separator:a261432dea9cda076dff43dadd5196e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e44bb27953a4a938d8cc4dd6310db79" id="r_a3e44bb27953a4a938d8cc4dd6310db79"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a3e44bb27953a4a938d8cc4dd6310db79">isPathInAllowedDir</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) const</td></tr>
+<tr class="memdesc:a3e44bb27953a4a938d8cc4dd6310db79"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查路径是否在允许的目录范围内  <br /></td></tr>
+<tr class="separator:a3e44bb27953a4a938d8cc4dd6310db79"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35953228663ebb0b90cb732cc2845503" id="r_a35953228663ebb0b90cb732cc2845503"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a35953228663ebb0b90cb732cc2845503">openFile</a> ()</td></tr>
+<tr class="memdesc:a35953228663ebb0b90cb732cc2845503"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开日志文件  <br /></td></tr>
+<tr class="separator:a35953228663ebb0b90cb732cc2845503"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd8b210870a35f2b48dbd804fd7caf70" id="r_acd8b210870a35f2b48dbd804fd7caf70"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#acd8b210870a35f2b48dbd804fd7caf70">rollOver</a> ()</td></tr>
+<tr class="memdesc:acd8b210870a35f2b48dbd804fd7caf70"><td class="mdescLeft">&#160;</td><td class="mdescRight">滚动日志文件  <br /></td></tr>
+<tr class="separator:acd8b210870a35f2b48dbd804fd7caf70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0179b2590385818a4f66550174f1c66" id="r_aa0179b2590385818a4f66550174f1c66"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#aa0179b2590385818a4f66550174f1c66">cleanupOldFiles</a> ()</td></tr>
+<tr class="memdesc:aa0179b2590385818a4f66550174f1c66"><td class="mdescLeft">&#160;</td><td class="mdescRight">清理旧日志文件  <br /></td></tr>
+<tr class="separator:aa0179b2590385818a4f66550174f1c66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfc00adaed7aa1ddd635eaf502d3fb2c" id="r_abfc00adaed7aa1ddd635eaf502d3fb2c"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#abfc00adaed7aa1ddd635eaf502d3fb2c">generateRolledFileName</a> (int index) const</td></tr>
+<tr class="memdesc:abfc00adaed7aa1ddd635eaf502d3fb2c"><td class="mdescLeft">&#160;</td><td class="mdescRight">生成滚动文件名  <br /></td></tr>
+<tr class="separator:abfc00adaed7aa1ddd635eaf502d3fb2c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28aff288143deaafe5f42de32e82ecd7" id="r_a28aff288143deaafe5f42de32e82ecd7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a28aff288143deaafe5f42de32e82ecd7">writerThreadFunc</a> ()</td></tr>
+<tr class="memdesc:a28aff288143deaafe5f42de32e82ecd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">后台写入线程函数  <br /></td></tr>
+<tr class="separator:a28aff288143deaafe5f42de32e82ecd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8db3d62e094aa5a0d2687db89b9de6b3" id="r_a8db3d62e094aa5a0d2687db89b9de6b3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a8db3d62e094aa5a0d2687db89b9de6b3">writeDirect</a> (const QString &amp;formatted)</td></tr>
+<tr class="memdesc:a8db3d62e094aa5a0d2687db89b9de6b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">直接写入（同步模式或关闭时使用）  <br /></td></tr>
+<tr class="separator:a8db3d62e094aa5a0d2687db89b9de6b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe17a0ca0cfb2ca778930d7d4fcc54ac" id="r_abe17a0ca0cfb2ca778930d7d4fcc54ac"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#abe17a0ca0cfb2ca778930d7d4fcc54ac">needsRollover</a> () const</td></tr>
+<tr class="memdesc:abe17a0ca0cfb2ca778930d7d4fcc54ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否需要滚动  <br /></td></tr>
+<tr class="separator:abe17a0ca0cfb2ca778930d7d4fcc54ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:af3e745b7e0fd806179e1dd7b16a79771" id="r_af3e745b7e0fd806179e1dd7b16a79771"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#af3e745b7e0fd806179e1dd7b16a79771">m_filePath</a></td></tr>
+<tr class="memdesc:af3e745b7e0fd806179e1dd7b16a79771"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前日志文件路径。  <br /></td></tr>
+<tr class="separator:af3e745b7e0fd806179e1dd7b16a79771"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d347a56d8cc00402d4fe0baef55b76" id="r_af8d347a56d8cc00402d4fe0baef55b76"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#af8d347a56d8cc00402d4fe0baef55b76">m_canonicalPath</a></td></tr>
+<tr class="memdesc:af8d347a56d8cc00402d4fe0baef55b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析后的规范化日志路径。  <br /></td></tr>
+<tr class="separator:af8d347a56d8cc00402d4fe0baef55b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b96755d0815415e15ff49fdc3c94dd1" id="r_a6b96755d0815415e15ff49fdc3c94dd1"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a6b96755d0815415e15ff49fdc3c94dd1">m_baseDir</a></td></tr>
+<tr class="memdesc:a6b96755d0815415e15ff49fdc3c94dd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">日志文件所在基础目录。  <br /></td></tr>
+<tr class="separator:a6b96755d0815415e15ff49fdc3c94dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b057ec493de5699021ac8592b52a4d2" id="r_a1b057ec493de5699021ac8592b52a4d2"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a1b057ec493de5699021ac8592b52a4d2">m_maxSize</a></td></tr>
+<tr class="memdesc:a1b057ec493de5699021ac8592b52a4d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">单个日志文件的最大字节数。  <br /></td></tr>
+<tr class="separator:a1b057ec493de5699021ac8592b52a4d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f6149afd1279e0f71221d0da75ba5e3" id="r_a9f6149afd1279e0f71221d0da75ba5e3"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a9f6149afd1279e0f71221d0da75ba5e3">m_maxFiles</a></td></tr>
+<tr class="memdesc:a9f6149afd1279e0f71221d0da75ba5e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">保留的历史日志文件数量上限。  <br /></td></tr>
+<tr class="separator:a9f6149afd1279e0f71221d0da75ba5e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89ba8c9261901b39fa434833fe15cb73" id="r_a89ba8c9261901b39fa434833fe15cb73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a89ba8c9261901b39fa434833fe15cb73">m_async</a></td></tr>
+<tr class="memdesc:a89ba8c9261901b39fa434833fe15cb73"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否使用异步写入线程。  <br /></td></tr>
+<tr class="separator:a89ba8c9261901b39fa434833fe15cb73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a051994d8b710f223ca4dda79d191d284" id="r_a051994d8b710f223ca4dda79d191d284"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a051994d8b710f223ca4dda79d191d284">m_maxQueueSize</a> = 10000</td></tr>
+<tr class="memdesc:a051994d8b710f223ca4dda79d191d284"><td class="mdescLeft">&#160;</td><td class="mdescRight">异步日志队列大小上限。  <br /></td></tr>
+<tr class="separator:a051994d8b710f223ca4dda79d191d284"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf6f30f1d1875b827c2fb90ee3f71a3c" id="r_aaf6f30f1d1875b827c2fb90ee3f71a3c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#aaf6f30f1d1875b827c2fb90ee3f71a3c">m_pathValid</a> = false</td></tr>
+<tr class="memdesc:aaf6f30f1d1875b827c2fb90ee3f71a3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前日志路径是否通过安全校验。  <br /></td></tr>
+<tr class="separator:aaf6f30f1d1875b827c2fb90ee3f71a3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7dda12441dab5406375ac59d5186deb" id="r_ae7dda12441dab5406375ac59d5186deb"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#ae7dda12441dab5406375ac59d5186deb">m_lastError</a></td></tr>
+<tr class="memdesc:ae7dda12441dab5406375ac59d5186deb"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次路径或文件操作错误。  <br /></td></tr>
+<tr class="separator:ae7dda12441dab5406375ac59d5186deb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55e156d4e489cc161be1045d7f30cfd6" id="r_a55e156d4e489cc161be1045d7f30cfd6"><td class="memItemLeft" align="right" valign="top">QFile&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a55e156d4e489cc161be1045d7f30cfd6">m_file</a></td></tr>
+<tr class="memdesc:a55e156d4e489cc161be1045d7f30cfd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前打开的日志文件。  <br /></td></tr>
+<tr class="separator:a55e156d4e489cc161be1045d7f30cfd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb61feb06e1c5f269aa96c0974e690c7" id="r_abb61feb06e1c5f269aa96c0974e690c7"><td class="memItemLeft" align="right" valign="top">QRecursiveMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#abb61feb06e1c5f269aa96c0974e690c7">m_fileMutex</a></td></tr>
+<tr class="memdesc:abb61feb06e1c5f269aa96c0974e690c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">支持嵌套调用的文件递归锁。  <br /></td></tr>
+<tr class="separator:abb61feb06e1c5f269aa96c0974e690c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a458684b4d0cd3164cc241f6a0deab0be" id="r_a458684b4d0cd3164cc241f6a0deab0be"><td class="memItemLeft" align="right" valign="top">QThread *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a458684b4d0cd3164cc241f6a0deab0be">m_writerThread</a> = nullptr</td></tr>
+<tr class="memdesc:a458684b4d0cd3164cc241f6a0deab0be"><td class="mdescLeft">&#160;</td><td class="mdescRight">异步日志写入线程。  <br /></td></tr>
+<tr class="separator:a458684b4d0cd3164cc241f6a0deab0be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc90b45e4ec12e95b03edc9cc2014778" id="r_adc90b45e4ec12e95b03edc9cc2014778"><td class="memItemLeft" align="right" valign="top">QQueue&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#adc90b45e4ec12e95b03edc9cc2014778">m_writeQueue</a></td></tr>
+<tr class="memdesc:adc90b45e4ec12e95b03edc9cc2014778"><td class="mdescLeft">&#160;</td><td class="mdescRight">待写入的日志消息队列。  <br /></td></tr>
+<tr class="separator:adc90b45e4ec12e95b03edc9cc2014778"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abba7f2896c5e47135416730f252e0e4f" id="r_abba7f2896c5e47135416730f252e0e4f"><td class="memItemLeft" align="right" valign="top">QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#abba7f2896c5e47135416730f252e0e4f">m_queueMutex</a></td></tr>
+<tr class="memdesc:abba7f2896c5e47135416730f252e0e4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护日志消息队列的互斥量。  <br /></td></tr>
+<tr class="separator:abba7f2896c5e47135416730f252e0e4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cdc2c88fb04be97ba94bce36e77bce1" id="r_a3cdc2c88fb04be97ba94bce36e77bce1"><td class="memItemLeft" align="right" valign="top">QWaitCondition&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a3cdc2c88fb04be97ba94bce36e77bce1">m_queueCondition</a></td></tr>
+<tr class="memdesc:a3cdc2c88fb04be97ba94bce36e77bce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">唤醒异步写入线程的条件变量。  <br /></td></tr>
+<tr class="separator:a3cdc2c88fb04be97ba94bce36e77bce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d0d738fadb9eb81d3c5f79d0adcd8ca" id="r_a1d0d738fadb9eb81d3c5f79d0adcd8ca"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a1d0d738fadb9eb81d3c5f79d0adcd8ca">m_running</a></td></tr>
+<tr class="memdesc:a1d0d738fadb9eb81d3c5f79d0adcd8ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">异步写入线程运行状态。  <br /></td></tr>
+<tr class="separator:a1d0d738fadb9eb81d3c5f79d0adcd8ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad299acc687e49ef64f2434b17c2c4872" id="r_ad299acc687e49ef64f2434b17c2c4872"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#ad299acc687e49ef64f2434b17c2c4872">m_flushRequested</a></td></tr>
+<tr class="memdesc:ad299acc687e49ef64f2434b17c2c4872"><td class="mdescLeft">&#160;</td><td class="mdescRight">异步刷新请求标志。  <br /></td></tr>
+<tr class="separator:ad299acc687e49ef64f2434b17c2c4872"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88f63be3456e56dfe61382a850a1fc34" id="r_a88f63be3456e56dfe61382a850a1fc34"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileAppender.html#a88f63be3456e56dfe61382a850a1fc34">m_queueOverflow</a></td></tr>
+<tr class="memdesc:a88f63be3456e56dfe61382a850a1fc34"><td class="mdescLeft">&#160;</td><td class="mdescRight">队列溢出标志。  <br /></td></tr>
+<tr class="separator:a88f63be3456e56dfe61382a850a1fc34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pro_attribs_classEasyKiConverter_1_1IAppender"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classEasyKiConverter_1_1IAppender')"><img src="closed.png" alt="-"/>&#160;Protected 属性 继承自 <a class="el" href="classEasyKiConverter_1_1IAppender.html">EasyKiConverter::IAppender</a></td></tr>
+<tr class="memitem:ab7e30e85930f9573428f0ba23aa30caa inherit pro_attribs_classEasyKiConverter_1_1IAppender" id="r_ab7e30e85930f9573428f0ba23aa30caa"><td class="memItemLeft" align="right" valign="top">QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1IFormatter.html">IFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IAppender.html#ab7e30e85930f9573428f0ba23aa30caa">m_formatter</a></td></tr>
+<tr class="memdesc:ab7e30e85930f9573428f0ba23aa30caa inherit pro_attribs_classEasyKiConverter_1_1IAppender"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前日志格式化器。  <br /></td></tr>
+<tr class="separator:ab7e30e85930f9573428f0ba23aa30caa inherit pro_attribs_classEasyKiConverter_1_1IAppender"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>文件日志输出器 </p>
+<p>支持以下特性：</p><ul>
+<li>按大小滚动（默认 10MB）</li>
+<li>保留历史文件数量限制</li>
+<li>异步写入（后台线程）</li>
+<li>缓冲刷新</li>
+<li>路径安全验证</li>
+<li>有界队列防止内存溢出 </li>
+</ul>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00027">27</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a51c18a625f83eb94079c9df8d4917f10" name="a51c18a625f83eb94079c9df8d4917f10"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51c18a625f83eb94079c9df8d4917f10">&#9670;&#160;</a></span>FileAppender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::FileAppender::FileAppender </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>maxSize</em> = <code>10&#160;*&#160;1024&#160;*&#160;1024</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxFiles</em> = <code>5</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>async</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<p>创建文件输出器并验证日志文件路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>日志文件路径 </td></tr>
+    <tr><td class="paramname">maxSize</td><td>最大文件大小（字节），超过此大小会滚动 </td></tr>
+    <tr><td class="paramname">maxFiles</td><td>最大保留文件数（包含当前文件） </td></tr>
+    <tr><td class="paramname">async</td><td>是否启用异步写入</td></tr>
+    <tr><td class="paramname">filePath</td><td>日志文件路径。 </td></tr>
+    <tr><td class="paramname">maxSize</td><td>单个日志文件允许的最大字节数。 </td></tr>
+    <tr><td class="paramname">maxFiles</td><td>保留的日志文件数量上限。 </td></tr>
+    <tr><td class="paramname">async</td><td>是否启用异步日志写入。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 日志文件的文件信息。</p>
+<p>&lt; 日志文件所在目录。</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00026">26</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00096">filePath()</a>, <a class="el" href="FileAppender_8h_source.html#l00142">m_async</a>, <a class="el" href="FileAppender_8h_source.html#l00137">m_filePath</a>, <a class="el" href="FileAppender_8h_source.html#l00145">m_lastError</a>, <a class="el" href="FileAppender_8h_source.html#l00144">m_pathValid</a>, <a class="el" href="FileAppender_8h_source.html#l00155">m_running</a>, <a class="el" href="FileAppender_8h_source.html#l00151">m_writerThread</a>, <a class="el" href="FileAppender_8cpp_source.html#l00246">openFile()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00076">validateAndNormalizePath()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="ad462fecf7a0284206dc526f81325241c" name="ad462fecf7a0284206dc526f81325241c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad462fecf7a0284206dc526f81325241c">&#9670;&#160;</a></span>~FileAppender()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::FileAppender::~FileAppender </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+<p>关闭文件输出器并刷新剩余日志。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00067">67</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8cpp_source.html#l00218">close()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a413179f36a1f41aeda58a9c478b8f298" name="a413179f36a1f41aeda58a9c478b8f298"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a413179f36a1f41aeda58a9c478b8f298">&#9670;&#160;</a></span>append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::append </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a> &amp;&#160;</td>
+          <td class="paramname"><em>record</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>formatted</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>输出日志到文件 </p>
+<p>将日志记录追加到文件或异步队列。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">record</td><td>待写入的日志记录。 </td></tr>
+    <tr><td class="paramname">formatted</td><td>已格式化的日志文本。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IAppender.html#a88ac663ea15b08356fa96fc092ab1045">EasyKiConverter::IAppender</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00155">155</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00142">m_async</a>, <a class="el" href="FileAppender_8h_source.html#l00143">m_maxQueueSize</a>, <a class="el" href="FileAppender_8h_source.html#l00144">m_pathValid</a>, <a class="el" href="FileAppender_8h_source.html#l00154">m_queueCondition</a>, <a class="el" href="FileAppender_8h_source.html#l00153">m_queueMutex</a>, <a class="el" href="FileAppender_8h_source.html#l00157">m_queueOverflow</a>, <a class="el" href="FileAppender_8h_source.html#l00152">m_writeQueue</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00412">writeDirect()</a>.</p>
+
+</div>
+</div>
+<a id="aa0179b2590385818a4f66550174f1c66" name="aa0179b2590385818a4f66550174f1c66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0179b2590385818a4f66550174f1c66">&#9670;&#160;</a></span>cleanupOldFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::cleanupOldFiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清理旧日志文件 </p>
+<p>删除超过数量限制的历史日志文件。 </p>
+<p>&lt; 日志文件所在目录。</p>
+<p>&lt; 日志文件基础名称。</p>
+<p>&lt; 日志文件完整扩展名。</p>
+<p>&lt; 历史日志文件匹配模式。</p>
+<p>&lt; 历史日志文件筛选条件。</p>
+<p>&lt; 按名称排序的历史日志文件列表。</p>
+<p>&lt; 当前待删除的超限日志路径。</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00303">303</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00137">m_filePath</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00141">m_maxFiles</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00267">rollOver()</a>.</p>
+
+</div>
+</div>
+<a id="a030859e563f0136bcb6dfd1d5d54be94" name="a030859e563f0136bcb6dfd1d5d54be94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a030859e563f0136bcb6dfd1d5d54be94">&#9670;&#160;</a></span>close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>关闭文件和后台线程 </p>
+<p>停止异步线程并关闭日志文件。 </p>
+
+<p>重载 <a class="el" href="classEasyKiConverter_1_1IAppender.html#a255910b59213994b3c4235773ba13e3c">EasyKiConverter::IAppender</a> .</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00218">218</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00142">m_async</a>, <a class="el" href="FileAppender_8h_source.html#l00147">m_file</a>, <a class="el" href="FileAppender_8h_source.html#l00148">m_fileMutex</a>, <a class="el" href="FileAppender_8h_source.html#l00154">m_queueCondition</a>, <a class="el" href="FileAppender_8h_source.html#l00155">m_running</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00151">m_writerThread</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00067">~FileAppender()</a>.</p>
+
+</div>
+</div>
+<a id="af038dfce21941416e1b21d97bcf6de40" name="af038dfce21941416e1b21d97bcf6de40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af038dfce21941416e1b21d97bcf6de40">&#9670;&#160;</a></span>filePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileAppender::filePath </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前日志文件路径 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00096">96</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00137">m_filePath</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00076">validateAndNormalizePath()</a>.</p>
+
+</div>
+</div>
+<a id="a788d36cf0b69b16e12ba0f6a3896f135" name="a788d36cf0b69b16e12ba0f6a3896f135"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a788d36cf0b69b16e12ba0f6a3896f135">&#9670;&#160;</a></span>flush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::flush </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>刷新缓冲区到文件 </p>
+<p>刷新异步队列和日志文件。 </p>
+<p>&lt; 等待异步队列清空的最大时间（毫秒）。</p>
+<p>&lt; 已等待的时间（毫秒）。</p>
+
+<p>重载 <a class="el" href="classEasyKiConverter_1_1IAppender.html#a2b09e32e3b1f33d455781031901f82ca">EasyKiConverter::IAppender</a> .</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00184">184</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00142">m_async</a>, <a class="el" href="FileAppender_8h_source.html#l00147">m_file</a>, <a class="el" href="FileAppender_8h_source.html#l00148">m_fileMutex</a>, <a class="el" href="FileAppender_8h_source.html#l00156">m_flushRequested</a>, <a class="el" href="FileAppender_8h_source.html#l00144">m_pathValid</a>, <a class="el" href="FileAppender_8h_source.html#l00154">m_queueCondition</a>, <a class="el" href="FileAppender_8h_source.html#l00153">m_queueMutex</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00152">m_writeQueue</a>.</p>
+
+</div>
+</div>
+<a id="abfc00adaed7aa1ddd635eaf502d3fb2c" name="abfc00adaed7aa1ddd635eaf502d3fb2c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfc00adaed7aa1ddd635eaf502d3fb2c">&#9670;&#160;</a></span>generateRolledFileName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileAppender::generateRolledFileName </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>生成滚动文件名 </p>
+<p>生成指定滚动序号的历史日志文件名。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>历史日志滚动序号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>生成的历史日志文件路径。 </dd></dl>
+<p>&lt; 当前日志文件的文件信息。</p>
+<p>&lt; 当前日志文件基础名称。</p>
+<p>&lt; 当前日志文件扩展名。</p>
+<p>&lt; 当前日志目录路径。</p>
+<p>&lt; 滚动时间戳。</p>
+<p>&lt; 滚动日志文件名。</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00329">329</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00137">m_filePath</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00267">rollOver()</a>.</p>
+
+</div>
+</div>
+<a id="a3afc2c9e34ec83ec925d5f463fabdf0a" name="a3afc2c9e34ec83ec925d5f463fabdf0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3afc2c9e34ec83ec925d5f463fabdf0a">&#9670;&#160;</a></span>isAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileAppender::isAsync </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否启用异步写入 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00103">103</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00142">m_async</a>.</p>
+
+</div>
+</div>
+<a id="a3e44bb27953a4a938d8cc4dd6310db79" name="a3e44bb27953a4a938d8cc4dd6310db79"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e44bb27953a4a938d8cc4dd6310db79">&#9670;&#160;</a></span>isPathInAllowedDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileAppender::isPathInAllowedDir </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查路径是否在允许的目录范围内 </p>
+<p>检查路径是否位于允许的日志目录范围内。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>待检查的日志文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>路径位于允许目录内时返回 true。 </dd></dl>
+<p>&lt; 允许的日志根目录列表。</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00120">120</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00246">openFile()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00076">validateAndNormalizePath()</a>.</p>
+
+</div>
+</div>
+<a id="a60b31ce56be99f6596febdda933f692e" name="a60b31ce56be99f6596febdda933f692e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60b31ce56be99f6596febdda933f692e">&#9670;&#160;</a></span>isValidPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileAppender::isValidPath </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查文件路径是否有效 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00125">125</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00144">m_pathValid</a>.</p>
+
+</div>
+</div>
+<a id="afc6997a24c8ada8a69c332fa12636b45" name="afc6997a24c8ada8a69c332fa12636b45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc6997a24c8ada8a69c332fa12636b45">&#9670;&#160;</a></span>lastError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileAppender::lastError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取最后一次错误信息 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00132">132</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00145">m_lastError</a>.</p>
+
+</div>
+</div>
+<a id="ae05a1d78a3b3a34ec1a93edfb8c6017f" name="ae05a1d78a3b3a34ec1a93edfb8c6017f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae05a1d78a3b3a34ec1a93edfb8c6017f">&#9670;&#160;</a></span>maxFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::FileAppender::maxFiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取最大文件数 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00089">89</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00141">m_maxFiles</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8h_source.html#l00082">setMaxFiles()</a>.</p>
+
+</div>
+</div>
+<a id="aa5e5e85e0c07361e4a792819baf36d53" name="aa5e5e85e0c07361e4a792819baf36d53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5e5e85e0c07361e4a792819baf36d53">&#9670;&#160;</a></span>maxQueueSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::FileAppender::maxQueueSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取异步队列最大大小 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00118">118</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00143">m_maxQueueSize</a>.</p>
+
+</div>
+</div>
+<a id="a2a9d8f6ff66f7e1d53606bfb4d224b1f" name="a2a9d8f6ff66f7e1d53606bfb4d224b1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a9d8f6ff66f7e1d53606bfb4d224b1f">&#9670;&#160;</a></span>maxSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">qint64 EasyKiConverter::FileAppender::maxSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取最大文件大小 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00074">74</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00140">m_maxSize</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8h_source.html#l00111">setMaxQueueSize()</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00067">setMaxSize()</a>.</p>
+
+</div>
+</div>
+<a id="abe17a0ca0cfb2ca778930d7d4fcc54ac" name="abe17a0ca0cfb2ca778930d7d4fcc54ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe17a0ca0cfb2ca778930d7d4fcc54ac">&#9670;&#160;</a></span>needsRollover()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileAppender::needsRollover </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查是否需要滚动 </p>
+<p>判断日志文件是否达到滚动大小限制。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00438">438</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00147">m_file</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00140">m_maxSize</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00412">writeDirect()</a>.</p>
+
+</div>
+</div>
+<a id="a35953228663ebb0b90cb732cc2845503" name="a35953228663ebb0b90cb732cc2845503"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35953228663ebb0b90cb732cc2845503">&#9670;&#160;</a></span>openFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileAppender::openFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>打开日志文件 </p>
+<p>打开当前日志文件并验证路径安全性。 </p>
+<p>&lt; 当前日志文件的文件信息。</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00246">246</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8cpp_source.html#l00120">isPathInAllowedDir()</a>, <a class="el" href="FileAppender_8h_source.html#l00147">m_file</a>, <a class="el" href="FileAppender_8h_source.html#l00148">m_fileMutex</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00137">m_filePath</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00412">writeDirect()</a>.</p>
+
+</div>
+</div>
+<a id="acd8b210870a35f2b48dbd804fd7caf70" name="acd8b210870a35f2b48dbd804fd7caf70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd8b210870a35f2b48dbd804fd7caf70">&#9670;&#160;</a></span>rollOver()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::rollOver </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>滚动日志文件 </p>
+<p>滚动当前日志文件并清理旧文件。 </p>
+<p>&lt; 本次滚动生成的目标文件名。</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00267">267</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8cpp_source.html#l00303">cleanupOldFiles()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00329">generateRolledFileName()</a>, <a class="el" href="FileAppender_8h_source.html#l00147">m_file</a>, <a class="el" href="FileAppender_8h_source.html#l00148">m_fileMutex</a>, <a class="el" href="FileAppender_8h_source.html#l00137">m_filePath</a>, <a class="el" href="FileAppender_8h_source.html#l00145">m_lastError</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00144">m_pathValid</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00412">writeDirect()</a>.</p>
+
+</div>
+</div>
+<a id="a09393291b94e8f9a7cdea6df63f7bfc8" name="a09393291b94e8f9a7cdea6df63f7bfc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09393291b94e8f9a7cdea6df63f7bfc8">&#9670;&#160;</a></span>setMaxFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::setMaxFiles </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxFiles</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置最大文件数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxFiles</td><td>最大保留文件数。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00082">82</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00141">m_maxFiles</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00089">maxFiles()</a>.</p>
+
+</div>
+</div>
+<a id="a0985f49ad8980d6468b729d0ef9b722a" name="a0985f49ad8980d6468b729d0ef9b722a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0985f49ad8980d6468b729d0ef9b722a">&#9670;&#160;</a></span>setMaxQueueSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::setMaxQueueSize </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置异步队列最大大小 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxSize</td><td>最大消息数（0 表示无限制，默认 10000） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00111">111</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00143">m_maxQueueSize</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00074">maxSize()</a>.</p>
+
+</div>
+</div>
+<a id="afe8449c167523a531c5b5f719977c302" name="afe8449c167523a531c5b5f719977c302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe8449c167523a531c5b5f719977c302">&#9670;&#160;</a></span>setMaxSize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::setMaxSize </td>
+          <td>(</td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>maxSize</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置最大文件大小 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxSize</td><td>最大文件大小（字节）。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00067">67</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00140">m_maxSize</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00074">maxSize()</a>.</p>
+
+</div>
+</div>
+<a id="a261432dea9cda076dff43dadd5196e81" name="a261432dea9cda076dff43dadd5196e81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a261432dea9cda076dff43dadd5196e81">&#9670;&#160;</a></span>validateAndNormalizePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileAppender::validateAndNormalizePath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>验证和规范化文件路径 </p>
+<p>校验并规范化日志文件路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>待校验的日志文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>路径安全且规范化成功时返回 true。 </dd></dl>
+<p>&lt; 待校验的清理后路径文本。</p>
+<p>&lt; 输入日志路径的文件信息。</p>
+<p>&lt; 日志路径的绝对形式。</p>
+<p>&lt; 日志文件所在的绝对目录。</p>
+<p>&lt; 解析符号链接后的目录路径。</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00076">76</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00096">filePath()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00120">isPathInAllowedDir()</a>, <a class="el" href="FileAppender_8h_source.html#l00139">m_baseDir</a>, <a class="el" href="FileAppender_8h_source.html#l00138">m_canonicalPath</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00137">m_filePath</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a>.</p>
+
+</div>
+</div>
+<a id="a8db3d62e094aa5a0d2687db89b9de6b3" name="a8db3d62e094aa5a0d2687db89b9de6b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8db3d62e094aa5a0d2687db89b9de6b3">&#9670;&#160;</a></span>writeDirect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::writeDirect </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>formatted</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>直接写入（同步模式或关闭时使用） </p>
+<p>将格式化文本写入文件并按需触发滚动。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">formatted</td><td>已格式化的日志文本。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00412">412</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00147">m_file</a>, <a class="el" href="FileAppender_8h_source.html#l00148">m_fileMutex</a>, <a class="el" href="FileAppender_8h_source.html#l00144">m_pathValid</a>, <a class="el" href="FileAppender_8cpp_source.html#l00438">needsRollover()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00246">openFile()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00267">rollOver()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00155">append()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="a28aff288143deaafe5f42de32e82ecd7" name="a28aff288143deaafe5f42de32e82ecd7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28aff288143deaafe5f42de32e82ecd7">&#9670;&#160;</a></span>writerThreadFunc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FileAppender::writerThreadFunc </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>后台写入线程函数 </p>
+<p>消费异步日志队列并写入文件。 </p>
+<p>&lt; 当前待写入的日志消息。</p>
+<p>&lt; 本轮处理前是否发生过队列溢出。</p>
+<p>&lt; 线程退出前待写入的剩余日志消息。</p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a> 第 <a class="el" href="FileAppender_8cpp_source.html#l00348">348</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileAppender_8h_source.html#l00147">m_file</a>, <a class="el" href="FileAppender_8h_source.html#l00148">m_fileMutex</a>, <a class="el" href="FileAppender_8h_source.html#l00156">m_flushRequested</a>, <a class="el" href="FileAppender_8h_source.html#l00154">m_queueCondition</a>, <a class="el" href="FileAppender_8h_source.html#l00153">m_queueMutex</a>, <a class="el" href="FileAppender_8h_source.html#l00157">m_queueOverflow</a>, <a class="el" href="FileAppender_8h_source.html#l00155">m_running</a>, <a class="el" href="FileAppender_8h_source.html#l00152">m_writeQueue</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00412">writeDirect()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a89ba8c9261901b39fa434833fe15cb73" name="a89ba8c9261901b39fa434833fe15cb73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89ba8c9261901b39fa434833fe15cb73">&#9670;&#160;</a></span>m_async</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileAppender::m_async</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否使用异步写入线程。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00142">142</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00155">append()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00218">close()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00184">flush()</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00103">isAsync()</a>.</p>
+
+</div>
+</div>
+<a id="a6b96755d0815415e15ff49fdc3c94dd1" name="a6b96755d0815415e15ff49fdc3c94dd1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b96755d0815415e15ff49fdc3c94dd1">&#9670;&#160;</a></span>m_baseDir</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileAppender::m_baseDir</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>日志文件所在基础目录。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00139">139</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00076">validateAndNormalizePath()</a>.</p>
+
+</div>
+</div>
+<a id="af8d347a56d8cc00402d4fe0baef55b76" name="af8d347a56d8cc00402d4fe0baef55b76"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8d347a56d8cc00402d4fe0baef55b76">&#9670;&#160;</a></span>m_canonicalPath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileAppender::m_canonicalPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解析后的规范化日志路径。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00138">138</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00076">validateAndNormalizePath()</a>.</p>
+
+</div>
+</div>
+<a id="a55e156d4e489cc161be1045d7f30cfd6" name="a55e156d4e489cc161be1045d7f30cfd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55e156d4e489cc161be1045d7f30cfd6">&#9670;&#160;</a></span>m_file</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QFile EasyKiConverter::FileAppender::m_file</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前打开的日志文件。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00147">147</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00218">close()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00184">flush()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00438">needsRollover()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00246">openFile()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00267">rollOver()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00412">writeDirect()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="abb61feb06e1c5f269aa96c0974e690c7" name="abb61feb06e1c5f269aa96c0974e690c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb61feb06e1c5f269aa96c0974e690c7">&#9670;&#160;</a></span>m_fileMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QRecursiveMutex EasyKiConverter::FileAppender::m_fileMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>支持嵌套调用的文件递归锁。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00148">148</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00218">close()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00184">flush()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00246">openFile()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00267">rollOver()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00412">writeDirect()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="af3e745b7e0fd806179e1dd7b16a79771" name="af3e745b7e0fd806179e1dd7b16a79771"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3e745b7e0fd806179e1dd7b16a79771">&#9670;&#160;</a></span>m_filePath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileAppender::m_filePath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前日志文件路径。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00137">137</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00303">cleanupOldFiles()</a>, <a class="el" href="FileAppender_8h_source.html#l00096">filePath()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00329">generateRolledFileName()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00246">openFile()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00267">rollOver()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00076">validateAndNormalizePath()</a>.</p>
+
+</div>
+</div>
+<a id="ad299acc687e49ef64f2434b17c2c4872" name="ad299acc687e49ef64f2434b17c2c4872"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad299acc687e49ef64f2434b17c2c4872">&#9670;&#160;</a></span>m_flushRequested</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::FileAppender::m_flushRequested</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>异步刷新请求标志。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00156">156</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00184">flush()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="ae7dda12441dab5406375ac59d5186deb" name="ae7dda12441dab5406375ac59d5186deb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7dda12441dab5406375ac59d5186deb">&#9670;&#160;</a></span>m_lastError</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileAppender::m_lastError</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次路径或文件操作错误。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00145">145</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a>, <a class="el" href="FileAppender_8h_source.html#l00132">lastError()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00267">rollOver()</a>.</p>
+
+</div>
+</div>
+<a id="a9f6149afd1279e0f71221d0da75ba5e3" name="a9f6149afd1279e0f71221d0da75ba5e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f6149afd1279e0f71221d0da75ba5e3">&#9670;&#160;</a></span>m_maxFiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::FileAppender::m_maxFiles</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保留的历史日志文件数量上限。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00141">141</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00303">cleanupOldFiles()</a>, <a class="el" href="FileAppender_8h_source.html#l00089">maxFiles()</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00082">setMaxFiles()</a>.</p>
+
+</div>
+</div>
+<a id="a051994d8b710f223ca4dda79d191d284" name="a051994d8b710f223ca4dda79d191d284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a051994d8b710f223ca4dda79d191d284">&#9670;&#160;</a></span>m_maxQueueSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::FileAppender::m_maxQueueSize = 10000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>异步日志队列大小上限。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00143">143</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00155">append()</a>, <a class="el" href="FileAppender_8h_source.html#l00118">maxQueueSize()</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00111">setMaxQueueSize()</a>.</p>
+
+</div>
+</div>
+<a id="a1b057ec493de5699021ac8592b52a4d2" name="a1b057ec493de5699021ac8592b52a4d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b057ec493de5699021ac8592b52a4d2">&#9670;&#160;</a></span>m_maxSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">qint64 EasyKiConverter::FileAppender::m_maxSize</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>单个日志文件的最大字节数。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00140">140</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8h_source.html#l00074">maxSize()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00438">needsRollover()</a> , 以及 <a class="el" href="FileAppender_8h_source.html#l00067">setMaxSize()</a>.</p>
+
+</div>
+</div>
+<a id="aaf6f30f1d1875b827c2fb90ee3f71a3c" name="aaf6f30f1d1875b827c2fb90ee3f71a3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf6f30f1d1875b827c2fb90ee3f71a3c">&#9670;&#160;</a></span>m_pathValid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileAppender::m_pathValid = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前日志路径是否通过安全校验。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00144">144</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00155">append()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00184">flush()</a>, <a class="el" href="FileAppender_8h_source.html#l00125">isValidPath()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00267">rollOver()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00412">writeDirect()</a>.</p>
+
+</div>
+</div>
+<a id="a3cdc2c88fb04be97ba94bce36e77bce1" name="a3cdc2c88fb04be97ba94bce36e77bce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3cdc2c88fb04be97ba94bce36e77bce1">&#9670;&#160;</a></span>m_queueCondition</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWaitCondition EasyKiConverter::FileAppender::m_queueCondition</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>唤醒异步写入线程的条件变量。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00154">154</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00155">append()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00218">close()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00184">flush()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="abba7f2896c5e47135416730f252e0e4f" name="abba7f2896c5e47135416730f252e0e4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abba7f2896c5e47135416730f252e0e4f">&#9670;&#160;</a></span>m_queueMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex EasyKiConverter::FileAppender::m_queueMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护日志消息队列的互斥量。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00153">153</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00155">append()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00184">flush()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="a88f63be3456e56dfe61382a850a1fc34" name="a88f63be3456e56dfe61382a850a1fc34"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88f63be3456e56dfe61382a850a1fc34">&#9670;&#160;</a></span>m_queueOverflow</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::FileAppender::m_queueOverflow</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>队列溢出标志。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00157">157</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00155">append()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="a1d0d738fadb9eb81d3c5f79d0adcd8ca" name="a1d0d738fadb9eb81d3c5f79d0adcd8ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d0d738fadb9eb81d3c5f79d0adcd8ca">&#9670;&#160;</a></span>m_running</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::FileAppender::m_running</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>异步写入线程运行状态。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00155">155</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00218">close()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="adc90b45e4ec12e95b03edc9cc2014778" name="adc90b45e4ec12e95b03edc9cc2014778"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc90b45e4ec12e95b03edc9cc2014778">&#9670;&#160;</a></span>m_writeQueue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QQueue&lt;QString&gt; EasyKiConverter::FileAppender::m_writeQueue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>待写入的日志消息队列。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00152">152</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00155">append()</a>, <a class="el" href="FileAppender_8cpp_source.html#l00184">flush()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00348">writerThreadFunc()</a>.</p>
+
+</div>
+</div>
+<a id="a458684b4d0cd3164cc241f6a0deab0be" name="a458684b4d0cd3164cc241f6a0deab0be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a458684b4d0cd3164cc241f6a0deab0be">&#9670;&#160;</a></span>m_writerThread</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QThread* EasyKiConverter::FileAppender::m_writerThread = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>异步日志写入线程。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileAppender_8h_source.html">FileAppender.h</a> 第 <a class="el" href="FileAppender_8h_source.html#l00151">151</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileAppender_8cpp_source.html#l00026">FileAppender()</a> , 以及 <a class="el" href="FileAppender_8cpp_source.html#l00218">close()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>utils/logging/<a class="el" href="FileAppender_8h_source.html">FileAppender.h</a></li>
+<li>utils/logging/<a class="el" href="FileAppender_8cpp_source.html">FileAppender.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1FileAppender.html">FileAppender</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

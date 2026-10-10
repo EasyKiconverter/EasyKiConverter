@@ -1,0 +1,28 @@
+var classEasyKiConverter_1_1ComponentQueueManager =
+[
+    [ "ComponentQueueManager", "classEasyKiConverter_1_1ComponentQueueManager.html#a6d4435f4b0a792d12678d7b690e57d2f", null ],
+    [ "~ComponentQueueManager", "classEasyKiConverter_1_1ComponentQueueManager.html#a6762f5754c697e71c1c1b046ff9d5533", null ],
+    [ "activeRequestCount", "classEasyKiConverter_1_1ComponentQueueManager.html#a951025628dbf45b97d4c9e35c9bb1759", null ],
+    [ "checkAndProcessNext", "classEasyKiConverter_1_1ComponentQueueManager.html#a9cbb87c0cf56d3db5322651b7ec35af7", null ],
+    [ "isRunning", "classEasyKiConverter_1_1ComponentQueueManager.html#a85d75fcb98e66076c4c504ae40c20558", null ],
+    [ "maxConcurrentRequests", "classEasyKiConverter_1_1ComponentQueueManager.html#a18564f2e49bdad1cf1d1b68cb8558bae", null ],
+    [ "onCheckTimeout", "classEasyKiConverter_1_1ComponentQueueManager.html#a764f0bcbc55cf4474aa8671ec64e7600", null ],
+    [ "onTotalTimeout", "classEasyKiConverter_1_1ComponentQueueManager.html#a720e86192030dcd7a81d23932d1fd634", null ],
+    [ "progress", "classEasyKiConverter_1_1ComponentQueueManager.html#a02eb43573e4ca722788075ef59a4a2b5", null ],
+    [ "queueEmpty", "classEasyKiConverter_1_1ComponentQueueManager.html#ad1baae5efca98bad06b3146f5a1fd6d3", null ],
+    [ "requestCompleted", "classEasyKiConverter_1_1ComponentQueueManager.html#a3aadbabdaac0680f73288f53467a0c2a", null ],
+    [ "requestReady", "classEasyKiConverter_1_1ComponentQueueManager.html#ac9e1492bddcee71626dcb9d7bdafdcb3", null ],
+    [ "reset", "classEasyKiConverter_1_1ComponentQueueManager.html#a9f6c7b38ca87af48b509d9d3e1715562", null ],
+    [ "setMaxConcurrentRequests", "classEasyKiConverter_1_1ComponentQueueManager.html#a299adad555c987eaac258e45356b1ab9", null ],
+    [ "start", "classEasyKiConverter_1_1ComponentQueueManager.html#a3ce2c2dc18754d4f6c15b00d44e0fe97", null ],
+    [ "stop", "classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63", null ],
+    [ "timeout", "classEasyKiConverter_1_1ComponentQueueManager.html#aec502b223dacf003e956d864408ecd09", null ],
+    [ "m_checkTimer", "classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b", null ],
+    [ "m_isRunning", "classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4", null ],
+    [ "m_maxConcurrentRequests", "classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6", null ],
+    [ "m_pendingComponents", "classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391", null ],
+    [ "m_requestQueue", "classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e", null ],
+    [ "m_totalTimer", "classEasyKiConverter_1_1ComponentQueueManager.html#a52064413cdca612a1fae363c0b3f3050", null ],
+    [ "QUEUE_CHECK_INTERVAL_MS", "classEasyKiConverter_1_1ComponentQueueManager.html#a6359158fdd2a771108b23ff769b41d1f", null ],
+    [ "TOTAL_TIMEOUT_MS", "classEasyKiConverter_1_1ComponentQueueManager.html#a75246ecc66cdf1fc228938b765ae87a2", null ]
+];

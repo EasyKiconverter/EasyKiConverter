@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/writers/AltiumSchPrimitiveRecordWriter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumSchPrimitiveRecordWriter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumSchPrimitiveRecordWriter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumSchPrimitiveRecordWriter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSchComponent_8h.html">models/AltiumSchComponent.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumBinaryWriter_8h.html">utils/AltiumBinaryWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">class </span>AltiumSchLibWriter;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html">   14</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html">AltiumSchPrimitiveRecordWriter</a> final {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html">AltiumSchPrimitiveRecordWriter</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumSchLibWriter.html">AltiumSchLibWriter</a>&amp; owner);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a655c8821c5ce43b9c99bb303bf9feeb0">writeRectangle</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchRectangle.html">AltiumSchRectangle</a>&amp; rectangle);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a9ea55e9049ff335a7eb0032325d15e94">writeRoundRectangle</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchRoundRectangle.html">AltiumSchRoundRectangle</a>&amp; rectangle);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a7f35c2bc83b9ed49297643d5cfe1943b">writeLine</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchLine.html">AltiumSchLine</a>&amp; line);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#abc215fc213026f2580e5545c4c384279">writeArc</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchArc.html">AltiumSchArc</a>&amp; arc);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a2455c81a38bf890d178aceaf98559197">writePolygon</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPolygon.html">AltiumSchPolygon</a>&amp; polygon);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#aa2a8d4cd5b9b1ecf62d953706dc73462">writeEllipse</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchEllipse.html">AltiumSchEllipse</a>&amp; ellipse);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#ae1727d5fcfb60c7dcc393bc4921a90bf">writePie</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPie.html">AltiumSchPie</a>&amp; pie);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a50c6309e07d361745d30657bb714185f">writeEllipticalArc</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchEllipticalArc.html">AltiumSchEllipticalArc</a>&amp; arc);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a202c0e8e6d0c532e902fe0e342ec5812">writePolyline</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPolyline.html">AltiumSchPolyline</a>&amp; polyline);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a4fddf16d4081239c852e192954b3ddd0">writePath</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPath.html">AltiumSchPath</a>&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a243eaeabb70b48f4578c0325ca60f280">writeBezier</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchBezier.html">AltiumSchBezier</a>&amp; bezier);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a3b569009c729d630ce9f37095383ac58">writeIeee</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchIeee.html">AltiumSchIeee</a>&amp; ieee);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a50ca435ab5db37f5eeb0b418e66e26b4">   96</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1AltiumSchLibWriter.html">AltiumSchLibWriter</a>&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a50ca435ab5db37f5eeb0b418e66e26b4">m_owner</a>;  </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>};</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumBinaryWriter_8h_html"><div class="ttname"><a href="AltiumBinaryWriter_8h.html">AltiumBinaryWriter.h</a></div></div>
+<div class="ttc" id="aAltiumSchComponent_8h_html"><div class="ttname"><a href="AltiumSchComponent_8h.html">AltiumSchComponent.h</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryWriter.html">EasyKiConverter::AltiumBinaryWriter</a></div><div class="ttdoc">Altium 二进制格式写入器</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryWriter_8h_source.html#l00019">AltiumBinaryWriter.h:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchLibWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchLibWriter.html">EasyKiConverter::AltiumSchLibWriter</a></div><div class="ttdoc">Altium SchLib 文件写入器</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchLibWriter_8h_source.html#l00029">AltiumSchLibWriter.h:29</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html">EasyKiConverter::AltiumSchPrimitiveRecordWriter</a></div><div class="ttdoc">写入 SchLib 文本参数图元记录的协作者。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8h_source.html#l00014">AltiumSchPrimitiveRecordWriter.h:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a202c0e8e6d0c532e902fe0e342ec5812"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a202c0e8e6d0c532e902fe0e342ec5812">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolyline</a></div><div class="ttdeci">void writePolyline(AltiumBinaryWriter &amp;writer, const AltiumSchPolyline &amp;polyline)</div><div class="ttdoc">写入折线记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00242">AltiumSchPrimitiveRecordWriter.cpp:242</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a243eaeabb70b48f4578c0325ca60f280"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a243eaeabb70b48f4578c0325ca60f280">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeBezier</a></div><div class="ttdeci">void writeBezier(AltiumBinaryWriter &amp;writer, const AltiumSchBezier &amp;bezier)</div><div class="ttdoc">写入三次 Bezier 曲线记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00284">AltiumSchPrimitiveRecordWriter.cpp:284</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a2455c81a38bf890d178aceaf98559197"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a2455c81a38bf890d178aceaf98559197">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolygon</a></div><div class="ttdeci">void writePolygon(AltiumBinaryWriter &amp;writer, const AltiumSchPolygon &amp;polygon)</div><div class="ttdoc">写入多边形记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00123">AltiumSchPrimitiveRecordWriter.cpp:123</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a3b569009c729d630ce9f37095383ac58"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a3b569009c729d630ce9f37095383ac58">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeIeee</a></div><div class="ttdeci">void writeIeee(AltiumBinaryWriter &amp;writer, const AltiumSchIeee &amp;ieee)</div><div class="ttdoc">写入 IEEE 图形记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00315">AltiumSchPrimitiveRecordWriter.cpp:315</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a4fddf16d4081239c852e192954b3ddd0"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a4fddf16d4081239c852e192954b3ddd0">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePath</a></div><div class="ttdeci">void writePath(AltiumBinaryWriter &amp;writer, const AltiumSchPath &amp;path)</div><div class="ttdoc">将路径记录转换为折线记录后写入。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00269">AltiumSchPrimitiveRecordWriter.cpp:269</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a50c6309e07d361745d30657bb714185f"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a50c6309e07d361745d30657bb714185f">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipticalArc</a></div><div class="ttdeci">void writeEllipticalArc(AltiumBinaryWriter &amp;writer, const AltiumSchEllipticalArc &amp;arc)</div><div class="ttdoc">写入椭圆弧记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00211">AltiumSchPrimitiveRecordWriter.cpp:211</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a50ca435ab5db37f5eeb0b418e66e26b4"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a50ca435ab5db37f5eeb0b418e66e26b4">EasyKiConverter::AltiumSchPrimitiveRecordWriter::m_owner</a></div><div class="ttdeci">AltiumSchLibWriter &amp; m_owner</div><div class="ttdoc">所属的 SchLib 主写入器。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8h_source.html#l00096">AltiumSchPrimitiveRecordWriter.h:96</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a655c8821c5ce43b9c99bb303bf9feeb0"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a655c8821c5ce43b9c99bb303bf9feeb0">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRectangle</a></div><div class="ttdeci">void writeRectangle(AltiumBinaryWriter &amp;writer, const AltiumSchRectangle &amp;rectangle)</div><div class="ttdoc">写入矩形记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00019">AltiumSchPrimitiveRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a7f35c2bc83b9ed49297643d5cfe1943b"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a7f35c2bc83b9ed49297643d5cfe1943b">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeLine</a></div><div class="ttdeci">void writeLine(AltiumBinaryWriter &amp;writer, const AltiumSchLine &amp;line)</div><div class="ttdoc">写入线段记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00074">AltiumSchPrimitiveRecordWriter.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_a9ea55e9049ff335a7eb0032325d15e94"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#a9ea55e9049ff335a7eb0032325d15e94">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRoundRectangle</a></div><div class="ttdeci">void writeRoundRectangle(AltiumBinaryWriter &amp;writer, const AltiumSchRoundRectangle &amp;rectangle)</div><div class="ttdoc">写入圆角矩形记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00045">AltiumSchPrimitiveRecordWriter.cpp:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_aa2a8d4cd5b9b1ecf62d953706dc73462"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#aa2a8d4cd5b9b1ecf62d953706dc73462">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipse</a></div><div class="ttdeci">void writeEllipse(AltiumBinaryWriter &amp;writer, const AltiumSchEllipse &amp;ellipse)</div><div class="ttdoc">写入椭圆记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00154">AltiumSchPrimitiveRecordWriter.cpp:154</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_abc215fc213026f2580e5545c4c384279"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#abc215fc213026f2580e5545c4c384279">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeArc</a></div><div class="ttdeci">void writeArc(AltiumBinaryWriter &amp;writer, const AltiumSchArc &amp;arc)</div><div class="ttdoc">写入圆弧记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00095">AltiumSchPrimitiveRecordWriter.cpp:95</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter_html_ae1727d5fcfb60c7dcc393bc4921a90bf"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html#ae1727d5fcfb60c7dcc393bc4921a90bf">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePie</a></div><div class="ttdeci">void writePie(AltiumBinaryWriter &amp;writer, const AltiumSchPie &amp;pie)</div><div class="ttdoc">写入扇形记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00180">AltiumSchPrimitiveRecordWriter.cpp:180</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchArc_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchArc.html">EasyKiConverter::AltiumSchArc</a></div><div class="ttdoc">Altium 符号弧线</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00085">AltiumSchComponent.h:85</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchBezier_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchBezier.html">EasyKiConverter::AltiumSchBezier</a></div><div class="ttdoc">Altium 符号三次 Bézier 曲线</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00199">AltiumSchComponent.h:199</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchEllipse_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchEllipse.html">EasyKiConverter::AltiumSchEllipse</a></div><div class="ttdoc">Altium 符号椭圆/圆</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00118">AltiumSchComponent.h:118</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchEllipticalArc_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchEllipticalArc.html">EasyKiConverter::AltiumSchEllipticalArc</a></div><div class="ttdoc">Altium 符号椭圆弧</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00151">AltiumSchComponent.h:151</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchIeee_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchIeee.html">EasyKiConverter::AltiumSchIeee</a></div><div class="ttdoc">Altium 符号 IEEE 图形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00214">AltiumSchComponent.h:214</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchLine_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchLine.html">EasyKiConverter::AltiumSchLine</a></div><div class="ttdoc">Altium 符号线段</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00073">AltiumSchComponent.h:73</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPath_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPath.html">EasyKiConverter::AltiumSchPath</a></div><div class="ttdoc">Altium 符号路径</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00183">AltiumSchComponent.h:183</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPie_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPie.html">EasyKiConverter::AltiumSchPie</a></div><div class="ttdoc">Altium 符号扇形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00135">AltiumSchComponent.h:135</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPolygon_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPolygon.html">EasyKiConverter::AltiumSchPolygon</a></div><div class="ttdoc">Altium 符号多边形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00103">AltiumSchComponent.h:103</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPolyline_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPolyline.html">EasyKiConverter::AltiumSchPolyline</a></div><div class="ttdoc">Altium 符号折线</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00170">AltiumSchComponent.h:170</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchRectangle_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchRectangle.html">EasyKiConverter::AltiumSchRectangle</a></div><div class="ttdoc">Altium 符号矩形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00040">AltiumSchComponent.h:40</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchRoundRectangle_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchRoundRectangle.html">EasyKiConverter::AltiumSchRoundRectangle</a></div><div class="ttdoc">Altium 符号圆角矩形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00056">AltiumSchComponent.h:56</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_4b0a7f407ec41a4fc3d6e08c8e7af107.html">writers</a></li><li class="navelem"><a class="el" href="AltiumSchPrimitiveRecordWriter_8h.html">AltiumSchPrimitiveRecordWriter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

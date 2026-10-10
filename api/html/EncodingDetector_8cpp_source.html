@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/parser/EncodingDetector.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('EncodingDetector_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">EncodingDetector.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="EncodingDetector_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="EncodingDetector_8h.html">EncodingDetector.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter_1_1Parser.html">EasyKiConverter::Parser</a> {</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keywordtype">bool</span> isValidUtf8(<span class="keyword">const</span> QByteArray&amp; data) {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keywordtype">int</span> remaining = 0;  </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keywordflow">for</span> (<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <span class="keywordtype">byte</span> : data) {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <span class="keywordflow">if</span> (remaining == 0) {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>            <span class="keywordflow">if</span> (<span class="keywordtype">byte</span> &lt;= 0x7F)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            <span class="keywordflow">if</span> (<span class="keywordtype">byte</span> &gt;= 0xC2 &amp;&amp; <span class="keywordtype">byte</span> &lt;= 0xDF)</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                remaining = 1;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keywordtype">byte</span> &gt;= 0xE0 &amp;&amp; <span class="keywordtype">byte</span> &lt;= 0xEF)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                remaining = 2;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<span class="keywordtype">byte</span> &gt;= 0xF0 &amp;&amp; <span class="keywordtype">byte</span> &lt;= 0xF4)</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                remaining = 3;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            <span class="keywordflow">if</span> (byte &lt; 0x80 || byte &gt; 0xBF)</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            --remaining;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">return</span> remaining == 0;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>QString decodeUtf16(<span class="keyword">const</span> QByteArray&amp; data, <span class="keywordtype">bool</span> littleEndian) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> byteCount = data.size() - 2;  </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (byteCount &lt; 0 || byteCount % 2 != 0)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    QString result;  </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    result.reserve(byteCount / 2);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> index = 2; index &lt; data.size(); index += 2) {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keyword">const</span> quint16 first = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(data.at(index));  </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keyword">const</span> quint16 second = <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(data.at(index + 1));  </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keyword">const</span> quint16 <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = littleEndian ? first | (second &lt;&lt; 8) : (first &lt;&lt; 8) | second;  </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        result.append(QChar(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>));</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00062" data-start="{" data-end="}">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a91f088afda35bd2d48639ee846b53ea0">   62</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html">EncodingDetectionResult</a> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a91f088afda35bd2d48639ee846b53ea0">EncodingDetector::detect</a>(<span class="keyword">const</span> QByteArray&amp; data) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">if</span> (data.startsWith(QByteArray::fromHex(<span class="stringliteral">&quot;EFBBBF&quot;</span>)))</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">return</span> {<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a81f91ccd37ce1d232cbfc1520374319d">TextEncoding::Utf8</a>, <span class="keyword">true</span>, 100};</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">if</span> (data.startsWith(QByteArray::fromHex(<span class="stringliteral">&quot;FFFE&quot;</span>)))</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">return</span> {<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208abed96b975a8a66ca68b21fb4af381189">TextEncoding::Utf16LittleEndian</a>, data.size() &gt;= 2 &amp;&amp; (data.size() - 2) % 2 == 0, 100};</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">if</span> (data.startsWith(QByteArray::fromHex(<span class="stringliteral">&quot;FEFF&quot;</span>)))</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">return</span> {<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a7a185a7525c4893baf0b86145e2140d0">TextEncoding::Utf16BigEndian</a>, data.size() &gt;= 2 &amp;&amp; (data.size() - 2) % 2 == 0, 100};</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">if</span> (isValidUtf8(data))</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">return</span> {<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a81f91ccd37ce1d232cbfc1520374319d">TextEncoding::Utf8</a>, <span class="keyword">true</span>, 90};</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">if</span> (!data.isEmpty())</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">return</span> {<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a2ad869afeb953d2aad1cf9fbe870ce7b">TextEncoding::Latin1</a>, <span class="keyword">true</span>, 30};</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">return</span> {<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a81f91ccd37ce1d232cbfc1520374319d">TextEncoding::Utf8</a>, <span class="keyword">true</span>, 90};</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>}</div>
+</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="foldopen" id="foldopen00083" data-start="{" data-end="}">
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a65e4a5a7e0c2a0e24a985a84da690edb">   83</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a65e4a5a7e0c2a0e24a985a84da690edb">EncodingDetector::decode</a>(<span class="keyword">const</span> QByteArray&amp; data, <a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a>* diagnostics, <span class="keyword">const</span> QString&amp; filePath) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordflow">if</span> (diagnostics)</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        diagnostics-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aff797940deb0b845979c468bbb9fcf3f">setFilePath</a>(filePath);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html">EncodingDetectionResult</a> result = <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a91f088afda35bd2d48639ee846b53ea0">detect</a>(data);  </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordflow">if</span> (!result.<a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html#a6640178b66347877b6de2ee096c36103">valid</a>) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">if</span> (diagnostics)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            diagnostics-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">add</a>(<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd">ParseSeverity::Error</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">ParseScope::File</a>, QStringLiteral(<span class="stringliteral">&quot;文本编码标记不完整&quot;</span>));</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="comment">// 根据已确认的编码分支解码，未知编码不会静默转换。</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">switch</span> (result.<a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html#a459cf41b2eaf864211bae309b45a14da">encoding</a>) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a81f91ccd37ce1d232cbfc1520374319d">TextEncoding::Utf8</a>: {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="keyword">const</span> <span class="keywordtype">int</span> offset = data.startsWith(QByteArray::fromHex(<span class="stringliteral">&quot;EFBBBF&quot;</span>)) ? 3 : 0;  </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            <span class="keywordflow">return</span> QString::fromUtf8(data.constData() + offset, data.size() - offset);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208abed96b975a8a66ca68b21fb4af381189">TextEncoding::Utf16LittleEndian</a>:</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">return</span> decodeUtf16(data, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a7a185a7525c4893baf0b86145e2140d0">TextEncoding::Utf16BigEndian</a>:</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keywordflow">return</span> decodeUtf16(data, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a2ad869afeb953d2aad1cf9fbe870ce7b">TextEncoding::Latin1</a>:</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            <span class="keywordflow">if</span> (diagnostics)</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                diagnostics-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">add</a>(<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a0eaadb4fcb48a0a0ed7bc9868be9fbaa">ParseSeverity::Warning</a>,</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                                 <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">ParseScope::File</a>,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                                 QStringLiteral(<span class="stringliteral">&quot;无法确认文本编码，已按 Latin-1 回退解码&quot;</span>));</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <span class="keywordflow">return</span> QString::fromLatin1(data);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a88183b946cc5f0e8c96b2e66e1c74a7e">TextEncoding::Unknown</a>:</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">if</span> (diagnostics)</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        diagnostics-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">add</a>(<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd">ParseSeverity::Error</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">ParseScope::File</a>, QStringLiteral(<span class="stringliteral">&quot;不支持的文本编码&quot;</span>));</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
+</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}  <span class="comment">// namespace EasyKiConverter::Parser</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aEncodingDetector_8h_html"><div class="ttname"><a href="EncodingDetector_8h.html">EncodingDetector.h</a></div><div class="ttdoc">文本编码检测和安全解码入口。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1EncodingDetector_html_a65e4a5a7e0c2a0e24a985a84da690edb"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a65e4a5a7e0c2a0e24a985a84da690edb">EasyKiConverter::Parser::EncodingDetector::decode</a></div><div class="ttdeci">static QString decode(const QByteArray &amp;data, ParseDiagnostics *diagnostics=nullptr, const QString &amp;filePath=QString())</div><div class="ttdoc">按检测结果将文本解码为 QString。</div><div class="ttdef"><b>Definition</b> <a href="EncodingDetector_8cpp_source.html#l00083">EncodingDetector.cpp:83</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1EncodingDetector_html_a91f088afda35bd2d48639ee846b53ea0"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a91f088afda35bd2d48639ee846b53ea0">EasyKiConverter::Parser::EncodingDetector::detect</a></div><div class="ttdeci">static EncodingDetectionResult detect(const QByteArray &amp;data)</div><div class="ttdoc">检测输入字节的编码。</div><div class="ttdef"><b>Definition</b> <a href="EncodingDetector_8cpp_source.html#l00062">EncodingDetector.cpp:62</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">EasyKiConverter::Parser::ParseDiagnostics</a></div><div class="ttdoc">收集解析过程中的信息、警告、错误和跳过记录。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00040">ParseDiagnostics.h:40</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_a4996b6b0998692342728cdfe5f388a09"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">EasyKiConverter::Parser::ParseDiagnostics::add</a></div><div class="ttdeci">void add(ParseSeverity severity, ParseScope scope, const QString &amp;message, const QString &amp;entity=QString(), int line=0, int column=0)</div><div class="ttdoc">添加一条解析诊断。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00018">ParseDiagnostics.cpp:18</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_aff797940deb0b845979c468bbb9fcf3f"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aff797940deb0b845979c468bbb9fcf3f">EasyKiConverter::Parser::ParseDiagnostics::setFilePath</a></div><div class="ttdeci">void setFilePath(const QString &amp;filePath)</div><div class="ttdoc">设置当前诊断关联的源文件路径。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00031">ParseDiagnostics.cpp:31</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html">EasyKiConverter::Parser</a></div><div class="ttdef"><b>Definition</b> <a href="ArchiveInspector_8cpp_source.html#l00005">ArchiveInspector.cpp:5</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">EasyKiConverter::Parser::ParseScope::File</a></div><div class="ttdeci">@ File</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_acf6a3468b670ed55eb9200b71e3fd393a0eaadb4fcb48a0a0ed7bc9868be9fbaa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a0eaadb4fcb48a0a0ed7bc9868be9fbaa">EasyKiConverter::Parser::ParseSeverity::Warning</a></div><div class="ttdeci">@ Warning</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd">EasyKiConverter::Parser::ParseSeverity::Error</a></div><div class="ttdeci">@ Error</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_ad5d18dccc58940736580c7a5c3b7d208a2ad869afeb953d2aad1cf9fbe870ce7b"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a2ad869afeb953d2aad1cf9fbe870ce7b">EasyKiConverter::Parser::TextEncoding::Latin1</a></div><div class="ttdeci">@ Latin1</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_ad5d18dccc58940736580c7a5c3b7d208a7a185a7525c4893baf0b86145e2140d0"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a7a185a7525c4893baf0b86145e2140d0">EasyKiConverter::Parser::TextEncoding::Utf16BigEndian</a></div><div class="ttdeci">@ Utf16BigEndian</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_ad5d18dccc58940736580c7a5c3b7d208a81f91ccd37ce1d232cbfc1520374319d"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a81f91ccd37ce1d232cbfc1520374319d">EasyKiConverter::Parser::TextEncoding::Utf8</a></div><div class="ttdeci">@ Utf8</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_ad5d18dccc58940736580c7a5c3b7d208a88183b946cc5f0e8c96b2e66e1c74a7e"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Parser::TextEncoding::Unknown</a></div><div class="ttdeci">@ Unknown</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_ad5d18dccc58940736580c7a5c3b7d208abed96b975a8a66ca68b21fb4af381189"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208abed96b975a8a66ca68b21fb4af381189">EasyKiConverter::Parser::TextEncoding::Utf16LittleEndian</a></div><div class="ttdeci">@ Utf16LittleEndian</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1EncodingDetectionResult_html"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html">EasyKiConverter::Parser::EncodingDetectionResult</a></div><div class="ttdoc">编码检测结果。</div><div class="ttdef"><b>Definition</b> <a href="EncodingDetector_8h_source.html#l00023">EncodingDetector.h:23</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1EncodingDetectionResult_html_a459cf41b2eaf864211bae309b45a14da"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html#a459cf41b2eaf864211bae309b45a14da">EasyKiConverter::Parser::EncodingDetectionResult::encoding</a></div><div class="ttdeci">TextEncoding encoding</div><div class="ttdoc">检测出的文本编码。</div><div class="ttdef"><b>Definition</b> <a href="EncodingDetector_8h_source.html#l00024">EncodingDetector.h:24</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1EncodingDetectionResult_html_a6640178b66347877b6de2ee096c36103"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html#a6640178b66347877b6de2ee096c36103">EasyKiConverter::Parser::EncodingDetectionResult::valid</a></div><div class="ttdeci">bool valid</div><div class="ttdoc">检测结果是否有效。</div><div class="ttdef"><b>Definition</b> <a href="EncodingDetector_8h_source.html#l00025">EncodingDetector.h:25</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_8eceb17de733a8c5303e86d0c9deb6e5.html">parser</a></li><li class="navelem"><a class="el" href="EncodingDetector_8cpp.html">EncodingDetector.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

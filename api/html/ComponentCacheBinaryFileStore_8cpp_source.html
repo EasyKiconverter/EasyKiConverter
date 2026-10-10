@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentCacheBinaryFileStore.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentCacheBinaryFileStore_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentCacheBinaryFileStore.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentCacheBinaryFileStore_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheBinaryFileStore_8h.html">ComponentCacheBinaryFileStore.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="CacheDataValidator_8h.html">CacheDataValidator.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="CacheSafety_8h.html">CacheSafety.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>QByteArray readValidatedFile(<span class="keyword">const</span> QString&amp; filePath, <span class="keywordtype">bool</span> validateAsPreview) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordflow">if</span> (!QFileInfo::exists(filePath))</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordflow">return</span> QByteArray();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    QDir componentDir = QFileInfo(filePath).dir();  <span class="comment">// 文件所属的组件目录。</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordflow">if</span> (!componentDir.cdUp() || !<a class="code hl_function" href="classEasyKiConverter_1_1CacheSafety.html#a6ab16cfe24d276be750bfa7355eabc7d">CacheSafety::isOwnedComponentFile</a>(componentDir.absolutePath(), filePath))</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">return</span> QByteArray();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    QFile file(filePath);  <span class="comment">// 待读取的缓存文件。</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">if</span> (!file.open(QIODevice::ReadOnly))</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordflow">return</span> QByteArray();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">const</span> QByteArray data = file.readAll();  <span class="comment">// 文件原始内容。</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    file.close();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="SvgPathParser_8cpp.html#a28e3c179a86f337095088b3ca02a2b2a">valid</a> =  <span class="comment">// 内容是否通过对应格式校验。</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        validateAsPreview ? <a class="code hl_function" href="classEasyKiConverter_1_1CacheDataValidator.html#a4e069c281bb92dfba6ab51a1f13a6056">CacheDataValidator::isValidPreviewImage</a>(data) : CacheDataValidator::isValidCadData(data);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="SvgPathParser_8cpp.html#a28e3c179a86f337095088b3ca02a2b2a">valid</a>)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">return</span> data;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    QString trashError;  <span class="comment">// 回收站操作失败时的错误文本。</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_function" href="classEasyKiConverter_1_1CacheSafety.html#a3dc028a0206a0d9b6d73f24ce6c989ad">CacheSafety::moveToTrash</a>(filePath, &amp;trashError);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">return</span> QByteArray();</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="}">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheBinaryFileStore.html#a1b9a8601397359e7b9a95b709960ad60">   51</a></span>QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheBinaryFileStore.html#a1b9a8601397359e7b9a95b709960ad60">ComponentCacheBinaryFileStore::readCadData</a>(<span class="keyword">const</span> QString&amp; filePath) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">return</span> readValidatedFile(filePath, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheBinaryFileStore.html#ad0387a03a59fcff75cef376b73d0039e">   60</a></span>QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheBinaryFileStore.html#ad0387a03a59fcff75cef376b73d0039e">ComponentCacheBinaryFileStore::readPreviewImage</a>(<span class="keyword">const</span> QString&amp; filePath) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">return</span> readValidatedFile(filePath, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
+</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aCacheDataValidator_8h_html"><div class="ttname"><a href="CacheDataValidator_8h.html">CacheDataValidator.h</a></div></div>
+<div class="ttc" id="aCacheSafety_8h_html"><div class="ttname"><a href="CacheSafety_8h.html">CacheSafety.h</a></div></div>
+<div class="ttc" id="aComponentCacheBinaryFileStore_8h_html"><div class="ttname"><a href="ComponentCacheBinaryFileStore_8h.html">ComponentCacheBinaryFileStore.h</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_a28e3c179a86f337095088b3ca02a2b2a"><div class="ttname"><a href="SvgPathParser_8cpp.html#a28e3c179a86f337095088b3ca02a2b2a">valid</a></div><div class="ttdeci">bool valid</div><div class="ttdoc">圆弧几何参数是否有效。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00019">SvgPathParser.cpp:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheDataValidator_html_a4e069c281bb92dfba6ab51a1f13a6056"><div class="ttname"><a href="classEasyKiConverter_1_1CacheDataValidator.html#a4e069c281bb92dfba6ab51a1f13a6056">EasyKiConverter::CacheDataValidator::isValidPreviewImage</a></div><div class="ttdeci">static bool isValidPreviewImage(const QByteArray &amp;data)</div><div class="ttdoc">判断数据是否为 Qt 可解码的预览图。</div><div class="ttdef"><b>Definition</b> <a href="CacheDataValidator_8cpp_source.html#l00031">CacheDataValidator.cpp:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheSafety_html_a3dc028a0206a0d9b6d73f24ce6c989ad"><div class="ttname"><a href="classEasyKiConverter_1_1CacheSafety.html#a3dc028a0206a0d9b6d73f24ce6c989ad">EasyKiConverter::CacheSafety::moveToTrash</a></div><div class="ttdeci">static bool moveToTrash(const QString &amp;path, QString *error=nullptr, const TrashFunction &amp;trash=TrashFunction())</div><div class="ttdoc">将已验证条目移入系统回收站。</div><div class="ttdef"><b>Definition</b> <a href="CacheSafety_8cpp_source.html#l00572">CacheSafety.cpp:572</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheSafety_html_a6ab16cfe24d276be750bfa7355eabc7d"><div class="ttname"><a href="classEasyKiConverter_1_1CacheSafety.html#a6ab16cfe24d276be750bfa7355eabc7d">EasyKiConverter::CacheSafety::isOwnedComponentFile</a></div><div class="ttdeci">static bool isOwnedComponentFile(const QString &amp;rootPath, const QString &amp;path)</div><div class="ttdoc">判断元器件缓存文件是否位于已验证目录且文件名属于缓存布局。</div><div class="ttdef"><b>Definition</b> <a href="CacheSafety_8cpp_source.html#l00435">CacheSafety.cpp:435</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheBinaryFileStore_html_a1b9a8601397359e7b9a95b709960ad60"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheBinaryFileStore.html#a1b9a8601397359e7b9a95b709960ad60">EasyKiConverter::ComponentCacheBinaryFileStore::readCadData</a></div><div class="ttdeci">static QByteArray readCadData(const QString &amp;filePath)</div><div class="ttdoc">读取并校验 CAD 或符号封装二进制数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheBinaryFileStore_8cpp_source.html#l00051">ComponentCacheBinaryFileStore.cpp:51</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheBinaryFileStore_html_ad0387a03a59fcff75cef376b73d0039e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheBinaryFileStore.html#ad0387a03a59fcff75cef376b73d0039e">EasyKiConverter::ComponentCacheBinaryFileStore::readPreviewImage</a></div><div class="ttdeci">static QByteArray readPreviewImage(const QString &amp;filePath)</div><div class="ttdoc">读取并校验预览图数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheBinaryFileStore_8cpp_source.html#l00060">ComponentCacheBinaryFileStore.cpp:60</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentCacheBinaryFileStore_8cpp.html">ComponentCacheBinaryFileStore.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

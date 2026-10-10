@@ -1,0 +1,810 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::Model3DExportWorker类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1Model3DExportWorker.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1Model3DExportWorker-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::Model3DExportWorker类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>3D模型导出Worker  
+ <a href="classEasyKiConverter_1_1Model3DExportWorker.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::Model3DExportWorker 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1Model3DExportWorker__inherit__graph.svg" width="387" height="579"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::Model3DExportWorker 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1Model3DExportWorker__coll__graph.svg" width="900" height="839"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1Model3DExportWorker_1_1OutputPaths.html">OutputPaths</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a84584eebada132647e65f24aee9f3545" id="r_a84584eebada132647e65f24aee9f3545"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#a84584eebada132647e65f24aee9f3545">Model3DExportWorker</a> (QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a84584eebada132647e65f24aee9f3545"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a84584eebada132647e65f24aee9f3545"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d48653fcc76384f12e16dc26a60284f" id="r_a7d48653fcc76384f12e16dc26a60284f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#a7d48653fcc76384f12e16dc26a60284f">~Model3DExportWorker</a> () override</td></tr>
+<tr class="memdesc:a7d48653fcc76384f12e16dc26a60284f"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a7d48653fcc76384f12e16dc26a60284f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85f1dd0f52174165ccb2581b9c1dd6e8" id="r_a85f1dd0f52174165ccb2581b9c1dd6e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#a85f1dd0f52174165ccb2581b9c1dd6e8">setData</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#aed96618877b235a6cfd4f3b64ad72a78">componentId</a>, const QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> &gt; &amp;data, const <a class="el" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> &amp;options) override</td></tr>
+<tr class="memdesc:a85f1dd0f52174165ccb2581b9c1dd6e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置导出所需的数据  <br /></td></tr>
+<tr class="separator:a85f1dd0f52174165ccb2581b9c1dd6e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af27085e6cdc61ca438711428dd74def7" id="r_af27085e6cdc61ca438711428dd74def7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#af27085e6cdc61ca438711428dd74def7">setOutputPaths</a> (const <a class="el" href="structEasyKiConverter_1_1Model3DExportWorker_1_1OutputPaths.html">OutputPaths</a> &amp;paths)</td></tr>
+<tr class="memdesc:af27085e6cdc61ca438711428dd74def7"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置临时文件路径  <br /></td></tr>
+<tr class="separator:af27085e6cdc61ca438711428dd74def7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dd66d2b9f7e538dc460b92b677a256c" id="r_a6dd66d2b9f7e538dc460b92b677a256c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#a6dd66d2b9f7e538dc460b92b677a256c">run</a> () override</td></tr>
+<tr class="memdesc:a6dd66d2b9f7e538dc460b92b677a256c"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行3D模型导出任务  <br /></td></tr>
+<tr class="separator:a6dd66d2b9f7e538dc460b92b677a256c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a547b4e103df0ddbbef655badb244ff99" id="r_a547b4e103df0ddbbef655badb244ff99"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#a547b4e103df0ddbbef655badb244ff99">cancel</a> () override</td></tr>
+<tr class="memdesc:a547b4e103df0ddbbef655badb244ff99"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求取消导出任务  <br /></td></tr>
+<tr class="separator:a547b4e103df0ddbbef655badb244ff99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed96618877b235a6cfd4f3b64ad72a78" id="r_aed96618877b235a6cfd4f3b64ad72a78"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#aed96618877b235a6cfd4f3b64ad72a78">componentId</a> () const override</td></tr>
+<tr class="memdesc:aed96618877b235a6cfd4f3b64ad72a78"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取元器件 ID。  <br /></td></tr>
+<tr class="separator:aed96618877b235a6cfd4f3b64ad72a78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe646bafb7f1fc909b5552c3264a04e3" id="r_abe646bafb7f1fc909b5552c3264a04e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#abe646bafb7f1fc909b5552c3264a04e3">setOptions</a> (const <a class="el" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> &amp;options)</td></tr>
+<tr class="memdesc:abe646bafb7f1fc909b5552c3264a04e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置导出选项。  <br /></td></tr>
+<tr class="separator:abe646bafb7f1fc909b5552c3264a04e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab71e5ea14cd1c3257e4a259afb7c7879" id="r_ab71e5ea14cd1c3257e4a259afb7c7879"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#ab71e5ea14cd1c3257e4a259afb7c7879">completed</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#aed96618877b235a6cfd4f3b64ad72a78">componentId</a>, bool success, const QString &amp;error)</td></tr>
+<tr class="memdesc:ab71e5ea14cd1c3257e4a259afb7c7879"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出完成信号  <br /></td></tr>
+<tr class="separator:ab71e5ea14cd1c3257e4a259afb7c7879"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classEasyKiConverter_1_1IExportWorker"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classEasyKiConverter_1_1IExportWorker')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1IExportWorker.html">EasyKiConverter::IExportWorker</a></td></tr>
+<tr class="memitem:a851ab48bb3399dea99a9e73f10d16579 inherit pub_methods_classEasyKiConverter_1_1IExportWorker" id="r_a851ab48bb3399dea99a9e73f10d16579"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IExportWorker.html#a851ab48bb3399dea99a9e73f10d16579">~IExportWorker</a> ()=default</td></tr>
+<tr class="separator:a851ab48bb3399dea99a9e73f10d16579 inherit pub_methods_classEasyKiConverter_1_1IExportWorker"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a6bdb9edd900ed1c9904362d8d84f53 inherit pub_methods_classEasyKiConverter_1_1IExportWorker" id="r_a6a6bdb9edd900ed1c9904362d8d84f53"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IExportWorker.html#a6a6bdb9edd900ed1c9904362d8d84f53">setData</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1IExportWorker.html#aefa6ffda467599969dda9de4b6cfd19b">componentId</a>, const QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> &gt; &amp;data, const struct <a class="el" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> &amp;options)=0</td></tr>
+<tr class="memdesc:a6a6bdb9edd900ed1c9904362d8d84f53 inherit pub_methods_classEasyKiConverter_1_1IExportWorker"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置导出所需的数据  <br /></td></tr>
+<tr class="separator:a6a6bdb9edd900ed1c9904362d8d84f53 inherit pub_methods_classEasyKiConverter_1_1IExportWorker"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:afc05e5017162865b86bd6f037250aaa9" id="r_afc05e5017162865b86bd6f037250aaa9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#afc05e5017162865b86bd6f037250aaa9">onDownloadError</a> (const QString &amp;error)</td></tr>
+<tr class="memdesc:afc05e5017162865b86bd6f037250aaa9"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理下载错误  <br /></td></tr>
+<tr class="separator:afc05e5017162865b86bd6f037250aaa9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a099e479ff281468c17f1e26d5fbd5019" id="r_a099e479ff281468c17f1e26d5fbd5019"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#a099e479ff281468c17f1e26d5fbd5019">m_componentId</a></td></tr>
+<tr class="memdesc:a099e479ff281468c17f1e26d5fbd5019"><td class="mdescLeft">&#160;</td><td class="mdescRight">元器件ID  <br /></td></tr>
+<tr class="separator:a099e479ff281468c17f1e26d5fbd5019"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8d113cc8205b521b4195da48ea69dc4" id="r_aa8d113cc8205b521b4195da48ea69dc4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1Model3DExportWorker_1_1OutputPaths.html">OutputPaths</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#aa8d113cc8205b521b4195da48ea69dc4">m_outputPaths</a></td></tr>
+<tr class="memdesc:aa8d113cc8205b521b4195da48ea69dc4"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出文件路径  <br /></td></tr>
+<tr class="separator:aa8d113cc8205b521b4195da48ea69dc4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a4e493f73286e8188bc4cd8e81b5f56" id="r_a8a4e493f73286e8188bc4cd8e81b5f56"><td class="memItemLeft" align="right" valign="top">QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#a8a4e493f73286e8188bc4cd8e81b5f56">m_data</a></td></tr>
+<tr class="memdesc:a8a4e493f73286e8188bc4cd8e81b5f56"><td class="mdescLeft">&#160;</td><td class="mdescRight">预加载的元器件数据  <br /></td></tr>
+<tr class="separator:a8a4e493f73286e8188bc4cd8e81b5f56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed21afea883de66d70a661b7cbaf82b6" id="r_aed21afea883de66d70a661b7cbaf82b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#aed21afea883de66d70a661b7cbaf82b6">m_options</a></td></tr>
+<tr class="memdesc:aed21afea883de66d70a661b7cbaf82b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出选项  <br /></td></tr>
+<tr class="separator:aed21afea883de66d70a661b7cbaf82b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe6645828aeb8b82e5dc6458ae41019f" id="r_abe6645828aeb8b82e5dc6458ae41019f"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#abe6645828aeb8b82e5dc6458ae41019f">m_cacheGeneration</a> = 0</td></tr>
+<tr class="memdesc:abe6645828aeb8b82e5dc6458ae41019f"><td class="mdescLeft">&#160;</td><td class="mdescRight">接收任务数据时捕获的缓存代次  <br /></td></tr>
+<tr class="separator:abe6645828aeb8b82e5dc6458ae41019f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca0a325543632d372168124fb4c5f3b4" id="r_aca0a325543632d372168124fb4c5f3b4"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#aca0a325543632d372168124fb4c5f3b4">m_cancelled</a> {false}</td></tr>
+<tr class="memdesc:aca0a325543632d372168124fb4c5f3b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消标志  <br /></td></tr>
+<tr class="separator:aca0a325543632d372168124fb4c5f3b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>3D模型导出Worker </p>
+<p>在线程池中执行单个元器件的3D模型导出任务。 负责使用预加载阶段缓存的UUID构建API请求获取3D模型CAD数据， 然后转换并写入输出目录。</p>
+<p>工作流程:</p><ol type="1">
+<li>从预加载数据中获取3D模型UUID</li>
+<li>使用UUID通过Exporter3DModel获取3D模型数据(OBJ格式)</li>
+<li>Exporter3DModel自动处理下载、转换和写入</li>
+<li>发射completed信号 </li>
+</ol>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00031">31</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a84584eebada132647e65f24aee9f3545" name="a84584eebada132647e65f24aee9f3545"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84584eebada132647e65f24aee9f3545">&#9670;&#160;</a></span>Model3DExportWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::Model3DExportWorker::Model3DExportWorker </td>
+          <td>(</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>父对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8cpp_source.html">Model3DExportWorker.cpp</a> 第 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00033">33</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a7d48653fcc76384f12e16dc26a60284f" name="a7d48653fcc76384f12e16dc26a60284f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d48653fcc76384f12e16dc26a60284f">&#9670;&#160;</a></span>~Model3DExportWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::Model3DExportWorker::~Model3DExportWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a547b4e103df0ddbbef655badb244ff99" name="a547b4e103df0ddbbef655badb244ff99"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a547b4e103df0ddbbef655badb244ff99">&#9670;&#160;</a></span>cancel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Model3DExportWorker::cancel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>请求取消导出任务 </p>
+<p>设置取消标志，让正在执行的模型任务尽快停止。 </p>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IExportWorker.html#ad42bdb6f282e5b91b3c56a115337fac3">EasyKiConverter::IExportWorker</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8cpp_source.html">Model3DExportWorker.cpp</a> 第 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00353">353</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="Model3DExportWorker_8h_source.html#l00124">m_cancelled</a>.</p>
+
+</div>
+</div>
+<a id="ab71e5ea14cd1c3257e4a259afb7c7879" name="ab71e5ea14cd1c3257e4a259afb7c7879"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab71e5ea14cd1c3257e4a259afb7c7879">&#9670;&#160;</a></span>completed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Model3DExportWorker::completed </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>success</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>导出完成信号 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元器件ID </td></tr>
+    <tr><td class="paramname">success</td><td>是否成功 </td></tr>
+    <tr><td class="paramname">error</td><td>错误信息（成功时为空） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">被这些函数引用 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00345">onDownloadError()</a>, <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">run()</a> , 以及 <a class="el" href="Model3DExportStage_8cpp_source.html#l00238">EasyKiConverter::Model3DExportStage::startWorker()</a>.</p>
+
+</div>
+</div>
+<a id="aed96618877b235a6cfd4f3b64ad72a78" name="aed96618877b235a6cfd4f3b64ad72a78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed96618877b235a6cfd4f3b64ad72a78">&#9670;&#160;</a></span>componentId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::Model3DExportWorker::componentId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取元器件 ID。 </p>
+<dl class="section return"><dt>返回</dt><dd>元器件编号。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IExportWorker.html#aefa6ffda467599969dda9de4b6cfd19b">EasyKiConverter::IExportWorker</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00092">92</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="Model3DExportWorker_8h_source.html#l00119">m_componentId</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">run()</a> , 以及 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00045">setData()</a>.</p>
+
+</div>
+</div>
+<a id="afc05e5017162865b86bd6f037250aaa9" name="afc05e5017162865b86bd6f037250aaa9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc05e5017162865b86bd6f037250aaa9">&#9670;&#160;</a></span>onDownloadError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Model3DExportWorker::onDownloadError </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>error</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>处理下载错误 </p>
+<p>将下载错误转换为统一的 Worker 完成失败信号。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">error</td><td>错误信息</td></tr>
+    <tr><td class="paramname">error</td><td>错误信息。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8cpp_source.html">Model3DExportWorker.cpp</a> 第 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00345">345</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#ab71e5ea14cd1c3257e4a259afb7c7879">completed()</a> , 以及 <a class="el" href="Model3DExportWorker_8h_source.html#l00119">m_componentId</a>.</p>
+
+</div>
+</div>
+<a id="a6dd66d2b9f7e538dc460b92b677a256c" name="a6dd66d2b9f7e538dc460b92b677a256c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dd66d2b9f7e538dc460b92b677a256c">&#9670;&#160;</a></span>run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Model3DExportWorker::run </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行3D模型导出任务 </p>
+<p>从组件数据或缓存解析模型并完成选定格式的导出。</p>
+<p>在线程池中被调用，执行实际的导出逻辑:</p><ol type="1">
+<li>检查3D模型UUID是否可用</li>
+<li>创建输出目录</li>
+<li>使用UUID构建API请求获取OBJ数据</li>
+<li>将OBJ转换为WRL格式</li>
+<li>写入.wrl文件</li>
+<li>发射completed信号 </li>
+</ol>
+<p>&lt; 当前任务对应的缓存代次。</p>
+<p>&lt; 当前元器件解析出的三维模型描述。</p>
+<p>&lt; 封装关联的三维模型描述。</p>
+<p>&lt; 当前三维模型 UUID。</p>
+<p>&lt; 是否需要导出 WRL。</p>
+<p>&lt; 是否需要导出 STEP。</p>
+<p>&lt; 用于下载和转换三维模型的导出器。</p>
+<p>&lt; 输出文件使用的模型名称。</p>
+<p>&lt; 三维模型输出目录。</p>
+<p>&lt; 用于创建输出目录的目录对象。</p>
+<p>&lt; 三维模型输出目录对象。</p>
+<p>&lt; WRL 最终路径。</p>
+<p>&lt; STEP 最终路径。</p>
+<p>&lt; WRL 实际写入路径。</p>
+<p>&lt; STEP 实际写入路径。</p>
+<p>&lt; 当前输出文件路径信息。</p>
+<p>&lt; 所有请求的最终模型文件是否都已存在。</p>
+<p>&lt; 组件缓存服务实例。</p>
+<p>&lt; 用于转换为目标模型格式的临时模型描述。</p>
+<p>&lt; 当前三维模型导出的错误信息。</p>
+<p>&lt; OBJ 原始模型数据。</p>
+<p>&lt; 是否直接复用了缓存中的 WRL。</p>
+<p>&lt; 保护模型缓存读取和下载的锁。</p>
+<p>&lt; 缓存中的 WRL 数据。</p>
+<p>&lt; WRL 转换用模型描述。</p>
+<p>&lt; WRL 导出用三维模型 IR。</p>
+<p>&lt; WRL 缓存读取文件对象。</p>
+<p>&lt; STEP 原始模型数据。</p>
+<p>&lt; 是否命中并复制了 STEP 缓存。</p>
+<p>&lt; 保护模型缓存读取和下载的锁。</p>
+<p>&lt; 缓存中的 STEP 数据。</p>
+<p>&lt; STEP 转换用模型描述。</p>
+<p>&lt; STEP 导出用三维模型 IR。</p>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IExportWorker.html#aa6084c398fabaf00dbf0261d407e6782">EasyKiConverter::IExportWorker</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8cpp_source.html">Model3DExportWorker.cpp</a> 第 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">65</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="Model3DData_8cpp_source.html#l00177">EasyKiConverter::Model3DData::clear()</a>, <a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html#ab71e5ea14cd1c3257e4a259afb7c7879">completed()</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00092">componentId()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00515">EasyKiConverter::ComponentCacheService::copyModel3DToFile()</a>, <a class="el" href="ExportProgress_8h_source.html#l00094">EasyKiConverter::ExportOptions::debugMode</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00087">EasyKiConverter::Exporter3DModel::downloadObjDataSync()</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00097">EasyKiConverter::Exporter3DModel::downloadStepDataSync()</a>, <a class="el" href="DebugExportHelper_8cpp_source.html#l00030">EasyKiConverter::DebugExportHelper::exportDebugData()</a>, <a class="el" href="ExportProgress_8h_source.html#l00086">EasyKiConverter::ExportOptions::exportModel3DFormat</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00134">EasyKiConverter::Exporter3DModel::exportToStep()</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00106">EasyKiConverter::Exporter3DModel::exportToWrl()</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00205">EasyKiConverter::Exporter3DModel::hasUsableObjGeometry()</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00278">EasyKiConverter::Exporter3DModel::hasUsableStepData()</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00246">EasyKiConverter::Exporter3DModel::hasUsableWrlGeometry()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00065">EasyKiConverter::ComponentCacheService::instance()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00240">EasyKiConverter::ComponentCacheService::loadComponentData()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00487">EasyKiConverter::ComponentCacheService::loadModel3D()</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00123">m_cacheGeneration</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00124">m_cancelled</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00119">m_componentId</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00121">m_data</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00122">m_options</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00120">m_outputPaths</a>, <a class="el" href="Model3DData_8h_source.html#l00075">EasyKiConverter::Model3DData::name()</a>, <a class="el" href="ExportProgress_8h_source.html#l00056">EasyKiConverter::ExportOptions::needsModel3DStep()</a>, <a class="el" href="ExportProgress_8h_source.html#l00052">EasyKiConverter::ExportOptions::needsModel3DWrl()</a>, <a class="el" href="ExportProgress_8h_source.html#l00080">EasyKiConverter::ExportOptions::outputPath</a>, <a class="el" href="ExportProgress_8h_source.html#l00090">EasyKiConverter::ExportOptions::overwriteExistingFiles</a>, <a class="el" href="Model3DData_8h_source.html#l00120">EasyKiConverter::Model3DData::rotation()</a>, <a class="el" href="classEasyKiConverter_1_1PathSecurity.html#a79bac0e72fb8fae4285f5554fd3cda99">EasyKiConverter::PathSecurity::sanitizeFilename()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00500">EasyKiConverter::ComponentCacheService::saveModel3D()</a>, <a class="el" href="Model3DData_8h_source.html#l00083">EasyKiConverter::Model3DData::setName()</a>, <a class="el" href="Model3DData_8h_source.html#l00143">EasyKiConverter::Model3DData::setRawObj()</a>, <a class="el" href="Model3DData_8h_source.html#l00128">EasyKiConverter::Model3DData::setRotation()</a>, <a class="el" href="Model3DData_8h_source.html#l00158">EasyKiConverter::Model3DData::setStep()</a>, <a class="el" href="Model3DData_8h_source.html#l00113">EasyKiConverter::Model3DData::setTranslation()</a>, <a class="el" href="Model3DData_8h_source.html#l00098">EasyKiConverter::Model3DData::setUuid()</a>, <a class="el" href="Model3DData_8h_source.html#l00150">EasyKiConverter::Model3DData::step()</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00037">EasyKiConverter::Model3DExportWorker::OutputPaths::stepTempPath</a>, <a class="el" href="Model3DDataConverter_8h_source.html#l00032">EasyKiConverter::IR::toModel3DIR()</a>, <a class="el" href="Model3DData_8h_source.html#l00105">EasyKiConverter::Model3DData::translation()</a>, <a class="el" href="Model3DData_8h_source.html#l00090">EasyKiConverter::Model3DData::uuid()</a> , 以及 <a class="el" href="Model3DExportWorker_8h_source.html#l00036">EasyKiConverter::Model3DExportWorker::OutputPaths::wrlTempPath</a>.</p>
+
+</div>
+</div>
+<a id="a85f1dd0f52174165ccb2581b9c1dd6e8" name="a85f1dd0f52174165ccb2581b9c1dd6e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85f1dd0f52174165ccb2581b9c1dd6e8">&#9670;&#160;</a></span>setData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Model3DExportWorker::setData </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>设置导出所需的数据 </p>
+<p>设置三维模型导出所需的数据。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元器件ID </td></tr>
+    <tr><td class="paramname">data</td><td>预加载的元器件数据（包含3D模型UUID） </td></tr>
+    <tr><td class="paramname">options</td><td>导出选项</td></tr>
+    <tr><td class="paramname">componentId</td><td>元器件编号。 </td></tr>
+    <tr><td class="paramname">data</td><td>预加载的元器件数据。 </td></tr>
+    <tr><td class="paramname">options</td><td>导出选项。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8cpp_source.html">Model3DExportWorker.cpp</a> 第 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00045">45</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="Model3DExportWorker_8h_source.html#l00092">componentId()</a>, <a class="el" href="ComponentCacheService_8h_source.html#l00422">EasyKiConverter::ComponentCacheService::currentGeneration()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00065">EasyKiConverter::ComponentCacheService::instance()</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00123">m_cacheGeneration</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00119">m_componentId</a>, <a class="el" href="Model3DExportWorker_8h_source.html#l00121">m_data</a> , 以及 <a class="el" href="Model3DExportWorker_8h_source.html#l00122">m_options</a>.</p>
+
+</div>
+</div>
+<a id="abe646bafb7f1fc909b5552c3264a04e3" name="abe646bafb7f1fc909b5552c3264a04e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe646bafb7f1fc909b5552c3264a04e3">&#9670;&#160;</a></span>setOptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Model3DExportWorker::setOptions </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> &amp;&#160;</td>
+          <td class="paramname"><em>options</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置导出选项。 </p>
+<p>更新 Worker 使用的三维导出选项。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">options</td><td>导出选项。</td></tr>
+    <tr><td class="paramname">options</td><td>处理选项。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8cpp_source.html">Model3DExportWorker.cpp</a> 第 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00058">58</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="Model3DExportWorker_8h_source.html#l00122">m_options</a>.</p>
+
+</div>
+</div>
+<a id="af27085e6cdc61ca438711428dd74def7" name="af27085e6cdc61ca438711428dd74def7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af27085e6cdc61ca438711428dd74def7">&#9670;&#160;</a></span>setOutputPaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Model3DExportWorker::setOutputPaths </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1Model3DExportWorker_1_1OutputPaths.html">OutputPaths</a> &amp;&#160;</td>
+          <td class="paramname"><em>paths</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置临时文件路径 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tempPath</td><td>临时文件路径（写入位置） </td></tr>
+    <tr><td class="paramname">paths</td><td>待处理的路径列表。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00066">66</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="Model3DExportWorker_8h_source.html#l00120">m_outputPaths</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="abe6645828aeb8b82e5dc6458ae41019f" name="abe6645828aeb8b82e5dc6458ae41019f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe6645828aeb8b82e5dc6458ae41019f">&#9670;&#160;</a></span>m_cacheGeneration</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t EasyKiConverter::Model3DExportWorker::m_cacheGeneration = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>接收任务数据时捕获的缓存代次 </p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00123">123</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">run()</a> , 以及 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00045">setData()</a>.</p>
+
+</div>
+</div>
+<a id="aca0a325543632d372168124fb4c5f3b4" name="aca0a325543632d372168124fb4c5f3b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca0a325543632d372168124fb4c5f3b4">&#9670;&#160;</a></span>m_cancelled</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::atomic&lt;bool&gt; EasyKiConverter::Model3DExportWorker::m_cancelled {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>取消标志 </p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00124">124</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00353">cancel()</a> , 以及 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">run()</a>.</p>
+
+</div>
+</div>
+<a id="a099e479ff281468c17f1e26d5fbd5019" name="a099e479ff281468c17f1e26d5fbd5019"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a099e479ff281468c17f1e26d5fbd5019">&#9670;&#160;</a></span>m_componentId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::Model3DExportWorker::m_componentId</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>元器件ID </p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00119">119</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="Model3DExportWorker_8h_source.html#l00092">componentId()</a>, <a class="el" href="Model3DExportWorker_8cpp_source.html#l00345">onDownloadError()</a>, <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">run()</a> , 以及 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00045">setData()</a>.</p>
+
+</div>
+</div>
+<a id="a8a4e493f73286e8188bc4cd8e81b5f56" name="a8a4e493f73286e8188bc4cd8e81b5f56"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a4e493f73286e8188bc4cd8e81b5f56">&#9670;&#160;</a></span>m_data</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSharedPointer&lt;<a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&gt; EasyKiConverter::Model3DExportWorker::m_data</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预加载的元器件数据 </p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00121">121</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">run()</a> , 以及 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00045">setData()</a>.</p>
+
+</div>
+</div>
+<a id="aed21afea883de66d70a661b7cbaf82b6" name="aed21afea883de66d70a661b7cbaf82b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed21afea883de66d70a661b7cbaf82b6">&#9670;&#160;</a></span>m_options</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> EasyKiConverter::Model3DExportWorker::m_options</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出选项 </p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00122">122</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">run()</a>, <a class="el" href="Model3DExportWorker_8cpp_source.html#l00045">setData()</a> , 以及 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00058">setOptions()</a>.</p>
+
+</div>
+</div>
+<a id="aa8d113cc8205b521b4195da48ea69dc4" name="aa8d113cc8205b521b4195da48ea69dc4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8d113cc8205b521b4195da48ea69dc4">&#9670;&#160;</a></span>m_outputPaths</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1Model3DExportWorker_1_1OutputPaths.html">OutputPaths</a> EasyKiConverter::Model3DExportWorker::m_outputPaths</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出文件路径 </p>
+
+<p class="definition">在文件 <a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a> 第 <a class="el" href="Model3DExportWorker_8h_source.html#l00120">120</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="Model3DExportWorker_8cpp_source.html#l00065">run()</a> , 以及 <a class="el" href="Model3DExportWorker_8h_source.html#l00066">setOutputPaths()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>services/export/<a class="el" href="Model3DExportWorker_8h_source.html">Model3DExportWorker.h</a></li>
+<li>services/export/<a class="el" href="Model3DExportWorker_8cpp_source.html">Model3DExportWorker.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1Model3DExportWorker.html">Model3DExportWorker</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/export/PreviewImagesExportStage.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('PreviewImagesExportStage_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">PreviewImagesExportStage.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="PreviewImagesExportStage_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ExportProgress_8h.html">ExportProgress.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ExportTypeStage_8h.html">ExportTypeStage.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="TempFileManager_8h.html">TempFileManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="};">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PreviewImagesExportStage.html">   27</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1PreviewImagesExportStage.html">PreviewImagesExportStage</a> : <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportTypeStage.html">ExportTypeStage</a> {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    Q_OBJECT</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1PreviewImagesExportStage.html">PreviewImagesExportStage</a>(QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_function" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a9370b960c9b561822dfbe8f3203a4135">~PreviewImagesExportStage</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a9a1a3805b739b91c23bc51658f909ce3">   46</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a9a1a3805b739b91c23bc51658f909ce3">setOptions</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a7e0d121164bd83af563fb9fa5f52dea2">m_options</a> = options;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
+</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a8e40a58ab18e196560c726750b17e29b">start</a>(<span class="keyword">const</span> QStringList&amp; componentIds,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>               <span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; cachedData) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#aac283a5eb221e65e30c3c6fbfc96c734">cancel</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    QObject* <a class="code hl_function" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#aeb2c34e5ac374905f8bf07b36409e116">createWorker</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a689652bc2c10c95c51196eb2ab02d221">startWorker</a>(QObject* worker, <span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QSharedPointer&lt;ComponentData&gt;&amp; data) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    QMap&lt;QString, QString&gt; <a class="code hl_function" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#aded71bdf5e2b5058d94b1627f7686f0a">createTempPathsForComponent</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keywordtype">int</span> previewCount);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a7e0d121164bd83af563fb9fa5f52dea2">   87</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> <a class="code hl_variable" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a7e0d121164bd83af563fb9fa5f52dea2">m_options</a>;  </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#ac91e8c2a8402ae20cf11ff44b1939e3e">   88</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1TempFileManager.html">TempFileManager</a> <a class="code hl_variable" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#ac91e8c2a8402ae20cf11ff44b1939e3e">m_tempManager</a>;  </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a8a463454927b2c24937f508398e26ad8">   89</a></span>    QMap&lt;QString, QMap&lt;QString, QString&gt;&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a8a463454927b2c24937f508398e26ad8">m_componentTempPaths</a>;  </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a85f144bd59d789a85920fb8ce7e7340a">   90</a></span>    QMap&lt;QString, QString&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a85f144bd59d789a85920fb8ce7e7340a">m_outputDirs</a>;  </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>};</div>
+</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aExportProgress_8h_html"><div class="ttname"><a href="ExportProgress_8h.html">ExportProgress.h</a></div></div>
+<div class="ttc" id="aExportTypeStage_8h_html"><div class="ttname"><a href="ExportTypeStage_8h.html">ExportTypeStage.h</a></div></div>
+<div class="ttc" id="aTempFileManager_8h_html"><div class="ttname"><a href="TempFileManager_8h.html">TempFileManager.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTypeStage_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTypeStage.html">EasyKiConverter::ExportTypeStage</a></div><div class="ttdoc">导出类型阶段基类</div><div class="ttdef"><b>Definition</b> <a href="ExportTypeStage_8h_source.html#l00051">ExportTypeStage.h:51</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html">EasyKiConverter::PreviewImagesExportStage</a></div><div class="ttdoc">预览图导出阶段</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8h_source.html#l00027">PreviewImagesExportStage.h:27</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_a689652bc2c10c95c51196eb2ab02d221"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a689652bc2c10c95c51196eb2ab02d221">EasyKiConverter::PreviewImagesExportStage::startWorker</a></div><div class="ttdeci">void startWorker(QObject *worker, const QString &amp;componentId, const QSharedPointer&lt; ComponentData &gt; &amp;data) override</div><div class="ttdoc">启动worker执行预览图导出</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8cpp_source.html#l00136">PreviewImagesExportStage.cpp:136</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_a7e0d121164bd83af563fb9fa5f52dea2"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a7e0d121164bd83af563fb9fa5f52dea2">EasyKiConverter::PreviewImagesExportStage::m_options</a></div><div class="ttdeci">struct ExportOptions m_options</div><div class="ttdoc">导出选项</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8h_source.html#l00087">PreviewImagesExportStage.h:87</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_a85f144bd59d789a85920fb8ce7e7340a"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a85f144bd59d789a85920fb8ce7e7340a">EasyKiConverter::PreviewImagesExportStage::m_outputDirs</a></div><div class="ttdeci">QMap&lt; QString, QString &gt; m_outputDirs</div><div class="ttdoc">componentId -&gt; outputDir</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8h_source.html#l00090">PreviewImagesExportStage.h:90</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_a8a463454927b2c24937f508398e26ad8"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a8a463454927b2c24937f508398e26ad8">EasyKiConverter::PreviewImagesExportStage::m_componentTempPaths</a></div><div class="ttdeci">QMap&lt; QString, QMap&lt; QString, QString &gt; &gt; m_componentTempPaths</div><div class="ttdoc">componentId -&gt; (filename -&gt; tempPath)</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8h_source.html#l00089">PreviewImagesExportStage.h:89</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_a8e40a58ab18e196560c726750b17e29b"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a8e40a58ab18e196560c726750b17e29b">EasyKiConverter::PreviewImagesExportStage::start</a></div><div class="ttdeci">void start(const QStringList &amp;componentIds, const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;cachedData) override</div><div class="ttdoc">开始预览图导出</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8cpp_source.html#l00028">PreviewImagesExportStage.cpp:28</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_a9370b960c9b561822dfbe8f3203a4135"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a9370b960c9b561822dfbe8f3203a4135">EasyKiConverter::PreviewImagesExportStage::~PreviewImagesExportStage</a></div><div class="ttdeci">~PreviewImagesExportStage() override</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8cpp_source.html#l00019">PreviewImagesExportStage.cpp:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_a9a1a3805b739b91c23bc51658f909ce3"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#a9a1a3805b739b91c23bc51658f909ce3">EasyKiConverter::PreviewImagesExportStage::setOptions</a></div><div class="ttdeci">void setOptions(const ExportOptions &amp;options)</div><div class="ttdoc">设置导出选项</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8h_source.html#l00046">PreviewImagesExportStage.h:46</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_aac283a5eb221e65e30c3c6fbfc96c734"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#aac283a5eb221e65e30c3c6fbfc96c734">EasyKiConverter::PreviewImagesExportStage::cancel</a></div><div class="ttdeci">void cancel() override</div><div class="ttdoc">取消导出</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8cpp_source.html#l00069">PreviewImagesExportStage.cpp:69</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_ac91e8c2a8402ae20cf11ff44b1939e3e"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#ac91e8c2a8402ae20cf11ff44b1939e3e">EasyKiConverter::PreviewImagesExportStage::m_tempManager</a></div><div class="ttdeci">TempFileManager m_tempManager</div><div class="ttdoc">临时文件管理器</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8h_source.html#l00088">PreviewImagesExportStage.h:88</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_aded71bdf5e2b5058d94b1627f7686f0a"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#aded71bdf5e2b5058d94b1627f7686f0a">EasyKiConverter::PreviewImagesExportStage::createTempPathsForComponent</a></div><div class="ttdeci">QMap&lt; QString, QString &gt; createTempPathsForComponent(const QString &amp;componentId, int previewCount)</div><div class="ttdoc">为指定组件创建临时路径映射</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8cpp_source.html#l00081">PreviewImagesExportStage.cpp:81</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PreviewImagesExportStage_html_aeb2c34e5ac374905f8bf07b36409e116"><div class="ttname"><a href="classEasyKiConverter_1_1PreviewImagesExportStage.html#aeb2c34e5ac374905f8bf07b36409e116">EasyKiConverter::PreviewImagesExportStage::createWorker</a></div><div class="ttdeci">QObject * createWorker() override</div><div class="ttdoc">创建PreviewImagesExportWorker实例</div><div class="ttdef"><b>Definition</b> <a href="PreviewImagesExportStage_8cpp_source.html#l00126">PreviewImagesExportStage.cpp:126</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html">EasyKiConverter::TempFileManager</a></div><div class="ttdoc">临时文件管理器</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00020">TempFileManager.h:20</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="dir_a384dc2a66e9a2b9e112fff859fd4142.html">export</a></li><li class="navelem"><a class="el" href="PreviewImagesExportStage_8h.html">PreviewImagesExportStage.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

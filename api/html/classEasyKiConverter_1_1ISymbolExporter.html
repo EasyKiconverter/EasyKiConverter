@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::ISymbolExporter类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1ISymbolExporter.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1ISymbolExporter-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::ISymbolExporter类 参考<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>符号导出器通用接口  
+ <a href="classEasyKiConverter_1_1ISymbolExporter.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ISymbolExporter_8h_source.html">ISymbolExporter.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::ISymbolExporter 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1ISymbolExporter__inherit__graph.svg" width="2391" height="639"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::ISymbolExporter 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1ISymbolExporter__coll__graph.svg" width="194" height="211"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a850ebde6577999046948b8fb481c25ea" id="r_a850ebde6577999046948b8fb481c25ea"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a850ebde6577999046948b8fb481c25ea">CompanionFiles</a> = QMap&lt; QString, QByteArray &gt;</td></tr>
+<tr class="memdesc:a850ebde6577999046948b8fb481c25ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">符号库导出的伴随文件内容。  <br /></td></tr>
+<tr class="separator:a850ebde6577999046948b8fb481c25ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aad4f37547ee3cc492d3596f4ac1aa7c7" id="r_aad4f37547ee3cc492d3596f4ac1aa7c7"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#aad4f37547ee3cc492d3596f4ac1aa7c7">~ISymbolExporter</a> ()=default</td></tr>
+<tr class="separator:aad4f37547ee3cc492d3596f4ac1aa7c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a911ef15c2acb5a10875a935a77b3959f" id="r_a911ef15c2acb5a10875a935a77b3959f"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a911ef15c2acb5a10875a935a77b3959f">isDirectoryOutput</a> () const</td></tr>
+<tr class="memdesc:a911ef15c2acb5a10875a935a77b3959f"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断符号库输出是否为目录。  <br /></td></tr>
+<tr class="separator:a911ef15c2acb5a10875a935a77b3959f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a237736caad0b82fbf8ddcec29de2ef75" id="r_a237736caad0b82fbf8ddcec29de2ef75"><td class="memItemLeft" align="right" valign="top">virtual QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a237736caad0b82fbf8ddcec29de2ef75">libraryFileExtension</a> () const =0</td></tr>
+<tr class="memdesc:a237736caad0b82fbf8ddcec29de2ef75"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取符号库文件扩展名  <br /></td></tr>
+<tr class="separator:a237736caad0b82fbf8ddcec29de2ef75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05b15c119a2da88a7ec0c111a49142ab" id="r_a05b15c119a2da88a7ec0c111a49142ab"><td class="memItemLeft" align="right" valign="top">virtual QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a05b15c119a2da88a7ec0c111a49142ab">diagnostics</a> () const</td></tr>
+<tr class="memdesc:a05b15c119a2da88a7ec0c111a49142ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最近一次导出的非致命诊断  <br /></td></tr>
+<tr class="separator:a05b15c119a2da88a7ec0c111a49142ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af91373af09e20fc130d3f45cd14f1bb0" id="r_af91373af09e20fc130d3f45cd14f1bb0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a850ebde6577999046948b8fb481c25ea">CompanionFiles</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#af91373af09e20fc130d3f45cd14f1bb0">companionFiles</a> () const</td></tr>
+<tr class="memdesc:af91373af09e20fc130d3f45cd14f1bb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最近一次导出的伴随文件。  <br /></td></tr>
+<tr class="separator:af91373af09e20fc130d3f45cd14f1bb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab86be9ed1c09069f5618d1b78c6355c1" id="r_ab86be9ed1c09069f5618d1b78c6355c1"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#ab86be9ed1c09069f5618d1b78c6355c1">exportSymbol</a> (const <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &amp;symbol, const QString &amp;filePath)=0</td></tr>
+<tr class="memdesc:ab86be9ed1c09069f5618d1b78c6355c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出单个符号到文件  <br /></td></tr>
+<tr class="separator:ab86be9ed1c09069f5618d1b78c6355c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3e7e965184c23ef02f7bfeae201d1de" id="r_ae3e7e965184c23ef02f7bfeae201d1de"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#ae3e7e965184c23ef02f7bfeae201d1de">exportSymbolLibrary</a> (const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath, bool appendMode=true, bool updateMode=false, const QString &amp;libraryDescription=QString())=0</td></tr>
+<tr class="memdesc:ae3e7e965184c23ef02f7bfeae201d1de"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出符号库（多个符号合并到一个库文件）  <br /></td></tr>
+<tr class="separator:ae3e7e965184c23ef02f7bfeae201d1de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>符号导出器通用接口 </p>
+<p>定义将 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 符号数据导出为目标 EDA 符号库格式的通用接口。 KiCad、Altium 等不同目标格式各自实现此接口。 </p>
+
+<p class="definition">在文件 <a class="el" href="ISymbolExporter_8h_source.html">ISymbolExporter.h</a> 第 <a class="el" href="ISymbolExporter_8h_source.html#l00018">18</a> 行定义.</p>
+</div><h2 class="groupheader">成员类型定义说明</h2>
+<a id="a850ebde6577999046948b8fb481c25ea" name="a850ebde6577999046948b8fb481c25ea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a850ebde6577999046948b8fb481c25ea">&#9670;&#160;</a></span>CompanionFiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a850ebde6577999046948b8fb481c25ea">EasyKiConverter::ISymbolExporter::CompanionFiles</a> =  QMap&lt;QString, QByteArray&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>符号库导出的伴随文件内容。 </p>
+<p>目标格式需要多个相互关联的库文件时，主库文件之外的文件通过此结构参与同一事务提交。 </p>
+
+<p class="definition">在文件 <a class="el" href="ISymbolExporter_8h_source.html">ISymbolExporter.h</a> 第 <a class="el" href="ISymbolExporter_8h_source.html#l00024">24</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aad4f37547ee3cc492d3596f4ac1aa7c7" name="aad4f37547ee3cc492d3596f4ac1aa7c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad4f37547ee3cc492d3596f4ac1aa7c7">&#9670;&#160;</a></span>~ISymbolExporter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual EasyKiConverter::ISymbolExporter::~ISymbolExporter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="af91373af09e20fc130d3f45cd14f1bb0" name="af91373af09e20fc130d3f45cd14f1bb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af91373af09e20fc130d3f45cd14f1bb0">&#9670;&#160;</a></span>companionFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a850ebde6577999046948b8fb481c25ea">CompanionFiles</a> EasyKiConverter::ISymbolExporter::companionFiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取最近一次导出的伴随文件。 </p>
+<dl class="section return"><dt>返回</dt><dd>文件名到完整文件内容的映射，文件名必须是相对库目录的安全文件名。 </dd></dl>
+
+<p>被 <a class="el" href="classEasyKiConverter_1_1ExporterPadsSymbol.html#a2a9e447e53c289c77cea6a3268a60332">EasyKiConverter::ExporterPadsSymbol</a> 重载.</p>
+
+<p class="definition">在文件 <a class="el" href="ISymbolExporter_8h_source.html">ISymbolExporter.h</a> 第 <a class="el" href="ISymbolExporter_8h_source.html#l00054">54</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a05b15c119a2da88a7ec0c111a49142ab" name="a05b15c119a2da88a7ec0c111a49142ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a05b15c119a2da88a7ec0c111a49142ab">&#9670;&#160;</a></span>diagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual QStringList EasyKiConverter::ISymbolExporter::diagnostics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取最近一次导出的非致命诊断 </p>
+<dl class="section return"><dt>返回</dt><dd>目标格式写入器产生的诊断列表 </dd></dl>
+
+<p>被 <a class="el" href="classEasyKiConverter_1_1ExporterAllegroFootprint.html#ac77968decb26914c152b1e61001365b2">EasyKiConverter::ExporterAllegroFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#ab013a62adcce7ba8bc5ae961ebbfbc17">EasyKiConverter::ExporterAltiumSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterCadstarLibrary.html#aef042bfa08b1b76bfe071824aaa543f9">EasyKiConverter::ExporterCadstarLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterEagleFootprint.html#ab8e771c58317f72b2625bb808c0adcb1">EasyKiConverter::ExporterEagleFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a4cd96a3a01f4a06124bdd91f88eefb02">EasyKiConverter::ExporterHorizonLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a1f866a2583e2e95523b4c6e42ac289b7">EasyKiConverter::ExporterLibrePcbLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a99742b39924b1dc69e90f2a1f7de3ce7">EasyKiConverter::ExporterOrcadSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterPadsSymbol.html#abe7633f90a4a0c3512549255d8b39d97">EasyKiConverter::ExporterPadsSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a3a8816a5e825492c29a8ca0e07da1511">EasyKiConverter::ExporterPcadSymbol</a> , 以及 <a class="el" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#aec5b6bef00088e336f2d1fc4f28f8a4e">EasyKiConverter::ExporterXpeditionSymbol</a> 重载.</p>
+
+<p class="definition">在文件 <a class="el" href="ISymbolExporter_8h_source.html">ISymbolExporter.h</a> 第 <a class="el" href="ISymbolExporter_8h_source.html#l00046">46</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ab86be9ed1c09069f5618d1b78c6355c1" name="ab86be9ed1c09069f5618d1b78c6355c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab86be9ed1c09069f5618d1b78c6355c1">&#9670;&#160;</a></span>exportSymbol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool EasyKiConverter::ISymbolExporter::exportSymbol </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &amp;&#160;</td>
+          <td class="paramname"><em>symbol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出单个符号到文件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbol</td><td>符号 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 数据 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出文件路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+<p>在 <a class="el" href="classEasyKiConverter_1_1ExporterAllegroFootprint.html#a9393f7ec1f668314068c4f81694b8bc7">EasyKiConverter::ExporterAllegroFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a8233cc0c333dc03fad95b96ba3477545">EasyKiConverter::ExporterAltiumSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterCadstarLibrary.html#a9c1c885377d38c8ed2bdcc2c2a4237e5">EasyKiConverter::ExporterCadstarLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterEagleFootprint.html#a69ba198182c06d972794e5ecb996582e">EasyKiConverter::ExporterEagleFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a3e8f16437c5d911c1c011686ce4e2847">EasyKiConverter::ExporterHorizonLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterSymbol.html#a36e6a91815913a3ca1ac63e6e7d0741b">EasyKiConverter::ExporterSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a558d95e80b8222d34ce53d801fcc3b6b">EasyKiConverter::ExporterLibrePcbLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#ac5f35a1499ae509c85af6697d16cb841">EasyKiConverter::ExporterOrcadSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterPadsSymbol.html#a92f5eaa4184ef1e0ae7573043d5fe523">EasyKiConverter::ExporterPadsSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a84657b339f674af68659e736e7de0bf0">EasyKiConverter::ExporterPcadSymbol</a> , 以及 <a class="el" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a412175596cebef5d17e80982a4b57545">EasyKiConverter::ExporterXpeditionSymbol</a> 内被实现.</p>
+
+</div>
+</div>
+<a id="ae3e7e965184c23ef02f7bfeae201d1de" name="ae3e7e965184c23ef02f7bfeae201d1de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3e7e965184c23ef02f7bfeae201d1de">&#9670;&#160;</a></span>exportSymbolLibrary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool EasyKiConverter::ISymbolExporter::exportSymbolLibrary </td>
+          <td>(</td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>symbols</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>appendMode</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>updateMode</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryDescription</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出符号库（多个符号合并到一个库文件） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbols</td><td>符号 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 列表 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出文件路径 </td></tr>
+    <tr><td class="paramname">appendMode</td><td>是否追加模式 </td></tr>
+    <tr><td class="paramname">updateMode</td><td>是否更新模式（替换已存在的符号） </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述文本 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功 </dd></dl>
+
+<p>在 <a class="el" href="classEasyKiConverter_1_1ExporterAllegroFootprint.html#a80531599ceabfd2b01f064007c07cf5a">EasyKiConverter::ExporterAllegroFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterCadstarLibrary.html#afc8e1873b5b96f4eb3e13d4b0e152d03">EasyKiConverter::ExporterCadstarLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterEagleFootprint.html#a548e5057e63825bacc650b19310eac55">EasyKiConverter::ExporterEagleFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#abd8c86a3063ba77538cd736441b93a19">EasyKiConverter::ExporterLibrePcbLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a8360863b7361b12bdf332278af16164d">EasyKiConverter::ExporterAltiumSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a794d7743f6befe85a80f30fcef49f212">EasyKiConverter::ExporterHorizonLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterSymbol.html#aae097baa0896838f42c72d61a62af8d6">EasyKiConverter::ExporterSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a1fb595919a5f05b44de010f11a193630">EasyKiConverter::ExporterOrcadSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterPadsSymbol.html#ae030808c1ba0431446b84b8d5dd550c3">EasyKiConverter::ExporterPadsSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#af1defdcbb826f17b7885006e2d7be6b4">EasyKiConverter::ExporterPcadSymbol</a> , 以及 <a class="el" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a961418d1b43834130c8a8483d5045aa5">EasyKiConverter::ExporterXpeditionSymbol</a> 内被实现.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="a911ef15c2acb5a10875a935a77b3959f" name="a911ef15c2acb5a10875a935a77b3959f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a911ef15c2acb5a10875a935a77b3959f">&#9670;&#160;</a></span>isDirectoryOutput()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual bool EasyKiConverter::ISymbolExporter::isDirectoryOutput </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断符号库输出是否为目录。 </p>
+<dl class="section return"><dt>返回</dt><dd>目录型符号库返回 true；默认单文件符号库返回 false。 </dd></dl>
+
+<p>被 <a class="el" href="classEasyKiConverter_1_1ExporterAllegroFootprint.html#a3ea6717db427b8f80d0e555188bba8b2">EasyKiConverter::ExporterAllegroFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterCadstarLibrary.html#a848566249dce050e40338ab8de730f53">EasyKiConverter::ExporterCadstarLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterEagleFootprint.html#af3ab27c332a83ef0765eee7857da6f1b">EasyKiConverter::ExporterEagleFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a5b60988b96d177d37d8e131488c16647">EasyKiConverter::ExporterHorizonLibrary</a> , 以及 <a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a0392f9cf26c1fab76dad4f8fa86a4e19">EasyKiConverter::ExporterLibrePcbLibrary</a> 重载.</p>
+
+<p class="definition">在文件 <a class="el" href="ISymbolExporter_8h_source.html">ISymbolExporter.h</a> 第 <a class="el" href="ISymbolExporter_8h_source.html#l00032">32</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a237736caad0b82fbf8ddcec29de2ef75" name="a237736caad0b82fbf8ddcec29de2ef75"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a237736caad0b82fbf8ddcec29de2ef75">&#9670;&#160;</a></span>libraryFileExtension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual QString EasyKiConverter::ISymbolExporter::libraryFileExtension </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取符号库文件扩展名 </p>
+<dl class="section return"><dt>返回</dt><dd>文件扩展名（如 ".kicad_sym"、".SchLib"），包含点号 </dd></dl>
+
+<p>在 <a class="el" href="classEasyKiConverter_1_1ExporterAllegroFootprint.html#ad6783b3bdd8eae25e2065f39bd4f7a4d">EasyKiConverter::ExporterAllegroFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a11f0761ef8e27b6fd97829c0b8c88d0d">EasyKiConverter::ExporterAltiumSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterCadstarLibrary.html#a305f7d92f96bdd5df8befefdc688ad08">EasyKiConverter::ExporterCadstarLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterEagleFootprint.html#a66903bc1d50b40449bd288cc00192770">EasyKiConverter::ExporterEagleFootprint</a>, <a class="el" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#ae113c9b8dd34e68ac69d89c091e1e97b">EasyKiConverter::ExporterHorizonLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterSymbol.html#af67bb1dce88d13402941f25b5b46c52e">EasyKiConverter::ExporterSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a630a15b78d3fbac36a806765d74bc291">EasyKiConverter::ExporterLibrePcbLibrary</a>, <a class="el" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a0cf3a501c7ad73bf4596b45831ed4098">EasyKiConverter::ExporterOrcadSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterPadsSymbol.html#a07d80dd7d5afa13418e7f529172b58dc">EasyKiConverter::ExporterPadsSymbol</a>, <a class="el" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#adf948b084c2545aa81d732c4ed748a8f">EasyKiConverter::ExporterPcadSymbol</a> , 以及 <a class="el" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a9b44d468d6ae9dd4440d6a9c3efe197f">EasyKiConverter::ExporterXpeditionSymbol</a> 内被实现.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/interfaces/<a class="el" href="ISymbolExporter_8h_source.html">ISymbolExporter.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html">ISymbolExporter</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

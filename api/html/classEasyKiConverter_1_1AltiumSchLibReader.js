@@ -1,0 +1,25 @@
+var classEasyKiConverter_1_1AltiumSchLibReader =
+[
+    [ "ComponentInfo", "structEasyKiConverter_1_1AltiumSchLibReader_1_1ComponentInfo.html", "structEasyKiConverter_1_1AltiumSchLibReader_1_1ComponentInfo" ],
+    [ "FontInfo", "structEasyKiConverter_1_1AltiumSchLibReader_1_1FontInfo.html", "structEasyKiConverter_1_1AltiumSchLibReader_1_1FontInfo" ],
+    [ "ImageStorageEntry", "structEasyKiConverter_1_1AltiumSchLibReader_1_1ImageStorageEntry.html", "structEasyKiConverter_1_1AltiumSchLibReader_1_1ImageStorageEntry" ],
+    [ "Record", "structEasyKiConverter_1_1AltiumSchLibReader_1_1Record.html", "structEasyKiConverter_1_1AltiumSchLibReader_1_1Record" ],
+    [ "componentIndex", "classEasyKiConverter_1_1AltiumSchLibReader.html#aa2f39a28a2ee7f57a764ea64f7e266c3", null ],
+    [ "components", "classEasyKiConverter_1_1AltiumSchLibReader.html#a9a99a2329fada3ec2667bddbeb0afc6a", null ],
+    [ "errorString", "classEasyKiConverter_1_1AltiumSchLibReader.html#a3ee92e4f96a1099308bc95346456607a", null ],
+    [ "fail", "classEasyKiConverter_1_1AltiumSchLibReader.html#a6696b1c4f12656006b64c90d5f1e4089", null ],
+    [ "fonts", "classEasyKiConverter_1_1AltiumSchLibReader.html#a5034af9ee74f6fef297168a9b73e70ce", null ],
+    [ "hasError", "classEasyKiConverter_1_1AltiumSchLibReader.html#aaa81aaf4d00ef5c4ef137a5dd65c5405", null ],
+    [ "headerParameters", "classEasyKiConverter_1_1AltiumSchLibReader.html#a3419cc0bf4ec8422ca2eb5c592544157", null ],
+    [ "open", "classEasyKiConverter_1_1AltiumSchLibReader.html#a7441701f57c647bc5a6cb12701b0429c", null ],
+    [ "readComponentData", "classEasyKiConverter_1_1AltiumSchLibReader.html#ab4998df3a4121ff0928dd9610703599b", null ],
+    [ "readComponentData", "classEasyKiConverter_1_1AltiumSchLibReader.html#a4c1cf67b0250dd6bdb8a1d48bb80e329", null ],
+    [ "readComponentRecords", "classEasyKiConverter_1_1AltiumSchLibReader.html#a28131034efa426070e209d48be190a0c", null ],
+    [ "readComponentRecords", "classEasyKiConverter_1_1AltiumSchLibReader.html#a6f9b00381023c054d0eb675d6ba6f008", null ],
+    [ "readImageStorage", "classEasyKiConverter_1_1AltiumSchLibReader.html#a89dc023b84420b2c43522efea20fe507", null ],
+    [ "m_components", "classEasyKiConverter_1_1AltiumSchLibReader.html#ab9099954f82dc56e2fca56df5913fb54", null ],
+    [ "m_errorMessage", "classEasyKiConverter_1_1AltiumSchLibReader.html#a81a197eea9aca89754c0bb467e6d098d", null ],
+    [ "m_fonts", "classEasyKiConverter_1_1AltiumSchLibReader.html#a68491e8c260af05b8002dec8fe00422b", null ],
+    [ "m_headerParameters", "classEasyKiConverter_1_1AltiumSchLibReader.html#a0969d7461559e1a32923ad9862fa33fe", null ],
+    [ "m_oleReader", "classEasyKiConverter_1_1AltiumSchLibReader.html#a3873ce82df28f87f1227253d3d158a5b", null ]
+];

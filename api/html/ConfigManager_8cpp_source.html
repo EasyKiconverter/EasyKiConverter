@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: ui/utils/ConfigManager.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ConfigManager_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ConfigManager.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ConfigManager_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ConfigManager_8h.html">ConfigManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QCoreApplication&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QStandardPaths&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="}">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#a409c072cfc94e7f88199760c5f7aa2f6">   10</a></span><a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#a409c072cfc94e7f88199760c5f7aa2f6">ConfigManager::ConfigManager</a>(QObject* parent) : QObject(parent), m_settings(nullptr) {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="comment">// 创建 QSettings 对象</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    QString configPath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    QDir().mkpath(configPath);</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    QString configFile = configPath + <span class="stringliteral">&quot;/config.ini&quot;</span>;  <span class="comment">// 配置文件的完整路径。</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a> = <span class="keyword">new</span> QSettings(configFile, QSettings::IniFormat, <span class="keyword">this</span>);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="comment">// 初始化默认配</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#ac2a26b7c5744ab4e4619fd790173bb69">initDefaults</a>();</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="comment">// 加载配置</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#abd59960eec90a2ebe62da3c51e5b5ed3">load</a>();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
+</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#a75c04b16a51b666597009f7490a669c2">   25</a></span><a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#a75c04b16a51b666597009f7490a669c2">ConfigManager::~ConfigManager</a>() {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keyword">delete</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#a47579d525f067835f5af65d8e53ca063">   35</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#a47579d525f067835f5af65d8e53ca063">ConfigManager::save</a>() {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="comment">// 保存导出路径</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        QJsonValue exportPathValue = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>.value(<span class="stringliteral">&quot;export_path&quot;</span>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;setValue(<span class="stringliteral">&quot;export/export_path&quot;</span>, exportPathValue.isUndefined() ? <span class="stringliteral">&quot;&quot;</span> : exportPathValue.toString());</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        QJsonValue libNameValue = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>.value(<span class="stringliteral">&quot;lib_name&quot;</span>);  <span class="comment">// 当前库名称配置值。</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;setValue(<span class="stringliteral">&quot;export/lib_name&quot;</span>,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                             libNameValue.isUndefined() ? <span class="stringliteral">&quot;easyeda_convertlib&quot;</span> : libNameValue.toString());</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="comment">// 保存导出选项</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        QJsonValue exportOptionsValue = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>.value(<span class="stringliteral">&quot;export_options&quot;</span>);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        QJsonObject exportOptions =</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            exportOptionsValue.isUndefined() ? QJsonObject() : exportOptionsValue.toObject();  <span class="comment">// 导出选项对象。</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        QJsonValue symbolValue = exportOptions.value(<span class="stringliteral">&quot;symbol&quot;</span>);  <span class="comment">// 符号库导出开关。</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;setValue(<span class="stringliteral">&quot;export/export_symbol&quot;</span>, symbolValue.isUndefined() ? <span class="keyword">true</span> : symbolValue.toBool());</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        QJsonValue footprintValue = exportOptions.value(<span class="stringliteral">&quot;footprint&quot;</span>);  <span class="comment">// 封装库导出开关。</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;setValue(<span class="stringliteral">&quot;export/export_footprint&quot;</span>, footprintValue.isUndefined() ? true : footprintValue.toBool());</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        QJsonValue model3dValue = exportOptions.value(<span class="stringliteral">&quot;model3d&quot;</span>);  <span class="comment">// 三维模型导出开关。</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;setValue(<span class="stringliteral">&quot;export/export_3d_model&quot;</span>, model3dValue.isUndefined() ? true : model3dValue.toBool());</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="comment">// 同步到磁</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;sync();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;Configuration saved successfully&quot;</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to save configuration:&quot;</span> &lt;&lt; e.what();</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
+</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#abd59960eec90a2ebe62da3c51e5b5ed3">   74</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#abd59960eec90a2ebe62da3c51e5b5ed3">ConfigManager::load</a>() {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">try</span> {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="comment">// 加载导出路径</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;export_path&quot;</span>] = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;value(<span class="stringliteral">&quot;export/export_path&quot;</span>, <span class="stringliteral">&quot;&quot;</span>).toString();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;lib_name&quot;</span>] = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;value(<span class="stringliteral">&quot;export/lib_name&quot;</span>, <span class="stringliteral">&quot;easyeda_convertlib&quot;</span>).toString();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="comment">// 加载导出选项</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        QJsonObject exportOptions;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        exportOptions[<span class="stringliteral">&quot;symbol&quot;</span>] = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;value(<span class="stringliteral">&quot;export/export_symbol&quot;</span>, <span class="keyword">true</span>).toBool();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        exportOptions[<span class="stringliteral">&quot;footprint&quot;</span>] = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;value(<span class="stringliteral">&quot;export/export_footprint&quot;</span>, <span class="keyword">true</span>).toBool();</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        exportOptions[<span class="stringliteral">&quot;model3d&quot;</span>] = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">m_settings</a>-&gt;value(<span class="stringliteral">&quot;export/export_3d_model&quot;</span>, <span class="keyword">true</span>).toBool();</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;export_options&quot;</span>] = exportOptions;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;Configuration loaded successfully&quot;</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    } <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; e) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to load configuration:&quot;</span> &lt;&lt; e.what();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}</div>
+</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="foldopen" id="foldopen00099" data-start="{" data-end="}">
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#a7f8a550bacdf6f3481b1d82f3bf169f8">   99</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#a7f8a550bacdf6f3481b1d82f3bf169f8">ConfigManager::getConfig</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>}</div>
+</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#a807a6f018ec31defd6584a2e6ff4a30d">  107</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#a807a6f018ec31defd6584a2e6ff4a30d">ConfigManager::setConfig</a>(<span class="keyword">const</span> QJsonObject&amp; config) {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a> = config;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#aafe40740e16644df096e054efb7e14b7">configChanged</a>();</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
+</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#ab14a3a7bad9d03aa5f68145bfff9b6c4">  116</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#ab14a3a7bad9d03aa5f68145bfff9b6c4">ConfigManager::getExportPath</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    QJsonValue <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>.value(<span class="stringliteral">&quot;export_path&quot;</span>);  <span class="comment">// 导出路径配置值。</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.isUndefined() ? <span class="stringliteral">&quot;&quot;</span> : <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.toString();</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}</div>
+</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="foldopen" id="foldopen00125" data-start="{" data-end="}">
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#a710bab989acf724189143a932c8e83dc">  125</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#a710bab989acf724189143a932c8e83dc">ConfigManager::setExportPath</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) {</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;export_path&quot;</span>] = <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#aafe40740e16644df096e054efb7e14b7">configChanged</a>();</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>}</div>
+</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="foldopen" id="foldopen00134" data-start="{" data-end="}">
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#adb461a98a863e6377454dd317615d210">  134</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#adb461a98a863e6377454dd317615d210">ConfigManager::getLibName</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    QJsonValue <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>.value(<span class="stringliteral">&quot;lib_name&quot;</span>);  <span class="comment">// 库名称配置值。</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.isUndefined() ? <span class="stringliteral">&quot;easyeda_convertlib&quot;</span> : <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.toString();</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>}</div>
+</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="foldopen" id="foldopen00143" data-start="{" data-end="}">
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#a61364188a9ee9b74f8e620c1e0cf5583">  143</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#a61364188a9ee9b74f8e620c1e0cf5583">ConfigManager::setLibName</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) {</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;lib_name&quot;</span>] = <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#aafe40740e16644df096e054efb7e14b7">configChanged</a>();</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>}</div>
+</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="foldopen" id="foldopen00152" data-start="{" data-end="}">
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#abe80f2481b077ebc2de4e76e5a87829b">  152</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#abe80f2481b077ebc2de4e76e5a87829b">ConfigManager::getExportOptions</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    QJsonValue <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>.value(<span class="stringliteral">&quot;export_options&quot;</span>);  <span class="comment">// 导出选项配置值。</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.isUndefined() ? QJsonObject() : <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.toObject();</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>}</div>
+</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="foldopen" id="foldopen00161" data-start="{" data-end="}">
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#a9e189d89b4b4571a60e87a1c97d249d2">  161</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#a9e189d89b4b4571a60e87a1c97d249d2">ConfigManager::setExportOptions</a>(<span class="keyword">const</span> QJsonObject&amp; options) {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;export_options&quot;</span>] = options;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#aafe40740e16644df096e054efb7e14b7">configChanged</a>();</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>}</div>
+</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="foldopen" id="foldopen00169" data-start="{" data-end="}">
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#aad0a714333e55135dbd683699d897eac">  169</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#aad0a714333e55135dbd683699d897eac">ConfigManager::resetToDefaults</a>() {</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#ac2a26b7c5744ab4e4619fd790173bb69">initDefaults</a>();</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#aafe40740e16644df096e054efb7e14b7">configChanged</a>();</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>}</div>
+</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="foldopen" id="foldopen00177" data-start="{" data-end="}">
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConfigManager.html#ac2a26b7c5744ab4e4619fd790173bb69">  177</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConfigManager.html#ac2a26b7c5744ab4e4619fd790173bb69">ConfigManager::initDefaults</a>() {</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="comment">// 设置默认导出路径</span></div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;export_path&quot;</span>] = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <span class="comment">// 设置默认库名称</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;lib_name&quot;</span>] = <span class="stringliteral">&quot;easyeda_convertlib&quot;</span>;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="comment">// 设置默认导出选项</span></div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    QJsonObject exportOptions;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    exportOptions[<span class="stringliteral">&quot;symbol&quot;</span>] = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    exportOptions[<span class="stringliteral">&quot;footprint&quot;</span>] = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    exportOptions[<span class="stringliteral">&quot;model3d&quot;</span>] = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">m_config</a>[<span class="stringliteral">&quot;export_options&quot;</span>] = exportOptions;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Default configuration initialized&quot;</span>;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>}</div>
+</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aConfigManager_8h_html"><div class="ttname"><a href="ConfigManager_8h.html">ConfigManager.h</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a3a5260c4cc334281d1733daf8d9547dc"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a3a5260c4cc334281d1733daf8d9547dc">EasyKiConverter::ConfigManager::m_settings</a></div><div class="ttdeci">QSettings * m_settings</div><div class="ttdoc">保存配置文件读写对象。</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8h_source.html#l00120">ConfigManager.h:120</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a409c072cfc94e7f88199760c5f7aa2f6"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a409c072cfc94e7f88199760c5f7aa2f6">EasyKiConverter::ConfigManager::ConfigManager</a></div><div class="ttdeci">ConfigManager(QObject *parent=nullptr)</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00010">ConfigManager.cpp:10</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a47579d525f067835f5af65d8e53ca063"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a47579d525f067835f5af65d8e53ca063">EasyKiConverter::ConfigManager::save</a></div><div class="ttdeci">bool save()</div><div class="ttdoc">保存配置</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00035">ConfigManager.cpp:35</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a61364188a9ee9b74f8e620c1e0cf5583"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a61364188a9ee9b74f8e620c1e0cf5583">EasyKiConverter::ConfigManager::setLibName</a></div><div class="ttdeci">void setLibName(const QString &amp;name)</div><div class="ttdoc">设置库名称</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00143">ConfigManager.cpp:143</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a710bab989acf724189143a932c8e83dc"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a710bab989acf724189143a932c8e83dc">EasyKiConverter::ConfigManager::setExportPath</a></div><div class="ttdeci">void setExportPath(const QString &amp;path)</div><div class="ttdoc">设置导出路径</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00125">ConfigManager.cpp:125</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a75c04b16a51b666597009f7490a669c2"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a75c04b16a51b666597009f7490a669c2">EasyKiConverter::ConfigManager::~ConfigManager</a></div><div class="ttdeci">~ConfigManager() override</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00025">ConfigManager.cpp:25</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a7f8a550bacdf6f3481b1d82f3bf169f8"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a7f8a550bacdf6f3481b1d82f3bf169f8">EasyKiConverter::ConfigManager::getConfig</a></div><div class="ttdeci">QJsonObject getConfig() const</div><div class="ttdoc">获取配置对象</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00099">ConfigManager.cpp:99</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a807a6f018ec31defd6584a2e6ff4a30d"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a807a6f018ec31defd6584a2e6ff4a30d">EasyKiConverter::ConfigManager::setConfig</a></div><div class="ttdeci">void setConfig(const QJsonObject &amp;config)</div><div class="ttdoc">设置配置对象</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00107">ConfigManager.cpp:107</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a82967eab25837b6c25cd844f814fe23d"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a82967eab25837b6c25cd844f814fe23d">EasyKiConverter::ConfigManager::m_config</a></div><div class="ttdeci">QJsonObject m_config</div><div class="ttdoc">保存当前配置项。</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8h_source.html#l00121">ConfigManager.h:121</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_a9e189d89b4b4571a60e87a1c97d249d2"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#a9e189d89b4b4571a60e87a1c97d249d2">EasyKiConverter::ConfigManager::setExportOptions</a></div><div class="ttdeci">void setExportOptions(const QJsonObject &amp;options)</div><div class="ttdoc">设置导出选项</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00161">ConfigManager.cpp:161</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_aad0a714333e55135dbd683699d897eac"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#aad0a714333e55135dbd683699d897eac">EasyKiConverter::ConfigManager::resetToDefaults</a></div><div class="ttdeci">void resetToDefaults()</div><div class="ttdoc">重置配置为默认</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00169">ConfigManager.cpp:169</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_aafe40740e16644df096e054efb7e14b7"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#aafe40740e16644df096e054efb7e14b7">EasyKiConverter::ConfigManager::configChanged</a></div><div class="ttdeci">void configChanged()</div><div class="ttdoc">配置已更改信</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_ab14a3a7bad9d03aa5f68145bfff9b6c4"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#ab14a3a7bad9d03aa5f68145bfff9b6c4">EasyKiConverter::ConfigManager::getExportPath</a></div><div class="ttdeci">QString getExportPath() const</div><div class="ttdoc">获取导出路径</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00116">ConfigManager.cpp:116</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_abd59960eec90a2ebe62da3c51e5b5ed3"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#abd59960eec90a2ebe62da3c51e5b5ed3">EasyKiConverter::ConfigManager::load</a></div><div class="ttdeci">bool load()</div><div class="ttdoc">加载配置</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00074">ConfigManager.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_abe80f2481b077ebc2de4e76e5a87829b"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#abe80f2481b077ebc2de4e76e5a87829b">EasyKiConverter::ConfigManager::getExportOptions</a></div><div class="ttdeci">QJsonObject getExportOptions() const</div><div class="ttdoc">获取导出选项</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00152">ConfigManager.cpp:152</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_ac2a26b7c5744ab4e4619fd790173bb69"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#ac2a26b7c5744ab4e4619fd790173bb69">EasyKiConverter::ConfigManager::initDefaults</a></div><div class="ttdeci">void initDefaults()</div><div class="ttdoc">初始化默认配</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00177">ConfigManager.cpp:177</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigManager_html_adb461a98a863e6377454dd317615d210"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigManager.html#adb461a98a863e6377454dd317615d210">EasyKiConverter::ConfigManager::getLibName</a></div><div class="ttdeci">QString getLibName() const</div><div class="ttdoc">获取库名称</div><div class="ttdef"><b>Definition</b> <a href="ConfigManager_8cpp_source.html#l00134">ConfigManager.cpp:134</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1788f8309b1a812dcb800a185471cf6c.html">ui</a></li><li class="navelem"><a class="el" href="dir_bef512c0463b543d9b1c6d3451eba227.html">utils</a></li><li class="navelem"><a class="el" href="ConfigManager_8cpp.html">ConfigManager.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

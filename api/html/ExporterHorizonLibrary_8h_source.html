@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/horizon/ExporterHorizonLibrary.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterHorizonLibrary_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterHorizonLibrary.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterHorizonLibrary_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="IFootprintExporter_8h.html">core/interfaces/IFootprintExporter.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ISymbolExporter_8h.html">core/interfaces/ISymbolExporter.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="foldopen" id="foldopen00011" data-start="{" data-end="};">
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html">   11</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html">ExporterHorizonLibrary</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1IFootprintExporter.html">IFootprintExporter</a>, <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1ISymbolExporter.html">ISymbolExporter</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#ae113c9b8dd34e68ac69d89c091e1e97b">libraryFileExtension</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a5b60988b96d177d37d8e131488c16647">isDirectoryOutput</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#afdb2a5c3b18b79880a7522416e612ec7">exportFootprint</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a>&amp; footprint,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                         <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                         <span class="keyword">const</span> QString&amp; model3DPath = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a815481266a6a781a8548a27b27561c4b">exportFootprintLibrary</a>(<span class="keyword">const</span> QList&lt;IR::FootprintComponentIR&gt;&amp; footprints,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                                <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                                <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                                <span class="keywordtype">bool</span> preferWrl = <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                                <span class="keywordtype">bool</span> exportStep = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                                <span class="keyword">const</span> QString&amp; libraryDescription = QString(),</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                                <span class="keyword">const</span> QString&amp; libraryKeywords = QString(),</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                                <span class="keywordtype">bool</span> useAbsolutePaths = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                                <span class="keyword">const</span> QString&amp; model3DBaseDir = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a3e8f16437c5d911c1c011686ce4e2847">exportSymbol</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol, <span class="keyword">const</span> QString&amp; filePath) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a794d7743f6befe85a80f30fcef49f212">exportSymbolLibrary</a>(<span class="keyword">const</span> QList&lt;IR::SymbolComponentIR&gt;&amp; symbols,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                             <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                             <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                             <span class="keywordtype">bool</span> appendMode = <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                             <span class="keywordtype">bool</span> updateMode = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                             <span class="keyword">const</span> QString&amp; libraryDescription = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a3e2a55c60436111168d884ede70fa87c">exportComponentLibrary</a>(<span class="keyword">const</span> QList&lt;IR::ComponentIR&gt;&amp; components,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                                <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                                <span class="keywordtype">bool</span> exportModel3D = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                                <span class="keyword">const</span> QString&amp; model3DBaseDir = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    QStringList <a class="code hl_function" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a4cd96a3a01f4a06124bdd91f88eefb02">diagnostics</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a080499b21e15e8f959f174adf45f533a">  101</a></span>    QStringList <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a080499b21e15e8f959f174adf45f533a">m_diagnostics</a>;  </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>};</div>
+</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aIFootprintExporter_8h_html"><div class="ttname"><a href="IFootprintExporter_8h.html">IFootprintExporter.h</a></div></div>
+<div class="ttc" id="aISymbolExporter_8h_html"><div class="ttname"><a href="ISymbolExporter_8h.html">ISymbolExporter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html">EasyKiConverter::ExporterHorizonLibrary</a></div><div class="ttdoc">将通用 IR 写入 Horizon Pool source files 的导出器。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8h_source.html#l00011">ExporterHorizonLibrary.h:11</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_a080499b21e15e8f959f174adf45f533a"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a080499b21e15e8f959f174adf45f533a">EasyKiConverter::ExporterHorizonLibrary::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次导出的诊断信息列表。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8h_source.html#l00101">ExporterHorizonLibrary.h:101</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_a3e2a55c60436111168d884ede70fa87c"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a3e2a55c60436111168d884ede70fa87c">EasyKiConverter::ExporterHorizonLibrary::exportComponentLibrary</a></div><div class="ttdeci">bool exportComponentLibrary(const QList&lt; IR::ComponentIR &gt; &amp;components, const QString &amp;libName, const QString &amp;filePath, bool exportModel3D=false, const QString &amp;model3DBaseDir=QString()) override</div><div class="ttdoc">导出包含符号、封装、Part 和 pad_map 的完整组件库。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8cpp_source.html#l02084">ExporterHorizonLibrary.cpp:2084</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_a3e8f16437c5d911c1c011686ce4e2847"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a3e8f16437c5d911c1c011686ce4e2847">EasyKiConverter::ExporterHorizonLibrary::exportSymbol</a></div><div class="ttdeci">bool exportSymbol(const IR::SymbolComponentIR &amp;symbol, const QString &amp;filePath) override</div><div class="ttdoc">导出单个符号到 Horizon Pool。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8cpp_source.html#l01996">ExporterHorizonLibrary.cpp:1996</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_a4cd96a3a01f4a06124bdd91f88eefb02"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a4cd96a3a01f4a06124bdd91f88eefb02">EasyKiConverter::ExporterHorizonLibrary::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const override</div><div class="ttdoc">返回最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8cpp_source.html#l01928">ExporterHorizonLibrary.cpp:1928</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_a5b60988b96d177d37d8e131488c16647"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a5b60988b96d177d37d8e131488c16647">EasyKiConverter::ExporterHorizonLibrary::isDirectoryOutput</a></div><div class="ttdeci">bool isDirectoryOutput() const override</div><div class="ttdoc">判断 Horizon Pool 是否使用目录型输出。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8cpp_source.html#l01920">ExporterHorizonLibrary.cpp:1920</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_a794d7743f6befe85a80f30fcef49f212"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a794d7743f6befe85a80f30fcef49f212">EasyKiConverter::ExporterHorizonLibrary::exportSymbolLibrary</a></div><div class="ttdeci">bool exportSymbolLibrary(const QList&lt; IR::SymbolComponentIR &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath, bool appendMode=true, bool updateMode=false, const QString &amp;libraryDescription=QString()) override</div><div class="ttdoc">将多个符号、Unit 和 Entity 导出到 Horizon Pool。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8cpp_source.html#l02010">ExporterHorizonLibrary.cpp:2010</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_a815481266a6a781a8548a27b27561c4b"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#a815481266a6a781a8548a27b27561c4b">EasyKiConverter::ExporterHorizonLibrary::exportFootprintLibrary</a></div><div class="ttdeci">bool exportFootprintLibrary(const QList&lt; IR::FootprintComponentIR &gt; &amp;footprints, const QString &amp;libName, const QString &amp;filePath, bool preferWrl=true, bool exportStep=false, const QString &amp;libraryDescription=QString(), const QString &amp;libraryKeywords=QString(), bool useAbsolutePaths=false, const QString &amp;model3DBaseDir=QString()) override</div><div class="ttdoc">将多个封装导出到 Horizon Pool。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8cpp_source.html#l01963">ExporterHorizonLibrary.cpp:1963</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_ae113c9b8dd34e68ac69d89c091e1e97b"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#ae113c9b8dd34e68ac69d89c091e1e97b">EasyKiConverter::ExporterHorizonLibrary::libraryFileExtension</a></div><div class="ttdeci">QString libraryFileExtension() const override</div><div class="ttdoc">返回 Horizon Pool 目录输出后缀。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8cpp_source.html#l01912">ExporterHorizonLibrary.cpp:1912</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterHorizonLibrary_html_afdb2a5c3b18b79880a7522416e612ec7"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterHorizonLibrary.html#afdb2a5c3b18b79880a7522416e612ec7">EasyKiConverter::ExporterHorizonLibrary::exportFootprint</a></div><div class="ttdeci">bool exportFootprint(const IR::FootprintComponentIR &amp;footprint, const QString &amp;filePath, const QString &amp;model3DPath=QString()) override</div><div class="ttdoc">导出单个封装及其 Padstack source files。</div><div class="ttdef"><b>Definition</b> <a href="ExporterHorizonLibrary_8cpp_source.html#l01939">ExporterHorizonLibrary.cpp:1939</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IFootprintExporter_html"><div class="ttname"><a href="classEasyKiConverter_1_1IFootprintExporter.html">EasyKiConverter::IFootprintExporter</a></div><div class="ttdoc">封装导出器通用接口</div><div class="ttdef"><b>Definition</b> <a href="IFootprintExporter_8h_source.html#l00016">IFootprintExporter.h:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ISymbolExporter_html"><div class="ttname"><a href="classEasyKiConverter_1_1ISymbolExporter.html">EasyKiConverter::ISymbolExporter</a></div><div class="ttdoc">符号导出器通用接口</div><div class="ttdef"><b>Definition</b> <a href="ISymbolExporter_8h_source.html#l00018">ISymbolExporter.h:18</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">EasyKiConverter::IR::FootprintComponentIR</a></div><div class="ttdoc">通用封装组件</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00196">FootprintIR.h:196</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">EasyKiConverter::IR::SymbolComponentIR</a></div><div class="ttdoc">通用符号组件</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00418">SymbolIR.h:418</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_bf2cffe898675c3c826dd37846b5f124.html">horizon</a></li><li class="navelem"><a class="el" href="ExporterHorizonLibrary_8h.html">ExporterHorizonLibrary.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

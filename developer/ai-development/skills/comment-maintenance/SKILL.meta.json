@@ -1,0 +1,11 @@
+{
+  "id": "comment-maintenance",
+  "purpose": "审查并修复 C++ 中文多行 Doxygen、函数参数、成员与局部变量说明和注释检查规则。",
+  "triggers": ["补齐 C++ 注释", "修复 Doxygen", "审查变量注释", "修复构造函数注释", "维护注释检查器"],
+  "required_sources": ["docs/developer/ai-development/policy/AI_POLICY.md", "docs/developer/CODING_STYLE.md", "tools/python/check_comment_rate.py", "tools/python/format_code.py"],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md", "docs/developer/ai-development/verification-policy.json"],
+  "side_effects": ["修改任务范围内的 C++ 注释或检查器", "生成格式检查、构建和测试产物"],
+  "verification": ["check_comment_rate.py 的 Doxygen、变量、参数和泛化注释检查", "format_code.py C++ 检查", "相关 Python/C++ 测试", "git diff --check"],
+  "stop_conditions": ["无法确认真实语义", "与其他 Agent 的未完成改动冲突", "需要放宽规则或跳过失败测试"],
+  "evidence_outputs": ["修改文件和注释范围", "检查器统计", "实际命令及退出状态", "未执行验证和剩余风险"]
+}

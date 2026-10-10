@@ -1,0 +1,776 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::SvgPathParser类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1SvgPathParser.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-static-methods">静态 Private 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1SvgPathParser-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::SvgPathParser类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>SVG 路径解析。  
+ <a href="classEasyKiConverter_1_1SvgPathParser.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="SvgPathParser_8h_source.html">SvgPathParser.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::SvgPathParser 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1SvgPathParser__coll__graph.svg" width="194" height="231"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:af70c5e413eab91803dcf55209c270c3c" id="r_af70c5e413eab91803dcf55209c270c3c"><td class="memItemLeft" align="right" valign="top">static QList&lt; QPointF &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html#af70c5e413eab91803dcf55209c270c3c">parsePath</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:af70c5e413eab91803dcf55209c270c3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析SVG路径字符  <br /></td></tr>
+<tr class="separator:af70c5e413eab91803dcf55209c270c3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02b6830db583149544c368c65594cf9f" id="r_a02b6830db583149544c368c65594cf9f"><td class="memItemLeft" align="right" valign="top">static QList&lt; <a class="el" href="structEasyKiConverter_1_1SvgPathSegment.html">SvgPathSegment</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html#a02b6830db583149544c368c65594cf9f">parseSegments</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:a02b6830db583149544c368c65594cf9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析 SVG 路径为直线、二次/三次 Bézier 和圆弧段  <br /></td></tr>
+<tr class="separator:a02b6830db583149544c368c65594cf9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+静态 Private 成员函数</h2></td></tr>
+<tr class="memitem:ac39acee96a0e4912c57c3abf07ddd247" id="r_ac39acee96a0e4912c57c3abf07ddd247"><td class="memItemLeft" align="right" valign="top">static QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html#ac39acee96a0e4912c57c3abf07ddd247">splitPath</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:ac39acee96a0e4912c57c3abf07ddd247"><td class="mdescLeft">&#160;</td><td class="mdescRight">分割SVG路径字符  <br /></td></tr>
+<tr class="separator:ac39acee96a0e4912c57c3abf07ddd247"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a04fbdb00df232852c328d39f76d9c2" id="r_a2a04fbdb00df232852c328d39f76d9c2"><td class="memItemLeft" align="right" valign="top">static QPointF&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html#a2a04fbdb00df232852c328d39f76d9c2">createPoint</a> (double x, double y, bool relative, double &amp;currentX, double &amp;currentY)</td></tr>
+<tr class="memdesc:a2a04fbdb00df232852c328d39f76d9c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建SVG路径  <br /></td></tr>
+<tr class="separator:a2a04fbdb00df232852c328d39f76d9c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e3f007d035ffb4faa9d162a2758eabc" id="r_a2e3f007d035ffb4faa9d162a2758eabc"><td class="memItemLeft" align="right" valign="top">static QList&lt; QPointF &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html#a2e3f007d035ffb4faa9d162a2758eabc">parseArc</a> (const QPointF &amp;startPoint, double rx, double ry, double xRotation, bool largeArcFlag, bool sweepFlag, const QPointF &amp;endPoint)</td></tr>
+<tr class="memdesc:a2e3f007d035ffb4faa9d162a2758eabc"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析圆弧命令  <br /></td></tr>
+<tr class="separator:a2e3f007d035ffb4faa9d162a2758eabc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8b794c13f7d60239828fe00dfda5b0" id="r_aff8b794c13f7d60239828fe00dfda5b0"><td class="memItemLeft" align="right" valign="top">static QList&lt; QPointF &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html#aff8b794c13f7d60239828fe00dfda5b0">calcArcPoints</a> (double cx, double cy, double rx, double ry, double <a class="el" href="SvgPathParser_8cpp.html#a8cbce6400c1e4e2cd98b5f182e688e1d">startAngle</a>, double <a class="el" href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a>, double xRotation)</td></tr>
+<tr class="memdesc:aff8b794c13f7d60239828fe00dfda5b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">计算圆弧上的  <br /></td></tr>
+<tr class="separator:aff8b794c13f7d60239828fe00dfda5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d06b0e47817caf09b7b1d8ca832dca9" id="r_a1d06b0e47817caf09b7b1d8ca832dca9"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html#a1d06b0e47817caf09b7b1d8ca832dca9">getAngle</a> (double x1, double y1, double x2, double y2)</td></tr>
+<tr class="memdesc:a1d06b0e47817caf09b7b1d8ca832dca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">计算角度  <br /></td></tr>
+<tr class="separator:a1d06b0e47817caf09b7b1d8ca832dca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b7bc38cbf4937fc8ad820c7f87b38e7" id="r_a0b7bc38cbf4937fc8ad820c7f87b38e7"><td class="memItemLeft" align="right" valign="top">static QList&lt; QPointF &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html#a0b7bc38cbf4937fc8ad820c7f87b38e7">bezierToPolyline</a> (double startX, double startY, double cp1X, double cp1Y, double cp2X, double cp2Y, double endX, double endY, int segments=16)</td></tr>
+<tr class="memdesc:a0b7bc38cbf4937fc8ad820c7f87b38e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">将三次贝塞尔曲线离散为折线点。  <br /></td></tr>
+<tr class="separator:a0b7bc38cbf4937fc8ad820c7f87b38e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>SVG 路径解析。 </p>
+<p>用于解析 SVG 路径字符串并转换为点列表。 </p>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8h_source.html">SvgPathParser.h</a> 第 <a class="el" href="SvgPathParser_8h_source.html#l00036">36</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a0b7bc38cbf4937fc8ad820c7f87b38e7" name="a0b7bc38cbf4937fc8ad820c7f87b38e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b7bc38cbf4937fc8ad820c7f87b38e7">&#9670;&#160;</a></span>bezierToPolyline()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt; QPointF &gt; EasyKiConverter::SvgPathParser::bezierToPolyline </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>startX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>startY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>cp1X</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>cp1Y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>cp2X</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>cp2Y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>endX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>endY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>segments</em> = <code>16</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将三次贝塞尔曲线离散为折线点。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">startX</td><td>曲线起点 X 坐标。 </td></tr>
+    <tr><td class="paramname">startY</td><td>曲线起点 Y 坐标。 </td></tr>
+    <tr><td class="paramname">cp1X</td><td>第一个控制点 X 坐标。 </td></tr>
+    <tr><td class="paramname">cp1Y</td><td>第一个控制点 Y 坐标。 </td></tr>
+    <tr><td class="paramname">cp2X</td><td>第二个控制点 X 坐标。 </td></tr>
+    <tr><td class="paramname">cp2Y</td><td>第二个控制点 Y 坐标。 </td></tr>
+    <tr><td class="paramname">endX</td><td>曲线终点 X 坐标。 </td></tr>
+    <tr><td class="paramname">endY</td><td>曲线终点 Y 坐标。 </td></tr>
+    <tr><td class="paramname">segments</td><td>离散线段数量。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>离散后的折线点列表。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a> 第 <a class="el" href="SvgPathParser_8cpp_source.html#l01059">1059</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SvgPathParser_8cpp_source.html#l00173">parsePath()</a>.</p>
+
+</div>
+</div>
+<a id="aff8b794c13f7d60239828fe00dfda5b0" name="aff8b794c13f7d60239828fe00dfda5b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff8b794c13f7d60239828fe00dfda5b0">&#9670;&#160;</a></span>calcArcPoints()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt; QPointF &gt; EasyKiConverter::SvgPathParser::calcArcPoints </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>cx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>cy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>rx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>ry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>startAngle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>deltaAngle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>xRotation</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>计算圆弧上的 </p>
+<p>按椭圆参数离散生成圆弧点。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cx</td><td>圆心X坐标 </td></tr>
+    <tr><td class="paramname">cy</td><td>圆心Y坐标 </td></tr>
+    <tr><td class="paramname">rx</td><td>X轴半 </td></tr>
+    <tr><td class="paramname">ry</td><td>Y轴半 </td></tr>
+    <tr><td class="paramname">startAngle</td><td>起始角度 </td></tr>
+    <tr><td class="paramname">deltaAngle</td><td>角度增量 </td></tr>
+    <tr><td class="paramname">xRotation</td><td>X轴旋转角 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QList&lt;QPointF&gt; 圆弧上的点列</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cx</td><td>圆心 X 坐标。 </td></tr>
+    <tr><td class="paramname">cy</td><td>圆心 Y 坐标。 </td></tr>
+    <tr><td class="paramname">rx</td><td>X 方向半径。 </td></tr>
+    <tr><td class="paramname">ry</td><td>Y 方向半径。 </td></tr>
+    <tr><td class="paramname">startAngle</td><td>起始角度，单位为度。 </td></tr>
+    <tr><td class="paramname">deltaAngle</td><td>扫掠角度，单位为度。 </td></tr>
+    <tr><td class="paramname">xRotation</td><td>椭圆旋转角度，单位为度。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>离散后的圆弧点列表。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a> 第 <a class="el" href="SvgPathParser_8cpp_source.html#l01001">1001</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="SvgPathParser_8cpp_source.html#l00024">deltaAngle</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00014">EasyKiConverter::PI</a> , 以及 <a class="el" href="SvgPathParser_8cpp_source.html#l00023">startAngle</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SvgPathParser_8cpp_source.html#l00905">parseArc()</a>.</p>
+
+</div>
+</div>
+<a id="a2a04fbdb00df232852c328d39f76d9c2" name="a2a04fbdb00df232852c328d39f76d9c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a04fbdb00df232852c328d39f76d9c2">&#9670;&#160;</a></span>createPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QPointF EasyKiConverter::SvgPathParser::createPoint </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>relative</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>currentX</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;&#160;</td>
+          <td class="paramname"><em>currentY</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建SVG路径 </p>
+<p>根据绝对或相对坐标更新当前路径位置。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X坐标 </td></tr>
+    <tr><td class="paramname">y</td><td>Y坐标 </td></tr>
+    <tr><td class="paramname">relative</td><td>是否为相对坐 </td></tr>
+    <tr><td class="paramname">currentX</td><td>当前X坐标 </td></tr>
+    <tr><td class="paramname">currentY</td><td>当前Y坐标 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QPointF 创建的点</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>X 坐标或相对 X 位移。 </td></tr>
+    <tr><td class="paramname">y</td><td>Y 坐标或相对 Y 位移。 </td></tr>
+    <tr><td class="paramname">relative</td><td>是否使用相对坐标。 </td></tr>
+    <tr><td class="paramname">currentX</td><td>当前路径 X 坐标。 </td></tr>
+    <tr><td class="paramname">currentY</td><td>当前路径 Y 坐标。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>更新后的路径点。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a> 第 <a class="el" href="SvgPathParser_8cpp_source.html#l00883">883</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SvgPathParser_8cpp_source.html#l00173">parsePath()</a>.</p>
+
+</div>
+</div>
+<a id="a1d06b0e47817caf09b7b1d8ca832dca9" name="a1d06b0e47817caf09b7b1d8ca832dca9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d06b0e47817caf09b7b1d8ca832dca9">&#9670;&#160;</a></span>getAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double EasyKiConverter::SvgPathParser::getAngle </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>x2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>y2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>计算角度 </p>
+<p>根据两个向量的点积和叉积计算带方向的夹角。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x1</td><td>第一个点的X坐标 </td></tr>
+    <tr><td class="paramname">y1</td><td>第一个点的Y坐标 </td></tr>
+    <tr><td class="paramname">x2</td><td>第二个点的X坐标 </td></tr>
+    <tr><td class="paramname">y2</td><td>第二个点的Y坐标 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>double 角度（弧度）</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x1</td><td>第一个向量 X 分量。 </td></tr>
+    <tr><td class="paramname">y1</td><td>第一个向量 Y 分量。 </td></tr>
+    <tr><td class="paramname">x2</td><td>第二个向量 X 分量。 </td></tr>
+    <tr><td class="paramname">y2</td><td>第二个向量 Y 分量。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>两个向量之间的有向角度，单位为弧度。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a> 第 <a class="el" href="SvgPathParser_8cpp_source.html#l01036">1036</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SvgPathParser_8cpp_source.html#l00905">parseArc()</a>.</p>
+
+</div>
+</div>
+<a id="a2e3f007d035ffb4faa9d162a2758eabc" name="a2e3f007d035ffb4faa9d162a2758eabc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e3f007d035ffb4faa9d162a2758eabc">&#9670;&#160;</a></span>parseArc()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt; QPointF &gt; EasyKiConverter::SvgPathParser::parseArc </td>
+          <td>(</td>
+          <td class="paramtype">const QPointF &amp;&#160;</td>
+          <td class="paramname"><em>startPoint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>rx</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>ry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>xRotation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>largeArcFlag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sweepFlag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QPointF &amp;&#160;</td>
+          <td class="paramname"><em>endPoint</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解析圆弧命令 </p>
+<p>按 SVG 椭圆弧参数生成离散路径点。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">startPoint</td><td>起始 </td></tr>
+    <tr><td class="paramname">rx</td><td>X轴半 </td></tr>
+    <tr><td class="paramname">ry</td><td>Y轴半 </td></tr>
+    <tr><td class="paramname">xRotation</td><td>X 轴旋转角。 </td></tr>
+    <tr><td class="paramname">largeArcFlag</td><td>大弧标志 </td></tr>
+    <tr><td class="paramname">sweepFlag</td><td>扫描标志 </td></tr>
+    <tr><td class="paramname">endPoint</td><td>终点 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QList&lt;QPointF&gt; 圆弧上的点列</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">startPoint</td><td>圆弧起点。 </td></tr>
+    <tr><td class="paramname">rx</td><td>X 方向半径。 </td></tr>
+    <tr><td class="paramname">ry</td><td>Y 方向半径。 </td></tr>
+    <tr><td class="paramname">xRotation</td><td>椭圆旋转角度，单位为度。 </td></tr>
+    <tr><td class="paramname">largeArcFlag</td><td>大弧选择标志。 </td></tr>
+    <tr><td class="paramname">sweepFlag</td><td>扫掠方向标志。 </td></tr>
+    <tr><td class="paramname">endPoint</td><td>圆弧终点。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>圆弧离散后的路径点列表。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a> 第 <a class="el" href="SvgPathParser_8cpp_source.html#l00905">905</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="SvgPathParser_8cpp_source.html#l01001">calcArcPoints()</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00024">deltaAngle</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l01036">getAngle()</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00014">EasyKiConverter::PI</a> , 以及 <a class="el" href="SvgPathParser_8cpp_source.html#l00023">startAngle</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SvgPathParser_8cpp_source.html#l00173">parsePath()</a> , 以及 <a class="el" href="SvgPathParser_8cpp_source.html#l00556">parseSegments()</a>.</p>
+
+</div>
+</div>
+<a id="af70c5e413eab91803dcf55209c270c3c" name="af70c5e413eab91803dcf55209c270c3c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af70c5e413eab91803dcf55209c270c3c">&#9670;&#160;</a></span>parsePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt; QPointF &gt; EasyKiConverter::SvgPathParser::parsePath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解析SVG路径字符 </p>
+<p>解析 SVG 路径并提取兼容旧调用方的折线点集合。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>SVG路径字符 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QList&lt;QPointF&gt; 解析后的点列</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>SVG 路径文本。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>路径中的折线点列表。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a> 第 <a class="el" href="SvgPathParser_8cpp_source.html#l00173">173</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="SvgPathParser_8cpp_source.html#l01059">bezierToPolyline()</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00883">createPoint()</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00905">parseArc()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00830">splitPath()</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">value</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="EasyedaSymbolImporter_8cpp_source.html#l00479">EasyKiConverter::EasyedaSymbolImporter::importArcData()</a>, <a class="el" href="GeometryNormalizer_8h_source.html#l00104">EasyKiConverter::IR::GeometryNormalizer::parseSimpleSvgPath()</a> , 以及 <a class="el" href="GeometryUtils_8cpp_source.html#l00525">EasyKiConverter::GeometryUtils::parseSvgPath()</a>.</p>
+
+</div>
+</div>
+<a id="a02b6830db583149544c368c65594cf9f" name="a02b6830db583149544c368c65594cf9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02b6830db583149544c368c65594cf9f">&#9670;&#160;</a></span>parseSegments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt; <a class="el" href="structEasyKiConverter_1_1SvgPathSegment.html">SvgPathSegment</a> &gt; EasyKiConverter::SvgPathParser::parseSegments </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解析 SVG 路径为直线、二次/三次 Bézier 和圆弧段 </p>
+<p>解析 SVG 路径并保留结构化线段信息。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>SVG 路径字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>按源路径顺序排列的几何段</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>SVG 路径文本。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>直线、贝塞尔曲线和圆弧组成的路径线段列表。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a> 第 <a class="el" href="SvgPathParser_8cpp_source.html#l00556">556</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="SvgPathParser_8h_source.html#l00023">EasyKiConverter::SvgPathSegment::arcCenter</a>, <a class="el" href="SvgPathParser_8h_source.html#l00027">EasyKiConverter::SvgPathSegment::arcEndAngle</a>, <a class="el" href="SvgPathParser_8h_source.html#l00022">EasyKiConverter::SvgPathSegment::arcMid</a>, <a class="el" href="SvgPathParser_8h_source.html#l00026">EasyKiConverter::SvgPathSegment::arcStartAngle</a>, <a class="el" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca02e391a140e4fc8ebd74ebd5302ab2d3">EasyKiConverter::SvgPathSegment::CircularArc</a>, <a class="el" href="SvgPathParser_8h_source.html#l00020">EasyKiConverter::SvgPathSegment::control1</a>, <a class="el" href="SvgPathParser_8h_source.html#l00021">EasyKiConverter::SvgPathSegment::control2</a>, <a class="el" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdcaced824f3a4e9dd5feb68da4cb78a3430">EasyKiConverter::SvgPathSegment::CubicBezier</a>, <a class="el" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca9ede004c94369027853b4a491071ef53">EasyKiConverter::SvgPathSegment::EllipticalArc</a>, <a class="el" href="SvgPathParser_8h_source.html#l00028">EasyKiConverter::SvgPathSegment::end</a>, <a class="el" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca4803e6b9e63dabf04de980788d6a13c4">EasyKiConverter::SvgPathSegment::Line</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00905">parseArc()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00014">EasyKiConverter::PI</a>, <a class="el" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca820c9db24fed8c528ce8c1b096323384">EasyKiConverter::SvgPathSegment::QuadraticBezier</a>, <a class="el" href="SvgPathParser_8h_source.html#l00024">EasyKiConverter::SvgPathSegment::radiusX</a>, <a class="el" href="SvgPathParser_8h_source.html#l00025">EasyKiConverter::SvgPathSegment::radiusY</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00830">splitPath()</a>, <a class="el" href="SvgPathParser_8h_source.html#l00019">EasyKiConverter::SvgPathSegment::start</a>, <a class="el" href="SvgPathParser_8h_source.html#l00018">EasyKiConverter::SvgPathSegment::type</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">value</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="IrBuilder_8h_source.html#l00037">EasyKiConverter::IR::toSymbolIR()</a>.</p>
+
+</div>
+</div>
+<a id="ac39acee96a0e4912c57c3abf07ddd247" name="ac39acee96a0e4912c57c3abf07ddd247"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac39acee96a0e4912c57c3abf07ddd247">&#9670;&#160;</a></span>splitPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::SvgPathParser::splitPath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>分割SVG路径字符 </p>
+<p>规范化 SVG 命令和参数分隔符并展开连续参数组。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>路径字符 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QStringList 分割后的标记列表</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>SVG 路径文本。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>规范化后的命令和参数词元列表。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a> 第 <a class="el" href="SvgPathParser_8cpp_source.html#l00830">830</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SvgPathParser_8cpp_source.html#l00173">parsePath()</a> , 以及 <a class="el" href="SvgPathParser_8cpp_source.html#l00556">parseSegments()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/utils/<a class="el" href="SvgPathParser_8h_source.html">SvgPathParser.h</a></li>
+<li>core/utils/<a class="el" href="SvgPathParser_8cpp_source.html">SvgPathParser.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1SvgPathParser.html">SvgPathParser</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

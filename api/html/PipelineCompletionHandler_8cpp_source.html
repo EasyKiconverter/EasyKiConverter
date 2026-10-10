@@ -1,0 +1,449 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/PipelineCompletionHandler.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('PipelineCompletionHandler_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">PipelineCompletionHandler.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="PipelineCompletionHandler_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="PipelineCompletionHandler_8h.html">PipelineCompletionHandler.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentData_8h.html">models/ComponentData.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheService_8h.html">services/ComponentCacheService.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentListViewModel_8h.html">ui/viewmodels/ComponentListViewModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="ExportProgressViewModel_8h.html">ui/viewmodels/ExportProgressViewModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QRegularExpression&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">const</span> QRegularExpression <a class="code hl_variable" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#afed9c6365a83d8c0340526bcdc535d52">PipelineCompletionHandler::INVALID_FILENAME_CHARS</a>(  </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="stringliteral">&quot;[&lt;&gt;:\&quot;/\\\\|?*]&quot;</span>);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#aa8f4be9ad22af13ac6ac4c8b39c26d87">   22</a></span><a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#aa8f4be9ad22af13ac6ac4c8b39c26d87">PipelineCompletionHandler::PipelineCompletionHandler</a>(QObject* parent) : QObject(parent) {}</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a042237b22f11b8d2990314ce89f26ad9">PipelineCompletionHandler::~PipelineCompletionHandler</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="}">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a9f9f11184515672c408000fac06ccd6c">   34</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a9f9f11184515672c408000fac06ccd6c">PipelineCompletionHandler::exportPreviewImages</a>(<span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; preloadedData,</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                                                    <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (!options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#a475e36e51b17625d7ac61e283fa66a42">exportPreviewImages</a>) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">int</span> successCount = 0;  <span class="comment">// 成功导出预览图片的元器件数量。</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = preloadedData.constBegin(); it != preloadedData.constEnd(); ++it) {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">const</span> QSharedPointer&lt;ComponentData&gt;&amp; componentData = it.value();  <span class="comment">// 当前元器件数据。</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        QString componentId = componentData-&gt;lcscId();  <span class="comment">// 当前元器件编号。</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        QList&lt;QByteArray&gt; previewImageDataList = componentData-&gt;previewImageData();  <span class="comment">// 当前元器件的图片数据。</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">if</span> (!previewImageDataList.isEmpty()) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="comment">// 用于生成文件名的元器件名称。</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            QString componentName = componentData-&gt;name().isEmpty() ? componentId : componentData-&gt;name();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#acafc660363ceb0f07405e3b8821dac6a">exportPreviewImagesFromMemory</a>(previewImageDataList, options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#aaa78da68c28f17c71ba42d1ff433e623">outputPath</a>, componentName)) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                successCount++;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to export preview images for component:&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    }</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Preview images export completed:&quot;</span> &lt;&lt; successCount &lt;&lt; <span class="stringliteral">&quot;components&quot;</span>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab20c18950366a29d1ca0e8031ded2fe7">previewImagesExported</a>(successCount);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>}</div>
+</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#aea184299002eb9617edeb51b57eefff3">   67</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#aea184299002eb9617edeb51b57eefff3">PipelineCompletionHandler::exportDatasheets</a>(<span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; preloadedData,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                                                 <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">if</span> (!options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#aaf868726c30ea172727dfcf4c6882b6c">exportDatasheet</a>) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">int</span> successCount = 0;  <span class="comment">// 成功导出数据手册的元器件数量。</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = preloadedData.constBegin(); it != preloadedData.constEnd(); ++it) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keyword">const</span> QSharedPointer&lt;ComponentData&gt;&amp; componentData = it.value();  <span class="comment">// 当前元器件数据。</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">if</span> (!componentData-&gt;datasheetData().isEmpty()) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="comment">// 用于生成数据手册文件名的元器件名称。</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            QString componentName = componentData-&gt;name().isEmpty() ? componentData-&gt;lcscId() : componentData-&gt;name();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab9e1fc85fef1b103ba5446eca5c5cecc">exportDatasheetFromMemory</a>(componentData-&gt;datasheetData(),</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                                          options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#aaa78da68c28f17c71ba42d1ff433e623">outputPath</a>,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                                          componentName,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                                          componentData-&gt;datasheetFormat())) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                successCount++;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Datasheets export completed:&quot;</span> &lt;&lt; successCount &lt;&lt; <span class="stringliteral">&quot;components&quot;</span>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a66a6c63d0d3e6c5ea8ae6639f00c8d3d">datasheetsExported</a>(successCount);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
+</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="foldopen" id="foldopen00099" data-start="{" data-end="}">
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#acafc660363ceb0f07405e3b8821dac6a">   99</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#acafc660363ceb0f07405e3b8821dac6a">PipelineCompletionHandler::exportPreviewImagesFromMemory</a>(<span class="keyword">const</span> QList&lt;QByteArray&gt;&amp; imageDataList,</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                                                              <span class="keyword">const</span> QString&amp; outputPath,</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                                                              <span class="keyword">const</span> QString&amp; componentName) {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    QDir outputDir(outputPath);  <span class="comment">// 导出根目录对象。</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    QString imagesDir = outputDir.filePath(<span class="stringliteral">&quot;images&quot;</span>);  <span class="comment">// 预览图片输出目录。</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">if</span> (!outputDir.exists(imagesDir)) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">if</span> (!outputDir.mkpath(imagesDir)) {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to create images directory:&quot;</span> &lt;&lt; imagesDir;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    QString safeName = componentName;  <span class="comment">// 替换非法字符后的文件名前缀。</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    safeName.replace(<a class="code hl_variable" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#afed9c6365a83d8c0340526bcdc535d52">INVALID_FILENAME_CHARS</a>, <span class="stringliteral">&quot;_&quot;</span>);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordtype">bool</span> allSuccess = <span class="keyword">true</span>;  <span class="comment">// 所有图片是否均写入成功。</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keywordtype">int</span> exportedCount = 0;  <span class="comment">// 已写入的图片数量。</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; imageDataList.size(); ++i) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordflow">if</span> (imageDataList[i].isEmpty()) {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        }</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        QString filename = QString(<span class="stringliteral">&quot;%1_%2.jpg&quot;</span>).arg(safeName).arg(i);  <span class="comment">// 当前图片文件名。</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        QString filePath = QDir(imagesDir).filePath(filename);  <span class="comment">// 当前图片完整路径。</span></div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        QFile file(filePath);  <span class="comment">// 当前图片输出文件。</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordflow">if</span> (file.open(QIODevice::WriteOnly)) {</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>            file.write(imageDataList[i]);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            file.close();</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            exportedCount++;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            allSuccess = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    }</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">return</span> allSuccess;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>}</div>
+</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="foldopen" id="foldopen00146" data-start="{" data-end="}">
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab9e1fc85fef1b103ba5446eca5c5cecc">  146</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab9e1fc85fef1b103ba5446eca5c5cecc">PipelineCompletionHandler::exportDatasheetFromMemory</a>(<span class="keyword">const</span> QByteArray&amp; datasheetData,</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                                                          <span class="keyword">const</span> QString&amp; outputPath,</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                                                          <span class="keyword">const</span> QString&amp; componentName,</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>                                                          <span class="keyword">const</span> QString&amp; format) {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    QDir outputDir(outputPath);  <span class="comment">// 导出根目录对象。</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    QString datasheetsDir = outputDir.filePath(<span class="stringliteral">&quot;datasheets&quot;</span>);  <span class="comment">// 数据手册输出目录。</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keywordflow">if</span> (!outputDir.exists(datasheetsDir)) {</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        <span class="keywordflow">if</span> (!outputDir.mkpath(datasheetsDir)) {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to create datasheets directory:&quot;</span> &lt;&lt; datasheetsDir;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        }</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    }</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    QString safeName = componentName;  <span class="comment">// 替换非法字符后的文件名前缀。</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    safeName.replace(<a class="code hl_variable" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#afed9c6365a83d8c0340526bcdc535d52">INVALID_FILENAME_CHARS</a>, <span class="stringliteral">&quot;_&quot;</span>);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    QString extension = format.toLower();  <span class="comment">// 规范化后的文件扩展名。</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">if</span> (extension != <span class="stringliteral">&quot;html&quot;</span>) {</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        extension = <span class="stringliteral">&quot;pdf&quot;</span>;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    }</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    QString filename = QString(<span class="stringliteral">&quot;%1.%2&quot;</span>).arg(safeName).arg(extension);  <span class="comment">// 当前数据手册文件名。</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    QString filePath = QDir(datasheetsDir).filePath(filename);  <span class="comment">// 当前数据手册完整路径。</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    QFile file(filePath);  <span class="comment">// 当前数据手册输出文件。</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordflow">if</span> (file.open(QIODevice::WriteOnly)) {</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        file.write(datasheetData);</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        file.close();</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    }</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>}</div>
+</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="foldopen" id="foldopen00185" data-start="{" data-end="}">
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a94cb637d36fb145d359f24a6383cea09">  185</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a94cb637d36fb145d359f24a6383cea09">PipelineCompletionHandler::exportPreviewImagesFromViewModel</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentListViewModel.html">ComponentListViewModel</a>* componentListViewModel,</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                                                                 <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>* progressViewModel,</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                                                                 <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordflow">if</span> (!options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#a475e36e51b17625d7ac61e283fa66a42">exportPreviewImages</a> || !componentListViewModel) {</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    }</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt; allData =  <span class="comment">// 从 ViewModel 获取最新的预加载数据。</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        componentListViewModel-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#a816af51759535b3e1f8cd2bbb6d0b087">getAllPreloadedData</a>();</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="keywordflow">if</span> (allData.isEmpty()) {</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;No preloaded data available from ViewModel for preview images export&quot;</span>;</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab20c18950366a29d1ca0e8031ded2fe7">previewImagesExported</a>(0);</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    }</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordtype">int</span> successCount = 0;  <span class="comment">// 成功导出预览图片的元器件数量。</span></div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = allData.constBegin(); it != allData.constEnd(); ++it) {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keyword">const</span> QSharedPointer&lt;ComponentData&gt;&amp; componentData = it.value();  <span class="comment">// 当前元器件数据。</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        QString componentId = componentData-&gt;lcscId();  <span class="comment">// 当前元器件编号。</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        QList&lt;QByteArray&gt; previewImageDataList = componentData-&gt;previewImageData();  <span class="comment">// 当前预览图片数据。</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        <span class="comment">// 1. 如果内存中有数据，直接使用</span></div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        <span class="comment">// 2. 如果内存中没有但有 URL，尝试从磁盘缓存加载</span></div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        <span class="keywordflow">if</span> (previewImageDataList.isEmpty() &amp;&amp; !componentData-&gt;previewImages().isEmpty()) {</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>            <span class="keyword">const</span> QStringList&amp; imageUrls = componentData-&gt;previewImages();  <span class="comment">// 当前元器件的预览图片地址。</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; imageUrls.size() &amp;&amp; i &lt; 3; ++i) {</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                QByteArray imageData =  <span class="comment">// 当前预览图片的缓存或下载数据。</span></div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>                    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">ComponentCacheService::instance</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#a765fdd4189b8efe7c4377c7c5d304b20">loadPreviewImage</a>(componentId, i);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>                <span class="keywordflow">if</span> (!imageData.isEmpty()) {</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>                    previewImageDataList.append(imageData);</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                    qDebug() &lt;&lt; <span class="stringliteral">&quot;Preview image loaded from disk cache for component:&quot;</span> &lt;&lt; componentId &lt;&lt; <span class="stringliteral">&quot;index:&quot;</span> &lt;&lt; i;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                    <span class="comment">// 3. 磁盘缓存也没有，从 URL 下载并缓存</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                    qDebug() &lt;&lt; <span class="stringliteral">&quot;Preview image not in cache, downloading for component:&quot;</span> &lt;&lt; componentId</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                             &lt;&lt; <span class="stringliteral">&quot;index:&quot;</span> &lt;&lt; i;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>                    imageData = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">ComponentCacheService::instance</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#a3d166987d9584ab8cc409905fc39690b">downloadPreviewImage</a>(</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>                        componentId, imageUrls[i], i, <span class="keyword">nullptr</span>, <span class="keyword">nullptr</span>, options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#a0444686d2393404df2c0f4d8be44de38">weakNetworkSupport</a>);</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                    <span class="keywordflow">if</span> (!imageData.isEmpty()) {</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                        previewImageDataList.append(imageData);</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                    }</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                }</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>            }</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        }</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>        <span class="keywordtype">bool</span> exportSuccess = <span class="keyword">false</span>;  <span class="comment">// 当前元器件的预览图片是否导出成功。</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        <span class="keywordflow">if</span> (!previewImageDataList.isEmpty()) {</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            <span class="comment">// 用于生成文件名的元器件名称。</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>            QString componentName = componentData-&gt;name().isEmpty() ? componentId : componentData-&gt;name();</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#acafc660363ceb0f07405e3b8821dac6a">exportPreviewImagesFromMemory</a>(previewImageDataList, options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#aaa78da68c28f17c71ba42d1ff433e623">outputPath</a>, componentName)) {</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>                successCount++;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>                exportSuccess = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to export preview images for component:&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>            }</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>            <span class="comment">// 没有预览图数据但不需要导出时，也标记为成功（没有预览图不代表失败）</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>            <span class="keywordflow">if</span> (!options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#a475e36e51b17625d7ac61e283fa66a42">exportPreviewImages</a> || componentData-&gt;previewImages().isEmpty()) {</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                exportSuccess = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>            }</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>        }</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        <span class="comment">// 更新预览图导出状态。</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        componentListViewModel-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#ad7ce89a5d291fea26d07cdbb858dfc0b">updateExportStatus</a>(componentId, exportSuccess ? 1 : 0, -1);</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        <span class="keywordflow">if</span> (progressViewModel) {</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>            progressViewModel-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a7c8e979b1af45a9dfb9bec68325321ef">updateComponentExportStatus</a>(componentId, exportSuccess ? 1 : 0, -1);</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        }</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    }</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Preview images export from ViewModel completed:&quot;</span> &lt;&lt; successCount &lt;&lt; <span class="stringliteral">&quot;components&quot;</span>;</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab20c18950366a29d1ca0e8031ded2fe7">previewImagesExported</a>(successCount);</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>}</div>
+</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="foldopen" id="foldopen00264" data-start="{" data-end="}">
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a56e4d66a2a79326b0d0969e565f9c386">  264</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a56e4d66a2a79326b0d0969e565f9c386">PipelineCompletionHandler::exportDatasheetsFromViewModel</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentListViewModel.html">ComponentListViewModel</a>* componentListViewModel,</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>                                                              <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>* progressViewModel,</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>                                                              <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    <span class="keywordflow">if</span> (!options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#aaf868726c30ea172727dfcf4c6882b6c">exportDatasheet</a> || !componentListViewModel) {</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    }</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span> </div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt; allData =  <span class="comment">// 从 ViewModel 获取最新的预加载数据。</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        componentListViewModel-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#a816af51759535b3e1f8cd2bbb6d0b087">getAllPreloadedData</a>();</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="keywordflow">if</span> (allData.isEmpty()) {</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;No preloaded data available from ViewModel for datasheet export&quot;</span>;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a66a6c63d0d3e6c5ea8ae6639f00c8d3d">datasheetsExported</a>(0);</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    }</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    <span class="keywordtype">int</span> successCount = 0;  <span class="comment">// 成功导出数据手册的元器件数量。</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = allData.constBegin(); it != allData.constEnd(); ++it) {</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>        <span class="keyword">const</span> QSharedPointer&lt;ComponentData&gt;&amp; componentData = it.value();  <span class="comment">// 当前元器件数据。</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        QString componentId = componentData-&gt;lcscId();  <span class="comment">// 当前元器件编号。</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span> </div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>        QByteArray datasheetData = componentData-&gt;datasheetData();  <span class="comment">// 当前数据手册二进制数据。</span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>        QString datasheetFormat = componentData-&gt;datasheetFormat();  <span class="comment">// 当前数据手册格式。</span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span> </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        <span class="comment">// 1. 如果内存中有数据，直接使用</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>        <span class="comment">// 2. 如果内存中没有但有 URL，尝试从磁盘缓存加载</span></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>        <span class="keywordflow">if</span> (datasheetData.isEmpty() &amp;&amp; !componentData-&gt;datasheet().isEmpty()) {</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>            datasheetData = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">ComponentCacheService::instance</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#a761d802d9d937204b272202d84a1f2de">loadDatasheet</a>(componentId);  <span class="comment">// 从缓存加载的数据。</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>            <span class="keywordflow">if</span> (!datasheetData.isEmpty()) {</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>                qDebug() &lt;&lt; <span class="stringliteral">&quot;Datasheet loaded from disk cache for component:&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>                <span class="comment">// 3. 磁盘缓存也没有，从 URL 下载并缓存</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>                qDebug() &lt;&lt; <span class="stringliteral">&quot;Datasheet not in cache, downloading for component:&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>                datasheetData = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">ComponentCacheService::instance</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#a42e3908410a263db221bee8d79d68dd6">downloadDatasheet</a>(componentId,</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>                                                                                     componentData-&gt;datasheet(),</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>                                                                                     &amp;datasheetFormat,</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>                                                                                     <span class="keyword">nullptr</span>,</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>                                                                                     <span class="keyword">nullptr</span>,</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>                                                                                     options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#a0444686d2393404df2c0f4d8be44de38">weakNetworkSupport</a>);</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>            }</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>        }</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        <span class="keywordtype">bool</span> exportSuccess = <span class="keyword">false</span>;  <span class="comment">// 当前元器件的数据手册是否导出成功。</span></div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>        <span class="keywordflow">if</span> (!datasheetData.isEmpty()) {</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>            <span class="comment">// 用于生成文件名的元器件名称。</span></div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>            QString componentName = componentData-&gt;name().isEmpty() ? componentId : componentData-&gt;name();</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span> </div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>            <span class="keywordflow">if</span> (<a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab9e1fc85fef1b103ba5446eca5c5cecc">exportDatasheetFromMemory</a>(datasheetData, options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#aaa78da68c28f17c71ba42d1ff433e623">outputPath</a>, componentName, datasheetFormat)) {</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>                successCount++;</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                exportSuccess = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>            }</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>            <span class="comment">// 没有手册数据但不需要导出时，也标记为成功（没有手册不代表失败）</span></div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>            <span class="keywordflow">if</span> (!options.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#aaf868726c30ea172727dfcf4c6882b6c">exportDatasheet</a> || componentData-&gt;datasheet().isEmpty()) {</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                exportSuccess = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>            }</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        }</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>        <span class="comment">// 更新手册导出状态。</span></div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        componentListViewModel-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#ad7ce89a5d291fea26d07cdbb858dfc0b">updateExportStatus</a>(componentId, -1, exportSuccess ? 1 : 0);</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>        <span class="keywordflow">if</span> (progressViewModel) {</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>            progressViewModel-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a7c8e979b1af45a9dfb9bec68325321ef">updateComponentExportStatus</a>(componentId, -1, exportSuccess ? 1 : 0);</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        }</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    }</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Datasheets export from ViewModel completed:&quot;</span> &lt;&lt; successCount &lt;&lt; <span class="stringliteral">&quot;components&quot;</span>;</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a66a6c63d0d3e6c5ea8ae6639f00c8d3d">datasheetsExported</a>(successCount);</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>}</div>
+</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span> </div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentCacheService_8h_html"><div class="ttname"><a href="ComponentCacheService_8h.html">ComponentCacheService.h</a></div></div>
+<div class="ttc" id="aComponentData_8h_html"><div class="ttname"><a href="ComponentData_8h.html">ComponentData.h</a></div></div>
+<div class="ttc" id="aComponentListViewModel_8h_html"><div class="ttname"><a href="ComponentListViewModel_8h.html">ComponentListViewModel.h</a></div></div>
+<div class="ttc" id="aExportProgressViewModel_8h_html"><div class="ttname"><a href="ExportProgressViewModel_8h.html">ExportProgressViewModel.h</a></div></div>
+<div class="ttc" id="aPipelineCompletionHandler_8h_html"><div class="ttname"><a href="PipelineCompletionHandler_8h.html">PipelineCompletionHandler.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a3d166987d9584ab8cc409905fc39690b"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a3d166987d9584ab8cc409905fc39690b">EasyKiConverter::ComponentCacheService::downloadPreviewImage</a></div><div class="ttdeci">QByteArray downloadPreviewImage(const QString &amp;lcscId, const QString &amp;imageUrl, int imageIndex, ComponentExportStatus::NetworkDiagnostics *diag=nullptr, QAtomicInt *cancelled=nullptr, bool weakNetwork=false, uint64_t expectedGeneration=0)</div><div class="ttdoc">下载预览图（同步网络请求，支持取消）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00405">ComponentCacheService.cpp:405</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a42e3908410a263db221bee8d79d68dd6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a42e3908410a263db221bee8d79d68dd6">EasyKiConverter::ComponentCacheService::downloadDatasheet</a></div><div class="ttdeci">QByteArray downloadDatasheet(const QString &amp;lcscId, const QString &amp;datasheetUrl, QString *format, ComponentExportStatus::NetworkDiagnostics *diag=nullptr, QAtomicInt *cancelled=nullptr, bool weakNetwork=false, uint64_t expectedGeneration=0)</div><div class="ttdoc">下载数据手册（同步网络请求，支持取消）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00458">ComponentCacheService.cpp:458</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a761d802d9d937204b272202d84a1f2de"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a761d802d9d937204b272202d84a1f2de">EasyKiConverter::ComponentCacheService::loadDatasheet</a></div><div class="ttdeci">QByteArray loadDatasheet(const QString &amp;lcscId) const</div><div class="ttdoc">加载数据手册</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00419">ComponentCacheService.cpp:419</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a765fdd4189b8efe7c4377c7c5d304b20"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a765fdd4189b8efe7c4377c7c5d304b20">EasyKiConverter::ComponentCacheService::loadPreviewImage</a></div><div class="ttdeci">QByteArray loadPreviewImage(const QString &amp;lcscId, int imageIndex) const</div><div class="ttdoc">加载预览图</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00367">ComponentCacheService.cpp:367</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_afdee40a5120d2cf1f93c4dbe50146e34"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">EasyKiConverter::ComponentCacheService::instance</a></div><div class="ttdeci">static ComponentCacheService * instance()</div><div class="ttdoc">获取单例实例</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00065">ComponentCacheService.cpp:65</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html">EasyKiConverter::ComponentListViewModel</a></div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00031">ComponentListViewModel.h:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a816af51759535b3e1f8cd2bbb6d0b087"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a816af51759535b3e1f8cd2bbb6d0b087">EasyKiConverter::ComponentListViewModel::getAllPreloadedData</a></div><div class="ttdeci">QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; getAllPreloadedData() const</div><div class="ttdoc">返回全部已验证元件的预加载数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8cpp_source.html#l00395">ComponentListViewModel.cpp:395</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_ad7ce89a5d291fea26d07cdbb858dfc0b"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#ad7ce89a5d291fea26d07cdbb858dfc0b">EasyKiConverter::ComponentListViewModel::updateExportStatus</a></div><div class="ttdeci">void updateExportStatus(const QString &amp;componentId, int previewImageExported, int datasheetExported)</div><div class="ttdoc">更新元件预览图和数据手册的导出状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8cpp_source.html#l00524">ComponentListViewModel.cpp:524</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html">EasyKiConverter::ExportProgressViewModel</a></div><div class="ttdoc">导出进度视图模型</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00030">ExportProgressViewModel.h:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_a7c8e979b1af45a9dfb9bec68325321ef"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#a7c8e979b1af45a9dfb9bec68325321ef">EasyKiConverter::ExportProgressViewModel::updateComponentExportStatus</a></div><div class="ttdeci">void updateComponentExportStatus(const QString &amp;componentId, int previewImageExported, int datasheetExported)</div><div class="ttdoc">更新预览图和数据手册的导出状态。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8cpp_source.html#l00313">ExportProgressViewModel.cpp:313</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a042237b22f11b8d2990314ce89f26ad9"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a042237b22f11b8d2990314ce89f26ad9">EasyKiConverter::PipelineCompletionHandler::~PipelineCompletionHandler</a></div><div class="ttdeci">~PipelineCompletionHandler() override</div><div class="ttdoc">销毁导出流水线完成处理器。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a56e4d66a2a79326b0d0969e565f9c386"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a56e4d66a2a79326b0d0969e565f9c386">EasyKiConverter::PipelineCompletionHandler::exportDatasheetsFromViewModel</a></div><div class="ttdeci">void exportDatasheetsFromViewModel(ComponentListViewModel *componentListViewModel, class ExportProgressViewModel *progressViewModel, const ExportOptions &amp;options)</div><div class="ttdoc">使用组件列表视图模型导出数据手册。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00264">PipelineCompletionHandler.cpp:264</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a66a6c63d0d3e6c5ea8ae6639f00c8d3d"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a66a6c63d0d3e6c5ea8ae6639f00c8d3d">EasyKiConverter::PipelineCompletionHandler::datasheetsExported</a></div><div class="ttdeci">void datasheetsExported(int successCount)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a94cb637d36fb145d359f24a6383cea09"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a94cb637d36fb145d359f24a6383cea09">EasyKiConverter::PipelineCompletionHandler::exportPreviewImagesFromViewModel</a></div><div class="ttdeci">void exportPreviewImagesFromViewModel(ComponentListViewModel *componentListViewModel, class ExportProgressViewModel *progressViewModel, const ExportOptions &amp;options)</div><div class="ttdoc">使用组件列表视图模型导出预览图。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00185">PipelineCompletionHandler.cpp:185</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a9f9f11184515672c408000fac06ccd6c"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a9f9f11184515672c408000fac06ccd6c">EasyKiConverter::PipelineCompletionHandler::exportPreviewImages</a></div><div class="ttdeci">void exportPreviewImages(const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;preloadedData, const ExportOptions &amp;options)</div><div class="ttdoc">从预加载数据导出预览图。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00034">PipelineCompletionHandler.cpp:34</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_aa8f4be9ad22af13ac6ac4c8b39c26d87"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#aa8f4be9ad22af13ac6ac4c8b39c26d87">EasyKiConverter::PipelineCompletionHandler::PipelineCompletionHandler</a></div><div class="ttdeci">PipelineCompletionHandler(QObject *parent=nullptr)</div><div class="ttdoc">创建导出流水线完成处理器。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00022">PipelineCompletionHandler.cpp:22</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_ab20c18950366a29d1ca0e8031ded2fe7"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab20c18950366a29d1ca0e8031ded2fe7">EasyKiConverter::PipelineCompletionHandler::previewImagesExported</a></div><div class="ttdeci">void previewImagesExported(int successCount)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_ab9e1fc85fef1b103ba5446eca5c5cecc"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab9e1fc85fef1b103ba5446eca5c5cecc">EasyKiConverter::PipelineCompletionHandler::exportDatasheetFromMemory</a></div><div class="ttdeci">bool exportDatasheetFromMemory(const QByteArray &amp;datasheetData, const QString &amp;outputPath, const QString &amp;componentName, const QString &amp;format)</div><div class="ttdoc">从内存中的数据手册数据写出文件。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00146">PipelineCompletionHandler.cpp:146</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_acafc660363ceb0f07405e3b8821dac6a"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#acafc660363ceb0f07405e3b8821dac6a">EasyKiConverter::PipelineCompletionHandler::exportPreviewImagesFromMemory</a></div><div class="ttdeci">bool exportPreviewImagesFromMemory(const QList&lt; QByteArray &gt; &amp;imageDataList, const QString &amp;outputPath, const QString &amp;componentName)</div><div class="ttdoc">从内存中的预览图数据写出文件。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00099">PipelineCompletionHandler.cpp:99</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_aea184299002eb9617edeb51b57eefff3"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#aea184299002eb9617edeb51b57eefff3">EasyKiConverter::PipelineCompletionHandler::exportDatasheets</a></div><div class="ttdeci">void exportDatasheets(const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;preloadedData, const ExportOptions &amp;options)</div><div class="ttdoc">从预加载数据导出数据手册。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00067">PipelineCompletionHandler.cpp:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_afed9c6365a83d8c0340526bcdc535d52"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#afed9c6365a83d8c0340526bcdc535d52">EasyKiConverter::PipelineCompletionHandler::INVALID_FILENAME_CHARS</a></div><div class="ttdeci">static const QRegularExpression INVALID_FILENAME_CHARS</div><div class="ttdoc">用于过滤输出文件名非法字符的正则表达式。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8h_source.html#l00091">PipelineCompletionHandler.h:91</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html_a0444686d2393404df2c0f4d8be44de38"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html#a0444686d2393404df2c0f4d8be44de38">EasyKiConverter::ExportOptions::weakNetworkSupport</a></div><div class="ttdeci">bool weakNetworkSupport</div><div class="ttdoc">是否启用客户端弱网络适配</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00092">ExportProgress.h:92</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html_a475e36e51b17625d7ac61e283fa66a42"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html#a475e36e51b17625d7ac61e283fa66a42">EasyKiConverter::ExportOptions::exportPreviewImages</a></div><div class="ttdeci">bool exportPreviewImages</div><div class="ttdoc">是否导出预览图 (Preview Images)</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00088">ExportProgress.h:88</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html_aaa78da68c28f17c71ba42d1ff433e623"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html#aaa78da68c28f17c71ba42d1ff433e623">EasyKiConverter::ExportOptions::outputPath</a></div><div class="ttdeci">QString outputPath</div><div class="ttdoc">导出文件输出目录路径</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00080">ExportProgress.h:80</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html_aaf868726c30ea172727dfcf4c6882b6c"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html#aaf868726c30ea172727dfcf4c6882b6c">EasyKiConverter::ExportOptions::exportDatasheet</a></div><div class="ttdeci">bool exportDatasheet</div><div class="ttdoc">是否导出数据手册 (Datasheet)</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00089">ExportProgress.h:89</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="PipelineCompletionHandler_8cpp.html">PipelineCompletionHandler.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

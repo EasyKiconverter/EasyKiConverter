@@ -1,0 +1,488 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::CacheMetadataStore类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1CacheMetadataStore.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1CacheMetadataStore-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::CacheMetadataStore类 参考<span class="mlabels"><span class="mlabel">final</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>负责元器件缓存元数据的读取、构建、合并和原子写入。  
+ <a href="classEasyKiConverter_1_1CacheMetadataStore.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="CacheMetadataStore_8h_source.html">CacheMetadataStore.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::CacheMetadataStore 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1CacheMetadataStore__coll__graph.svg" width="243" height="191"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a1dd3383b3874961750f40238bf2c9bb9" id="r_a1dd3383b3874961750f40238bf2c9bb9"><td class="memItemLeft" align="right" valign="top">static QJsonObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMetadataStore.html#a1dd3383b3874961750f40238bf2c9bb9">read</a> (const QString &amp;metadataPath)</td></tr>
+<tr class="memdesc:a1dd3383b3874961750f40238bf2c9bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">从磁盘读取元数据 JSON。  <br /></td></tr>
+<tr class="separator:a1dd3383b3874961750f40238bf2c9bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf2f968ca85c9e3b89bad8236bd64fed" id="r_adf2f968ca85c9e3b89bad8236bd64fed"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMetadataStore.html#adf2f968ca85c9e3b89bad8236bd64fed">hasValidModel3D</a> (const QJsonObject &amp;metadata)</td></tr>
+<tr class="memdesc:adf2f968ca85c9e3b89bad8236bd64fed"><td class="mdescLeft">&#160;</td><td class="mdescRight">校验元数据中的三维模型字段。  <br /></td></tr>
+<tr class="separator:adf2f968ca85c9e3b89bad8236bd64fed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed7c058794552f238f6c5d6884a5150b" id="r_aed7c058794552f238f6c5d6884a5150b"><td class="memItemLeft" align="right" valign="top">static QJsonObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMetadataStore.html#aed7c058794552f238f6c5d6884a5150b">build</a> (const QString &amp;componentId, const <a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> &amp;data)</td></tr>
+<tr class="memdesc:aed7c058794552f238f6c5d6884a5150b"><td class="mdescLeft">&#160;</td><td class="mdescRight">从元器件数据构建可持久化的元数据。  <br /></td></tr>
+<tr class="separator:aed7c058794552f238f6c5d6884a5150b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9b4a2f7bb886691a4349c4a1d997f4b" id="r_ae9b4a2f7bb886691a4349c4a1d997f4b"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMetadataStore.html#ae9b4a2f7bb886691a4349c4a1d997f4b">hasModel3D</a> (const <a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> &amp;data)</td></tr>
+<tr class="memdesc:ae9b4a2f7bb886691a4349c4a1d997f4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断元器件是否关联可持久化的三维模型。  <br /></td></tr>
+<tr class="separator:ae9b4a2f7bb886691a4349c4a1d997f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6c749d665e704447fde9ed2a887895b" id="r_aa6c749d665e704447fde9ed2a887895b"><td class="memItemLeft" align="right" valign="top">static QJsonObject&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMetadataStore.html#aa6c749d665e704447fde9ed2a887895b">merge</a> (const QJsonObject &amp;existing, const QJsonObject &amp;incoming)</td></tr>
+<tr class="memdesc:aa6c749d665e704447fde9ed2a887895b"><td class="mdescLeft">&#160;</td><td class="mdescRight">合并新旧元数据并保留未被空值覆盖的字段。  <br /></td></tr>
+<tr class="separator:aa6c749d665e704447fde9ed2a887895b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9cda2b62b18de15418cccb05a87fe827" id="r_a9cda2b62b18de15418cccb05a87fe827"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMetadataStore.html#a9cda2b62b18de15418cccb05a87fe827">writeAtomically</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, const QByteArray &amp;data)</td></tr>
+<tr class="memdesc:a9cda2b62b18de15418cccb05a87fe827"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用临时文件原子写入元数据或其他缓存文件。  <br /></td></tr>
+<tr class="separator:a9cda2b62b18de15418cccb05a87fe827"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>负责元器件缓存元数据的读取、构建、合并和原子写入。 </p>
+<p>该类不管理缓存目录、不持有缓存服务锁，也不负责缓存生命周期；它只处理 元数据在 ComponentData、JSON 和磁盘文件之间的转换。 </p>
+
+<p class="definition">在文件 <a class="el" href="CacheMetadataStore_8h_source.html">CacheMetadataStore.h</a> 第 <a class="el" href="CacheMetadataStore_8h_source.html#l00018">18</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="aed7c058794552f238f6c5d6884a5150b" name="aed7c058794552f238f6c5d6884a5150b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed7c058794552f238f6c5d6884a5150b">&#9670;&#160;</a></span>build()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QJsonObject EasyKiConverter::CacheMetadataStore::build </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>从元器件数据构建可持久化的元数据。 </p>
+<p>从元器件对象构建完整的缓存元数据 JSON。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元器件编号。 </td></tr>
+    <tr><td class="paramname">data</td><td>元器件数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>可写入缓存的元数据对象。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元器件编号。 </td></tr>
+    <tr><td class="paramname">data</td><td>元器件数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>可持久化的缓存元数据对象。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMetadataStore_8cpp_source.html">CacheMetadataStore.cpp</a> 第 <a class="el" href="CacheMetadataStore_8cpp_source.html#l00105">105</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ComponentData_8h_source.html#l00126">EasyKiConverter::ComponentData::datasheet()</a>, <a class="el" href="ComponentData_8h_source.html#l00238">EasyKiConverter::ComponentData::datasheetFormat()</a>, <a class="el" href="ComponentData_8h_source.html#l00094">EasyKiConverter::ComponentData::manufacturer()</a>, <a class="el" href="ComponentData_8h_source.html#l00110">EasyKiConverter::ComponentData::manufacturerPart()</a>, <a class="el" href="ComponentData_8h_source.html#l00046">EasyKiConverter::ComponentData::name()</a>, <a class="el" href="Model3DData_8h_source.html#l00075">EasyKiConverter::Model3DData::name()</a>, <a class="el" href="UrlUtils_8cpp_source.html#l00127">EasyKiConverter::UrlUtils::normalizePreviewImageUrl()</a>, <a class="el" href="ComponentData_8h_source.html#l00078">EasyKiConverter::ComponentData::package()</a>, <a class="el" href="ComponentData_8h_source.html#l00062">EasyKiConverter::ComponentData::prefix()</a>, <a class="el" href="ComponentData_8h_source.html#l00142">EasyKiConverter::ComponentData::previewImages()</a>, <a class="el" href="Model3DData_8h_source.html#l00120">EasyKiConverter::Model3DData::rotation()</a>, <a class="el" href="Model3DData_8cpp_source.html#l00013">EasyKiConverter::Model3DBase::toJson()</a>, <a class="el" href="Model3DData_8h_source.html#l00105">EasyKiConverter::Model3DData::translation()</a> , 以及 <a class="el" href="Model3DData_8h_source.html#l00090">EasyKiConverter::Model3DData::uuid()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMetadataWriter_8cpp_source.html#l00026">EasyKiConverter::ComponentCacheMetadataWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="ae9b4a2f7bb886691a4349c4a1d997f4b" name="ae9b4a2f7bb886691a4349c4a1d997f4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9b4a2f7bb886691a4349c4a1d997f4b">&#9670;&#160;</a></span>hasModel3D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheMetadataStore::hasModel3D </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> &amp;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断元器件是否关联可持久化的三维模型。 </p>
+<p>判断元器件自身或封装数据是否包含可持久化的三维模型。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>元器件数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>独立模型或封装模型包含有效 UUID 时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>元器件数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>存在有效三维模型 UUID 时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMetadataStore_8cpp_source.html">CacheMetadataStore.cpp</a> 第 <a class="el" href="CacheMetadataStore_8cpp_source.html#l00144">144</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMetadataWriter_8cpp_source.html#l00026">EasyKiConverter::ComponentCacheMetadataWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="adf2f968ca85c9e3b89bad8236bd64fed" name="adf2f968ca85c9e3b89bad8236bd64fed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf2f968ca85c9e3b89bad8236bd64fed">&#9670;&#160;</a></span>hasValidModel3D()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheMetadataStore::hasValidModel3D </td>
+          <td>(</td>
+          <td class="paramtype">const QJsonObject &amp;&#160;</td>
+          <td class="paramname"><em>metadata</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>校验元数据中的三维模型字段。 </p>
+<p>校验缓存元数据中的三维模型字段和变换向量。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metadata</td><td>待校验的元数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>字段完整且类型正确时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metadata</td><td>待校验的缓存元数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>三维模型字段有效或未声明模型时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMetadataStore_8cpp_source.html">CacheMetadataStore.cpp</a> 第 <a class="el" href="CacheMetadataStore_8cpp_source.html#l00070">70</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="Model3DData_8cpp_source.html#l00026">EasyKiConverter::Model3DBase::fromJson()</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">value</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00129">EasyKiConverter::ComponentCacheMaintenance::cachedComponentIds()</a>, <a class="el" href="ComponentCacheReadCoordinator_8cpp_source.html#l00042">EasyKiConverter::ComponentCacheReadCoordinator::isCacheValid()</a> , 以及 <a class="el" href="ComponentCacheReadCoordinator_8cpp_source.html#l00073">EasyKiConverter::ComponentCacheReadCoordinator::loadComponentData()</a>.</p>
+
+</div>
+</div>
+<a id="aa6c749d665e704447fde9ed2a887895b" name="aa6c749d665e704447fde9ed2a887895b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6c749d665e704447fde9ed2a887895b">&#9670;&#160;</a></span>merge()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QJsonObject EasyKiConverter::CacheMetadataStore::merge </td>
+          <td>(</td>
+          <td class="paramtype">const QJsonObject &amp;&#160;</td>
+          <td class="paramname"><em>existing</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QJsonObject &amp;&#160;</td>
+          <td class="paramname"><em>incoming</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>合并新旧元数据并保留未被空值覆盖的字段。 </p>
+<p>合并增量元数据，同时保留已有的非空字段。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">existing</td><td>已有缓存元数据。 </td></tr>
+    <tr><td class="paramname">incoming</td><td>新产生的元数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>合并后的元数据。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">existing</td><td>已有缓存元数据。 </td></tr>
+    <tr><td class="paramname">incoming</td><td>新产生的增量元数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>合并后的缓存元数据。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMetadataStore_8cpp_source.html">CacheMetadataStore.cpp</a> 第 <a class="el" href="CacheMetadataStore_8cpp_source.html#l00154">154</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">value</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMetadataWriter_8cpp_source.html#l00026">EasyKiConverter::ComponentCacheMetadataWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a1dd3383b3874961750f40238bf2c9bb9" name="a1dd3383b3874961750f40238bf2c9bb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dd3383b3874961750f40238bf2c9bb9">&#9670;&#160;</a></span>read()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QJsonObject EasyKiConverter::CacheMetadataStore::read </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>metadataPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>从磁盘读取元数据 JSON。 </p>
+<p>读取并解析磁盘中的元数据 JSON。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metadataPath</td><td>元数据文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>解析成功的对象，文件不存在或内容无效时返回空对象。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">metadataPath</td><td>元数据文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>解析成功的 JSON 对象，文件不存在或内容无效时返回空对象。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMetadataStore_8cpp_source.html">CacheMetadataStore.cpp</a> 第 <a class="el" href="CacheMetadataStore_8cpp_source.html#l00044">44</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04fa83168e6cb289d732cc78427b51f93153">EasyKiConverter::Core</a> , 以及 <a class="el" href="LogMacros_8h_source.html#l00072">LOG_WARN</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00129">EasyKiConverter::ComponentCacheMaintenance::cachedComponentIds()</a>, <a class="el" href="ComponentCacheReadCoordinator_8cpp_source.html#l00042">EasyKiConverter::ComponentCacheReadCoordinator::isCacheValid()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00468">EasyKiConverter::CacheSafety::isLegacyComponentDirectory()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00413">EasyKiConverter::CacheSafety::isOwnedComponentDirectory()</a>, <a class="el" href="DatasheetCacheFileStore_8cpp_source.html#l00028">EasyKiConverter::DatasheetCacheFileStore::load()</a>, <a class="el" href="ComponentCacheReadCoordinator_8cpp_source.html#l00073">EasyKiConverter::ComponentCacheReadCoordinator::loadComponentData()</a>, <a class="el" href="ComponentCacheFileReadCoordinator_8cpp_source.html#l00090">EasyKiConverter::ComponentCacheFileReadCoordinator::loadMetadata()</a> , 以及 <a class="el" href="ComponentCacheMetadataWriter_8cpp_source.html#l00026">EasyKiConverter::ComponentCacheMetadataWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a9cda2b62b18de15418cccb05a87fe827" name="a9cda2b62b18de15418cccb05a87fe827"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9cda2b62b18de15418cccb05a87fe827">&#9670;&#160;</a></span>writeAtomically()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheMetadataStore::writeAtomically </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>使用临时文件原子写入元数据或其他缓存文件。 </p>
+<p>使用 QSaveFile 写入并提交缓存文件，避免产生半写入文件。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>目标文件路径。 </td></tr>
+    <tr><td class="paramname">data</td><td>要写入的数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>写入并提交成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>目标文件路径。 </td></tr>
+    <tr><td class="paramname">data</td><td>待写入的数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>文件成功提交时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMetadataStore_8cpp_source.html">CacheMetadataStore.cpp</a> 第 <a class="el" href="CacheMetadataStore_8cpp_source.html#l00183">183</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="DatasheetCacheFileStore_8cpp_source.html#l00064">EasyKiConverter::DatasheetCacheFileStore::save()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00708">EasyKiConverter::ComponentCacheService::saveMetadata()</a>, <a class="el" href="ComponentCachePreviewImageWriter_8cpp_source.html#l00028">EasyKiConverter::ComponentCachePreviewImageWriter::write()</a>, <a class="el" href="Model3DCacheFileStore_8cpp_source.html#l00053">EasyKiConverter::Model3DCacheFileStore::write()</a> , 以及 <a class="el" href="ComponentCacheCadDataWriter_8cpp_source.html#l00064">EasyKiConverter::ComponentCacheCadDataWriter::writeCadFile()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>services/<a class="el" href="CacheMetadataStore_8h_source.html">CacheMetadataStore.h</a></li>
+<li>services/<a class="el" href="CacheMetadataStore_8cpp_source.html">CacheMetadataStore.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1CacheMetadataStore.html">CacheMetadataStore</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

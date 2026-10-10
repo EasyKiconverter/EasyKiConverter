@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/utils/SvgPathParser.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('SvgPathParser_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">SvgPathParser.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="SvgPathParser_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef SVGPATHPARSER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define SVGPATHPARSER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QList&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QPointF&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html">   15</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1SvgPathSegment.html">SvgPathSegment</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdc">   16</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdc">Type</a> { <a class="code hl_enumvalue" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca4803e6b9e63dabf04de980788d6a13c4">Line</a>, <a class="code hl_enumvalue" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca820c9db24fed8c528ce8c1b096323384">QuadraticBezier</a>, <a class="code hl_enumvalue" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdcaced824f3a4e9dd5feb68da4cb78a3430">CubicBezier</a>, <a class="code hl_enumvalue" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca02e391a140e4fc8ebd74ebd5302ab2d3">CircularArc</a>, <a class="code hl_enumvalue" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca9ede004c94369027853b4a491071ef53">EllipticalArc</a> };</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#a6282677b50e5bfe78eb207fd88067b24">   18</a></span>    <a class="code hl_enumeration" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdc">Type</a> <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#a6282677b50e5bfe78eb207fd88067b24">type</a> = <a class="code hl_enumvalue" href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca4803e6b9e63dabf04de980788d6a13c4">Type::Line</a>;  </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#a20b45576ffd342a761cc43017a7ca69a">   19</a></span>    QPointF <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#a20b45576ffd342a761cc43017a7ca69a">start</a>;  </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#a9566615b1a0180fad9446509a7f01f7c">   20</a></span>    QPointF <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#a9566615b1a0180fad9446509a7f01f7c">control1</a>;  </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#ab257346b1e4dd14af442c7afdac871f4">   21</a></span>    QPointF <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#ab257346b1e4dd14af442c7afdac871f4">control2</a>;  </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#a774dd73ab82af9f3231047eb852ee759">   22</a></span>    QPointF <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#a774dd73ab82af9f3231047eb852ee759">arcMid</a>;  </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#a1fa61379a3f2d220c9082d7a245b84f5">   23</a></span>    QPointF <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#a1fa61379a3f2d220c9082d7a245b84f5">arcCenter</a>;  </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#a3ae2a77901090a0c84b1447283e81211">   24</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#a3ae2a77901090a0c84b1447283e81211">radiusX</a> = 0.0;  </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#a5288dfa878768ca795c96d21d7cf21d8">   25</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#a5288dfa878768ca795c96d21d7cf21d8">radiusY</a> = 0.0;  </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#af79017b3193a95e11e23678438b56447">   26</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#af79017b3193a95e11e23678438b56447">arcStartAngle</a> = 0.0;  </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#ab239d9dc567303aeee74a4a2fd1eb305">   27</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#ab239d9dc567303aeee74a4a2fd1eb305">arcEndAngle</a> = 0.0;  </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1SvgPathSegment.html#aa33dc43a95874bd59e878c29cdeacf36">   28</a></span>    QPointF <a class="code hl_variable" href="structEasyKiConverter_1_1SvgPathSegment.html#aa33dc43a95874bd59e878c29cdeacf36">end</a>;  </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>};</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SvgPathParser.html">   36</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1SvgPathParser.html">SvgPathParser</a> {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">static</span> QList&lt;QPointF&gt; <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#af70c5e413eab91803dcf55209c270c3c">parsePath</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">static</span> QList&lt;SvgPathSegment&gt; <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#a02b6830db583149544c368c65594cf9f">parseSegments</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">static</span> QStringList <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#ac39acee96a0e4912c57c3abf07ddd247">splitPath</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">static</span> QPointF <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#a2a04fbdb00df232852c328d39f76d9c2">createPoint</a>(<span class="keywordtype">double</span> x, <span class="keywordtype">double</span> y, <span class="keywordtype">bool</span> relative, <span class="keywordtype">double</span>&amp; currentX, <span class="keywordtype">double</span>&amp; currentY);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">static</span> QList&lt;QPointF&gt; <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#a2e3f007d035ffb4faa9d162a2758eabc">parseArc</a>(<span class="keyword">const</span> QPointF&amp; startPoint,</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                                   <span class="keywordtype">double</span> rx,</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                                   <span class="keywordtype">double</span> ry,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                                   <span class="keywordtype">double</span> xRotation,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                   <span class="keywordtype">bool</span> largeArcFlag,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                                   <span class="keywordtype">bool</span> sweepFlag,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                                   <span class="keyword">const</span> QPointF&amp; endPoint);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keyword">static</span> QList&lt;QPointF&gt;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#aff8b794c13f7d60239828fe00dfda5b0">calcArcPoints</a>(<span class="keywordtype">double</span> cx, <span class="keywordtype">double</span> cy, <span class="keywordtype">double</span> rx, <span class="keywordtype">double</span> ry, <span class="keywordtype">double</span> <a class="code hl_variable" href="SvgPathParser_8cpp.html#a8cbce6400c1e4e2cd98b5f182e688e1d">startAngle</a>, <span class="keywordtype">double</span> <a class="code hl_variable" href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a>, <span class="keywordtype">double</span> xRotation);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#a1d06b0e47817caf09b7b1d8ca832dca9">getAngle</a>(<span class="keywordtype">double</span> x1, <span class="keywordtype">double</span> y1, <span class="keywordtype">double</span> x2, <span class="keywordtype">double</span> y2);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keyword">static</span> QList&lt;QPointF&gt; <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#a0b7bc38cbf4937fc8ad820c7f87b38e7">bezierToPolyline</a>(</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordtype">double</span> startX,</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="keywordtype">double</span> startY,</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="keywordtype">double</span> cp1X,</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keywordtype">double</span> cp1Y,</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordtype">double</span> cp2X,</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>        <span class="keywordtype">double</span> cp2Y,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordtype">double</span> endX,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        <span class="keywordtype">double</span> endY,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <span class="keywordtype">int</span> segments = 16);  <span class="comment">// 16 segments provides good smoothness for most use cases</span></div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>};</div>
+</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span><span class="preprocessor">#endif  </span><span class="comment">// SVGPATHPARSER_H</span></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_a043c9a056b93b95bc68f7d7a35b87151"><div class="ttname"><a href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a></div><div class="ttdeci">double deltaAngle</div><div class="ttdoc">圆弧扫过角度，单位为弧度。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00024">SvgPathParser.cpp:24</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_a8cbce6400c1e4e2cd98b5f182e688e1d"><div class="ttname"><a href="SvgPathParser_8cpp.html#a8cbce6400c1e4e2cd98b5f182e688e1d">startAngle</a></div><div class="ttdeci">double startAngle</div><div class="ttdoc">圆弧起始角度，单位为弧度。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00023">SvgPathParser.cpp:23</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html">EasyKiConverter::SvgPathParser</a></div><div class="ttdoc">SVG 路径解析。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00036">SvgPathParser.h:36</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_a02b6830db583149544c368c65594cf9f"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#a02b6830db583149544c368c65594cf9f">EasyKiConverter::SvgPathParser::parseSegments</a></div><div class="ttdeci">static QList&lt; SvgPathSegment &gt; parseSegments(const QString &amp;path)</div><div class="ttdoc">解析 SVG 路径为直线、二次/三次 Bézier 和圆弧段</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00556">SvgPathParser.cpp:556</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_a0b7bc38cbf4937fc8ad820c7f87b38e7"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#a0b7bc38cbf4937fc8ad820c7f87b38e7">EasyKiConverter::SvgPathParser::bezierToPolyline</a></div><div class="ttdeci">static QList&lt; QPointF &gt; bezierToPolyline(double startX, double startY, double cp1X, double cp1Y, double cp2X, double cp2Y, double endX, double endY, int segments=16)</div><div class="ttdoc">将三次贝塞尔曲线离散为折线点。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l01059">SvgPathParser.cpp:1059</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_a1d06b0e47817caf09b7b1d8ca832dca9"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#a1d06b0e47817caf09b7b1d8ca832dca9">EasyKiConverter::SvgPathParser::getAngle</a></div><div class="ttdeci">static double getAngle(double x1, double y1, double x2, double y2)</div><div class="ttdoc">计算角度</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l01036">SvgPathParser.cpp:1036</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_a2a04fbdb00df232852c328d39f76d9c2"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#a2a04fbdb00df232852c328d39f76d9c2">EasyKiConverter::SvgPathParser::createPoint</a></div><div class="ttdeci">static QPointF createPoint(double x, double y, bool relative, double &amp;currentX, double &amp;currentY)</div><div class="ttdoc">创建SVG路径</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00883">SvgPathParser.cpp:883</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_a2e3f007d035ffb4faa9d162a2758eabc"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#a2e3f007d035ffb4faa9d162a2758eabc">EasyKiConverter::SvgPathParser::parseArc</a></div><div class="ttdeci">static QList&lt; QPointF &gt; parseArc(const QPointF &amp;startPoint, double rx, double ry, double xRotation, bool largeArcFlag, bool sweepFlag, const QPointF &amp;endPoint)</div><div class="ttdoc">解析圆弧命令</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00905">SvgPathParser.cpp:905</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_ac39acee96a0e4912c57c3abf07ddd247"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#ac39acee96a0e4912c57c3abf07ddd247">EasyKiConverter::SvgPathParser::splitPath</a></div><div class="ttdeci">static QStringList splitPath(const QString &amp;path)</div><div class="ttdoc">分割SVG路径字符</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00830">SvgPathParser.cpp:830</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_af70c5e413eab91803dcf55209c270c3c"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#af70c5e413eab91803dcf55209c270c3c">EasyKiConverter::SvgPathParser::parsePath</a></div><div class="ttdeci">static QList&lt; QPointF &gt; parsePath(const QString &amp;path)</div><div class="ttdoc">解析SVG路径字符</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00173">SvgPathParser.cpp:173</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_aff8b794c13f7d60239828fe00dfda5b0"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#aff8b794c13f7d60239828fe00dfda5b0">EasyKiConverter::SvgPathParser::calcArcPoints</a></div><div class="ttdeci">static QList&lt; QPointF &gt; calcArcPoints(double cx, double cy, double rx, double ry, double startAngle, double deltaAngle, double xRotation)</div><div class="ttdoc">计算圆弧上的</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l01001">SvgPathParser.cpp:1001</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html">EasyKiConverter::SvgPathSegment</a></div><div class="ttdoc">SVG 路径中的可导出几何段</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00015">SvgPathParser.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_a1fa61379a3f2d220c9082d7a245b84f5"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#a1fa61379a3f2d220c9082d7a245b84f5">EasyKiConverter::SvgPathSegment::arcCenter</a></div><div class="ttdeci">QPointF arcCenter</div><div class="ttdoc">圆弧或椭圆弧中心。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00023">SvgPathParser.h:23</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_a20b45576ffd342a761cc43017a7ca69a"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#a20b45576ffd342a761cc43017a7ca69a">EasyKiConverter::SvgPathSegment::start</a></div><div class="ttdeci">QPointF start</div><div class="ttdoc">几何段起点。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00019">SvgPathParser.h:19</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_a3ae2a77901090a0c84b1447283e81211"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#a3ae2a77901090a0c84b1447283e81211">EasyKiConverter::SvgPathSegment::radiusX</a></div><div class="ttdeci">double radiusX</div><div class="ttdoc">椭圆弧 X 方向半径。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00024">SvgPathParser.h:24</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_a5288dfa878768ca795c96d21d7cf21d8"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#a5288dfa878768ca795c96d21d7cf21d8">EasyKiConverter::SvgPathSegment::radiusY</a></div><div class="ttdeci">double radiusY</div><div class="ttdoc">椭圆弧 Y 方向半径。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00025">SvgPathParser.h:25</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_a6282677b50e5bfe78eb207fd88067b24"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#a6282677b50e5bfe78eb207fd88067b24">EasyKiConverter::SvgPathSegment::type</a></div><div class="ttdeci">Type type</div><div class="ttdoc">几何段类型。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00018">SvgPathParser.h:18</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_a774dd73ab82af9f3231047eb852ee759"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#a774dd73ab82af9f3231047eb852ee759">EasyKiConverter::SvgPathSegment::arcMid</a></div><div class="ttdeci">QPointF arcMid</div><div class="ttdoc">圆弧中间点。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00022">SvgPathParser.h:22</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_a9566615b1a0180fad9446509a7f01f7c"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#a9566615b1a0180fad9446509a7f01f7c">EasyKiConverter::SvgPathSegment::control1</a></div><div class="ttdeci">QPointF control1</div><div class="ttdoc">Bézier 第一控制点。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00020">SvgPathParser.h:20</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_aa33dc43a95874bd59e878c29cdeacf36"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#aa33dc43a95874bd59e878c29cdeacf36">EasyKiConverter::SvgPathSegment::end</a></div><div class="ttdeci">QPointF end</div><div class="ttdoc">几何段终点。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00028">SvgPathParser.h:28</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_ab239d9dc567303aeee74a4a2fd1eb305"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#ab239d9dc567303aeee74a4a2fd1eb305">EasyKiConverter::SvgPathSegment::arcEndAngle</a></div><div class="ttdeci">double arcEndAngle</div><div class="ttdoc">弧段结束角度（弧度）。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00027">SvgPathParser.h:27</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_ab257346b1e4dd14af442c7afdac871f4"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#ab257346b1e4dd14af442c7afdac871f4">EasyKiConverter::SvgPathSegment::control2</a></div><div class="ttdeci">QPointF control2</div><div class="ttdoc">三次 Bézier 第二控制点。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00021">SvgPathParser.h:21</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_ab3c48083d386caa65e2e36513f8a8fdc"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdc">EasyKiConverter::SvgPathSegment::Type</a></div><div class="ttdeci">Type</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00016">SvgPathParser.h:16</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_ab3c48083d386caa65e2e36513f8a8fdca02e391a140e4fc8ebd74ebd5302ab2d3"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca02e391a140e4fc8ebd74ebd5302ab2d3">EasyKiConverter::SvgPathSegment::Type::CircularArc</a></div><div class="ttdeci">@ CircularArc</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_ab3c48083d386caa65e2e36513f8a8fdca4803e6b9e63dabf04de980788d6a13c4"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca4803e6b9e63dabf04de980788d6a13c4">EasyKiConverter::SvgPathSegment::Type::Line</a></div><div class="ttdeci">@ Line</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_ab3c48083d386caa65e2e36513f8a8fdca820c9db24fed8c528ce8c1b096323384"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca820c9db24fed8c528ce8c1b096323384">EasyKiConverter::SvgPathSegment::Type::QuadraticBezier</a></div><div class="ttdeci">@ QuadraticBezier</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_ab3c48083d386caa65e2e36513f8a8fdca9ede004c94369027853b4a491071ef53"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdca9ede004c94369027853b4a491071ef53">EasyKiConverter::SvgPathSegment::Type::EllipticalArc</a></div><div class="ttdeci">@ EllipticalArc</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_ab3c48083d386caa65e2e36513f8a8fdcaced824f3a4e9dd5feb68da4cb78a3430"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#ab3c48083d386caa65e2e36513f8a8fdcaced824f3a4e9dd5feb68da4cb78a3430">EasyKiConverter::SvgPathSegment::Type::CubicBezier</a></div><div class="ttdeci">@ CubicBezier</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SvgPathSegment_html_af79017b3193a95e11e23678438b56447"><div class="ttname"><a href="structEasyKiConverter_1_1SvgPathSegment.html#af79017b3193a95e11e23678438b56447">EasyKiConverter::SvgPathSegment::arcStartAngle</a></div><div class="ttdeci">double arcStartAngle</div><div class="ttdoc">弧段起始角度（弧度）。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8h_source.html#l00026">SvgPathParser.h:26</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_182a39db29e4ad63eb633860d83c5a1d.html">utils</a></li><li class="navelem"><a class="el" href="SvgPathParser_8h.html">SvgPathParser.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentCacheLoadWorker.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentCacheLoadWorker_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentCacheLoadWorker.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentCacheLoadWorker_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef COMPONENTCACHELOADWORKER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define COMPONENTCACHELOADWORKER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentData_8h.html">models/ComponentData.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QList&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QPair&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>ComponentCacheService;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">class </span>FootprintData;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">class </span>SymbolData;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html">   22</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html">ComponentCacheLoadResult</a> {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a87c5b237f34d03c7ba886b77367ed3e3">   23</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a87c5b237f34d03c7ba886b77367ed3e3">componentId</a>;  </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a23c4580079000ac464b529c09ffde490">   24</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a23c4580079000ac464b529c09ffde490">success</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#ae390302c0cc767481f6b07c262de2c95">   25</a></span>    QSharedPointer&lt;ComponentData&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#ae390302c0cc767481f6b07c262de2c95">cachedData</a>;  </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#ae652661901801d133970aedbf6beeb47">   26</a></span>    QByteArray <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#ae652661901801d133970aedbf6beeb47">cadDataJson</a>;  </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a417e400e32faa12ad34a6ef2c882a858">   27</a></span>    QList&lt;QPair&lt;int, QByteArray&gt;&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a417e400e32faa12ad34a6ef2c882a858">previewImageData</a>;  </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a432b52b08fe79b0354103cd84cb85638">   28</a></span>    QStringList <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a432b52b08fe79b0354103cd84cb85638">encodedPreviewImages</a>;  </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a7ccecd7d7180f6217a4af8b6a88d0e1a">   29</a></span>    QByteArray <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a7ccecd7d7180f6217a4af8b6a88d0e1a">datasheetData</a>;  </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a58e76fcabd2e8fbe3c7edf92e47116b7">   30</a></span>    QSharedPointer&lt;SymbolData&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a58e76fcabd2e8fbe3c7edf92e47116b7">symbolData</a>;  </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#aec9dbfccb6630c00c087227aff68e869">   31</a></span>    QSharedPointer&lt;FootprintData&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#aec9dbfccb6630c00c087227aff68e869">footprintData</a>;  </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>};</div>
+</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="};">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheLoadWorker.html">   38</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1ComponentCacheLoadWorker.html">ComponentCacheLoadWorker</a> final {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ComponentCacheLoadResult.html">ComponentCacheLoadResult</a> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheLoadWorker.html#a1f98b6336aa09584829afd0deb0d0364">load</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keywordtype">bool</span> fetch3DModel, <a class="code hl_class" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a>* cache);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheLoadWorker.html#a2d5b28b8f7bb9618fe692d227962e3ac">restoreModel3DFromFootprint</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; component, <span class="keyword">const</span> QSharedPointer&lt;FootprintData&gt;&amp; footprint);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>};</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span><span class="preprocessor">#endif  </span><span class="comment">// COMPONENTCACHELOADWORKER_H</span></div>
+<div class="ttc" id="aComponentData_8h_html"><div class="ttname"><a href="ComponentData_8h.html">ComponentData.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheLoadWorker_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheLoadWorker.html">EasyKiConverter::ComponentCacheLoadWorker</a></div><div class="ttdoc">执行元件缓存的后台读取和解析。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00038">ComponentCacheLoadWorker.h:38</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheLoadWorker_html_a1f98b6336aa09584829afd0deb0d0364"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheLoadWorker.html#a1f98b6336aa09584829afd0deb0d0364">EasyKiConverter::ComponentCacheLoadWorker::load</a></div><div class="ttdeci">static ComponentCacheLoadResult load(const QString &amp;componentId, bool fetch3DModel, ComponentCacheService *cache)</div><div class="ttdoc">从缓存读取并预解析元件数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8cpp_source.html#l00046">ComponentCacheLoadWorker.cpp:46</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheLoadWorker_html_a2d5b28b8f7bb9618fe692d227962e3ac"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheLoadWorker.html#a2d5b28b8f7bb9618fe692d227962e3ac">EasyKiConverter::ComponentCacheLoadWorker::restoreModel3DFromFootprint</a></div><div class="ttdeci">static void restoreModel3DFromFootprint(ComponentData &amp;component, const QSharedPointer&lt; FootprintData &gt; &amp;footprint)</div><div class="ttdoc">从封装数据补齐组件的三维模型元数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8cpp_source.html#l00017">ComponentCacheLoadWorker.cpp:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html">EasyKiConverter::ComponentCacheService</a></div><div class="ttdoc">元器件缓存服务类（两层缓存架构）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00074">ComponentCacheService.h:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html">EasyKiConverter::ComponentData</a></div><div class="ttdoc">元件数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00020">ComponentData.h:20</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html">EasyKiConverter::ComponentCacheLoadResult</a></div><div class="ttdoc">表示后台缓存加载任务的结果。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00022">ComponentCacheLoadWorker.h:22</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_a23c4580079000ac464b529c09ffde490"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a23c4580079000ac464b529c09ffde490">EasyKiConverter::ComponentCacheLoadResult::success</a></div><div class="ttdeci">bool success</div><div class="ttdoc">缓存读取和解析是否成功。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00024">ComponentCacheLoadWorker.h:24</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_a417e400e32faa12ad34a6ef2c882a858"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a417e400e32faa12ad34a6ef2c882a858">EasyKiConverter::ComponentCacheLoadResult::previewImageData</a></div><div class="ttdeci">QList&lt; QPair&lt; int, QByteArray &gt; &gt; previewImageData</div><div class="ttdoc">带索引的预览图数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00027">ComponentCacheLoadWorker.h:27</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_a432b52b08fe79b0354103cd84cb85638"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a432b52b08fe79b0354103cd84cb85638">EasyKiConverter::ComponentCacheLoadResult::encodedPreviewImages</a></div><div class="ttdeci">QStringList encodedPreviewImages</div><div class="ttdoc">Base64 编码的预览图列表。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00028">ComponentCacheLoadWorker.h:28</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_a58e76fcabd2e8fbe3c7edf92e47116b7"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a58e76fcabd2e8fbe3c7edf92e47116b7">EasyKiConverter::ComponentCacheLoadResult::symbolData</a></div><div class="ttdeci">QSharedPointer&lt; SymbolData &gt; symbolData</div><div class="ttdoc">解析后的符号数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00030">ComponentCacheLoadWorker.h:30</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_a7ccecd7d7180f6217a4af8b6a88d0e1a"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a7ccecd7d7180f6217a4af8b6a88d0e1a">EasyKiConverter::ComponentCacheLoadResult::datasheetData</a></div><div class="ttdeci">QByteArray datasheetData</div><div class="ttdoc">数据手册数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00029">ComponentCacheLoadWorker.h:29</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_a87c5b237f34d03c7ba886b77367ed3e3"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#a87c5b237f34d03c7ba886b77367ed3e3">EasyKiConverter::ComponentCacheLoadResult::componentId</a></div><div class="ttdeci">QString componentId</div><div class="ttdoc">元器件编号。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00023">ComponentCacheLoadWorker.h:23</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_ae390302c0cc767481f6b07c262de2c95"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#ae390302c0cc767481f6b07c262de2c95">EasyKiConverter::ComponentCacheLoadResult::cachedData</a></div><div class="ttdeci">QSharedPointer&lt; ComponentData &gt; cachedData</div><div class="ttdoc">解析后的元器件数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00025">ComponentCacheLoadWorker.h:25</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_ae652661901801d133970aedbf6beeb47"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#ae652661901801d133970aedbf6beeb47">EasyKiConverter::ComponentCacheLoadResult::cadDataJson</a></div><div class="ttdeci">QByteArray cadDataJson</div><div class="ttdoc">CAD JSON 原始数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00026">ComponentCacheLoadWorker.h:26</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ComponentCacheLoadResult_html_aec9dbfccb6630c00c087227aff68e869"><div class="ttname"><a href="structEasyKiConverter_1_1ComponentCacheLoadResult.html#aec9dbfccb6630c00c087227aff68e869">EasyKiConverter::ComponentCacheLoadResult::footprintData</a></div><div class="ttdeci">QSharedPointer&lt; FootprintData &gt; footprintData</div><div class="ttdoc">解析后的封装数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheLoadWorker_8h_source.html#l00031">ComponentCacheLoadWorker.h:31</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentCacheLoadWorker_8h.html">ComponentCacheLoadWorker.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

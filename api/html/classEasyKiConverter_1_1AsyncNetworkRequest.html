@@ -1,0 +1,2002 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::AsyncNetworkRequest类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1AsyncNetworkRequest.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="#pri-static-attribs">静态 Private 属性</a> &#124;
+<a href="#friends">友元</a> &#124;
+<a href="classEasyKiConverter_1_1AsyncNetworkRequest-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::AsyncNetworkRequest类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>异步网络请求，支持取消  
+ <a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::AsyncNetworkRequest 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1AsyncNetworkRequest__inherit__graph.svg" width="236" height="964"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::AsyncNetworkRequest 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1AsyncNetworkRequest__coll__graph.svg" width="516" height="1456"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a3912f6a53b12619a008b520849fcbe3e" id="r_a3912f6a53b12619a008b520849fcbe3e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a3912f6a53b12619a008b520849fcbe3e">completeWithResultDelayed</a> (const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;<a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>, int delayMs=0)</td></tr>
+<tr class="memdesc:a3912f6a53b12619a008b520849fcbe3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">延迟完成请求 - 用于测试场景  <br /></td></tr>
+<tr class="separator:a3912f6a53b12619a008b520849fcbe3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdd7b3469c74866b733afc9e35aa809d" id="r_afdd7b3469c74866b733afc9e35aa809d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#afdd7b3469c74866b733afc9e35aa809d">~AsyncNetworkRequest</a> () override</td></tr>
+<tr class="memdesc:afdd7b3469c74866b733afc9e35aa809d"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数，确保清理  <br /></td></tr>
+<tr class="separator:afdd7b3469c74866b733afc9e35aa809d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19c2928774d26aa764fd6adf9fdbf46f" id="r_a19c2928774d26aa764fd6adf9fdbf46f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a19c2928774d26aa764fd6adf9fdbf46f">cancel</a> ()</td></tr>
+<tr class="memdesc:a19c2928774d26aa764fd6adf9fdbf46f"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消请求  <br /></td></tr>
+<tr class="separator:a19c2928774d26aa764fd6adf9fdbf46f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0bc82f329bcbb9707b8d3f652fa5d9e" id="r_ab0bc82f329bcbb9707b8d3f652fa5d9e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab0bc82f329bcbb9707b8d3f652fa5d9e">isCancelled</a> () const</td></tr>
+<tr class="memdesc:ab0bc82f329bcbb9707b8d3f652fa5d9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查请求是否已取消  <br /></td></tr>
+<tr class="separator:ab0bc82f329bcbb9707b8d3f652fa5d9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f6e4711c8653b21b6d96741fc064359" id="r_a2f6e4711c8653b21b6d96741fc064359"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a2f6e4711c8653b21b6d96741fc064359">isFinished</a> () const</td></tr>
+<tr class="memdesc:a2f6e4711c8653b21b6d96741fc064359"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查请求是否已完成 (successfully or with error)  <br /></td></tr>
+<tr class="separator:a2f6e4711c8653b21b6d96741fc064359"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a632e2d5b2ad425ae6892d9a2a67c44f7" id="r_a632e2d5b2ad425ae6892d9a2a67c44f7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a> () const</td></tr>
+<tr class="memdesc:a632e2d5b2ad425ae6892d9a2a67c44f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取结果  <br /></td></tr>
+<tr class="separator:a632e2d5b2ad425ae6892d9a2a67c44f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f96d6e9ff5e9f9f46b93eee496a0a96" id="r_a8f96d6e9ff5e9f9f46b93eee496a0a96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a8f96d6e9ff5e9f9f46b93eee496a0a96">setTimeoutMs</a> (int ms)</td></tr>
+<tr class="memdesc:a8f96d6e9ff5e9f9f46b93eee496a0a96"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置超时时间（毫秒）  <br /></td></tr>
+<tr class="separator:a8f96d6e9ff5e9f9f46b93eee496a0a96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4880170daf13c936f0b7953dd9948656" id="r_a4880170daf13c936f0b7953dd9948656"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4880170daf13c936f0b7953dd9948656">currentRetryCount</a> () const</td></tr>
+<tr class="memdesc:a4880170daf13c936f0b7953dd9948656"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前重试次数  <br /></td></tr>
+<tr class="separator:a4880170daf13c936f0b7953dd9948656"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91a6a5a56e5405812955e14dc6ed1cc1" id="r_a91a6a5a56e5405812955e14dc6ed1cc1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">finished</a> (const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;<a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>)</td></tr>
+<tr class="memdesc:a91a6a5a56e5405812955e14dc6ed1cc1"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求完成时发射（成功、错误或取消） (success, error, or cancelled)  <br /></td></tr>
+<tr class="separator:a91a6a5a56e5405812955e14dc6ed1cc1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae831956dc1254c26c47275fb19ac8fa3" id="r_ae831956dc1254c26c47275fb19ac8fa3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae831956dc1254c26c47275fb19ac8fa3">downloadProgress</a> (qint64 bytesReceived, qint64 bytesTotal)</td></tr>
+<tr class="memdesc:ae831956dc1254c26c47275fb19ac8fa3"><td class="mdescLeft">&#160;</td><td class="mdescRight">下载过程中发射以报告进度 to report progress  <br /></td></tr>
+<tr class="separator:ae831956dc1254c26c47275fb19ac8fa3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa78713cdb8a23d45b2082e46e50c1cbb" id="r_aa78713cdb8a23d45b2082e46e50c1cbb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa78713cdb8a23d45b2082e46e50c1cbb">timeout</a> ()</td></tr>
+<tr class="memdesc:aa78713cdb8a23d45b2082e46e50c1cbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求超时时发射  <br /></td></tr>
+<tr class="separator:aa78713cdb8a23d45b2082e46e50c1cbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e49445c299941f40f3c1c3e274cf9d7" id="r_a4e49445c299941f40f3c1c3e274cf9d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4e49445c299941f40f3c1c3e274cf9d7">retrying</a> (int retryCount, int delayMs)</td></tr>
+<tr class="memdesc:a4e49445c299941f40f3c1c3e274cf9d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求重试时发射  <br /></td></tr>
+<tr class="separator:a4e49445c299941f40f3c1c3e274cf9d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a4bc8be745991b7093a3f9fc3d172fb2b" id="r_a4bc8be745991b7093a3f9fc3d172fb2b"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4bc8be745991b7093a3f9fc3d172fb2b">createFinished</a> (const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;<a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>, QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a4bc8be745991b7093a3f9fc3d172fb2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建已完成的异步请求对象。  <br /></td></tr>
+<tr class="separator:a4bc8be745991b7093a3f9fc3d172fb2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:abffb1f48142ee7f275318387745bb11a" id="r_abffb1f48142ee7f275318387745bb11a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#abffb1f48142ee7f275318387745bb11a">AsyncNetworkRequest</a> (const QUrl &amp;url, QNetworkAccessManager *networkManager, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy, const QByteArray &amp;body=QByteArray(), QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:abffb1f48142ee7f275318387745bb11a"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数；私有，使用 <a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ab9dd280679080b0f27bc49c0cad13670" title="发送 HTTP GET 请求（异步，非阻塞）">NetworkClient::getAsync()</a> 或 postAsync() 创建请求。  <br /></td></tr>
+<tr class="separator:abffb1f48142ee7f275318387745bb11a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad71552d4e017994c217414a041675518" id="r_ad71552d4e017994c217414a041675518"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad71552d4e017994c217414a041675518">start</a> ()</td></tr>
+<tr class="memdesc:ad71552d4e017994c217414a041675518"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动请求  <br /></td></tr>
+<tr class="separator:ad71552d4e017994c217414a041675518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65858dbb18e57efbe25a4824c27fdd5e" id="r_a65858dbb18e57efbe25a4824c27fdd5e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a65858dbb18e57efbe25a4824c27fdd5e">startAttempt</a> (int attemptNumber)</td></tr>
+<tr class="memdesc:a65858dbb18e57efbe25a4824c27fdd5e"><td class="mdescLeft">&#160;</td><td class="mdescRight">启动单次尝试（重试时会多次调用）。  <br /></td></tr>
+<tr class="separator:a65858dbb18e57efbe25a4824c27fdd5e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d9c49bb26d860f27d6be0f48b7d8bbd" id="r_a5d9c49bb26d860f27d6be0f48b7d8bbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a5d9c49bb26d860f27d6be0f48b7d8bbd">handleAttemptFinished</a> ()</td></tr>
+<tr class="memdesc:a5d9c49bb26d860f27d6be0f48b7d8bbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理尝试完成  <br /></td></tr>
+<tr class="separator:a5d9c49bb26d860f27d6be0f48b7d8bbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b6759c4d845470a1c4773553012d3fa" id="r_a3b6759c4d845470a1c4773553012d3fa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a3b6759c4d845470a1c4773553012d3fa">handleTimeout</a> ()</td></tr>
+<tr class="memdesc:a3b6759c4d845470a1c4773553012d3fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理超时  <br /></td></tr>
+<tr class="separator:a3b6759c4d845470a1c4773553012d3fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1be942d2a5dbfc9e7cb6694a6b95e765" id="r_a1be942d2a5dbfc9e7cb6694a6b95e765"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a1be942d2a5dbfc9e7cb6694a6b95e765">handleDownloadProgress</a> (qint64 bytesReceived, qint64 bytesTotal)</td></tr>
+<tr class="memdesc:a1be942d2a5dbfc9e7cb6694a6b95e765"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理下载进度，检查响应大小限制。  <br /></td></tr>
+<tr class="separator:a1be942d2a5dbfc9e7cb6694a6b95e765"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41846159d0ba42fdb8c01434bfee7c6e" id="r_a41846159d0ba42fdb8c01434bfee7c6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a41846159d0ba42fdb8c01434bfee7c6e">processResponse</a> (QNetworkReply *reply)</td></tr>
+<tr class="memdesc:a41846159d0ba42fdb8c01434bfee7c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">处理响应数据。  <br /></td></tr>
+<tr class="separator:a41846159d0ba42fdb8c01434bfee7c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad60f396a89d6e2002ed6893f259e3338" id="r_ad60f396a89d6e2002ed6893f259e3338"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad60f396a89d6e2002ed6893f259e3338">scheduleRetry</a> (int retryCount)</td></tr>
+<tr class="memdesc:ad60f396a89d6e2002ed6893f259e3338"><td class="mdescLeft">&#160;</td><td class="mdescRight">调度重试。  <br /></td></tr>
+<tr class="separator:ad60f396a89d6e2002ed6893f259e3338"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0a7ed3d13ffb939e44f1a6a76ba3528" id="r_ae0a7ed3d13ffb939e44f1a6a76ba3528"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae0a7ed3d13ffb939e44f1a6a76ba3528">calculateRetryDelay</a> (int retryCount) const</td></tr>
+<tr class="memdesc:ae0a7ed3d13ffb939e44f1a6a76ba3528"><td class="mdescLeft">&#160;</td><td class="mdescRight">计算带抖动的重试延迟。  <br /></td></tr>
+<tr class="separator:ae0a7ed3d13ffb939e44f1a6a76ba3528"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb76f820a1e52b021fd7a080e9ba65a8" id="r_acb76f820a1e52b021fd7a080e9ba65a8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#acb76f820a1e52b021fd7a080e9ba65a8">shouldRetryInternal</a> (int statusCode, QNetworkReply::NetworkError error, int retryCount) const</td></tr>
+<tr class="memdesc:acb76f820a1e52b021fd7a080e9ba65a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查是否应该根据状态码重试。  <br /></td></tr>
+<tr class="separator:acb76f820a1e52b021fd7a080e9ba65a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31d4e68e24f937db80edf9c73dbeb086" id="r_a31d4e68e24f937db80edf9c73dbeb086"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a31d4e68e24f937db80edf9c73dbeb086">cleanupAttempt</a> ()</td></tr>
+<tr class="memdesc:a31d4e68e24f937db80edf9c73dbeb086"><td class="mdescLeft">&#160;</td><td class="mdescRight">清理当前尝试  <br /></td></tr>
+<tr class="separator:a31d4e68e24f937db80edf9c73dbeb086"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4b0c6ee0c802ffa8523b2c584aa518c" id="r_aa4b0c6ee0c802ffa8523b2c584aa518c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa4b0c6ee0c802ffa8523b2c584aa518c">completeWithResult</a> (const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;<a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>)</td></tr>
+<tr class="memdesc:aa4b0c6ee0c802ffa8523b2c584aa518c"><td class="mdescLeft">&#160;</td><td class="mdescRight">只允许第一个完成结果写入状态并发出信号。  <br /></td></tr>
+<tr class="separator:aa4b0c6ee0c802ffa8523b2c584aa518c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97fe4c50b9dbdd25ba1bcb69d6cb96ce" id="r_a97fe4c50b9dbdd25ba1bcb69d6cb96ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a97fe4c50b9dbdd25ba1bcb69d6cb96ce">cancelledResult</a> (const QString &amp;errorMessage=QStringLiteral(&quot;Cancelled&quot;)) const</td></tr>
+<tr class="memdesc:a97fe4c50b9dbdd25ba1bcb69d6cb96ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造保留原始诊断上下文的取消结果。  <br /></td></tr>
+<tr class="separator:a97fe4c50b9dbdd25ba1bcb69d6cb96ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6111aa96f0664643b03385dbacaacc31" id="r_a6111aa96f0664643b03385dbacaacc31"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6111aa96f0664643b03385dbacaacc31">timeoutResult</a> () const</td></tr>
+<tr class="memdesc:a6111aa96f0664643b03385dbacaacc31"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造保留原始诊断上下文的超时结果。  <br /></td></tr>
+<tr class="separator:a6111aa96f0664643b03385dbacaacc31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ed355f2385676279030ae9cb743b6e5" id="r_a9ed355f2385676279030ae9cb743b6e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a9ed355f2385676279030ae9cb743b6e5">hasActiveReply</a> () const</td></tr>
+<tr class="memdesc:a9ed355f2385676279030ae9cb743b6e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查当前是否仍有未完成的网络回复。  <br /></td></tr>
+<tr class="separator:a9ed355f2385676279030ae9cb743b6e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ad58cc56faeb2df5015b9de426dde0e86" id="r_ad58cc56faeb2df5015b9de426dde0e86"><td class="memItemLeft" align="right" valign="top">QUrl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad58cc56faeb2df5015b9de426dde0e86">m_url</a></td></tr>
+<tr class="memdesc:ad58cc56faeb2df5015b9de426dde0e86"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求目标 URL。  <br /></td></tr>
+<tr class="separator:ad58cc56faeb2df5015b9de426dde0e86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae09e7ee36a3295abd9c497d302d7a377" id="r_ae09e7ee36a3295abd9c497d302d7a377"><td class="memItemLeft" align="right" valign="top">QNetworkAccessManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae09e7ee36a3295abd9c497d302d7a377">m_networkManager</a></td></tr>
+<tr class="memdesc:ae09e7ee36a3295abd9c497d302d7a377"><td class="mdescLeft">&#160;</td><td class="mdescRight">所属线程的网络管理器，不由请求对象拥有。  <br /></td></tr>
+<tr class="separator:ae09e7ee36a3295abd9c497d302d7a377"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28d92a8e475da200657edfdb198e2e29" id="r_a28d92a8e475da200657edfdb198e2e29"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a28d92a8e475da200657edfdb198e2e29">m_resourceType</a></td></tr>
+<tr class="memdesc:a28d92a8e475da200657edfdb198e2e29"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求资源类型。  <br /></td></tr>
+<tr class="separator:a28d92a8e475da200657edfdb198e2e29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6704ef2418f97adb47bf6119ff1a81d5" id="r_a6704ef2418f97adb47bf6119ff1a81d5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6704ef2418f97adb47bf6119ff1a81d5">m_policy</a></td></tr>
+<tr class="memdesc:a6704ef2418f97adb47bf6119ff1a81d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前请求的重试和超时策略。  <br /></td></tr>
+<tr class="separator:a6704ef2418f97adb47bf6119ff1a81d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3475ca72e99fc0c42733fbe75f7cccf" id="r_ab3475ca72e99fc0c42733fbe75f7cccf"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab3475ca72e99fc0c42733fbe75f7cccf">m_postBody</a></td></tr>
+<tr class="memdesc:ab3475ca72e99fc0c42733fbe75f7cccf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Request body for POST requests  <br /></td></tr>
+<tr class="separator:ab3475ca72e99fc0c42733fbe75f7cccf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7b4d8254b35f0eb3d85c538f3bb30f6" id="r_ac7b4d8254b35f0eb3d85c538f3bb30f6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ac7b4d8254b35f0eb3d85c538f3bb30f6">m_isPostRequest</a></td></tr>
+<tr class="memdesc:ac7b4d8254b35f0eb3d85c538f3bb30f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否为 POST 请求。  <br /></td></tr>
+<tr class="separator:ac7b4d8254b35f0eb3d85c538f3bb30f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab777eeaf572936e64d75556b3835e5cd" id="r_ab777eeaf572936e64d75556b3835e5cd"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab777eeaf572936e64d75556b3835e5cd">m_cancelled</a></td></tr>
+<tr class="memdesc:ab777eeaf572936e64d75556b3835e5cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消状态原子标志。  <br /></td></tr>
+<tr class="separator:ab777eeaf572936e64d75556b3835e5cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf8602426ca221168065ae12a9678bb9" id="r_abf8602426ca221168065ae12a9678bb9"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#abf8602426ca221168065ae12a9678bb9">m_finished</a></td></tr>
+<tr class="memdesc:abf8602426ca221168065ae12a9678bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">完成状态原子标志。  <br /></td></tr>
+<tr class="separator:abf8602426ca221168065ae12a9678bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2112a9ee47e9ebc22e8958e04c92ebeb" id="r_a2112a9ee47e9ebc22e8958e04c92ebeb"><td class="memItemLeft" align="right" valign="top">QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a2112a9ee47e9ebc22e8958e04c92ebeb">m_resultMutex</a></td></tr>
+<tr class="memdesc:a2112a9ee47e9ebc22e8958e04c92ebeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护最终结果的互斥锁。  <br /></td></tr>
+<tr class="separator:a2112a9ee47e9ebc22e8958e04c92ebeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01f8837074c863452b898de68a432bb5" id="r_a01f8837074c863452b898de68a432bb5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a01f8837074c863452b898de68a432bb5">m_result</a></td></tr>
+<tr class="memdesc:a01f8837074c863452b898de68a432bb5"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前请求的最终结果。  <br /></td></tr>
+<tr class="separator:a01f8837074c863452b898de68a432bb5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab929a16bcd84232177d08c04d3af9552" id="r_ab929a16bcd84232177d08c04d3af9552"><td class="memItemLeft" align="right" valign="top">QNetworkReply *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab929a16bcd84232177d08c04d3af9552">m_currentReply</a></td></tr>
+<tr class="memdesc:ab929a16bcd84232177d08c04d3af9552"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前网络响应对象，不拥有其生命周期。  <br /></td></tr>
+<tr class="separator:ab929a16bcd84232177d08c04d3af9552"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee4890235769abca8586219e42e0d95" id="r_a6ee4890235769abca8586219e42e0d95"><td class="memItemLeft" align="right" valign="top">QTimer *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6ee4890235769abca8586219e42e0d95">m_timeoutTimer</a></td></tr>
+<tr class="memdesc:a6ee4890235769abca8586219e42e0d95"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前请求的超时计时器。  <br /></td></tr>
+<tr class="separator:a6ee4890235769abca8586219e42e0d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9b00f86aefba602db707600c811d585" id="r_af9b00f86aefba602db707600c811d585"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#af9b00f86aefba602db707600c811d585">m_currentRetryCount</a></td></tr>
+<tr class="memdesc:af9b00f86aefba602db707600c811d585"><td class="mdescLeft">&#160;</td><td class="mdescRight">已执行的重试次数。  <br /></td></tr>
+<tr class="separator:af9b00f86aefba602db707600c811d585"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e4dab9f31c5224e9fe80c581265e5b8" id="r_a9e4dab9f31c5224e9fe80c581265e5b8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a9e4dab9f31c5224e9fe80c581265e5b8">m_timeoutMs</a></td></tr>
+<tr class="memdesc:a9e4dab9f31c5224e9fe80c581265e5b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前尝试使用的超时时间（毫秒）。  <br /></td></tr>
+<tr class="separator:a9e4dab9f31c5224e9fe80c581265e5b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61f3c10e0b29bf14af272ae605a068a1" id="r_a61f3c10e0b29bf14af272ae605a068a1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a61f3c10e0b29bf14af272ae605a068a1">m_gzipUsed</a></td></tr>
+<tr class="memdesc:a61f3c10e0b29bf14af272ae605a068a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前响应是否使用了 Gzip 解压。  <br /></td></tr>
+<tr class="separator:a61f3c10e0b29bf14af272ae605a068a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8d023db029f5c2f3bf4887c0457090c" id="r_aa8d023db029f5c2f3bf4887c0457090c"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa8d023db029f5c2f3bf4887c0457090c">m_currentAttemptTimedOut</a></td></tr>
+<tr class="memdesc:aa8d023db029f5c2f3bf4887c0457090c"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前尝试是否已因超时结束。  <br /></td></tr>
+<tr class="separator:aa8d023db029f5c2f3bf4887c0457090c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab035aacd801171748e0877b3887e6a09" id="r_ab035aacd801171748e0877b3887e6a09"><td class="memItemLeft" align="right" valign="top">QList&lt; QNetworkReply * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab035aacd801171748e0877b3887e6a09">m_pendingReplies</a></td></tr>
+<tr class="memdesc:ab035aacd801171748e0877b3887e6a09"><td class="mdescLeft">&#160;</td><td class="mdescRight">等待析构清理的网络响应列表。  <br /></td></tr>
+<tr class="separator:ab035aacd801171748e0877b3887e6a09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ee63074cee06d915dc5fb0e344b85de" id="r_a6ee63074cee06d915dc5fb0e344b85de"><td class="memItemLeft" align="right" valign="top">QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6ee63074cee06d915dc5fb0e344b85de">m_repliesMutex</a></td></tr>
+<tr class="memdesc:a6ee63074cee06d915dc5fb0e344b85de"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护当前和待清理响应列表的互斥锁。  <br /></td></tr>
+<tr class="separator:a6ee63074cee06d915dc5fb0e344b85de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+静态 Private 属性</h2></td></tr>
+<tr class="memitem:a5788b95f04bcdbc679917b411f2d5d27" id="r_a5788b95f04bcdbc679917b411f2d5d27"><td class="memItemLeft" align="right" valign="top">static const QList&lt; QNetworkReply * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a5788b95f04bcdbc679917b411f2d5d27">s_emptyReplies</a></td></tr>
+<tr class="memdesc:a5788b95f04bcdbc679917b411f2d5d27"><td class="mdescLeft">&#160;</td><td class="mdescRight">空响应列表的静态占位对象。  <br /></td></tr>
+<tr class="separator:a5788b95f04bcdbc679917b411f2d5d27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:af7e769830808bf3274fb1b51e60929fd" id="r_af7e769830808bf3274fb1b51e60929fd"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#af7e769830808bf3274fb1b51e60929fd">NetworkClient</a></td></tr>
+<tr class="separator:af7e769830808bf3274fb1b51e60929fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95b86b9d707826f1c2c22adc06d3ab61" id="r_a95b86b9d707826f1c2c22adc06d3ab61"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a95b86b9d707826f1c2c22adc06d3ab61">Test::MockNetworkClient</a></td></tr>
+<tr class="separator:a95b86b9d707826f1c2c22adc06d3ab61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>异步网络请求，支持取消 </p>
+<p>支持：</p><ul>
+<li>通过 <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a19c2928774d26aa764fd6adf9fdbf46f" title="取消请求">cancel()</a> 取消请求</li>
+<li>进度跟踪</li>
+<li>自动重试与指数退避</li>
+<li>Gzip 解压</li>
+<li>带请求体的 POST 请求</li>
+</ul>
+<p>使用示例： auto* request = client-&gt;getAsync(url, policy); connect(request, &amp;<a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1" title="请求完成时发射（成功、错误或取消） (success, error, or cancelled)">AsyncNetworkRequest::finished</a>, this, [](const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html" title="网络请求结果">NetworkResult</a>&amp; result) { if (result.wasCancelled) { ... } }); // 取消请求：request-&gt;<a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a19c2928774d26aa764fd6adf9fdbf46f" title="取消请求">cancel()</a>; </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00045">45</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="afdd7b3469c74866b733afc9e35aa809d" name="afdd7b3469c74866b733afc9e35aa809d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdd7b3469c74866b733afc9e35aa809d">&#9670;&#160;</a></span>~AsyncNetworkRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::AsyncNetworkRequest::~AsyncNetworkRequest </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数，确保清理 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00136">136</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">m_currentReply</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00240">m_pendingReplies</a> , 以及 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">m_repliesMutex</a>.</p>
+
+</div>
+</div>
+<a id="abffb1f48142ee7f275318387745bb11a" name="abffb1f48142ee7f275318387745bb11a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abffb1f48142ee7f275318387745bb11a">&#9670;&#160;</a></span>AsyncNetworkRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::AsyncNetworkRequest::AsyncNetworkRequest </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QNetworkAccessManager *&#160;</td>
+          <td class="paramname"><em>networkManager</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>body</em> = <code>QByteArray()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数；私有，使用 <a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ab9dd280679080b0f27bc49c0cad13670" title="发送 HTTP GET 请求（异步，非阻塞）">NetworkClient::getAsync()</a> 或 postAsync() 创建请求。 </p>
+<p>初始化请求状态、网络策略和诊断上下文。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求目标 URL。 </td></tr>
+    <tr><td class="paramname">networkManager</td><td>所属线程的网络管理器。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>请求资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>请求重试、超时和响应大小策略。 </td></tr>
+    <tr><td class="paramname">body</td><td>POST 请求正文；为空时执行 GET 请求。 </td></tr>
+    <tr><td class="paramname">parent</td><td>Qt 父对象。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00109">109</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="INetworkClient_8h_source.html#l00305">EasyKiConverter::NetworkDiagnostic::host</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00224">m_resourceType</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00231">m_result</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">m_url</a>, <a class="el" href="INetworkClient_8h_source.html#l00039">EasyKiConverter::RequestProfile::name</a>, <a class="el" href="INetworkClient_8h_source.html#l00307">EasyKiConverter::NetworkDiagnostic::profileName</a>, <a class="el" href="INetworkClient_8h_source.html#l00306">EasyKiConverter::NetworkDiagnostic::resourceType</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00304">EasyKiConverter::NetworkDiagnostic::url</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ae0a7ed3d13ffb939e44f1a6a76ba3528" name="ae0a7ed3d13ffb939e44f1a6a76ba3528"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0a7ed3d13ffb939e44f1a6a76ba3528">&#9670;&#160;</a></span>calculateRetryDelay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AsyncNetworkRequest::calculateRetryDelay </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>retryCount</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>计算带抖动的重试延迟。 </p>
+<p>计算带抖动的指数退避等待时间。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">retryCount</td><td>当前重试次数。</td></tr>
+    <tr><td class="paramname">retryCount</td><td>当前重试次数。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>下一次重试前应等待的毫秒数。 </dd></dl>
+<p>&lt; 当前重试序号对应的基础等待时间。</p>
+<p>&lt; 随机抖动的半范围。</p>
+<p>&lt; 本次实际抖动值。</p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00606">606</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00380">EasyKiConverter::RetryPolicy::delays</a>, <a class="el" href="INetworkClient_8h_source.html#l00379">EasyKiConverter::RetryPolicy::jitterFactor</a> , 以及 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00225">m_policy</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a>.</p>
+
+</div>
+</div>
+<a id="a19c2928774d26aa764fd6adf9fdbf46f" name="a19c2928774d26aa764fd6adf9fdbf46f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19c2928774d26aa764fd6adf9fdbf46f">&#9670;&#160;</a></span>cancel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::cancel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>取消请求 </p>
+<p>在所属线程中中止当前请求并发布取消结果。</p>
+<p>Can be called from any thread. The request will abort as soon as possible. The finished signal will be emitted with wasCancelled=true. </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">165</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00698">cancelledResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00228">m_cancelled</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">m_currentReply</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">m_repliesMutex</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00234">m_timeoutTimer</a> , 以及 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">m_url</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00136">~AsyncNetworkRequest()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00179">EasyKiConverter::UpdateCheckerService::~UpdateCheckerService()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00594">EasyKiConverter::FetchWorker::abort()</a>, <a class="el" href="NetworkWorker_8cpp_source.html#l00278">EasyKiConverter::NetworkWorker::abort()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00452">EasyKiConverter::NetworkClient::cancelAllRequests()</a>.</p>
+
+</div>
+</div>
+<a id="a97fe4c50b9dbdd25ba1bcb69d6cb96ce" name="a97fe4c50b9dbdd25ba1bcb69d6cb96ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97fe4c50b9dbdd25ba1bcb69d6cb96ce">&#9670;&#160;</a></span>cancelledResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::AsyncNetworkRequest::cancelledResult </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>errorMessage</em> = <code>QStringLiteral(&quot;Cancelled&quot;)</code></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造保留原始诊断上下文的取消结果。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">errorMessage</td><td>取消结果要携带的错误文本。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>标记为取消并保留原诊断上下文的结果。 </dd></dl>
+<p>&lt; 基于当前请求上下文构造的取消结果。</p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00698">698</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa0e22fe7d45f8e5632a4abf369b24e29c">EasyKiConverter::Canceled</a>, <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="INetworkClient_8h_source.html#l00417">EasyKiConverter::NetworkResult::error</a>, <a class="el" href="INetworkClient_8h_source.html#l00310">EasyKiConverter::NetworkDiagnostic::errorMessage</a>, <a class="el" href="INetworkClient_8h_source.html#l00309">EasyKiConverter::NetworkDiagnostic::errorType</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00235">m_currentRetryCount</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00231">m_result</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00230">m_resultMutex</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a>, <a class="el" href="INetworkClient_8h_source.html#l00317">EasyKiConverter::NetworkDiagnostic::retryCount</a>, <a class="el" href="INetworkClient_8h_source.html#l00420">EasyKiConverter::NetworkResult::success</a>, <a class="el" href="INetworkClient_8h_source.html#l00323">EasyKiConverter::NetworkDiagnostic::wasCanceled</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00421">EasyKiConverter::NetworkResult::wasCancelled</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>.</p>
+
+</div>
+</div>
+<a id="a31d4e68e24f937db80edf9c73dbeb086" name="a31d4e68e24f937db80edf9c73dbeb086"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31d4e68e24f937db80edf9c73dbeb086">&#9670;&#160;</a></span>cleanupAttempt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::cleanupAttempt </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清理当前尝试 </p>
+<p>释放当前回复和计时器，为下一次尝试清理状态。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00653">653</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00238">m_currentAttemptTimedOut</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">m_currentReply</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00240">m_pendingReplies</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">m_repliesMutex</a> , 以及 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00234">m_timeoutTimer</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a>.</p>
+
+</div>
+</div>
+<a id="aa4b0c6ee0c802ffa8523b2c584aa518c" name="aa4b0c6ee0c802ffa8523b2c584aa518c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4b0c6ee0c802ffa8523b2c584aa518c">&#9670;&#160;</a></span>completeWithResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AsyncNetworkRequest::completeWithResult </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>只允许第一个完成结果写入状态并发出信号。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>要保存并发送给调用方的网络结果。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>本次调用成功写入并发布结果时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">679</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">finished()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00229">m_finished</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00231">m_result</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00230">m_resultMutex</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00749">completeWithResultDelayed()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a3912f6a53b12619a008b520849fcbe3e" name="a3912f6a53b12619a008b520849fcbe3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3912f6a53b12619a008b520849fcbe3e">&#9670;&#160;</a></span>completeWithResultDelayed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::completeWithResultDelayed </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>delayMs</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>延迟完成请求 - 用于测试场景 </p>
+<p>延迟发布结果，保证异步调用方有机会连接完成信号。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>要发送的结果 </td></tr>
+    <tr><td class="paramname">delayMs</td><td>延迟毫秒数。</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>此方法用于模拟异步网络请求，避免信号在槽连接建立前发出</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>要保存并发布的网络结果。 </td></tr>
+    <tr><td class="paramname">delayMs</td><td>延迟毫秒数；不大于 0 时使用下一轮事件循环。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00749">749</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a>.</p>
+
+</div>
+</div>
+<a id="a4bc8be745991b7093a3f9fc3d172fb2b" name="a4bc8be745991b7093a3f9fc3d172fb2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4bc8be745991b7093a3f9fc3d172fb2b">&#9670;&#160;</a></span>createFinished()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> * EasyKiConverter::AsyncNetworkRequest::createFinished </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建已完成的异步请求对象。 </p>
+<p>创建已经完成的请求对象，供同步结果和测试场景复用。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>已完成的网络结果。 </td></tr>
+    <tr><td class="paramname">parent</td><td>Qt 父对象。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>已保存结果并将异步发射完成信号的请求对象。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>要保存并发送的网络结果。 </td></tr>
+    <tr><td class="paramname">parent</td><td>Qt 父对象。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>已保存结果并异步发射完成信号的请求对象。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00080">80</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="INetworkClient_8h_source.html#l00306">EasyKiConverter::NetworkDiagnostic::resourceType</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00421">EasyKiConverter::NetworkResult::wasCancelled</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00291">EasyKiConverter::NetworkClient::enqueueAsyncRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a4880170daf13c936f0b7953dd9948656" name="a4880170daf13c936f0b7953dd9948656"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4880170daf13c936f0b7953dd9948656">&#9670;&#160;</a></span>currentRetryCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AsyncNetworkRequest::currentRetryCount </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前重试次数 </p>
+<p>返回已经执行的重试次数。</p>
+<dl class="section return"><dt>返回</dt><dd>已执行的重试次数。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00228">228</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00235">m_currentRetryCount</a>.</p>
+
+</div>
+</div>
+<a id="ae831956dc1254c26c47275fb19ac8fa3" name="ae831956dc1254c26c47275fb19ac8fa3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae831956dc1254c26c47275fb19ac8fa3">&#9670;&#160;</a></span>downloadProgress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::downloadProgress </td>
+          <td>(</td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>bytesReceived</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>bytesTotal</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>下载过程中发射以报告进度 to report progress </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bytesReceived</td><td>Bytes received so far </td></tr>
+    <tr><td class="paramname">bytesTotal</td><td>Total bytes to receive (-1 if unknown) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">被这些函数引用 <a class="el" href="JLCDatasheet_8cpp_source.html#l00038">EasyKiConverter::JLCDatasheet::downloadDatasheet()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">handleDownloadProgress()</a>.</p>
+
+</div>
+</div>
+<a id="a91a6a5a56e5405812955e14dc6ed1cc1" name="a91a6a5a56e5405812955e14dc6ed1cc1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91a6a5a56e5405812955e14dc6ed1cc1">&#9670;&#160;</a></span>finished()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::finished </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>请求完成时发射（成功、错误或取消） (success, error, or cancelled) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">result</td><td>The result of the request </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">EasyKiConverter::UpdateCheckerService::checkForUpdates()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a>, <a class="el" href="JLCDatasheet_8cpp_source.html#l00038">EasyKiConverter::JLCDatasheet::downloadDatasheet()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00291">EasyKiConverter::NetworkClient::enqueueAsyncRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00239">EasyKiConverter::NetworkClient::executeRequest()</a>, <a class="el" href="NetworkWorker_8cpp_source.html#l00191">EasyKiConverter::NetworkWorker::executeRequest()</a>, <a class="el" href="CacheRepository_8h_source.html#l00124">EasyKiConverter::CacheRepository::fetchDatasheetAsync()</a>, <a class="el" href="CacheRepository_8h_source.html#l00034">EasyKiConverter::CacheRepository::fetchPreviewImageAsync()</a>, <a class="el" href="EasyedaApi_8cpp_source.html#l00120">EasyKiConverter::EasyedaApi::fetchWithNetworkClient()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00267">EasyKiConverter::FetchWorker::httpGet()</a>, <a class="el" href="LcscImageService_8cpp_source.html#l00337">EasyKiConverter::LcscImageService::performApiSearch()</a>, <a class="el" href="LcscImageService_8cpp_source.html#l00558">EasyKiConverter::LcscImageService::performDatasheetDownload()</a> , 以及 <a class="el" href="LcscImageService_8cpp_source.html#l00430">EasyKiConverter::LcscImageService::performDownload()</a>.</p>
+
+</div>
+</div>
+<a id="a5d9c49bb26d860f27d6be0f48b7d8bbd" name="a5d9c49bb26d860f27d6be0f48b7d8bbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d9c49bb26d860f27d6be0f48b7d8bbd">&#9670;&#160;</a></span>handleAttemptFinished()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::handleAttemptFinished </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>处理尝试完成 </p>
+<p>过滤过期回复并处理当前网络尝试的最终信号。 </p>
+<p>&lt; 发出完成信号的网络响应对象。</p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00323">323</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">isCancelled()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">isFinished()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">m_currentReply</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">m_repliesMutex</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00234">m_timeoutTimer</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a1be942d2a5dbfc9e7cb6694a6b95e765" name="a1be942d2a5dbfc9e7cb6694a6b95e765"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1be942d2a5dbfc9e7cb6694a6b95e765">&#9670;&#160;</a></span>handleDownloadProgress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::handleDownloadProgress </td>
+          <td>(</td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>bytesReceived</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>bytesTotal</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>处理下载进度，检查响应大小限制。 </p>
+<p>转发下载进度并在响应过大时提前终止请求。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bytesReceived</td><td>已接收字节数。 </td></tr>
+    <tr><td class="paramname">bytesTotal</td><td>预期总字节数；未知时为 -1。</td></tr>
+    <tr><td class="paramname">bytesReceived</td><td>已接收的字节数。 </td></tr>
+    <tr><td class="paramname">bytesTotal</td><td>预期总字节数；未知时为负数。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 当前资源类型的请求策略。</p>
+<p>&lt; 当前响应允许的最大字节数。</p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">376</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae831956dc1254c26c47275fb19ac8fa3">downloadProgress()</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">isCancelled()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">isFinished()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">m_currentReply</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">m_repliesMutex</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00224">m_resourceType</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">m_url</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00059">EasyKiConverter::RequestProfile::maxResponseBytes</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a3b6759c4d845470a1c4773553012d3fa" name="a3b6759c4d845470a1c4773553012d3fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3b6759c4d845470a1c4773553012d3fa">&#9670;&#160;</a></span>handleTimeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::handleTimeout </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>处理超时 </p>
+<p>标记当前尝试超时并中止底层回复。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">354</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">isCancelled()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">isFinished()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00238">m_currentAttemptTimedOut</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">m_currentReply</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">m_repliesMutex</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">m_url</a> , 以及 <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa78713cdb8a23d45b2082e46e50c1cbb">timeout()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a9ed355f2385676279030ae9cb743b6e5" name="a9ed355f2385676279030ae9cb743b6e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ed355f2385676279030ae9cb743b6e5">&#9670;&#160;</a></span>hasActiveReply()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AsyncNetworkRequest::hasActiveReply </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查当前是否仍有未完成的网络回复。 </p>
+<dl class="section return"><dt>返回</dt><dd>存在未完成回复时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00739">739</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">m_currentReply</a> , 以及 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">m_repliesMutex</a>.</p>
+
+</div>
+</div>
+<a id="ab0bc82f329bcbb9707b8d3f652fa5d9e" name="ab0bc82f329bcbb9707b8d3f652fa5d9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0bc82f329bcbb9707b8d3f652fa5d9e">&#9670;&#160;</a></span>isCancelled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AsyncNetworkRequest::isCancelled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查请求是否已取消 </p>
+<p>返回请求是否已经进入取消状态。</p>
+<dl class="section return"><dt>返回</dt><dd>请求已取消时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">195</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00228">m_cancelled</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00323">handleAttemptFinished()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">handleDownloadProgress()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">handleTimeout()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00235">start()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a2f6e4711c8653b21b6d96741fc064359" name="a2f6e4711c8653b21b6d96741fc064359"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f6e4711c8653b21b6d96741fc064359">&#9670;&#160;</a></span>isFinished()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AsyncNetworkRequest::isFinished </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查请求是否已完成 (successfully or with error) </p>
+<p>返回请求是否已经产生最终结果。</p>
+<dl class="section return"><dt>返回</dt><dd>请求已完成时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">203</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00229">m_finished</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00594">EasyKiConverter::FetchWorker::abort()</a>, <a class="el" href="NetworkWorker_8cpp_source.html#l00191">EasyKiConverter::NetworkWorker::executeRequest()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00323">handleAttemptFinished()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">handleDownloadProgress()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">handleTimeout()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00267">EasyKiConverter::FetchWorker::httpGet()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00235">start()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a41846159d0ba42fdb8c01434bfee7c6e" name="a41846159d0ba42fdb8c01434bfee7c6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a41846159d0ba42fdb8c01434bfee7c6e">&#9670;&#160;</a></span>processResponse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::processResponse </td>
+          <td>(</td>
+          <td class="paramtype">QNetworkReply *&#160;</td>
+          <td class="paramname"><em>reply</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>处理响应数据。 </p>
+<p>将网络回复转换为统一结果并提取错误诊断。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">reply</td><td>已完成的网络响应。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 从当前请求上下文派生并最终发布的网络结果。</p>
+<p>&lt; Qt 提供的底层网络错误文本。</p>
+<p>&lt; 已读取且可能需要解压的响应正文。</p>
+<p>&lt; 当前资源的响应大小策略。</p>
+<p>&lt; 重定向后服务器实际返回的最终 URL。</p>
+<p>&lt; URL 白名单校验失败时的具体原因。</p>
+<p>&lt; 响应声明的编码头。</p>
+<p>&lt; 标准化后的内容编码名称。</p>
+<p>&lt; Gzip 解压结果。</p>
+<p>&lt; 解压后的响应大小策略。</p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">409</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa0e22fe7d45f8e5632a4abf369b24e29c">EasyKiConverter::Canceled</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00698">cancelledResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454faa41e9791d8a1b6a003deb6c6a7bfb4c0">EasyKiConverter::ConnectionRefused</a>, <a class="el" href="INetworkClient_8h_source.html#l00415">EasyKiConverter::NetworkResult::data</a>, <a class="el" href="GzipUtils_8h_source.html#l00019">GzipUtils::DecompressResult::data</a>, <a class="el" href="GzipUtils_8cpp_source.html#l00034">GzipUtils::decompress()</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa3f52f0648a14dd7ae9fbdfeadf3e8a44">EasyKiConverter::DecompressionFailed</a>, <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="INetworkClient_8h_source.html#l00417">EasyKiConverter::NetworkResult::error</a>, <a class="el" href="INetworkClient_8h_source.html#l00310">EasyKiConverter::NetworkDiagnostic::errorMessage</a>, <a class="el" href="INetworkClient_8h_source.html#l00309">EasyKiConverter::NetworkDiagnostic::errorType</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa722969577a96ca3953e84e3d949dee81">EasyKiConverter::Forbidden</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fafadea6847567986b6b3ba99c3db06640">EasyKiConverter::HostNotFound</a>, <a class="el" href="UrlUtils_8cpp_source.html#l00188">EasyKiConverter::UrlUtils::isAllowedUrl()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">isCancelled()</a>, <a class="el" href="GzipUtils_8cpp_source.html#l00021">GzipUtils::isGzipped()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00238">m_currentAttemptTimedOut</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00235">m_currentRetryCount</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00237">m_gzipUsed</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00224">m_resourceType</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00231">m_result</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00230">m_resultMutex</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">m_url</a>, <a class="el" href="INetworkClient_8h_source.html#l00059">EasyKiConverter::RequestProfile::maxResponseBytes</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa6adf97f83acf6453d4a6a4b1070f3754">EasyKiConverter::None</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa38c300f4fc9ce8a77aad4a30de05cad8">EasyKiConverter::NotFound</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa6311ae17c1ee52b36e68aaf4ad066387">EasyKiConverter::Other</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa50ef7598e6d8e1f977ea8b4687079cbf">EasyKiConverter::RateLimited</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a>, <a class="el" href="INetworkClient_8h_source.html#l00317">EasyKiConverter::NetworkDiagnostic::retryCount</a>, <a class="el" href="INetworkClient_8h_source.html#l00418">EasyKiConverter::NetworkResult::retryCount</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa7d65c64901711bc2cd2a33ff2641fbe9">EasyKiConverter::ServerError</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00625">shouldRetryInternal()</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa25c1ae1ede35f9d2f2931c4d3241282f">EasyKiConverter::SSLError</a>, <a class="el" href="INetworkClient_8h_source.html#l00308">EasyKiConverter::NetworkDiagnostic::statusCode</a>, <a class="el" href="INetworkClient_8h_source.html#l00416">EasyKiConverter::NetworkResult::statusCode</a>, <a class="el" href="INetworkClient_8h_source.html#l00420">EasyKiConverter::NetworkResult::success</a>, <a class="el" href="GzipUtils_8h_source.html#l00020">GzipUtils::DecompressResult::success</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fac85a251cc457840f1e032f1b733e9398">EasyKiConverter::Timeout</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00719">timeoutResult()</a>, <a class="el" href="INetworkClient_8h_source.html#l00323">EasyKiConverter::NetworkDiagnostic::wasCanceled</a>, <a class="el" href="INetworkClient_8h_source.html#l00421">EasyKiConverter::NetworkResult::wasCancelled</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00321">EasyKiConverter::NetworkDiagnostic::wasRateLimited</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00323">handleAttemptFinished()</a>.</p>
+
+</div>
+</div>
+<a id="a632e2d5b2ad425ae6892d9a2a67c44f7" name="a632e2d5b2ad425ae6892d9a2a67c44f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a632e2d5b2ad425ae6892d9a2a67c44f7">&#9670;&#160;</a></span>result()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::AsyncNetworkRequest::result </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取结果 </p>
+<p>在线程安全地读取请求结果。</p>
+<p>Only valid after finished signal is emitted.</p>
+<dl class="section return"><dt>返回</dt><dd>当前保存的网络结果。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">211</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00231">m_result</a> , 以及 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00230">m_resultMutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00698">cancelledResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00749">completeWithResultDelayed()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00080">createFinished()</a>, <a class="el" href="NetworkWorker_8cpp_source.html#l00191">EasyKiConverter::NetworkWorker::executeRequest()</a>, <a class="el" href="EasyedaApi_8cpp_source.html#l00150">EasyKiConverter::EasyedaApi::handleAsyncRequestFinished()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00267">EasyKiConverter::FetchWorker::httpGet()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00719">timeoutResult()</a>.</p>
+
+</div>
+</div>
+<a id="a4e49445c299941f40f3c1c3e274cf9d7" name="a4e49445c299941f40f3c1c3e274cf9d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e49445c299941f40f3c1c3e274cf9d7">&#9670;&#160;</a></span>retrying()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::retrying </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>retryCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>delayMs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>请求重试时发射 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">retryCount</td><td>Current retry count (0-based) </td></tr>
+    <tr><td class="paramname">delayMs</td><td>Delay before retry </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a>.</p>
+
+</div>
+</div>
+<a id="ad60f396a89d6e2002ed6893f259e3338" name="ad60f396a89d6e2002ed6893f259e3338"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad60f396a89d6e2002ed6893f259e3338">&#9670;&#160;</a></span>scheduleRetry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::scheduleRetry </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>retryCount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>调度重试。 </p>
+<p>按退避策略安排下一次请求尝试。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">retryCount</td><td>当前重试次数。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 下一次尝试前等待的毫秒数。</p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">574</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00606">calculateRetryDelay()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00653">cleanupAttempt()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">isCancelled()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">isFinished()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00235">m_currentRetryCount</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">m_url</a>, <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4e49445c299941f40f3c1c3e274cf9d7">retrying()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>.</p>
+
+</div>
+</div>
+<a id="a8f96d6e9ff5e9f9f46b93eee496a0a96" name="a8f96d6e9ff5e9f9f46b93eee496a0a96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f96d6e9ff5e9f9f46b93eee496a0a96">&#9670;&#160;</a></span>setTimeoutMs()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::setTimeoutMs </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ms</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置超时时间（毫秒） </p>
+<p>设置后续请求尝试使用的超时时间。</p>
+<p>Default is 30000ms (30 seconds). Set to 0 to disable timeout.</p>
+<p>设置超时时间（毫秒）。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ms</td><td>超时时间；传入 0 表示禁用超时。</td></tr>
+    <tr><td class="paramname">ms</td><td>超时时间；传入 0 表示禁用超时。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00220">220</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00236">m_timeoutMs</a>.</p>
+
+</div>
+</div>
+<a id="acb76f820a1e52b021fd7a080e9ba65a8" name="acb76f820a1e52b021fd7a080e9ba65a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb76f820a1e52b021fd7a080e9ba65a8">&#9670;&#160;</a></span>shouldRetryInternal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AsyncNetworkRequest::shouldRetryInternal </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>statusCode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QNetworkReply::NetworkError&#160;</td>
+          <td class="paramname"><em>error</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>retryCount</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查是否应该根据状态码重试。 </p>
+<p>判断当前错误是否允许再次请求。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">statusCode</td><td>HTTP 状态码。 </td></tr>
+    <tr><td class="paramname">error</td><td>Qt 网络错误码。 </td></tr>
+    <tr><td class="paramname">retryCount</td><td>当前重试次数。</td></tr>
+    <tr><td class="paramname">statusCode</td><td>HTTP 状态码。 </td></tr>
+    <tr><td class="paramname">error</td><td>Qt 网络错误码。 </td></tr>
+    <tr><td class="paramname">retryCount</td><td>当前重试次数。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>当前错误满足重试策略时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00625">625</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00225">m_policy</a>, <a class="el" href="INetworkClient_8h_source.html#l00377">EasyKiConverter::RetryPolicy::maxRetries</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00382">EasyKiConverter::RetryPolicy::retryableStatusCodes</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>.</p>
+
+</div>
+</div>
+<a id="ad71552d4e017994c217414a041675518" name="ad71552d4e017994c217414a041675518"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad71552d4e017994c217414a041675518">&#9670;&#160;</a></span>start()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::start </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>启动请求 </p>
+<p>从第一次尝试开始执行请求生命周期。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00235">235</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">isCancelled()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">isFinished()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">m_url</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a65858dbb18e57efbe25a4824c27fdd5e" name="a65858dbb18e57efbe25a4824c27fdd5e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65858dbb18e57efbe25a4824c27fdd5e">&#9670;&#160;</a></span>startAttempt()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::startAttempt </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>attemptNumber</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>启动单次尝试（重试时会多次调用）。 </p>
+<p>启动一次网络请求，并安装超时、进度和完成处理器。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">attemptNumber</td><td>当前尝试序号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 网络管理器缺失时要发布的失败结果。</p>
+<p>&lt; 当前尝试创建的网络响应对象。</p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">253</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a>, <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="INetworkClient_8h_source.html#l00417">EasyKiConverter::NetworkResult::error</a>, <a class="el" href="INetworkClient_8h_source.html#l00310">EasyKiConverter::NetworkDiagnostic::errorMessage</a>, <a class="el" href="INetworkClient_8h_source.html#l00309">EasyKiConverter::NetworkDiagnostic::errorType</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00323">handleAttemptFinished()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">handleDownloadProgress()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">handleTimeout()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">isCancelled()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">isFinished()</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00238">m_currentAttemptTimedOut</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">m_currentReply</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00227">m_isPostRequest</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00223">m_networkManager</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00240">m_pendingReplies</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00226">m_postBody</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">m_repliesMutex</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00231">m_result</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00236">m_timeoutMs</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00234">m_timeoutTimer</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">m_url</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa6311ae17c1ee52b36e68aaf4ad066387">EasyKiConverter::Other</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a>, <a class="el" href="INetworkClient_8h_source.html#l00420">EasyKiConverter::NetworkResult::success</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00421">EasyKiConverter::NetworkResult::wasCancelled</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00235">start()</a>.</p>
+
+</div>
+</div>
+<a id="aa78713cdb8a23d45b2082e46e50c1cbb" name="aa78713cdb8a23d45b2082e46e50c1cbb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa78713cdb8a23d45b2082e46e50c1cbb">&#9670;&#160;</a></span>timeout()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AsyncNetworkRequest::timeout </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>请求超时时发射 </p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">handleTimeout()</a>.</p>
+
+</div>
+</div>
+<a id="a6111aa96f0664643b03385dbacaacc31" name="a6111aa96f0664643b03385dbacaacc31"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6111aa96f0664643b03385dbacaacc31">&#9670;&#160;</a></span>timeoutResult()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::AsyncNetworkRequest::timeoutResult </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造保留原始诊断上下文的超时结果。 </p>
+<dl class="section return"><dt>返回</dt><dd>标记为超时并保留原诊断上下文的结果。 </dd></dl>
+<p>&lt; 基于当前请求上下文构造的超时结果。</p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a> 第 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00719">719</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="INetworkClient_8h_source.html#l00417">EasyKiConverter::NetworkResult::error</a>, <a class="el" href="INetworkClient_8h_source.html#l00310">EasyKiConverter::NetworkDiagnostic::errorMessage</a>, <a class="el" href="INetworkClient_8h_source.html#l00309">EasyKiConverter::NetworkDiagnostic::errorType</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00235">m_currentRetryCount</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00231">m_result</a>, <a class="el" href="AsyncNetworkRequest_8h_source.html#l00230">m_resultMutex</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a>, <a class="el" href="INetworkClient_8h_source.html#l00317">EasyKiConverter::NetworkDiagnostic::retryCount</a>, <a class="el" href="INetworkClient_8h_source.html#l00420">EasyKiConverter::NetworkResult::success</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fac85a251cc457840f1e032f1b733e9398">EasyKiConverter::Timeout</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00421">EasyKiConverter::NetworkResult::wasCancelled</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">友元及相关函数文档</h2>
+<a id="af7e769830808bf3274fb1b51e60929fd" name="af7e769830808bf3274fb1b51e60929fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7e769830808bf3274fb1b51e60929fd">&#9670;&#160;</a></span>NetworkClient</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1NetworkClient.html">NetworkClient</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00140">140</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a95b86b9d707826f1c2c22adc06d3ab61" name="a95b86b9d707826f1c2c22adc06d3ab61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95b86b9d707826f1c2c22adc06d3ab61">&#9670;&#160;</a></span>Test::MockNetworkClient</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class Test::MockNetworkClient</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00141">141</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ab777eeaf572936e64d75556b3835e5cd" name="ab777eeaf572936e64d75556b3835e5cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab777eeaf572936e64d75556b3835e5cd">&#9670;&#160;</a></span>m_cancelled</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::AsyncNetworkRequest::m_cancelled</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>取消状态原子标志。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00228">228</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00195">isCancelled()</a>.</p>
+
+</div>
+</div>
+<a id="aa8d023db029f5c2f3bf4887c0457090c" name="aa8d023db029f5c2f3bf4887c0457090c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa8d023db029f5c2f3bf4887c0457090c">&#9670;&#160;</a></span>m_currentAttemptTimedOut</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::AsyncNetworkRequest::m_currentAttemptTimedOut</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前尝试是否已因超时结束。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00238">238</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00653">cleanupAttempt()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">handleTimeout()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="ab929a16bcd84232177d08c04d3af9552" name="ab929a16bcd84232177d08c04d3af9552"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab929a16bcd84232177d08c04d3af9552">&#9670;&#160;</a></span>m_currentReply</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QNetworkReply* EasyKiConverter::AsyncNetworkRequest::m_currentReply</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前网络响应对象，不拥有其生命周期。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00233">233</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00136">~AsyncNetworkRequest()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00653">cleanupAttempt()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00323">handleAttemptFinished()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">handleDownloadProgress()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">handleTimeout()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00739">hasActiveReply()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="af9b00f86aefba602db707600c811d585" name="af9b00f86aefba602db707600c811d585"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9b00f86aefba602db707600c811d585">&#9670;&#160;</a></span>m_currentRetryCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AsyncNetworkRequest::m_currentRetryCount</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>已执行的重试次数。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00235">235</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00698">cancelledResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00228">currentRetryCount()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00719">timeoutResult()</a>.</p>
+
+</div>
+</div>
+<a id="abf8602426ca221168065ae12a9678bb9" name="abf8602426ca221168065ae12a9678bb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf8602426ca221168065ae12a9678bb9">&#9670;&#160;</a></span>m_finished</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::AsyncNetworkRequest::m_finished</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>完成状态原子标志。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00229">229</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">isFinished()</a>.</p>
+
+</div>
+</div>
+<a id="a61f3c10e0b29bf14af272ae605a068a1" name="a61f3c10e0b29bf14af272ae605a068a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61f3c10e0b29bf14af272ae605a068a1">&#9670;&#160;</a></span>m_gzipUsed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AsyncNetworkRequest::m_gzipUsed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前响应是否使用了 Gzip 解压。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00237">237</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>.</p>
+
+</div>
+</div>
+<a id="ac7b4d8254b35f0eb3d85c538f3bb30f6" name="ac7b4d8254b35f0eb3d85c538f3bb30f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7b4d8254b35f0eb3d85c538f3bb30f6">&#9670;&#160;</a></span>m_isPostRequest</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AsyncNetworkRequest::m_isPostRequest</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否为 POST 请求。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00227">227</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="ae09e7ee36a3295abd9c497d302d7a377" name="ae09e7ee36a3295abd9c497d302d7a377"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae09e7ee36a3295abd9c497d302d7a377">&#9670;&#160;</a></span>m_networkManager</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QNetworkAccessManager* EasyKiConverter::AsyncNetworkRequest::m_networkManager</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>所属线程的网络管理器，不由请求对象拥有。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00223">223</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="ab035aacd801171748e0877b3887e6a09" name="ab035aacd801171748e0877b3887e6a09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab035aacd801171748e0877b3887e6a09">&#9670;&#160;</a></span>m_pendingReplies</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;QNetworkReply*&gt; EasyKiConverter::AsyncNetworkRequest::m_pendingReplies</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>等待析构清理的网络响应列表。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00240">240</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00136">~AsyncNetworkRequest()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00653">cleanupAttempt()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a6704ef2418f97adb47bf6119ff1a81d5" name="a6704ef2418f97adb47bf6119ff1a81d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6704ef2418f97adb47bf6119ff1a81d5">&#9670;&#160;</a></span>m_policy</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> EasyKiConverter::AsyncNetworkRequest::m_policy</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前请求的重试和超时策略。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00225">225</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00606">calculateRetryDelay()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00625">shouldRetryInternal()</a>.</p>
+
+</div>
+</div>
+<a id="ab3475ca72e99fc0c42733fbe75f7cccf" name="ab3475ca72e99fc0c42733fbe75f7cccf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3475ca72e99fc0c42733fbe75f7cccf">&#9670;&#160;</a></span>m_postBody</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::AsyncNetworkRequest::m_postBody</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Request body for POST requests </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00226">226</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a6ee63074cee06d915dc5fb0e344b85de" name="a6ee63074cee06d915dc5fb0e344b85de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ee63074cee06d915dc5fb0e344b85de">&#9670;&#160;</a></span>m_repliesMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex EasyKiConverter::AsyncNetworkRequest::m_repliesMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护当前和待清理响应列表的互斥锁。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00241">241</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00136">~AsyncNetworkRequest()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00653">cleanupAttempt()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00323">handleAttemptFinished()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">handleDownloadProgress()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">handleTimeout()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00739">hasActiveReply()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a28d92a8e475da200657edfdb198e2e29" name="a28d92a8e475da200657edfdb198e2e29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28d92a8e475da200657edfdb198e2e29">&#9670;&#160;</a></span>m_resourceType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> EasyKiConverter::AsyncNetworkRequest::m_resourceType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>请求资源类型。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00224">224</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00109">AsyncNetworkRequest()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">handleDownloadProgress()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>.</p>
+
+</div>
+</div>
+<a id="a01f8837074c863452b898de68a432bb5" name="a01f8837074c863452b898de68a432bb5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a01f8837074c863452b898de68a432bb5">&#9670;&#160;</a></span>m_result</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::AsyncNetworkRequest::m_result</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前请求的最终结果。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00231">231</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00109">AsyncNetworkRequest()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00698">cancelledResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00719">timeoutResult()</a>.</p>
+
+</div>
+</div>
+<a id="a2112a9ee47e9ebc22e8958e04c92ebeb" name="a2112a9ee47e9ebc22e8958e04c92ebeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2112a9ee47e9ebc22e8958e04c92ebeb">&#9670;&#160;</a></span>m_resultMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex EasyKiConverter::AsyncNetworkRequest::m_resultMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护最终结果的互斥锁。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00230">230</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00698">cancelledResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00679">completeWithResult()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">result()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00719">timeoutResult()</a>.</p>
+
+</div>
+</div>
+<a id="a9e4dab9f31c5224e9fe80c581265e5b8" name="a9e4dab9f31c5224e9fe80c581265e5b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e4dab9f31c5224e9fe80c581265e5b8">&#9670;&#160;</a></span>m_timeoutMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AsyncNetworkRequest::m_timeoutMs</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前尝试使用的超时时间（毫秒）。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00236">236</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00220">setTimeoutMs()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a6ee4890235769abca8586219e42e0d95" name="a6ee4890235769abca8586219e42e0d95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ee4890235769abca8586219e42e0d95">&#9670;&#160;</a></span>m_timeoutTimer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QTimer* EasyKiConverter::AsyncNetworkRequest::m_timeoutTimer</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前请求的超时计时器。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00234">234</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00653">cleanupAttempt()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00323">handleAttemptFinished()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="ad58cc56faeb2df5015b9de426dde0e86" name="ad58cc56faeb2df5015b9de426dde0e86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad58cc56faeb2df5015b9de426dde0e86">&#9670;&#160;</a></span>m_url</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUrl EasyKiConverter::AsyncNetworkRequest::m_url</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>请求目标 URL。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00222">222</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00109">AsyncNetworkRequest()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">cancel()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00376">handleDownloadProgress()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00354">handleTimeout()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00409">processResponse()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00574">scheduleRetry()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00235">start()</a> , 以及 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00253">startAttempt()</a>.</p>
+
+</div>
+</div>
+<a id="a5788b95f04bcdbc679917b411f2d5d27" name="a5788b95f04bcdbc679917b411f2d5d27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5788b95f04bcdbc679917b411f2d5d27">&#9670;&#160;</a></span>s_emptyReplies</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QList&lt; QNetworkReply * &gt; EasyKiConverter::AsyncNetworkRequest::s_emptyReplies</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>空响应列表的静态占位对象。 </p>
+
+<p class="definition">在文件 <a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a> 第 <a class="el" href="AsyncNetworkRequest_8h_source.html#l00243">243</a> 行定义.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/network/<a class="el" href="AsyncNetworkRequest_8h_source.html">AsyncNetworkRequest.h</a></li>
+<li>core/network/<a class="el" href="AsyncNetworkRequest_8cpp_source.html">AsyncNetworkRequest.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

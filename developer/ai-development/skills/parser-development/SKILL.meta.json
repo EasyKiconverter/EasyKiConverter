@@ -1,0 +1,11 @@
+{
+  "id": "parser-development",
+  "purpose": "实现确定性的格式 Parser/Model 到统一 IR 解析链路，并覆盖非法输入和格式边界。",
+  "triggers": ["新增解析器", "修复 Importer", "解析格式样本", "处理单位和坐标"],
+  "required_sources": ["docs/developer/ai-development/policy/AI_POLICY.md", "docs/developer/ai-development/PROJECT_CONTEXT.md", "docs/developer/ai-development/verification-policy.json", "docs/developer/ai-development/fixture-provenance.json", "docs/developer/ai-development/skills/format-research/SKILL.md"],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md"],
+  "side_effects": ["source-files", "test-files", "fixture-files", "build-artifacts"],
+  "verification": ["parser-focused-tests", "invalid-input-tests", "cpp-format", "build"],
+  "stop_conditions": ["字段语义无法由证据确认", "缺少样本或 IR 无法表达"],
+  "evidence_outputs": ["parser-behavior", "diagnostics", "fixture-and-test-results"]
+}

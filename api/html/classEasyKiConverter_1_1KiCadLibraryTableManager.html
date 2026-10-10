@@ -1,0 +1,636 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::KiCadLibraryTableManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1KiCadLibraryTableManager.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-static-methods">静态 Private 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1KiCadLibraryTableManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::KiCadLibraryTableManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>管理导出库在 KiCad 工程库表中的登记。  
+ <a href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="KiCadLibraryTableManager_8h_source.html">KiCadLibraryTableManager.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::KiCadLibraryTableManager 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1KiCadLibraryTableManager__coll__graph.svg" width="224" height="211"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a47c5817caddb595d6c4e9329e346ae2b" id="r_a47c5817caddb595d6c4e9329e346ae2b"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2b">RegistrationResult</a> { <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2ba6205cf9436aee7ccb42779ac5e69bd3f">Registered</a>
+, <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2ba4a2257f88d6d44c256377db75b99728b">ImportGuideWritten</a>
+, <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2bad7c8c85bf79bbe1b7188497c32c3b0ca">Failed</a>
+ }</td></tr>
+<tr class="memdesc:a47c5817caddb595d6c4e9329e346ae2b"><td class="mdescLeft">&#160;</td><td class="mdescRight">符号库或封装库登记结果。  <a href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2b">更多...</a><br /></td></tr>
+<tr class="separator:a47c5817caddb595d6c4e9329e346ae2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a079029150052408809b685d445a92f71" id="r_a079029150052408809b685d445a92f71"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2b">RegistrationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a079029150052408809b685d445a92f71">registerSymbolLibrary</a> (const QString &amp;outputDir, const QString &amp;libName, const QString &amp;libFilePath, const QString &amp;libraryDescription)</td></tr>
+<tr class="memdesc:a079029150052408809b685d445a92f71"><td class="mdescLeft">&#160;</td><td class="mdescRight">登记符号库。  <br /></td></tr>
+<tr class="separator:a079029150052408809b685d445a92f71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74163102627e53da7e5c68617704ced1" id="r_a74163102627e53da7e5c68617704ced1"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2b">RegistrationResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a74163102627e53da7e5c68617704ced1">registerFootprintLibrary</a> (const QString &amp;outputDir, const QString &amp;libName, const QString &amp;libDirPath, const QString &amp;libraryDescription)</td></tr>
+<tr class="memdesc:a74163102627e53da7e5c68617704ced1"><td class="mdescLeft">&#160;</td><td class="mdescRight">登记封装库。  <br /></td></tr>
+<tr class="separator:a74163102627e53da7e5c68617704ced1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+静态 Private 成员函数</h2></td></tr>
+<tr class="memitem:aee78cf0c9983b531862090b24121f06c" id="r_aee78cf0c9983b531862090b24121f06c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#aee78cf0c9983b531862090b24121f06c">writeImportGuide</a> (const QString &amp;outputDir)</td></tr>
+<tr class="memdesc:aee78cf0c9983b531862090b24121f06c"><td class="mdescLeft">&#160;</td><td class="mdescRight">在未检测到 KiCad 工程时写入库导入指南。  <br /></td></tr>
+<tr class="separator:aee78cf0c9983b531862090b24121f06c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ebaf1a483fce73903cf374d75252afb" id="r_a3ebaf1a483fce73903cf374d75252afb"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a3ebaf1a483fce73903cf374d75252afb">findKiCadProjectRoot</a> (const QString &amp;outputDir)</td></tr>
+<tr class="memdesc:a3ebaf1a483fce73903cf374d75252afb"><td class="mdescLeft">&#160;</td><td class="mdescRight">从输出目录向上查找最近的 KiCad 工程根目录。  <br /></td></tr>
+<tr class="separator:a3ebaf1a483fce73903cf374d75252afb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8409a4bb67c93d2a0f1ccb109f5c06f0" id="r_a8409a4bb67c93d2a0f1ccb109f5c06f0"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a8409a4bb67c93d2a0f1ccb109f5c06f0">updateProjectLibraryTable</a> (const QString &amp;projectRoot, const QString &amp;tableFileName, const QString &amp;tableRootName, const QString &amp;libName, const QString &amp;uri, const QString &amp;libraryDescription)</td></tr>
+<tr class="memdesc:a8409a4bb67c93d2a0f1ccb109f5c06f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新工程库表并替换同名库条目。  <br /></td></tr>
+<tr class="separator:a8409a4bb67c93d2a0f1ccb109f5c06f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1fb3955fc12fc8ab2aa97382d05a8d69" id="r_a1fb3955fc12fc8ab2aa97382d05a8d69"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a1fb3955fc12fc8ab2aa97382d05a8d69">makeLibraryEntry</a> (const QString &amp;libName, const QString &amp;uri, const QString &amp;libraryDescription)</td></tr>
+<tr class="memdesc:a1fb3955fc12fc8ab2aa97382d05a8d69"><td class="mdescLeft">&#160;</td><td class="mdescRight">生成 KiCad 库表中的单条库记录。  <br /></td></tr>
+<tr class="separator:a1fb3955fc12fc8ab2aa97382d05a8d69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5b0295e96128eb98702c97576bcb74f" id="r_ad5b0295e96128eb98702c97576bcb74f"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#ad5b0295e96128eb98702c97576bcb74f">makeProjectUri</a> (const QString &amp;projectRoot, const QString &amp;libraryPath)</td></tr>
+<tr class="memdesc:ad5b0295e96128eb98702c97576bcb74f"><td class="mdescLeft">&#160;</td><td class="mdescRight">生成相对于工程根目录的 KiCad 库 URI。  <br /></td></tr>
+<tr class="separator:ad5b0295e96128eb98702c97576bcb74f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>管理导出库在 KiCad 工程库表中的登记。 </p>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8h_source.html">KiCadLibraryTableManager.h</a> 第 <a class="el" href="KiCadLibraryTableManager_8h_source.html#l00011">11</a> 行定义.</p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a47c5817caddb595d6c4e9329e346ae2b" name="a47c5817caddb595d6c4e9329e346ae2b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47c5817caddb595d6c4e9329e346ae2b">&#9670;&#160;</a></span>RegistrationResult</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2b">EasyKiConverter::KiCadLibraryTableManager::RegistrationResult</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>符号库或封装库登记结果。 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a47c5817caddb595d6c4e9329e346ae2ba6205cf9436aee7ccb42779ac5e69bd3f" name="a47c5817caddb595d6c4e9329e346ae2ba6205cf9436aee7ccb42779ac5e69bd3f"></a>Registered&#160;</td><td class="fielddoc"><p>已写入目标工程库表。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a47c5817caddb595d6c4e9329e346ae2ba4a2257f88d6d44c256377db75b99728b" name="a47c5817caddb595d6c4e9329e346ae2ba4a2257f88d6d44c256377db75b99728b"></a>ImportGuideWritten&#160;</td><td class="fielddoc"><p>未找到工程，已生成手动导入指南。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a47c5817caddb595d6c4e9329e346ae2bad7c8c85bf79bbe1b7188497c32c3b0ca" name="a47c5817caddb595d6c4e9329e346ae2bad7c8c85bf79bbe1b7188497c32c3b0ca"></a>Failed&#160;</td><td class="fielddoc"><p>登记或指南写入失败。 </p>
+</td></tr>
+</table>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8h_source.html">KiCadLibraryTableManager.h</a> 第 <a class="el" href="KiCadLibraryTableManager_8h_source.html#l00016">16</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a3ebaf1a483fce73903cf374d75252afb" name="a3ebaf1a483fce73903cf374d75252afb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ebaf1a483fce73903cf374d75252afb">&#9670;&#160;</a></span>findKiCadProjectRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::KiCadLibraryTableManager::findKiCadProjectRoot </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>outputDir</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>从输出目录向上查找最近的 KiCad 工程根目录。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">outputDir</td><td>输出目录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>最近的 KiCad 工程根目录，未找到时返回空字符串。 </dd></dl>
+<p>&lt; 当前向上搜索的目录。</p>
+<p>&lt; 当前目录中的 KiCad 工程文件。</p>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html">KiCadLibraryTableManager.cpp</a> 第 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00131">131</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00052">registerFootprintLibrary()</a> , 以及 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00023">registerSymbolLibrary()</a>.</p>
+
+</div>
+</div>
+<a id="a1fb3955fc12fc8ab2aa97382d05a8d69" name="a1fb3955fc12fc8ab2aa97382d05a8d69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1fb3955fc12fc8ab2aa97382d05a8d69">&#9670;&#160;</a></span>makeLibraryEntry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::KiCadLibraryTableManager::makeLibraryEntry </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>uri</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryDescription</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>生成 KiCad 库表中的单条库记录。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">uri</td><td>库 URI。 </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>库表记录文本。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html">KiCadLibraryTableManager.cpp</a> 第 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00240">240</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="KiCadTableUtils_8cpp_source.html#l00011">EasyKiConverter::KiCadTableUtils::escapeTableValue()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00162">updateProjectLibraryTable()</a>.</p>
+
+</div>
+</div>
+<a id="ad5b0295e96128eb98702c97576bcb74f" name="ad5b0295e96128eb98702c97576bcb74f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5b0295e96128eb98702c97576bcb74f">&#9670;&#160;</a></span>makeProjectUri()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::KiCadLibraryTableManager::makeProjectUri </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>projectRoot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryPath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>生成相对于工程根目录的 KiCad 库 URI。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">projectRoot</td><td>KiCad 工程根目录。 </td></tr>
+    <tr><td class="paramname">libraryPath</td><td>库文件或目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>相对于工程根目录的 KiCad 库 URI。 </dd></dl>
+<p>&lt; 库相对于工程根目录的路径。</p>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html">KiCadLibraryTableManager.cpp</a> 第 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00261">261</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00052">registerFootprintLibrary()</a> , 以及 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00023">registerSymbolLibrary()</a>.</p>
+
+</div>
+</div>
+<a id="a74163102627e53da7e5c68617704ced1" name="a74163102627e53da7e5c68617704ced1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74163102627e53da7e5c68617704ced1">&#9670;&#160;</a></span>registerFootprintLibrary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2b">KiCadLibraryTableManager::RegistrationResult</a> EasyKiConverter::KiCadLibraryTableManager::registerFootprintLibrary </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>outputDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libDirPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryDescription</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>登记封装库。 </p>
+<p>将封装库登记到目标 KiCad 工程，或生成手动导入指南。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">outputDir</td><td>导出输出目录。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">libDirPath</td><td>封装库目录路径。 </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>登记结果。 </dd></dl>
+<p>&lt; 检测到的 KiCad 工程根目录。</p>
+<p>&lt; 相对于工程根目录的库 URI。</p>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html">KiCadLibraryTableManager.cpp</a> 第 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00052">52</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2bad7c8c85bf79bbe1b7188497c32c3b0ca">Failed</a>, <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00131">findKiCadProjectRoot()</a>, <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2ba4a2257f88d6d44c256377db75b99728b">ImportGuideWritten</a>, <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00261">makeProjectUri()</a>, <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2ba6205cf9436aee7ccb42779ac5e69bd3f">Registered</a>, <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00162">updateProjectLibraryTable()</a> , 以及 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00078">writeImportGuide()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="a079029150052408809b685d445a92f71" name="a079029150052408809b685d445a92f71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a079029150052408809b685d445a92f71">&#9670;&#160;</a></span>registerSymbolLibrary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2b">KiCadLibraryTableManager::RegistrationResult</a> EasyKiConverter::KiCadLibraryTableManager::registerSymbolLibrary </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>outputDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libFilePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryDescription</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>登记符号库。 </p>
+<p>将符号库登记到目标 KiCad 工程，或生成手动导入指南。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">outputDir</td><td>导出输出目录。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">libFilePath</td><td>符号库文件路径。 </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>登记结果。 </dd></dl>
+<p>&lt; 检测到的 KiCad 工程根目录。</p>
+<p>&lt; 相对于工程根目录的库 URI。</p>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html">KiCadLibraryTableManager.cpp</a> 第 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00023">23</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2bad7c8c85bf79bbe1b7188497c32c3b0ca">Failed</a>, <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00131">findKiCadProjectRoot()</a>, <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2ba4a2257f88d6d44c256377db75b99728b">ImportGuideWritten</a>, <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00261">makeProjectUri()</a>, <a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html#a47c5817caddb595d6c4e9329e346ae2ba6205cf9436aee7ccb42779ac5e69bd3f">Registered</a>, <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00162">updateProjectLibraryTable()</a> , 以及 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00078">writeImportGuide()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SymbolExportStage_8cpp_source.html#l00119">EasyKiConverter::SymbolExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="a8409a4bb67c93d2a0f1ccb109f5c06f0" name="a8409a4bb67c93d2a0f1ccb109f5c06f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8409a4bb67c93d2a0f1ccb109f5c06f0">&#9670;&#160;</a></span>updateProjectLibraryTable()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::KiCadLibraryTableManager::updateProjectLibraryTable </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>projectRoot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>tableFileName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>tableRootName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>uri</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryDescription</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新工程库表并替换同名库条目。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">projectRoot</td><td>KiCad 工程根目录。 </td></tr>
+    <tr><td class="paramname">tableFileName</td><td>库表文件名。 </td></tr>
+    <tr><td class="paramname">tableRootName</td><td>库表根节点名称。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">uri</td><td>库 URI。 </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>更新成功时返回 true。 </dd></dl>
+<p>&lt; KiCad 工程根目录对象。</p>
+<p>&lt; 目标库表文件路径。</p>
+<p>&lt; 现有库表文本内容。</p>
+<p>&lt; 现有库表文件对象。</p>
+<p>&lt; 库表读取流。</p>
+<p>&lt; 按行拆分后的库表内容。</p>
+<p>&lt; 删除旧同名条目后的库表行。</p>
+<p>&lt; 新库条目的插入位置。</p>
+<p>&lt; 更新后的库表文本。</p>
+<p>&lt; 原子写入库表的文件对象。</p>
+<p>&lt; 库表文本输出流。</p>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html">KiCadLibraryTableManager.cpp</a> 第 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00162">162</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00240">makeLibraryEntry()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00052">registerFootprintLibrary()</a> , 以及 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00023">registerSymbolLibrary()</a>.</p>
+
+</div>
+</div>
+<a id="aee78cf0c9983b531862090b24121f06c" name="aee78cf0c9983b531862090b24121f06c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee78cf0c9983b531862090b24121f06c">&#9670;&#160;</a></span>writeImportGuide()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::KiCadLibraryTableManager::writeImportGuide </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>outputDir</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在未检测到 KiCad 工程时写入库导入指南。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">outputDir</td><td>导出输出目录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导入指南写入成功时返回 true。 </dd></dl>
+<p>&lt; 导入指南所在的输出目录。</p>
+<p>&lt; 导入指南文件路径。</p>
+<p>&lt; 原子写入导入指南的文件对象。</p>
+<p>&lt; 导入指南文本输出流。</p>
+<p>&lt; 符号库表路径。</p>
+<p>&lt; 封装库表路径。</p>
+
+<p class="definition">在文件 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html">KiCadLibraryTableManager.cpp</a> 第 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00078">78</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00052">registerFootprintLibrary()</a> , 以及 <a class="el" href="KiCadLibraryTableManager_8cpp_source.html#l00023">registerSymbolLibrary()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>services/export/<a class="el" href="KiCadLibraryTableManager_8h_source.html">KiCadLibraryTableManager.h</a></li>
+<li>services/export/<a class="el" href="KiCadLibraryTableManager_8cpp_source.html">KiCadLibraryTableManager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1KiCadLibraryTableManager.html">KiCadLibraryTableManager</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

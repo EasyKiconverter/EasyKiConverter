@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/ExporterFactory.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterFactory_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterFactory.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterFactory_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterFactory_8h.html">ExporterFactory.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterAllegroFootprint_8h.html">core/allegro/ExporterAllegroFootprint.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterAltiumFootprint_8h.html">core/altium/ExporterAltiumFootprint.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterAltiumSymbol_8h.html">core/altium/ExporterAltiumSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterCadstarLibrary_8h.html">core/cadstar/ExporterCadstarLibrary.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterEagleFootprint_8h.html">core/eagle/ExporterEagleFootprint.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterHorizonLibrary_8h.html">core/horizon/ExporterHorizonLibrary.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="Exporter3DModel_8h.html">core/kicad/Exporter3DModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterFootprint_8h.html">core/kicad/ExporterFootprint.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterSymbol_8h.html">core/kicad/ExporterSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterLibrePcbLibrary_8h.html">core/librepcb/ExporterLibrePcbLibrary.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterOrcadSymbol_8h.html">core/orcad/ExporterOrcadSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterPadsFootprint_8h.html">core/pads/ExporterPadsFootprint.h</a>&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterPadsSymbol_8h.html">core/pads/ExporterPadsSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterPcadFootprint_8h.html">core/pcad/ExporterPcadFootprint.h</a>&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterPcadSymbol_8h.html">core/pcad/ExporterPcadSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterXpeditionFootprint_8h.html">core/xpedition/ExporterXpeditionFootprint.h</a>&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterXpeditionSymbol_8h.html">core/xpedition/ExporterXpeditionSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterFactory.html#a9301c58e05f8caf533f004813886f29b">   28</a></span>std::unique_ptr&lt;ISymbolExporter&gt; <a class="code hl_function" href="classEasyKiConverter_1_1ExporterFactory.html#a9301c58e05f8caf533f004813886f29b">ExporterFactory::createSymbolExporter</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35">TargetEdaFormat</a> format) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 根据目标格式选择符号导出器实现，未知格式不创建实例。</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">switch</span> (format) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a65a497b7130fb0033c9aa6850ba3aedb">TargetEdaFormat::KiCad</a>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterSymbol&gt;();</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a1ba7008bb3db3642bcf4e2feae38fb57">TargetEdaFormat::Altium</a>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterAltiumSymbol&gt;();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a329f1f512f40febed9bed2d6788f7119">TargetEdaFormat::Xpedition</a>:</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterXpeditionSymbol&gt;();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ac1814fe1f907bcfc7324fdf86bdae783">TargetEdaFormat::Pads</a>:</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterPadsSymbol&gt;();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35abe8c60927777d55669794e012bc9bb0d">TargetEdaFormat::Pcad</a>:</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterPcadSymbol&gt;();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ab1f8bf2068340b71a0392beda9c4a574">TargetEdaFormat::Orcad</a>:</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterOrcadSymbol&gt;();</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a4410bf250e8f7eff539d9f17263800fe">TargetEdaFormat::Allegro</a>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterAllegroFootprint&gt;();</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a7885830f9d3a8722f628e2985cd26daf">TargetEdaFormat::Eagle</a>:</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterEagleFootprint&gt;();</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a07cb19cac1f0ff123b378b49525dc236">TargetEdaFormat::Cadstar</a>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterCadstarLibrary&gt;();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ab291f04b8d94a57a15ff4564428f6dd7">TargetEdaFormat::LibrePcb</a>:</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterLibrePcbLibrary&gt;();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a85fb7708d989f936cb51ef53a8af080f">TargetEdaFormat::Horizon</a>:</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterHorizonLibrary&gt;();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>}</div>
+</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="foldopen" id="foldopen00063" data-start="{" data-end="}">
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterFactory.html#a5b02c4324c776b8f97c7e7ecc51797cf">   63</a></span>std::unique_ptr&lt;IFootprintExporter&gt; <a class="code hl_function" href="classEasyKiConverter_1_1ExporterFactory.html#a5b02c4324c776b8f97c7e7ecc51797cf">ExporterFactory::createFootprintExporter</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35">TargetEdaFormat</a> format) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// 根据目标格式选择封装导出器实现，未知格式不创建实例。</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">switch</span> (format) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a65a497b7130fb0033c9aa6850ba3aedb">TargetEdaFormat::KiCad</a>:</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterFootprint&gt;();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a1ba7008bb3db3642bcf4e2feae38fb57">TargetEdaFormat::Altium</a>:</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterAltiumFootprint&gt;();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a329f1f512f40febed9bed2d6788f7119">TargetEdaFormat::Xpedition</a>:</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterXpeditionFootprint&gt;();</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a4410bf250e8f7eff539d9f17263800fe">TargetEdaFormat::Allegro</a>:</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterAllegroFootprint&gt;();</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ac1814fe1f907bcfc7324fdf86bdae783">TargetEdaFormat::Pads</a>:</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterPadsFootprint&gt;();</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a7885830f9d3a8722f628e2985cd26daf">TargetEdaFormat::Eagle</a>:</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterEagleFootprint&gt;();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35abe8c60927777d55669794e012bc9bb0d">TargetEdaFormat::Pcad</a>:</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterPcadFootprint&gt;();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a07cb19cac1f0ff123b378b49525dc236">TargetEdaFormat::Cadstar</a>:</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterCadstarLibrary&gt;();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ab291f04b8d94a57a15ff4564428f6dd7">TargetEdaFormat::LibrePcb</a>:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterLibrePcbLibrary&gt;();</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a85fb7708d989f936cb51ef53a8af080f">TargetEdaFormat::Horizon</a>:</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            <span class="keywordflow">return</span> std::make_unique&lt;ExporterHorizonLibrary&gt;();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>}</div>
+</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="foldopen" id="foldopen00100" data-start="{" data-end="}">
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterFactory.html#af4585549deaa288b743fd38fbc46afaf">  100</a></span>std::unique_ptr&lt;IModel3DExporter&gt; <a class="code hl_function" href="classEasyKiConverter_1_1ExporterFactory.html#af4585549deaa288b743fd38fbc46afaf">ExporterFactory::createModel3DExporter</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35">TargetEdaFormat</a> format, QObject* parent) {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="comment">// 独立 WRL/STEP 模型不依赖目标库的私有关联语法，因此统一复用可靠的公共实现。</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">switch</span> (format) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a65a497b7130fb0033c9aa6850ba3aedb">TargetEdaFormat::KiCad</a>:</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a1ba7008bb3db3642bcf4e2feae38fb57">TargetEdaFormat::Altium</a>:</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a4410bf250e8f7eff539d9f17263800fe">TargetEdaFormat::Allegro</a>:</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a329f1f512f40febed9bed2d6788f7119">TargetEdaFormat::Xpedition</a>:</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ac1814fe1f907bcfc7324fdf86bdae783">TargetEdaFormat::Pads</a>:</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a7885830f9d3a8722f628e2985cd26daf">TargetEdaFormat::Eagle</a>:</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35abe8c60927777d55669794e012bc9bb0d">TargetEdaFormat::Pcad</a>:</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a07cb19cac1f0ff123b378b49525dc236">TargetEdaFormat::Cadstar</a>:</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ab1f8bf2068340b71a0392beda9c4a574">TargetEdaFormat::Orcad</a>:</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ab291f04b8d94a57a15ff4564428f6dd7">TargetEdaFormat::LibrePcb</a>:</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a85fb7708d989f936cb51ef53a8af080f">TargetEdaFormat::Horizon</a>:</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="keywordflow">return</span> std::unique_ptr&lt;IModel3DExporter&gt;(<span class="keyword">new</span> <a class="code hl_class" href="classEasyKiConverter_1_1Exporter3DModel.html">Exporter3DModel</a>(parent));</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    }</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}</div>
+</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aExporter3DModel_8h_html"><div class="ttname"><a href="Exporter3DModel_8h.html">Exporter3DModel.h</a></div></div>
+<div class="ttc" id="aExporterAllegroFootprint_8h_html"><div class="ttname"><a href="ExporterAllegroFootprint_8h.html">ExporterAllegroFootprint.h</a></div></div>
+<div class="ttc" id="aExporterAltiumFootprint_8h_html"><div class="ttname"><a href="ExporterAltiumFootprint_8h.html">ExporterAltiumFootprint.h</a></div></div>
+<div class="ttc" id="aExporterAltiumSymbol_8h_html"><div class="ttname"><a href="ExporterAltiumSymbol_8h.html">ExporterAltiumSymbol.h</a></div></div>
+<div class="ttc" id="aExporterCadstarLibrary_8h_html"><div class="ttname"><a href="ExporterCadstarLibrary_8h.html">ExporterCadstarLibrary.h</a></div><div class="ttdoc">CADSTAR ASCII 符号、封装和器件关联库导出器。</div></div>
+<div class="ttc" id="aExporterEagleFootprint_8h_html"><div class="ttname"><a href="ExporterEagleFootprint_8h.html">ExporterEagleFootprint.h</a></div><div class="ttdoc">Eagle XML 组合库导出器。</div></div>
+<div class="ttc" id="aExporterFactory_8h_html"><div class="ttname"><a href="ExporterFactory_8h.html">ExporterFactory.h</a></div></div>
+<div class="ttc" id="aExporterFootprint_8h_html"><div class="ttname"><a href="ExporterFootprint_8h.html">ExporterFootprint.h</a></div></div>
+<div class="ttc" id="aExporterHorizonLibrary_8h_html"><div class="ttname"><a href="ExporterHorizonLibrary_8h.html">ExporterHorizonLibrary.h</a></div></div>
+<div class="ttc" id="aExporterLibrePcbLibrary_8h_html"><div class="ttname"><a href="ExporterLibrePcbLibrary_8h.html">ExporterLibrePcbLibrary.h</a></div><div class="ttdoc">LibrePCB 2 原生 .lplib 库导出器。</div></div>
+<div class="ttc" id="aExporterOrcadSymbol_8h_html"><div class="ttname"><a href="ExporterOrcadSymbol_8h.html">ExporterOrcadSymbol.h</a></div><div class="ttdoc">OrCAD Capture XML 符号库导出器。</div></div>
+<div class="ttc" id="aExporterPadsFootprint_8h_html"><div class="ttname"><a href="ExporterPadsFootprint_8h.html">ExporterPadsFootprint.h</a></div><div class="ttdoc">PADS Parts Library ASCII PCB Decal 导出器。</div></div>
+<div class="ttc" id="aExporterPadsSymbol_8h_html"><div class="ttname"><a href="ExporterPadsSymbol_8h.html">ExporterPadsSymbol.h</a></div></div>
+<div class="ttc" id="aExporterPcadFootprint_8h_html"><div class="ttname"><a href="ExporterPcadFootprint_8h.html">ExporterPcadFootprint.h</a></div><div class="ttdoc">P-CAD ASCII PCB 库导出器。</div></div>
+<div class="ttc" id="aExporterPcadSymbol_8h_html"><div class="ttname"><a href="ExporterPcadSymbol_8h.html">ExporterPcadSymbol.h</a></div><div class="ttdoc">P-CAD ASCII 原理图符号库导出器。</div></div>
+<div class="ttc" id="aExporterSymbol_8h_html"><div class="ttname"><a href="ExporterSymbol_8h.html">ExporterSymbol.h</a></div></div>
+<div class="ttc" id="aExporterXpeditionFootprint_8h_html"><div class="ttname"><a href="ExporterXpeditionFootprint_8h.html">ExporterXpeditionFootprint.h</a></div></div>
+<div class="ttc" id="aExporterXpeditionSymbol_8h_html"><div class="ttname"><a href="ExporterXpeditionSymbol_8h.html">ExporterXpeditionSymbol.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html">EasyKiConverter::Exporter3DModel</a></div><div class="ttdoc">3D 模型导出器类</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8h_source.html#l00018">Exporter3DModel.h:18</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterFactory_html_a5b02c4324c776b8f97c7e7ecc51797cf"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterFactory.html#a5b02c4324c776b8f97c7e7ecc51797cf">EasyKiConverter::ExporterFactory::createFootprintExporter</a></div><div class="ttdeci">static std::unique_ptr&lt; IFootprintExporter &gt; createFootprintExporter(TargetEdaFormat format)</div><div class="ttdoc">创建封装导出器</div><div class="ttdef"><b>Definition</b> <a href="ExporterFactory_8cpp_source.html#l00063">ExporterFactory.cpp:63</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterFactory_html_a9301c58e05f8caf533f004813886f29b"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterFactory.html#a9301c58e05f8caf533f004813886f29b">EasyKiConverter::ExporterFactory::createSymbolExporter</a></div><div class="ttdeci">static std::unique_ptr&lt; ISymbolExporter &gt; createSymbolExporter(TargetEdaFormat format)</div><div class="ttdoc">创建符号导出器</div><div class="ttdef"><b>Definition</b> <a href="ExporterFactory_8cpp_source.html#l00028">ExporterFactory.cpp:28</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterFactory_html_af4585549deaa288b743fd38fbc46afaf"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterFactory.html#af4585549deaa288b743fd38fbc46afaf">EasyKiConverter::ExporterFactory::createModel3DExporter</a></div><div class="ttdeci">static std::unique_ptr&lt; IModel3DExporter &gt; createModel3DExporter(TargetEdaFormat format, QObject *parent=nullptr)</div><div class="ttdoc">创建 3D 模型导出器</div><div class="ttdef"><b>Definition</b> <a href="ExporterFactory_8cpp_source.html#l00100">ExporterFactory.cpp:100</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35">EasyKiConverter::TargetEdaFormat</a></div><div class="ttdeci">TargetEdaFormat</div><div class="ttdoc">支持的目标 EDA 格式枚举</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00016">ExportProgress.h:16</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35a07cb19cac1f0ff123b378b49525dc236"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a07cb19cac1f0ff123b378b49525dc236">EasyKiConverter::TargetEdaFormat::Cadstar</a></div><div class="ttdeci">@ Cadstar</div><div class="ttdoc">CADSTAR ASCII combined symbol and package library</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35a1ba7008bb3db3642bcf4e2feae38fb57"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a1ba7008bb3db3642bcf4e2feae38fb57">EasyKiConverter::TargetEdaFormat::Altium</a></div><div class="ttdeci">@ Altium</div><div class="ttdoc">Altium Designer 格式</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35a329f1f512f40febed9bed2d6788f7119"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a329f1f512f40febed9bed2d6788f7119">EasyKiConverter::TargetEdaFormat::Xpedition</a></div><div class="ttdeci">@ Xpedition</div><div class="ttdoc">Xpedition ASCII 库格式</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35a4410bf250e8f7eff539d9f17263800fe"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a4410bf250e8f7eff539d9f17263800fe">EasyKiConverter::TargetEdaFormat::Allegro</a></div><div class="ttdeci">@ Allegro</div><div class="ttdoc">Allegro 符号、封装和三维语义 Import Package</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35a65a497b7130fb0033c9aa6850ba3aedb"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a65a497b7130fb0033c9aa6850ba3aedb">EasyKiConverter::TargetEdaFormat::KiCad</a></div><div class="ttdeci">@ KiCad</div><div class="ttdoc">KiCad 格式（默认）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35a7885830f9d3a8722f628e2985cd26daf"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a7885830f9d3a8722f628e2985cd26daf">EasyKiConverter::TargetEdaFormat::Eagle</a></div><div class="ttdeci">@ Eagle</div><div class="ttdoc">Eagle XML 组合库（符号、封装和器件关联）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35a85fb7708d989f936cb51ef53a8af080f"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35a85fb7708d989f936cb51ef53a8af080f">EasyKiConverter::TargetEdaFormat::Horizon</a></div><div class="ttdeci">@ Horizon</div><div class="ttdoc">Horizon EDA Pool source library</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35ab1f8bf2068340b71a0392beda9c4a574"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ab1f8bf2068340b71a0392beda9c4a574">EasyKiConverter::TargetEdaFormat::Orcad</a></div><div class="ttdeci">@ Orcad</div><div class="ttdoc">OrCAD Capture XML symbol library</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35ab291f04b8d94a57a15ff4564428f6dd7"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ab291f04b8d94a57a15ff4564428f6dd7">EasyKiConverter::TargetEdaFormat::LibrePcb</a></div><div class="ttdeci">@ LibrePcb</div><div class="ttdoc">LibrePCB 2 native library</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35abe8c60927777d55669794e012bc9bb0d"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35abe8c60927777d55669794e012bc9bb0d">EasyKiConverter::TargetEdaFormat::Pcad</a></div><div class="ttdeci">@ Pcad</div><div class="ttdoc">P-CAD ASCII 符号库、器件库和 PCB 库</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a5ed015887b3db4e9762428a11b080a35ac1814fe1f907bcfc7324fdf86bdae783"><div class="ttname"><a href="namespaceEasyKiConverter.html#a5ed015887b3db4e9762428a11b080a35ac1814fe1f907bcfc7324fdf86bdae783">EasyKiConverter::TargetEdaFormat::Pads</a></div><div class="ttdeci">@ Pads</div><div class="ttdoc">PADS Parts Library ASCII 符号、器件关联和 PCB Decal</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="ExporterFactory_8cpp.html">ExporterFactory.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

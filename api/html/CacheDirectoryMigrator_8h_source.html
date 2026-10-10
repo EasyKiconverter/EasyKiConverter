@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/CacheDirectoryMigrator.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('CacheDirectoryMigrator_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">CacheDirectoryMigrator.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="CacheDirectoryMigrator_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CACHEDIRECTORYMIGRATOR_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define CACHEDIRECTORYMIGRATOR_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html">   14</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html">CacheDirectoryMigrator</a> final {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#aed482988f526df809c06349f85445b4d">migrate</a>(<span class="keyword">const</span> QString&amp; oldCacheDir, <span class="keyword">const</span> QString&amp; newCacheDir, QString* error = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#a57a42a9e27a15b66e56602c46983f74c">moveDirectoryContents</a>(<span class="keyword">const</span> QString&amp; sourceRoot,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                                      <span class="keyword">const</span> QString&amp; sourceDir,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                                      <span class="keyword">const</span> QString&amp; targetRoot,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                                      <span class="keyword">const</span> QString&amp; targetDir,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                                      <span class="keywordtype">bool</span> legacySource);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#a40bff3a08322613374a64958d0fedfa8">moveCacheEntry</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>};</div>
+</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif  </span><span class="comment">// CACHEDIRECTORYMIGRATOR_H</span></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a17887ef34e6d0bd9a7d362e17aa74e27"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a></div><div class="ttdeci">QString sourcePath</div><div class="ttdoc">待迁移条目的源路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00018">CacheDirectoryMigrator.cpp:18</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_ad7e504be9c160222c2e52e17415b9960"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a></div><div class="ttdeci">QString targetPath</div><div class="ttdoc">待迁移条目的目标路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00019">CacheDirectoryMigrator.cpp:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheDirectoryMigrator_html"><div class="ttname"><a href="classEasyKiConverter_1_1CacheDirectoryMigrator.html">EasyKiConverter::CacheDirectoryMigrator</a></div><div class="ttdoc">在缓存目录切换时迁移已有缓存内容。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8h_source.html#l00014">CacheDirectoryMigrator.h:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheDirectoryMigrator_html_a40bff3a08322613374a64958d0fedfa8"><div class="ttname"><a href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#a40bff3a08322613374a64958d0fedfa8">EasyKiConverter::CacheDirectoryMigrator::moveCacheEntry</a></div><div class="ttdeci">static bool moveCacheEntry(const QString &amp;sourcePath, const QString &amp;targetPath)</div><div class="ttdoc">迁移单个缓存文件或目录条目。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00383">CacheDirectoryMigrator.cpp:383</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheDirectoryMigrator_html_a57a42a9e27a15b66e56602c46983f74c"><div class="ttname"><a href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#a57a42a9e27a15b66e56602c46983f74c">EasyKiConverter::CacheDirectoryMigrator::moveDirectoryContents</a></div><div class="ttdeci">static bool moveDirectoryContents(const QString &amp;sourceRoot, const QString &amp;sourceDir, const QString &amp;targetRoot, const QString &amp;targetDir, bool legacySource)</div><div class="ttdoc">迁移目录中的全部缓存条目。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00330">CacheDirectoryMigrator.cpp:330</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheDirectoryMigrator_html_aed482988f526df809c06349f85445b4d"><div class="ttname"><a href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#aed482988f526df809c06349f85445b4d">EasyKiConverter::CacheDirectoryMigrator::migrate</a></div><div class="ttdeci">static bool migrate(const QString &amp;oldCacheDir, const QString &amp;newCacheDir, QString *error=nullptr)</div><div class="ttdoc">将旧缓存目录内容迁移到新目录。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00215">CacheDirectoryMigrator.cpp:215</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="CacheDirectoryMigrator_8h.html">CacheDirectoryMigrator.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

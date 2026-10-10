@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: ui/viewmodels/ExportProgressResultsCoordinator.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExportProgressResultsCoordinator_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExportProgressResultsCoordinator.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExportProgressResultsCoordinator_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef EXPORTPROGRESSRESULTSCOORDINATOR_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define EXPORTPROGRESSRESULTSCOORDINATOR_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QVariantList&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QVariantMap&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">class </span>ExportProgressViewModel;</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html">   17</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html">ExportProgressResultsCoordinator</a> final {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a3fef67a974f93c6f6d73a7453a3866ad">updateResultsList</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a02703def57093a4c6c4d215d3edd7f1d">updateFilteredResults</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner);</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">static</span> QVariantList <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#ab13503453b1059fcabf820f6d7bdf9be">filteredResultsList</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a6fb2b4d5be54dc3e01a513971a814d9e">filteredSuccessCount</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a1ff3f572ffb03576a36517c23dcb00cb">filteredFailedCount</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a51cb7b7c665720269f87506dacc2ba90">filteredPendingCount</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a06ba575a68c7013ea6b37bbd1108ade7">typeSuccessCount</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner, <span class="keyword">const</span> QString&amp; statusKey);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keyword">static</span> QString <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a415738235bf9c08dc44ee9b256d180e0">typeStatusKey</a>(<span class="keyword">const</span> QString&amp; typeName);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#af45c6eb72fa5eee4f36db8d908b287cf">updateOverallItemStatus</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner, QVariantMap&amp; result);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a8231b58fddd0d54ed3f222fb575a6598">resetItemForRetry</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner, QVariantMap&amp; result);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#aed3d9f1a53ca1fcb935ff0a53271254c">countItemsWithTypeStatus</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                        <span class="keyword">const</span> QString&amp; key,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                                        <span class="keyword">const</span> QString&amp; expectedStatus);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>};</div>
+</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">#endif  </span><span class="comment">// EXPORTPROGRESSRESULTSCOORDINATOR_H</span></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html">EasyKiConverter::ExportProgressResultsCoordinator</a></div><div class="ttdoc">协调导出结果列表的状态计算、过滤和统计。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8h_source.html#l00017">ExportProgressResultsCoordinator.h:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_a02703def57093a4c6c4d215d3edd7f1d"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a02703def57093a4c6c4d215d3edd7f1d">EasyKiConverter::ExportProgressResultsCoordinator::updateFilteredResults</a></div><div class="ttdeci">static void updateFilteredResults(ExportProgressViewModel &amp;owner)</div><div class="ttdoc">通知过滤结果列表需要刷新。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00039">ExportProgressResultsCoordinator.cpp:39</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_a06ba575a68c7013ea6b37bbd1108ade7"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a06ba575a68c7013ea6b37bbd1108ade7">EasyKiConverter::ExportProgressResultsCoordinator::typeSuccessCount</a></div><div class="ttdeci">static int typeSuccessCount(const ExportProgressViewModel &amp;owner, const QString &amp;statusKey)</div><div class="ttdoc">返回指定类型的成功数量。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00113">ExportProgressResultsCoordinator.cpp:113</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_a1ff3f572ffb03576a36517c23dcb00cb"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a1ff3f572ffb03576a36517c23dcb00cb">EasyKiConverter::ExportProgressResultsCoordinator::filteredFailedCount</a></div><div class="ttdeci">static int filteredFailedCount(const ExportProgressViewModel &amp;owner)</div><div class="ttdoc">返回当前过滤模式下的失败数量。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00084">ExportProgressResultsCoordinator.cpp:84</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_a3fef67a974f93c6f6d73a7453a3866ad"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a3fef67a974f93c6f6d73a7453a3866ad">EasyKiConverter::ExportProgressResultsCoordinator::updateResultsList</a></div><div class="ttdeci">static void updateResultsList(ExportProgressViewModel &amp;owner)</div><div class="ttdoc">更新成功和失败结果数量。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00011">ExportProgressResultsCoordinator.cpp:11</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_a415738235bf9c08dc44ee9b256d180e0"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a415738235bf9c08dc44ee9b256d180e0">EasyKiConverter::ExportProgressResultsCoordinator::typeStatusKey</a></div><div class="ttdeci">static QString typeStatusKey(const QString &amp;typeName)</div><div class="ttdoc">将类型名称转换为结果列表中的状态字段名。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00121">ExportProgressResultsCoordinator.cpp:121</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_a51cb7b7c665720269f87506dacc2ba90"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a51cb7b7c665720269f87506dacc2ba90">EasyKiConverter::ExportProgressResultsCoordinator::filteredPendingCount</a></div><div class="ttdeci">static int filteredPendingCount(const ExportProgressViewModel &amp;owner)</div><div class="ttdoc">返回当前过滤模式下的待处理数量。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00095">ExportProgressResultsCoordinator.cpp:95</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_a6fb2b4d5be54dc3e01a513971a814d9e"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a6fb2b4d5be54dc3e01a513971a814d9e">EasyKiConverter::ExportProgressResultsCoordinator::filteredSuccessCount</a></div><div class="ttdeci">static int filteredSuccessCount(const ExportProgressViewModel &amp;owner)</div><div class="ttdoc">返回当前过滤模式下的成功数量。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00073">ExportProgressResultsCoordinator.cpp:73</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_a8231b58fddd0d54ed3f222fb575a6598"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a8231b58fddd0d54ed3f222fb575a6598">EasyKiConverter::ExportProgressResultsCoordinator::resetItemForRetry</a></div><div class="ttdeci">static void resetItemForRetry(const ExportProgressViewModel &amp;owner, QVariantMap &amp;result)</div><div class="ttdoc">将结果项重置为当前导出选项对应的待处理状态。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00198">ExportProgressResultsCoordinator.cpp:198</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_ab13503453b1059fcabf820f6d7bdf9be"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#ab13503453b1059fcabf820f6d7bdf9be">EasyKiConverter::ExportProgressResultsCoordinator::filteredResultsList</a></div><div class="ttdeci">static QVariantList filteredResultsList(const ExportProgressViewModel &amp;owner)</div><div class="ttdoc">返回当前过滤模式下的结果列表。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00047">ExportProgressResultsCoordinator.cpp:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_aed3d9f1a53ca1fcb935ff0a53271254c"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#aed3d9f1a53ca1fcb935ff0a53271254c">EasyKiConverter::ExportProgressResultsCoordinator::countItemsWithTypeStatus</a></div><div class="ttdeci">static int countItemsWithTypeStatus(const ExportProgressViewModel &amp;owner, const QString &amp;key, const QString &amp;expectedStatus)</div><div class="ttdoc">统计结果列表中指定字段处于指定状态的项目数。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00219">ExportProgressResultsCoordinator.cpp:219</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressResultsCoordinator_html_af45c6eb72fa5eee4f36db8d908b287cf"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#af45c6eb72fa5eee4f36db8d908b287cf">EasyKiConverter::ExportProgressResultsCoordinator::updateOverallItemStatus</a></div><div class="ttdeci">static void updateOverallItemStatus(const ExportProgressViewModel &amp;owner, QVariantMap &amp;result)</div><div class="ttdoc">根据各导出类型状态计算元器件总体状态。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressResultsCoordinator_8cpp_source.html#l00145">ExportProgressResultsCoordinator.cpp:145</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html">EasyKiConverter::ExportProgressViewModel</a></div><div class="ttdoc">导出进度视图模型</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00030">ExportProgressViewModel.h:30</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1788f8309b1a812dcb800a185471cf6c.html">ui</a></li><li class="navelem"><a class="el" href="dir_fea4d5651ef76d72b143e7607c90e565.html">viewmodels</a></li><li class="navelem"><a class="el" href="ExportProgressResultsCoordinator_8h.html">ExportProgressResultsCoordinator.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

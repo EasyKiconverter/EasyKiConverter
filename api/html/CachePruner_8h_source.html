@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/CachePruner.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('CachePruner_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">CachePruner.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="CachePruner_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="CacheSafety_8h.html">CacheSafety.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QtGlobal&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CachePruner.html">   10</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1CachePruner.html">CachePruner</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1CachePruner.html">CachePruner</a>(<span class="keyword">const</span> QString&amp; cacheRoot,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                         <span class="keyword">const</span> <a class="code hl_typedef" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">CacheSafety::TrashFunction</a>&amp; trash = <a class="code hl_typedef" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">CacheSafety::TrashFunction</a>());</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CachePruner.html#ac0e17794ce4a82754916a4c3a1986bc6">   19</a></span>    <a class="code hl_function" href="classEasyKiConverter_1_1CachePruner.html#ac0e17794ce4a82754916a4c3a1986bc6">~CachePruner</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    qint64 <a class="code hl_function" href="classEasyKiConverter_1_1CachePruner.html#ad9dee6bdeaf3ec7cc1187753327843e2">pruneTo</a>(qint64 targetSizeBytes);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    qint64 <a class="code hl_function" href="classEasyKiConverter_1_1CachePruner.html#a84ab3cc8c18cf862b8ca5fdc43037234">calculateDirSize</a>(<span class="keyword">const</span> QString&amp; dirPath) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    qint64 <a class="code hl_function" href="classEasyKiConverter_1_1CachePruner.html#a67d2e424d00aaa586dd5746c191b91ef">currentCacheSize</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CachePruner.html#a0b58c7e38cd56e1b41518a9909a73c13">   42</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1CachePruner.html#a0b58c7e38cd56e1b41518a9909a73c13">m_cacheRoot</a>;  </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CachePruner.html#a9e2ff907ef0a6e152f7e5b02bd9853ca">   43</a></span>    <a class="code hl_typedef" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">CacheSafety::TrashFunction</a> <a class="code hl_variable" href="classEasyKiConverter_1_1CachePruner.html#a9e2ff907ef0a6e152f7e5b02bd9853ca">m_trash</a>;  </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>};</div>
+</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aCacheSafety_8h_html"><div class="ttname"><a href="CacheSafety_8h.html">CacheSafety.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html">EasyKiConverter::CachePruner</a></div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8h_source.html#l00010">CachePruner.h:10</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_a0b58c7e38cd56e1b41518a9909a73c13"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#a0b58c7e38cd56e1b41518a9909a73c13">EasyKiConverter::CachePruner::m_cacheRoot</a></div><div class="ttdeci">QString m_cacheRoot</div><div class="ttdoc">待维护的缓存根目录。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8h_source.html#l00042">CachePruner.h:42</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_a67d2e424d00aaa586dd5746c191b91ef"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#a67d2e424d00aaa586dd5746c191b91ef">EasyKiConverter::CachePruner::currentCacheSize</a></div><div class="ttdeci">qint64 currentCacheSize() const</div><div class="ttdoc">获取当前缓存总大小。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8cpp_source.html#l00060">CachePruner.cpp:60</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_a84ab3cc8c18cf862b8ca5fdc43037234"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#a84ab3cc8c18cf862b8ca5fdc43037234">EasyKiConverter::CachePruner::calculateDirSize</a></div><div class="ttdeci">qint64 calculateDirSize(const QString &amp;dirPath) const</div><div class="ttdoc">计算目录大小。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8cpp_source.html#l00052">CachePruner.cpp:52</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_a9e2ff907ef0a6e152f7e5b02bd9853ca"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#a9e2ff907ef0a6e152f7e5b02bd9853ca">EasyKiConverter::CachePruner::m_trash</a></div><div class="ttdeci">CacheSafety::TrashFunction m_trash</div><div class="ttdoc">可注入的系统回收站操作。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8h_source.html#l00043">CachePruner.h:43</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_ac0e17794ce4a82754916a4c3a1986bc6"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#ac0e17794ce4a82754916a4c3a1986bc6">EasyKiConverter::CachePruner::~CachePruner</a></div><div class="ttdeci">~CachePruner()=default</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_ad9dee6bdeaf3ec7cc1187753327843e2"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#ad9dee6bdeaf3ec7cc1187753327843e2">EasyKiConverter::CachePruner::pruneTo</a></div><div class="ttdeci">qint64 pruneTo(qint64 targetSizeBytes)</div><div class="ttdoc">执行LRU缓存淘汰</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8cpp_source.html#l00074">CachePruner.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheSafety_html_adeea4f0c0a9e998015b8a2f82e6a55d5"><div class="ttname"><a href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">EasyKiConverter::CacheSafety::TrashFunction</a></div><div class="ttdeci">std::function&lt; bool(const QString &amp;, QString *)&gt; TrashFunction</div><div class="ttdoc">系统回收站操作的可替换函数类型。</div><div class="ttdef"><b>Definition</b> <a href="CacheSafety_8h_source.html#l00022">CacheSafety.h:22</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="CachePruner_8h.html">CachePruner.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/logging/QtLogAdapter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('QtLogAdapter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">QtLogAdapter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="QtLogAdapter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef QTLOGADAPTER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#    define QTLOGADAPTER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#    include &quot;<a class="code" href="LogMacros_8h.html">LogMacros.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#    include &quot;<a class="code" href="Logger_8h.html">Logger.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#    include &lt;QtGlobal&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1QtLogAdapter.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1QtLogAdapter.html">QtLogAdapter</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1QtLogAdapter.html#a6132fa4bbda83bab24a4512d1e287a58">install</a>();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1QtLogAdapter.html#aa8c73100d1817fbb8df3f0e055f4a449">uninstall</a>();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1QtLogAdapter.html#a95215fd0d494f2b14f489802862a7d6c">setDefaultModule</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04f">LogModule</a> module);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keyword">static</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04f">LogModule</a> <a class="code hl_function" href="classEasyKiConverter_1_1QtLogAdapter.html#a9c1c38d02d262bc87b265c56d41cf8f9">defaultModule</a>();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1QtLogAdapter.html#afe94e9eff47c43f163e96e4a02602a10">setPreserveOriginal</a>(<span class="keywordtype">bool</span> preserve);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1QtLogAdapter.html#a055df0dd6dca17dcb100ad3e645aa59d">preserveOriginal</a>();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="foldopen" id="foldopen00065" data-start="{" data-end="}">
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1QtLogAdapter.html#aefd514c852473217ee741788968efc3f">   65</a></span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1QtLogAdapter.html#aefd514c852473217ee741788968efc3f">isInstalled</a>() {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1QtLogAdapter.html#a1114d9779f0252b631ae8603dfcb4f50">s_installed</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1QtLogAdapter.html#a4d34ee697a6748ec20af83f288d342b6">qtMessageHandler</a>(QtMsgType <a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>, <span class="keyword">const</span> QMessageLogContext&amp; context, <span class="keyword">const</span> QString&amp; msg);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1QtLogAdapter.html#a85dba52cb99de51a907343565962d854">   72</a></span>    <span class="keyword">static</span> QtMessageHandler <a class="code hl_variable" href="classEasyKiConverter_1_1QtLogAdapter.html#a85dba52cb99de51a907343565962d854">s_originalHandler</a>;  </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1QtLogAdapter.html#a617d8c1d96a37cc39fe5fafbedb81f7c">   73</a></span>    <span class="keyword">static</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04f">LogModule</a> <a class="code hl_variable" href="classEasyKiConverter_1_1QtLogAdapter.html#a617d8c1d96a37cc39fe5fafbedb81f7c">s_defaultModule</a>;  </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1QtLogAdapter.html#a1331ea333240f8f3783fbadb82dc05c8">   74</a></span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1QtLogAdapter.html#a1331ea333240f8f3783fbadb82dc05c8">s_preserveOriginal</a>;  </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1QtLogAdapter.html#a1114d9779f0252b631ae8603dfcb4f50">   75</a></span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1QtLogAdapter.html#a1114d9779f0252b631ae8603dfcb4f50">s_installed</a>;  </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="comment">// 线程本地递归检测标志 — thread_local 确保每个线程独立，避免并发线程的 Qt 消息互相阻塞</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1QtLogAdapter.html#a3ce29d61f1cf3a453a22ab198bd7012a">   78</a></span>    <span class="keyword">static</span> <span class="keyword">thread_local</span> <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1QtLogAdapter.html#a3ce29d61f1cf3a453a22ab198bd7012a">s_inHandler</a>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>};</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="preprocessor">#endif  </span><span class="comment">// QTLOGADAPTER_H</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span><span class="comment">// 我搞不懂了，我是一名大一在读学生，忍受这种情况已经快将近半年了，</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span><span class="comment">// 具体情况就是每次上课时候都会有一个人在讲台上走来走去的，</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="comment">// 还大声说话，时不时还会去乱动电脑或者黑板上乱涂乱画。</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span><span class="comment">// 更过分的是这个人还会时不时让我们起来，</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="comment">// 问我们一些听不懂的问题。我只想说教室是学习的地方，</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="comment">// 希望学校严查并处理！谢谢！</span></div>
+<div class="ttc" id="aLogMacros_8h_html"><div class="ttname"><a href="LogMacros_8h.html">LogMacros.h</a></div></div>
+<div class="ttc" id="aLogger_8h_html"><div class="ttname"><a href="Logger_8h.html">Logger.h</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_a515c02d1ed2c32753cd4e2cd7140acdd"><div class="ttname"><a href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a></div><div class="ttdeci">quint8 type</div><div class="ttdoc">类型。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00064">OLECompoundReader.cpp:64</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html">EasyKiConverter::QtLogAdapter</a></div><div class="ttdoc">Qt 日志适配器</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8h_source.html#l00021">QtLogAdapter.h:21</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a055df0dd6dca17dcb100ad3e645aa59d"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a055df0dd6dca17dcb100ad3e645aa59d">EasyKiConverter::QtLogAdapter::preserveOriginal</a></div><div class="ttdeci">static bool preserveOriginal()</div><div class="ttdoc">是否保留原始 Qt 日志行为</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8cpp_source.html#l00068">QtLogAdapter.cpp:68</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a1114d9779f0252b631ae8603dfcb4f50"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a1114d9779f0252b631ae8603dfcb4f50">EasyKiConverter::QtLogAdapter::s_installed</a></div><div class="ttdeci">static bool s_installed</div><div class="ttdoc">是否已经安装自定义 Qt 消息处理器。</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8h_source.html#l00075">QtLogAdapter.h:75</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a1331ea333240f8f3783fbadb82dc05c8"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a1331ea333240f8f3783fbadb82dc05c8">EasyKiConverter::QtLogAdapter::s_preserveOriginal</a></div><div class="ttdeci">static bool s_preserveOriginal</div><div class="ttdoc">是否保留调用原始 Qt 消息处理器。</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8h_source.html#l00074">QtLogAdapter.h:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a3ce29d61f1cf3a453a22ab198bd7012a"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a3ce29d61f1cf3a453a22ab198bd7012a">EasyKiConverter::QtLogAdapter::s_inHandler</a></div><div class="ttdeci">static thread_local bool s_inHandler</div><div class="ttdoc">当前线程是否正在处理 Qt 消息。</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8h_source.html#l00078">QtLogAdapter.h:78</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a4d34ee697a6748ec20af83f288d342b6"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a4d34ee697a6748ec20af83f288d342b6">EasyKiConverter::QtLogAdapter::qtMessageHandler</a></div><div class="ttdeci">static void qtMessageHandler(QtMsgType type, const QMessageLogContext &amp;context, const QString &amp;msg)</div><div class="ttdoc">将 Qt 消息转换为项目日志并按需转发原始消息。</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8cpp_source.html#l00078">QtLogAdapter.cpp:78</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a6132fa4bbda83bab24a4512d1e287a58"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a6132fa4bbda83bab24a4512d1e287a58">EasyKiConverter::QtLogAdapter::install</a></div><div class="ttdeci">static void install()</div><div class="ttdoc">安装 Qt 日志处理器</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8cpp_source.html#l00017">QtLogAdapter.cpp:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a617d8c1d96a37cc39fe5fafbedb81f7c"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a617d8c1d96a37cc39fe5fafbedb81f7c">EasyKiConverter::QtLogAdapter::s_defaultModule</a></div><div class="ttdeci">static LogModule s_defaultModule</div><div class="ttdoc">Qt 消息默认映射的日志模块。</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8h_source.html#l00073">QtLogAdapter.h:73</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a85dba52cb99de51a907343565962d854"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a85dba52cb99de51a907343565962d854">EasyKiConverter::QtLogAdapter::s_originalHandler</a></div><div class="ttdeci">static QtMessageHandler s_originalHandler</div><div class="ttdoc">安装前保存的 Qt 消息处理器。</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8h_source.html#l00072">QtLogAdapter.h:72</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a95215fd0d494f2b14f489802862a7d6c"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a95215fd0d494f2b14f489802862a7d6c">EasyKiConverter::QtLogAdapter::setDefaultModule</a></div><div class="ttdeci">static void setDefaultModule(LogModule module)</div><div class="ttdoc">设置 Qt 日志的默认模块</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8cpp_source.html#l00046">QtLogAdapter.cpp:46</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_a9c1c38d02d262bc87b265c56d41cf8f9"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#a9c1c38d02d262bc87b265c56d41cf8f9">EasyKiConverter::QtLogAdapter::defaultModule</a></div><div class="ttdeci">static LogModule defaultModule()</div><div class="ttdoc">获取默认模块</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8cpp_source.html#l00053">QtLogAdapter.cpp:53</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_aa8c73100d1817fbb8df3f0e055f4a449"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#aa8c73100d1817fbb8df3f0e055f4a449">EasyKiConverter::QtLogAdapter::uninstall</a></div><div class="ttdeci">static void uninstall()</div><div class="ttdoc">卸载 Qt 日志处理器</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8cpp_source.html#l00031">QtLogAdapter.cpp:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_aefd514c852473217ee741788968efc3f"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#aefd514c852473217ee741788968efc3f">EasyKiConverter::QtLogAdapter::isInstalled</a></div><div class="ttdeci">static bool isInstalled()</div><div class="ttdoc">检查是否已安装</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8h_source.html#l00065">QtLogAdapter.h:65</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1QtLogAdapter_html_afe94e9eff47c43f163e96e4a02602a10"><div class="ttname"><a href="classEasyKiConverter_1_1QtLogAdapter.html#afe94e9eff47c43f163e96e4a02602a10">EasyKiConverter::QtLogAdapter::setPreserveOriginal</a></div><div class="ttdeci">static void setPreserveOriginal(bool preserve)</div><div class="ttdoc">设置是否保留原始 Qt 日志行为（同时输出到原目标）</div><div class="ttdef"><b>Definition</b> <a href="QtLogAdapter_8cpp_source.html#l00061">QtLogAdapter.cpp:61</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_aff134bbe6cc1ac962014dd264d0ee04f"><div class="ttname"><a href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04f">EasyKiConverter::LogModule</a></div><div class="ttdeci">LogModule</div><div class="ttdoc">日志模块定义</div><div class="ttdef"><b>Definition</b> <a href="LogModule_8h_source.html#l00016">LogModule.h:16</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="dir_fb798ecc4aaad6bce5c96e231ca5fd90.html">logging</a></li><li class="navelem"><a class="el" href="QtLogAdapter_8h.html">QtLogAdapter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,646 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/utils/GeometryUtils.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('GeometryUtils_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">GeometryUtils.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="GeometryUtils_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="GeometryUtils_8h.html">GeometryUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="SvgPathParser_8h.html">SvgPathParser.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QRegularExpression&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;limits&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#ifndef M_PI</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="GeometryUtils_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3">   12</a></span><span class="preprocessor">#    define M_PI 3.14159265358979323846</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a4476db5e526457993382e6666287acb9">   26</a></span>QPointF <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a4476db5e526457993382e6666287acb9">GeometryUtils::getMiddleArcPos</a>(<span class="keywordtype">double</span> centerX,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                                       <span class="keywordtype">double</span> centerY,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                                       <span class="keywordtype">double</span> radius,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                                       <span class="keywordtype">double</span> angleStart,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>                                       <span class="keywordtype">double</span> angleEnd) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">double</span> middleX = centerX + radius * std::cos((angleStart + angleEnd) / 2.0);  <span class="comment">// 中点 X 坐标。</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">double</span> middleY = centerY + radius * std::sin((angleStart + angleEnd) / 2.0);  <span class="comment">// 中点 Y 坐标。</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">return</span> QPointF(middleX, middleY);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
+</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#ae8b5597710379a4855c6d6810b7cdb42">   46</a></span>QPointF <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#ae8b5597710379a4855c6d6810b7cdb42">GeometryUtils::getArcCenter</a>(<span class="keywordtype">double</span> startX,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                                    <span class="keywordtype">double</span> startY,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                                    <span class="keywordtype">double</span> endX,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                                    <span class="keywordtype">double</span> endY,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                                    <span class="keywordtype">int</span> rotationDirection,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                                    <span class="keywordtype">double</span> radius) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">double</span> arcDistance = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a7eae768897d88b3d0d02621d50480162">distance</a>(startX, startY, endX, endY);  <span class="comment">// 端点间距离。</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="comment">// 记录端点之间的距离，用于归一化圆弧方向向量。</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordflow">if</span> (arcDistance &lt; std::numeric_limits&lt;double&gt;::epsilon()) {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Arc distance is too small, cannot calculate center&quot;</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">return</span> QPointF(startX, startY);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">double</span> mX = (startX + endX) / 2.0;  <span class="comment">// 端点中点 X 坐标。</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">double</span> mY = (startY + endY) / 2.0;  <span class="comment">// 端点中点 Y 坐标。</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">double</span> u = (endX - startX) / arcDistance;  <span class="comment">// 端点方向的 X 单位分量。</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">double</span> v = (endY - startY) / arcDistance;  <span class="comment">// 端点方向的 Y 单位分量。</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">double</span> hSquared = radius * radius - (arcDistance * arcDistance) / 4.0;  <span class="comment">// 圆心到弦中点距离的平方。</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="comment">// 检查半径是否足以连接两个端点。</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">if</span> (hSquared &lt; 0) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Radius is too small for the given arc distance&quot;</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">return</span> QPointF(mX, mY);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">double</span> h = std::sqrt(hSquared);  <span class="comment">// 圆心到弦中点的距离。</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">double</span> centerX = mX - rotationDirection * h * v;  <span class="comment">// 圆心 X 坐标。</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordtype">double</span> centerY = mY + rotationDirection * h * u;  <span class="comment">// 圆心 Y 坐标。</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> QPointF(centerX, centerY);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="foldopen" id="foldopen00090" data-start="{" data-end="}">
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#addbe17f4d77846d25a12ca5af2f2f747">   90</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#addbe17f4d77846d25a12ca5af2f2f747">GeometryUtils::getArcAngleEnd</a>(<span class="keywordtype">double</span> centerX, <span class="keywordtype">double</span> endX, <span class="keywordtype">double</span> radius, <span class="keywordtype">bool</span> flagLargeArc) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="comment">// 计算相对于圆心的角度</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordtype">double</span> dx = endX - centerX;  <span class="comment">// 终点相对圆心的 X 分量。</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">double</span> angle = std::acos(dx / radius);  <span class="comment">// 由 X 分量计算的终止角。</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="comment">// 根据大圆弧标志调整角</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">if</span> (flagLargeArc) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        angle = 2.0 * <a class="code hl_define" href="GeometryUtils_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a> - angle;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">return</span> angle;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>}</div>
+</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a67241406f84d1ebfe4494c4aeae2c5f9">  108</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a67241406f84d1ebfe4494c4aeae2c5f9">GeometryUtils::pxToMil</a>(<span class="keywordtype">double</span> dim) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(10.0 * dim);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
+</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="foldopen" id="foldopen00117" data-start="{" data-end="}">
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a7236bb7b4d841de8244ee80c9829d730">  117</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a7236bb7b4d841de8244ee80c9829d730">GeometryUtils::pxToMm</a>(<span class="keywordtype">double</span> dim) {</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">return</span> 10.0 * dim * 0.0254;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}</div>
+</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="foldopen" id="foldopen00126" data-start="{" data-end="}">
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#aef67ed63d5e31b1a08d5edb04ed166e1">  126</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aef67ed63d5e31b1a08d5edb04ed166e1">GeometryUtils::convertToMm</a>(<span class="keywordtype">double</span> dim) {</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="comment">// 检查输入是否为 NaN。</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordflow">if</span> (std::isnan(dim)) {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;convertToMm: Input is NaN, returning 0.0&quot;</span>;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    }</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">if</span> (std::isinf(dim)) {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;convertToMm: Input is infinite, returning 0.0&quot;</span>;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="comment">// 执行像素到毫米的单位换算。</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordtype">double</span> result = dim * 10.0 * 0.0254;</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="comment">// 检查结果是否合理（大多数元器件尺寸不会超过1米）</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> MAX_REASONABLE_SIZE = 1000.0;  <span class="comment">// 允许的最大尺寸（毫米）。</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordflow">if</span> (std::abs(result) &gt; MAX_REASONABLE_SIZE) {</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        qWarning() &lt;&lt; QString(</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                          <span class="stringliteral">&quot;convertToMm: Converted value (%1mm) exceeds reasonable range, &quot;</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                          <span class="stringliteral">&quot;original value: %2&quot;</span>)</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>                          .arg(result)</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                          .arg(dim);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    }</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>}</div>
+</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="foldopen" id="foldopen00162" data-start="{" data-end="}">
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a7eae768897d88b3d0d02621d50480162">  162</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a7eae768897d88b3d0d02621d50480162">GeometryUtils::distance</a>(<span class="keywordtype">double</span> x1, <span class="keywordtype">double</span> y1, <span class="keywordtype">double</span> x2, <span class="keywordtype">double</span> y2) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordtype">double</span> dx = x2 - x1;  <span class="comment">// 两点的 X 方向差值。</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keywordtype">double</span> dy = y2 - y1;  <span class="comment">// 两点的 Y 方向差值。</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordflow">return</span> std::sqrt(dx * dx + dy * dy);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>}</div>
+</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span> </div>
+<div class="foldopen" id="foldopen00173" data-start="{" data-end="}">
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25">  173</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25">GeometryUtils::degreesToRadians</a>(<span class="keywordtype">double</span> degrees) {</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">return</span> degrees * <a class="code hl_define" href="GeometryUtils_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a> / 180.0;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>}</div>
+</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
+<div class="foldopen" id="foldopen00182" data-start="{" data-end="}">
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#aa2f7844abf1010f846448e74ae212485">  182</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aa2f7844abf1010f846448e74ae212485">GeometryUtils::radiansToDegrees</a>(<span class="keywordtype">double</span> radians) {</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    <span class="keywordflow">return</span> radians * 180.0 / <a class="code hl_define" href="GeometryUtils_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a>;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>}</div>
+</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span> </div>
+<div class="foldopen" id="foldopen00191" data-start="{" data-end="}">
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a5dbd59951d4a1555901e57a578741c1f">  191</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a5dbd59951d4a1555901e57a578741c1f">GeometryUtils::normalizeAngle</a>(<span class="keywordtype">double</span> angle) {</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    <span class="comment">// 将角度规范化到 [0, 2π) 范围。</span></div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    <span class="keywordflow">while</span> (angle &lt; 0.0) {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        angle += 2.0 * <a class="code hl_define" href="GeometryUtils_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a>;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    }</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="keywordflow">while</span> (angle &gt;= 2.0 * <a class="code hl_define" href="GeometryUtils_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a>) {</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        angle -= 2.0 * <a class="code hl_define" href="GeometryUtils_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a>;</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    }</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keywordflow">return</span> angle;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>}</div>
+</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span> </div>
+<div class="foldopen" id="foldopen00217" data-start="{" data-end="}">
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a4391b7718f76ace474e2f5dc7dc8daeb">  217</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a4391b7718f76ace474e2f5dc7dc8daeb">GeometryUtils::computeArc</a>(<span class="keywordtype">double</span> startX,</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                               <span class="keywordtype">double</span> startY,</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                               <span class="keywordtype">double</span> <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a>,</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                               <span class="keywordtype">double</span> <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a>,</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>                               <span class="keywordtype">double</span> angle,</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>                               <span class="keywordtype">bool</span> largeArcFlag,</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>                               <span class="keywordtype">bool</span> sweepFlag,</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>                               <span class="keywordtype">double</span> endX,</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>                               <span class="keywordtype">double</span> endY,</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>                               <span class="keywordtype">double</span>&amp; centerX,</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>                               <span class="keywordtype">double</span>&amp; centerY,</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                               <span class="keywordtype">double</span>&amp; angleExtent) {</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="comment">// 计算起点和终点中点坐标系中的半弦长分量。</span></div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordtype">double</span> dx2 = (startX - endX) / 2.0;  <span class="comment">// 半弦向量 X 分量。</span></div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordtype">double</span> dy2 = (startY - endY) / 2.0;  <span class="comment">// 半弦向量 Y 分量。</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="comment">// 将椭圆旋转角从度转换为弧度。</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    angle = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25">degreesToRadians</a>(std::fmod(angle, 360.0));</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    <span class="keywordtype">double</span> cosAngle = std::cos(angle);  <span class="comment">// 旋转角余弦。</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keywordtype">double</span> sinAngle = std::sin(angle);  <span class="comment">// 旋转角正弦。</span></div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span> </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="comment">// 第一步：将端点变换到未旋转的椭圆坐标系。</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="keywordtype">double</span> x1 = cosAngle * dx2 + sinAngle * dy2;  <span class="comment">// 局部坐标 X 分量。</span></div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="keywordtype">double</span> y1 = -sinAngle * dx2 + cosAngle * dy2;  <span class="comment">// 局部坐标 Y 分量。</span></div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span> </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    <span class="comment">// 取半径绝对值，保证后续计算使用非负半径。</span></div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> = std::abs(<a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a>);</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> = std::abs(<a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a>);</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keywordtype">double</span> PradiusX = <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> * <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a>;  <span class="comment">// X 半径平方。</span></div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    <span class="keywordtype">double</span> PradiusY = <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> * <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a>;  <span class="comment">// Y 半径平方。</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordtype">double</span> Px1 = x1 * x1;  <span class="comment">// 局部 X 分量平方。</span></div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keywordtype">double</span> Py1 = y1 * y1;  <span class="comment">// 局部 Y 分量平方。</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span> </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="comment">// 检查当前半径是否足以覆盖端点。</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordtype">double</span> radiiCheck = 0.0;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keywordflow">if</span> (PradiusX != 0.0 &amp;&amp; PradiusY != 0.0) {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        radiiCheck = Px1 / PradiusX + Py1 / PradiusY;</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    }</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    <span class="keywordflow">if</span> (radiiCheck &gt; 1.0) {</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> = std::sqrt(radiiCheck) * <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a>;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> = std::sqrt(radiiCheck) * <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a>;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        PradiusX = <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> * <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a>;</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        PradiusY = <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> * <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a>;</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    }</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span> </div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    <span class="comment">// 第二步：计算未旋转坐标系中的圆心偏移。</span></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="keywordtype">int</span> sign = (largeArcFlag == sweepFlag) ? -1 : 1;  <span class="comment">// 圆心选择方向符号。</span></div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    <span class="keywordtype">double</span> sq = 0.0;  <span class="comment">// 圆心系数平方。</span></div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <span class="keywordflow">if</span> (PradiusX * Py1 + PradiusY * Px1 &gt; 0.0) {</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        sq = (PradiusX * PradiusY - PradiusX * Py1 - PradiusY * Px1) / (PradiusX * Py1 + PradiusY * Px1);</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    }</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    sq = std::max(sq, 0.0);</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    <span class="keywordtype">double</span> coef = sign * std::sqrt(sq);  <span class="comment">// 圆心系数。</span></div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="keywordtype">double</span> cx1 = coef * ((<a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> * y1) / <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a>);  <span class="comment">// 局部圆心 X 偏移。</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keywordtype">double</span> cy1 = (<a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> != 0.0) ? coef * -((<a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> * x1) / <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a>) : 0.0;  <span class="comment">// 局部圆心 Y 偏移。</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span> </div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="comment">// 第三步：将局部圆心变换回原坐标系。</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="keywordtype">double</span> sx2 = (startX + endX) / 2.0;  <span class="comment">// 端点中点 X 坐标。</span></div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="keywordtype">double</span> sy2 = (startY + endY) / 2.0;  <span class="comment">// 端点中点 Y 坐标。</span></div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    centerX = sx2 + (cosAngle * cx1 - sinAngle * cy1);</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    centerY = sy2 + (sinAngle * cx1 + cosAngle * cy1);</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    <span class="comment">// 第四步：根据起止向量计算扫过角度。</span></div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="keywordtype">double</span> ux = (<a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> != 0.0) ? (x1 - cx1) / <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> : 0.0;  <span class="comment">// 起点单位向量 X 分量。</span></div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>    <span class="keywordtype">double</span> uy = (<a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> != 0.0) ? (y1 - cy1) / <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> : 0.0;  <span class="comment">// 起点单位向量 Y 分量。</span></div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>    <span class="keywordtype">double</span> vx = (<a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> != 0.0) ? (-x1 - cx1) / <a class="code hl_variable" href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a> : 0.0;  <span class="comment">// 终点单位向量 X 分量。</span></div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    <span class="keywordtype">double</span> vy = (<a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> != 0.0) ? (-y1 - cy1) / <a class="code hl_variable" href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a> : 0.0;  <span class="comment">// 终点单位向量 Y 分量。</span></div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span> </div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    <span class="comment">// 计算两向量之间的夹角。</span></div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="keywordtype">double</span> n = std::sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));  <span class="comment">// 向量模长乘积。</span></div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    <span class="keywordtype">double</span> p = ux * vx + uy * vy;  <span class="comment">// 向量点积。</span></div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    sign = ((ux * vy - uy * vx) &lt; 0.0) ? -1 : 1;</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span> </div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    <span class="keywordflow">if</span> (n != 0.0) {</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        <span class="keywordtype">double</span> ratio = p / n;  <span class="comment">// 夹角余弦。</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>        <span class="keywordflow">if</span> (std::abs(ratio) &lt; 1.0) {</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            angleExtent = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aa2f7844abf1010f846448e74ae212485">radiansToDegrees</a>(sign * std::acos(ratio));</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            angleExtent = 360.0 + 359.0;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        }</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        angleExtent = 360.0 + 359.0;</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    }</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span> </div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    <span class="keywordflow">if</span> (!sweepFlag &amp;&amp; angleExtent &gt; 0.0) {</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>        angleExtent -= 360.0;</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (sweepFlag &amp;&amp; angleExtent &lt; 0.0) {</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        angleExtent += 360.0;</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    }</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    <span class="keywordtype">int</span> angleExtentSign = (angleExtent &lt; 0.0) ? 1 : -1;  <span class="comment">// 保留扫掠方向的符号。</span></div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    angleExtent = (std::abs(angleExtent) / 360.0) * 360.0 * angleExtentSign;</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>}</div>
+</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="foldopen" id="foldopen00317" data-start="{" data-end="}">
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a0c8b0600b42eab25c6b5a489ac8e0cd8">  317</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html">GeometryUtils::SvgArcResult</a> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a0c8b0600b42eab25c6b5a489ac8e0cd8">GeometryUtils::solveSvgArc</a>(<span class="keyword">const</span> QString&amp; param) {</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html">SvgArcResult</a> res;  <span class="comment">// SVG 椭圆弧解析结果。</span></div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span> </div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    <span class="comment">// 解析 SVG 弧参数字符串</span></div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>    <span class="comment">// 格式: &quot;M x1 y1 A rx ry phi fa fs x2 y2&quot;</span></div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    QStringList args = param.split(QRegularExpression(<span class="stringliteral">&quot;\\s+&quot;</span>), Qt::SkipEmptyParts);  <span class="comment">// 分隔后的弧参数。</span></div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    <span class="keywordflow">if</span> (args.size() &lt; 10) {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Invalid SVG arc parameter:&quot;</span> &lt;&lt; param;</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    }</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    <span class="keywordflow">if</span> (args[0] != <span class="stringliteral">&quot;M&quot;</span> &amp;&amp; args[0] != <span class="stringliteral">&quot;m&quot;</span>) {</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;SVG arc must start with M command:&quot;</span> &lt;&lt; param;</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>        <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>    }</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <span class="keywordflow">if</span> (args[3] != <span class="stringliteral">&quot;A&quot;</span> &amp;&amp; args[3] != <span class="stringliteral">&quot;a&quot;</span>) {</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Expected A command in SVG arc:&quot;</span> &lt;&lt; param;</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>        <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    }</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span> </div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="keywordtype">double</span> x1 = args[1].toDouble();  <span class="comment">// 起点 X 坐标。</span></div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>    <span class="keywordtype">double</span> y1 = args[2].toDouble();  <span class="comment">// 起点 Y 坐标。</span></div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>    <span class="keywordtype">double</span> rx = args[4].toDouble();  <span class="comment">// 椭圆 X 半径。</span></div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    <span class="keywordtype">double</span> ry = args[5].toDouble();  <span class="comment">// 椭圆 Y 半径。</span></div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>    <span class="keywordtype">double</span> phiAngle = args[6].toDouble();  <span class="comment">// 椭圆旋转角度。</span></div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>    <span class="keywordtype">int</span> fa = args[7].toInt();  <span class="comment">// 大弧标志。</span></div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    <span class="keywordtype">int</span> fs = args[8].toInt();  <span class="comment">// 扫掠方向标志。</span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    <span class="keywordtype">double</span> x2 = args[9].toDouble();  <span class="comment">// 终点 X 坐标。</span></div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    <span class="keywordtype">double</span> y2 = (args.size() &gt; 10) ? args[10].toDouble() : 0.0;  <span class="comment">// 终点 Y 坐标。</span></div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span> </div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a619565639e7de734e3bf5c5b6f3be2f0">rx</a> = rx;</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac3fca45c838e482fb2e16b838c13a07e">ry</a> = ry;</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac21bb93b645b531cb3b77cbaf89df405">startPt</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html#a34e8570ff9a617592dc7d36b31986e98">x</a> = x1;</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac21bb93b645b531cb3b77cbaf89df405">startPt</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html#a469098fb7cfec0f5f92ad996c8e15518">y</a> = y1;</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a3af2b9a75e13fc01ee6dbd2d53f0fd73">endPt</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html#a34e8570ff9a617592dc7d36b31986e98">x</a> = x2;</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a3af2b9a75e13fc01ee6dbd2d53f0fd73">endPt</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html#a469098fb7cfec0f5f92ad996c8e15518">y</a> = y2;</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#acacee9ff55a7a941782b1c2f24fcb4df">xRotate</a> = phiAngle;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span> </div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="comment">// 如果半径，退化为直线</span></div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    <span class="keywordflow">if</span> (rx == 0 || ry == 0) {</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>        res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a7e7bf5ba7ed4da8d05c8e5926da1d303">cx</a> = (x1 + x2) / 2.0;  <span class="comment">// 退化弧的中心 X 坐标。</span></div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a2d6e234d756d45d2d90433aeebd7fa62">cy</a> = (y1 + y2) / 2.0;  <span class="comment">// 退化弧的中心 Y 坐标。</span></div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>        res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a> = 360.0;  <span class="comment">// 退化弧使用整圆范围标记。</span></div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    }</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span> </div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>    <span class="comment">// 将椭圆旋转角度转换为弧度。</span></div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    <span class="keywordtype">double</span> phi = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25">degreesToRadians</a>(phiAngle);  <span class="comment">// 椭圆旋转角（弧度）。</span></div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    <span class="keywordtype">double</span> cos_phi = std::cos(phi);  <span class="comment">// 椭圆旋转角余弦。</span></div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>    <span class="keywordtype">double</span> sin_phi = std::sin(phi);  <span class="comment">// 椭圆旋转角正弦。</span></div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span> </div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    <span class="comment">// 计算端点中点坐标系中的半弦向量。</span></div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    <span class="keywordtype">double</span> dx = (x1 - x2) / 2.0;  <span class="comment">// 半弦向量 X 分量。</span></div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    <span class="keywordtype">double</span> dy = (y1 - y2) / 2.0;  <span class="comment">// 半弦向量 Y 分量。</span></div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span> </div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>    <span class="comment">// 将半弦向量变换到未旋转坐标系。</span></div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>    <span class="keywordtype">double</span> x1_ = cos_phi * dx + sin_phi * dy;  <span class="comment">// 未旋转坐标系 X 分量。</span></div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>    <span class="keywordtype">double</span> y1_ = -sin_phi * dx + cos_phi * dy;  <span class="comment">// 未旋转坐标系 Y 分量。</span></div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span> </div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>    <span class="comment">// 按端点位置放大不足以覆盖端点的半径。</span></div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>    <span class="keywordtype">double</span> rx_sq = rx * rx;  <span class="comment">// X 半径平方。</span></div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <span class="keywordtype">double</span> ry_sq = ry * ry;  <span class="comment">// Y 半径平方。</span></div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    <span class="keywordtype">double</span> x1_sq = x1_ * x1_;  <span class="comment">// 局部 X 分量平方。</span></div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    <span class="keywordtype">double</span> y1_sq = y1_ * y1_;  <span class="comment">// 局部 Y 分量平方。</span></div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span> </div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>    <span class="keywordtype">double</span> lambda = x1_sq / rx_sq + y1_sq / ry_sq;  <span class="comment">// 端点覆盖比例。</span></div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>    <span class="keywordflow">if</span> (lambda &gt; 1.0) {</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>        <span class="keywordtype">double</span> sqrtLambda = std::sqrt(lambda);  <span class="comment">// 半径放大比例。</span></div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>        rx *= sqrtLambda;</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>        ry *= sqrtLambda;</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>        rx_sq = rx * rx;</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>        ry_sq = ry * ry;</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>    }</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span> </div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>    <span class="comment">// 根据 SVG 标志计算局部圆心。</span></div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="keywordtype">double</span> temp =  <span class="comment">// 局部圆心系数。</span></div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        std::sqrt(std::max(0.0, (rx_sq * ry_sq - rx_sq * y1_sq - ry_sq * x1_sq) / (rx_sq * y1_sq + ry_sq * x1_sq)));</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span> </div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    <span class="keywordtype">int</span> sign = (fa == fs) ? -1 : 1;  <span class="comment">// 圆心选择方向符号。</span></div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>    <span class="keywordtype">double</span> cx_ = sign * temp * rx * y1_ / ry;  <span class="comment">// 局部圆心 X 坐标。</span></div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>    <span class="keywordtype">double</span> cy_ = -sign * temp * ry * x1_ / rx;  <span class="comment">// 局部圆心 Y 坐标。</span></div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span> </div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    <span class="comment">// 将局部圆心变换回原坐标系。</span></div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a7e7bf5ba7ed4da8d05c8e5926da1d303">cx</a> = cos_phi * cx_ - sin_phi * cy_ + (x1 + x2) / 2.0;</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a2d6e234d756d45d2d90433aeebd7fa62">cy</a> = sin_phi * cx_ + cos_phi * cy_ + (y1 + y2) / 2.0;</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span> </div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>    <span class="comment">// 计算椭圆弧的起始角度和扫过角度。</span></div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    <span class="keywordtype">double</span> angle1 = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a741930dc6d1d2897dae15c0fc3e5f988">getAngle</a>(1.0, 0.0, (x1_ - cx_) / rx, (y1_ - cy_) / ry);  <span class="comment">// 起始角度。</span></div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>    <span class="keywordtype">double</span> angle2 = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a741930dc6d1d2897dae15c0fc3e5f988">getAngle</a>((x1_ - cx_) / rx, (y1_ - cy_) / ry, (-x1_ - cx_) / rx, (-y1_ - cy_) / ry);  <span class="comment">// 扫过角度。</span></div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span> </div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a> = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aa2f7844abf1010f846448e74ae212485">radiansToDegrees</a>(angle1);</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a> = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aa2f7844abf1010f846448e74ae212485">radiansToDegrees</a>(angle2);</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span> </div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>    <span class="comment">// 将起始角度规范化到一整圆范围内。</span></div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>    <span class="keywordflow">while</span> (res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a> &lt; 0)</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>        res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a> += 360.0;</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>    <span class="keywordflow">while</span> (res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a> &gt;= 360.0)</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>        res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a> -= 360.0;</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a> = std::abs(res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a>);</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span> </div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>    <span class="comment">// 根据扫掠方向调整扫过角度符号。</span></div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>    <span class="keywordflow">if</span> (fs != 0) {</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>        <span class="keywordflow">if</span> (res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a> &lt; 0)</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>            res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a> += 360.0;</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>        <span class="keywordflow">if</span> (res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a> &gt; 0)</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>            res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a> -= 360.0;</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>    }</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span> </div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>}</div>
+</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span> </div>
+<div class="foldopen" id="foldopen00439" data-start="{" data-end="}">
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a741930dc6d1d2897dae15c0fc3e5f988">  439</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a741930dc6d1d2897dae15c0fc3e5f988">GeometryUtils::getAngle</a>(<span class="keywordtype">double</span> x1, <span class="keywordtype">double</span> y1, <span class="keywordtype">double</span> x2, <span class="keywordtype">double</span> y2) {</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>    <span class="comment">// angle = arccos( (U dot V) / (|U|*|V|) )</span></div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>    <span class="keywordtype">double</span> factor = (x1 * y2 - y1 * x2 &gt; 0) ? 1.0 : -1.0;  <span class="comment">// 叉积确定的方向符号。</span></div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>    <span class="keywordtype">double</span> dot = x1 * x2 + y1 * y2;  <span class="comment">// 两向量点积。</span></div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>    <span class="keywordtype">double</span> mag1 = std::sqrt(x1 * x1 + y1 * y1);  <span class="comment">// 第一个向量模长。</span></div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>    <span class="keywordtype">double</span> mag2 = std::sqrt(x2 * x2 + y2 * y2);  <span class="comment">// 第二个向量模长。</span></div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span> </div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>    <span class="keywordflow">if</span> (mag1 == 0 || mag2 == 0)</div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>        <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span> </div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>    <span class="keywordtype">double</span> ratio = dot / (mag1 * mag2);  <span class="comment">// 夹角余弦。</span></div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>    ratio = std::clamp(ratio, -1.0, 1.0);  <span class="comment">// 防止数值误</span></div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span> </div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>    <span class="keywordflow">return</span> factor * std::acos(ratio);</div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>}</div>
+</div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span> </div>
+<div class="foldopen" id="foldopen00460" data-start="{" data-end="}">
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#ad4176d199a6ca7c557a7dbb57187fcdc">  460</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html">GeometryUtils::SvgArcEndpoints</a> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#ad4176d199a6ca7c557a7dbb57187fcdc">GeometryUtils::calcSvgArc</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html">SvgArcResult</a>&amp; arc) {</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html">SvgArcEndpoints</a> res;  <span class="comment">// 椭圆弧端点结果。</span></div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span> </div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>    <span class="keywordtype">double</span> phi = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25">degreesToRadians</a>(arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#acacee9ff55a7a941782b1c2f24fcb4df">xRotate</a>);  <span class="comment">// 椭圆旋转角（弧度）。</span></div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>    <span class="keywordtype">double</span> theta = -<a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25">degreesToRadians</a>(arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a>);  <span class="comment">// 起始参数角度。</span></div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>    <span class="keywordtype">double</span> dTheta = -<a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25">degreesToRadians</a>(arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a>);  <span class="comment">// 参数角度增量。</span></div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span> </div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>    <span class="comment">// 计算起点</span></div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#aef9a253044fbb44014162ba3101f6493">x1</a> = std::cos(phi) * std::cos(theta) * arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a619565639e7de734e3bf5c5b6f3be2f0">rx</a> - std::sin(phi) * std::sin(theta) * arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a619565639e7de734e3bf5c5b6f3be2f0">rx</a> + arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a7e7bf5ba7ed4da8d05c8e5926da1d303">cx</a>;</div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a51d88e5b5a43fc847456a2d999e42a26">y1</a> = std::sin(phi) * std::cos(theta) * arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac3fca45c838e482fb2e16b838c13a07e">ry</a> - std::cos(phi) * std::sin(theta) * arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac3fca45c838e482fb2e16b838c13a07e">ry</a> + arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a2d6e234d756d45d2d90433aeebd7fa62">cy</a>;</div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span> </div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>    <span class="comment">// 计算终点</span></div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>    theta += dTheta;</div>
+<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a61055e27b6fac4283e7cf07e0296c23c">x2</a> = std::cos(phi) * std::cos(theta) * arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a619565639e7de734e3bf5c5b6f3be2f0">rx</a> - std::sin(phi) * std::sin(theta) * arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a619565639e7de734e3bf5c5b6f3be2f0">rx</a> + arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a7e7bf5ba7ed4da8d05c8e5926da1d303">cx</a>;</div>
+<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>    res.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a77f6967521324281b4e4d67012169441">y2</a> = std::sin(phi) * std::cos(theta) * arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac3fca45c838e482fb2e16b838c13a07e">ry</a> - std::cos(phi) * std::sin(theta) * arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac3fca45c838e482fb2e16b838c13a07e">ry</a> + arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a2d6e234d756d45d2d90433aeebd7fa62">cy</a>;</div>
+<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span> </div>
+<div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span>}</div>
+</div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span> </div>
+<div class="foldopen" id="foldopen00485" data-start="{" data-end="}">
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#aa1c191bb3d6f64204d01db7d91765c9e">  485</a></span>QList&lt;GeometryUtils::SvgPoint&gt; <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aa1c191bb3d6f64204d01db7d91765c9e">GeometryUtils::arcToPath</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html">SvgArcResult</a>&amp; arc, <span class="keywordtype">bool</span> includeStart) {</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>    QList&lt;SvgPoint&gt; res;  <span class="comment">// 离散后的路径点。</span></div>
+<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span> </div>
+<div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> splitCount = 32;  <span class="comment">// 将整圆划分为 32 段以控制圆弧采样精度。</span></div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>    <span class="keywordtype">double</span> step = 360.0 / splitCount;  <span class="comment">// 当前采样步长。</span></div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span> </div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="SvgPathParser_8cpp.html#a8cbce6400c1e4e2cd98b5f182e688e1d">startAngle</a> = arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a>;  <span class="comment">// 当前采样起始角度。</span></div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a> = arc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a>;  <span class="comment">// 尚未采样的角度范围。</span></div>
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span> </div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a> &lt; 0)</div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>        step = -step;</div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span> </div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>    <span class="keywordflow">while</span> (std::abs(<a class="code hl_variable" href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a>) &gt; 0.1) {</div>
+<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>        <span class="keywordflow">if</span> (std::abs(<a class="code hl_variable" href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a>) &lt; std::abs(step)) {</div>
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>            step = <a class="code hl_variable" href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a>;</div>
+<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>        }</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span> </div>
+<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html">SvgArcResult</a> tempArc = arc;  <span class="comment">// 当前采样段的弧参数副本。</span></div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>        tempArc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">startAngle</a> = <a class="code hl_variable" href="SvgPathParser_8cpp.html#a8cbce6400c1e4e2cd98b5f182e688e1d">startAngle</a>;  <span class="comment">// 当前采样段起始角度。</span></div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>        tempArc.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">deltaAngle</a> = step;  <span class="comment">// 当前采样段扫过角度。</span></div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span> </div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html">SvgArcEndpoints</a> pt = <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#ad4176d199a6ca7c557a7dbb57187fcdc">calcSvgArc</a>(tempArc);  <span class="comment">// 当前采样段的端点。</span></div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span> </div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>        <span class="keywordflow">if</span> (res.isEmpty() &amp;&amp; includeStart) {</div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>            res.append(<a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html">SvgPoint</a>(pt.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#aef9a253044fbb44014162ba3101f6493">x1</a>, pt.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a51d88e5b5a43fc847456a2d999e42a26">y1</a>));</div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>        }</div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>        res.append(<a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html">SvgPoint</a>(pt.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a61055e27b6fac4283e7cf07e0296c23c">x2</a>, pt.<a class="code hl_variable" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a77f6967521324281b4e4d67012169441">y2</a>));</div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span> </div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>        <a class="code hl_variable" href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a> -= step;</div>
+<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>        <a class="code hl_variable" href="SvgPathParser_8cpp.html#a8cbce6400c1e4e2cd98b5f182e688e1d">startAngle</a> += step;</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    }</div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span> </div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>}</div>
+</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span> </div>
+<div class="foldopen" id="foldopen00525" data-start="{" data-end="}">
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#a484e7d0f6523468dbd9df0dd94c43912">  525</a></span>QList&lt;GeometryUtils::SvgPoint&gt; <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#a484e7d0f6523468dbd9df0dd94c43912">GeometryUtils::parseSvgPath</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) {</div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>    QList&lt;SvgPoint&gt; res;  <span class="comment">// 解析后的 SVG 点列表。</span></div>
+<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span> </div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>    <span class="comment">// 委托给 SvgPathParser 进行路径解析。</span></div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>    QList&lt;QPointF&gt; points = <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#af70c5e413eab91803dcf55209c270c3c">SvgPathParser::parsePath</a>(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);  <span class="comment">// 解析得到的二维点。</span></div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span> </div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>    <span class="comment">// 转换 QPointF 到 SvgPoint</span></div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; pt : points) {  <span class="comment">// 将每个通用点转换为 SVG 点。</span></div>
+<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>        res.append(<a class="code hl_struct" href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html">SvgPoint</a>(pt.x(), pt.y()));</div>
+<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>    }</div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span> </div>
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>}</div>
+</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span> </div>
+<div class="foldopen" id="foldopen00544" data-start="{" data-end="}">
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#aac4bf21929be0cf82e3bc102fee4d6e1">  544</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#aac4bf21929be0cf82e3bc102fee4d6e1">GeometryUtils::pxToMmFloor</a>(<span class="keywordtype">double</span> px) {</div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>    <span class="comment">// 使用 floor 而非 round，保持单位换算结果向下取整。</span></div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>    <span class="comment">// 1 unit = 10 mil = 0.254 mm。</span></div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>    <span class="keywordtype">double</span> mm = px * 0.254;  <span class="comment">// 将像素单位转换为毫米。</span></div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>    <span class="keywordflow">return</span> std::floor(mm * 100.0) / 100.0;  <span class="comment">// 保留2位小</span></div>
+<div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>}</div>
+</div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span> </div>
+<div class="foldopen" id="foldopen00556" data-start="{" data-end="}">
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1GeometryUtils.html#ad75261a010b3573d037309e1105e3133">  556</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1GeometryUtils.html#ad75261a010b3573d037309e1105e3133">GeometryUtils::isASCII</a>(<span class="keyword">const</span> QString&amp; str) {</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; str.length(); ++i) {</div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>        <span class="keywordflow">if</span> (str[i].unicode() &gt; 127) {</div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>        }</div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>    }</div>
+<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>}</div>
+</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span> </div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aGeometryUtils_8cpp_html_ae71449b1cc6e6250b91f539153a7a0d3"><div class="ttname"><a href="GeometryUtils_8cpp.html#ae71449b1cc6e6250b91f539153a7a0d3">M_PI</a></div><div class="ttdeci">#define M_PI</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00012">GeometryUtils.cpp:12</a></div></div>
+<div class="ttc" id="aGeometryUtils_8h_html"><div class="ttname"><a href="GeometryUtils_8h.html">GeometryUtils.h</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_a043c9a056b93b95bc68f7d7a35b87151"><div class="ttname"><a href="SvgPathParser_8cpp.html#a043c9a056b93b95bc68f7d7a35b87151">deltaAngle</a></div><div class="ttdeci">double deltaAngle</div><div class="ttdoc">圆弧扫过角度，单位为弧度。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00024">SvgPathParser.cpp:24</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_a512b3b4cc74804907a62d011dada289a"><div class="ttname"><a href="SvgPathParser_8cpp.html#a512b3b4cc74804907a62d011dada289a">radiusX</a></div><div class="ttdeci">double radiusX</div><div class="ttdoc">椭圆 X 方向半径。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00021">SvgPathParser.cpp:21</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_a8cbce6400c1e4e2cd98b5f182e688e1d"><div class="ttname"><a href="SvgPathParser_8cpp.html#a8cbce6400c1e4e2cd98b5f182e688e1d">startAngle</a></div><div class="ttdeci">double startAngle</div><div class="ttdoc">圆弧起始角度，单位为弧度。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00023">SvgPathParser.cpp:23</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_ad38c3054db67b4f81484b1cd432710f2"><div class="ttname"><a href="SvgPathParser_8cpp.html#ad38c3054db67b4f81484b1cd432710f2">radiusY</a></div><div class="ttdeci">double radiusY</div><div class="ttdoc">椭圆 Y 方向半径。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00022">SvgPathParser.cpp:22</a></div></div>
+<div class="ttc" id="aSvgPathParser_8h_html"><div class="ttname"><a href="SvgPathParser_8h.html">SvgPathParser.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a0c8b0600b42eab25c6b5a489ac8e0cd8"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a0c8b0600b42eab25c6b5a489ac8e0cd8">EasyKiConverter::GeometryUtils::solveSvgArc</a></div><div class="ttdeci">static SvgArcResult solveSvgArc(const QString &amp;param)</div><div class="ttdoc">解析 SVG 弧参</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00317">GeometryUtils.cpp:317</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a4391b7718f76ace474e2f5dc7dc8daeb"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a4391b7718f76ace474e2f5dc7dc8daeb">EasyKiConverter::GeometryUtils::computeArc</a></div><div class="ttdeci">static void computeArc(double startX, double startY, double radiusX, double radiusY, double angle, bool largeArcFlag, bool sweepFlag, double endX, double endY, double &amp;centerX, double &amp;centerY, double &amp;angleExtent)</div><div class="ttdoc">计算 SVG 椭圆弧的圆心和角度范</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00217">GeometryUtils.cpp:217</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a4476db5e526457993382e6666287acb9"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a4476db5e526457993382e6666287acb9">EasyKiConverter::GeometryUtils::getMiddleArcPos</a></div><div class="ttdeci">static QPointF getMiddleArcPos(double centerX, double centerY, double radius, double angleStart, double angleEnd)</div><div class="ttdoc">计算圆弧中间点坐</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00026">GeometryUtils.cpp:26</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a484e7d0f6523468dbd9df0dd94c43912"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a484e7d0f6523468dbd9df0dd94c43912">EasyKiConverter::GeometryUtils::parseSvgPath</a></div><div class="ttdeci">static QList&lt; SvgPoint &gt; parseSvgPath(const QString &amp;path)</div><div class="ttdoc">解析 SVG 路径字符串为点集</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00525">GeometryUtils.cpp:525</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a5dbd59951d4a1555901e57a578741c1f"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a5dbd59951d4a1555901e57a578741c1f">EasyKiConverter::GeometryUtils::normalizeAngle</a></div><div class="ttdeci">static double normalizeAngle(double angle)</div><div class="ttdoc">规范化角度到 [0, 2π) 范围</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00191">GeometryUtils.cpp:191</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a67241406f84d1ebfe4494c4aeae2c5f9"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a67241406f84d1ebfe4494c4aeae2c5f9">EasyKiConverter::GeometryUtils::pxToMil</a></div><div class="ttdeci">static int pxToMil(double dim)</div><div class="ttdoc">将像素单位转换为 mil（千分之一英寸</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00108">GeometryUtils.cpp:108</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a7236bb7b4d841de8244ee80c9829d730"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a7236bb7b4d841de8244ee80c9829d730">EasyKiConverter::GeometryUtils::pxToMm</a></div><div class="ttdeci">static double pxToMm(double dim)</div><div class="ttdoc">将像素单位转换为毫米</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00117">GeometryUtils.cpp:117</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a741930dc6d1d2897dae15c0fc3e5f988"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a741930dc6d1d2897dae15c0fc3e5f988">EasyKiConverter::GeometryUtils::getAngle</a></div><div class="ttdeci">static double getAngle(double x1, double y1, double x2, double y2)</div><div class="ttdoc">计算两个向量之间的角度（弧度</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00439">GeometryUtils.cpp:439</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_a7eae768897d88b3d0d02621d50480162"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#a7eae768897d88b3d0d02621d50480162">EasyKiConverter::GeometryUtils::distance</a></div><div class="ttdeci">static double distance(double x1, double y1, double x2, double y2)</div><div class="ttdoc">计算两点之间的距</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00162">GeometryUtils.cpp:162</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_aa1c191bb3d6f64204d01db7d91765c9e"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#aa1c191bb3d6f64204d01db7d91765c9e">EasyKiConverter::GeometryUtils::arcToPath</a></div><div class="ttdeci">static QList&lt; SvgPoint &gt; arcToPath(const SvgArcResult &amp;arc, bool includeStart=false)</div><div class="ttdoc">将 SVG 弧转换为路径点集</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00485">GeometryUtils.cpp:485</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_aa2f7844abf1010f846448e74ae212485"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#aa2f7844abf1010f846448e74ae212485">EasyKiConverter::GeometryUtils::radiansToDegrees</a></div><div class="ttdeci">static double radiansToDegrees(double radians)</div><div class="ttdoc">将角度从弧度转换为度</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00182">GeometryUtils.cpp:182</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_aab65f0d99e6a2ed0da444150c237ee25"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25">EasyKiConverter::GeometryUtils::degreesToRadians</a></div><div class="ttdeci">static double degreesToRadians(double degrees)</div><div class="ttdoc">将角度从度转换为弧度</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00173">GeometryUtils.cpp:173</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_aac4bf21929be0cf82e3bc102fee4d6e1"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#aac4bf21929be0cf82e3bc102fee4d6e1">EasyKiConverter::GeometryUtils::pxToMmFloor</a></div><div class="ttdeci">static double pxToMmFloor(double px)</div><div class="ttdoc">使用 floor 而非 round 进行坐标取整</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00544">GeometryUtils.cpp:544</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_ad4176d199a6ca7c557a7dbb57187fcdc"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#ad4176d199a6ca7c557a7dbb57187fcdc">EasyKiConverter::GeometryUtils::calcSvgArc</a></div><div class="ttdeci">static SvgArcEndpoints calcSvgArc(const SvgArcResult &amp;arc)</div><div class="ttdoc">计算 SVG 弧的端点</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00460">GeometryUtils.cpp:460</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_ad75261a010b3573d037309e1105e3133"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#ad75261a010b3573d037309e1105e3133">EasyKiConverter::GeometryUtils::isASCII</a></div><div class="ttdeci">static bool isASCII(const QString &amp;str)</div><div class="ttdoc">检查字符串是否为纯 ASCII</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00556">GeometryUtils.cpp:556</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_addbe17f4d77846d25a12ca5af2f2f747"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#addbe17f4d77846d25a12ca5af2f2f747">EasyKiConverter::GeometryUtils::getArcAngleEnd</a></div><div class="ttdeci">static double getArcAngleEnd(double centerX, double endX, double radius, bool flagLargeArc)</div><div class="ttdoc">计算圆弧结束角度</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00090">GeometryUtils.cpp:90</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_ae8b5597710379a4855c6d6810b7cdb42"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#ae8b5597710379a4855c6d6810b7cdb42">EasyKiConverter::GeometryUtils::getArcCenter</a></div><div class="ttdeci">static QPointF getArcCenter(double startX, double startY, double endX, double endY, int rotationDirection, double radius)</div><div class="ttdoc">计算圆弧中心点坐</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00046">GeometryUtils.cpp:46</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1GeometryUtils_html_aef67ed63d5e31b1a08d5edb04ed166e1"><div class="ttname"><a href="classEasyKiConverter_1_1GeometryUtils.html#aef67ed63d5e31b1a08d5edb04ed166e1">EasyKiConverter::GeometryUtils::convertToMm</a></div><div class="ttdeci">static double convertToMm(double dim)</div><div class="ttdoc">将 EasyEDA 单位转换为毫米</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8cpp_source.html#l00126">GeometryUtils.cpp:126</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_af70c5e413eab91803dcf55209c270c3c"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#af70c5e413eab91803dcf55209c270c3c">EasyKiConverter::SvgPathParser::parsePath</a></div><div class="ttdeci">static QList&lt; QPointF &gt; parsePath(const QString &amp;path)</div><div class="ttdoc">解析SVG路径字符</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00173">SvgPathParser.cpp:173</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints_html"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html">EasyKiConverter::GeometryUtils::SvgArcEndpoints</a></div><div class="ttdoc">SVG 弧端点计算结</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00182">GeometryUtils.h:182</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints_html_a51d88e5b5a43fc847456a2d999e42a26"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a51d88e5b5a43fc847456a2d999e42a26">EasyKiConverter::GeometryUtils::SvgArcEndpoints::y1</a></div><div class="ttdeci">double y1</div><div class="ttdoc">起点 Y</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00184">GeometryUtils.h:184</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints_html_a61055e27b6fac4283e7cf07e0296c23c"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a61055e27b6fac4283e7cf07e0296c23c">EasyKiConverter::GeometryUtils::SvgArcEndpoints::x2</a></div><div class="ttdeci">double x2</div><div class="ttdoc">终点 X</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00185">GeometryUtils.h:185</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints_html_a77f6967521324281b4e4d67012169441"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#a77f6967521324281b4e4d67012169441">EasyKiConverter::GeometryUtils::SvgArcEndpoints::y2</a></div><div class="ttdeci">double y2</div><div class="ttdoc">终点 Y</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00186">GeometryUtils.h:186</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints_html_aef9a253044fbb44014162ba3101f6493"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html#aef9a253044fbb44014162ba3101f6493">EasyKiConverter::GeometryUtils::SvgArcEndpoints::x1</a></div><div class="ttdeci">double x1</div><div class="ttdoc">起点 X</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00183">GeometryUtils.h:183</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html">EasyKiConverter::GeometryUtils::SvgArcResult</a></div><div class="ttdoc">SVG 弧计算结果结构体</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00165">GeometryUtils.h:165</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_a2d6e234d756d45d2d90433aeebd7fa62"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a2d6e234d756d45d2d90433aeebd7fa62">EasyKiConverter::GeometryUtils::SvgArcResult::cy</a></div><div class="ttdeci">double cy</div><div class="ttdoc">圆心 Y 坐标</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00167">GeometryUtils.h:167</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_a3af2b9a75e13fc01ee6dbd2d53f0fd73"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a3af2b9a75e13fc01ee6dbd2d53f0fd73">EasyKiConverter::GeometryUtils::SvgArcResult::endPt</a></div><div class="ttdeci">SvgPoint endPt</div><div class="ttdoc">终点</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00174">GeometryUtils.h:174</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_a619565639e7de734e3bf5c5b6f3be2f0"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a619565639e7de734e3bf5c5b6f3be2f0">EasyKiConverter::GeometryUtils::SvgArcResult::rx</a></div><div class="ttdeci">double rx</div><div class="ttdoc">X 半径</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00168">GeometryUtils.h:168</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_a62f8429f843d317bb52f4adab31df10c"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a62f8429f843d317bb52f4adab31df10c">EasyKiConverter::GeometryUtils::SvgArcResult::startAngle</a></div><div class="ttdeci">double startAngle</div><div class="ttdoc">起始角度（度</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00170">GeometryUtils.h:170</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_a7e7bf5ba7ed4da8d05c8e5926da1d303"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a7e7bf5ba7ed4da8d05c8e5926da1d303">EasyKiConverter::GeometryUtils::SvgArcResult::cx</a></div><div class="ttdeci">double cx</div><div class="ttdoc">圆心 X 坐标</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00166">GeometryUtils.h:166</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_a8a8b4f7f982bb767a6f8237a7319f89d"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#a8a8b4f7f982bb767a6f8237a7319f89d">EasyKiConverter::GeometryUtils::SvgArcResult::deltaAngle</a></div><div class="ttdeci">double deltaAngle</div><div class="ttdoc">角度增量（度</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00171">GeometryUtils.h:171</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_ac21bb93b645b531cb3b77cbaf89df405"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac21bb93b645b531cb3b77cbaf89df405">EasyKiConverter::GeometryUtils::SvgArcResult::startPt</a></div><div class="ttdeci">SvgPoint startPt</div><div class="ttdoc">起始</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00173">GeometryUtils.h:173</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_ac3fca45c838e482fb2e16b838c13a07e"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#ac3fca45c838e482fb2e16b838c13a07e">EasyKiConverter::GeometryUtils::SvgArcResult::ry</a></div><div class="ttdeci">double ry</div><div class="ttdoc">Y 半径</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00169">GeometryUtils.h:169</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult_html_acacee9ff55a7a941782b1c2f24fcb4df"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html#acacee9ff55a7a941782b1c2f24fcb4df">EasyKiConverter::GeometryUtils::SvgArcResult::xRotate</a></div><div class="ttdeci">double xRotate</div><div class="ttdoc">X 轴旋转角度（度）</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00172">GeometryUtils.h:172</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgPoint_html"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html">EasyKiConverter::GeometryUtils::SvgPoint</a></div><div class="ttdoc">SVG 点结构体</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00155">GeometryUtils.h:155</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgPoint_html_a34e8570ff9a617592dc7d36b31986e98"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html#a34e8570ff9a617592dc7d36b31986e98">EasyKiConverter::GeometryUtils::SvgPoint::x</a></div><div class="ttdeci">double x</div><div class="ttdoc">点的 X 坐标。</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00156">GeometryUtils.h:156</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1GeometryUtils_1_1SvgPoint_html_a469098fb7cfec0f5f92ad996c8e15518"><div class="ttname"><a href="structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html#a469098fb7cfec0f5f92ad996c8e15518">EasyKiConverter::GeometryUtils::SvgPoint::y</a></div><div class="ttdeci">double y</div><div class="ttdoc">点的 Y 坐标。</div><div class="ttdef"><b>Definition</b> <a href="GeometryUtils_8h_source.html#l00157">GeometryUtils.h:157</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_182a39db29e4ad63eb633860d83c5a1d.html">utils</a></li><li class="navelem"><a class="el" href="GeometryUtils_8cpp.html">GeometryUtils.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

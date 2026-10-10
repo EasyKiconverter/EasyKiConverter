@@ -1,0 +1,25 @@
+var SymbolIR_8h =
+[
+    [ "EasyKiConverter::IR::SymbolPinStyle", "structEasyKiConverter_1_1IR_1_1SymbolPinStyle.html", "structEasyKiConverter_1_1IR_1_1SymbolPinStyle" ],
+    [ "EasyKiConverter::IR::SymbolPinDisplay", "structEasyKiConverter_1_1IR_1_1SymbolPinDisplay.html", "structEasyKiConverter_1_1IR_1_1SymbolPinDisplay" ],
+    [ "EasyKiConverter::IR::SymbolPinIR", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html", "structEasyKiConverter_1_1IR_1_1SymbolPinIR" ],
+    [ "EasyKiConverter::IR::SymbolRectangleIR", "structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html", "structEasyKiConverter_1_1IR_1_1SymbolRectangleIR" ],
+    [ "EasyKiConverter::IR::SymbolCircleIR", "structEasyKiConverter_1_1IR_1_1SymbolCircleIR.html", "structEasyKiConverter_1_1IR_1_1SymbolCircleIR" ],
+    [ "EasyKiConverter::IR::SymbolArcIR", "structEasyKiConverter_1_1IR_1_1SymbolArcIR.html", "structEasyKiConverter_1_1IR_1_1SymbolArcIR" ],
+    [ "EasyKiConverter::IR::SymbolEllipseIR", "structEasyKiConverter_1_1IR_1_1SymbolEllipseIR.html", "structEasyKiConverter_1_1IR_1_1SymbolEllipseIR" ],
+    [ "EasyKiConverter::IR::SymbolPieIR", "structEasyKiConverter_1_1IR_1_1SymbolPieIR.html", "structEasyKiConverter_1_1IR_1_1SymbolPieIR" ],
+    [ "EasyKiConverter::IR::SymbolEllipticalArcIR", "structEasyKiConverter_1_1IR_1_1SymbolEllipticalArcIR.html", "structEasyKiConverter_1_1IR_1_1SymbolEllipticalArcIR" ],
+    [ "EasyKiConverter::IR::SymbolPolylineIR", "structEasyKiConverter_1_1IR_1_1SymbolPolylineIR.html", "structEasyKiConverter_1_1IR_1_1SymbolPolylineIR" ],
+    [ "EasyKiConverter::IR::SymbolPolygonIR", "structEasyKiConverter_1_1IR_1_1SymbolPolygonIR.html", "structEasyKiConverter_1_1IR_1_1SymbolPolygonIR" ],
+    [ "EasyKiConverter::IR::SymbolPathSegmentIR", "structEasyKiConverter_1_1IR_1_1SymbolPathSegmentIR.html", "structEasyKiConverter_1_1IR_1_1SymbolPathSegmentIR" ],
+    [ "EasyKiConverter::IR::SymbolPathIR", "structEasyKiConverter_1_1IR_1_1SymbolPathIR.html", "structEasyKiConverter_1_1IR_1_1SymbolPathIR" ],
+    [ "EasyKiConverter::IR::SymbolBezierIR", "structEasyKiConverter_1_1IR_1_1SymbolBezierIR.html", "structEasyKiConverter_1_1IR_1_1SymbolBezierIR" ],
+    [ "EasyKiConverter::IR::SymbolIeeeIR", "structEasyKiConverter_1_1IR_1_1SymbolIeeeIR.html", "structEasyKiConverter_1_1IR_1_1SymbolIeeeIR" ],
+    [ "EasyKiConverter::IR::SymbolTextIR", "structEasyKiConverter_1_1IR_1_1SymbolTextIR.html", "structEasyKiConverter_1_1IR_1_1SymbolTextIR" ],
+    [ "EasyKiConverter::IR::SymbolTextFrameIR", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR" ],
+    [ "EasyKiConverter::IR::SymbolImageIR", "structEasyKiConverter_1_1IR_1_1SymbolImageIR.html", "structEasyKiConverter_1_1IR_1_1SymbolImageIR" ],
+    [ "EasyKiConverter::IR::SymbolParameterIR", "structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html", "structEasyKiConverter_1_1IR_1_1SymbolParameterIR" ],
+    [ "EasyKiConverter::IR::SymbolModelIR", "structEasyKiConverter_1_1IR_1_1SymbolModelIR.html", "structEasyKiConverter_1_1IR_1_1SymbolModelIR" ],
+    [ "EasyKiConverter::IR::SymbolGraphicOrderIR", "structEasyKiConverter_1_1IR_1_1SymbolGraphicOrderIR.html", "structEasyKiConverter_1_1IR_1_1SymbolGraphicOrderIR" ],
+    [ "EasyKiConverter::IR::SymbolComponentIR", "structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html", "structEasyKiConverter_1_1IR_1_1SymbolComponentIR" ]
+];

@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/kicad/Exporter3DModel.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('Exporter3DModel_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">Exporter3DModel.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="Exporter3DModel_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef EXPORTER3DMODEL_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define EXPORTER3DMODEL_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="IModel3DExporter_8h.html">core/interfaces/IModel3DExporter.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="Model3DIR_8h.html">core/ir/Model3DIR.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Exporter3DModel.html">   18</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1Exporter3DModel.html">Exporter3DModel</a> : <span class="keyword">public</span> QObject, <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1IModel3DExporter.html">IModel3DExporter</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    Q_OBJECT</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="};">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44a">   25</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44a">ModelFormat</a> {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_enumvalue" href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44aaf34d534adfb78a9e6432be4621a93eec">OBJ</a>,  <span class="comment">// Wavefront OBJ 格式</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <a class="code hl_enumvalue" href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44aa522f694f92e679d874a1cc2b2616c3d7">STEP</a>  <span class="comment">// STEP 格式</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    };</div>
+</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    Q_ENUM(<a class="code hl_enumeration" href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44a">ModelFormat</a>)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1Exporter3DModel.html">Exporter3DModel</a>(QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#ab9685e2c5fea45f4ad106cc92a2b525a">~Exporter3DModel</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#ac9b840b942d7c31a4d8dc8bda2faa212">downloadObjModel</a>(<span class="keyword">const</span> QString&amp; uuid, <span class="keyword">const</span> QString&amp; savePath);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a470c2985f86380b081569bbd75d8c1ec">downloadStepModel</a>(<span class="keyword">const</span> QString&amp; uuid, <span class="keyword">const</span> QString&amp; savePath);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#adc1c9926d71aef7a7cfed777e0f770a9">downloadObjModelSync</a>(<span class="keyword">const</span> QString&amp; uuid, <span class="keyword">const</span> QString&amp; savePath, QString* errorMessage = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#af8cd4009f35622ec159c9911c9ac58f2">downloadStepModelSync</a>(<span class="keyword">const</span> QString&amp; uuid, <span class="keyword">const</span> QString&amp; savePath, QString* errorMessage = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a981301b3668300866efa05ff62e35202">downloadObjDataSync</a>(<span class="keyword">const</span> QString&amp; uuid, QByteArray* data, QString* errorMessage = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#aec47b25d9c520d230e5b90b76955dfd8">downloadStepDataSync</a>(<span class="keyword">const</span> QString&amp; uuid, QByteArray* data, QString* errorMessage = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a5959d3e37a52983a1f79dd35369e44a2">calculateObjMinZ</a>(<span class="keyword">const</span> QByteArray&amp; objData);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#ae30d81a5872c5a7f62f3f22a692b4be7">hasUsableObjGeometry</a>(<span class="keyword">const</span> QByteArray&amp; objData);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a04d14e5fff01bac27cfcae258c1e14a4">hasUsableWrlGeometry</a>(<span class="keyword">const</span> QByteArray&amp; wrlData);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a6896ad1071182e62240964a32424e605">hasUsableStepData</a>(<span class="keyword">const</span> QByteArray&amp; stepData);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#aa3fd0f567607083a5d99ff737f9999b3">calculateWrlDisplayMinZ</a>(<span class="keyword">const</span> QByteArray&amp; wrlData);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#acf53475a9d7db4a417998b23c0eb47d5">exportToWrl</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1IR_1_1Model3DIR.html">IR::Model3DIR</a>&amp; model, <span class="keyword">const</span> QString&amp; savePath) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a991c4e5ef2e894c145df8729f3f469dc">exportToStep</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1IR_1_1Model3DIR.html">IR::Model3DIR</a>&amp; model, <span class="keyword">const</span> QString&amp; savePath) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a4efd6ac6d5c410dd46ee6fcf507491b0">cancel</a>();</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>signals:</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Exporter3DModel.html#ac1d5c4651f7a5b724a72ce2bd257ffe8">  136</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#ac1d5c4651f7a5b724a72ce2bd257ffe8">downloadSuccess</a>(<span class="keyword">const</span> QString&amp; filePath);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Exporter3DModel.html#a8facd229cb7c5b5c3b9dad418de635bf">  143</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a8facd229cb7c5b5c3b9dad418de635bf">downloadError</a>(<span class="keyword">const</span> QString&amp; errorMessage);</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Exporter3DModel.html#a946e1574fba56231c24dc9d50c510735">  151</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a946e1574fba56231c24dc9d50c510735">downloadProgress</a>(qint64 bytesReceived, qint64 bytesTotal);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a7c8fe08a47431e978fe740d7e4bf9c27">generateWrlContent</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1IR_1_1Model3DIR.html">IR::Model3DIR</a>&amp; model, <span class="keyword">const</span> QByteArray&amp; objData);</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a9824a5a6592370506f9874099e161127">parseObjData</a>(<span class="keyword">const</span> QByteArray&amp; objData);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a156f883870a2e1d3708274ab894f0824">getModelUrl</a>(<span class="keyword">const</span> QString&amp; uuid, <a class="code hl_enumeration" href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44a">ModelFormat</a> format) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a09276c1c0647a5b18e1962cbbd0c568a">downloadModelSync</a>(<span class="keyword">const</span> QString&amp; uuid,</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>                           <span class="keyword">const</span> QString&amp; savePath,</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>                           <a class="code hl_enumeration" href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44a">ModelFormat</a> format,</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>                           QString* errorMessage = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Exporter3DModel.html#a91fe846352e720ef009bcaa6519d1401">downloadModelDataSync</a>(<span class="keyword">const</span> QString&amp; uuid,</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>                               <a class="code hl_enumeration" href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44a">ModelFormat</a> format,</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>                               QByteArray* data,</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>                               QString* errorMessage = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Exporter3DModel.html#ace8e32acc9dda2064b54f21806d8aa4c">  207</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1Exporter3DModel.html#ace8e32acc9dda2064b54f21806d8aa4c">m_currentUuid</a>;  </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Exporter3DModel.html#a04e02c73e74eda3b8b0da40503fe6433">  208</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1Exporter3DModel.html#a04e02c73e74eda3b8b0da40503fe6433">m_savePath</a>;  </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>};</div>
+</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span><span class="preprocessor">#endif  </span><span class="comment">// EXPORTER3DMODEL_H</span></div>
+<div class="ttc" id="aIModel3DExporter_8h_html"><div class="ttname"><a href="IModel3DExporter_8h.html">IModel3DExporter.h</a></div></div>
+<div class="ttc" id="aModel3DIR_8h_html"><div class="ttname"><a href="Model3DIR_8h.html">Model3DIR.h</a></div><div class="ttdoc">通用 3D 模型中间表示</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html">EasyKiConverter::Exporter3DModel</a></div><div class="ttdoc">3D 模型导出器类</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8h_source.html#l00018">Exporter3DModel.h:18</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a04d14e5fff01bac27cfcae258c1e14a4"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a04d14e5fff01bac27cfcae258c1e14a4">EasyKiConverter::Exporter3DModel::hasUsableWrlGeometry</a></div><div class="ttdeci">static bool hasUsableWrlGeometry(const QByteArray &amp;wrlData)</div><div class="ttdoc">检查 WRL 数据是否包含可显示的坐标和面索引</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00246">Exporter3DModel.cpp:246</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a04e02c73e74eda3b8b0da40503fe6433"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a04e02c73e74eda3b8b0da40503fe6433">EasyKiConverter::Exporter3DModel::m_savePath</a></div><div class="ttdeci">QString m_savePath</div><div class="ttdoc">当前三维模型的本地保存路径。</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8h_source.html#l00208">Exporter3DModel.h:208</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a09276c1c0647a5b18e1962cbbd0c568a"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a09276c1c0647a5b18e1962cbbd0c568a">EasyKiConverter::Exporter3DModel::downloadModelSync</a></div><div class="ttdeci">bool downloadModelSync(const QString &amp;uuid, const QString &amp;savePath, ModelFormat format, QString *errorMessage=nullptr)</div><div class="ttdoc">同步下载指定格式的三维模型。</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00494">Exporter3DModel.cpp:494</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a156f883870a2e1d3708274ab894f0824"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a156f883870a2e1d3708274ab894f0824">EasyKiConverter::Exporter3DModel::getModelUrl</a></div><div class="ttdeci">QString getModelUrl(const QString &amp;uuid, ModelFormat format) const</div><div class="ttdoc">获取模型 URL</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00777">Exporter3DModel.cpp:777</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a202384630844b1eae45bfffb077ca44a"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44a">EasyKiConverter::Exporter3DModel::ModelFormat</a></div><div class="ttdeci">ModelFormat</div><div class="ttdoc">3D 模型格式枚举</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8h_source.html#l00025">Exporter3DModel.h:25</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a202384630844b1eae45bfffb077ca44aa522f694f92e679d874a1cc2b2616c3d7"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44aa522f694f92e679d874a1cc2b2616c3d7">EasyKiConverter::Exporter3DModel::ModelFormat::STEP</a></div><div class="ttdeci">@ STEP</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a202384630844b1eae45bfffb077ca44aaf34d534adfb78a9e6432be4621a93eec"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a202384630844b1eae45bfffb077ca44aaf34d534adfb78a9e6432be4621a93eec">EasyKiConverter::Exporter3DModel::ModelFormat::OBJ</a></div><div class="ttdeci">@ OBJ</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a470c2985f86380b081569bbd75d8c1ec"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a470c2985f86380b081569bbd75d8c1ec">EasyKiConverter::Exporter3DModel::downloadStepModel</a></div><div class="ttdeci">void downloadStepModel(const QString &amp;uuid, const QString &amp;savePath)</div><div class="ttdoc">下载 3D 模型（STEP 格式</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00051">Exporter3DModel.cpp:51</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a4efd6ac6d5c410dd46ee6fcf507491b0"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a4efd6ac6d5c410dd46ee6fcf507491b0">EasyKiConverter::Exporter3DModel::cancel</a></div><div class="ttdeci">void cancel()</div><div class="ttdoc">取消下载</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00340">Exporter3DModel.cpp:340</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a5959d3e37a52983a1f79dd35369e44a2"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a5959d3e37a52983a1f79dd35369e44a2">EasyKiConverter::Exporter3DModel::calculateObjMinZ</a></div><div class="ttdeci">static double calculateObjMinZ(const QByteArray &amp;objData)</div><div class="ttdoc">计算 OBJ 顶点数据的最小 Z 坐标（毫米）</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00151">Exporter3DModel.cpp:151</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a6896ad1071182e62240964a32424e605"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a6896ad1071182e62240964a32424e605">EasyKiConverter::Exporter3DModel::hasUsableStepData</a></div><div class="ttdeci">static bool hasUsableStepData(const QByteArray &amp;stepData)</div><div class="ttdoc">检查 STEP 数据是否具有可接受的交换文件结构</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00278">Exporter3DModel.cpp:278</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a7c8fe08a47431e978fe740d7e4bf9c27"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a7c8fe08a47431e978fe740d7e4bf9c27">EasyKiConverter::Exporter3DModel::generateWrlContent</a></div><div class="ttdeci">QString generateWrlContent(const IR::Model3DIR &amp;model, const QByteArray &amp;objData)</div><div class="ttdoc">生成 WRL 文件内容</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00349">Exporter3DModel.cpp:349</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a8facd229cb7c5b5c3b9dad418de635bf"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a8facd229cb7c5b5c3b9dad418de635bf">EasyKiConverter::Exporter3DModel::downloadError</a></div><div class="ttdeci">void downloadError(const QString &amp;errorMessage)</div><div class="ttdoc">下载失败信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a91fe846352e720ef009bcaa6519d1401"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a91fe846352e720ef009bcaa6519d1401">EasyKiConverter::Exporter3DModel::downloadModelDataSync</a></div><div class="ttdeci">bool downloadModelDataSync(const QString &amp;uuid, ModelFormat format, QByteArray *data, QString *errorMessage=nullptr)</div><div class="ttdoc">同步下载指定格式的三维模型数据。</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00527">Exporter3DModel.cpp:527</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a946e1574fba56231c24dc9d50c510735"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a946e1574fba56231c24dc9d50c510735">EasyKiConverter::Exporter3DModel::downloadProgress</a></div><div class="ttdeci">void downloadProgress(qint64 bytesReceived, qint64 bytesTotal)</div><div class="ttdoc">下载进度信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a981301b3668300866efa05ff62e35202"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a981301b3668300866efa05ff62e35202">EasyKiConverter::Exporter3DModel::downloadObjDataSync</a></div><div class="ttdeci">bool downloadObjDataSync(const QString &amp;uuid, QByteArray *data, QString *errorMessage=nullptr)</div><div class="ttdoc">同步下载 OBJ 原始字节数据。</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00087">Exporter3DModel.cpp:87</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a9824a5a6592370506f9874099e161127"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a9824a5a6592370506f9874099e161127">EasyKiConverter::Exporter3DModel::parseObjData</a></div><div class="ttdeci">QJsonObject parseObjData(const QByteArray &amp;objData)</div><div class="ttdoc">解析 OBJ 数据</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00577">Exporter3DModel.cpp:577</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_a991c4e5ef2e894c145df8729f3f469dc"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#a991c4e5ef2e894c145df8729f3f469dc">EasyKiConverter::Exporter3DModel::exportToStep</a></div><div class="ttdeci">bool exportToStep(const IR::Model3DIR &amp;model, const QString &amp;savePath) override</div><div class="ttdoc">导出模型为 STEP 格式</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00134">Exporter3DModel.cpp:134</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_aa3fd0f567607083a5d99ff737f9999b3"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#aa3fd0f567607083a5d99ff737f9999b3">EasyKiConverter::Exporter3DModel::calculateWrlDisplayMinZ</a></div><div class="ttdeci">static double calculateWrlDisplayMinZ(const QByteArray &amp;wrlData)</div><div class="ttdoc">计算 WRL 文件在 KiCad 显示单位下的最小 Z 坐标</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00287">Exporter3DModel.cpp:287</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_ab9685e2c5fea45f4ad106cc92a2b525a"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#ab9685e2c5fea45f4ad106cc92a2b525a">EasyKiConverter::Exporter3DModel::~Exporter3DModel</a></div><div class="ttdeci">~Exporter3DModel() override</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00027">Exporter3DModel.cpp:27</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_ac1d5c4651f7a5b724a72ce2bd257ffe8"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#ac1d5c4651f7a5b724a72ce2bd257ffe8">EasyKiConverter::Exporter3DModel::downloadSuccess</a></div><div class="ttdeci">void downloadSuccess(const QString &amp;filePath)</div><div class="ttdoc">下载成功信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_ac9b840b942d7c31a4d8dc8bda2faa212"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#ac9b840b942d7c31a4d8dc8bda2faa212">EasyKiConverter::Exporter3DModel::downloadObjModel</a></div><div class="ttdeci">void downloadObjModel(const QString &amp;uuid, const QString &amp;savePath)</div><div class="ttdoc">下载 3D 模型（OBJ 格式</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00036">Exporter3DModel.cpp:36</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_ace8e32acc9dda2064b54f21806d8aa4c"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#ace8e32acc9dda2064b54f21806d8aa4c">EasyKiConverter::Exporter3DModel::m_currentUuid</a></div><div class="ttdeci">QString m_currentUuid</div><div class="ttdoc">当前处理的三维模型 UUID。</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8h_source.html#l00207">Exporter3DModel.h:207</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_acf53475a9d7db4a417998b23c0eb47d5"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#acf53475a9d7db4a417998b23c0eb47d5">EasyKiConverter::Exporter3DModel::exportToWrl</a></div><div class="ttdeci">bool exportToWrl(const IR::Model3DIR &amp;model, const QString &amp;savePath) override</div><div class="ttdoc">导出模型为 KiCad WRL 格式</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00106">Exporter3DModel.cpp:106</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_adc1c9926d71aef7a7cfed777e0f770a9"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#adc1c9926d71aef7a7cfed777e0f770a9">EasyKiConverter::Exporter3DModel::downloadObjModelSync</a></div><div class="ttdeci">bool downloadObjModelSync(const QString &amp;uuid, const QString &amp;savePath, QString *errorMessage=nullptr)</div><div class="ttdoc">同步下载 OBJ 文件并保存到指定路径。</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00067">Exporter3DModel.cpp:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_ae30d81a5872c5a7f62f3f22a692b4be7"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#ae30d81a5872c5a7f62f3f22a692b4be7">EasyKiConverter::Exporter3DModel::hasUsableObjGeometry</a></div><div class="ttdeci">static bool hasUsableObjGeometry(const QByteArray &amp;objData)</div><div class="ttdoc">检查 OBJ 数据是否包含可导出的顶点和面</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00205">Exporter3DModel.cpp:205</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_aec47b25d9c520d230e5b90b76955dfd8"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#aec47b25d9c520d230e5b90b76955dfd8">EasyKiConverter::Exporter3DModel::downloadStepDataSync</a></div><div class="ttdeci">bool downloadStepDataSync(const QString &amp;uuid, QByteArray *data, QString *errorMessage=nullptr)</div><div class="ttdoc">同步下载 STEP 原始字节数据。</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00097">Exporter3DModel.cpp:97</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Exporter3DModel_html_af8cd4009f35622ec159c9911c9ac58f2"><div class="ttname"><a href="classEasyKiConverter_1_1Exporter3DModel.html#af8cd4009f35622ec159c9911c9ac58f2">EasyKiConverter::Exporter3DModel::downloadStepModelSync</a></div><div class="ttdeci">bool downloadStepModelSync(const QString &amp;uuid, const QString &amp;savePath, QString *errorMessage=nullptr)</div><div class="ttdoc">同步下载 STEP 文件并保存到指定路径。</div><div class="ttdef"><b>Definition</b> <a href="Exporter3DModel_8cpp_source.html#l00077">Exporter3DModel.cpp:77</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IModel3DExporter_html"><div class="ttname"><a href="classEasyKiConverter_1_1IModel3DExporter.html">EasyKiConverter::IModel3DExporter</a></div><div class="ttdoc">3D 模型导出器通用接口</div><div class="ttdef"><b>Definition</b> <a href="IModel3DExporter_8h_source.html#l00014">IModel3DExporter.h:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IR_1_1Model3DIR_html"><div class="ttname"><a href="classEasyKiConverter_1_1IR_1_1Model3DIR.html">EasyKiConverter::IR::Model3DIR</a></div><div class="ttdoc">通用 3D 模型数据</div><div class="ttdef"><b>Definition</b> <a href="Model3DIR_8h_source.html#l00063">Model3DIR.h:63</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_ad1ddbc3e0d75829e0afe087a249d2ba.html">kicad</a></li><li class="navelem"><a class="el" href="Exporter3DModel_8h.html">Exporter3DModel.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

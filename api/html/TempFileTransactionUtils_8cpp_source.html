@@ -1,0 +1,350 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/export/TempFileTransactionUtils.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('TempFileTransactionUtils_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">TempFileTransactionUtils.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="TempFileTransactionUtils_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="TempFileTransactionUtils_8h.html">TempFileTransactionUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QCoreApplication&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QDateTime&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QJsonArray&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QJsonDocument&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QJsonObject&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;QRandomGenerator&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;QStandardPaths&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;chrono&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;thread&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="}">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html">   18</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter_1_1TempFileTransaction.html">EasyKiConverter::TempFileTransaction</a> {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keywordtype">bool</span> copyDirectoryRecursively(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    QDir sourceDir(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">if</span> (!sourceDir.exists()) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">if</span> (!QDir().mkpath(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">const</span> QFileInfoList entries =</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        sourceDir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries | QDir::Hidden | QDir::System);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QFileInfo&amp; entry : entries) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keyword">const</span> QString sourceEntryPath = entry.absoluteFilePath();  </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keyword">const</span> QString targetEntryPath = QDir(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>).filePath(entry.fileName());  </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">if</span> (entry.isDir()) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <span class="keywordflow">if</span> (!copyDirectoryRecursively(sourceEntryPath, targetEntryPath)) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            }</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            <span class="keywordflow">if</span> (QFile::exists(targetEntryPath) &amp;&amp; !QFile::remove(targetEntryPath)) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keywordflow">if</span> (!QFile::copy(sourceEntryPath, targetEntryPath)) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        }</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keywordtype">bool</span> moveFileWithFallback(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a2f46a5c80b3c6dbd9167a0ed0fe45b4f">ensureParentDirectory</a>(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keyword">constexpr</span> <span class="keywordtype">int</span> kMaxRetries = 3;  </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> attempt = 0; attempt &lt; kMaxRetries; ++attempt) {  <span class="comment">// 当前重试序号。</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">if</span> (attempt &gt; 0) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            std::this_thread::sleep_for(std::chrono::milliseconds(50 * attempt));</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">if</span> (QFile::rename(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">if</span> (!QFile::copy(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">return</span> QFile::remove(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span><span class="keywordtype">bool</span> moveDirectoryWithFallback(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a2f46a5c80b3c6dbd9167a0ed0fe45b4f">ensureParentDirectory</a>(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">if</span> (QDir().rename(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">if</span> (!copyDirectoryRecursively(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)) {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">return</span> QDir(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>).removeRecursively();</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="foldopen" id="foldopen00112" data-start="{" data-end="}">
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#afa05cda9194ec1791b0876783c76283f">  112</a></span>QString <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#afa05cda9194ec1791b0876783c76283f">backupRootPath</a>() {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    QString appDataPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);  </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordflow">if</span> (appDataPath.isEmpty()) {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        appDataPath = QDir::homePath() + QDir::separator() + QStringLiteral(<span class="stringliteral">&quot;.easykiconverter&quot;</span>);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">return</span> QDir(appDataPath).filePath(QStringLiteral(<span class="stringliteral">&quot;backups&quot;</span>));</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}</div>
+</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="foldopen" id="foldopen00123" data-start="{" data-end="}">
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#ae90d5a031fd479ef21a64a25ed4e35ab">  123</a></span>QString <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#ae90d5a031fd479ef21a64a25ed4e35ab">createTransactionId</a>() {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordflow">return</span> QDateTime::currentDateTimeUtc().toString(QStringLiteral(<span class="stringliteral">&quot;yyyyMMddTHHmmsszzzZ&quot;</span>)) + QStringLiteral(<span class="stringliteral">&quot;_&quot;</span>) +</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>           QString::number(QRandomGenerator::global()-&gt;generate64(), 16);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>}</div>
+</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="foldopen" id="foldopen00132" data-start="{" data-end="}">
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a2f46a5c80b3c6dbd9167a0ed0fe45b4f">  132</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a2f46a5c80b3c6dbd9167a0ed0fe45b4f">ensureParentDirectory</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) {</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keyword">const</span> QFileInfo info(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);  </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keyword">const</span> QDir parentDir = info.absoluteDir();  </div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">return</span> parentDir.exists() || QDir().mkpath(info.absolutePath());</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>}</div>
+</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aa09079446d355c2abbcc6a8c0d60bf21">  144</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aa09079446d355c2abbcc6a8c0d60bf21">movePathWithFallback</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>, <span class="keywordtype">bool</span> isDirectory) {</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordflow">return</span> isDirectory ? moveDirectoryWithFallback(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>                       : moveFileWithFallback(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>);</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>}</div>
+</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
+<div class="foldopen" id="foldopen00154" data-start="{" data-end="}">
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aad83eeaf39d093dbedb3117efd11a07f">  154</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aad83eeaf39d093dbedb3117efd11a07f">removePath</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, <span class="keywordtype">bool</span> isDirectory) {</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>.isEmpty()) {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    }</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keywordflow">if</span> (isDirectory) {</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        QDir dir(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        <span class="keywordflow">return</span> !dir.exists() || dir.removeRecursively();</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    }</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordflow">return</span> !QFile::exists(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) || QFile::remove(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>}</div>
+</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
+<div class="foldopen" id="foldopen00170" data-start="{" data-end="}">
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a208f32553ebbd3858970dd08aa48dc9a">  170</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a208f32553ebbd3858970dd08aa48dc9a">pathExists</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, <span class="keywordtype">bool</span> isDirectory) {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordflow">return</span> isDirectory ? QDir(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>).exists() : QFile::exists(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>}</div>
+</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="foldopen" id="foldopen00182" data-start="{" data-end="}">
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a3802c3c41c7ecb0302ce46c33f27e6ff">  182</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a3802c3c41c7ecb0302ce46c33f27e6ff">writeManifest</a>(<span class="keyword">const</span> QString&amp; manifestPath,</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>                   <span class="keyword">const</span> QString&amp; transactionId,</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                   <span class="keyword">const</span> QString&amp; outputRoot,</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                   <span class="keyword">const</span> QVector&lt;BackupEntry&gt;&amp; entries,</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                   <span class="keywordtype">bool</span> committed) {</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    QJsonObject root;  </div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    root.insert(QStringLiteral(<span class="stringliteral">&quot;transactionId&quot;</span>), transactionId);</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    root.insert(QStringLiteral(<span class="stringliteral">&quot;outputRoot&quot;</span>), outputRoot);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    root.insert(QStringLiteral(<span class="stringliteral">&quot;createdAt&quot;</span>), QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs));</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    root.insert(QStringLiteral(<span class="stringliteral">&quot;appVersion&quot;</span>), QCoreApplication::applicationVersion());</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    root.insert(QStringLiteral(<span class="stringliteral">&quot;committed&quot;</span>), committed);</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    QJsonArray entryArray;  </div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html">BackupEntry</a>&amp; entry : entries) {  <span class="comment">// 当前备份条目。</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>        QJsonObject entryObject;  </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>        entryObject.insert(QStringLiteral(<span class="stringliteral">&quot;finalPath&quot;</span>), entry.finalPath);</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        entryObject.insert(QStringLiteral(<span class="stringliteral">&quot;backupPath&quot;</span>), entry.backupPath);</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        entryObject.insert(QStringLiteral(<span class="stringliteral">&quot;tempPath&quot;</span>), entry.tempPath);</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        entryObject.insert(QStringLiteral(<span class="stringliteral">&quot;isDirectory&quot;</span>), entry.isDirectory);</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        entryObject.insert(QStringLiteral(<span class="stringliteral">&quot;existedBefore&quot;</span>), entry.existedBefore);</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        entryArray.append(entryObject);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    }</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    root.insert(QStringLiteral(<span class="stringliteral">&quot;entries&quot;</span>), entryArray);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    QFile manifestFile(manifestPath);  </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keywordflow">if</span> (!manifestFile.open(QIODevice::WriteOnly | QIODevice::Truncate)) {</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;TempFileManager: Failed to write manifest:&quot;</span> &lt;&lt; manifestPath &lt;&lt; manifestFile.errorString();</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    }</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="keywordflow">return</span> manifestFile.write(QJsonDocument(root).<a class="code hl_function" href="namespaceEasyKiConverter.html#a9e44d2eb188fa9a91e66a4659156e39f">toJson</a>(QJsonDocument::Indented)) &gt; 0;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>}</div>
+</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span> </div>
+<div class="foldopen" id="foldopen00219" data-start="{" data-end="}">
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a84a98c674fecb6df75c2d451afce9cc1">  219</a></span>QVector&lt;BackupEntry&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a84a98c674fecb6df75c2d451afce9cc1">readManifestEntries</a>(<span class="keyword">const</span> QString&amp; manifestPath, <span class="keywordtype">bool</span>* committed) {</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    QVector&lt;BackupEntry&gt; entries;  </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    QFile manifestFile(manifestPath);  </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keywordflow">if</span> (!manifestFile.open(QIODevice::ReadOnly)) {</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;TempFileManager: Failed to read manifest:&quot;</span> &lt;&lt; manifestPath &lt;&lt; manifestFile.errorString();</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>        <span class="keywordflow">return</span> entries;</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    }</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span> </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keyword">const</span> QJsonDocument document = QJsonDocument::fromJson(manifestFile.readAll());  </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keyword">const</span> QJsonObject root = document.object();  </div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    <span class="keywordflow">if</span> (committed != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>        *committed = root.value(QStringLiteral(<span class="stringliteral">&quot;committed&quot;</span>)).toBool(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    }</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="keyword">const</span> QJsonArray entryArray = root.value(QStringLiteral(<span class="stringliteral">&quot;entries&quot;</span>)).toArray();  </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QJsonValue&amp; <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> : entryArray) {  <span class="comment">// 当前事务条目值。</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        <span class="keyword">const</span> QJsonObject <span class="keywordtype">object</span> = <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.toObject();  </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html">BackupEntry</a> entry;  </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        entry.<a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a3a101b6ab2d6aab723be5ed2a9c08837">finalPath</a> = <span class="keywordtype">object</span>.value(QStringLiteral(<span class="stringliteral">&quot;finalPath&quot;</span>)).toString();</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        entry.<a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a10654cc500cae8681fc0c7570aa409d1">backupPath</a> = <span class="keywordtype">object</span>.value(QStringLiteral(<span class="stringliteral">&quot;backupPath&quot;</span>)).toString();</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        entry.<a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#aca792c1288c8457d6841ae495ec31bf0">tempPath</a> = <span class="keywordtype">object</span>.value(QStringLiteral(<span class="stringliteral">&quot;tempPath&quot;</span>)).toString();</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        entry.<a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a54492a89b69f9140dd05ced099ceac87">isDirectory</a> = <span class="keywordtype">object</span>.value(QStringLiteral(<span class="stringliteral">&quot;isDirectory&quot;</span>)).toBool(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        entry.<a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#abf94282b27d6dae1018fb5b80be72003">existedBefore</a> = <span class="keywordtype">object</span>.value(QStringLiteral(<span class="stringliteral">&quot;existedBefore&quot;</span>)).toBool(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        entries.append(entry);</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    }</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordflow">return</span> entries;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>}</div>
+</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span> </div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>}  <span class="comment">// namespace EasyKiConverter::TempFileTransaction</span></div>
+</div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a17887ef34e6d0bd9a7d362e17aa74e27"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a></div><div class="ttdeci">QString sourcePath</div><div class="ttdoc">待迁移条目的源路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00018">CacheDirectoryMigrator.cpp:18</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_ad7e504be9c160222c2e52e17415b9960"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a></div><div class="ttdeci">QString targetPath</div><div class="ttdoc">待迁移条目的目标路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00019">CacheDirectoryMigrator.cpp:19</a></div></div>
+<div class="ttc" id="aTempFileTransactionUtils_8h_html"><div class="ttname"><a href="TempFileTransactionUtils_8h.html">TempFileTransactionUtils.h</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html">EasyKiConverter::TempFileTransaction</a></div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00018">TempFileTransactionUtils.cpp:18</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_a208f32553ebbd3858970dd08aa48dc9a"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a208f32553ebbd3858970dd08aa48dc9a">EasyKiConverter::TempFileTransaction::pathExists</a></div><div class="ttdeci">bool pathExists(const QString &amp;path, bool isDirectory)</div><div class="ttdoc">按路径类型检查对象是否存在。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00170">TempFileTransactionUtils.cpp:170</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_a2f46a5c80b3c6dbd9167a0ed0fe45b4f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a2f46a5c80b3c6dbd9167a0ed0fe45b4f">EasyKiConverter::TempFileTransaction::ensureParentDirectory</a></div><div class="ttdeci">bool ensureParentDirectory(const QString &amp;path)</div><div class="ttdoc">确保目标路径的父目录存在。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00132">TempFileTransactionUtils.cpp:132</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_a3802c3c41c7ecb0302ce46c33f27e6ff"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a3802c3c41c7ecb0302ce46c33f27e6ff">EasyKiConverter::TempFileTransaction::writeManifest</a></div><div class="ttdeci">bool writeManifest(const QString &amp;manifestPath, const QString &amp;transactionId, const QString &amp;outputRoot, const QVector&lt; BackupEntry &gt; &amp;entries, bool committed)</div><div class="ttdoc">写入备份事务清单，记录提交状态和全部路径映射。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00182">TempFileTransactionUtils.cpp:182</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_a84a98c674fecb6df75c2d451afce9cc1"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a84a98c674fecb6df75c2d451afce9cc1">EasyKiConverter::TempFileTransaction::readManifestEntries</a></div><div class="ttdeci">QVector&lt; BackupEntry &gt; readManifestEntries(const QString &amp;manifestPath, bool *committed)</div><div class="ttdoc">读取备份事务清单，并返回提交状态和路径映射。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00219">TempFileTransactionUtils.cpp:219</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_aa09079446d355c2abbcc6a8c0d60bf21"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aa09079446d355c2abbcc6a8c0d60bf21">EasyKiConverter::TempFileTransaction::movePathWithFallback</a></div><div class="ttdeci">bool movePathWithFallback(const QString &amp;sourcePath, const QString &amp;targetPath, bool isDirectory)</div><div class="ttdoc">按路径类型移动对象，并在跨卷或占用时使用复制回退。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00144">TempFileTransactionUtils.cpp:144</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_aad83eeaf39d093dbedb3117efd11a07f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aad83eeaf39d093dbedb3117efd11a07f">EasyKiConverter::TempFileTransaction::removePath</a></div><div class="ttdeci">bool removePath(const QString &amp;path, bool isDirectory)</div><div class="ttdoc">按路径类型删除对象，目标不存在时视为成功。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00154">TempFileTransactionUtils.cpp:154</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_ae90d5a031fd479ef21a64a25ed4e35ab"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#ae90d5a031fd479ef21a64a25ed4e35ab">EasyKiConverter::TempFileTransaction::createTransactionId</a></div><div class="ttdeci">QString createTransactionId()</div><div class="ttdoc">创建具有时间和随机后缀的事务标识。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00123">TempFileTransactionUtils.cpp:123</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_afa05cda9194ec1791b0876783c76283f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#afa05cda9194ec1791b0876783c76283f">EasyKiConverter::TempFileTransaction::backupRootPath</a></div><div class="ttdeci">QString backupRootPath()</div><div class="ttdoc">返回应用数据目录下的备份事务根目录。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00112">TempFileTransactionUtils.cpp:112</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a9e44d2eb188fa9a91e66a4659156e39f"><div class="ttname"><a href="namespaceEasyKiConverter.html#a9e44d2eb188fa9a91e66a4659156e39f">EasyKiConverter::toJson</a></div><div class="ttdeci">static QJsonObject toJson(const SymbolPinSettings &amp;settings)</div><div class="ttdef"><b>Definition</b> <a href="SymbolDataSerializer_8cpp_source.html#l00012">SymbolDataSerializer.cpp:12</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html">EasyKiConverter::TempFileTransaction::BackupEntry</a></div><div class="ttdoc">记录一次备份事务中临时路径、最终路径和备份路径的映射。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00012">TempFileTransactionUtils.h:12</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_a10654cc500cae8681fc0c7570aa409d1"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a10654cc500cae8681fc0c7570aa409d1">EasyKiConverter::TempFileTransaction::BackupEntry::backupPath</a></div><div class="ttdeci">QString backupPath</div><div class="ttdoc">覆盖前保存旧内容的备份路径。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00014">TempFileTransactionUtils.h:14</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_a3a101b6ab2d6aab723be5ed2a9c08837"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a3a101b6ab2d6aab723be5ed2a9c08837">EasyKiConverter::TempFileTransaction::BackupEntry::finalPath</a></div><div class="ttdeci">QString finalPath</div><div class="ttdoc">事务提交使用的最终路径。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00013">TempFileTransactionUtils.h:13</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_a54492a89b69f9140dd05ced099ceac87"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a54492a89b69f9140dd05ced099ceac87">EasyKiConverter::TempFileTransaction::BackupEntry::isDirectory</a></div><div class="ttdeci">bool isDirectory</div><div class="ttdoc">路径是否指向目录。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00016">TempFileTransactionUtils.h:16</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_abf94282b27d6dae1018fb5b80be72003"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#abf94282b27d6dae1018fb5b80be72003">EasyKiConverter::TempFileTransaction::BackupEntry::existedBefore</a></div><div class="ttdeci">bool existedBefore</div><div class="ttdoc">事务开始前最终路径是否已存在。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00017">TempFileTransactionUtils.h:17</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_aca792c1288c8457d6841ae495ec31bf0"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#aca792c1288c8457d6841ae495ec31bf0">EasyKiConverter::TempFileTransaction::BackupEntry::tempPath</a></div><div class="ttdeci">QString tempPath</div><div class="ttdoc">本次事务生成的临时路径。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00015">TempFileTransactionUtils.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="dir_a384dc2a66e9a2b9e112fff859fd4142.html">export</a></li><li class="navelem"><a class="el" href="TempFileTransactionUtils_8cpp.html">TempFileTransactionUtils.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

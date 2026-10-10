@@ -1,0 +1,3319 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for EasyKiConverter - LCSC and EasyEDA component converter for KiCad, Altium, and Xpedition libraries">
+      
+      
+        <meta name="author" content="tangsangsimida">
+      
+      
+        <link rel="canonical" href="https://easykiconverter.github.io/EasyKiConverter/developer/FAQ/">
+      
+      
+        <link rel="prev" href="../BOM_PARSING_GUIDE/">
+      
+      
+        <link rel="next" href="../CHANGELOG/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>开发者常见问题 - EasyKiConverter Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#faq" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="EasyKiConverter Documentation" class="md-header__button md-logo" aria-label="EasyKiConverter Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EasyKiConverter Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              开发者常见问题
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-purple"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-purple"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/EasyKiconverter/EasyKiConverter" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user/GETTING_STARTED/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  用户指南
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../ai-development/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  开发者指南
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../project/ROADMAP/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  项目信息
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API 参考
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EasyKiConverter Documentation" class="md-nav__button md-logo" aria-label="EasyKiConverter Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EasyKiConverter Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/EasyKiconverter/EasyKiConverter" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    用户指南
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            用户指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/GETTING_STARTED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    快速入门
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/USER_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    用户手册
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/FEATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    功能特性
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/DEBUG_MODE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    调试模式
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/PRIVACY_POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    隐私政策
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/INSTALLATION_CODES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    安装程序返回代码
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    开发者指南
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            开发者指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../ai-development/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    AI 协作开发
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1" id="__nav_3_1_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            AI 协作开发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/PROJECT_CONTEXT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    项目上下文
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/DEVELOPMENT_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    开发工作流
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/TESTING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    测试选择指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/SKILLS_CATALOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Skills 目录
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/policy/AI_POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI 协作政策
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/EVIDENCE_REPORT_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence Report 模板
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/AGENT_EVAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Agent 回归评测
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/ADAPTERS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent 适配层说明
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/AGENT_TOOLS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent JSON 工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    贡献指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CACHE_SAFETY_ACCEPTANCE_3.1.13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.1.13 缓存安全验收
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    架构设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PARSER_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    格式解析架构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ALLEGRO_NATIVE_FORMAT_RESEARCH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Allegro Native 格式研究
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PADS_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PADS 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EAGLE_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Eagle 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LIBREPCB_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LibrePCB 原生库导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PCAD_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    P-CAD 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ORCAD_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OrCAD Capture XML 符号导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    构建指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VSCODE_SETUP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VS Code 配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CODING_STYLE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    代码风格
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TESTING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    测试指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOM_PARSING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BOM 解析指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    开发者常见问题
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    开发者常见问题
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      预览图相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="预览图相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-bom-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 为什么导入已有缓存的 BOM 表反而会卡住 UI，而无缓存时没有明显卡顿？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 预览图出现在错误的目录或使用了错误的图片
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 删除缓存后导出不存在的预览图时，预览图出现在根目录
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-image-blocked-403" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 预览图下载失败，报错 "Image blocked (403)"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      导出与窗口生命周期相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="导出与窗口生命周期相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-kicad_sym-kicad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 为什么第二次把新元器件追加导出到同一个 .kicad_sym 后，KiCad 里看不到新符号？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 为什么点击“停止导出”后再立即点“重试所有失败项”会导致未响应，甚至连关闭/强退流程也异常？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 重试失败组件后，导出的封装库中只有重试的组件，之前成功的组件丢失
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-sigsegv-stdatomic-loadrelaxed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 取消导出时程序崩溃（SIGSEGV），崩溃栈停在 std::atomic 的 loadRelaxed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      3D 模型相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3D 模型相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-toggle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 3D 模型选择使用循环切换逻辑而非独立 toggle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 取消勾选 3D 模型时子选项没有隐藏
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-wrl-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 选择了单独的 3D 模型格式（WRL 或 STEP），但导出了两种格式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 有缓存的情况下导出 3D 模型仍会发起网络请求
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-wrlstep" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 3D 模型（WRL/STEP）与封装焊盘位置不对齐
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 导出的 3D 模型文件名与封装内记录的 3D 模型路径不一致
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据手册相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数据手册相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: CLI 模式下数据手册导出全部失败
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      网络相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="网络相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 在弱网络环境下导出失败率很高
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 不存在的元器件被误判为验证成功，且错误响应被缓存
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 请求被取消时未标记为验证失败
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 删除元器件时未取消网络请求，导致缓存被保存
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      构建相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="构建相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-cmake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: CMake 配置失败，提示生成器不匹配
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qml" class="md-nav__link">
+    <span class="md-ellipsis">
+      窗口 / QML 启动相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="窗口 / QML 启动相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 应用进程正常启动但主窗口不显示，也没有任务栏条目
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      UI 滚动位置相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UI 滚动位置相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 导出结果列表在转换过程中更新后自动回到顶部
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      回归测试清单
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何贡献
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_18" id="__nav_3_18_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    变更日志
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_18">
+            <span class="md-nav__icon md-icon"></span>
+            变更日志
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    变更日志
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/3.1.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.1.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/3.0.14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/2.0.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v2.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/1.0.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v1.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    项目信息
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            项目信息
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    路线图
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/LOGGING_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    日志架构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    API 参考
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API 参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      预览图相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="预览图相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-bom-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 为什么导入已有缓存的 BOM 表反而会卡住 UI，而无缓存时没有明显卡顿？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 预览图出现在错误的目录或使用了错误的图片
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 删除缓存后导出不存在的预览图时，预览图出现在根目录
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-image-blocked-403" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 预览图下载失败，报错 "Image blocked (403)"
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      导出与窗口生命周期相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="导出与窗口生命周期相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-kicad_sym-kicad" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 为什么第二次把新元器件追加导出到同一个 .kicad_sym 后，KiCad 里看不到新符号？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 为什么点击“停止导出”后再立即点“重试所有失败项”会导致未响应，甚至连关闭/强退流程也异常？
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 重试失败组件后，导出的封装库中只有重试的组件，之前成功的组件丢失
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-sigsegv-stdatomic-loadrelaxed" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 取消导出时程序崩溃（SIGSEGV），崩溃栈停在 std::atomic 的 loadRelaxed
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      3D 模型相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3D 模型相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-toggle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 3D 模型选择使用循环切换逻辑而非独立 toggle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 取消勾选 3D 模型时子选项没有隐藏
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-wrl-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 选择了单独的 3D 模型格式（WRL 或 STEP），但导出了两种格式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 有缓存的情况下导出 3D 模型仍会发起网络请求
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-wrlstep" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 3D 模型（WRL/STEP）与封装焊盘位置不对齐
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-3d" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 导出的 3D 模型文件名与封装内记录的 3D 模型路径不一致
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据手册相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="数据手册相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-cli" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: CLI 模式下数据手册导出全部失败
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      网络相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="网络相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 在弱网络环境下导出失败率很高
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 不存在的元器件被误判为验证成功，且错误响应被缓存
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 请求被取消时未标记为验证失败
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 删除元器件时未取消网络请求，导致缓存被保存
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      构建相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="构建相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-cmake" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: CMake 配置失败，提示生成器不匹配
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qml" class="md-nav__link">
+    <span class="md-ellipsis">
+      窗口 / QML 启动相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="窗口 / QML 启动相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 应用进程正常启动但主窗口不显示，也没有任务栏条目
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      UI 滚动位置相关
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UI 滚动位置相关">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 导出结果列表在转换过程中更新后自动回到顶部
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      回归测试清单
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      如何贡献
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter/edit/master/docs/developer/FAQ.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter/raw/master/docs/developer/FAQ.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+    </a>
+  
+
+
+<h1 id="faq">常见问题与解决方案 (FAQ)<a class="headerlink" href="#faq" title="Permanent link">&para;</a></h1>
+<p>本文档记录项目中的常见问题及其解决方案，防止回归。</p>
+<hr />
+<h2 id="_1">预览图相关<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="q-bom-ui">Q: 为什么导入已有缓存的 BOM 表反而会卡住 UI，而无缓存时没有明显卡顿？<a class="headerlink" href="#q-bom-ui" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+用户导入 BOM 表时，如果相关元器件已经命中本地缓存，界面会阻塞几秒；删除缓存后重新导入，阻塞现象反而不明显。</p>
+<p><strong>根本原因</strong>：
+这是一个典型的“缓存命中路径退化为主线程重活”的问题：</p>
+<ol>
+<li>缓存命中后，<code>ComponentService::loadComponentDataFromCacheAsync()</code> 曾在主线程执行预览图 Base64 编码。</li>
+<li><code>LcscImageService::loadCachedPreviewImagesAsync()</code> 曾逐张发 <code>imageReady</code>，导致 UI 层重复处理图片并触发多次刷新。</li>
+<li><code>ComponentListViewModel</code> 的 <code>m_bomImportComplete</code> 若没有在下一轮导入/刷新/重试前复位，会让后续状态机走偏，放大 UI 更新成本。</li>
+</ol>
+<p><strong>修复方案</strong>：
+- 缓存预览图的读取和 Base64 编码全部放到后台线程完成。
+- 缓存图片加载完成后只走批量 <code>previewImagesReady</code>，不再逐张回放 <code>imageReady</code>。
+- 在单项添加、批量导入、清空列表、刷新、重试和验证收尾时，统一复位 BOM 导入状态。</p>
+<p><strong>回归预防</strong>：
+- 不要因为“命中缓存”就把后处理逻辑放回主线程。
+- 缓存路径优先使用批量信号，避免逐项 UI 刷新。
+- 修改 <code>ComponentListViewModel</code> 的 BOM 导入状态机时，必须同时检查：
+  - <code>m_bomImportMode</code>
+  - <code>m_listUpdatePending</code>
+  - <code>m_bomImportComplete</code></p>
+<p><strong>相关文件</strong>：
+- <code>src/services/ComponentService.cpp</code>
+- <code>src/services/LcscImageService.cpp</code>
+- <code>src/ui/viewmodels/ComponentListViewModel.cpp</code>
+- <code>src/services/ComponentCacheService.cpp</code></p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-19)</p>
+<hr />
+<h3 id="q">Q: 预览图出现在错误的目录或使用了错误的图片<a class="headerlink" href="#q" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+导出后在输出目录的根目录出现预览图文件，但这些预览图并不是对应元器件的图片。</p>
+<p><strong>根本原因</strong>：
+<code>LcscImageService</code> 中存在多个 fallback 机制，可能从错误的来源获取预览图：</p>
+<ol>
+<li><code>performFallback()</code> 函数 - 从 <code>lcsc.com</code> 的 HTML 搜索页面抓取图片</li>
+<li><code>selectBestProductForComponent()</code> - 当没有精确匹配时，返回产品列表的第一个产品</li>
+<li>图片 URL 提取逻辑 - 当匹配的产品没有图片时，遍历所有产品获取第一张图片</li>
+</ol>
+<p><strong>解决方案</strong>：
+- 移除 <code>performFallback()</code> 函数及其声明
+- 修改 <code>selectBestProductForComponent()</code> - 如果没有精确匹配则返回空对象，不再使用第一个产品
+- 修改图片 URL 提取逻辑 - 如果匹配产品没有图片则直接报告错误，不再从其他产品获取</p>
+<p><strong>相关文件</strong>：
+- <code>src/services/LcscImageService.cpp</code> - 移除所有 fallback 逻辑
+- <code>src/services/LcscImageService.h</code> - 移除 performFallback 函数声明</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-17)</p>
+<hr />
+<h3 id="q_1">Q: 删除缓存后导出不存在的预览图时，预览图出现在根目录<a class="headerlink" href="#q_1" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+删除缓存后，导出一个本身没有预览图的元器件，预览图文件出现在导出根目录而不是 <code>.preview</code> 子目录。</p>
+<p><strong>根本原因</strong>：
+<code>PreviewImagesExportWorker</code> 在没有预览图数据时（<code>previewCount &lt;= 0</code>），<code>createTempPathsForComponent</code> 返回空 map，导致 <code>setTempPaths</code> 不会被调用。此时 <code>m_options.outputPath</code> 仍为根目录，而不是 <code>.preview</code> 子目录。文件被直接写入根目录。</p>
+<p><strong>解决方案</strong>：
+修改 <code>PreviewImagesExportWorker::run()</code>，当没有使用临时路径时，构造正确的 <code>.preview</code> 子目录路径。</p>
+<p><strong>相关文件</strong>：
+- <code>src/services/export/PreviewImagesExportWorker.cpp</code> - 修复输出目录路径逻辑</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-17)</p>
+<hr />
+<h3 id="q-image-blocked-403">Q: 预览图下载失败，报错 "Image blocked (403)"<a class="headerlink" href="#q-image-blocked-403" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+下载预览图时收到 403 错误，图片被服务器阻止。</p>
+<p><strong>可能原因</strong>：
+- 服务器检测到爬虫行为
+- 请求频率过高
+- 图片 URL 已过期</p>
+<p><strong>解决方案</strong>：
+使用缓存的预览图（如果可用），或等待一段时间后重试。</p>
+<hr />
+<h2 id="_2">导出与窗口生命周期相关<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="q-kicad_sym-kicad">Q: 为什么第二次把新元器件追加导出到同一个 <code>.kicad_sym</code> 后，KiCad 里看不到新符号？<a class="headerlink" href="#q-kicad_sym-kicad" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+第一次导出后，符号库文件已经存在。随后用户选择新的元器件，继续导出到同一个符号库目录，导出流程显示成功，但在 KiCad 中重新打开该 <code>.kicad_sym</code> 时，看不到新追加的符号。</p>
+<p><strong>根本原因</strong>：
+这是符号库“追加导出”路径失效导致的回归问题：</p>
+<ol>
+<li><code>SymbolExportStage</code> 曾在目标 <code>.kicad_sym</code> 已存在且 <code>overwriteExistingFiles == false</code> 时，直接整库 <code>skip</code> 返回，根本没有进入追加逻辑。</li>
+<li>即使后续调用了 <code>ExporterSymbol::exportSymbolLibrary(..., appendMode, updateMode)</code>，它操作的也是一个全新的临时文件，而不是现有库文件的副本。</li>
+<li>结果是 append/update 逻辑没有基于已有库内容做 merge，最终写回的内容无法包含“旧库 + 新符号”的正确组合。</li>
+</ol>
+<p><strong>修复方案</strong>：
+- 删除“文件已存在且不覆盖就整库跳过”的早退逻辑。
+- 在追加/更新模式下，先把现有 <code>.kicad_sym</code> 复制到临时文件。
+- 在该临时文件上执行 <code>ExporterSymbol::exportSymbolLibrary()</code> 的 merge 逻辑。
+- merge 完成后，再用临时文件提交覆盖最终库文件。</p>
+<p><strong>回归预防</strong>：
+- 任何“追加到现有库”的导出逻辑，都不能只看最终文件是否存在后直接跳过。
+- 如果 merge 逻辑依赖读取已有文件内容，执行对象必须是“现有文件副本”而不是空白临时文件。
+- 修改 <code>SymbolExportStage</code>、<code>TempFileManager</code> 或 <code>ExporterSymbol</code> 时，必须同时验证：
+  - 首次导出到空目录
+  - 第二次追加新符号到同一 <code>.kicad_sym</code>
+  - 更新已存在符号到同一 <code>.kicad_sym</code></p>
+<p><strong>相关文件</strong>：
+- <code>src/services/export/SymbolExportStage.cpp</code>
+- <code>src/core/kicad/ExporterSymbol.cpp</code>
+- <code>src/services/export/TempFileManager.cpp</code></p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-20)</p>
+<hr />
+<h3 id="q_2">Q: 为什么点击“停止导出”后再立即点“重试所有失败项”会导致未响应，甚至连关闭/强退流程也异常？<a class="headerlink" href="#q_2" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+用户在导出过程中点击“停止导出”，UI 立即恢复；但如果马上点击“重试所有失败项”，程序会未响应。相关症状还可能连带出现：</p>
+<ul>
+<li>导出中点关闭，选择“继续导出”后标题栏按钮失效</li>
+<li>导出中选择“强制退出”后程序没有完全结束</li>
+<li>3D 模型导出过程中点击“停止导出”后段错误，崩溃栈停在 <code>std::atomic</code> 的 <code>store/load</code></li>
+</ul>
+<p><strong>根本原因</strong>：
+这是导出会话生命周期管理不完整导致的回归问题：</p>
+<ol>
+<li>停止导出时，旧导出会话的 stage/worker 仍可能在后台收尾。</li>
+<li>如果新一轮重试马上开始，错误的清理逻辑会提前销毁这些“仍在运行的旧 stage”，导致悬空对象、事件循环卡死或未响应。</li>
+<li>关闭窗口与强制退出流程会复用同一批导出状态；一旦导出会话进入不一致状态，窗口控制也会连带异常。</li>
+<li>3D 模型导出阶段中，活跃 worker 可能已经进入完成/删除流程；取消路径如果继续直接调用该 worker 的 <code>cancel()</code>，就可能访问到已释放对象里的 <code>std::atomic&lt;bool&gt;</code>。</li>
+</ol>
+<p><strong>修复方案</strong>：
+- 停止导出时，立即结束<strong>当前 UI 会话</strong>，但旧后台任务只做隔离，不允许再回写当前会话。
+- 使用导出会话代数（generation）隔离迟到回调，旧会话的 <code>itemStatusChanged/progressChanged/completed</code> 必须被丢弃。
+- <code>cleanupExportStages()</code> 不能提前销毁仍在运行中的旧 stage，只能把它们从当前会话映射中移除，等其自然完成后再安全回收。
+- 3D 模型导出取消时只隔离当前 stage、清空待处理队列并回滚临时文件；不要在取消路径直接调用活跃 <code>Model3DExportWorker::cancel()</code>。
+- 3D worker 取消后迟到完成时不得提交临时 WRL/STEP 文件。
+- 标题栏关闭按钮不能直接复用 <code>window.close()</code> 作为普通关闭入口，必须走统一的 <code>WindowController</code> 关闭决策逻辑。
+- 强制退出时必须显式清理网络单例和后台线程，避免窗口已关但进程未退出。</p>
+<p><strong>回归预防</strong>：
+- 修改导出取消逻辑时，不要在 UI 线程同步等待 worker 收尾。
+- 修改重试逻辑时，不要假设“点击停止”就等于“所有 stage 已经完全退出”。
+- 修改 stage 清理逻辑时，必须区分：
+  - 当前会话的活动 stage
+  - 旧会话仍在后台收尾的 stage
+- 修改 3D 导出取消逻辑时，不要直接访问活跃 worker 对象；把取消视为 stage 会话隔离和临时文件回滚，等待 worker 自然完成。
+- 修改窗口关闭逻辑时，必须同时验证：
+  - 停止导出后立即重试
+  - 导出中关闭后选择“继续导出”
+  - 导出中选择“强制退出”</p>
+<p><strong>相关文件</strong>：
+- <code>src/services/export/ParallelExportService.cpp</code>
+- <code>src/services/export/ParallelExportService.h</code>
+- <code>src/services/export/ExportTypeStage.cpp</code>
+- <code>src/services/export/Model3DExportStage.cpp</code>
+- <code>src/ui/qml/components/WindowController.qml</code>
+- <code>src/ui/qml/Main.qml</code>
+- <code>src/main.cpp</code></p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-19)</p>
+<hr />
+<h3 id="q_3">Q: 重试失败组件后，导出的封装库中只有重试的组件，之前成功的组件丢失<a class="headerlink" href="#q_3" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+导出 BOM 后部分元器件失败，点击"重试失败组件"后，导出的 KiCad 库中仅包含重试的组件，之前已成功导出的组件全部丢失。</p>
+<p><strong>根本原因</strong>：
+重试流程将<strong>仅失败的组件 ID</strong> 传递给整个导出流水线，库级别的导出阶段（Symbol、Footprint）只处理这些 ID，生成的输出仅包含重试的组件，然后替换磁盘上已有的库文件。</p>
+<p><strong>封装丢失路径</strong>：
+1. <code>retryFailedComponents()</code> 将失败 ID 传给 <code>startPreload()</code> — <code>ExportProgressViewModel.cpp:728</code>
+2. <code>ParallelExportService::startPreload()</code> 用子集覆盖 <code>m_componentIds</code> — <code>ParallelExportService.cpp:79</code>
+3. <code>startExport()</code> 仅将这些 ID 传给 <code>FootprintExportStage::start()</code> — <code>ParallelExportService.cpp:326</code>
+4. <code>FootprintExportStage::doLibraryExport()</code> 创建新的空临时目录，仅写入重试的封装 — <code>FootprintExportStage.cpp:428,448</code>
+5. <code>TempFileManager::commitDirectory()</code> 删除整个已有 <code>.pretty</code> 目录（<code>removeRecursively()</code>），替换为仅含重试封装的临时目录 — <code>TempFileManager.cpp:205</code></p>
+<p><strong>符号丢失路径</strong>：
+- 当 <code>overwriteExistingFiles=true</code> 时，临时文件从空开始，仅写入重试的符号，已有符号全部丢失 — <code>SymbolExportStage.cpp:223</code></p>
+<p><strong>不受影响的类型</strong>：
+- 3D 模型（<code>.wrl</code>、<code>.step</code>）、预览图、数据手册：每个组件独立文件，仅替换重试的组件文件。</p>
+<p><strong>修复方案</strong>：
+在 <code>ExportOptions</code> 中添加 <code>retryMode</code> 标志，告知库级别导出阶段在重试时保留已有输出。</p>
+<ol>
+<li><code>ExportProgress.h</code> — 添加 <code>bool retryMode = false</code></li>
+<li><code>ExportProgressViewModel.cpp</code> — <code>retryComponent()</code> 和 <code>retryFailedComponents()</code> 中设置 <code>retryMode = true</code></li>
+<li><code>FootprintExportStage.cpp</code> — 重试模式下，先将已有 <code>.kicad_mod</code> 复制到临时目录，再执行导出</li>
+<li><code>SymbolExportStage.cpp</code> — 重试模式下，始终复制已有 <code>.kicad_sym</code> 到临时文件</li>
+<li><code>ParallelExportService.cpp</code> — 导出启动后重置 <code>retryMode = false</code></li>
+</ol>
+<p><strong>关键陷阱</strong>：
+<code>TempFileManager::createTempDirectoryPath()</code> 仅返回路径字符串，<strong>不会在磁盘上创建目录</strong>。必须先调用 <code>QDir().mkpath(tempDirPath)</code> 创建目录，否则 <code>QFile::copy()</code> 会因目标目录不存在而静默失败。</p>
+<p><strong>回归预防</strong>：
+修改以下文件时需验证重试场景：
+- <code>FootprintExportStage.cpp</code> — 封装库写入逻辑
+- <code>SymbolExportStage.cpp</code> — 符号库写入逻辑
+- <code>TempFileManager.cpp</code> — 临时目录提交/替换逻辑
+- <code>ParallelExportService.cpp</code> — 导出流水线编排
+- <code>ExportProgressViewModel.cpp</code> — 重试入口</p>
+<p><strong>相关文件</strong>：
+- <code>src/services/export/ExportProgress.h</code> — 添加 retryMode 字段
+- <code>src/ui/viewmodels/ExportProgressViewModel.cpp</code> — 重试入口设置标志
+- <code>src/services/export/FootprintExportStage.cpp</code> — 复制已有封装到临时目录
+- <code>src/services/export/SymbolExportStage.cpp</code> — 复制已有符号库到临时文件
+- <code>src/services/export/ParallelExportService.cpp</code> — 重置标志
+- <code>src/services/export/TempFileManager.cpp</code> — 临时目录提交逻辑</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-05-08)</p>
+<hr />
+<h3 id="q-sigsegv-stdatomic-loadrelaxed">Q: 取消导出时程序崩溃（SIGSEGV），崩溃栈停在 std::atomic 的 loadRelaxed<a class="headerlink" href="#q-sigsegv-stdatomic-loadrelaxed" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+导出过程中点击"停止导出"后程序崩溃，GDB 捕获到 SIGSEGV 信号，崩溃栈显示：</p>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>#0  QAtomicOps&lt;int&gt;::loadRelaxed (_q_value=Cannot access memory at address 0x7fffff7feff8)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>#1  QBasicAtomicInteger&lt;int&gt;::loadRelaxed
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>#2  EasyKiConverter::Logger::shouldLog
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>#3  EasyKiConverter::QtLogAdapter::qtMessageHandler
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>#7  EasyKiConverter::ExportTypeStage::cancelWithTempRollback (line 182)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>#8  EasyKiConverter::DatasheetExportStage::cancel (line 72)
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>#9  EasyKiConverter::ExportTypeStage::cancelWithTempRollback (line 184)
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>#10 EasyKiConverter::DatasheetExportStage::cancel (line 72)
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>#11 EasyKiConverter::ExportTypeStage::cancelWithTempRollback (line 184)
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>...（无限递归）
+</span></code></pre></div>
+<p><strong>根本原因</strong>：
+<code>ExportTypeStage::cancelWithTempRollback()</code> 内部调用虚函数 <code>cancel()</code>，而 <code>DatasheetExportStage::cancel()</code> 和 <code>PreviewImagesExportStage::cancel()</code> 覆盖了 <code>cancel()</code> 并反向调用 <code>cancelWithTempRollback()</code>，形成无限递归，最终栈溢出导致 SIGSEGV。</p>
+<p>调用链：
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ExportTypeStage::cancelWithTempRollback()
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  → cancel()  (虚函数调用)
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    → DatasheetExportStage::cancel()  (子类覆盖)
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      → cancelWithTempRollback(m_tempManager)  (再次调用基类方法)
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        → cancel()  (虚函数调用)
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>          → ... 无限递归 → 栈溢出 → SIGSEGV
+</span></code></pre></div></p>
+<p>此问题影响 <code>DatasheetExportStage</code> 和 <code>PreviewImagesExportStage</code>。<code>SymbolExportStage</code>、<code>FootprintExportStage</code>、<code>Model3DExportStage</code> 的 <code>cancel()</code> 实现直接处理取消逻辑，不受影响。</p>
+<p><strong>修复方案</strong>：
+将 <code>DatasheetExportStage::cancel()</code> 和 <code>PreviewImagesExportStage::cancel()</code> 改为直接实现取消逻辑（与 Symbol/Footprint/Model3D 一致），不再调用 <code>cancelWithTempRollback()</code>：</p>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">DatasheetExportStage::cancel</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">m_isExporting</span><span class="p">.</span><span class="n">load</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">qDebug</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"DatasheetExportStage: Cancelling..."</span><span class="p">;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="n">m_cancelled</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="nb">true</span><span class="p">);</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="n">m_tempManager</span><span class="p">.</span><span class="n">rollbackAll</span><span class="p">();</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="n">m_isExporting</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="n">qDebug</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"DatasheetExportStage: Cancelled"</span><span class="p">;</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>同时移除 <code>ExportTypeStage::cancelWithTempRollback()</code> 方法，该方法存在设计缺陷（调用虚函数导致递归风险），且已无调用者。</p>
+<p><strong>回归预防</strong>：
+- 基类方法不要调用虚函数后再由子类覆盖该虚函数反向调用基类方法，否则会形成递归
+- 所有 <code>ExportTypeStage</code> 子类的 <code>cancel()</code> 实现应直接处理取消逻辑：设置 <code>m_cancelled</code> → 回滚临时文件 → 清除 <code>m_isExporting</code>
+- 修改导出取消逻辑时，必须验证 Datasheet、PreviewImages、Model3D、Symbol、Footprint 五种类型的取消行为</p>
+<p><strong>相关文件</strong>：
+- <code>src/services/export/DatasheetExportStage.cpp</code> - 修复 cancel() 实现
+- <code>src/services/export/PreviewImagesExportStage.cpp</code> - 修复 cancel() 实现
+- <code>src/services/export/ExportTypeStage.h</code> - 移除 cancelWithTempRollback 声明
+- <code>src/services/export/ExportTypeStage.cpp</code> - 移除 cancelWithTempRollback 实现</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-05-30)</p>
+<hr />
+<h2 id="3d">3D 模型相关<a class="headerlink" href="#3d" title="Permanent link">&para;</a></h2>
+<h3 id="q-3d-toggle">Q: 3D 模型选择使用循环切换逻辑而非独立 toggle<a class="headerlink" href="#q-3d-toggle" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+用户点击 WRL 按钮时，希望只切换 WRL 的选中状态，不影响 STEP 的选中状态。</p>
+<p><strong>解决方案</strong>：
+使用位掩码管理格式选择：
+- <code>1</code> (bit 0) = WRL
+- <code>2</code> (bit 1) = STEP
+- <code>3</code> = Both
+- <code>0</code> = None</p>
+<p>点击每个按钮只切换对应的 bit，不影响其他位。</p>
+<p><strong>相关文件</strong>：
+- <code>src/services/export/ExportProgress.h</code> - 定义 <code>MODEL_3D_FORMAT_*</code> 常量和辅助方法
+- <code>src/ui/qml/components/ExportSettingsCard.qml</code> - 实现独立 toggle 逻辑</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-17)</p>
+<hr />
+<h3 id="q-3d">Q: 取消勾选 3D 模型时子选项没有隐藏<a class="headerlink" href="#q-3d" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+当用户取消勾选"3D模型"主复选框时，WRL/STEP 子选项仍然显示。</p>
+<p><strong>解决方案</strong>：
+将 WRL/STEP 按钮组的 <code>visible</code> 属性设置为 <code>model3dCheckbox.checked</code>，确保父级复选框状态联动。</p>
+<p><strong>相关文件</strong>：
+- <code>src/ui/qml/components/ExportSettingsCard.qml</code></p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-17)</p>
+<h3 id="q-3d-wrl-step">Q: 选择了单独的 3D 模型格式（WRL 或 STEP），但导出了两种格式<a class="headerlink" href="#q-3d-wrl-step" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+用户在导出设置中选择了只导出 WRL 格式，但实际导出了 WRL 和 STEP 两种格式。</p>
+<p><strong>根本原因</strong>：
+<code>ExportProgressViewModel::startExport()</code> 方法创建 <code>ExportOptions</code> 时没有设置 <code>exportModel3DFormat</code> 参数，导致该参数保持默认值 3（Both）。</p>
+<p>调用链分析：
+1. 用户在 QML 中选择格式 → <code>ExportSettingsViewModel::setExportModel3DFormat()</code> 正确保存
+2. 点击导出按钮 → <code>ExportButtonsSection.qml</code> 调用 <code>progressController.startExport()</code>
+3. <strong>问题所在</strong>：<code>startExport()</code> 签名缺少 <code>exportModel3DFormat</code> 参数，创建 options 时该字段使用默认值</p>
+<p><strong>解决方案</strong>：
+1. 在 <code>ExportProgressViewModel::startExport()</code> 添加 <code>exportModel3DFormat</code> 参数
+2. 在方法内部将参数传递到 <code>ExportOptions</code>
+3. 在 QML 调用处传递 <code>settingsController.exportModel3DFormat</code></p>
+<p><strong>相关文件</strong>：
+- <code>src/ui/viewmodels/ExportProgressViewModel.h</code> - 添加参数声明
+- <code>src/ui/viewmodels/ExportProgressViewModel.cpp</code> - 传递格式值到 options
+- <code>src/ui/qml/components/ExportButtonsSection.qml</code> - 传递格式参数</p>
+<p><strong>调试方法</strong>：
+启用调试模式后，日志中 <code>Model3DExportWorker::run()</code> 会输出：
+- 正确情况（选择 WRL）：<code>exportModel3DFormat: 1 needWrl: true needStep: false</code>
+- 错误情况：<code>exportModel3DFormat: 3 needWrl: true needStep: true</code></p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-19)</p>
+<hr />
+<h3 id="q-3d_1">Q: 有缓存的情况下导出 3D 模型仍会发起网络请求<a class="headerlink" href="#q-3d_1" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+批量导出时，即使所有 3D 模型（STEP/OBJ）都已缓存到本地磁盘，导出过程仍会发起大量网络请求，导致弱网环境下导出缓慢甚至超时失败。</p>
+<p><strong>根本原因</strong>：
+3D 模型缓存复用存在多个设计缺陷：</p>
+<ol>
+<li>
+<p><strong>STEP 导出先网络后缓存</strong>（最严重）：<code>Model3DExportWorker::run()</code> 中 STEP 的处理顺序是先调用 <code>downloadStepDataSync()</code> 发起网络请求，只有网络失败后才检查磁盘缓存。批量导出 100 个组件时，即使所有 STEP 都已缓存，仍会发起 100 次网络请求。</p>
+</li>
+<li>
+<p><strong>预加载不加载 OBJ 二进制数据</strong>：<code>ComponentService::loadComponentDataFromCacheAsync()</code> 加载了 symbol、footprint、preview、datasheet，但不加载 OBJ 二进制数据，导致 <code>m_data-&gt;model3DObjRaw()</code> 总是为空，导出阶段需要重新从磁盘读取或网络下载。</p>
+</li>
+<li>
+<p><strong>缓存验证不完整</strong>：<code>ComponentCacheService::hasModel3DCached()</code> 只检查文件是否存在，不验证文件大小是否大于 0，可能将损坏的空文件误判为有效缓存。</p>
+</li>
+</ol>
+<p><strong>修复方案</strong>：</p>
+<ol>
+<li>
+<p><strong>STEP 缓存优先</strong>：修改 <code>Model3DExportWorker.cpp</code>，将 STEP 导出逻辑从"先网络后缓存"改为"先缓存后网络"：
+   <div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>之前：downloadStepDataSync() → 失败后才查缓存
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>之后：cache-&gt;loadModel3D(uuid, "step") → 无缓存时才 downloadStepDataSync()
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>预加载 OBJ 数据</strong>：在 <code>ComponentService::loadComponentDataFromCacheAsync()</code> 中添加 OBJ 二进制数据的加载，设置到 <code>ComponentData::model3DObjRaw</code>，避免导出阶段重复磁盘 I/O。</p>
+</li>
+<li>
+<p><strong>缓存完整性检查</strong>：增强 <code>hasModel3DCached()</code>，同时检查文件存在且大小大于 0。</p>
+</li>
+</ol>
+<p><strong>回归预防</strong>：
+- 新增缓存使用逻辑时，必须遵循"先缓存后网络"的优先级顺序
+- 预加载阶段应尽可能加载所有需要的数据到内存，减少导出阶段的 I/O
+- 封装阶段计算 STEP 偏移时不能依赖并行的 3D 模型导出阶段先写入缓存；缺少 STEP 数据时也必须按"内存 → 磁盘缓存 → 网络下载并保存缓存"获取
+- 缓存存在性检查应包含基本的完整性验证（文件大小 &gt; 0）
+- 修改 <code>Model3DExportWorker</code> 缓存逻辑时，必须验证：
+  - 有缓存时不发起网络请求
+  - 无缓存时正常下载并保存到缓存
+  - 网络失败时有缓存兜底
+- 修改 <code>FootprintExportStage</code> STEP 偏移逻辑时，必须验证：
+  - 首次导出且 STEP 未缓存时也能计算 Z 偏移
+  - 3D 模型导出阶段与封装导出阶段并行运行时，封装阶段不依赖前者完成顺序</p>
+<p><strong>相关文件</strong>：
+- <code>src/services/export/Model3DExportWorker.cpp</code> - STEP 缓存优先逻辑
+- <code>src/services/export/FootprintExportStage.cpp</code> - STEP 偏移计算时的 STEP 数据获取逻辑
+- <code>src/services/ComponentService.cpp</code> - 预加载 OBJ 数据
+- <code>src/services/ComponentService.h</code> - CacheLoadResult 添加 objData 字段
+- <code>src/services/ComponentCacheService.cpp</code> - 缓存完整性验证</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-05-08)，并补充封装阶段 STEP 偏移回归修复 (2026-05-09)</p>
+<hr />
+<h3 id="q-3d-wrlstep">Q: 3D 模型（WRL/STEP）与封装焊盘位置不对齐<a class="headerlink" href="#q-3d-wrlstep" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+导出的 3D 模型在 KiCad 中与封装焊盘存在位置偏移：
+- WRL 和 STEP 的 XY 偏移不一致
+- 部分组件 Z 轴高度不对齐
+- 多个组件共享同一封装但 3D 模型参数不一致时，偏移更明显</p>
+<p><strong>根本原因</strong>：
+WRL 和 STEP 使用不同的坐标系，但旧代码用同一套公式计算偏移：</p>
+<ol>
+<li>
+<p><strong>WRL XY 偏移错误</strong>：WRL 模型经 OBJ→WRL 转换后已居中到原点 (0,0)，但旧代码使用 <code>modelTranslation - bboxCenter</code> 计算偏移，而 <code>modelTranslation</code> 来自 <code>normalizeModelOrigin()</code> 的启发式判断，对部分组件返回错误值。</p>
+</li>
+<li>
+<p><strong>STEP XY 偏移叠加错误</strong>：旧代码将 WRL 偏移与 <code>stepOffsetMm</code> 相加（<code>finalOffsetX += stepOffset.x</code>），但 STEP 使用绝对坐标系，应独立计算。</p>
+</li>
+<li>
+<p><strong>THT Z 轴强制归零</strong>：旧代码对 THT（通孔）封装强制 <code>z = 0.0</code>，忽略了模型的实际 Z 偏移。</p>
+</li>
+<li>
+<p><strong>UUID 解析优先级错误</strong>：<code>CadDataLoader</code> 优先使用 SVGNODE 的 <code>attrs.uuid</code>（outline 形状 UUID），而非 <code>head.uuid_3d</code>（EasyEDA API 3D 模型端点使用的规范 UUID）。两者可能不同。</p>
+</li>
+</ol>
+<p><strong>修复方案</strong>：</p>
+<ol>
+<li><strong>WRL XY = (0, 0)</strong>：WRL 模型已居中，偏移应为零。</li>
+<li><strong>STEP XY = stepOffsetMm</strong>：STEP 使用独立坐标系，偏移来自 <code>-stepGeometryCenter</code>。</li>
+<li><strong>统一 Z 轴处理</strong>：移除 THT 强制归零，所有封装统一使用 <code>-translation.z</code>。</li>
+<li><strong>UUID 优先级</strong>：<code>head.uuid_3d</code> 优先于 SVGNODE <code>attrs.uuid</code>。</li>
+<li><strong>两遍 UUID 匹配</strong>：<code>readModelSourceZMm</code> 先精确匹配 UUID，再匹配 <code>outline3D</code> SVGNODE。</li>
+</ol>
+<p><strong>关键数据</strong>：
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>修复前（CONN-SMD_6P）：WRL=(0.000, -0.100), STEP=(-10.800, -1.380)  ← 不一致
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>修复后（CONN-SMD_6P）：WRL=(0.000, 0.000),  STEP=(-10.800, -1.280)  ← WRL 正确
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>修复前（C0603）：WRL_Z=0.160, STEP_Z=0.403  ← 不一致
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>修复后（C0603）：WRL_Z=0.400, STEP_Z=0.400  ← 一致
+</span></code></pre></div></p>
+<p><strong>回归预防</strong>：
+- WRL 和 STEP 必须视为两个独立坐标系，分别计算偏移
+- 修改 <code>FootprintGraphicsGenerator::generateModel3D()</code> 时，必须区分 WRL（居中）和 STEP（绝对坐标）
+- 修改 UUID 解析逻辑时，必须验证 <code>head.uuid_3d</code> 和 SVGNODE <code>attrs.uuid</code> 不一致的情况
+- 修改 <code>normalizeModelOrigin()</code> 时，必须验证：绝对坐标（4000,3000）、相对坐标（1.5,-2）、异常值（400,300）三种场景</p>
+<p><strong>相关文件</strong>：
+- <code>src/core/kicad/FootprintGraphicsGenerator.cpp</code> - WRL/STEP 偏移计算
+- <code>src/services/CadDataLoader.cpp</code> - UUID 优先级
+- <code>src/services/export/FootprintExportStage.cpp</code> - STEP 偏移计算、UUID 使用、readModelSourceZMm
+- <code>src/core/easyeda/EasyedaFootprintImporter.cpp</code> - normalizeModelOrigin 启发式
+- <code>tests/golden/kicad/golden_footprint_with_3d.kicad_mod</code> - 金色测试期望值</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-05-27)</p>
+<hr />
+<h3 id="q-3d-3d">Q: 导出的 3D 模型文件名与封装内记录的 3D 模型路径不一致<a class="headerlink" href="#q-3d-3d" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+导出的 3D 模型文件名为 <code>C0603.step</code>，但封装内记录的 3D 模型路径却是 <code>../lib.3dmodels/C0603_L1.6-W0.8-H0.8.step</code>，导致 KiCad 无法找到对应的 3D 模型文件。</p>
+<p><strong>根本原因</strong>：
+<code>Model3DData</code> 对象中的 <code>name</code> 字段在数据流传递过程中被意外丢失，由两个独立的 bug 共同导致：</p>
+<p><strong>Bug 1 - ProcessWorker 重建 Model3DData 丢失属性</strong>：
+<code>ProcessWorker::parse3DModelData()</code> 收到 3D 模型 OBJ 数据后，会<strong>重新创建</strong> <code>Model3DData</code> 对象来存放原始数据，但旧代码只恢复了 <code>uuid</code>，<code>name</code>、<code>translation</code>、<code>rotation</code> 全部丢失。</p>
+<p><strong>Bug 2 - ComponentService 缓存加载覆盖已有 model3DData</strong>：
+<code>ComponentCacheService::loadComponentData()</code> 已经从 <code>metadata.json</code> 正确加载了包含 <code>name</code> 的完整 <code>model3DData</code>，但 <code>ComponentService::loadComponentDataFromCacheAsync()</code> 会<strong>重新创建一个只有 UUID 的 <code>model3DData</code></strong>，并通过 <code>setModel3DData()</code> 覆盖掉已有的完整数据。</p>
+<p><strong>数据流分析</strong>：
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>EasyEDA API -&gt; FootprintData.model3D().name() = "C0603_L1.6-W0.8-H0.8"
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>                   |
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>              【Bug 2】缓存加载 -&gt; model3DData()-&gt;name() 被覆盖为空
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>                   |
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>              3D 模型导出 -&gt; 回退到封装名 -&gt; C0603.step
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>              封装导出   -&gt; 使用原始名称 -&gt; C0603_L1.6-W0.8-H0.8.step（路径）
+</span></code></pre></div></p>
+<p><strong>修复方案</strong>：
+1. <code>ProcessWorker::parse3DModelData()</code>：重建 <code>Model3DData</code> 前，先保存并恢复 <code>name</code>、<code>translation</code>、<code>rotation</code>
+2. <code>ComponentService::loadComponentDataFromCacheAsync()</code>：只在 <code>cachedData-&gt;model3DData()</code> 不存在或 UUID 缺失时才创建/补充，不再调用 <code>setModel3DData()</code> 覆盖已有数据</p>
+<p><strong>回归预防</strong>：
+- 重建对象时必须备份旧对象的所有属性，不要假设新对象只需要部分字段
+- 缓存加载路径不要重复解析/覆盖，补充逻辑应该是"只在缺失时补充"，而不是"无条件重建"
+- 测试缓存场景时，必须同时验证：首次获取（无缓存）和缓存命中，两者的行为应当完全一致</p>
+<p><strong>相关文件</strong>：
+- <code>src/workers/ProcessWorker.cpp</code> - 恢复 Model3DData 完整属性
+- <code>src/services/ComponentService.cpp</code> - 不再覆盖已有的 model3DData</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-29)</p>
+<hr />
+<h2 id="_3">数据手册相关<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="q-cli">Q: CLI 模式下数据手册导出全部失败<a class="headerlink" href="#q-cli" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+使用 CLI 模式 <code>convert bom --datasheet</code> 导出数据手册时，所有组件全部失败（Success: 0, Failed: 58）。</p>
+<p><strong>根本原因</strong>：
+两个独立问题共同导致：</p>
+<ol>
+<li>
+<p><strong>CLI 模式未启用数据手册导出</strong>：<code>CliContext.cpp</code> 硬编码 <code>options.exportDatasheet = false</code>，且没有 <code>--datasheet</code> CLI 选项。用户无法通过命令行启用数据手册导出。</p>
+</li>
+<li>
+<p><strong>URL 白名单缺少多个域名</strong>：LCSC 数据手册 URL 来自多个域名，但 <code>UrlUtils.cpp</code> 的 <code>ResourceType::Datasheet</code> 白名单中缺少以下域名，NetworkClient 安全检查拒绝请求：</p>
+</li>
+<li><code>item.szlcsc.com</code> — LCSC 数据手册页面（HTML 格式）</li>
+<li><code>atta.szlcsc.com</code> — LCSC 附件服务器（PDF 格式）</li>
+<li><code>www.ti.com</code> — Texas Instruments 官网数据手册</li>
+<li><code>www.everlighteurope.com</code> — Everlight Europe 官网数据手册</li>
+</ol>
+<p><strong>修复方案</strong>：
+1. 在 <code>CommandLineParser</code> 中添加 <code>--datasheet</code> CLI 选项（flag 类型，默认 false）
+2. 在 <code>CliContext.cpp</code> 中使用 <code>m_parser.exportDatasheet()</code> 替代硬编码的 <code>false</code>
+3. 在 <code>UrlUtils.cpp</code> 的 <code>ResourceType::Datasheet</code> 白名单中添加 <code>item.szlcsc.com</code></p>
+<p><strong>回归预防</strong>：
+- 新增 ResourceType 或修改 URL 白名单时，必须验证实际 API 返回的 URL 域名
+- CLI 新增导出选项时，必须同步更新：<code>CommandLineParser.h</code>（声明）、<code>CommandLineParser.cpp</code>（定义+帮助文本）、<code>CliContext.cpp</code>（传递到 ExportOptions）
+- 数据手册 URL 可能来自多个域名（<code>item.szlcsc.com</code>、<code>file.elecfans.com</code>、<code>www.lcsc.com</code> 等），白名单需覆盖所有实际使用的域名</p>
+<p><strong>相关文件</strong>：
+- <code>src/utils/CommandLineParser.h</code> - 添加 <code>m_datasheetOption</code> 和 <code>exportDatasheet()</code> 方法
+- <code>src/utils/CommandLineParser.cpp</code> - 添加 <code>--datasheet</code> 选项定义、解析和帮助文本
+- <code>src/utils/cli/CliContext.cpp</code> - <code>exportDatasheet</code> 使用 parser 值
+- <code>src/core/utils/UrlUtils.cpp</code> - Datasheet 白名单添加 <code>item.szlcsc.com</code>、<code>atta.szlcsc.com</code>、<code>www.ti.com</code>、<code>www.everlighteurope.com</code></p>
+<p><strong>状态</strong>：✅ 已修复 (2026-05-27)</p>
+<hr />
+<h2 id="_4">网络相关<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="q_4">Q: 在弱网络环境下导出失败率很高<a class="headerlink" href="#q_4" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+网络不稳定时，大量元器件导出失败。</p>
+<p><strong>解决方案</strong>：
+启用"弱网络支持"选项（<code>weakNetworkSupport</code>），可以：
+- 降低并发数
+- 增加重试次数
+- 延长超时时间</p>
+<p><strong>相关配置</strong>：
+- <code>src/services/ConfigService.cpp</code> - <code>getWeakNetworkSupport()</code> / <code>setWeakNetworkSupport()</code></p>
+<hr />
+<h3 id="q_5">Q: 不存在的元器件被误判为验证成功，且错误响应被缓存<a class="headerlink" href="#q_5" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+当请求不存在的元器件（如 C2041）时，EasyEDA API 返回业务层 404 错误：
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">{</span><span class="nt">"code"</span><span class="p">:</span><span class="mi">404</span><span class="p">,</span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"Component not found"</span><span class="p">,</span><span class="nt">"success"</span><span class="p">:</span><span class="kc">false</span><span class="p">}</span>
+</span></code></pre></div></p>
+<p>但系统将此响应误判为验证成功，导致：
+- 元器件显示为"验证成功"但没有预览图
+- 错误响应被缓存到本地磁盘
+- 后续请求从缓存加载，持续显示为成功</p>
+<p><strong>根本原因</strong>：
+<code>src/services/CadDataLoader.cpp:fetchAndParseCadData()</code> 只检查了：
+- HTTP/网络层是否成功
+- JSON 是否能解析</p>
+<p>但没有检查返回体里的业务层错误标记：
+- <code>success: false</code>
+- <code>code: 404</code>
+- <code>result</code> 缺失或为空</p>
+<p><strong>修复方案</strong>：
+在 <code>CadDataLoader::fetchAndParseCadData()</code> 中添加业务层错误检查：
+1. 检查 <code>success == false</code> → 返回错误（404时返回"元器件不存在（404）"）
+2. 检查 <code>result</code> 缺失或为 null → 返回错误
+3. 检查 <code>result</code> 为空对象 → 返回错误</p>
+<p><strong>回归预防</strong>：
+- 任何解析 API 响应的代码都必须检查业务层 <code>success</code> 字段
+- 不要因为 HTTP 成功就认为业务成功
+- <code>result</code> 字段缺失或为空时必须视为失败</p>
+<p><strong>相关文件</strong>：
+- <code>src/services/CadDataLoader.cpp:117</code> - fetchAndParseCadData()
+- <code>src/workers/FetchWorker.cpp:203</code> - 参考实现（已有正确判断）</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-21)</p>
+<hr />
+<h3 id="q_6">Q: 请求被取消时未标记为验证失败<a class="headerlink" href="#q_6" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+当网络请求被取消时（如用户删除元器件时），系统未将此标记为验证失败。</p>
+<p><strong>根本原因</strong>：
+<code>handleFetchError()</code> 的 <code>isCadDataFailure</code> 检查中没有包含 "Request cancelled" 错误信息。</p>
+<p><strong>修复方案</strong>：
+在 <code>isCadDataFailure</code> 检查中添加 <code>error.contains("Request cancelled")</code>。</p>
+<p><strong>相关文件</strong>：
+- <code>src/ui/viewmodels/ComponentListViewModel.cpp:850</code> - isCadDataFailure 检查</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-21)</p>
+<hr />
+<h3 id="q_7">Q: 删除元器件时未取消网络请求，导致缓存被保存<a class="headerlink" href="#q_7" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+删除元器件时没有取消该元器件的网络请求，导致请求完成后数据被缓存。</p>
+<p><strong>修复方案</strong>：
+1. 在 <code>ComponentService</code> 中添加 <code>cancelRequestForComponent()</code> 方法
+2. 在 <code>LcscImageService</code> 中添加 <code>cancelRequestForComponent()</code> 方法
+3. 在 <code>ComponentListViewModel::removeComponent()</code> 中调用 <code>cancelRequestForComponent()</code></p>
+<p><strong>相关文件</strong>：
+- <code>src/services/ComponentService.cpp</code> - cancelRequestForComponent()
+- <code>src/services/LcscImageService.cpp</code> - cancelRequestForComponent()
+- <code>src/ui/viewmodels/ComponentListViewModel.cpp:340</code> - removeComponent() 调用</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-21)</p>
+<hr />
+<h2 id="_5">构建相关<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="q-cmake">Q: CMake 配置失败，提示生成器不匹配<a class="headerlink" href="#q-cmake" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+运行 <code>cmake --build</code> 时报错：
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>CMake Error: generator Ninja Does not match the generator used previously: Unix Makefiles
+</span></code></pre></div></p>
+<p><strong>解决方案</strong>：
+清理构建目录后重新配置：
+<div class="highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>build
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>python<span class="w"> </span>tools/python/build_project.py
+</span></code></pre></div></p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-17)</p>
+<hr />
+<h2 id="qml">窗口 / QML 启动相关<a class="headerlink" href="#qml" title="Permanent link">&para;</a></h2>
+<h3 id="q_8">Q: 应用进程正常启动但主窗口不显示，也没有任务栏条目<a class="headerlink" href="#q_8" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+启动后日志显示 QML 已加载完成、图标已设置、事件循环继续运行，甚至更新检查也开始执行，但桌面上没有主窗口，也看不到任务栏条目。</p>
+<p>典型症状：
+- <code>QQmlApplicationEngine</code> 没有报错
+- <code>rootObjects()</code> 不为空
+- 日志出现“QML 加载完成，开始设置图标”
+- 应用不会立刻退出，但窗口没有真正映射到桌面</p>
+<p><strong>根本原因</strong>：
+这是一次窗口启动职责拆分后的回归，触发条件是以下因素叠加：</p>
+<ol>
+<li>主窗口是 <code>ApplicationWindow</code>，并使用了 <code>Qt.FramelessWindowHint</code></li>
+<li>启动期把窗口显示逻辑完全交给 QML 的 <code>WindowStartupManager</code></li>
+<li><code>Main.qml</code> 中将 <code>visible</code> 绑定为常量或启动门控值（例如 <code>visible: false</code> / <code>visible: startupReady</code>）</li>
+<li>QML 侧又试图通过 <code>show()</code> / <code>visible = true</code> 在运行时显示窗口</li>
+</ol>
+<p>在这种情况下，<code>visible</code> 绑定和运行时显示调用可能互相覆盖。结果是：
+- QML/Qt 对象存在
+- 应用逻辑继续运行
+- 但顶层原生窗口没有稳定映射到桌面环境</p>
+<p>另外，这次拆分还暴露了两个高风险点：</p>
+<ol>
+<li>新增 QML 组件如果没有同时加入 <code>CMakeLists.txt</code> 和 <code>tests/ui/CMakeLists.txt</code>，会出现“编译通过但运行时 QML 组件找不到”的问题</li>
+<li>新增组件如果声明 <code>required property ApplicationWindow window</code>，必须显式导入 <code>QtQuick.Controls</code></li>
+</ol>
+<p><strong>解决方案</strong>：</p>
+<ol>
+<li>不要把主窗口显示完全绑定到 QML 常量属性上</li>
+<li>启动阶段允许 QML 设置几何和状态，但由 C++ 在引擎加载后提供一次可见性兜底</li>
+<li>若根窗口在启动后仍是隐藏态，由 <code>main.cpp</code> 执行 <code>show()</code> / <code>raise()</code> / <code>requestActivate()</code></li>
+<li>所有新增 QML 组件必须同步更新：</li>
+<li><code>src/ui/qml/components/qmldir</code></li>
+<li>根 <code>CMakeLists.txt</code> 中的 <code>QML_FILES</code></li>
+<li><code>tests/ui/CMakeLists.txt</code> 中的 <code>QML_FILES</code></li>
+<li>使用 <code>ApplicationWindow</code> 作为类型时，QML 文件必须导入 <code>QtQuick.Controls</code></li>
+</ol>
+<p><strong>相关文件</strong>：
+- <code>src/main.cpp</code> - 根窗口加载后的可见性兜底
+- <code>src/ui/qml/Main.qml</code> - 主窗口初始可见性策略
+- <code>src/ui/qml/components/WindowController.qml</code> - 启动/运行时窗口编排
+- <code>src/ui/qml/components/WindowStartupManager.qml</code> - 启动阶段窗口恢复
+- <code>src/ui/qml/components/WindowPersistenceManager.qml</code> - 运行时窗口状态持久化
+- <code>CMakeLists.txt</code> - 应用 QML 资源清单
+- <code>tests/ui/CMakeLists.txt</code> - UI 测试 QML 清单</p>
+<p><strong>防回归规则</strong>：
+- 不要对主窗口使用“常量 <code>visible</code> 绑定 + 运行时 <code>show()</code>”的混合控制
+- <code>FramelessWindowHint</code> 主窗口的首次映射必须有 C++ 侧兜底
+- 拆分 QML 组件时，资源注册、<code>qmldir</code> 注册、测试清单必须一起改
+- 启动恢复与运行时持久化可以拆模块，但“首次显示”的最终责任必须明确，不能在 QML/C++ 两边各管一半</p>
+<p><strong>建议回归测试</strong>：
+- 普通窗口启动后应立即出现在桌面和任务栏
+- 最大化关闭后重启，应恢复为最大化状态
+- 从最大化点击窗口化，应恢复到上次 normal geometry
+- 删除窗口配置后重启，应以默认尺寸居中显示
+- 在 Linux/X11 与 Linux/Wayland 下分别验证主窗口是否真正映射</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-19)</p>
+<hr />
+<h2 id="ui">UI 滚动位置相关<a class="headerlink" href="#ui" title="Permanent link">&para;</a></h2>
+<h3 id="q_9">Q: 导出结果列表在转换过程中更新后自动回到顶部<a class="headerlink" href="#q_9" title="Permanent link">&para;</a></h3>
+<p><strong>问题描述</strong>：
+用户在导出过程中向下滚动结果列表查看进度，但每当有元器件状态更新（如从"导出中"变为"成功"）时，列表会自动滚动回顶部，导致用户难以持续跟踪底部的元器件状态。</p>
+<p><strong>根本原因</strong>：
+<code>ExportResultsCard.qml</code> 中的 GridView 直接绑定到 <code>filteredResultsList</code> 属性，而该属性的 getter 方法每次调用都返回一个新的 <code>QVariantList</code>：</p>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">QVariantList</span><span class="w"> </span><span class="nf">ExportProgressViewModel::filteredResultsList</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="c1">// 每次创建新的列表</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="n">QVariantList</span><span class="w"> </span><span class="n">filtered</span><span class="p">;</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m_resultsList</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">        </span><span class="c1">// 过滤逻辑...</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">        </span><span class="n">filtered</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">filtered</span><span class="p">;</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>每次 <code>filteredResultsListChanged()</code> 信号触发时：
+1. QML 调用 getter 获取新列表
+2. GridView 收到一个全新的列表对象
+3. 滚动位置被重置到顶部</p>
+<p>而元器件列表使用 <code>DelegateModel</code> 绑定到原始模型，通过 <code>DelegateModelGroup</code> 的 <code>inDisplay</code> 属性控制显示/隐藏，避免位置重置。</p>
+<p><strong>解决方案</strong>：
+参考 <code>ComponentListCard.qml</code> 的实现方式，使用 <code>DelegateModel</code> 替代直接绑定：</p>
+<ol>
+<li>添加 <code>DelegateModel</code> 绑定到原始 <code>resultsList</code></li>
+<li>使用 <code>DelegateModelGroup</code> 控制显示/隐藏</li>
+<li>添加防抖定时器（50ms）避免频繁过滤</li>
+<li>监听 <code>filterModeChanged</code> 和 <code>resultsListChanged</code> 信号触发过滤</li>
+<li>在 <code>updateFilter()</code> 函数中通过 <code>item.inDisplay</code> 控制每项是否显示</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nx">DelegateModel</span> <span class="p">{</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="kd">id: visualModel</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="k">model:</span> <span class="nx">resultsLoader</span><span class="p">.</span><span class="nx">exportProgressController</span><span class="p">.</span><span class="nx">resultsList</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="k">groups:</span> <span class="p">[</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        <span class="nx">DelegateModelGroup</span> <span class="p">{</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>            <span class="kd">id: displayGroup</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>            <span class="k">includeByDefault:</span> <span class="kc">true</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>            <span class="k">name:</span> <span class="s2">"display"</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a>        <span class="p">}</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a>    <span class="p">]</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>    <span class="k">filterOnGroup:</span> <span class="s2">"display"</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a>    <span class="k">delegate:</span> <span class="nx">ResultListItem</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a>    <span class="kd">function</span> <span class="nx">updateFilter</span><span class="p">()</span> <span class="p">{</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a>        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">items</span><span class="p">.</span><span class="nx">count</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>            <span class="kd">var</span> <span class="nx">item</span> <span class="o">=</span> <span class="nx">items</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a>            <span class="kd">var</span> <span class="nx">dataObj</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">modelData</span> <span class="o">||</span> <span class="nx">item</span><span class="p">.</span><span class="nx">model</span><span class="p">;</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a>            <span class="kd">var</span> <span class="nx">status</span> <span class="o">=</span> <span class="nx">dataObj</span><span class="p">.</span><span class="nx">status</span> <span class="o">||</span> <span class="s2">"pending"</span><span class="p">;</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a>            <span class="kd">var</span> <span class="nx">passFilter</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a>            <span class="c1">// 过滤逻辑...</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a>            <span class="nx">item</span><span class="p">.</span><span class="nx">inDisplay</span> <span class="o">=</span> <span class="nx">passFilter</span><span class="p">;</span>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a>        <span class="p">}</span>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a>    <span class="p">}</span>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>回归预防</strong>：
+- 任何新增的列表视图，如果需要在运行时更新数据并保持滚动位置，必须使用 <code>DelegateModel</code>
+- 不要直接绑定到每次返回新对象的属性
+- 列表过滤/筛选必须通过 <code>DelegateModelGroup</code> 的 <code>inDisplay</code> 属性控制，而不是重新创建列表
+- 使用 <code>cacheBuffer: 500</code> 和 <code>reuseItems: true</code> 启用虚拟化和 Item 回收</p>
+<p><strong>相关文件</strong>：
+- <code>src/ui/qml/components/ExportResultsCard.qml</code> - 使用 DelegateModel 替代直接绑定
+- <code>src/ui/qml/components/ComponentListCard.qml</code> - 参考实现</p>
+<p><strong>状态</strong>：✅ 已修复 (2026-04-19)</p>
+<hr />
+<h2 id="_6">回归测试清单<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>每次发布前请确认以下功能正常：</p>
+<ul>
+<li>[ ] 3D 模型格式选择（WRL/STEP/Both）</li>
+<li>[ ] 3D 模型主复选框与子选项联动</li>
+<li>[ ] 3D 模型格式选择后导出实际只导出选择格式（不是 Both）</li>
+<li>[ ] 预览图只从 API 固定位置获取</li>
+<li>[ ] 弱网络模式下的导出成功率</li>
+<li>[ ] 符号库、封装库导出功能</li>
+<li>[ ] 已有 <code>.kicad_sym</code> 上追加导出新符号后，KiCad 中可见新符号</li>
+<li>[ ] 主窗口启动后可见，并出现在任务栏</li>
+<li>[ ] 最大化关闭后重启仍为最大化</li>
+<li>[ ] 最大化恢复到窗口化时保留上次 normal geometry</li>
+<li>[ ] 新增 QML 组件时，<code>qmldir</code>、CMake 资源清单、UI 测试清单已同步更新</li>
+<li>[ ] 导出结果列表在转换过程中保持滚动位置，不会自动回到顶部</li>
+<li>[ ] 有缓存时导出 3D 模型不发起网络请求（STEP 缓存优先）</li>
+<li>[ ] 重试失败元器件后，导出的库中同时包含已成功项和重试项</li>
+<li>[ ] 重试失败组件后，已有封装/符号未丢失</li>
+<li>[ ] 3D 模型 WRL/STEP 与封装焊盘对齐（XY 偏移、Z 轴高度一致）</li>
+<li>[ ] 3D 模型 UUID 使用 head.uuid_3d 优先（非 SVGNODE attrs.uuid）</li>
+<li>[ ] CLI 模式 <code>--datasheet</code> 选项可用，数据手册导出成功</li>
+<li>[ ] 数据手册 URL 白名单覆盖所有实际域名（item.szlcsc.com、atta.szlcsc.com、www.ti.com 等）</li>
+<li>[ ] 取消导出时不崩溃（Datasheet/PreviewImages/Model3D/Symbol/Footprint 五种类型均验证）</li>
+</ul>
+<hr />
+<h2 id="_7">如何贡献<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>如果你发现了新的常见问题并找到了解决方案，请更新本文档。</p>
+<p>格式要求：
+1. 问题描述（清晰说明症状）
+2. 根本原因
+3. 解决方案
+4. 相关文件和状态
+5. 更新日期</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../BOM_PARSING_GUIDE/" class="md-footer__link md-footer__link--prev" aria-label="上一页: BOM 解析指南">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                BOM 解析指南
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../CHANGELOG/" class="md-footer__link md-footer__link--next" aria-label="下一页: 变更日志">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                变更日志
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.footer", "content.code.copy", "content.action.edit", "content.action.view", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": "3.1.13"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>

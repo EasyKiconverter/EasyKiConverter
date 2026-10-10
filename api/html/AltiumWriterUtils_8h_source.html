@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/utils/AltiumWriterUtils.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumWriterUtils_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumWriterUtils.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumWriterUtils_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html">   13</a></span><span class="keyword">namespace </span>AltiumWriterUtils {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#a358fa6cdb75f74071c5011b503787182">   20</a></span><span class="keyword">inline</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#a358fa6cdb75f74071c5011b503787182">isValidImageStorageName</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.trimmed() != <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.isEmpty() || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> == QStringLiteral(<span class="stringliteral">&quot;.&quot;</span>) || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> == QStringLiteral(<span class="stringliteral">&quot;..&quot;</span>) ||</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.size() &gt; 255)</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.contains(QChar::Null) || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.contains(QChar(<span class="charliteral">&#39;\n&#39;</span>)) || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.contains(QChar(<span class="charliteral">&#39;\r&#39;</span>)) ||</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.contains(QChar(<span class="charliteral">&#39;\t&#39;</span>)))</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QChar ch : <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        <span class="keywordflow">if</span> (ch.unicode() &lt; 0x20 || QStringLiteral(<span class="stringliteral">&quot;&lt;&gt;:\&quot;/\\|?*&quot;</span>).contains(ch))</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.endsWith(QChar(<span class="charliteral">&#39; &#39;</span>)) || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.endsWith(QChar(<span class="charliteral">&#39;.&#39;</span>)))</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.contains(QChar(0x200B)) || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.contains(QChar(0x200C)) || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.contains(QChar(0x200D)) ||</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.contains(QChar(0xFEFF)))</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    QString deviceName = <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;  <span class="comment">// 去除扩展名后用于保留设备名检查的字符串。</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">const</span> qsizetype extensionStart = deviceName.indexOf(QChar(<span class="charliteral">&#39;.&#39;</span>));  <span class="comment">// 第一个扩展名分隔点。</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">if</span> (extensionStart &gt;= 0)</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        deviceName.truncate(extensionStart);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keyword">static</span> <span class="keyword">const</span> QStringList reservedNames = {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="comment">// Windows 保留设备名列表。</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        QStringLiteral(<span class="stringliteral">&quot;CON&quot;</span>),  QStringLiteral(<span class="stringliteral">&quot;PRN&quot;</span>),  QStringLiteral(<span class="stringliteral">&quot;AUX&quot;</span>),  QStringLiteral(<span class="stringliteral">&quot;NUL&quot;</span>),</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        QStringLiteral(<span class="stringliteral">&quot;COM1&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;COM2&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;COM3&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;COM4&quot;</span>),</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        QStringLiteral(<span class="stringliteral">&quot;COM5&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;COM6&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;COM7&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;COM8&quot;</span>),</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        QStringLiteral(<span class="stringliteral">&quot;COM9&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;LPT1&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;LPT2&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;LPT3&quot;</span>),</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        QStringLiteral(<span class="stringliteral">&quot;LPT4&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;LPT5&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;LPT6&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;LPT7&quot;</span>),</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        QStringLiteral(<span class="stringliteral">&quot;LPT8&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;LPT9&quot;</span>)};</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">if</span> (reservedNames.contains(deviceName.trimmed(), Qt::CaseInsensitive))</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">const</span> QByteArray encodedName = <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.toLocal8Bit();  <span class="comment">// 当前平台本地编码后的文件名。</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> encodedName.size() &lt;= 255 &amp;&amp; QString::fromLocal8Bit(encodedName) == <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}</div>
+</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="foldopen" id="foldopen00070" data-start="{" data-end="}">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#a8f51cc591c60f3a5ac7589da428402be">   70</a></span><span class="keyword">inline</span> QString <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#a8f51cc591c60f3a5ac7589da428402be">getSectionKey</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    QString key;  <span class="comment">// 生成中的 OLE 存储键。</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">const</span> QString trimmed = <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.trimmed();  <span class="comment">// 去除首尾空白后的元件名称。</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QChar ch : trimmed) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">if</span> (key.size() &gt;= 31) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> asciiAlphaNumeric = ch.unicode() &lt; 128 &amp;&amp; ch.isLetterOrNumber();  <span class="comment">// 是否为可保留的 ASCII 字符。</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        key += asciiAlphaNumeric || ch == <span class="charliteral">&#39;_&#39;</span> || ch == <span class="charliteral">&#39;-&#39;</span> || ch == <span class="charliteral">&#39;.&#39;</span> ? ch : QChar(<span class="charliteral">&#39;_&#39;</span>);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">if</span> (key.isEmpty()) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        key = <span class="stringliteral">&quot;_&quot;</span>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">return</span> key;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}</div>
+</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="foldopen" id="foldopen00091" data-start="{" data-end="}">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#ae49ece8600a9604776e66295a8f64e78">   91</a></span><span class="keyword">inline</span> QStringList <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#ae49ece8600a9604776e66295a8f64e78">makeUniqueSectionKeys</a>(<span class="keyword">const</span> QStringList&amp; names) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    QStringList result;  <span class="comment">// 生成后的唯一存储键列表。</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    QSet&lt;QString&gt; used;  <span class="comment">// 已使用的大小写折叠键集合。</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> : names) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keyword">const</span> QString base = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#a8f51cc591c60f3a5ac7589da428402be">getSectionKey</a>(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);  <span class="comment">// 当前名称的基础存储键。</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        QString candidate = base;  <span class="comment">// 当前尝试使用的存储键。</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordtype">int</span> suffixNumber = 2;  <span class="comment">// 冲突后缀起始编号。</span></div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">while</span> (used.contains(candidate.toCaseFolded())) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keyword">const</span> QString suffix = QString(<span class="stringliteral">&quot;_%1&quot;</span>).arg(suffixNumber++);  <span class="comment">// 当前冲突后缀。</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            candidate = base.left(qMax(1, 31 - suffix.size())) + suffix;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        used.insert(candidate.toCaseFolded());</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        result.append(candidate);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
+</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}  <span class="comment">// namespace AltiumWriterUtils</span></div>
+</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumWriterUtils_html_a358fa6cdb75f74071c5011b503787182"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#a358fa6cdb75f74071c5011b503787182">EasyKiConverter::AltiumWriterUtils::isValidImageStorageName</a></div><div class="ttdeci">bool isValidImageStorageName(const QString &amp;name)</div><div class="ttdoc">校验嵌入图片在 SchLib Storage 中使用的文件名。</div><div class="ttdef"><b>Definition</b> <a href="AltiumWriterUtils_8h_source.html#l00020">AltiumWriterUtils.h:20</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumWriterUtils_html_a8f51cc591c60f3a5ac7589da428402be"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#a8f51cc591c60f3a5ac7589da428402be">EasyKiConverter::AltiumWriterUtils::getSectionKey</a></div><div class="ttdeci">QString getSectionKey(const QString &amp;name)</div><div class="ttdoc">获取元件的 Section Key（OLE 存储键）</div><div class="ttdef"><b>Definition</b> <a href="AltiumWriterUtils_8h_source.html#l00070">AltiumWriterUtils.h:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumWriterUtils_html_ae49ece8600a9604776e66295a8f64e78"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#ae49ece8600a9604776e66295a8f64e78">EasyKiConverter::AltiumWriterUtils::makeUniqueSectionKeys</a></div><div class="ttdeci">QStringList makeUniqueSectionKeys(const QStringList &amp;names)</div><div class="ttdoc">为一组库条目生成互不冲突的 CFB storage 名称</div><div class="ttdef"><b>Definition</b> <a href="AltiumWriterUtils_8h_source.html#l00091">AltiumWriterUtils.h:91</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_56f847198c0ccc8b1dcbc43eadb2d0cc.html">utils</a></li><li class="navelem"><a class="el" href="AltiumWriterUtils_8h.html">AltiumWriterUtils.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

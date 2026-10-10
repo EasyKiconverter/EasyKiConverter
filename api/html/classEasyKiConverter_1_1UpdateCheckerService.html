@@ -1,0 +1,1937 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::UpdateCheckerService类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1UpdateCheckerService.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1UpdateCheckerService-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::UpdateCheckerService类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>管理 GitHub Release 更新检查、缓存和用户提醒策略。  
+ <a href="classEasyKiConverter_1_1UpdateCheckerService.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::UpdateCheckerService 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1UpdateCheckerService__inherit__graph.svg" width="240" height="784"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::UpdateCheckerService 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1UpdateCheckerService__coll__graph.svg" width="528" height="2139"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a7d4899d77d2b4420edbc3872ac9bdcf5" id="r_a7d4899d77d2b4420edbc3872ac9bdcf5"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">Status</a> { <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ac9c0fcb2bb86adc799c4b7eb02412379">NotChecked</a>
+, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a195917574edc9b6bbeb5be9785b6a479">Checking</a>
+, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a4ca50bd5e1da4e7eb295d50a191aa4ec">UpdateAvailable</a>
+, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a761266b390b3dc960c74d9194512850a">UpToDate</a>
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ad7c8c85bf79bbe1b7188497c32c3b0ca">Failed</a>
+, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ad96143ba1b15645919cea00ec9d1be62">Ignored</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a7d4899d77d2b4420edbc3872ac9bdcf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新检查状态。  <a href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">更多...</a><br /></td></tr>
+<tr class="separator:a7d4899d77d2b4420edbc3872ac9bdcf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a9fe7e6715d4b8bff5d8c2490da9ae7dd" id="r_a9fe7e6715d4b8bff5d8c2490da9ae7dd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a9fe7e6715d4b8bff5d8c2490da9ae7dd">UpdateCheckerService</a> (QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a9fe7e6715d4b8bff5d8c2490da9ae7dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建使用项目默认网络客户端的更新服务。  <br /></td></tr>
+<tr class="separator:a9fe7e6715d4b8bff5d8c2490da9ae7dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f8f8910e51764a4a0dc9ed067296743" id="r_a2f8f8910e51764a4a0dc9ed067296743"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a2f8f8910e51764a4a0dc9ed067296743">UpdateCheckerService</a> (<a class="el" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a> &amp;networkClient, QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a2f8f8910e51764a4a0dc9ed067296743"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建可注入测试网络客户端的更新服务。  <br /></td></tr>
+<tr class="separator:a2f8f8910e51764a4a0dc9ed067296743"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88e4f1fa2c696124d117f15aaa3fc504" id="r_a88e4f1fa2c696124d117f15aaa3fc504"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a88e4f1fa2c696124d117f15aaa3fc504">~UpdateCheckerService</a> () override</td></tr>
+<tr class="memdesc:a88e4f1fa2c696124d117f15aaa3fc504"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁更新检查服务。  <br /></td></tr>
+<tr class="separator:a88e4f1fa2c696124d117f15aaa3fc504"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84a8e559b28b6b56b0abd83e1187770c" id="r_a84a8e559b28b6b56b0abd83e1187770c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a84a8e559b28b6b56b0abd83e1187770c">checking</a> () const</td></tr>
+<tr class="memdesc:a84a8e559b28b6b56b0abd83e1187770c"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回当前是否正在检查。  <br /></td></tr>
+<tr class="separator:a84a8e559b28b6b56b0abd83e1187770c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25f078df33b76545d6932bf846bd860d" id="r_a25f078df33b76545d6932bf846bd860d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a25f078df33b76545d6932bf846bd860d">hasUpdate</a> () const</td></tr>
+<tr class="memdesc:a25f078df33b76545d6932bf846bd860d"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回是否存在高于当前版本的 Release。  <br /></td></tr>
+<tr class="separator:a25f078df33b76545d6932bf846bd860d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a146ace1dacb766adeeb7c748c9dd7e92" id="r_a146ace1dacb766adeeb7c748c9dd7e92"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a146ace1dacb766adeeb7c748c9dd7e92">dismissed</a> () const</td></tr>
+<tr class="memdesc:a146ace1dacb766adeeb7c748c9dd7e92"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回当前 Release 是否已被关闭提醒。  <br /></td></tr>
+<tr class="separator:a146ace1dacb766adeeb7c748c9dd7e92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29d8e1a910d5e72261a46fe64fe11966" id="r_a29d8e1a910d5e72261a46fe64fe11966"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a29d8e1a910d5e72261a46fe64fe11966">currentVersion</a> () const</td></tr>
+<tr class="memdesc:a29d8e1a910d5e72261a46fe64fe11966"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回应用当前版本。  <br /></td></tr>
+<tr class="separator:a29d8e1a910d5e72261a46fe64fe11966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38d025c5a7b9ac00312011df25ccf964" id="r_a38d025c5a7b9ac00312011df25ccf964"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a38d025c5a7b9ac00312011df25ccf964">latestVersion</a> () const</td></tr>
+<tr class="memdesc:a38d025c5a7b9ac00312011df25ccf964"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回最新 Release 版本。  <br /></td></tr>
+<tr class="separator:a38d025c5a7b9ac00312011df25ccf964"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0656d8f884a9170945aa794596d2905" id="r_ad0656d8f884a9170945aa794596d2905"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ad0656d8f884a9170945aa794596d2905">releaseName</a> () const</td></tr>
+<tr class="memdesc:ad0656d8f884a9170945aa794596d2905"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回最新 Release 名称。  <br /></td></tr>
+<tr class="separator:ad0656d8f884a9170945aa794596d2905"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dd98977fc085a1ab6f09200fdc68b92" id="r_a0dd98977fc085a1ab6f09200fdc68b92"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a0dd98977fc085a1ab6f09200fdc68b92">releaseUrl</a> () const</td></tr>
+<tr class="memdesc:a0dd98977fc085a1ab6f09200fdc68b92"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回 Release 页面地址。  <br /></td></tr>
+<tr class="separator:a0dd98977fc085a1ab6f09200fdc68b92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83010b3a35e21fd257fa13db7eeb0a88" id="r_a83010b3a35e21fd257fa13db7eeb0a88"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a83010b3a35e21fd257fa13db7eeb0a88">latestReleasePageUrl</a> () const</td></tr>
+<tr class="memdesc:a83010b3a35e21fd257fa13db7eeb0a88"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回官方最新 Release 页面地址，供检查失败时人工访问。  <br /></td></tr>
+<tr class="separator:a83010b3a35e21fd257fa13db7eeb0a88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaea12ddb6072841168aeb744bc2575c5" id="r_aaea12ddb6072841168aeb744bc2575c5"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#aaea12ddb6072841168aeb744bc2575c5">assetUrl</a> () const</td></tr>
+<tr class="memdesc:aaea12ddb6072841168aeb744bc2575c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回匹配平台的资产地址。  <br /></td></tr>
+<tr class="separator:aaea12ddb6072841168aeb744bc2575c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52caf4a944928777391a1760ba977433" id="r_a52caf4a944928777391a1760ba977433"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a52caf4a944928777391a1760ba977433">error</a> () const</td></tr>
+<tr class="memdesc:a52caf4a944928777391a1760ba977433"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回最近一次检查错误。  <br /></td></tr>
+<tr class="separator:a52caf4a944928777391a1760ba977433"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a42c3b12a11a8f4f47e6ba438027b48dc" id="r_a42c3b12a11a8f4f47e6ba438027b48dc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a42c3b12a11a8f4f47e6ba438027b48dc">rateLimited</a> () const</td></tr>
+<tr class="memdesc:a42c3b12a11a8f4f47e6ba438027b48dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回最近一次检查是否被 GitHub 访问限制。  <br /></td></tr>
+<tr class="separator:a42c3b12a11a8f4f47e6ba438027b48dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f119ba01491cb8516c771950186f0af" id="r_a5f119ba01491cb8516c771950186f0af"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a5f119ba01491cb8516c771950186f0af">status</a> () const</td></tr>
+<tr class="memdesc:a5f119ba01491cb8516c771950186f0af"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回当前检查状态。  <br /></td></tr>
+<tr class="separator:a5f119ba01491cb8516c771950186f0af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac5c5350529c6b1b927585f1674da5fe5" id="r_ac5c5350529c6b1b927585f1674da5fe5"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ac5c5350529c6b1b927585f1674da5fe5">statusText</a> () const</td></tr>
+<tr class="memdesc:ac5c5350529c6b1b927585f1674da5fe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回供 QML 使用的状态键。  <br /></td></tr>
+<tr class="separator:ac5c5350529c6b1b927585f1674da5fe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2685df8fa68574629abb6208a8894d3" id="r_ac2685df8fa68574629abb6208a8894d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ac2685df8fa68574629abb6208a8894d3">autoCheckEnabled</a> () const</td></tr>
+<tr class="memdesc:ac2685df8fa68574629abb6208a8894d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回是否启用启动时自动检查。  <br /></td></tr>
+<tr class="separator:ac2685df8fa68574629abb6208a8894d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a559876075d129af0827ddda4ebb5e6f2" id="r_a559876075d129af0827ddda4ebb5e6f2"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a559876075d129af0827ddda4ebb5e6f2">lastCheckTime</a> () const</td></tr>
+<tr class="memdesc:a559876075d129af0827ddda4ebb5e6f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回最近一次检查时间。  <br /></td></tr>
+<tr class="separator:a559876075d129af0827ddda4ebb5e6f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4cc57d2b0dd0fc2c486e50f76fb0dab" id="r_ae4cc57d2b0dd0fc2c486e50f76fb0dab"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ae4cc57d2b0dd0fc2c486e50f76fb0dab">lastSuccessfulCheckTime</a> () const</td></tr>
+<tr class="memdesc:ae4cc57d2b0dd0fc2c486e50f76fb0dab"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回最近一次成功检查时间。  <br /></td></tr>
+<tr class="separator:ae4cc57d2b0dd0fc2c486e50f76fb0dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaf5afb6fdf82da768a03c56d1a656ae" id="r_aeaf5afb6fdf82da768a03c56d1a656ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#aeaf5afb6fdf82da768a03c56d1a656ae">checkForUpdates</a> (bool force=true)</td></tr>
+<tr class="memdesc:aeaf5afb6fdf82da768a03c56d1a656ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查更新。  <br /></td></tr>
+<tr class="separator:aeaf5afb6fdf82da768a03c56d1a656ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1ef373c5b155dbc76458db70243cc5b" id="r_ab1ef373c5b155dbc76458db70243cc5b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ab1ef373c5b155dbc76458db70243cc5b">dismissUpdate</a> ()</td></tr>
+<tr class="memdesc:ab1ef373c5b155dbc76458db70243cc5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">稍后提醒，重启后仍保持当前版本的提醒状态。  <br /></td></tr>
+<tr class="separator:ab1ef373c5b155dbc76458db70243cc5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53454493f83cbb3a6c71704c32c7f7cf" id="r_a53454493f83cbb3a6c71704c32c7f7cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a53454493f83cbb3a6c71704c32c7f7cf">ignoreUpdate</a> ()</td></tr>
+<tr class="memdesc:a53454493f83cbb3a6c71704c32c7f7cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">忽略当前 Release，直到出现更高版本。  <br /></td></tr>
+<tr class="separator:a53454493f83cbb3a6c71704c32c7f7cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6674ae5f60b9c0196cb95d948eb2ac61" id="r_a6674ae5f60b9c0196cb95d948eb2ac61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a6674ae5f60b9c0196cb95d948eb2ac61">resetDismissed</a> ()</td></tr>
+<tr class="memdesc:a6674ae5f60b9c0196cb95d948eb2ac61"><td class="mdescLeft">&#160;</td><td class="mdescRight">清除当前内存中的关闭状态。  <br /></td></tr>
+<tr class="separator:a6674ae5f60b9c0196cb95d948eb2ac61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9bf7870934af7beb3013e8be58a1f7a" id="r_ab9bf7870934af7beb3013e8be58a1f7a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ab9bf7870934af7beb3013e8be58a1f7a">setAutoCheckEnabled</a> (bool enabled)</td></tr>
+<tr class="memdesc:ab9bf7870934af7beb3013e8be58a1f7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置是否启用启动时自动检查。  <br /></td></tr>
+<tr class="separator:ab9bf7870934af7beb3013e8be58a1f7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a824c3d1dac48442a58df01c64dd362" id="r_a3a824c3d1dac48442a58df01c64dd362"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a3a824c3d1dac48442a58df01c64dd362">loadCachedRelease</a> ()</td></tr>
+<tr class="memdesc:a3a824c3d1dac48442a58df01c64dd362"><td class="mdescLeft">&#160;</td><td class="mdescRight">手动读取最近一次缓存的 Release 信息。  <br /></td></tr>
+<tr class="separator:a3a824c3d1dac48442a58df01c64dd362"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a131102ca34b860bfaf3ab29ecf27b41c" id="r_a131102ca34b860bfaf3ab29ecf27b41c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a131102ca34b860bfaf3ab29ecf27b41c">checkingChanged</a> ()</td></tr>
+<tr class="memdesc:a131102ca34b860bfaf3ab29ecf27b41c"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前检查中状态发生变化。  <br /></td></tr>
+<tr class="separator:a131102ca34b860bfaf3ab29ecf27b41c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7059467cdc2e09e83c9517aec9150296" id="r_a7059467cdc2e09e83c9517aec9150296"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7059467cdc2e09e83c9517aec9150296">updateStateChanged</a> ()</td></tr>
+<tr class="memdesc:a7059467cdc2e09e83c9517aec9150296"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新结果或提醒状态发生变化。  <br /></td></tr>
+<tr class="separator:a7059467cdc2e09e83c9517aec9150296"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace311ab0128cd64605a00b35d96f2c6e" id="r_ace311ab0128cd64605a00b35d96f2c6e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ace311ab0128cd64605a00b35d96f2c6e">statusChanged</a> ()</td></tr>
+<tr class="memdesc:ace311ab0128cd64605a00b35d96f2c6e"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新检查状态枚举发生变化。  <br /></td></tr>
+<tr class="separator:ace311ab0128cd64605a00b35d96f2c6e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1807296c7e336369f9f6469b2a5f570c" id="r_a1807296c7e336369f9f6469b2a5f570c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a1807296c7e336369f9f6469b2a5f570c">autoCheckEnabledChanged</a> ()</td></tr>
+<tr class="memdesc:a1807296c7e336369f9f6469b2a5f570c"><td class="mdescLeft">&#160;</td><td class="mdescRight">自动检查开关发生变化。  <br /></td></tr>
+<tr class="separator:a1807296c7e336369f9f6469b2a5f570c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5a2c7e12130334e91b8c5b408c6f9f5f" id="r_a5a2c7e12130334e91b8c5b408c6f9f5f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a5a2c7e12130334e91b8c5b408c6f9f5f">metadataChanged</a> ()</td></tr>
+<tr class="memdesc:a5a2c7e12130334e91b8c5b408c6f9f5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新检查时间等元数据发生变化。  <br /></td></tr>
+<tr class="separator:a5a2c7e12130334e91b8c5b408c6f9f5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:ad10e8ff408578b4b646ca27891d5ec50" id="r_ad10e8ff408578b4b646ca27891d5ec50"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ad10e8ff408578b4b646ca27891d5ec50">normalizeVersion</a> (const QString &amp;version)</td></tr>
+<tr class="memdesc:ad10e8ff408578b4b646ca27891d5ec50"><td class="mdescLeft">&#160;</td><td class="mdescRight">规范化并校验 SemVer 字符串。  <br /></td></tr>
+<tr class="separator:ad10e8ff408578b4b646ca27891d5ec50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a756e8a1b003d32fe98aeb1b2b7caca02" id="r_a756e8a1b003d32fe98aeb1b2b7caca02"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a756e8a1b003d32fe98aeb1b2b7caca02">isRemoteVersionNewer</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a29d8e1a910d5e72261a46fe64fe11966">currentVersion</a>, const QString &amp;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a38d025c5a7b9ac00312011df25ccf964">latestVersion</a>)</td></tr>
+<tr class="memdesc:a756e8a1b003d32fe98aeb1b2b7caca02"><td class="mdescLeft">&#160;</td><td class="mdescRight">按 SemVer 规则判断远程版本是否高于当前版本。  <br /></td></tr>
+<tr class="separator:a756e8a1b003d32fe98aeb1b2b7caca02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a026de86ac9cdfa88c1bf2ba49020fe7d" id="r_a026de86ac9cdfa88c1bf2ba49020fe7d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a026de86ac9cdfa88c1bf2ba49020fe7d">setChecking</a> (bool <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a84a8e559b28b6b56b0abd83e1187770c">checking</a>)</td></tr>
+<tr class="memdesc:a026de86ac9cdfa88c1bf2ba49020fe7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新正在检查状态并通知 QML。  <br /></td></tr>
+<tr class="separator:a026de86ac9cdfa88c1bf2ba49020fe7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1efcc7e0d9472425a46aca9b451eceb3" id="r_a1efcc7e0d9472425a46aca9b451eceb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a1efcc7e0d9472425a46aca9b451eceb3">setStatus</a> (<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">Status</a> <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a5f119ba01491cb8516c771950186f0af">status</a>)</td></tr>
+<tr class="memdesc:a1efcc7e0d9472425a46aca9b451eceb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新内部检查状态并发出状态信号。  <br /></td></tr>
+<tr class="separator:a1efcc7e0d9472425a46aca9b451eceb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e93e0c5056541ec7e2a89b644addebf" id="r_a1e93e0c5056541ec7e2a89b644addebf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a1e93e0c5056541ec7e2a89b644addebf">setError</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a52caf4a944928777391a1760ba977433">error</a>)</td></tr>
+<tr class="memdesc:a1e93e0c5056541ec7e2a89b644addebf"><td class="mdescLeft">&#160;</td><td class="mdescRight">保存错误信息并切换到失败状态。  <br /></td></tr>
+<tr class="separator:a1e93e0c5056541ec7e2a89b644addebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab008e270b90adc48905f4242da9caf81" id="r_ab008e270b90adc48905f4242da9caf81"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ab008e270b90adc48905f4242da9caf81">applyRelease</a> (const QJsonObject &amp;release, bool fromCache)</td></tr>
+<tr class="memdesc:ab008e270b90adc48905f4242da9caf81"><td class="mdescLeft">&#160;</td><td class="mdescRight">应用远程或缓存的 Release 信息。  <br /></td></tr>
+<tr class="separator:ab008e270b90adc48905f4242da9caf81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc7f9be677b5b6e131e3fda69d60a870" id="r_abc7f9be677b5b6e131e3fda69d60a870"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#abc7f9be677b5b6e131e3fda69d60a870">validateRelease</a> (const QJsonObject &amp;release, QString *reason) const</td></tr>
+<tr class="memdesc:abc7f9be677b5b6e131e3fda69d60a870"><td class="mdescLeft">&#160;</td><td class="mdescRight">校验 Release JSON 是否包含可用信息。  <br /></td></tr>
+<tr class="separator:abc7f9be677b5b6e131e3fda69d60a870"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3b561c7dc82ad3cddfa639cecee58df" id="r_ae3b561c7dc82ad3cddfa639cecee58df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ae3b561c7dc82ad3cddfa639cecee58df">applyUpdateInfo</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a38d025c5a7b9ac00312011df25ccf964">latestVersion</a>, const QString &amp;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ad0656d8f884a9170945aa794596d2905">releaseName</a>, const QString &amp;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a0dd98977fc085a1ab6f09200fdc68b92">releaseUrl</a>, const QString &amp;<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#aaea12ddb6072841168aeb744bc2575c5">assetUrl</a>)</td></tr>
+<tr class="memdesc:ae3b561c7dc82ad3cddfa639cecee58df"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新当前 Release 的版本、名称和下载地址。  <br /></td></tr>
+<tr class="separator:ae3b561c7dc82ad3cddfa639cecee58df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:ace04fcdfe096207887d79ddb5ad1b49c" id="r_ace04fcdfe096207887d79ddb5ad1b49c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ace04fcdfe096207887d79ddb5ad1b49c">m_networkClient</a> {nullptr}</td></tr>
+<tr class="memdesc:ace04fcdfe096207887d79ddb5ad1b49c"><td class="mdescLeft">&#160;</td><td class="mdescRight">注入的网络客户端，不由本对象管理其生命周期。  <br /></td></tr>
+<tr class="separator:ace04fcdfe096207887d79ddb5ad1b49c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa908838b8540ad06387902f22a05286a" id="r_aa908838b8540ad06387902f22a05286a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#aa908838b8540ad06387902f22a05286a">m_activeRequest</a> {nullptr}</td></tr>
+<tr class="memdesc:aa908838b8540ad06387902f22a05286a"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前活动的异步更新请求。  <br /></td></tr>
+<tr class="separator:aa908838b8540ad06387902f22a05286a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7e1c0111df8dd645b419a4836c50f53" id="r_ad7e1c0111df8dd645b419a4836c50f53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ad7e1c0111df8dd645b419a4836c50f53">m_checking</a> {false}</td></tr>
+<tr class="memdesc:ad7e1c0111df8dd645b419a4836c50f53"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否正在执行更新检查。  <br /></td></tr>
+<tr class="separator:ad7e1c0111df8dd645b419a4836c50f53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ead55e557edcd913cf4439326d6dc28" id="r_a1ead55e557edcd913cf4439326d6dc28"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a1ead55e557edcd913cf4439326d6dc28">m_hasUpdate</a> {false}</td></tr>
+<tr class="memdesc:a1ead55e557edcd913cf4439326d6dc28"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否检测到可用更新。  <br /></td></tr>
+<tr class="separator:a1ead55e557edcd913cf4439326d6dc28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbddf4a26cc7285cee0def9567da61f8" id="r_acbddf4a26cc7285cee0def9567da61f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#acbddf4a26cc7285cee0def9567da61f8">m_dismissed</a> {false}</td></tr>
+<tr class="memdesc:acbddf4a26cc7285cee0def9567da61f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">用户是否已关闭当前更新提醒。  <br /></td></tr>
+<tr class="separator:acbddf4a26cc7285cee0def9567da61f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d40211e05f4ad898f931dbdd3d56fdb" id="r_a0d40211e05f4ad898f931dbdd3d56fdb"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a0d40211e05f4ad898f931dbdd3d56fdb">m_latestVersion</a></td></tr>
+<tr class="memdesc:a0d40211e05f4ad898f931dbdd3d56fdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次获取到的远程版本。  <br /></td></tr>
+<tr class="separator:a0d40211e05f4ad898f931dbdd3d56fdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1116dac3070204d3bd19428fecf6d563" id="r_a1116dac3070204d3bd19428fecf6d563"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a1116dac3070204d3bd19428fecf6d563">m_releaseName</a></td></tr>
+<tr class="memdesc:a1116dac3070204d3bd19428fecf6d563"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次获取到的 Release 名称。  <br /></td></tr>
+<tr class="separator:a1116dac3070204d3bd19428fecf6d563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aebe6d7ef339a0398f8f1cbacb0f7dd71" id="r_aebe6d7ef339a0398f8f1cbacb0f7dd71"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#aebe6d7ef339a0398f8f1cbacb0f7dd71">m_releaseUrl</a></td></tr>
+<tr class="memdesc:aebe6d7ef339a0398f8f1cbacb0f7dd71"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次获取到的 Release 页面地址。  <br /></td></tr>
+<tr class="separator:aebe6d7ef339a0398f8f1cbacb0f7dd71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af81dabee24144cf87839e9beec191aab" id="r_af81dabee24144cf87839e9beec191aab"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#af81dabee24144cf87839e9beec191aab">m_assetUrl</a></td></tr>
+<tr class="memdesc:af81dabee24144cf87839e9beec191aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前平台对应的下载资产地址。  <br /></td></tr>
+<tr class="separator:af81dabee24144cf87839e9beec191aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee798aa70d5d71ecdfe9829b229d1f3e" id="r_aee798aa70d5d71ecdfe9829b229d1f3e"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#aee798aa70d5d71ecdfe9829b229d1f3e">m_error</a></td></tr>
+<tr class="memdesc:aee798aa70d5d71ecdfe9829b229d1f3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次更新检查错误信息。  <br /></td></tr>
+<tr class="separator:aee798aa70d5d71ecdfe9829b229d1f3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a786f735b68aa1ad153f8bcb94416015f" id="r_a786f735b68aa1ad153f8bcb94416015f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a786f735b68aa1ad153f8bcb94416015f">m_rateLimited</a> {false}</td></tr>
+<tr class="memdesc:a786f735b68aa1ad153f8bcb94416015f"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次请求是否受到 GitHub 访问限制。  <br /></td></tr>
+<tr class="separator:a786f735b68aa1ad153f8bcb94416015f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2b29c6a41d47e2da9640fbf854801d1" id="r_aa2b29c6a41d47e2da9640fbf854801d1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">Status</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#aa2b29c6a41d47e2da9640fbf854801d1">m_status</a> {<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ac9c0fcb2bb86adc799c4b7eb02412379">Status::NotChecked</a>}</td></tr>
+<tr class="memdesc:aa2b29c6a41d47e2da9640fbf854801d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前更新检查状态。  <br /></td></tr>
+<tr class="separator:aa2b29c6a41d47e2da9640fbf854801d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>管理 GitHub Release 更新检查、缓存和用户提醒策略。 </p>
+<p>网络请求统一通过 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html" title="网络客户端接口">INetworkClient</a> 注入，默认使用项目的 <a class="el" href="classEasyKiConverter_1_1NetworkClient.html" title="单例网络客户端，统一管理重试/退避行为">NetworkClient</a> 单例； 测试可以注入 MockNetworkClient，避免访问真实 GitHub 服务。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00020">20</a> 行定义.</p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a7d4899d77d2b4420edbc3872ac9bdcf5" name="a7d4899d77d2b4420edbc3872ac9bdcf5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d4899d77d2b4420edbc3872ac9bdcf5">&#9670;&#160;</a></span>Status</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">EasyKiConverter::UpdateCheckerService::Status</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新检查状态。 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a7d4899d77d2b4420edbc3872ac9bdcf5ac9c0fcb2bb86adc799c4b7eb02412379" name="a7d4899d77d2b4420edbc3872ac9bdcf5ac9c0fcb2bb86adc799c4b7eb02412379"></a>NotChecked&#160;</td><td class="fielddoc"><p>尚未执行更新检查。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7d4899d77d2b4420edbc3872ac9bdcf5a195917574edc9b6bbeb5be9785b6a479" name="a7d4899d77d2b4420edbc3872ac9bdcf5a195917574edc9b6bbeb5be9785b6a479"></a>Checking&#160;</td><td class="fielddoc"><p>正在请求远程版本信息。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7d4899d77d2b4420edbc3872ac9bdcf5a4ca50bd5e1da4e7eb295d50a191aa4ec" name="a7d4899d77d2b4420edbc3872ac9bdcf5a4ca50bd5e1da4e7eb295d50a191aa4ec"></a>UpdateAvailable&#160;</td><td class="fielddoc"><p>检测到可用的新版本。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7d4899d77d2b4420edbc3872ac9bdcf5a761266b390b3dc960c74d9194512850a" name="a7d4899d77d2b4420edbc3872ac9bdcf5a761266b390b3dc960c74d9194512850a"></a>UpToDate&#160;</td><td class="fielddoc"><p>当前版本已是最新版本。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7d4899d77d2b4420edbc3872ac9bdcf5ad7c8c85bf79bbe1b7188497c32c3b0ca" name="a7d4899d77d2b4420edbc3872ac9bdcf5ad7c8c85bf79bbe1b7188497c32c3b0ca"></a>Failed&#160;</td><td class="fielddoc"><p>更新检查失败。 </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a7d4899d77d2b4420edbc3872ac9bdcf5ad96143ba1b15645919cea00ec9d1be62" name="a7d4899d77d2b4420edbc3872ac9bdcf5ad96143ba1b15645919cea00ec9d1be62"></a>Ignored&#160;</td><td class="fielddoc"><p>用户已忽略当前版本。 </p>
+</td></tr>
+</table>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00043">43</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a9fe7e6715d4b8bff5d8c2490da9ae7dd" name="a9fe7e6715d4b8bff5d8c2490da9ae7dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9fe7e6715d4b8bff5d8c2490da9ae7dd">&#9670;&#160;</a></span>UpdateCheckerService() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::UpdateCheckerService::UpdateCheckerService </td>
+          <td>(</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建使用项目默认网络客户端的更新服务。 </p>
+<p>创建更新服务并载入最近一次有效的本地缓存。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>Qt 对象父级，可为空</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>使用项目默认网络客户端保持原有构造方式兼容。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">instance</td><td>服务实例。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00155">155</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00347">loadCachedRelease()</a>.</p>
+
+</div>
+</div>
+<a id="a2f8f8910e51764a4a0dc9ed067296743" name="a2f8f8910e51764a4a0dc9ed067296743"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f8f8910e51764a4a0dc9ed067296743">&#9670;&#160;</a></span>UpdateCheckerService() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::UpdateCheckerService::UpdateCheckerService </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a> &amp;&#160;</td>
+          <td class="paramname"><em>networkClient</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建可注入测试网络客户端的更新服务。 </p>
+<p>创建更新服务并载入最近一次有效的本地缓存。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">networkClient</td><td>网络客户端，不由本对象管理其生命周期 </td></tr>
+    <tr><td class="paramname">parent</td><td>Qt 对象父级，可为空</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>初始化网络客户端并保持可测试的依赖注入边界。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">networkClient</td><td>网络客户端。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00167">167</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00347">loadCachedRelease()</a>.</p>
+
+</div>
+</div>
+<a id="a88e4f1fa2c696124d117f15aaa3fc504" name="a88e4f1fa2c696124d117f15aaa3fc504"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88e4f1fa2c696124d117f15aaa3fc504">&#9670;&#160;</a></span>~UpdateCheckerService()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::UpdateCheckerService::~UpdateCheckerService </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>销毁更新检查服务。 </p>
+<p>释放正在进行的请求，避免服务销毁后继续回调。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00179">179</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">EasyKiConverter::AsyncNetworkRequest::cancel()</a> , 以及 <a class="el" href="UpdateCheckerService_8h_source.html#l00275">m_activeRequest</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ab008e270b90adc48905f4242da9caf81" name="ab008e270b90adc48905f4242da9caf81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab008e270b90adc48905f4242da9caf81">&#9670;&#160;</a></span>applyRelease()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::applyRelease </td>
+          <td>(</td>
+          <td class="paramtype">const QJsonObject &amp;&#160;</td>
+          <td class="paramname"><em>release</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>fromCache</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>应用远程或缓存的 Release 信息。 </p>
+<p>应用远程或缓存 Release，并同步持久化检查结果。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">release</td><td>Release JSON 对象 </td></tr>
+    <tr><td class="paramname">fromCache</td><td>是否来自本地缓存 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>信息有效并应用成功时返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">release</td><td>发布信息 JSON 对象。 </td></tr>
+    <tr><td class="paramname">fromCache</td><td>是否来自缓存。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 失败原因。</p>
+<p>&lt; 规范化版本号。</p>
+<p>&lt; 配置服务实例。</p>
+<p>&lt; 被忽略的版本号。</p>
+<p>&lt; 已提醒的版本号。</p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">416</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00148">EasyKiConverter::ConfigService::beginBatchUpdate()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00156">EasyKiConverter::ConfigService::endBatchUpdate()</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ad7c8c85bf79bbe1b7188497c32c3b0ca">Failed</a>, <a class="el" href="ConfigService_8cpp_source.html#l00711">EasyKiConverter::ConfigService::getUpdateIgnoredVersion()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00731">EasyKiConverter::ConfigService::getUpdateRemindedVersion()</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ad96143ba1b15645919cea00ec9d1be62">Ignored</a>, <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00376">isRemoteVersionNewer()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00278">m_dismissed</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00277">m_hasUpdate</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a5a2c7e12130334e91b8c5b408c6f9f5f">metadataChanged()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00357">normalizeVersion()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00501">setError()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00463">setStatus()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00760">EasyKiConverter::ConfigService::setUpdateCachedRelease()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00720">EasyKiConverter::ConfigService::setUpdateIgnoredVersion()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00700">EasyKiConverter::ConfigService::setUpdateLastSuccessfulCheckTime()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00740">EasyKiConverter::ConfigService::setUpdateRemindedVersion()</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a4ca50bd5e1da4e7eb295d50a191aa4ec">UpdateAvailable</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a761266b390b3dc960c74d9194512850a">UpToDate</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00387">validateRelease()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00347">loadCachedRelease()</a>.</p>
+
+</div>
+</div>
+<a id="ae3b561c7dc82ad3cddfa639cecee58df" name="ae3b561c7dc82ad3cddfa639cecee58df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3b561c7dc82ad3cddfa639cecee58df">&#9670;&#160;</a></span>applyUpdateInfo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::applyUpdateInfo </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>version</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>asset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新当前 Release 的版本、名称和下载地址。 </p>
+<p>将 Release 元数据映射到公开属性和用户提醒策略。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">latestVersion</td><td>最新版本 </td></tr>
+    <tr><td class="paramname">releaseName</td><td>Release 名称 </td></tr>
+    <tr><td class="paramname">releaseUrl</td><td>Release 页面地址 </td></tr>
+    <tr><td class="paramname">assetUrl</td><td>当前平台资产地址</td></tr>
+    <tr><td class="paramname">version</td><td>版本号。 </td></tr>
+    <tr><td class="paramname">name</td><td>名称。 </td></tr>
+    <tr><td class="paramname">url</td><td>资源 URL。 </td></tr>
+    <tr><td class="paramname">asset</td><td>发布资产 JSON 对象。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 被忽略的版本号。</p>
+<p>&lt; 被提醒的版本号。</p>
+<p>&lt; 旧的更新状态。</p>
+<p>&lt; 旧的最新版本号。</p>
+<p>&lt; 旧的忽略状态。</p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">477</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00190">currentVersion()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00711">EasyKiConverter::ConfigService::getUpdateIgnoredVersion()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00731">EasyKiConverter::ConfigService::getUpdateRemindedVersion()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00376">isRemoteVersionNewer()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00282">m_assetUrl</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00278">m_dismissed</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00277">m_hasUpdate</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00279">m_latestVersion</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00280">m_releaseName</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00281">m_releaseUrl</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a> , 以及 <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7059467cdc2e09e83c9517aec9150296">updateStateChanged()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a>.</p>
+
+</div>
+</div>
+<a id="aaea12ddb6072841168aeb744bc2575c5" name="aaea12ddb6072841168aeb744bc2575c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaea12ddb6072841168aeb744bc2575c5">&#9670;&#160;</a></span>assetUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::assetUrl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回匹配平台的资产地址。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00127">127</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00282">m_assetUrl</a>.</p>
+
+</div>
+</div>
+<a id="ac2685df8fa68574629abb6208a8894d3" name="ac2685df8fa68574629abb6208a8894d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac2685df8fa68574629abb6208a8894d3">&#9670;&#160;</a></span>autoCheckEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::autoCheckEnabled </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回是否启用启动时自动检查。 </p>
+<p>读取启动自动检查开关。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00219">219</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ConfigService_8cpp_source.html#l00631">EasyKiConverter::ConfigService::getUpdateAutoCheck()</a> , 以及 <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00337">setAutoCheckEnabled()</a>.</p>
+
+</div>
+</div>
+<a id="a1807296c7e336369f9f6469b2a5f570c" name="a1807296c7e336369f9f6469b2a5f570c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1807296c7e336369f9f6469b2a5f570c">&#9670;&#160;</a></span>autoCheckEnabledChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::autoCheckEnabledChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>自动检查开关发生变化。 </p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00337">setAutoCheckEnabled()</a>.</p>
+
+</div>
+</div>
+<a id="aeaf5afb6fdf82da768a03c56d1a656ae" name="aeaf5afb6fdf82da768a03c56d1a656ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeaf5afb6fdf82da768a03c56d1a656ae">&#9670;&#160;</a></span>checkForUpdates()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::checkForUpdates </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>force</em> = <code>true</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查更新。 </p>
+<p>按自动检查策略发起一次不会重复并发的 Release 请求。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">force</td><td>为 true 时绕过自动检查间隔</td></tr>
+    <tr><td class="paramname">force</td><td>是否强制执行。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 配置服务实例。</p>
+<p>&lt; 当前 Unix 时间。</p>
+<p>&lt; 更新检查间隔。</p>
+<p>&lt; 错误。</p>
+<p>&lt; JSON 文档。</p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">241</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a195917574edc9b6bbeb5be9785b6a479">Checking</a>, <a class="el" href="INetworkClient_8h_source.html#l00415">EasyKiConverter::NetworkResult::data</a>, <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="INetworkClient_8h_source.html#l00417">EasyKiConverter::NetworkResult::error</a>, <a class="el" href="INetworkClient_8h_source.html#l00309">EasyKiConverter::NetworkDiagnostic::errorType</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ad7c8c85bf79bbe1b7188497c32c3b0ca">Failed</a>, <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">EasyKiConverter::AsyncNetworkRequest::finished()</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa722969577a96ca3953e84e3d949dee81">EasyKiConverter::Forbidden</a>, <a class="el" href="INetworkClient_8h_source.html#l00390">EasyKiConverter::RetryPolicy::fromProfile()</a>, <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a53ff8a0629ae76a03f50c7cd50e8bea7">EasyKiConverter::INetworkClient::getAsync()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00631">EasyKiConverter::ConfigService::getUpdateAutoCheck()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00651">EasyKiConverter::ConfigService::getUpdateCheckIntervalHours()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00671">EasyKiConverter::ConfigService::getUpdateLastCheckTime()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00383">EasyKiConverter::ConfigService::getWeakNetworkSupport()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00347">loadCachedRelease()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00275">m_activeRequest</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00276">m_checking</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00274">m_networkClient</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00284">m_rateLimited</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a5a2c7e12130334e91b8c5b408c6f9f5f">metadataChanged()</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ac9c0fcb2bb86adc799c4b7eb02412379">NotChecked</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa50ef7598e6d8e1f977ea8b4687079cbf">EasyKiConverter::RateLimited</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00452">setChecking()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00501">setError()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00463">setStatus()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00680">EasyKiConverter::ConfigService::setUpdateLastCheckTime()</a>, <a class="el" href="INetworkClient_8h_source.html#l00416">EasyKiConverter::NetworkResult::statusCode</a>, <a class="el" href="INetworkClient_8h_source.html#l00420">EasyKiConverter::NetworkResult::success</a>, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a901f6e403f41bcb20ea9eb2b18485fe0">EasyKiConverter::UpdateCheck</a>, <a class="el" href="INetworkClient_8h_source.html#l00229">EasyKiConverter::RequestProfiles::updateCheck()</a>, <a class="el" href="INetworkClient_8h_source.html#l00421">EasyKiConverter::NetworkResult::wasCancelled</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00321">EasyKiConverter::NetworkDiagnostic::wasRateLimited</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a84a8e559b28b6b56b0abd83e1187770c" name="a84a8e559b28b6b56b0abd83e1187770c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a84a8e559b28b6b56b0abd83e1187770c">&#9670;&#160;</a></span>checking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::checking </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回当前是否正在检查。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00073">73</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00276">m_checking</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00452">setChecking()</a>.</p>
+
+</div>
+</div>
+<a id="a131102ca34b860bfaf3ab29ecf27b41c" name="a131102ca34b860bfaf3ab29ecf27b41c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a131102ca34b860bfaf3ab29ecf27b41c">&#9670;&#160;</a></span>checkingChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::checkingChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>当前检查中状态发生变化。 </p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00452">setChecking()</a>.</p>
+
+</div>
+</div>
+<a id="a29d8e1a910d5e72261a46fe64fe11966" name="a29d8e1a910d5e72261a46fe64fe11966"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29d8e1a910d5e72261a46fe64fe11966">&#9670;&#160;</a></span>currentVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::currentVersion </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回应用当前版本。 </p>
+<p>返回由应用元数据提供并经过规范化的当前版本。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00190">190</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00357">normalizeVersion()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00376">isRemoteVersionNewer()</a>.</p>
+
+</div>
+</div>
+<a id="a146ace1dacb766adeeb7c748c9dd7e92" name="a146ace1dacb766adeeb7c748c9dd7e92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a146ace1dacb766adeeb7c748c9dd7e92">&#9670;&#160;</a></span>dismissed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::dismissed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回当前 Release 是否已被关闭提醒。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00087">87</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00278">m_dismissed</a>.</p>
+
+</div>
+</div>
+<a id="ab1ef373c5b155dbc76458db70243cc5b" name="ab1ef373c5b155dbc76458db70243cc5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1ef373c5b155dbc76458db70243cc5b">&#9670;&#160;</a></span>dismissUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::dismissUpdate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>稍后提醒，重启后仍保持当前版本的提醒状态。 </p>
+<p>持久化当前版本的稍后提醒选择。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00302">302</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ad96143ba1b15645919cea00ec9d1be62">Ignored</a>, <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00278">m_dismissed</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00277">m_hasUpdate</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00279">m_latestVersion</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00463">setStatus()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00740">EasyKiConverter::ConfigService::setUpdateRemindedVersion()</a> , 以及 <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7059467cdc2e09e83c9517aec9150296">updateStateChanged()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00314">ignoreUpdate()</a>.</p>
+
+</div>
+</div>
+<a id="a52caf4a944928777391a1760ba977433" name="a52caf4a944928777391a1760ba977433"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a52caf4a944928777391a1760ba977433">&#9670;&#160;</a></span>error()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::error </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回最近一次检查错误。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00134">134</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00283">m_error</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00501">setError()</a>.</p>
+
+</div>
+</div>
+<a id="a25f078df33b76545d6932bf846bd860d" name="a25f078df33b76545d6932bf846bd860d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a25f078df33b76545d6932bf846bd860d">&#9670;&#160;</a></span>hasUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::hasUpdate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回是否存在高于当前版本的 Release。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00080">80</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00277">m_hasUpdate</a>.</p>
+
+</div>
+</div>
+<a id="a53454493f83cbb3a6c71704c32c7f7cf" name="a53454493f83cbb3a6c71704c32c7f7cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53454493f83cbb3a6c71704c32c7f7cf">&#9670;&#160;</a></span>ignoreUpdate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::ignoreUpdate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>忽略当前 Release，直到出现更高版本。 </p>
+<p>持久化忽略当前版本的选择，并清除稍后提醒标记。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00314">314</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00302">dismissUpdate()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00279">m_latestVersion</a>, <a class="el" href="ConfigService_8cpp_source.html#l00720">EasyKiConverter::ConfigService::setUpdateIgnoredVersion()</a> , 以及 <a class="el" href="ConfigService_8cpp_source.html#l00740">EasyKiConverter::ConfigService::setUpdateRemindedVersion()</a>.</p>
+
+</div>
+</div>
+<a id="a756e8a1b003d32fe98aeb1b2b7caca02" name="a756e8a1b003d32fe98aeb1b2b7caca02"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a756e8a1b003d32fe98aeb1b2b7caca02">&#9670;&#160;</a></span>isRemoteVersionNewer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::isRemoteVersionNewer </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>current</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>latest</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>按 SemVer 规则判断远程版本是否高于当前版本。 </p>
+<p>判断远程版本是否严格高于当前版本。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">currentVersion</td><td>当前版本字符串 </td></tr>
+    <tr><td class="paramname">latestVersion</td><td>远程最新版本字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>远程版本较新时返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">current</td><td>当前版本号。 </td></tr>
+    <tr><td class="paramname">latest</td><td>最新版本号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 当前版本。</p>
+<p>&lt; 最新版本。</p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00376">376</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00190">currentVersion()</a> , 以及 <a class="el" href="UpdateCheckerService_8h_source.html#l00099">latestVersion()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a>.</p>
+
+</div>
+</div>
+<a id="a559876075d129af0827ddda4ebb5e6f2" name="a559876075d129af0827ddda4ebb5e6f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a559876075d129af0827ddda4ebb5e6f2">&#9670;&#160;</a></span>lastCheckTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">qint64 EasyKiConverter::UpdateCheckerService::lastCheckTime </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回最近一次检查时间。 </p>
+<p>读取最近一次检查开始时间。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00226">226</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ConfigService_8cpp_source.html#l00671">EasyKiConverter::ConfigService::getUpdateLastCheckTime()</a> , 以及 <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>.</p>
+
+</div>
+</div>
+<a id="ae4cc57d2b0dd0fc2c486e50f76fb0dab" name="ae4cc57d2b0dd0fc2c486e50f76fb0dab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4cc57d2b0dd0fc2c486e50f76fb0dab">&#9670;&#160;</a></span>lastSuccessfulCheckTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">qint64 EasyKiConverter::UpdateCheckerService::lastSuccessfulCheckTime </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回最近一次成功检查时间。 </p>
+<p>读取最近一次成功检查时间。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00233">233</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ConfigService_8cpp_source.html#l00691">EasyKiConverter::ConfigService::getUpdateLastSuccessfulCheckTime()</a> , 以及 <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>.</p>
+
+</div>
+</div>
+<a id="a83010b3a35e21fd257fa13db7eeb0a88" name="a83010b3a35e21fd257fa13db7eeb0a88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83010b3a35e21fd257fa13db7eeb0a88">&#9670;&#160;</a></span>latestReleasePageUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::latestReleasePageUrl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回官方最新 Release 页面地址，供检查失败时人工访问。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00120">120</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a38d025c5a7b9ac00312011df25ccf964" name="a38d025c5a7b9ac00312011df25ccf964"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38d025c5a7b9ac00312011df25ccf964">&#9670;&#160;</a></span>latestVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::latestVersion </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回最新 Release 版本。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00099">99</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00279">m_latestVersion</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00376">isRemoteVersionNewer()</a>.</p>
+
+</div>
+</div>
+<a id="a3a824c3d1dac48442a58df01c64dd362" name="a3a824c3d1dac48442a58df01c64dd362"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a824c3d1dac48442a58df01c64dd362">&#9670;&#160;</a></span>loadCachedRelease()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::loadCachedRelease </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>手动读取最近一次缓存的 Release 信息。 </p>
+<p>从 <a class="el" href="classEasyKiConverter_1_1ConfigService.html" title="配置服务">ConfigService</a> 读取并应用最近一次有效 Release 缓存。 </p>
+<p>&lt; 缓存的发布信息。</p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00347">347</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00751">EasyKiConverter::ConfigService::getUpdateCachedRelease()</a> , 以及 <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00167">UpdateCheckerService()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00155">UpdateCheckerService()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a>.</p>
+
+</div>
+</div>
+<a id="a5a2c7e12130334e91b8c5b408c6f9f5f" name="a5a2c7e12130334e91b8c5b408c6f9f5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a2c7e12130334e91b8c5b408c6f9f5f">&#9670;&#160;</a></span>metadataChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::metadataChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>更新检查时间等元数据发生变化。 </p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a>.</p>
+
+</div>
+</div>
+<a id="ad10e8ff408578b4b646ca27891d5ec50" name="ad10e8ff408578b4b646ca27891d5ec50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad10e8ff408578b4b646ca27891d5ec50">&#9670;&#160;</a></span>normalizeVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::normalizeVersion </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>version</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>规范化并校验 SemVer 字符串。 </p>
+<p>将带 v 前缀的版本规范化为统一的 SemVer 表示。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">version</td><td>待规范化的版本字符串 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>规范化版本字符串，无效时为空</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">version</td><td>版本号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 解析后的版本。</p>
+<p>&lt; 构建元数据起始位置。</p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00357">357</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00190">currentVersion()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00387">validateRelease()</a>.</p>
+
+</div>
+</div>
+<a id="a42c3b12a11a8f4f47e6ba438027b48dc" name="a42c3b12a11a8f4f47e6ba438027b48dc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a42c3b12a11a8f4f47e6ba438027b48dc">&#9670;&#160;</a></span>rateLimited()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::rateLimited </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回最近一次检查是否被 GitHub 访问限制。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00141">141</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00284">m_rateLimited</a>.</p>
+
+</div>
+</div>
+<a id="ad0656d8f884a9170945aa794596d2905" name="ad0656d8f884a9170945aa794596d2905"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0656d8f884a9170945aa794596d2905">&#9670;&#160;</a></span>releaseName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::releaseName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回最新 Release 名称。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00106">106</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00280">m_releaseName</a>.</p>
+
+</div>
+</div>
+<a id="a0dd98977fc085a1ab6f09200fdc68b92" name="a0dd98977fc085a1ab6f09200fdc68b92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dd98977fc085a1ab6f09200fdc68b92">&#9670;&#160;</a></span>releaseUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::releaseUrl </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回 Release 页面地址。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00113">113</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00281">m_releaseUrl</a>.</p>
+
+</div>
+</div>
+<a id="a6674ae5f60b9c0196cb95d948eb2ac61" name="a6674ae5f60b9c0196cb95d948eb2ac61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6674ae5f60b9c0196cb95d948eb2ac61">&#9670;&#160;</a></span>resetDismissed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::resetDismissed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>清除当前内存中的关闭状态。 </p>
+<p>清除当前运行实例中的提示关闭状态。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00325">325</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00278">m_dismissed</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00277">m_hasUpdate</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00463">setStatus()</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a4ca50bd5e1da4e7eb295d50a191aa4ec">UpdateAvailable</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7059467cdc2e09e83c9517aec9150296">updateStateChanged()</a> , 以及 <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a761266b390b3dc960c74d9194512850a">UpToDate</a>.</p>
+
+</div>
+</div>
+<a id="ab9bf7870934af7beb3013e8be58a1f7a" name="ab9bf7870934af7beb3013e8be58a1f7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9bf7870934af7beb3013e8be58a1f7a">&#9670;&#160;</a></span>setAutoCheckEnabled()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::setAutoCheckEnabled </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>enabled</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置是否启用启动时自动检查。 </p>
+<p>保存启动自动检查开关并通知界面。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">enabled</td><td>是否启用自动检查</td></tr>
+    <tr><td class="paramname">enabled</td><td>是否启用。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00337">337</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00219">autoCheckEnabled()</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a1807296c7e336369f9f6469b2a5f570c">autoCheckEnabledChanged()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a> , 以及 <a class="el" href="ConfigService_8cpp_source.html#l00640">EasyKiConverter::ConfigService::setUpdateAutoCheck()</a>.</p>
+
+</div>
+</div>
+<a id="a026de86ac9cdfa88c1bf2ba49020fe7d" name="a026de86ac9cdfa88c1bf2ba49020fe7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a026de86ac9cdfa88c1bf2ba49020fe7d">&#9670;&#160;</a></span>setChecking()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::setChecking </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>checking</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新正在检查状态并通知 QML。 </p>
+<p>更新检查中标志并发出对应通知。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">checking</td><td>是否正在检查</td></tr>
+    <tr><td class="paramname">checking</td><td>是否正在检查。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00452">452</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00073">checking()</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a131102ca34b860bfaf3ab29ecf27b41c">checkingChanged()</a> , 以及 <a class="el" href="UpdateCheckerService_8h_source.html#l00276">m_checking</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a>.</p>
+
+</div>
+</div>
+<a id="a1e93e0c5056541ec7e2a89b644addebf" name="a1e93e0c5056541ec7e2a89b644addebf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e93e0c5056541ec7e2a89b644addebf">&#9670;&#160;</a></span>setError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::setError </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>error</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保存错误信息并切换到失败状态。 </p>
+<p>保存诊断信息并触发状态刷新。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">error</td><td>可读错误信息</td></tr>
+    <tr><td class="paramname">error</td><td>错误信息。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00501">501</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00134">error()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00283">m_error</a> , 以及 <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7059467cdc2e09e83c9517aec9150296">updateStateChanged()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a>.</p>
+
+</div>
+</div>
+<a id="a1efcc7e0d9472425a46aca9b451eceb3" name="a1efcc7e0d9472425a46aca9b451eceb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1efcc7e0d9472425a46aca9b451eceb3">&#9670;&#160;</a></span>setStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::setStatus </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">Status</a>&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新内部检查状态并发出状态信号。 </p>
+<p>更新状态枚举并通知 QML。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>新的检查状态</td></tr>
+    <tr><td class="paramname">status</td><td>状态值。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00463">463</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00285">m_status</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00148">status()</a> , 以及 <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#ace311ab0128cd64605a00b35d96f2c6e">statusChanged()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00302">dismissUpdate()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00325">resetDismissed()</a>.</p>
+
+</div>
+</div>
+<a id="a5f119ba01491cb8516c771950186f0af" name="a5f119ba01491cb8516c771950186f0af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f119ba01491cb8516c771950186f0af">&#9670;&#160;</a></span>status()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">Status</a> EasyKiConverter::UpdateCheckerService::status </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回当前检查状态。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00148">148</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="UpdateCheckerService_8h_source.html#l00285">m_status</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00463">setStatus()</a>.</p>
+
+</div>
+</div>
+<a id="ace311ab0128cd64605a00b35d96f2c6e" name="ace311ab0128cd64605a00b35d96f2c6e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace311ab0128cd64605a00b35d96f2c6e">&#9670;&#160;</a></span>statusChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::statusChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>更新检查状态枚举发生变化。 </p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00463">setStatus()</a>.</p>
+
+</div>
+</div>
+<a id="ac5c5350529c6b1b927585f1674da5fe5" name="ac5c5350529c6b1b927585f1674da5fe5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac5c5350529c6b1b927585f1674da5fe5">&#9670;&#160;</a></span>statusText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::statusText </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回供 QML 使用的状态键。 </p>
+<p>返回供 QML 稳定判断的状态键。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00197">197</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a195917574edc9b6bbeb5be9785b6a479">Checking</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ad7c8c85bf79bbe1b7188497c32c3b0ca">Failed</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ad96143ba1b15645919cea00ec9d1be62">Ignored</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00285">m_status</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ac9c0fcb2bb86adc799c4b7eb02412379">NotChecked</a>, <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a4ca50bd5e1da4e7eb295d50a191aa4ec">UpdateAvailable</a> , 以及 <a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5a761266b390b3dc960c74d9194512850a">UpToDate</a>.</p>
+
+</div>
+</div>
+<a id="a7059467cdc2e09e83c9517aec9150296" name="a7059467cdc2e09e83c9517aec9150296"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7059467cdc2e09e83c9517aec9150296">&#9670;&#160;</a></span>updateStateChanged()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::UpdateCheckerService::updateStateChanged </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>更新结果或提醒状态发生变化。 </p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00302">dismissUpdate()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00325">resetDismissed()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00501">setError()</a>.</p>
+
+</div>
+</div>
+<a id="abc7f9be677b5b6e131e3fda69d60a870" name="abc7f9be677b5b6e131e3fda69d60a870"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc7f9be677b5b6e131e3fda69d60a870">&#9670;&#160;</a></span>validateRelease()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::validateRelease </td>
+          <td>(</td>
+          <td class="paramtype">const QJsonObject &amp;&#160;</td>
+          <td class="paramname"><em>release</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>reason</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>校验 Release JSON 是否包含可用信息。 </p>
+<p>校验 GitHub Release 的稳定性、版本和下载元数据。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">release</td><td>Release JSON 对象 </td></tr>
+    <tr><td class="paramname">reason</td><td>输出失败原因，可为空 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>校验通过时返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">release</td><td>发布信息 JSON 对象。 </td></tr>
+    <tr><td class="paramname">reason</td><td>失败原因。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 发布标签。</p>
+<p>&lt; 名称。</p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a> 第 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00387">387</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00357">normalizeVersion()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="aa908838b8540ad06387902f22a05286a" name="aa908838b8540ad06387902f22a05286a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa908838b8540ad06387902f22a05286a">&#9670;&#160;</a></span>m_activeRequest</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>* EasyKiConverter::UpdateCheckerService::m_activeRequest {nullptr}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前活动的异步更新请求。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00275">275</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00179">~UpdateCheckerService()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a>.</p>
+
+</div>
+</div>
+<a id="af81dabee24144cf87839e9beec191aab" name="af81dabee24144cf87839e9beec191aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af81dabee24144cf87839e9beec191aab">&#9670;&#160;</a></span>m_assetUrl</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::m_assetUrl</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前平台对应的下载资产地址。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00282">282</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a> , 以及 <a class="el" href="UpdateCheckerService_8h_source.html#l00127">assetUrl()</a>.</p>
+
+</div>
+</div>
+<a id="ad7e1c0111df8dd645b419a4836c50f53" name="ad7e1c0111df8dd645b419a4836c50f53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7e1c0111df8dd645b419a4836c50f53">&#9670;&#160;</a></span>m_checking</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::m_checking {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否正在执行更新检查。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00276">276</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00073">checking()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00452">setChecking()</a>.</p>
+
+</div>
+</div>
+<a id="acbddf4a26cc7285cee0def9567da61f8" name="acbddf4a26cc7285cee0def9567da61f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbddf4a26cc7285cee0def9567da61f8">&#9670;&#160;</a></span>m_dismissed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::m_dismissed {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>用户是否已关闭当前更新提醒。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00278">278</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00087">dismissed()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00302">dismissUpdate()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00325">resetDismissed()</a>.</p>
+
+</div>
+</div>
+<a id="aee798aa70d5d71ecdfe9829b229d1f3e" name="aee798aa70d5d71ecdfe9829b229d1f3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee798aa70d5d71ecdfe9829b229d1f3e">&#9670;&#160;</a></span>m_error</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::m_error</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次更新检查错误信息。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00283">283</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8h_source.html#l00134">error()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00501">setError()</a>.</p>
+
+</div>
+</div>
+<a id="a1ead55e557edcd913cf4439326d6dc28" name="a1ead55e557edcd913cf4439326d6dc28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ead55e557edcd913cf4439326d6dc28">&#9670;&#160;</a></span>m_hasUpdate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::m_hasUpdate {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否检测到可用更新。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00277">277</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00416">applyRelease()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00302">dismissUpdate()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00080">hasUpdate()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00325">resetDismissed()</a>.</p>
+
+</div>
+</div>
+<a id="a0d40211e05f4ad898f931dbdd3d56fdb" name="a0d40211e05f4ad898f931dbdd3d56fdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d40211e05f4ad898f931dbdd3d56fdb">&#9670;&#160;</a></span>m_latestVersion</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::m_latestVersion</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次获取到的远程版本。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00279">279</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00302">dismissUpdate()</a>, <a class="el" href="UpdateCheckerService_8cpp_source.html#l00314">ignoreUpdate()</a> , 以及 <a class="el" href="UpdateCheckerService_8h_source.html#l00099">latestVersion()</a>.</p>
+
+</div>
+</div>
+<a id="ace04fcdfe096207887d79ddb5ad1b49c" name="ace04fcdfe096207887d79ddb5ad1b49c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace04fcdfe096207887d79ddb5ad1b49c">&#9670;&#160;</a></span>m_networkClient</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a>* EasyKiConverter::UpdateCheckerService::m_networkClient {nullptr}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>注入的网络客户端，不由本对象管理其生命周期。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00274">274</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a>.</p>
+
+</div>
+</div>
+<a id="a786f735b68aa1ad153f8bcb94416015f" name="a786f735b68aa1ad153f8bcb94416015f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a786f735b68aa1ad153f8bcb94416015f">&#9670;&#160;</a></span>m_rateLimited</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::UpdateCheckerService::m_rateLimited {false}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次请求是否受到 GitHub 访问限制。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00284">284</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00241">checkForUpdates()</a> , 以及 <a class="el" href="UpdateCheckerService_8h_source.html#l00141">rateLimited()</a>.</p>
+
+</div>
+</div>
+<a id="a1116dac3070204d3bd19428fecf6d563" name="a1116dac3070204d3bd19428fecf6d563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1116dac3070204d3bd19428fecf6d563">&#9670;&#160;</a></span>m_releaseName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::m_releaseName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次获取到的 Release 名称。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00280">280</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a> , 以及 <a class="el" href="UpdateCheckerService_8h_source.html#l00106">releaseName()</a>.</p>
+
+</div>
+</div>
+<a id="aebe6d7ef339a0398f8f1cbacb0f7dd71" name="aebe6d7ef339a0398f8f1cbacb0f7dd71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aebe6d7ef339a0398f8f1cbacb0f7dd71">&#9670;&#160;</a></span>m_releaseUrl</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::UpdateCheckerService::m_releaseUrl</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次获取到的 Release 页面地址。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00281">281</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00477">applyUpdateInfo()</a> , 以及 <a class="el" href="UpdateCheckerService_8h_source.html#l00113">releaseUrl()</a>.</p>
+
+</div>
+</div>
+<a id="aa2b29c6a41d47e2da9640fbf854801d1" name="aa2b29c6a41d47e2da9640fbf854801d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa2b29c6a41d47e2da9640fbf854801d1">&#9670;&#160;</a></span>m_status</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5">Status</a> EasyKiConverter::UpdateCheckerService::m_status {<a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html#a7d4899d77d2b4420edbc3872ac9bdcf5ac9c0fcb2bb86adc799c4b7eb02412379">Status::NotChecked</a>}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前更新检查状态。 </p>
+
+<p class="definition">在文件 <a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a> 第 <a class="el" href="UpdateCheckerService_8h_source.html#l00285">285</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00463">setStatus()</a>, <a class="el" href="UpdateCheckerService_8h_source.html#l00148">status()</a> , 以及 <a class="el" href="UpdateCheckerService_8cpp_source.html#l00197">statusText()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>services/<a class="el" href="UpdateCheckerService_8h_source.html">UpdateCheckerService.h</a></li>
+<li>services/<a class="el" href="UpdateCheckerService_8cpp_source.html">UpdateCheckerService.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1UpdateCheckerService.html">UpdateCheckerService</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

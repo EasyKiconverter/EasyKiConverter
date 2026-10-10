@@ -1,0 +1,1095 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::FetchWorker类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1FetchWorker.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-static-methods">静态 Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="#pri-static-attribs">静态 Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1FetchWorker-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::FetchWorker类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>抓取工作线程  
+ <a href="classEasyKiConverter_1_1FetchWorker.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::FetchWorker 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1FetchWorker__inherit__graph.svg" width="258" height="783"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::FetchWorker 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1FetchWorker__coll__graph.svg" width="890" height="2004"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a7ac54dce204b5c5d742bb180f657316d" id="r_a7ac54dce204b5c5d742bb180f657316d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a7ac54dce204b5c5d742bb180f657316d">FetchWorker</a> (const QString &amp;componentId, bool need3DModel, bool fetch3DOnly=false, const QString &amp;existing3DUuid=QString(), <a class="el" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a> *networkClient=nullptr, QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a7ac54dce204b5c5d742bb180f657316d"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a7ac54dce204b5c5d742bb180f657316d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2b981364de1afa1bb66a52285a60b74" id="r_af2b981364de1afa1bb66a52285a60b74"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#af2b981364de1afa1bb66a52285a60b74">~FetchWorker</a> () override</td></tr>
+<tr class="memdesc:af2b981364de1afa1bb66a52285a60b74"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:af2b981364de1afa1bb66a52285a60b74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f24232d2847626de24cd56333032bef" id="r_a9f24232d2847626de24cd56333032bef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a9f24232d2847626de24cd56333032bef">run</a> () override</td></tr>
+<tr class="memdesc:a9f24232d2847626de24cd56333032bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行抓取任务  <br /></td></tr>
+<tr class="separator:a9f24232d2847626de24cd56333032bef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab758553df031e8206cb2064174f10d9a" id="r_ab758553df031e8206cb2064174f10d9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#ab758553df031e8206cb2064174f10d9a">abort</a> ()</td></tr>
+<tr class="memdesc:ab758553df031e8206cb2064174f10d9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">中断当前正在执行的网络请求  <br /></td></tr>
+<tr class="separator:ab758553df031e8206cb2064174f10d9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc6b6e328401b887da6659e88c7c0e96" id="r_acc6b6e328401b887da6659e88c7c0e96"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#acc6b6e328401b887da6659e88c7c0e96">fetchCompleted</a> (QSharedPointer&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus.html">ComponentExportStatus</a> &gt; status)</td></tr>
+<tr class="memdesc:acc6b6e328401b887da6659e88c7c0e96"><td class="mdescLeft">&#160;</td><td class="mdescRight">抓取完成信号  <br /></td></tr>
+<tr class="separator:acc6b6e328401b887da6659e88c7c0e96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classEasyKiConverter_1_1BaseWorker"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classEasyKiConverter_1_1BaseWorker')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1BaseWorker.html">EasyKiConverter::BaseWorker</a></td></tr>
+<tr class="memitem:a57c1bad6bcc68f2ae91217d338d9134b inherit pub_methods_classEasyKiConverter_1_1BaseWorker" id="r_a57c1bad6bcc68f2ae91217d338d9134b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BaseWorker.html#a57c1bad6bcc68f2ae91217d338d9134b">~BaseWorker</a> () override=default</td></tr>
+<tr class="separator:a57c1bad6bcc68f2ae91217d338d9134b inherit pub_methods_classEasyKiConverter_1_1BaseWorker"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a1db2b719e2c86d416ebc268c91155565" id="r_a1db2b719e2c86d416ebc268c91155565"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a1db2b719e2c86d416ebc268c91155565">httpGet</a> (const QString &amp;url, int timeoutMs=30000, QSharedPointer&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus.html">ComponentExportStatus</a> &gt; status=nullptr, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType=<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66aa37cd108964334a29fba352c3fb4cc2e">ResourceType::WorkerRequest</a>)</td></tr>
+<tr class="memdesc:a1db2b719e2c86d416ebc268c91155565"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行HTTP GET请求  <br /></td></tr>
+<tr class="separator:a1db2b719e2c86d416ebc268c91155565"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a605451e6eb6dcc0f104d41df9be17935" id="r_a605451e6eb6dcc0f104d41df9be17935"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a605451e6eb6dcc0f104d41df9be17935">decompressZip</a> (const QByteArray &amp;zipData)</td></tr>
+<tr class="memdesc:a605451e6eb6dcc0f104d41df9be17935"><td class="mdescLeft">&#160;</td><td class="mdescRight">解压ZIP数据  <br /></td></tr>
+<tr class="separator:a605451e6eb6dcc0f104d41df9be17935"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91e6fe73f5849cb92e2960fe67e51840" id="r_a91e6fe73f5849cb92e2960fe67e51840"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a91e6fe73f5849cb92e2960fe67e51840">fetch3DModelData</a> (QSharedPointer&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus.html">ComponentExportStatus</a> &gt; status)</td></tr>
+<tr class="memdesc:a91e6fe73f5849cb92e2960fe67e51840"><td class="mdescLeft">&#160;</td><td class="mdescRight">下载3D模型数据  <br /></td></tr>
+<tr class="separator:a91e6fe73f5849cb92e2960fe67e51840"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+静态 Private 成员函数</h2></td></tr>
+<tr class="memitem:a6e390a48235200017fb2994e24259aa8" id="r_a6e390a48235200017fb2994e24259aa8"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a6e390a48235200017fb2994e24259aa8">calculateRetryDelay</a> (int retryCount)</td></tr>
+<tr class="memdesc:a6e390a48235200017fb2994e24259aa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">计算重试延迟（含随机抖动）  <br /></td></tr>
+<tr class="separator:a6e390a48235200017fb2994e24259aa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa07ba72e2c80a3b1e0a04a2740ab7320" id="r_aa07ba72e2c80a3b1e0a04a2740ab7320"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#aa07ba72e2c80a3b1e0a04a2740ab7320">m_componentId</a></td></tr>
+<tr class="memdesc:aa07ba72e2c80a3b1e0a04a2740ab7320"><td class="mdescLeft">&#160;</td><td class="mdescRight">标识符。  <br /></td></tr>
+<tr class="separator:aa07ba72e2c80a3b1e0a04a2740ab7320"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17e4df541d23706623b589c15fd15753" id="r_a17e4df541d23706623b589c15fd15753"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a17e4df541d23706623b589c15fd15753">m_need3DModel</a></td></tr>
+<tr class="memdesc:a17e4df541d23706623b589c15fd15753"><td class="mdescLeft">&#160;</td><td class="mdescRight">模型。  <br /></td></tr>
+<tr class="separator:a17e4df541d23706623b589c15fd15753"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeaa80bd5a9b635b831c9937f1db8b73" id="r_aaeaa80bd5a9b635b831c9937f1db8b73"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#aaeaa80bd5a9b635b831c9937f1db8b73">m_fetch3DOnly</a></td></tr>
+<tr class="separator:aaeaa80bd5a9b635b831c9937f1db8b73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a925f497a797225c8c3038a3d7b6dfaea" id="r_a925f497a797225c8c3038a3d7b6dfaea"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a925f497a797225c8c3038a3d7b6dfaea">m_existing3DUuid</a></td></tr>
+<tr class="separator:a925f497a797225c8c3038a3d7b6dfaea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dafe5f7f1d85c21d5684cdf8f4e0ad8" id="r_a1dafe5f7f1d85c21d5684cdf8f4e0ad8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a1dafe5f7f1d85c21d5684cdf8f4e0ad8">m_networkClient</a></td></tr>
+<tr class="memdesc:a1dafe5f7f1d85c21d5684cdf8f4e0ad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">网络客户端。  <br /></td></tr>
+<tr class="separator:a1dafe5f7f1d85c21d5684cdf8f4e0ad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82098e4a2b611f022ca116076a3fe982" id="r_a82098e4a2b611f022ca116076a3fe982"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a82098e4a2b611f022ca116076a3fe982">m_currentRequest</a></td></tr>
+<tr class="memdesc:a82098e4a2b611f022ca116076a3fe982"><td class="mdescLeft">&#160;</td><td class="mdescRight">请求。  <br /></td></tr>
+<tr class="separator:a82098e4a2b611f022ca116076a3fe982"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4374cff69fb67c4b76731519a27d525b" id="r_a4374cff69fb67c4b76731519a27d525b"><td class="memItemLeft" align="right" valign="top">QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a4374cff69fb67c4b76731519a27d525b">m_replyMutex</a></td></tr>
+<tr class="memdesc:a4374cff69fb67c4b76731519a27d525b"><td class="mdescLeft">&#160;</td><td class="mdescRight">网络响应互斥量。  <br /></td></tr>
+<tr class="separator:a4374cff69fb67c4b76731519a27d525b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafd8a2aca3b57b184b4503e0bc571ec8" id="r_aafd8a2aca3b57b184b4503e0bc571ec8"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#aafd8a2aca3b57b184b4503e0bc571ec8">m_isAborted</a></td></tr>
+<tr class="memdesc:aafd8a2aca3b57b184b4503e0bc571ec8"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已中止。  <br /></td></tr>
+<tr class="separator:aafd8a2aca3b57b184b4503e0bc571ec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+静态 Private 属性</h2></td></tr>
+<tr class="memitem:a94c623a361e455091d0a862d248c5fea" id="r_a94c623a361e455091d0a862d248c5fea"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a94c623a361e455091d0a862d248c5fea">COMPONENT_INFO_TIMEOUT_MS</a> = 15000</td></tr>
+<tr class="memdesc:a94c623a361e455091d0a862d248c5fea"><td class="mdescLeft">&#160;</td><td class="mdescRight">组件信息超时时间（毫秒）。  <br /></td></tr>
+<tr class="separator:a94c623a361e455091d0a862d248c5fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f473d41e955e2530acadfc439f8f7a6" id="r_a9f473d41e955e2530acadfc439f8f7a6"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a9f473d41e955e2530acadfc439f8f7a6">MODEL_3D_TIMEOUT_MS</a> = 30000</td></tr>
+<tr class="memdesc:a9f473d41e955e2530acadfc439f8f7a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">三维模型请求超时时间（毫秒）。  <br /></td></tr>
+<tr class="separator:a9f473d41e955e2530acadfc439f8f7a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e34e115f7906a08d8b6ac7852f2ed40" id="r_a3e34e115f7906a08d8b6ac7852f2ed40"><td class="memItemLeft" align="right" valign="top">static const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a3e34e115f7906a08d8b6ac7852f2ed40">MAX_HTTP_RETRIES</a> = 3</td></tr>
+<tr class="memdesc:a3e34e115f7906a08d8b6ac7852f2ed40"><td class="mdescLeft">&#160;</td><td class="mdescRight">HTTP 请求最大重试次数。  <br /></td></tr>
+<tr class="separator:a3e34e115f7906a08d8b6ac7852f2ed40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a173f34b321894fc15ae903db32597a" id="r_a9a173f34b321894fc15ae903db32597a"><td class="memItemLeft" align="right" valign="top">static constexpr int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a9a173f34b321894fc15ae903db32597a">RETRY_DELAYS_MS</a> [] = {3000, 5000, 10000}</td></tr>
+<tr class="memdesc:a9a173f34b321894fc15ae903db32597a"><td class="mdescLeft">&#160;</td><td class="mdescRight">各次重试的等待时间（毫秒）。  <br /></td></tr>
+<tr class="separator:a9a173f34b321894fc15ae903db32597a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae07786ed90acf678796e711d93620476" id="r_ae07786ed90acf678796e711d93620476"><td class="memItemLeft" align="right" valign="top">static QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#ae07786ed90acf678796e711d93620476">s_activeRequests</a> = 0</td></tr>
+<tr class="separator:ae07786ed90acf678796e711d93620476"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add09b9b98681aa0c7708ae197bc7586c" id="r_add09b9b98681aa0c7708ae197bc7586c"><td class="memItemLeft" align="right" valign="top">static QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#add09b9b98681aa0c7708ae197bc7586c">s_rateLimitMutex</a></td></tr>
+<tr class="separator:add09b9b98681aa0c7708ae197bc7586c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b4d7cb9c7e258e7c1f94cbdbef7cebd" id="r_a1b4d7cb9c7e258e7c1f94cbdbef7cebd"><td class="memItemLeft" align="right" valign="top">static QDateTime&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a1b4d7cb9c7e258e7c1f94cbdbef7cebd">s_lastRateLimitTime</a></td></tr>
+<tr class="separator:a1b4d7cb9c7e258e7c1f94cbdbef7cebd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6be91708f476bb3a32257f20536e2f77" id="r_a6be91708f476bb3a32257f20536e2f77"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html#a6be91708f476bb3a32257f20536e2f77">s_backoffMs</a> = 0</td></tr>
+<tr class="separator:a6be91708f476bb3a32257f20536e2f77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pro_methods_classEasyKiConverter_1_1BaseWorker"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classEasyKiConverter_1_1BaseWorker')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1BaseWorker.html">EasyKiConverter::BaseWorker</a></td></tr>
+<tr class="memitem:ad2010b21663018340df07e2cbd26f342 inherit pro_methods_classEasyKiConverter_1_1BaseWorker" id="r_ad2010b21663018340df07e2cbd26f342"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BaseWorker.html#ad2010b21663018340df07e2cbd26f342">BaseWorker</a> ()</td></tr>
+<tr class="separator:ad2010b21663018340df07e2cbd26f342 inherit pro_methods_classEasyKiConverter_1_1BaseWorker"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>抓取工作线程 </p>
+<p>负责从网络下载原始数据（I/O密集型任务） </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00021">21</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a7ac54dce204b5c5d742bb180f657316d" name="a7ac54dce204b5c5d742bb180f657316d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ac54dce204b5c5d742bb180f657316d">&#9670;&#160;</a></span>FetchWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::FetchWorker::FetchWorker </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>need3DModel</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>fetch3DOnly</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>existing3DUuid</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a> *&#160;</td>
+          <td class="paramname"><em>networkClient</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<p>初始化元器件获取任务及其可选的网络客户端。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元件ID </td></tr>
+    <tr><td class="paramname">networkAccessManager</td><td>共享的网络访问管理器 </td></tr>
+    <tr><td class="paramname">need3DModel</td><td>是否需要3D模型 </td></tr>
+    <tr><td class="paramname">fetch3DOnly</td><td>是否只获取3D模型（复用已有的符号/封装数据） </td></tr>
+    <tr><td class="paramname">existing3DUuid</td><td>已有的3D模型UUID（如果非空，直接下载3D模型，无需获取CAD数据） </td></tr>
+    <tr><td class="paramname">networkClient</td><td>可选网络客户端（测试注入；生产默认使用 <a class="el" href="classEasyKiConverter_1_1NetworkClient.html" title="单例网络客户端，统一管理重试/退避行为">NetworkClient</a> 单例） </td></tr>
+    <tr><td class="paramname">parent</td><td>父对象</td></tr>
+    <tr><td class="paramname">componentId</td><td>元器件编号。 </td></tr>
+    <tr><td class="paramname">need3DModel</td><td>是否需要获取三维模型。 </td></tr>
+    <tr><td class="paramname">fetch3DOnly</td><td>是否仅获取三维模型。 </td></tr>
+    <tr><td class="paramname">existing3DUuid</td><td>已知的三维模型标识。 </td></tr>
+    <tr><td class="paramname">networkClient</td><td>可选的网络客户端。 </td></tr>
+    <tr><td class="paramname">parent</td><td>父对象。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8cpp_source.html">FetchWorker.cpp</a> 第 <a class="el" href="FetchWorker_8cpp_source.html#l00040">40</a> 行定义.</p>
+
+</div>
+</div>
+<a id="af2b981364de1afa1bb66a52285a60b74" name="af2b981364de1afa1bb66a52285a60b74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2b981364de1afa1bb66a52285a60b74">&#9670;&#160;</a></span>~FetchWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::FetchWorker::~FetchWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ab758553df031e8206cb2064174f10d9a" name="ab758553df031e8206cb2064174f10d9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab758553df031e8206cb2064174f10d9a">&#9670;&#160;</a></span>abort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FetchWorker::abort </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>中断当前正在执行的网络请求 </p>
+<p>终止当前任务并取消尚未完成的网络请求。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8cpp_source.html">FetchWorker.cpp</a> 第 <a class="el" href="FetchWorker_8cpp_source.html#l00594">594</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">EasyKiConverter::AsyncNetworkRequest::cancel()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">EasyKiConverter::AsyncNetworkRequest::isFinished()</a>, <a class="el" href="FetchWorker_8h_source.html#l00100">m_componentId</a>, <a class="el" href="FetchWorker_8h_source.html#l00106">m_currentRequest</a>, <a class="el" href="FetchWorker_8h_source.html#l00108">m_isAborted</a> , 以及 <a class="el" href="FetchWorker_8h_source.html#l00107">m_replyMutex</a>.</p>
+
+</div>
+</div>
+<a id="a6e390a48235200017fb2994e24259aa8" name="a6e390a48235200017fb2994e24259aa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e390a48235200017fb2994e24259aa8">&#9670;&#160;</a></span>calculateRetryDelay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::FetchWorker::calculateRetryDelay </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>retryCount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>计算重试延迟（含随机抖动） </p>
+<p>根据重试次数计算带抖动的等待时间。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">retryCount</td><td>当前重试次数（0-based） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>int 延迟时间（毫秒）</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">retryCount</td><td>当前重试次数。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>包含随机抖动且不低于最小值的等待毫秒数。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8cpp_source.html">FetchWorker.cpp</a> 第 <a class="el" href="FetchWorker_8cpp_source.html#l00610">610</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FetchWorker_8h_source.html#l00116">RETRY_DELAYS_MS</a>.</p>
+
+</div>
+</div>
+<a id="a605451e6eb6dcc0f104d41df9be17935" name="a605451e6eb6dcc0f104d41df9be17935"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a605451e6eb6dcc0f104d41df9be17935">&#9670;&#160;</a></span>decompressZip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::FetchWorker::decompressZip </td>
+          <td>(</td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>zipData</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解压ZIP数据 </p>
+<p>解压获取到的 ZIP 模型数据并合并其中的内容。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">zipData</td><td>ZIP数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QByteArray 解压后的数据</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">zipData</td><td>ZIP 压缩数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>合并后的模型数据；输入无效或没有可解压条目时返回空数组。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8cpp_source.html">FetchWorker.cpp</a> 第 <a class="el" href="FetchWorker_8cpp_source.html#l00382">382</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="GzipUtils_8h_source.html#l00019">GzipUtils::DecompressResult::data</a>, <a class="el" href="GzipUtils_8cpp_source.html#l00034">GzipUtils::decompress()</a> , 以及 <a class="el" href="GzipUtils_8h_source.html#l00020">GzipUtils::DecompressResult::success</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00440">fetch3DModelData()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a91e6fe73f5849cb92e2960fe67e51840" name="a91e6fe73f5849cb92e2960fe67e51840"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91e6fe73f5849cb92e2960fe67e51840">&#9670;&#160;</a></span>fetch3DModelData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FetchWorker::fetch3DModelData </td>
+          <td>(</td>
+          <td class="paramtype">QSharedPointer&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus.html">ComponentExportStatus</a> &gt;&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>下载3D模型数据 </p>
+<p>从 CAD JSON 中提取三维模型标识并获取模型文件。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>导出状态 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>保存 CAD 数据、模型文件和诊断信息的状态对象。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>成功获取 OBJ 模型数据时返回 true，否则返回 false。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8cpp_source.html">FetchWorker.cpp</a> 第 <a class="el" href="FetchWorker_8cpp_source.html#l00440">440</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="GzipUtils_8h_source.html#l00019">GzipUtils::DecompressResult::data</a>, <a class="el" href="GzipUtils_8cpp_source.html#l00034">GzipUtils::decompress()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00382">decompressZip()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a>, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66aeb7c4837534dea52180df643b80639a2">EasyKiConverter::Model3DObj</a>, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66abbf924e0f35a900830a316e10a224090">EasyKiConverter::Model3DStep</a>, <a class="el" href="FetchWorker_8h_source.html#l00112">MODEL_3D_TIMEOUT_MS</a> , 以及 <a class="el" href="GzipUtils_8h_source.html#l00020">GzipUtils::DecompressResult::success</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="acc6b6e328401b887da6659e88c7c0e96" name="acc6b6e328401b887da6659e88c7c0e96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc6b6e328401b887da6659e88c7c0e96">&#9670;&#160;</a></span>fetchCompleted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FetchWorker::fetchCompleted </td>
+          <td>(</td>
+          <td class="paramtype">QSharedPointer&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus.html">ComponentExportStatus</a> &gt;&#160;</td>
+          <td class="paramname"><em>status</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>抓取完成信号 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">status</td><td>导出状态（使用 QSharedPointer 避免拷贝） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a1db2b719e2c86d416ebc268c91155565" name="a1db2b719e2c86d416ebc268c91155565"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1db2b719e2c86d416ebc268c91155565">&#9670;&#160;</a></span>httpGet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::FetchWorker::httpGet </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeoutMs</em> = <code>30000</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QSharedPointer&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus.html">ComponentExportStatus</a> &gt;&#160;</td>
+          <td class="paramname"><em>status</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em> = <code><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66aa37cd108964334a29fba352c3fb4cc2e">ResourceType::WorkerRequest</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行HTTP GET请求 </p>
+<p>发起带超时、重试和取消支持的 HTTP GET 请求。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>URL </td></tr>
+    <tr><td class="paramname">timeoutMs</td><td>超时时间（毫秒） </td></tr>
+    <tr><td class="paramname">status</td><td>导出状态对象（用于记录网络诊断） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QByteArray 响应数据 </dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">resourceType</td><td>资源类型。</td></tr>
+    <tr><td class="paramname">url</td><td>请求 URL。 </td></tr>
+    <tr><td class="paramname">timeoutMs</td><td>请求超时时间，单位为毫秒。 </td></tr>
+    <tr><td class="paramname">status</td><td>用于记录请求状态的对象。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>请求资源类型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>响应正文；请求失败或被取消时返回空数组。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8cpp_source.html">FetchWorker.cpp</a> 第 <a class="el" href="FetchWorker_8cpp_source.html#l00267">267</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00041">EasyKiConverter::RequestProfile::connectTimeoutMs</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00098">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::errorString</a>, <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">EasyKiConverter::AsyncNetworkRequest::finished()</a>, <a class="el" href="INetworkClient_8h_source.html#l00390">EasyKiConverter::RetryPolicy::fromProfile()</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a08ae54f8f04a8b75f5f6635a0a8aed94">EasyKiConverter::INetworkClient::get()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00199">EasyKiConverter::NetworkClient::getAsync()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00383">EasyKiConverter::ConfigService::getWeakNetworkSupport()</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00107">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::hasRateLimitHint</a>, <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>, <a class="el" href="TestableSingleton_8h_source.html#l00032">EasyKiConverter::TestableSingleton&lt; NetworkClient &gt;::instance()</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00203">EasyKiConverter::AsyncNetworkRequest::isFinished()</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00105">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::latencyMs</a>, <a class="el" href="FetchWorker_8h_source.html#l00106">m_currentRequest</a>, <a class="el" href="FetchWorker_8h_source.html#l00108">m_isAborted</a>, <a class="el" href="FetchWorker_8h_source.html#l00105">m_networkClient</a>, <a class="el" href="FetchWorker_8h_source.html#l00107">m_replyMutex</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00101">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::rateLimitRemaining</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00102">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::rateLimitReset</a>, <a class="el" href="INetworkClient_8h_source.html#l00042">EasyKiConverter::RequestProfile::readTimeoutMs</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00099">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::responseContentType</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00103">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::responseSummary</a>, <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00211">EasyKiConverter::AsyncNetworkRequest::result()</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00100">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::retryAfter</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00104">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::retryCount</a>, <a class="el" href="FetchWorker_8h_source.html#l00122">s_backoffMs</a>, <a class="el" href="FetchWorker_8h_source.html#l00121">s_lastRateLimitTime</a>, <a class="el" href="FetchWorker_8h_source.html#l00120">s_rateLimitMutex</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00097">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::statusCode</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00096">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::url</a> , 以及 <a class="el" href="ComponentExportStatus_8h_source.html#l00106">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::wasRateLimited</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00440">fetch3DModelData()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a9f24232d2847626de24cd56333032bef" name="a9f24232d2847626de24cd56333032bef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f24232d2847626de24cd56333032bef">&#9670;&#160;</a></span>run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::FetchWorker::run </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行抓取任务 </p>
+<p>执行元器件、CAD 和可选三维模型的获取流程。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8cpp_source.html">FetchWorker.cpp</a> 第 <a class="el" href="FetchWorker_8cpp_source.html#l00061">61</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a646f05006f59cd6f5672fab1c4de1c5e">EasyKiConverter::CadData</a>, <a class="el" href="FetchWorker_8h_source.html#l00111">COMPONENT_INFO_TIMEOUT_MS</a>, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66af8bda80727c9d0d2149458dc19a71423">EasyKiConverter::ComponentInfo</a>, <a class="el" href="GzipUtils_8h_source.html#l00019">GzipUtils::DecompressResult::data</a>, <a class="el" href="GzipUtils_8cpp_source.html#l00034">GzipUtils::decompress()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00382">decompressZip()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00440">fetch3DModelData()</a>, <a class="el" href="classEasyKiConverter_1_1FetchWorker.html#acc6b6e328401b887da6659e88c7c0e96">fetchCompleted()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a>, <a class="el" href="FetchWorker_8h_source.html#l00100">m_componentId</a>, <a class="el" href="FetchWorker_8h_source.html#l00103">m_existing3DUuid</a>, <a class="el" href="FetchWorker_8h_source.html#l00102">m_fetch3DOnly</a>, <a class="el" href="FetchWorker_8h_source.html#l00108">m_isAborted</a>, <a class="el" href="FetchWorker_8h_source.html#l00101">m_need3DModel</a>, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66aeb7c4837534dea52180df643b80639a2">EasyKiConverter::Model3DObj</a>, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66abbf924e0f35a900830a316e10a224090">EasyKiConverter::Model3DStep</a>, <a class="el" href="FetchWorker_8h_source.html#l00112">MODEL_3D_TIMEOUT_MS</a>, <a class="el" href="FetchWorker_8h_source.html#l00119">s_activeRequests</a>, <a class="el" href="FetchWorker_8h_source.html#l00122">s_backoffMs</a>, <a class="el" href="FetchWorker_8h_source.html#l00121">s_lastRateLimitTime</a>, <a class="el" href="FetchWorker_8h_source.html#l00120">s_rateLimitMutex</a> , 以及 <a class="el" href="GzipUtils_8h_source.html#l00020">GzipUtils::DecompressResult::success</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a94c623a361e455091d0a862d248c5fea" name="a94c623a361e455091d0a862d248c5fea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a94c623a361e455091d0a862d248c5fea">&#9670;&#160;</a></span>COMPONENT_INFO_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int EasyKiConverter::FetchWorker::COMPONENT_INFO_TIMEOUT_MS = 15000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>组件信息超时时间（毫秒）。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00111">111</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="aa07ba72e2c80a3b1e0a04a2740ab7320" name="aa07ba72e2c80a3b1e0a04a2740ab7320"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa07ba72e2c80a3b1e0a04a2740ab7320">&#9670;&#160;</a></span>m_componentId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FetchWorker::m_componentId</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>标识符。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00100">100</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00594">abort()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a82098e4a2b611f022ca116076a3fe982" name="a82098e4a2b611f022ca116076a3fe982"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82098e4a2b611f022ca116076a3fe982">&#9670;&#160;</a></span>m_currentRequest</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>* EasyKiConverter::FetchWorker::m_currentRequest</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>请求。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00106">106</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00594">abort()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a>.</p>
+
+</div>
+</div>
+<a id="a925f497a797225c8c3038a3d7b6dfaea" name="a925f497a797225c8c3038a3d7b6dfaea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a925f497a797225c8c3038a3d7b6dfaea">&#9670;&#160;</a></span>m_existing3DUuid</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FetchWorker::m_existing3DUuid</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00103">103</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="aaeaa80bd5a9b635b831c9937f1db8b73" name="aaeaa80bd5a9b635b831c9937f1db8b73"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeaa80bd5a9b635b831c9937f1db8b73">&#9670;&#160;</a></span>m_fetch3DOnly</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FetchWorker::m_fetch3DOnly</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00102">102</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="aafd8a2aca3b57b184b4503e0bc571ec8" name="aafd8a2aca3b57b184b4503e0bc571ec8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafd8a2aca3b57b184b4503e0bc571ec8">&#9670;&#160;</a></span>m_isAborted</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::FetchWorker::m_isAborted</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否已中止。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00108">108</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00594">abort()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a17e4df541d23706623b589c15fd15753" name="a17e4df541d23706623b589c15fd15753"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17e4df541d23706623b589c15fd15753">&#9670;&#160;</a></span>m_need3DModel</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FetchWorker::m_need3DModel</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>模型。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00101">101</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a1dafe5f7f1d85c21d5684cdf8f4e0ad8" name="a1dafe5f7f1d85c21d5684cdf8f4e0ad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1dafe5f7f1d85c21d5684cdf8f4e0ad8">&#9670;&#160;</a></span>m_networkClient</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a>* EasyKiConverter::FetchWorker::m_networkClient</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>网络客户端。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00105">105</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a>.</p>
+
+</div>
+</div>
+<a id="a4374cff69fb67c4b76731519a27d525b" name="a4374cff69fb67c4b76731519a27d525b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4374cff69fb67c4b76731519a27d525b">&#9670;&#160;</a></span>m_replyMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex EasyKiConverter::FetchWorker::m_replyMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>网络响应互斥量。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00107">107</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00594">abort()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a>.</p>
+
+</div>
+</div>
+<a id="a3e34e115f7906a08d8b6ac7852f2ed40" name="a3e34e115f7906a08d8b6ac7852f2ed40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e34e115f7906a08d8b6ac7852f2ed40">&#9670;&#160;</a></span>MAX_HTTP_RETRIES</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int EasyKiConverter::FetchWorker::MAX_HTTP_RETRIES = 3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>HTTP 请求最大重试次数。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00113">113</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9f473d41e955e2530acadfc439f8f7a6" name="a9f473d41e955e2530acadfc439f8f7a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f473d41e955e2530acadfc439f8f7a6">&#9670;&#160;</a></span>MODEL_3D_TIMEOUT_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const int EasyKiConverter::FetchWorker::MODEL_3D_TIMEOUT_MS = 30000</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>三维模型请求超时时间（毫秒）。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00112">112</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00440">fetch3DModelData()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a9a173f34b321894fc15ae903db32597a" name="a9a173f34b321894fc15ae903db32597a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a173f34b321894fc15ae903db32597a">&#9670;&#160;</a></span>RETRY_DELAYS_MS</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr int EasyKiConverter::FetchWorker::RETRY_DELAYS_MS[] = {3000, 5000, 10000}</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>各次重试的等待时间（毫秒）。 </p>
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00116">116</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00610">calculateRetryDelay()</a>.</p>
+
+</div>
+</div>
+<a id="ae07786ed90acf678796e711d93620476" name="ae07786ed90acf678796e711d93620476"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae07786ed90acf678796e711d93620476">&#9670;&#160;</a></span>s_activeRequests</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::FetchWorker::s_activeRequests = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00119">119</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a6be91708f476bb3a32257f20536e2f77" name="a6be91708f476bb3a32257f20536e2f77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6be91708f476bb3a32257f20536e2f77">&#9670;&#160;</a></span>s_backoffMs</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::FetchWorker::s_backoffMs = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00122">122</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="a1b4d7cb9c7e258e7c1f94cbdbef7cebd" name="a1b4d7cb9c7e258e7c1f94cbdbef7cebd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b4d7cb9c7e258e7c1f94cbdbef7cebd">&#9670;&#160;</a></span>s_lastRateLimitTime</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QDateTime EasyKiConverter::FetchWorker::s_lastRateLimitTime</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00121">121</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<a id="add09b9b98681aa0c7708ae197bc7586c" name="add09b9b98681aa0c7708ae197bc7586c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add09b9b98681aa0c7708ae197bc7586c">&#9670;&#160;</a></span>s_rateLimitMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex EasyKiConverter::FetchWorker::s_rateLimitMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a> 第 <a class="el" href="FetchWorker_8h_source.html#l00120">120</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FetchWorker_8cpp_source.html#l00267">httpGet()</a> , 以及 <a class="el" href="FetchWorker_8cpp_source.html#l00061">run()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>workers/<a class="el" href="FetchWorker_8h_source.html">FetchWorker.h</a></li>
+<li>workers/<a class="el" href="FetchWorker_8cpp_source.html">FetchWorker.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1FetchWorker.html">FetchWorker</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

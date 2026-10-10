@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/export/TempFileTransactionUtils.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('TempFileTransactionUtils_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">TempFileTransactionUtils.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="TempFileTransactionUtils_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef TEMPFILETRANSACTIONUTILS_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define TEMPFILETRANSACTIONUTILS_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QVector&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter_1_1TempFileTransaction.html">EasyKiConverter::TempFileTransaction</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html">   12</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html">BackupEntry</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a3a101b6ab2d6aab723be5ed2a9c08837">   13</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a3a101b6ab2d6aab723be5ed2a9c08837">finalPath</a>;  </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a10654cc500cae8681fc0c7570aa409d1">   14</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a10654cc500cae8681fc0c7570aa409d1">backupPath</a>;  </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#aca792c1288c8457d6841ae495ec31bf0">   15</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#aca792c1288c8457d6841ae495ec31bf0">tempPath</a>;  </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a54492a89b69f9140dd05ced099ceac87">   16</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a54492a89b69f9140dd05ced099ceac87">isDirectory</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#abf94282b27d6dae1018fb5b80be72003">   17</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#abf94282b27d6dae1018fb5b80be72003">existedBefore</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>};</div>
+</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>QString <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#afa05cda9194ec1791b0876783c76283f">backupRootPath</a>();</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>QString <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#ae90d5a031fd479ef21a64a25ed4e35ab">createTransactionId</a>();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a2f46a5c80b3c6dbd9167a0ed0fe45b4f">ensureParentDirectory</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aa09079446d355c2abbcc6a8c0d60bf21">movePathWithFallback</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>, <span class="keywordtype">bool</span> isDirectory);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aad83eeaf39d093dbedb3117efd11a07f">removePath</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, <span class="keywordtype">bool</span> isDirectory);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a208f32553ebbd3858970dd08aa48dc9a">pathExists</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, <span class="keywordtype">bool</span> isDirectory);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a3802c3c41c7ecb0302ce46c33f27e6ff">writeManifest</a>(<span class="keyword">const</span> QString&amp; manifestPath,</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>                   <span class="keyword">const</span> QString&amp; transactionId,</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>                   <span class="keyword">const</span> QString&amp; outputRoot,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                   <span class="keyword">const</span> QVector&lt;BackupEntry&gt;&amp; entries,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                   <span class="keywordtype">bool</span> committed);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>QVector&lt;BackupEntry&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a84a98c674fecb6df75c2d451afce9cc1">readManifestEntries</a>(<span class="keyword">const</span> QString&amp; manifestPath, <span class="keywordtype">bool</span>* committed);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>}  <span class="comment">// namespace EasyKiConverter::TempFileTransaction</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span><span class="preprocessor">#endif  </span><span class="comment">// TEMPFILETRANSACTIONUTILS_H</span></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a17887ef34e6d0bd9a7d362e17aa74e27"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a></div><div class="ttdeci">QString sourcePath</div><div class="ttdoc">待迁移条目的源路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00018">CacheDirectoryMigrator.cpp:18</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_ad7e504be9c160222c2e52e17415b9960"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a></div><div class="ttdeci">QString targetPath</div><div class="ttdoc">待迁移条目的目标路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00019">CacheDirectoryMigrator.cpp:19</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html">EasyKiConverter::TempFileTransaction</a></div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00018">TempFileTransactionUtils.cpp:18</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_a208f32553ebbd3858970dd08aa48dc9a"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a208f32553ebbd3858970dd08aa48dc9a">EasyKiConverter::TempFileTransaction::pathExists</a></div><div class="ttdeci">bool pathExists(const QString &amp;path, bool isDirectory)</div><div class="ttdoc">按路径类型检查对象是否存在。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00170">TempFileTransactionUtils.cpp:170</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_a2f46a5c80b3c6dbd9167a0ed0fe45b4f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a2f46a5c80b3c6dbd9167a0ed0fe45b4f">EasyKiConverter::TempFileTransaction::ensureParentDirectory</a></div><div class="ttdeci">bool ensureParentDirectory(const QString &amp;path)</div><div class="ttdoc">确保目标路径的父目录存在。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00132">TempFileTransactionUtils.cpp:132</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_a3802c3c41c7ecb0302ce46c33f27e6ff"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a3802c3c41c7ecb0302ce46c33f27e6ff">EasyKiConverter::TempFileTransaction::writeManifest</a></div><div class="ttdeci">bool writeManifest(const QString &amp;manifestPath, const QString &amp;transactionId, const QString &amp;outputRoot, const QVector&lt; BackupEntry &gt; &amp;entries, bool committed)</div><div class="ttdoc">写入备份事务清单，记录提交状态和全部路径映射。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00182">TempFileTransactionUtils.cpp:182</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_a84a98c674fecb6df75c2d451afce9cc1"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#a84a98c674fecb6df75c2d451afce9cc1">EasyKiConverter::TempFileTransaction::readManifestEntries</a></div><div class="ttdeci">QVector&lt; BackupEntry &gt; readManifestEntries(const QString &amp;manifestPath, bool *committed)</div><div class="ttdoc">读取备份事务清单，并返回提交状态和路径映射。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00219">TempFileTransactionUtils.cpp:219</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_aa09079446d355c2abbcc6a8c0d60bf21"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aa09079446d355c2abbcc6a8c0d60bf21">EasyKiConverter::TempFileTransaction::movePathWithFallback</a></div><div class="ttdeci">bool movePathWithFallback(const QString &amp;sourcePath, const QString &amp;targetPath, bool isDirectory)</div><div class="ttdoc">按路径类型移动对象，并在跨卷或占用时使用复制回退。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00144">TempFileTransactionUtils.cpp:144</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_aad83eeaf39d093dbedb3117efd11a07f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#aad83eeaf39d093dbedb3117efd11a07f">EasyKiConverter::TempFileTransaction::removePath</a></div><div class="ttdeci">bool removePath(const QString &amp;path, bool isDirectory)</div><div class="ttdoc">按路径类型删除对象，目标不存在时视为成功。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00154">TempFileTransactionUtils.cpp:154</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_ae90d5a031fd479ef21a64a25ed4e35ab"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#ae90d5a031fd479ef21a64a25ed4e35ab">EasyKiConverter::TempFileTransaction::createTransactionId</a></div><div class="ttdeci">QString createTransactionId()</div><div class="ttdoc">创建具有时间和随机后缀的事务标识。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00123">TempFileTransactionUtils.cpp:123</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1TempFileTransaction_html_afa05cda9194ec1791b0876783c76283f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1TempFileTransaction.html#afa05cda9194ec1791b0876783c76283f">EasyKiConverter::TempFileTransaction::backupRootPath</a></div><div class="ttdeci">QString backupRootPath()</div><div class="ttdoc">返回应用数据目录下的备份事务根目录。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8cpp_source.html#l00112">TempFileTransactionUtils.cpp:112</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html">EasyKiConverter::TempFileTransaction::BackupEntry</a></div><div class="ttdoc">记录一次备份事务中临时路径、最终路径和备份路径的映射。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00012">TempFileTransactionUtils.h:12</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_a10654cc500cae8681fc0c7570aa409d1"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a10654cc500cae8681fc0c7570aa409d1">EasyKiConverter::TempFileTransaction::BackupEntry::backupPath</a></div><div class="ttdeci">QString backupPath</div><div class="ttdoc">覆盖前保存旧内容的备份路径。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00014">TempFileTransactionUtils.h:14</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_a3a101b6ab2d6aab723be5ed2a9c08837"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a3a101b6ab2d6aab723be5ed2a9c08837">EasyKiConverter::TempFileTransaction::BackupEntry::finalPath</a></div><div class="ttdeci">QString finalPath</div><div class="ttdoc">事务提交使用的最终路径。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00013">TempFileTransactionUtils.h:13</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_a54492a89b69f9140dd05ced099ceac87"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#a54492a89b69f9140dd05ced099ceac87">EasyKiConverter::TempFileTransaction::BackupEntry::isDirectory</a></div><div class="ttdeci">bool isDirectory</div><div class="ttdoc">路径是否指向目录。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00016">TempFileTransactionUtils.h:16</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_abf94282b27d6dae1018fb5b80be72003"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#abf94282b27d6dae1018fb5b80be72003">EasyKiConverter::TempFileTransaction::BackupEntry::existedBefore</a></div><div class="ttdeci">bool existedBefore</div><div class="ttdoc">事务开始前最终路径是否已存在。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00017">TempFileTransactionUtils.h:17</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry_html_aca792c1288c8457d6841ae495ec31bf0"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileTransaction_1_1BackupEntry.html#aca792c1288c8457d6841ae495ec31bf0">EasyKiConverter::TempFileTransaction::BackupEntry::tempPath</a></div><div class="ttdeci">QString tempPath</div><div class="ttdoc">本次事务生成的临时路径。</div><div class="ttdef"><b>Definition</b> <a href="TempFileTransactionUtils_8h_source.html#l00015">TempFileTransactionUtils.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="dir_a384dc2a66e9a2b9e112fff859fd4142.html">export</a></li><li class="navelem"><a class="el" href="TempFileTransactionUtils_8h.html">TempFileTransactionUtils.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

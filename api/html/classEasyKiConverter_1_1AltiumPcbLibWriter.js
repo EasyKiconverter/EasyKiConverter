@@ -1,0 +1,28 @@
+var classEasyKiConverter_1_1AltiumPcbLibWriter =
+[
+    [ "addWideString", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a6a0def534ca635f9c9291a3b844847ec", null ],
+    [ "buildLibraryMetadata", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a33356bded2f106a6b37e650c47c26947", null ],
+    [ "countPrimitives", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a4056922eddcc76973bfff612c4252182", null ],
+    [ "diagnostics", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a7f2e501afc3d879b7e25af505054d7eb", null ],
+    [ "encodePrimitiveFlags", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#aec8544be737a74775f34a211363ddc11", null ],
+    [ "normalizeFiniteValue", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a9effda9f64ab3af2c7adee61f3b87ff3", null ],
+    [ "toV7LayerId", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#afa43baf726f2235ca95119155444b1ec", null ],
+    [ "validateComponents", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#aa215ea150edf0b8cd5a3c7556c06ef6f", null ],
+    [ "write", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a9e2020ebff06b691a88ee1cc122bda95", null ],
+    [ "writeCommonPrimitiveHeader", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a37855695c961bab07aea3c74200935d5", null ],
+    [ "writeExtendedPrimitiveInformation", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a3c8b70addcdb3079bcf39044926a003a", null ],
+    [ "writeFileHeader", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a49cb0a3d822dd4a7ab555af409848ba0", null ],
+    [ "writeFootprintData", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a322696cc7a5fa54acdf96aa7cba37308", null ],
+    [ "writeFootprintParameters", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a339b92adae71e110fc793642c82c98e8", null ],
+    [ "writeFootprintStorage", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#ae630a6e2fb91a5d5d2f56917885ddcb0", null ],
+    [ "writeLibraryData", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a868fa4f516833095bf8bfa3b195b1648", null ],
+    [ "writeLibraryStorage", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a726ae14f329b918199fdc10f04fac3a6", null ],
+    [ "writeModelsStorage", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#adff0935f1a29ee9b35358831a9d269d7", null ],
+    [ "writeSectionKeys", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a385bb951e77e48db4deae8f6084a7ca7", null ],
+    [ "writeUniqueIdPrimitiveInformation", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#ae1c0ee73446e14489083679fbdb8bc01", null ],
+    [ "writeWideStrings", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#ac3d3ac9e75f3595225602c22dbde90cb", null ],
+    [ "AltiumPcbInputValidator", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#ae41997b79af09a497506eaf483d0653d", null ],
+    [ "AltiumPcbPrimitiveWriter", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#ab168298118600f2d13da8465ea65300a", null ],
+    [ "m_diagnostics", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a01075863b4e02dfff9c7638a9097d028", null ],
+    [ "m_wideStrings", "classEasyKiConverter_1_1AltiumPcbLibWriter.html#a09d6db60fdea14e8bcfecd9d98750403", null ]
+];

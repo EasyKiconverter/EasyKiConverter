@@ -1,0 +1,326 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: ui/viewmodels/ExportTargetModel.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExportTargetModel_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExportTargetModel.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExportTargetModel_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExportTargetModel_8h.html">ExportTargetModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QJsonArray&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QJsonDocument&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QJsonObject&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#a67dc3a7724aeb555175d8ae240e41409">   16</a></span><a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#a67dc3a7724aeb555175d8ae240e41409">ExportTargetModel::ExportTargetModel</a>(QObject* parent) : QObject(parent) {}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#ab85832126b49154f2ddc35fe53fcaf58">   22</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#ab85832126b49154f2ddc35fe53fcaf58">ExportTargetModel::currentIndex</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>}</div>
+</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#ae9a6e58569527b8bf74a1ea514e2c8ee">   30</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#ae9a6e58569527b8bf74a1ea514e2c8ee">ExportTargetModel::currentTargetFormat</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keyword">const</span> QString <span class="keywordtype">id</span> = <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#ab5330560eb962c4f1cadc8ca7877d77d">currentTargetId</a>();  <span class="comment">// 当前目标的稳定标识符。</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;altium&quot;</span>))</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;xpedition&quot;</span>))</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">return</span> 2;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;allegro&quot;</span>))</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">return</span> 3;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;pads&quot;</span>))</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordflow">return</span> 4;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;eagle&quot;</span>))</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> 5;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;pcad&quot;</span>))</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">return</span> 6;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;cadstar&quot;</span>))</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">return</span> 7;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;orcad&quot;</span>))</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">return</span> 8;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;librepcb&quot;</span>))</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> 9;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> (<span class="keywordtype">id</span> == QStringLiteral(<span class="stringliteral">&quot;horizon&quot;</span>))</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">return</span> 10;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#a6832a40742e9e0454b63bc16e08dca9b">   59</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#a6832a40742e9e0454b63bc16e08dca9b">ExportTargetModel::setCurrentIndex</a>(<span class="keywordtype">int</span> index) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (index &lt; 0 || index &gt;= <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.size()) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> == index) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> = index;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#ad9a95ee5ae96c54e5d67f992b6a7a5d2">currentTargetChanged</a>();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
+</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#ab5330560eb962c4f1cadc8ca7877d77d">   74</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#ab5330560eb962c4f1cadc8ca7877d77d">ExportTargetModel::currentTargetId</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> &gt;= 0 &amp;&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> &lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.size()) {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>[<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a>].id;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    }</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">return</span> QString();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#a626561fa1ba315a3f8f780439d5f0e07">   85</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#a626561fa1ba315a3f8f780439d5f0e07">ExportTargetModel::currentDisplayName</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> &gt;= 0 &amp;&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> &lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.size()) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>[<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a>].displayName;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">return</span> QString();</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
+</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="foldopen" id="foldopen00096" data-start="{" data-end="}">
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#a491b1cb85889607a33291178f7411a7f">   96</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#a491b1cb85889607a33291178f7411a7f">ExportTargetModel::currentIcon</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> &gt;= 0 &amp;&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> &lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.size()) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>[<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a>].icon;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">return</span> QString();</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>}</div>
+</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#aa7153ce98e3c739b007caef12faf3dc7">  107</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#aa7153ce98e3c739b007caef12faf3dc7">ExportTargetModel::currentOptionsComponent</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> &gt;= 0 &amp;&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a> &lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.size()) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>[<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">m_currentIndex</a>].optionsComponent;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">return</span> QString();</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
+</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="foldopen" id="foldopen00118" data-start="{" data-end="}">
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#af3fe6f10ffd5ae505cd279706f1e1c11">  118</a></span>QVariantList <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#af3fe6f10ffd5ae505cd279706f1e1c11">ExportTargetModel::availableTargets</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a08c7e015c604f7241c94e2bdef73fad7">m_availableTargetsCache</a>;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}</div>
+</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="foldopen" id="foldopen00127" data-start="{" data-end="}">
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#ae253060d8dfaf329a776d43dea832896">  127</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#ae253060d8dfaf329a776d43dea832896">ExportTargetModel::isUserVisibleTarget</a>(<span class="keyword">const</span> QString&amp; targetId) {</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="comment">// 仅将已完成 GUI 导出流程接入的格式放入选择器。</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordflow">return</span> targetId == QStringLiteral(<span class="stringliteral">&quot;kicad&quot;</span>) || targetId == QStringLiteral(<span class="stringliteral">&quot;altium&quot;</span>) ||</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>           targetId == QStringLiteral(<span class="stringliteral">&quot;horizon&quot;</span>) || targetId == QStringLiteral(<span class="stringliteral">&quot;librepcb&quot;</span>);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
+</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="foldopen" id="foldopen00137" data-start="{" data-end="}">
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportTargetModel.html#aa3e54af33319109d33dfcb387c1b1440">  137</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#aa3e54af33319109d33dfcb387c1b1440">ExportTargetModel::loadPlugins</a>(<span class="keyword">const</span> QString&amp; configPath) {</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    QFile file(configPath);  <span class="comment">// 插件配置文件。</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">if</span> (!file.open(QIODevice::ReadOnly)) {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;ExportTargetModel: Failed to open plugin config:&quot;</span> &lt;&lt; configPath;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    }</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    QByteArray data = file.readAll();  <span class="comment">// 插件配置文件内容。</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    file.close();</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    QJsonDocument doc = QJsonDocument::fromJson(data);  <span class="comment">// 解析后的 JSON 文档。</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordflow">if</span> (doc.isNull() || !doc.isObject()) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;ExportTargetModel: Invalid JSON in plugin config:&quot;</span> &lt;&lt; configPath;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    }</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    QJsonObject root = doc.object();  <span class="comment">// 插件配置根对象。</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    QJsonArray plugins = root[<span class="stringliteral">&quot;plugins&quot;</span>].toArray();  <span class="comment">// 插件配置数组。</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.clear();</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QJsonValue&amp; val : plugins) {</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        QJsonObject obj = val.toObject();  <span class="comment">// 当前插件配置对象。</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html">TargetInfo</a> info;  <span class="comment">// 当前导出目标元数据。</span></div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        info.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#ae60c61fde1326dfe8d53172da50f6380">id</a> = obj[<span class="stringliteral">&quot;id&quot;</span>].toString();</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        info.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#a2484f7984e14369afcff44f9a3abefbc">displayName</a> = obj[<span class="stringliteral">&quot;displayName&quot;</span>].toString();</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        info.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#ab23de766d18d6eb722094b7e06706d21">icon</a> = obj[<span class="stringliteral">&quot;icon&quot;</span>].toString();</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        info.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#a0a3f633cd1631e9eb93d823ff3938539">optionsComponent</a> = obj[<span class="stringliteral">&quot;optionsComponent&quot;</span>].toString();</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="classEasyKiConverter_1_1ExportTargetModel.html#ae253060d8dfaf329a776d43dea832896">isUserVisibleTarget</a>(info.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#ae60c61fde1326dfe8d53172da50f6380">id</a>) &amp;&amp; !info.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#a2484f7984e14369afcff44f9a3abefbc">displayName</a>.isEmpty()) {</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.append(info);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        }</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    }</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="comment">// 下拉索引会直接映射到 TargetEdaFormat，必须与枚举顺序保持一致，不能依赖配置文件顺序。</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    std::sort(<a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.begin(), <a class="code hl_variable" href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">m_targets</a>.end(), [](<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html">TargetInfo</a>&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#afbc3f8b1ac2bf1a63dbc7212ba850a2e">left</a>, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html">TargetInfo</a>&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#a2a4b8fd63bfa2b6ab3fbc193466b68e3">right</a>) {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        const auto targetOrder = [](const QString&amp; id) {</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            if (id == QStringLiteral(<span class="stringliteral">&quot;kicad&quot;</span>))</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                return 0;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>            if (id == QStringLiteral(<span class="stringliteral">&quot;altium&quot;</span>))</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>                return 1;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>            if (id == QStringLiteral(<span class="stringliteral">&quot;horizon&quot;</span>))</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>                return 2;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            if (id == QStringLiteral(<span class="stringliteral">&quot;librepcb&quot;</span>))</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>                return 3;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            return 4;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        };</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        <span class="keywordflow">return</span> targetOrder(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#afbc3f8b1ac2bf1a63dbc7212ba850a2e">left</a>.id) &lt; targetOrder(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#a2a4b8fd63bfa2b6ab3fbc193466b68e3">right</a>.id);</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    });</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="comment">// 重建缓存</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    m_availableTargetsCache.clear();</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> TargetInfo&amp; info : m_targets) {</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        QVariantMap map;  <span class="comment">// 提供给 QML 的当前目标元数据。</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        map[<span class="stringliteral">&quot;id&quot;</span>] = info.id;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        map[<span class="stringliteral">&quot;displayName&quot;</span>] = info.displayName;</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        map[<span class="stringliteral">&quot;icon&quot;</span>] = info.icon;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        map[<span class="stringliteral">&quot;optionsComponent&quot;</span>] = info.optionsComponent;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        m_availableTargetsCache.append(map);</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <span class="comment">// 确保索引有效</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    <span class="keywordtype">bool</span> indexChanged = <span class="keyword">false</span>;  <span class="comment">// 当前选择索引是否因目标列表变化而调整。</span></div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keywordflow">if</span> (m_currentIndex &gt;= m_targets.size()) {</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>        m_currentIndex = 0;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        indexChanged = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    }</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    emit availableTargetsChanged();</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">if</span> (indexChanged) {</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        emit currentTargetChanged();</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    }</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>}</div>
+</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span> </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aExportTargetModel_8h_html"><div class="ttname"><a href="ExportTargetModel_8h.html">ExportTargetModel.h</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_a2a4b8fd63bfa2b6ab3fbc193466b68e3"><div class="ttname"><a href="OLECompoundReader_8cpp.html#a2a4b8fd63bfa2b6ab3fbc193466b68e3">right</a></div><div class="ttdeci">quint32 right</div><div class="ttdoc">右子节点索引。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00066">OLECompoundReader.cpp:66</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_afbc3f8b1ac2bf1a63dbc7212ba850a2e"><div class="ttname"><a href="OLECompoundReader_8cpp.html#afbc3f8b1ac2bf1a63dbc7212ba850a2e">left</a></div><div class="ttdeci">quint32 left</div><div class="ttdoc">左子节点索引。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00065">OLECompoundReader.cpp:65</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_a08c7e015c604f7241c94e2bdef73fad7"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#a08c7e015c604f7241c94e2bdef73fad7">EasyKiConverter::ExportTargetModel::m_availableTargetsCache</a></div><div class="ttdeci">QVariantList m_availableTargetsCache</div><div class="ttdoc">可用目标列表缓存（避免每次调用重建）</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8h_source.html#l00104">ExportTargetModel.h:104</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_a22483e578d653cb337434366a0bd7392"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#a22483e578d653cb337434366a0bd7392">EasyKiConverter::ExportTargetModel::m_targets</a></div><div class="ttdeci">QList&lt; TargetInfo &gt; m_targets</div><div class="ttdoc">可用目标列表</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8h_source.html#l00103">ExportTargetModel.h:103</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_a491b1cb85889607a33291178f7411a7f"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#a491b1cb85889607a33291178f7411a7f">EasyKiConverter::ExportTargetModel::currentIcon</a></div><div class="ttdeci">QString currentIcon() const</div><div class="ttdoc">获取当前目标图标资源名</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00096">ExportTargetModel.cpp:96</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_a626561fa1ba315a3f8f780439d5f0e07"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#a626561fa1ba315a3f8f780439d5f0e07">EasyKiConverter::ExportTargetModel::currentDisplayName</a></div><div class="ttdeci">QString currentDisplayName() const</div><div class="ttdoc">获取当前目标显示名称</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00085">ExportTargetModel.cpp:85</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_a67dc3a7724aeb555175d8ae240e41409"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#a67dc3a7724aeb555175d8ae240e41409">EasyKiConverter::ExportTargetModel::ExportTargetModel</a></div><div class="ttdeci">ExportTargetModel(QObject *parent=nullptr)</div><div class="ttdoc">创建导出目标模型。</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00016">ExportTargetModel.cpp:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_a6832a40742e9e0454b63bc16e08dca9b"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#a6832a40742e9e0454b63bc16e08dca9b">EasyKiConverter::ExportTargetModel::setCurrentIndex</a></div><div class="ttdeci">void setCurrentIndex(int index)</div><div class="ttdoc">设置当前选中索引。</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00059">ExportTargetModel.cpp:59</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_a980ae40605be98b5c6e2a8120f023777"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#a980ae40605be98b5c6e2a8120f023777">EasyKiConverter::ExportTargetModel::m_currentIndex</a></div><div class="ttdeci">int m_currentIndex</div><div class="ttdoc">当前选中索引</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8h_source.html#l00105">ExportTargetModel.h:105</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_aa3e54af33319109d33dfcb387c1b1440"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#aa3e54af33319109d33dfcb387c1b1440">EasyKiConverter::ExportTargetModel::loadPlugins</a></div><div class="ttdeci">void loadPlugins(const QString &amp;configPath=&quot;:/resources/export_plugins.json&quot;)</div><div class="ttdoc">加载插件配置</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00137">ExportTargetModel.cpp:137</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_aa7153ce98e3c739b007caef12faf3dc7"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#aa7153ce98e3c739b007caef12faf3dc7">EasyKiConverter::ExportTargetModel::currentOptionsComponent</a></div><div class="ttdeci">QString currentOptionsComponent() const</div><div class="ttdoc">获取当前目标对应的 QML 设置组件文件名</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00107">ExportTargetModel.cpp:107</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_ab5330560eb962c4f1cadc8ca7877d77d"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#ab5330560eb962c4f1cadc8ca7877d77d">EasyKiConverter::ExportTargetModel::currentTargetId</a></div><div class="ttdeci">QString currentTargetId() const</div><div class="ttdoc">获取当前目标 ID（如 &quot;kicad&quot;, &quot;altium&quot;）</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00074">ExportTargetModel.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_ab85832126b49154f2ddc35fe53fcaf58"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#ab85832126b49154f2ddc35fe53fcaf58">EasyKiConverter::ExportTargetModel::currentIndex</a></div><div class="ttdeci">int currentIndex() const</div><div class="ttdoc">获取当前选中索引</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00022">ExportTargetModel.cpp:22</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_ad9a95ee5ae96c54e5d67f992b6a7a5d2"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#ad9a95ee5ae96c54e5d67f992b6a7a5d2">EasyKiConverter::ExportTargetModel::currentTargetChanged</a></div><div class="ttdeci">void currentTargetChanged()</div><div class="ttdoc">当前目标变更</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_ae253060d8dfaf329a776d43dea832896"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#ae253060d8dfaf329a776d43dea832896">EasyKiConverter::ExportTargetModel::isUserVisibleTarget</a></div><div class="ttdeci">static bool isUserVisibleTarget(const QString &amp;targetId)</div><div class="ttdoc">判断目标格式是否向 GUI 暴露</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00127">ExportTargetModel.cpp:127</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_ae9a6e58569527b8bf74a1ea514e2c8ee"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#ae9a6e58569527b8bf74a1ea514e2c8ee">EasyKiConverter::ExportTargetModel::currentTargetFormat</a></div><div class="ttdeci">int currentTargetFormat() const</div><div class="ttdoc">获取与当前可见目标对应的稳定目标枚举值。</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00030">ExportTargetModel.cpp:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTargetModel_html_af3fe6f10ffd5ae505cd279706f1e1c11"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTargetModel.html#af3fe6f10ffd5ae505cd279706f1e1c11">EasyKiConverter::ExportTargetModel::availableTargets</a></div><div class="ttdeci">QVariantList availableTargets() const</div><div class="ttdoc">获取所有可用目标列表（供 QML ComboBox model 使用）</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8cpp_source.html#l00118">ExportTargetModel.cpp:118</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html">EasyKiConverter::ExportTargetModel::TargetInfo</a></div><div class="ttdoc">目标信息结构</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8h_source.html#l00096">ExportTargetModel.h:96</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo_html_a0a3f633cd1631e9eb93d823ff3938539"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#a0a3f633cd1631e9eb93d823ff3938539">EasyKiConverter::ExportTargetModel::TargetInfo::optionsComponent</a></div><div class="ttdeci">QString optionsComponent</div><div class="ttdoc">QML 设置组件文件名</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8h_source.html#l00100">ExportTargetModel.h:100</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo_html_a2484f7984e14369afcff44f9a3abefbc"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#a2484f7984e14369afcff44f9a3abefbc">EasyKiConverter::ExportTargetModel::TargetInfo::displayName</a></div><div class="ttdeci">QString displayName</div><div class="ttdoc">显示名称</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8h_source.html#l00098">ExportTargetModel.h:98</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo_html_ab23de766d18d6eb722094b7e06706d21"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#ab23de766d18d6eb722094b7e06706d21">EasyKiConverter::ExportTargetModel::TargetInfo::icon</a></div><div class="ttdeci">QString icon</div><div class="ttdoc">图标资源名</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8h_source.html#l00099">ExportTargetModel.h:99</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo_html_ae60c61fde1326dfe8d53172da50f6380"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTargetModel_1_1TargetInfo.html#ae60c61fde1326dfe8d53172da50f6380">EasyKiConverter::ExportTargetModel::TargetInfo::id</a></div><div class="ttdeci">QString id</div><div class="ttdoc">目标标识符</div><div class="ttdef"><b>Definition</b> <a href="ExportTargetModel_8h_source.html#l00097">ExportTargetModel.h:97</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1788f8309b1a812dcb800a185471cf6c.html">ui</a></li><li class="navelem"><a class="el" href="dir_fea4d5651ef76d72b143e7607c90e565.html">viewmodels</a></li><li class="navelem"><a class="el" href="ExportTargetModel_8cpp.html">ExportTargetModel.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

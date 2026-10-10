@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/allegro/AllegroFootprintModel.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AllegroFootprintModel_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AllegroFootprintModel.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AllegroFootprintModel_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="FootprintIR_8h.html">core/ir/FootprintIR.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QJsonArray&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QList&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;QPointF&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="}">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter.html">   15</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="};">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroLayerAssignment.html">   20</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1AllegroLayerAssignment.html">AllegroLayerAssignment</a> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroLayerAssignment.html#a3caacde74b27b4c7f0d42c0658ad5a3b">   21</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroLayerAssignment.html#a3caacde74b27b4c7f0d42c0658ad5a3b">className</a>;  </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroLayerAssignment.html#aa7e9780c4734ed4e42c5506544200180">   22</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroLayerAssignment.html#aa7e9780c4734ed4e42c5506544200180">subclassName</a>;  </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroLayerAssignment.html#a0205cb3139182b01792ce7ba49150c70">   23</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroLayerAssignment.html#a0205cb3139182b01792ce7ba49150c70">sourceSemantic</a>;  </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>};</div>
+</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="};">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html">   29</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1AllegroPadstackModel.html">AllegroPadstackModel</a> {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a8c333e6685543f128033a8973583d939">   30</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a8c333e6685543f128033a8973583d939">name</a>;  </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a48cb7d24b0ab3b457a0fc406c33d2255">   31</a></span>    <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6">IR::PadShape</a> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a48cb7d24b0ab3b457a0fc406c33d2255">shape</a> = <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81">IR::PadShape::Rect</a>;  </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a5ec42fe10dd3e3855d056374590521a3">   32</a></span>    <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#aca504bbedb5669519769f90e1ac917a6">IR::PadType</a> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a5ec42fe10dd3e3855d056374590521a3">padType</a> = <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#aca504bbedb5669519769f90e1ac917a6a1d94a15e509773fbab9e850e819d06e1">IR::PadType::Smd</a>;  </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a9edd5ec152595661208b461a4484fc62">   33</a></span>    QSizeF <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a9edd5ec152595661208b461a4484fc62">size</a>;  </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#ac9c03296b4a2663ef8a50908f9a1dd80">   34</a></span>    QSizeF <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#ac9c03296b4a2663ef8a50908f9a1dd80">drill</a>;  </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#aea8ea51dea52c9aa8b1fd1387ebade2e">   35</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#aea8ea51dea52c9aa8b1fd1387ebade2e">slotLength</a> = 0.0;  </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a9b9c27a0d2e5655e18cd6f6911b0a405">   36</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a9b9c27a0d2e5655e18cd6f6911b0a405">rotation</a> = 0.0;  </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a6000cf4603bf0421ab4ddb8646aff241">   37</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a6000cf4603bf0421ab4ddb8646aff241">plated</a> = <span class="keyword">true</span>;  </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a0545e8c885e0f6ca5b0c45c867552516">   38</a></span>    <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981">IR::LayerType</a> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a0545e8c885e0f6ca5b0c45c867552516">layer</a> = <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">IR::LayerType::TopCopper</a>;  </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#acae2b5cda5672604479e45887b47a645">   39</a></span>    QList&lt;QPointF&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#acae2b5cda5672604479e45887b47a645">polygon</a>;  </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a5f87ab2ea2093c0462842fe954877ccb">   40</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPadstackModel.html#a5f87ab2ea2093c0462842fe954877ccb">canonicalKey</a>;  </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>};</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="};">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPinModel.html">   46</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1AllegroPinModel.html">AllegroPinModel</a> {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPinModel.html#a92e90f856a8d4b49f8af7db42eca423c">   47</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPinModel.html#a92e90f856a8d4b49f8af7db42eca423c">number</a>;  </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPinModel.html#a2c3956b2120e84166c0559013d2ba692">   48</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPinModel.html#a2c3956b2120e84166c0559013d2ba692">padstackName</a>;  </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPinModel.html#ab7d076c3f27bb8b0b520eca288c2ca08">   49</a></span>    QPointF <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPinModel.html#ab7d076c3f27bb8b0b520eca288c2ca08">position</a>;  </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPinModel.html#aabbf20287a1f0366166540fcd7dab25a">   50</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPinModel.html#aabbf20287a1f0366166540fcd7dab25a">rotation</a> = 0.0;  </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPinModel.html#a98d939b56b2f61a42249c5db5fdbacd3">   51</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPinModel.html#a98d939b56b2f61a42249c5db5fdbacd3">mechanical</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>};</div>
+</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="foldopen" id="foldopen00057" data-start="{" data-end="};">
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html">   57</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1AllegroGeometryModel.html">AllegroGeometryModel</a> {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#a95c62fc1fc3429bcd8bff9b71d3da890">   58</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#a95c62fc1fc3429bcd8bff9b71d3da890">primitive</a>;  </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#adb19730cb7ca119db2d75b8c53af7e82">   59</a></span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AllegroLayerAssignment.html">AllegroLayerAssignment</a> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#adb19730cb7ca119db2d75b8c53af7e82">layer</a>;  </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#ae24f43b3107711aa4cd6e8015e3036f6">   60</a></span>    QList&lt;QPointF&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#ae24f43b3107711aa4cd6e8015e3036f6">points</a>;  </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#ab6c5b0a6554243220a85b5e879ce034f">   61</a></span>    QRectF <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#ab6c5b0a6554243220a85b5e879ce034f">bounds</a>;  </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#aabb775589e868497aef497b51e0968dc">   62</a></span>    QPointF <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#aabb775589e868497aef497b51e0968dc">center</a>;  </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#aef8fba990918eaa1c7d8d91ee6a8a25a">   63</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#aef8fba990918eaa1c7d8d91ee6a8a25a">radius</a> = 0.0;  </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#aad7345ef87a3b8dceea1035ae066e319">   64</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#aad7345ef87a3b8dceea1035ae066e319">rotation</a> = 0.0;  </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#ad486f45fbcb1808156d60d963dc85e59">   65</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#ad486f45fbcb1808156d60d963dc85e59">width</a> = 0.0;  </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroGeometryModel.html#a74a99dd5cab9290172e70118c3493902">   66</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroGeometryModel.html#a74a99dd5cab9290172e70118c3493902">text</a>;  </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>};</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="};">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html">   72</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1AllegroPackageModel.html">AllegroPackageModel</a> {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#a62c8acd66b377f236d0bf5cd2fcf0203">   73</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#a62c8acd66b377f236d0bf5cd2fcf0203">name</a>;  </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#af154a2ee4b5c9ef7099abda677cc8244">   74</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#af154a2ee4b5c9ef7099abda677cc8244">description</a>;  </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#a5179090e5959d42c5b62af1d11ac8af7">   75</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#a5179090e5959d42c5b62af1d11ac8af7">height</a> = 0.0;  </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#a0464d3f2e7eeb896681afa1f5048ec07">   76</a></span>    QList&lt;AllegroPadstackModel&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#a0464d3f2e7eeb896681afa1f5048ec07">padstacks</a>;  </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#a10b6fedbdc2e86830f1db444237db90a">   77</a></span>    QList&lt;AllegroPinModel&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#a10b6fedbdc2e86830f1db444237db90a">pins</a>;  </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#ab0cc66151afcd7d951c311655198fdd6">   78</a></span>    QList&lt;AllegroGeometryModel&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#ab0cc66151afcd7d951c311655198fdd6">geometry</a>;  </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#a08cb70bcc7227c962032c48561aee3d0">   79</a></span>    QList&lt;QString&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#a08cb70bcc7227c962032c48561aee3d0">stepFiles</a>;  </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#ab71b41b1234b706ee22bd6883dc74b59">   80</a></span>    QJsonArray <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#ab71b41b1234b706ee22bd6883dc74b59">stepTransforms</a>;  </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AllegroPackageModel.html#a177e6d35190a32551a56b70626161c14">   81</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AllegroPackageModel.html#a177e6d35190a32551a56b70626161c14">usedPlaceBoundFallback</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>};</div>
+</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+</div>
+<div class="ttc" id="aFootprintIR_8h_html"><div class="ttname"><a href="FootprintIR_8h.html">FootprintIR.h</a></div><div class="ttdoc">PCB 封装的通用中间表示</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981">EasyKiConverter::IR::LayerType</a></div><div class="ttdeci">LayerType</div><div class="ttdoc">PCB 层类型枚举（EDA 无关）</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00139">IRTypes.h:139</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">EasyKiConverter::IR::LayerType::TopCopper</a></div><div class="ttdeci">@ TopCopper</div><div class="ttdoc">顶层铜</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6">EasyKiConverter::IR::PadShape</a></div><div class="ttdeci">PadShape</div><div class="ttdoc">焊盘形状枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00033">IRTypes.h:33</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81">EasyKiConverter::IR::PadShape::Rect</a></div><div class="ttdeci">@ Rect</div><div class="ttdoc">矩形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_aca504bbedb5669519769f90e1ac917a6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#aca504bbedb5669519769f90e1ac917a6">EasyKiConverter::IR::PadType</a></div><div class="ttdeci">PadType</div><div class="ttdoc">焊盘类型枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00046">IRTypes.h:46</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_aca504bbedb5669519769f90e1ac917a6a1d94a15e509773fbab9e850e819d06e1"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#aca504bbedb5669519769f90e1ac917a6a1d94a15e509773fbab9e850e819d06e1">EasyKiConverter::IR::PadType::Smd</a></div><div class="ttdeci">@ Smd</div><div class="ttdoc">表面贴装焊盘（无孔）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html">EasyKiConverter::AllegroGeometryModel</a></div><div class="ttdoc">Allegro 封装级几何图元的目标语义。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00057">AllegroFootprintModel.h:57</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_a74a99dd5cab9290172e70118c3493902"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#a74a99dd5cab9290172e70118c3493902">EasyKiConverter::AllegroGeometryModel::text</a></div><div class="ttdeci">QString text</div><div class="ttdoc">文本内容。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00066">AllegroFootprintModel.h:66</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_a95c62fc1fc3429bcd8bff9b71d3da890"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#a95c62fc1fc3429bcd8bff9b71d3da890">EasyKiConverter::AllegroGeometryModel::primitive</a></div><div class="ttdeci">QString primitive</div><div class="ttdoc">图元类型名称。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00058">AllegroFootprintModel.h:58</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_aabb775589e868497aef497b51e0968dc"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#aabb775589e868497aef497b51e0968dc">EasyKiConverter::AllegroGeometryModel::center</a></div><div class="ttdeci">QPointF center</div><div class="ttdoc">圆弧或圆的中心点。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00062">AllegroFootprintModel.h:62</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_aad7345ef87a3b8dceea1035ae066e319"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#aad7345ef87a3b8dceea1035ae066e319">EasyKiConverter::AllegroGeometryModel::rotation</a></div><div class="ttdeci">double rotation</div><div class="ttdoc">图元旋转角度。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00064">AllegroFootprintModel.h:64</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_ab6c5b0a6554243220a85b5e879ce034f"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#ab6c5b0a6554243220a85b5e879ce034f">EasyKiConverter::AllegroGeometryModel::bounds</a></div><div class="ttdeci">QRectF bounds</div><div class="ttdoc">图元边界矩形。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00061">AllegroFootprintModel.h:61</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_ad486f45fbcb1808156d60d963dc85e59"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#ad486f45fbcb1808156d60d963dc85e59">EasyKiConverter::AllegroGeometryModel::width</a></div><div class="ttdeci">double width</div><div class="ttdoc">线宽。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00065">AllegroFootprintModel.h:65</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_adb19730cb7ca119db2d75b8c53af7e82"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#adb19730cb7ca119db2d75b8c53af7e82">EasyKiConverter::AllegroGeometryModel::layer</a></div><div class="ttdeci">AllegroLayerAssignment layer</div><div class="ttdoc">Class/Subclass 映射结果。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00059">AllegroFootprintModel.h:59</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_ae24f43b3107711aa4cd6e8015e3036f6"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#ae24f43b3107711aa4cd6e8015e3036f6">EasyKiConverter::AllegroGeometryModel::points</a></div><div class="ttdeci">QList&lt; QPointF &gt; points</div><div class="ttdoc">折线或多边形顶点。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00060">AllegroFootprintModel.h:60</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroGeometryModel_html_aef8fba990918eaa1c7d8d91ee6a8a25a"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroGeometryModel.html#aef8fba990918eaa1c7d8d91ee6a8a25a">EasyKiConverter::AllegroGeometryModel::radius</a></div><div class="ttdeci">double radius</div><div class="ttdoc">圆形图元半径。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00063">AllegroFootprintModel.h:63</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroLayerAssignment_html"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroLayerAssignment.html">EasyKiConverter::AllegroLayerAssignment</a></div><div class="ttdoc">Allegro Class/Subclass 的明确映射结果。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00020">AllegroFootprintModel.h:20</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroLayerAssignment_html_a0205cb3139182b01792ce7ba49150c70"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroLayerAssignment.html#a0205cb3139182b01792ce7ba49150c70">EasyKiConverter::AllegroLayerAssignment::sourceSemantic</a></div><div class="ttdeci">QString sourceSemantic</div><div class="ttdoc">源 IR 图层语义。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00023">AllegroFootprintModel.h:23</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroLayerAssignment_html_a3caacde74b27b4c7f0d42c0658ad5a3b"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroLayerAssignment.html#a3caacde74b27b4c7f0d42c0658ad5a3b">EasyKiConverter::AllegroLayerAssignment::className</a></div><div class="ttdeci">QString className</div><div class="ttdoc">Allegro 对象类别名称。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00021">AllegroFootprintModel.h:21</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroLayerAssignment_html_aa7e9780c4734ed4e42c5506544200180"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroLayerAssignment.html#aa7e9780c4734ed4e42c5506544200180">EasyKiConverter::AllegroLayerAssignment::subclassName</a></div><div class="ttdeci">QString subclassName</div><div class="ttdoc">Allegro 对象子类别名称。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00022">AllegroFootprintModel.h:22</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html">EasyKiConverter::AllegroPackageModel</a></div><div class="ttdoc">可序列化的 Allegro 封装目标模型。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00072">AllegroFootprintModel.h:72</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_a0464d3f2e7eeb896681afa1f5048ec07"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#a0464d3f2e7eeb896681afa1f5048ec07">EasyKiConverter::AllegroPackageModel::padstacks</a></div><div class="ttdeci">QList&lt; AllegroPadstackModel &gt; padstacks</div><div class="ttdoc">Padstack 定义列表。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00076">AllegroFootprintModel.h:76</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_a08cb70bcc7227c962032c48561aee3d0"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#a08cb70bcc7227c962032c48561aee3d0">EasyKiConverter::AllegroPackageModel::stepFiles</a></div><div class="ttdeci">QList&lt; QString &gt; stepFiles</div><div class="ttdoc">关联的 STEP 文件路径列表。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00079">AllegroFootprintModel.h:79</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_a10b6fedbdc2e86830f1db444237db90a"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#a10b6fedbdc2e86830f1db444237db90a">EasyKiConverter::AllegroPackageModel::pins</a></div><div class="ttdeci">QList&lt; AllegroPinModel &gt; pins</div><div class="ttdoc">引脚和 Padstack 关联列表。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00077">AllegroFootprintModel.h:77</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_a177e6d35190a32551a56b70626161c14"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#a177e6d35190a32551a56b70626161c14">EasyKiConverter::AllegroPackageModel::usedPlaceBoundFallback</a></div><div class="ttdeci">bool usedPlaceBoundFallback</div><div class="ttdoc">是否使用了 Place Bound 回退策略。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00081">AllegroFootprintModel.h:81</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_a5179090e5959d42c5b62af1d11ac8af7"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#a5179090e5959d42c5b62af1d11ac8af7">EasyKiConverter::AllegroPackageModel::height</a></div><div class="ttdeci">double height</div><div class="ttdoc">组件高度。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00075">AllegroFootprintModel.h:75</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_a62c8acd66b377f236d0bf5cd2fcf0203"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#a62c8acd66b377f236d0bf5cd2fcf0203">EasyKiConverter::AllegroPackageModel::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">封装名称。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00073">AllegroFootprintModel.h:73</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_ab0cc66151afcd7d951c311655198fdd6"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#ab0cc66151afcd7d951c311655198fdd6">EasyKiConverter::AllegroPackageModel::geometry</a></div><div class="ttdeci">QList&lt; AllegroGeometryModel &gt; geometry</div><div class="ttdoc">Package Geometry 图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00078">AllegroFootprintModel.h:78</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_ab71b41b1234b706ee22bd6883dc74b59"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#ab71b41b1234b706ee22bd6883dc74b59">EasyKiConverter::AllegroPackageModel::stepTransforms</a></div><div class="ttdeci">QJsonArray stepTransforms</div><div class="ttdoc">STEP 坐标变换数组。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00080">AllegroFootprintModel.h:80</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPackageModel_html_af154a2ee4b5c9ef7099abda677cc8244"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPackageModel.html#af154a2ee4b5c9ef7099abda677cc8244">EasyKiConverter::AllegroPackageModel::description</a></div><div class="ttdeci">QString description</div><div class="ttdoc">封装描述。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00074">AllegroFootprintModel.h:74</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html">EasyKiConverter::AllegroPadstackModel</a></div><div class="ttdoc">规范化的 Allegro Padstack 描述。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00029">AllegroFootprintModel.h:29</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_a0545e8c885e0f6ca5b0c45c867552516"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#a0545e8c885e0f6ca5b0c45c867552516">EasyKiConverter::AllegroPadstackModel::layer</a></div><div class="ttdeci">IR::LayerType layer</div><div class="ttdoc">Pad 所属层语义。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00038">AllegroFootprintModel.h:38</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_a48cb7d24b0ab3b457a0fc406c33d2255"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#a48cb7d24b0ab3b457a0fc406c33d2255">EasyKiConverter::AllegroPadstackModel::shape</a></div><div class="ttdeci">IR::PadShape shape</div><div class="ttdoc">Pad 几何形状。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00031">AllegroFootprintModel.h:31</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_a5ec42fe10dd3e3855d056374590521a3"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#a5ec42fe10dd3e3855d056374590521a3">EasyKiConverter::AllegroPadstackModel::padType</a></div><div class="ttdeci">IR::PadType padType</div><div class="ttdoc">Pad 类型。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00032">AllegroFootprintModel.h:32</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_a5f87ab2ea2093c0462842fe954877ccb"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#a5f87ab2ea2093c0462842fe954877ccb">EasyKiConverter::AllegroPadstackModel::canonicalKey</a></div><div class="ttdeci">QString canonicalKey</div><div class="ttdoc">用于稳定去重的规范化键。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00040">AllegroFootprintModel.h:40</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_a6000cf4603bf0421ab4ddb8646aff241"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#a6000cf4603bf0421ab4ddb8646aff241">EasyKiConverter::AllegroPadstackModel::plated</a></div><div class="ttdeci">bool plated</div><div class="ttdoc">钻孔是否镀铜。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00037">AllegroFootprintModel.h:37</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_a8c333e6685543f128033a8973583d939"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#a8c333e6685543f128033a8973583d939">EasyKiConverter::AllegroPadstackModel::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">Padstack 稳定名称。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00030">AllegroFootprintModel.h:30</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_a9b9c27a0d2e5655e18cd6f6911b0a405"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#a9b9c27a0d2e5655e18cd6f6911b0a405">EasyKiConverter::AllegroPadstackModel::rotation</a></div><div class="ttdeci">double rotation</div><div class="ttdoc">Pad 几何旋转角度。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00036">AllegroFootprintModel.h:36</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_a9edd5ec152595661208b461a4484fc62"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#a9edd5ec152595661208b461a4484fc62">EasyKiConverter::AllegroPadstackModel::size</a></div><div class="ttdeci">QSizeF size</div><div class="ttdoc">Pad 外形尺寸。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00033">AllegroFootprintModel.h:33</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_ac9c03296b4a2663ef8a50908f9a1dd80"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#ac9c03296b4a2663ef8a50908f9a1dd80">EasyKiConverter::AllegroPadstackModel::drill</a></div><div class="ttdeci">QSizeF drill</div><div class="ttdoc">钻孔尺寸。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00034">AllegroFootprintModel.h:34</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_acae2b5cda5672604479e45887b47a645"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#acae2b5cda5672604479e45887b47a645">EasyKiConverter::AllegroPadstackModel::polygon</a></div><div class="ttdeci">QList&lt; QPointF &gt; polygon</div><div class="ttdoc">自定义多边形顶点。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00039">AllegroFootprintModel.h:39</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPadstackModel_html_aea8ea51dea52c9aa8b1fd1387ebade2e"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPadstackModel.html#aea8ea51dea52c9aa8b1fd1387ebade2e">EasyKiConverter::AllegroPadstackModel::slotLength</a></div><div class="ttdeci">double slotLength</div><div class="ttdoc">槽孔长度。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00035">AllegroFootprintModel.h:35</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPinModel_html"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPinModel.html">EasyKiConverter::AllegroPinModel</a></div><div class="ttdoc">Allegro 封装引脚与 Padstack 的关联。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00046">AllegroFootprintModel.h:46</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPinModel_html_a2c3956b2120e84166c0559013d2ba692"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPinModel.html#a2c3956b2120e84166c0559013d2ba692">EasyKiConverter::AllegroPinModel::padstackName</a></div><div class="ttdeci">QString padstackName</div><div class="ttdoc">关联的 Padstack 名称。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00048">AllegroFootprintModel.h:48</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPinModel_html_a92e90f856a8d4b49f8af7db42eca423c"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPinModel.html#a92e90f856a8d4b49f8af7db42eca423c">EasyKiConverter::AllegroPinModel::number</a></div><div class="ttdeci">QString number</div><div class="ttdoc">引脚编号或机械焊盘标识。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00047">AllegroFootprintModel.h:47</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPinModel_html_a98d939b56b2f61a42249c5db5fdbacd3"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPinModel.html#a98d939b56b2f61a42249c5db5fdbacd3">EasyKiConverter::AllegroPinModel::mechanical</a></div><div class="ttdeci">bool mechanical</div><div class="ttdoc">是否为机械引脚。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00051">AllegroFootprintModel.h:51</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPinModel_html_aabbf20287a1f0366166540fcd7dab25a"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPinModel.html#aabbf20287a1f0366166540fcd7dab25a">EasyKiConverter::AllegroPinModel::rotation</a></div><div class="ttdeci">double rotation</div><div class="ttdoc">引脚旋转角度。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00050">AllegroFootprintModel.h:50</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AllegroPinModel_html_ab7d076c3f27bb8b0b520eca288c2ca08"><div class="ttname"><a href="structEasyKiConverter_1_1AllegroPinModel.html#ab7d076c3f27bb8b0b520eca288c2ca08">EasyKiConverter::AllegroPinModel::position</a></div><div class="ttdeci">QPointF position</div><div class="ttdoc">引脚位置。</div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00049">AllegroFootprintModel.h:49</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_8e527e97dc78335f4f70993d32d4ac8a.html">allegro</a></li><li class="navelem"><a class="el" href="AllegroFootprintModel_8h.html">AllegroFootprintModel.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

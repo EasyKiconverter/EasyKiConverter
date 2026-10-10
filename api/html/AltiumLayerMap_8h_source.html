@@ -1,0 +1,294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/utils/AltiumLayerMap.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumLayerMap_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumLayerMap.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumLayerMap_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="IRTypes_8h.html">core/ir/IRTypes.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html">   26</a></span><span class="keyword">namespace </span>AltiumLayerMap {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="foldopen" id="foldopen00033" data-start="{" data-end="}">
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a2fe2872898ffcb28b9394c8eaadcf8c5">   33</a></span><span class="keyword">constexpr</span> uint8_t <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a2fe2872898ffcb28b9394c8eaadcf8c5">toAltiumLayer</a>(<span class="keywordtype">int</span> easyedaLayerId) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(qBound(0, easyedaLayerId, 255));</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>}</div>
+</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>uint32_t <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a68c393f132947c7766cd881810109ba7">toV7LayerId</a>(uint8_t layer);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>QString <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a308a9ad4326171f39f96a9a332f163b0">toLayerName</a>(uint8_t layer);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>uint8_t <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#acb0d8baf5bbf15c002849d4cf453f5a7">toAltiumPadShape</a>(<span class="keyword">const</span> QString&amp; easyedaShape);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>uint8_t <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#aa8ae3ce33b9c23585a971bafa0d09e9d">toAltiumElectricalType</a>(<span class="keywordtype">int</span> easyedaPinType);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>uint8_t <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#ab762180d0486c053735621339f53b299">toAltiumPinOrientation</a>(<span class="keywordtype">int</span> easyedaRotation);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a9048a11ed16f9e30be9427f092271d1d">   88</a></span><span class="keyword">inline</span> uint8_t <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#acb0d8baf5bbf15c002849d4cf453f5a7">toAltiumPadShape</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6">IR::PadShape</a> shape) {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="comment">// 将 IR 焊盘形状收敛到 Altium 支持的圆形、矩形和圆角矩形编号。</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">switch</span> (shape) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a119518c2134c46108179369f0ce81fa2">IR::PadShape::Ellipse</a>:</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a01733ae48f19ae284165e55dd2934b61">IR::PadShape::Oval</a>:</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <span class="keywordflow">return</span> 1;  <span class="comment">// Round</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81">IR::PadShape::Rect</a>:</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="keywordflow">return</span> 2;  <span class="comment">// Rectangular</span></div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a4c0a11247d92f73fb84baa51e37a3263">IR::PadShape::Polygon</a>:</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a9f47e1193b6c86239bfbe1c5bc7ed08f">IR::PadShape::RoundRect</a>:</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a7e7dd435b4cc7ba2b020d5a97856dc80">IR::PadShape::Trapezoid</a>:</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">return</span> 9;  <span class="comment">// RoundedRectangle</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keywordflow">return</span> 1;  <span class="comment">// 默认 Round</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
+</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="foldopen" id="foldopen00110" data-start="{" data-end="}">
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a9dd539165c68d5f8b89ba2ed96387cf7">  110</a></span><span class="keyword">inline</span> uint8_t <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#aa8ae3ce33b9c23585a971bafa0d09e9d">toAltiumElectricalType</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714">IR::PinElectricalType</a> <a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="comment">// 将 IR 电气类型转换为 Altium 引脚电气类型编号。</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">switch</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5">IR::PinElectricalType::Input</a>:</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            <span class="keywordflow">return</span> 0;  <span class="comment">// Input</span></div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54">IR::PinElectricalType::Output</a>:</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            <span class="keywordflow">return</span> 2;  <span class="comment">// Output</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40">IR::PinElectricalType::Bidirectional</a>:</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>            <span class="keywordflow">return</span> 1;  <span class="comment">// IO</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de">IR::PinElectricalType::Power</a>:</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            <span class="keywordflow">return</span> 7;  <span class="comment">// Power</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c">IR::PinElectricalType::OpenCollector</a>:</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            <span class="keywordflow">return</span> 3;  <span class="comment">// OpenCollector</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90">IR::PinElectricalType::OpenEmitter</a>:</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="keywordflow">return</span> 6;  <span class="comment">// OpenEmitter</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85">IR::PinElectricalType::Passive</a>:</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            <span class="keywordflow">return</span> 4;  <span class="comment">// Passive</span></div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>            <span class="keywordflow">return</span> 4;  <span class="comment">// Unspecified → Passive</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    }</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>}</div>
+</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="foldopen" id="foldopen00137" data-start="{" data-end="}">
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a76c1bdeb0c68bcb4c06e91949bfb1f49">  137</a></span><span class="keyword">inline</span> uint8_t <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#ab762180d0486c053735621339f53b299">toAltiumPinOrientation</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065cae">IR::PinDirection</a> dir) {</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="comment">// 将 IR 引脚方向转换为 Altium 的四向方向编号。</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">switch</span> (dir) {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">IR::PinDirection::Right</a>:</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">IR::PinDirection::Up</a>:</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>            <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">IR::PinDirection::Left</a>:</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>            <span class="keywordflow">return</span> 2;</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">IR::PinDirection::Down</a>:</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            <span class="keywordflow">return</span> 3;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>}</div>
+</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="foldopen" id="foldopen00161" data-start="{" data-end="}">
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a51e1e9375a682a3c75dd9f856711051c">  161</a></span><span class="keyword">inline</span> <span class="keywordtype">int</span> <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a51e1e9375a682a3c75dd9f856711051c">fromLayerTypeToAltium</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981">IR::LayerType</a> layer) {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="comment">// 将统一层类型映射为 Altium 的 Protel 层编号。</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">switch</span> (layer) {</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">IR::LayerType::TopCopper</a>:</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>            <span class="keywordflow">return</span> 1;  <span class="comment">// Top Layer</span></div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc">IR::LayerType::BottomCopper</a>:</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            <span class="keywordflow">return</span> 32;  <span class="comment">// Bottom Layer</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a4baeb8868722a7b0e68c685a2e3b4822">IR::LayerType::TopSilk</a>:</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>            <span class="keywordflow">return</span> 33;  <span class="comment">// Top Overlay</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac3502964a873d3a2628700d060b0874a">IR::LayerType::BottomSilk</a>:</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>            <span class="keywordflow">return</span> 34;  <span class="comment">// Bottom Overlay</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8a0dab736ba936c8b8af93ebd573a020">IR::LayerType::TopPaste</a>:</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>            <span class="keywordflow">return</span> 35;  <span class="comment">// Top Paste</span></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a22bda87d1f7500bdbed77e7569bfb2c6">IR::LayerType::BottomPaste</a>:</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            <span class="keywordflow">return</span> 36;  <span class="comment">// Bottom Paste</span></div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a98da48f74f4a4f01a962a2ce68fb2ccf">IR::LayerType::TopMask</a>:</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keywordflow">return</span> 37;  <span class="comment">// Top Solder Mask</span></div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a5fbb93d97c829f0d7e76f749d3af73c9">IR::LayerType::BottomMask</a>:</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>            <span class="keywordflow">return</span> 38;  <span class="comment">// Bottom Solder Mask</span></div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a65ff927d0e41aaf61372715ec90cda36">IR::LayerType::MultiLayer</a>:</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            <span class="keywordflow">return</span> 74;  <span class="comment">// Multi Layer</span></div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8861cb4e1e2ae26a2d7f9255d38778f7">IR::LayerType::EdgeCuts</a>:</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>            <span class="keywordflow">return</span> 57;  <span class="comment">// Mechanical 1 (library body outline)</span></div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a08a4b9efe9915f838f3085c75526b209">IR::LayerType::KeepOut</a>:</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            <span class="keywordflow">return</span> 56;  <span class="comment">// Keepout</span></div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a934c68860f93dc3e2562aea0af984d92">IR::LayerType::TopAssembly</a>:</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>            <span class="keywordflow">return</span> 57;  <span class="comment">// Mechanical 1</span></div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a9179c27c99130211b1aaf05421fa91f5">IR::LayerType::BottomAssembly</a>:</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            <span class="keywordflow">return</span> 58;  <span class="comment">// Mechanical 2</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac90d702da275c4b81b75a6a0163bc2bf">IR::LayerType::UserDefined</a>:</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            <span class="keywordflow">return</span> 57;  <span class="comment">// Mechanical 1，承载 EasyEDA Dwgs.User/Cmts.User 等用户层图元</span></div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    }</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>}</div>
+</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>}  <span class="comment">// namespace AltiumLayerMap</span></div>
+</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aIRTypes_8h_html"><div class="ttname"><a href="IRTypes_8h.html">IRTypes.h</a></div><div class="ttdoc">EDA 无关的通用枚举和类型定义</div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_a515c02d1ed2c32753cd4e2cd7140acdd"><div class="ttname"><a href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a></div><div class="ttdeci">quint8 type</div><div class="ttdoc">类型。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00064">OLECompoundReader.cpp:64</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumLayerMap_html_a2fe2872898ffcb28b9394c8eaadcf8c5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a2fe2872898ffcb28b9394c8eaadcf8c5">EasyKiConverter::AltiumLayerMap::toAltiumLayer</a></div><div class="ttdeci">constexpr uint8_t toAltiumLayer(int easyedaLayerId)</div><div class="ttdoc">将 EasyEDA 层 ID 转换为 Altium 层字节。</div><div class="ttdef"><b>Definition</b> <a href="AltiumLayerMap_8h_source.html#l00033">AltiumLayerMap.h:33</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumLayerMap_html_a308a9ad4326171f39f96a9a332f163b0"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a308a9ad4326171f39f96a9a332f163b0">EasyKiConverter::AltiumLayerMap::toLayerName</a></div><div class="ttdeci">QString toLayerName(uint8_t layer)</div><div class="ttdoc">Altium 层字节 → 层名称字符串</div><div class="ttdef"><b>Definition</b> <a href="AltiumLayerMap_8cpp_source.html#l00047">AltiumLayerMap.cpp:47</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumLayerMap_html_a51e1e9375a682a3c75dd9f856711051c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a51e1e9375a682a3c75dd9f856711051c">EasyKiConverter::AltiumLayerMap::fromLayerTypeToAltium</a></div><div class="ttdeci">int fromLayerTypeToAltium(IR::LayerType layer)</div><div class="ttdoc">IR LayerType 枚举 → Altium Protel 层编号</div><div class="ttdef"><b>Definition</b> <a href="AltiumLayerMap_8h_source.html#l00161">AltiumLayerMap.h:161</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumLayerMap_html_a68c393f132947c7766cd881810109ba7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#a68c393f132947c7766cd881810109ba7">EasyKiConverter::AltiumLayerMap::toV7LayerId</a></div><div class="ttdeci">uint32_t toV7LayerId(uint8_t layer)</div><div class="ttdoc">Altium 层字节 → V7 Layer ID</div><div class="ttdef"><b>Definition</b> <a href="AltiumLayerMap_8cpp_source.html#l00010">AltiumLayerMap.cpp:10</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumLayerMap_html_aa8ae3ce33b9c23585a971bafa0d09e9d"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#aa8ae3ce33b9c23585a971bafa0d09e9d">EasyKiConverter::AltiumLayerMap::toAltiumElectricalType</a></div><div class="ttdeci">uint8_t toAltiumElectricalType(int easyedaPinType)</div><div class="ttdoc">EasyEDA 引脚类型 → Altium 电气类型</div><div class="ttdef"><b>Definition</b> <a href="AltiumLayerMap_8cpp_source.html#l00104">AltiumLayerMap.cpp:104</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumLayerMap_html_ab762180d0486c053735621339f53b299"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#ab762180d0486c053735621339f53b299">EasyKiConverter::AltiumLayerMap::toAltiumPinOrientation</a></div><div class="ttdeci">uint8_t toAltiumPinOrientation(int easyedaRotation)</div><div class="ttdoc">EasyEDA 引脚方向（角度）→ Altium 引脚方向</div><div class="ttdef"><b>Definition</b> <a href="AltiumLayerMap_8cpp_source.html#l00125">AltiumLayerMap.cpp:125</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumLayerMap_html_acb0d8baf5bbf15c002849d4cf453f5a7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumLayerMap.html#acb0d8baf5bbf15c002849d4cf453f5a7">EasyKiConverter::AltiumLayerMap::toAltiumPadShape</a></div><div class="ttdeci">uint8_t toAltiumPadShape(const QString &amp;easyedaShape)</div><div class="ttdoc">EasyEDA 焊盘形状 → Altium 焊盘形状</div><div class="ttdef"><b>Definition</b> <a href="AltiumLayerMap_8cpp_source.html#l00086">AltiumLayerMap.cpp:86</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981">EasyKiConverter::IR::LayerType</a></div><div class="ttdeci">LayerType</div><div class="ttdoc">PCB 层类型枚举（EDA 无关）</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00139">IRTypes.h:139</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a08a4b9efe9915f838f3085c75526b209"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a08a4b9efe9915f838f3085c75526b209">EasyKiConverter::IR::LayerType::KeepOut</a></div><div class="ttdeci">@ KeepOut</div><div class="ttdoc">禁止布线区</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">EasyKiConverter::IR::LayerType::TopCopper</a></div><div class="ttdeci">@ TopCopper</div><div class="ttdoc">顶层铜</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a22bda87d1f7500bdbed77e7569bfb2c6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a22bda87d1f7500bdbed77e7569bfb2c6">EasyKiConverter::IR::LayerType::BottomPaste</a></div><div class="ttdeci">@ BottomPaste</div><div class="ttdoc">底层锡膏</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc">EasyKiConverter::IR::LayerType::BottomCopper</a></div><div class="ttdeci">@ BottomCopper</div><div class="ttdoc">底层铜</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a4baeb8868722a7b0e68c685a2e3b4822"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a4baeb8868722a7b0e68c685a2e3b4822">EasyKiConverter::IR::LayerType::TopSilk</a></div><div class="ttdeci">@ TopSilk</div><div class="ttdoc">顶层丝印</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a5fbb93d97c829f0d7e76f749d3af73c9"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a5fbb93d97c829f0d7e76f749d3af73c9">EasyKiConverter::IR::LayerType::BottomMask</a></div><div class="ttdeci">@ BottomMask</div><div class="ttdoc">底层阻焊</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a65ff927d0e41aaf61372715ec90cda36"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a65ff927d0e41aaf61372715ec90cda36">EasyKiConverter::IR::LayerType::MultiLayer</a></div><div class="ttdeci">@ MultiLayer</div><div class="ttdoc">多层（通孔）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a8861cb4e1e2ae26a2d7f9255d38778f7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8861cb4e1e2ae26a2d7f9255d38778f7">EasyKiConverter::IR::LayerType::EdgeCuts</a></div><div class="ttdeci">@ EdgeCuts</div><div class="ttdoc">板框切割</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a8a0dab736ba936c8b8af93ebd573a020"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8a0dab736ba936c8b8af93ebd573a020">EasyKiConverter::IR::LayerType::TopPaste</a></div><div class="ttdeci">@ TopPaste</div><div class="ttdoc">顶层锡膏</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a9179c27c99130211b1aaf05421fa91f5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a9179c27c99130211b1aaf05421fa91f5">EasyKiConverter::IR::LayerType::BottomAssembly</a></div><div class="ttdeci">@ BottomAssembly</div><div class="ttdoc">底层装配</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a934c68860f93dc3e2562aea0af984d92"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a934c68860f93dc3e2562aea0af984d92">EasyKiConverter::IR::LayerType::TopAssembly</a></div><div class="ttdeci">@ TopAssembly</div><div class="ttdoc">顶层装配</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a98da48f74f4a4f01a962a2ce68fb2ccf"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a98da48f74f4a4f01a962a2ce68fb2ccf">EasyKiConverter::IR::LayerType::TopMask</a></div><div class="ttdeci">@ TopMask</div><div class="ttdoc">顶层阻焊</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981ac3502964a873d3a2628700d060b0874a"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac3502964a873d3a2628700d060b0874a">EasyKiConverter::IR::LayerType::BottomSilk</a></div><div class="ttdeci">@ BottomSilk</div><div class="ttdoc">底层丝印</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981ac90d702da275c4b81b75a6a0163bc2bf"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac90d702da275c4b81b75a6a0163bc2bf">EasyKiConverter::IR::LayerType::UserDefined</a></div><div class="ttdeci">@ UserDefined</div><div class="ttdoc">用户自定义层</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714">EasyKiConverter::IR::PinElectricalType</a></div><div class="ttdeci">PinElectricalType</div><div class="ttdoc">引脚电气类型枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00055">IRTypes.h:55</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54">EasyKiConverter::IR::PinElectricalType::Output</a></div><div class="ttdeci">@ Output</div><div class="ttdoc">输出</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5">EasyKiConverter::IR::PinElectricalType::Input</a></div><div class="ttdeci">@ Input</div><div class="ttdoc">输入</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c">EasyKiConverter::IR::PinElectricalType::OpenCollector</a></div><div class="ttdeci">@ OpenCollector</div><div class="ttdoc">集电极开路</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40">EasyKiConverter::IR::PinElectricalType::Bidirectional</a></div><div class="ttdeci">@ Bidirectional</div><div class="ttdoc">双向</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de">EasyKiConverter::IR::PinElectricalType::Power</a></div><div class="ttdeci">@ Power</div><div class="ttdoc">电源引脚</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90">EasyKiConverter::IR::PinElectricalType::OpenEmitter</a></div><div class="ttdeci">@ OpenEmitter</div><div class="ttdoc">发射极开路</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85">EasyKiConverter::IR::PinElectricalType::Passive</a></div><div class="ttdeci">@ Passive</div><div class="ttdoc">无源（电阻、电容等）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065cae"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065cae">EasyKiConverter::IR::PinDirection</a></div><div class="ttdeci">PinDirection</div><div class="ttdoc">引脚方向枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00070">IRTypes.h:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">EasyKiConverter::IR::PinDirection::Down</a></div><div class="ttdeci">@ Down</div><div class="ttdoc">向下</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">EasyKiConverter::IR::PinDirection::Up</a></div><div class="ttdeci">@ Up</div><div class="ttdoc">向上</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">EasyKiConverter::IR::PinDirection::Right</a></div><div class="ttdeci">@ Right</div><div class="ttdoc">向右</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">EasyKiConverter::IR::PinDirection::Left</a></div><div class="ttdeci">@ Left</div><div class="ttdoc">向左</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6">EasyKiConverter::IR::PadShape</a></div><div class="ttdeci">PadShape</div><div class="ttdoc">焊盘形状枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00033">IRTypes.h:33</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a01733ae48f19ae284165e55dd2934b61"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a01733ae48f19ae284165e55dd2934b61">EasyKiConverter::IR::PadShape::Oval</a></div><div class="ttdeci">@ Oval</div><div class="ttdoc">椭圆长圆焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a119518c2134c46108179369f0ce81fa2"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a119518c2134c46108179369f0ce81fa2">EasyKiConverter::IR::PadShape::Ellipse</a></div><div class="ttdeci">@ Ellipse</div><div class="ttdoc">椭圆/圆形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a4c0a11247d92f73fb84baa51e37a3263"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a4c0a11247d92f73fb84baa51e37a3263">EasyKiConverter::IR::PadShape::Polygon</a></div><div class="ttdeci">@ Polygon</div><div class="ttdoc">多边形异形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81">EasyKiConverter::IR::PadShape::Rect</a></div><div class="ttdeci">@ Rect</div><div class="ttdoc">矩形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a7e7dd435b4cc7ba2b020d5a97856dc80"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a7e7dd435b4cc7ba2b020d5a97856dc80">EasyKiConverter::IR::PadShape::Trapezoid</a></div><div class="ttdeci">@ Trapezoid</div><div class="ttdoc">梯形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a9f47e1193b6c86239bfbe1c5bc7ed08f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a9f47e1193b6c86239bfbe1c5bc7ed08f">EasyKiConverter::IR::PadShape::RoundRect</a></div><div class="ttdeci">@ RoundRect</div><div class="ttdoc">圆角矩形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_56f847198c0ccc8b1dcbc43eadb2d0cc.html">utils</a></li><li class="navelem"><a class="el" href="AltiumLayerMap_8h.html">AltiumLayerMap.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

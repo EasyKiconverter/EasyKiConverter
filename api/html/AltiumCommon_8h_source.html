@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/models/AltiumCommon.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumCommon_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumCommon.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumCommon_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumModels.html">   12</a></span><span class="keyword">namespace </span>AltiumModels {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950">   17</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950">PadShape</a> : uint8_t { <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950ab7f41fc1412ad2ee75e9b2635d3b9d5c">Round</a> = 1, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950a7545c5d3ad246a683a197a2903a4d5e6">Rectangular</a> = 2, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950aecacc5f659e9c6c8fef7285d7a082009">Octagonal</a> = 3, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950a1350fb96c0f23705730f0052ff66dce4">RoundedRectangle</a> = 9 };</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="};">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061">   22</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061">PinElectricalType</a> : uint8_t {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061a324118a6721dd6b8a9b9f4e327df2bf5">Input</a> = 0,</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061acf3882f1c43ab22bff0bd9d82d83251b">IO</a> = 1,</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061a29c2c02a361c9d7028472e5d92cd4a54">Output</a> = 2,</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061a66ff3fbc34440398658cf2fa4e7f704c">OpenCollector</a> = 3,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061af80bc338b6146b566004a046f8137c85">Passive</a> = 4,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061ab4f85051516c5085ef86dd9ea36ae937">HiZ</a> = 5,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061ae1d9b85cc316bbd2a6447d25ff0edc90">OpenEmitter</a> = 6,</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061add4fe0cc913f704600b97d1f5dd285de">Power</a> = 7</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>};</div>
+</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="};">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3d">   36</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3d">PinOrientation</a> : uint8_t {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3da92b09c7c48c520c3c55e497875da437c">Right</a> = 0,  </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3da258f49887ef8d14ac268c92b02503aaa">Up</a> = 1,  </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3da945d5e233cf7d6240f6b783b36a374ff">Left</a> = 2,  </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3da08a38277b0309070706f6652eeae9a53">Down</a> = 3  </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>};</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="foldopen" id="foldopen00046" data-start="{" data-end="};">
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html">   46</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html">FontEntry</a> {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a156863944c5016302fc4c97c71ff14a1">   47</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a156863944c5016302fc4c97c71ff14a1">name</a> = <span class="stringliteral">&quot;Times New Roman&quot;</span>;  </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a9003b3f6890bd2b21bf5c8086e8d2e84">   48</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a9003b3f6890bd2b21bf5c8086e8d2e84">size</a> = 10;  </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#aba4fc5b1d9c6f9cc35cb44d949296f1d">   49</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#aba4fc5b1d9c6f9cc35cb44d949296f1d">bold</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a43ac2092a8715d7acf5d01b05cad3354">   50</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a43ac2092a8715d7acf5d01b05cad3354">italic</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a0592aa3e50d035ad38034078339621d7">   51</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a0592aa3e50d035ad38034078339621d7">underline</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>};</div>
+</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86b">   57</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86b">PadMode</a> : uint8_t { <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86ba1fbb1e3943c2c6c560247ac8f9289780">Simple</a> = 0, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86ba0ef69e474587c6b8a25e725f77273ff6">TopMidBot</a> = 1, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86ba4820bd119eaec0da290c0893367f1d3a">FullStack</a> = 2 };</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>}  <span class="comment">// namespace AltiumModels</span></div>
+</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a71321415bdf4aceeec6624448f683950"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950">EasyKiConverter::AltiumModels::PadShape</a></div><div class="ttdeci">PadShape</div><div class="ttdoc">Altium 焊盘形状枚举</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00017">AltiumCommon.h:17</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a71321415bdf4aceeec6624448f683950a1350fb96c0f23705730f0052ff66dce4"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950a1350fb96c0f23705730f0052ff66dce4">EasyKiConverter::AltiumModels::PadShape::RoundedRectangle</a></div><div class="ttdeci">@ RoundedRectangle</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a71321415bdf4aceeec6624448f683950a7545c5d3ad246a683a197a2903a4d5e6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950a7545c5d3ad246a683a197a2903a4d5e6">EasyKiConverter::AltiumModels::PadShape::Rectangular</a></div><div class="ttdeci">@ Rectangular</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a71321415bdf4aceeec6624448f683950ab7f41fc1412ad2ee75e9b2635d3b9d5c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950ab7f41fc1412ad2ee75e9b2635d3b9d5c">EasyKiConverter::AltiumModels::PadShape::Round</a></div><div class="ttdeci">@ Round</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a71321415bdf4aceeec6624448f683950aecacc5f659e9c6c8fef7285d7a082009"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a71321415bdf4aceeec6624448f683950aecacc5f659e9c6c8fef7285d7a082009">EasyKiConverter::AltiumModels::PadShape::Octagonal</a></div><div class="ttdeci">@ Octagonal</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061">EasyKiConverter::AltiumModels::PinElectricalType</a></div><div class="ttdeci">PinElectricalType</div><div class="ttdoc">Altium 引脚电气类型</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00022">AltiumCommon.h:22</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061a29c2c02a361c9d7028472e5d92cd4a54"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061a29c2c02a361c9d7028472e5d92cd4a54">EasyKiConverter::AltiumModels::PinElectricalType::Output</a></div><div class="ttdeci">@ Output</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061a324118a6721dd6b8a9b9f4e327df2bf5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061a324118a6721dd6b8a9b9f4e327df2bf5">EasyKiConverter::AltiumModels::PinElectricalType::Input</a></div><div class="ttdeci">@ Input</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061a66ff3fbc34440398658cf2fa4e7f704c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061a66ff3fbc34440398658cf2fa4e7f704c">EasyKiConverter::AltiumModels::PinElectricalType::OpenCollector</a></div><div class="ttdeci">@ OpenCollector</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061ab4f85051516c5085ef86dd9ea36ae937"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061ab4f85051516c5085ef86dd9ea36ae937">EasyKiConverter::AltiumModels::PinElectricalType::HiZ</a></div><div class="ttdeci">@ HiZ</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061acf3882f1c43ab22bff0bd9d82d83251b"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061acf3882f1c43ab22bff0bd9d82d83251b">EasyKiConverter::AltiumModels::PinElectricalType::IO</a></div><div class="ttdeci">@ IO</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061add4fe0cc913f704600b97d1f5dd285de"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061add4fe0cc913f704600b97d1f5dd285de">EasyKiConverter::AltiumModels::PinElectricalType::Power</a></div><div class="ttdeci">@ Power</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061ae1d9b85cc316bbd2a6447d25ff0edc90"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061ae1d9b85cc316bbd2a6447d25ff0edc90">EasyKiConverter::AltiumModels::PinElectricalType::OpenEmitter</a></div><div class="ttdeci">@ OpenEmitter</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82043bc0b192a8bfd7511136e3b20061af80bc338b6146b566004a046f8137c85"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82043bc0b192a8bfd7511136e3b20061af80bc338b6146b566004a046f8137c85">EasyKiConverter::AltiumModels::PinElectricalType::Passive</a></div><div class="ttdeci">@ Passive</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82c4edf3d360b7d7b44e12c7ace9dc3d"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3d">EasyKiConverter::AltiumModels::PinOrientation</a></div><div class="ttdeci">PinOrientation</div><div class="ttdoc">Altium 引脚方向</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00036">AltiumCommon.h:36</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82c4edf3d360b7d7b44e12c7ace9dc3da08a38277b0309070706f6652eeae9a53"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3da08a38277b0309070706f6652eeae9a53">EasyKiConverter::AltiumModels::PinOrientation::Down</a></div><div class="ttdeci">@ Down</div><div class="ttdoc">270°（引脚向下延伸）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82c4edf3d360b7d7b44e12c7ace9dc3da258f49887ef8d14ac268c92b02503aaa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3da258f49887ef8d14ac268c92b02503aaa">EasyKiConverter::AltiumModels::PinOrientation::Up</a></div><div class="ttdeci">@ Up</div><div class="ttdoc">90°（引脚向上延伸）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82c4edf3d360b7d7b44e12c7ace9dc3da92b09c7c48c520c3c55e497875da437c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3da92b09c7c48c520c3c55e497875da437c">EasyKiConverter::AltiumModels::PinOrientation::Right</a></div><div class="ttdeci">@ Right</div><div class="ttdoc">0°（引脚向右延伸）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_a82c4edf3d360b7d7b44e12c7ace9dc3da945d5e233cf7d6240f6b783b36a374ff"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#a82c4edf3d360b7d7b44e12c7ace9dc3da945d5e233cf7d6240f6b783b36a374ff">EasyKiConverter::AltiumModels::PinOrientation::Left</a></div><div class="ttdeci">@ Left</div><div class="ttdoc">180°（引脚向左延伸）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_aedf8cfd7b75fe6f420de5c184e33a86b"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86b">EasyKiConverter::AltiumModels::PadMode</a></div><div class="ttdeci">PadMode</div><div class="ttdoc">焊盘模式</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00057">AltiumCommon.h:57</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_aedf8cfd7b75fe6f420de5c184e33a86ba0ef69e474587c6b8a25e725f77273ff6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86ba0ef69e474587c6b8a25e725f77273ff6">EasyKiConverter::AltiumModels::PadMode::TopMidBot</a></div><div class="ttdeci">@ TopMidBot</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_aedf8cfd7b75fe6f420de5c184e33a86ba1fbb1e3943c2c6c560247ac8f9289780"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86ba1fbb1e3943c2c6c560247ac8f9289780">EasyKiConverter::AltiumModels::PadMode::Simple</a></div><div class="ttdeci">@ Simple</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumModels_html_aedf8cfd7b75fe6f420de5c184e33a86ba4820bd119eaec0da290c0893367f1d3a"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumModels.html#aedf8cfd7b75fe6f420de5c184e33a86ba4820bd119eaec0da290c0893367f1d3a">EasyKiConverter::AltiumModels::PadMode::FullStack</a></div><div class="ttdeci">@ FullStack</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumModels_1_1FontEntry_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html">EasyKiConverter::AltiumModels::FontEntry</a></div><div class="ttdoc">字体表条目</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00046">AltiumCommon.h:46</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumModels_1_1FontEntry_html_a0592aa3e50d035ad38034078339621d7"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a0592aa3e50d035ad38034078339621d7">EasyKiConverter::AltiumModels::FontEntry::underline</a></div><div class="ttdeci">bool underline</div><div class="ttdoc">是否添加下划线。</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00051">AltiumCommon.h:51</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumModels_1_1FontEntry_html_a156863944c5016302fc4c97c71ff14a1"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a156863944c5016302fc4c97c71ff14a1">EasyKiConverter::AltiumModels::FontEntry::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">字体名称。</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00047">AltiumCommon.h:47</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumModels_1_1FontEntry_html_a43ac2092a8715d7acf5d01b05cad3354"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a43ac2092a8715d7acf5d01b05cad3354">EasyKiConverter::AltiumModels::FontEntry::italic</a></div><div class="ttdeci">bool italic</div><div class="ttdoc">是否使用斜体。</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00050">AltiumCommon.h:50</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumModels_1_1FontEntry_html_a9003b3f6890bd2b21bf5c8086e8d2e84"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#a9003b3f6890bd2b21bf5c8086e8d2e84">EasyKiConverter::AltiumModels::FontEntry::size</a></div><div class="ttdeci">int size</div><div class="ttdoc">字体大小。</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00048">AltiumCommon.h:48</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumModels_1_1FontEntry_html_aba4fc5b1d9c6f9cc35cb44d949296f1d"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumModels_1_1FontEntry.html#aba4fc5b1d9c6f9cc35cb44d949296f1d">EasyKiConverter::AltiumModels::FontEntry::bold</a></div><div class="ttdeci">bool bold</div><div class="ttdoc">是否使用粗体。</div><div class="ttdef"><b>Definition</b> <a href="AltiumCommon_8h_source.html#l00049">AltiumCommon.h:49</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_81543c6b7878730e47e49c95e68d8479.html">models</a></li><li class="navelem"><a class="el" href="AltiumCommon_8h.html">AltiumCommon.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

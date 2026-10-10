@@ -1,0 +1,1715 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::OLECompoundWriter类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1OLECompoundWriter.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-types">Private 类型</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="#pri-static-attribs">静态 Private 属性</a> &#124;
+<a href="#friends">友元</a> &#124;
+<a href="classEasyKiConverter_1_1OLECompoundWriter-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::OLECompoundWriter类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>OLE 复合文档 V3 写入器  
+ <a href="classEasyKiConverter_1_1OLECompoundWriter.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::OLECompoundWriter 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1OLECompoundWriter__coll__graph.svg" width="236" height="871"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">DirectoryEntry</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">目录条目结构（128 字节）  <a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1StorageNode.html">StorageNode</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">内部节点结构，用于跟踪存储树  <a href="structEasyKiConverter_1_1OLECompoundWriter_1_1StorageNode.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1StreamData.html">StreamData</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:aad29c8cf70da361dc35bc3fb845f907c" id="r_aad29c8cf70da361dc35bc3fb845f907c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#aad29c8cf70da361dc35bc3fb845f907c">OLECompoundWriter</a> ()</td></tr>
+<tr class="memdesc:aad29c8cf70da361dc35bc3fb845f907c"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:aad29c8cf70da361dc35bc3fb845f907c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:affe81b0ed3adbf8212ceb90ae535f3d2" id="r_affe81b0ed3adbf8212ceb90ae535f3d2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#affe81b0ed3adbf8212ceb90ae535f3d2">~OLECompoundWriter</a> ()</td></tr>
+<tr class="memdesc:affe81b0ed3adbf8212ceb90ae535f3d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:affe81b0ed3adbf8212ceb90ae535f3d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add9ab9d9753aa5cba0e6639dc74eb0f0" id="r_add9ab9d9753aa5cba0e6639dc74eb0f0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#add9ab9d9753aa5cba0e6639dc74eb0f0">create</a> ()</td></tr>
+<tr class="memdesc:add9ab9d9753aa5cba0e6639dc74eb0f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建新的 OLE 复合文档  <br /></td></tr>
+<tr class="separator:add9ab9d9753aa5cba0e6639dc74eb0f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab62d209fccc3c99bec2e1eecfb05ea91" id="r_ab62d209fccc3c99bec2e1eecfb05ea91"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#ab62d209fccc3c99bec2e1eecfb05ea91">saveToFile</a> (const QString &amp;filePath)</td></tr>
+<tr class="memdesc:ab62d209fccc3c99bec2e1eecfb05ea91"><td class="mdescLeft">&#160;</td><td class="mdescRight">保存到文件  <br /></td></tr>
+<tr class="separator:ab62d209fccc3c99bec2e1eecfb05ea91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a411f6e1210d7a4019f1be97a2319decc" id="r_a411f6e1210d7a4019f1be97a2319decc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a411f6e1210d7a4019f1be97a2319decc">addStorage</a> (const QString &amp;parentPath, const QString &amp;<a class="el" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>)</td></tr>
+<tr class="memdesc:a411f6e1210d7a4019f1be97a2319decc"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定存储下创建子存储  <br /></td></tr>
+<tr class="separator:a411f6e1210d7a4019f1be97a2319decc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b8cace632c0f1850898b60f2f261627" id="r_a9b8cace632c0f1850898b60f2f261627"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a9b8cace632c0f1850898b60f2f261627">addStorage</a> (const QString &amp;<a class="el" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>)</td></tr>
+<tr class="memdesc:a9b8cace632c0f1850898b60f2f261627"><td class="mdescLeft">&#160;</td><td class="mdescRight">在根存储下创建子存储  <br /></td></tr>
+<tr class="separator:a9b8cace632c0f1850898b60f2f261627"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc10f8b3827705cb22f938a9148220c2" id="r_adc10f8b3827705cb22f938a9148220c2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adc10f8b3827705cb22f938a9148220c2">writeStream</a> (const QString &amp;storagePath, const QString &amp;streamName, const QByteArray &amp;data)</td></tr>
+<tr class="memdesc:adc10f8b3827705cb22f938a9148220c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">在指定存储下写入流数据  <br /></td></tr>
+<tr class="separator:adc10f8b3827705cb22f938a9148220c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a428b2ab6e26323bb05f2c681b16253b3" id="r_a428b2ab6e26323bb05f2c681b16253b3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a428b2ab6e26323bb05f2c681b16253b3">writeStream</a> (const QString &amp;<a class="el" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, const QByteArray &amp;data)</td></tr>
+<tr class="memdesc:a428b2ab6e26323bb05f2c681b16253b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">在根存储下写入流数据  <br /></td></tr>
+<tr class="separator:a428b2ab6e26323bb05f2c681b16253b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa745f0619828a89e96d365ea9c8bef72" id="r_aa745f0619828a89e96d365ea9c8bef72"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#aa745f0619828a89e96d365ea9c8bef72">hasError</a> () const</td></tr>
+<tr class="memdesc:aa745f0619828a89e96d365ea9c8bef72"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取写入过程中是否发生结构错误  <br /></td></tr>
+<tr class="separator:aa745f0619828a89e96d365ea9c8bef72"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26d05365cbddb059762588d0d3eb9081" id="r_a26d05365cbddb059762588d0d3eb9081"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a26d05365cbddb059762588d0d3eb9081">errorString</a> () const</td></tr>
+<tr class="memdesc:a26d05365cbddb059762588d0d3eb9081"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最近一次结构错误说明  <br /></td></tr>
+<tr class="separator:a26d05365cbddb059762588d0d3eb9081"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private 类型</h2></td></tr>
+<tr class="memitem:adba18c04227ee80f53ccb5594875ad7a" id="r_adba18c04227ee80f53ccb5594875ad7a"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7a">ObjectType</a> : uint8_t { <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7aa88183b946cc5f0e8c96b2e66e1c74a7e">Unknown</a> = 0
+, <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7aa8c4aa541ee911e8d80451ef8cc304806">Storage</a> = 1
+, <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7aaeae835e83c0494a376229f254f7d3392">Stream</a> = 2
+, <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7aafa03eb688ad8aa1db593d33dabd89bad">Root</a> = 5
+ }</td></tr>
+<tr class="memdesc:adba18c04227ee80f53ccb5594875ad7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">目录条目对象类型  <a href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7a">更多...</a><br /></td></tr>
+<tr class="separator:adba18c04227ee80f53ccb5594875ad7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ab636621ba494e7134b59741b82d9a13d" id="r_ab636621ba494e7134b59741b82d9a13d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#ab636621ba494e7134b59741b82d9a13d">createDirectoryEntry</a> (const QString &amp;<a class="el" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7a">ObjectType</a> <a class="el" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>)</td></tr>
+<tr class="memdesc:ab636621ba494e7134b59741b82d9a13d"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建目录条目。  <br /></td></tr>
+<tr class="separator:ab636621ba494e7134b59741b82d9a13d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a0cb99808a5492491690f4ce3080c59" id="r_a6a0cb99808a5492491690f4ce3080c59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a6a0cb99808a5492491690f4ce3080c59">buildRedBlackTree</a> ()</td></tr>
+<tr class="memdesc:a6a0cb99808a5492491690f4ce3080c59"><td class="mdescLeft">&#160;</td><td class="mdescRight">构建红黑树结构  <br /></td></tr>
+<tr class="separator:a6a0cb99808a5492491690f4ce3080c59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac46efa98cbad92d92c5795cfd85bb48f" id="r_ac46efa98cbad92d92c5795cfd85bb48f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#ac46efa98cbad92d92c5795cfd85bb48f">buildSubTree</a> (int nodeIdx)</td></tr>
+<tr class="memdesc:ac46efa98cbad92d92c5795cfd85bb48f"><td class="mdescLeft">&#160;</td><td class="mdescRight">递归为存储节点及其子存储构建红黑树  <br /></td></tr>
+<tr class="separator:ac46efa98cbad92d92c5795cfd85bb48f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60aae5bb04066ad0dd06b5f2f81cfb04" id="r_a60aae5bb04066ad0dd06b5f2f81cfb04"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a60aae5bb04066ad0dd06b5f2f81cfb04">buildChildTree</a> (const QVector&lt; int &gt; &amp;children)</td></tr>
+<tr class="memdesc:a60aae5bb04066ad0dd06b5f2f81cfb04"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用递归构建红黑树子树。  <br /></td></tr>
+<tr class="separator:a60aae5bb04066ad0dd06b5f2f81cfb04"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee4bcc3a22732f60dd060e28ba34cad8" id="r_aee4bcc3a22732f60dd060e28ba34cad8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#aee4bcc3a22732f60dd060e28ba34cad8">serializeDirectoryEntry</a> (const <a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">DirectoryEntry</a> &amp;entry, QByteArray &amp;buffer) const</td></tr>
+<tr class="memdesc:aee4bcc3a22732f60dd060e28ba34cad8"><td class="mdescLeft">&#160;</td><td class="mdescRight">将目录条目序列化为 128 字节。  <br /></td></tr>
+<tr class="separator:aee4bcc3a22732f60dd060e28ba34cad8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b83d2204deee4cab733e603cd41af48" id="r_a2b83d2204deee4cab733e603cd41af48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a2b83d2204deee4cab733e603cd41af48">serializeFileHeader</a> (QByteArray &amp;header) const</td></tr>
+<tr class="memdesc:a2b83d2204deee4cab733e603cd41af48"><td class="mdescLeft">&#160;</td><td class="mdescRight">序列化文件头部（512 字节）。  <br /></td></tr>
+<tr class="separator:a2b83d2204deee4cab733e603cd41af48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d4aa2f26d334daa628f69d9e60f6f0b" id="r_a1d4aa2f26d334daa628f69d9e60f6f0b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a1d4aa2f26d334daa628f69d9e60f6f0b">finalize</a> ()</td></tr>
+<tr class="memdesc:a1d4aa2f26d334daa628f69d9e60f6f0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">最终处理：分配扇区、构建目录、准备序列化数据  <br /></td></tr>
+<tr class="separator:a1d4aa2f26d334daa628f69d9e60f6f0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabcb7044766324c45ae041a2953b66d0" id="r_aabcb7044766324c45ae041a2953b66d0"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#aabcb7044766324c45ae041a2953b66d0">isValidEntryName</a> (const QString &amp;<a class="el" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) const</td></tr>
+<tr class="memdesc:aabcb7044766324c45ae041a2953b66d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">校验目录或流名称，确保其可安全编码为 OLE 目录条目。  <br /></td></tr>
+<tr class="separator:aabcb7044766324c45ae041a2953b66d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a878c13d9ef2f50b7efde006823853753" id="r_a878c13d9ef2f50b7efde006823853753"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a878c13d9ef2f50b7efde006823853753">setError</a> (const QString &amp;message)</td></tr>
+<tr class="memdesc:a878c13d9ef2f50b7efde006823853753"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录写入过程中的首个结构错误，保留后续诊断的根因。  <br /></td></tr>
+<tr class="separator:a878c13d9ef2f50b7efde006823853753"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a1e29d7914c4f25889957b006bccbe823" id="r_a1e29d7914c4f25889957b006bccbe823"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a1e29d7914c4f25889957b006bccbe823">m_initialized</a> = false</td></tr>
+<tr class="memdesc:a1e29d7914c4f25889957b006bccbe823"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已经成功初始化输出文件。  <br /></td></tr>
+<tr class="separator:a1e29d7914c4f25889957b006bccbe823"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2971bf187680e0202cecbba3036c553" id="r_ad2971bf187680e0202cecbba3036c553"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#ad2971bf187680e0202cecbba3036c553">m_finalized</a> = false</td></tr>
+<tr class="memdesc:ad2971bf187680e0202cecbba3036c553"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已经完成目录和扇区数据收尾。  <br /></td></tr>
+<tr class="separator:ad2971bf187680e0202cecbba3036c553"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2700cc1713ea47b973cc94defae2ed2" id="r_ae2700cc1713ea47b973cc94defae2ed2"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#ae2700cc1713ea47b973cc94defae2ed2">m_errorMessage</a></td></tr>
+<tr class="memdesc:ae2700cc1713ea47b973cc94defae2ed2"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次结构或写入错误说明。  <br /></td></tr>
+<tr class="separator:ae2700cc1713ea47b973cc94defae2ed2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a694688999969060caf800d84d6fd1f29" id="r_a694688999969060caf800d84d6fd1f29"><td class="memItemLeft" align="right" valign="top">QVector&lt; <a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">DirectoryEntry</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a694688999969060caf800d84d6fd1f29">m_directory</a></td></tr>
+<tr class="memdesc:a694688999969060caf800d84d6fd1f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">目录条目列表  <br /></td></tr>
+<tr class="separator:a694688999969060caf800d84d6fd1f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af36d008471f8e504ebae33d65a4688a0" id="r_af36d008471f8e504ebae33d65a4688a0"><td class="memItemLeft" align="right" valign="top">QVector&lt; <a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1StorageNode.html">StorageNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#af36d008471f8e504ebae33d65a4688a0">m_nodes</a></td></tr>
+<tr class="memdesc:af36d008471f8e504ebae33d65a4688a0"><td class="mdescLeft">&#160;</td><td class="mdescRight">存储节点树  <br /></td></tr>
+<tr class="separator:af36d008471f8e504ebae33d65a4688a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bc15ec3fae1096981b31c55eb99e947" id="r_a7bc15ec3fae1096981b31c55eb99e947"><td class="memItemLeft" align="right" valign="top">QHash&lt; QString, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a7bc15ec3fae1096981b31c55eb99e947">m_pathToNode</a></td></tr>
+<tr class="memdesc:a7bc15ec3fae1096981b31c55eb99e947"><td class="mdescLeft">&#160;</td><td class="mdescRight">路径 → 节点索引映射  <br /></td></tr>
+<tr class="separator:a7bc15ec3fae1096981b31c55eb99e947"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a744df25813093e922877a18ebd31c973" id="r_a744df25813093e922877a18ebd31c973"><td class="memItemLeft" align="right" valign="top">QSet&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a744df25813093e922877a18ebd31c973">m_entryPaths</a></td></tr>
+<tr class="memdesc:a744df25813093e922877a18ebd31c973"><td class="mdescLeft">&#160;</td><td class="mdescRight">CFB 大小写不敏感的完整路径，用于阻止同级重名  <br /></td></tr>
+<tr class="separator:a744df25813093e922877a18ebd31c973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35e46359f152c9548947422a1e1e981d" id="r_a35e46359f152c9548947422a1e1e981d"><td class="memItemLeft" align="right" valign="top">QVector&lt; <a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1StreamData.html">StreamData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a35e46359f152c9548947422a1e1e981d">m_streams</a></td></tr>
+<tr class="memdesc:a35e46359f152c9548947422a1e1e981d"><td class="mdescLeft">&#160;</td><td class="mdescRight">待写入 OLE 文件的流数据列表。  <br /></td></tr>
+<tr class="separator:a35e46359f152c9548947422a1e1e981d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adbd4011bc73a087f99b00ee438e86aee" id="r_adbd4011bc73a087f99b00ee438e86aee"><td class="memItemLeft" align="right" valign="top">QVector&lt; QByteArray &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adbd4011bc73a087f99b00ee438e86aee">m_dataSectors</a></td></tr>
+<tr class="memdesc:adbd4011bc73a087f99b00ee438e86aee"><td class="mdescLeft">&#160;</td><td class="mdescRight">普通数据扇区  <br /></td></tr>
+<tr class="separator:adbd4011bc73a087f99b00ee438e86aee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac46110493f69a388c66798556dde7d7f" id="r_ac46110493f69a388c66798556dde7d7f"><td class="memItemLeft" align="right" valign="top">QVector&lt; QByteArray &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#ac46110493f69a388c66798556dde7d7f">m_difatSectors</a></td></tr>
+<tr class="memdesc:ac46110493f69a388c66798556dde7d7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">扩展 DIFAT 扇区（FAT 超过头部 109 项时使用）  <br /></td></tr>
+<tr class="separator:ac46110493f69a388c66798556dde7d7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5b1374fd43bb4aa2c965ac10dea3f02a" id="r_a5b1374fd43bb4aa2c965ac10dea3f02a"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a5b1374fd43bb4aa2c965ac10dea3f02a">m_miniStream</a></td></tr>
+<tr class="memdesc:a5b1374fd43bb4aa2c965ac10dea3f02a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mini-Stream 数据  <br /></td></tr>
+<tr class="separator:a5b1374fd43bb4aa2c965ac10dea3f02a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a561a5818b581c6c8653a9e4af8b0e81e" id="r_a561a5818b581c6c8653a9e4af8b0e81e"><td class="memItemLeft" align="right" valign="top">QVector&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a561a5818b581c6c8653a9e4af8b0e81e">m_fat</a></td></tr>
+<tr class="memdesc:a561a5818b581c6c8653a9e4af8b0e81e"><td class="mdescLeft">&#160;</td><td class="mdescRight">FAT 表  <br /></td></tr>
+<tr class="separator:a561a5818b581c6c8653a9e4af8b0e81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49848ac877ad2f6645ba87242448ad9a" id="r_a49848ac877ad2f6645ba87242448ad9a"><td class="memItemLeft" align="right" valign="top">QVector&lt; uint32_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a49848ac877ad2f6645ba87242448ad9a">m_miniFat</a></td></tr>
+<tr class="memdesc:a49848ac877ad2f6645ba87242448ad9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mini-FAT 表  <br /></td></tr>
+<tr class="separator:a49848ac877ad2f6645ba87242448ad9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+静态 Private 属性</h2></td></tr>
+<tr class="memitem:a08edcaa4b62b16e270d76f6640bef496" id="r_a08edcaa4b62b16e270d76f6640bef496"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a08edcaa4b62b16e270d76f6640bef496">ENDOFCHAIN</a> = 0xFFFFFFFE</td></tr>
+<tr class="memdesc:a08edcaa4b62b16e270d76f6640bef496"><td class="mdescLeft">&#160;</td><td class="mdescRight">OLE 复合文档目录和扇区链使用的固定值  <br /></td></tr>
+<tr class="separator:a08edcaa4b62b16e270d76f6640bef496"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adfe35cccad1f59d579f86280dd94e748" id="r_adfe35cccad1f59d579f86280dd94e748"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adfe35cccad1f59d579f86280dd94e748">FREESECT</a> = 0xFFFFFFFF</td></tr>
+<tr class="memdesc:adfe35cccad1f59d579f86280dd94e748"><td class="mdescLeft">&#160;</td><td class="mdescRight">表示扇区尚未分配。  <br /></td></tr>
+<tr class="separator:adfe35cccad1f59d579f86280dd94e748"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fcae07d8d86c28dd79f6b48f4031fa1" id="r_a2fcae07d8d86c28dd79f6b48f4031fa1"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a2fcae07d8d86c28dd79f6b48f4031fa1">FATSECT</a> = 0xFFFFFFFD</td></tr>
+<tr class="memdesc:a2fcae07d8d86c28dd79f6b48f4031fa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">表示该扇区属于 FAT。  <br /></td></tr>
+<tr class="separator:a2fcae07d8d86c28dd79f6b48f4031fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac92c380764a16bfbcdab5bb4439007c1" id="r_ac92c380764a16bfbcdab5bb4439007c1"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#ac92c380764a16bfbcdab5bb4439007c1">DIFSECT</a> = 0xFFFFFFFC</td></tr>
+<tr class="memdesc:ac92c380764a16bfbcdab5bb4439007c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">表示该扇区属于 DIFAT。  <br /></td></tr>
+<tr class="separator:ac92c380764a16bfbcdab5bb4439007c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9453739a430ce48cb5f3ca29cef0d976" id="r_a9453739a430ce48cb5f3ca29cef0d976"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a9453739a430ce48cb5f3ca29cef0d976">NOSTREAM</a> = 0xFFFFFFFF</td></tr>
+<tr class="memdesc:a9453739a430ce48cb5f3ca29cef0d976"><td class="mdescLeft">&#160;</td><td class="mdescRight">表示目录条目没有子流或子节点。  <br /></td></tr>
+<tr class="separator:a9453739a430ce48cb5f3ca29cef0d976"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d32c9cf5abde23110e775aec790f493" id="r_a6d32c9cf5abde23110e775aec790f493"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a6d32c9cf5abde23110e775aec790f493">SECTOR_SIZE</a> = 512</td></tr>
+<tr class="memdesc:a6d32c9cf5abde23110e775aec790f493"><td class="mdescLeft">&#160;</td><td class="mdescRight">OLE 普通扇区的字节数。  <br /></td></tr>
+<tr class="separator:a6d32c9cf5abde23110e775aec790f493"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4f5866b5829c168653c1c6de5e1c158" id="r_ad4f5866b5829c168653c1c6de5e1c158"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#ad4f5866b5829c168653c1c6de5e1c158">MINI_SECTOR_SIZE</a> = 64</td></tr>
+<tr class="memdesc:ad4f5866b5829c168653c1c6de5e1c158"><td class="mdescLeft">&#160;</td><td class="mdescRight">OLE MiniStream 扇区的字节数。  <br /></td></tr>
+<tr class="separator:ad4f5866b5829c168653c1c6de5e1c158"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58ecdb1ad52f47c8aa04ec0dfb76adc7" id="r_a58ecdb1ad52f47c8aa04ec0dfb76adc7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a58ecdb1ad52f47c8aa04ec0dfb76adc7">MINI_STREAM_CUTOFF</a> = 4096</td></tr>
+<tr class="memdesc:a58ecdb1ad52f47c8aa04ec0dfb76adc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用 MiniStream 存储的最大流大小。  <br /></td></tr>
+<tr class="separator:a58ecdb1ad52f47c8aa04ec0dfb76adc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b8b4c191e36e2fbdae65398acbe261b" id="r_a4b8b4c191e36e2fbdae65398acbe261b"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a4b8b4c191e36e2fbdae65398acbe261b">DIR_ENTRY_SIZE</a> = 128</td></tr>
+<tr class="memdesc:a4b8b4c191e36e2fbdae65398acbe261b"><td class="mdescLeft">&#160;</td><td class="mdescRight">OLE 目录条目的字节数。  <br /></td></tr>
+<tr class="separator:a4b8b4c191e36e2fbdae65398acbe261b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:a09173339266e9ac002d3f5309508ed0c" id="r_a09173339266e9ac002d3f5309508ed0c"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a09173339266e9ac002d3f5309508ed0c">OLECompoundSerializer</a></td></tr>
+<tr class="memdesc:a09173339266e9ac002d3f5309508ed0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">允许序列化协作者读取固定格式字段和当前文件状态。  <br /></td></tr>
+<tr class="separator:a09173339266e9ac002d3f5309508ed0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>OLE 复合文档 V3 写入器 </p>
+<p>仅支持写入，不支持读取。实现 OLE Structured Storage V3 格式（512 字节扇区）。 用于生成 Altium Designer 可读取的 .SchLib / .PcbLib 文件。</p>
+<p>遵循：[MS-CFB] Compound File Binary File Format </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00020">20</a> 行定义.</p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="adba18c04227ee80f53ccb5594875ad7a" name="adba18c04227ee80f53ccb5594875ad7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adba18c04227ee80f53ccb5594875ad7a">&#9670;&#160;</a></span>ObjectType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7a">EasyKiConverter::OLECompoundWriter::ObjectType</a> : uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>目录条目对象类型 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="adba18c04227ee80f53ccb5594875ad7aa88183b946cc5f0e8c96b2e66e1c74a7e" name="adba18c04227ee80f53ccb5594875ad7aa88183b946cc5f0e8c96b2e66e1c74a7e"></a>Unknown&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adba18c04227ee80f53ccb5594875ad7aa8c4aa541ee911e8d80451ef8cc304806" name="adba18c04227ee80f53ccb5594875ad7aa8c4aa541ee911e8d80451ef8cc304806"></a>Storage&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adba18c04227ee80f53ccb5594875ad7aaeae835e83c0494a376229f254f7d3392" name="adba18c04227ee80f53ccb5594875ad7aaeae835e83c0494a376229f254f7d3392"></a>Stream&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="adba18c04227ee80f53ccb5594875ad7aafa03eb688ad8aa1db593d33dabd89bad" name="adba18c04227ee80f53ccb5594875ad7aafa03eb688ad8aa1db593d33dabd89bad"></a>Root&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00108">108</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="aad29c8cf70da361dc35bc3fb845f907c" name="aad29c8cf70da361dc35bc3fb845f907c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad29c8cf70da361dc35bc3fb845f907c">&#9670;&#160;</a></span>OLECompoundWriter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::OLECompoundWriter::OLECompoundWriter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+
+</div>
+</div>
+<a id="affe81b0ed3adbf8212ceb90ae535f3d2" name="affe81b0ed3adbf8212ceb90ae535f3d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#affe81b0ed3adbf8212ceb90ae535f3d2">&#9670;&#160;</a></span>~OLECompoundWriter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::OLECompoundWriter::~OLECompoundWriter </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a9b8cace632c0f1850898b60f2f261627" name="a9b8cace632c0f1850898b60f2f261627"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b8cace632c0f1850898b60f2f261627">&#9670;&#160;</a></span>addStorage() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::addStorage </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>在根存储下创建子存储 </p>
+<p>在根存储下创建子存储。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>存储名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>子存储名称。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>创建是否成功。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00136">136</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a> , 以及 <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a>.</p>
+
+</div>
+</div>
+<a id="a411f6e1210d7a4019f1be97a2319decc" name="a411f6e1210d7a4019f1be97a2319decc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a411f6e1210d7a4019f1be97a2319decc">&#9670;&#160;</a></span>addStorage() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::addStorage </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>parentPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>在指定存储下创建子存储 </p>
+<p>在指定存储下创建子存储。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parentPath</td><td>父存储路径（空字符串表示根存储） </td></tr>
+    <tr><td class="paramname">name</td><td>存储名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parentPath</td><td>父存储路径。 </td></tr>
+    <tr><td class="paramname">name</td><td>子存储名称。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>创建是否成功。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">90</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00066">createDirectoryEntry()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00135">EasyKiConverter::OLECompoundWriter::StorageNode::dirIndex</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00134">EasyKiConverter::OLECompoundWriter::StorageNode::fullPath</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00175">isValidEntryName()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00159">m_entryPaths</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00154">m_finalized</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00153">m_initialized</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00157">m_nodes</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00158">m_pathToNode</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00133">EasyKiConverter::OLECompoundWriter::StorageNode::name</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00184">setError()</a> , 以及 <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7aa8c4aa541ee911e8d80451ef8cc304806">Storage</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00136">addStorage()</a>, <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00432">EasyKiConverter::AltiumPcbLibWriter::writeFootprintStorage()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00185">EasyKiConverter::AltiumPcbLibWriter::writeLibraryStorage()</a> , 以及 <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00372">EasyKiConverter::AltiumPcbLibWriter::writeModelsStorage()</a>.</p>
+
+</div>
+</div>
+<a id="a60aae5bb04066ad0dd06b5f2f81cfb04" name="a60aae5bb04066ad0dd06b5f2f81cfb04"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60aae5bb04066ad0dd06b5f2f81cfb04">&#9670;&#160;</a></span>buildChildTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t EasyKiConverter::OLECompoundWriter::buildChildTree </td>
+          <td>(</td>
+          <td class="paramtype">const QVector&lt; int &gt; &amp;&#160;</td>
+          <td class="paramname"><em>children</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>使用递归构建红黑树子树。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parentIndex</td><td>父节点的目录索引 </td></tr>
+    <tr><td class="paramname">children</td><td>子节点的 m_nodes 索引列表（已排序） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>子树根节点的目录索引。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00214">214</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundReader_8cpp_source.html#l00067">child</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00065">left</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00156">m_directory</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00157">m_nodes</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00099">NOSTREAM</a> , 以及 <a class="el" href="OLECompoundReader_8cpp_source.html#l00066">right</a>.</p>
+
+</div>
+</div>
+<a id="a6a0cb99808a5492491690f4ce3080c59" name="a6a0cb99808a5492491690f4ce3080c59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a0cb99808a5492491690f4ce3080c59">&#9670;&#160;</a></span>buildRedBlackTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::OLECompoundWriter::buildRedBlackTree </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构建红黑树结构 </p>
+<p>为所有存储节点构建子节点的平衡二叉树。 目录条目已在 <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a411f6e1210d7a4019f1be97a2319decc" title="在指定存储下创建子存储">addStorage()</a> / <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#a1d4aa2f26d334daa628f69d9e60f6f0b" title="最终处理：分配扇区、构建目录、准备序列化数据">finalize()</a> 中创建，无需重复创建。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00376">376</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ac46efa98cbad92d92c5795cfd85bb48f" name="ac46efa98cbad92d92c5795cfd85bb48f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac46efa98cbad92d92c5795cfd85bb48f">&#9670;&#160;</a></span>buildSubTree()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::OLECompoundWriter::buildSubTree </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>nodeIdx</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>递归为存储节点及其子存储构建红黑树 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nodeIdx</td><td>节点在 m_nodes 中的索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00344">344</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8h_source.html#l00136">EasyKiConverter::OLECompoundWriter::StorageNode::children</a> , 以及 <a class="el" href="OLECompoundWriter_8h_source.html#l00157">m_nodes</a>.</p>
+
+</div>
+</div>
+<a id="add9ab9d9753aa5cba0e6639dc74eb0f0" name="add9ab9d9753aa5cba0e6639dc74eb0f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add9ab9d9753aa5cba0e6639dc74eb0f0">&#9670;&#160;</a></span>create()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::create </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>创建新的 OLE 复合文档 </p>
+<dl class="section return"><dt>返回</dt><dd>是否成功初始化 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">27</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00066">createDirectoryEntry()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00135">EasyKiConverter::OLECompoundWriter::StorageNode::dirIndex</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00134">EasyKiConverter::OLECompoundWriter::StorageNode::fullPath</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00171">m_dataSectors</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00172">m_difatSectors</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00156">m_directory</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00159">m_entryPaths</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00155">m_errorMessage</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00174">m_fat</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00154">m_finalized</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00153">m_initialized</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00175">m_miniFat</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00173">m_miniStream</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00157">m_nodes</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00158">m_pathToNode</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00168">m_streams</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00133">EasyKiConverter::OLECompoundWriter::StorageNode::name</a> , 以及 <a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7aafa03eb688ad8aa1db593d33dabd89bad">Root</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00085">EasyKiConverter::AltiumPcbLibWriter::write()</a> , 以及 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">EasyKiConverter::AltiumSchLibWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="ab636621ba494e7134b59741b82d9a13d" name="ab636621ba494e7134b59741b82d9a13d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab636621ba494e7134b59741b82d9a13d">&#9670;&#160;</a></span>createDirectoryEntry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::OLECompoundWriter::createDirectoryEntry </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html#adba18c04227ee80f53ccb5594875ad7a">ObjectType</a>&#160;</td>
+          <td class="paramname"><em>type</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建目录条目。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>目录条目名称。 </td></tr>
+    <tr><td class="paramname">type</td><td>目录对象类型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>新目录条目的索引。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00066">66</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8h_source.html#l00156">m_directory</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00114">EasyKiConverter::OLECompoundWriter::DirectoryEntry::name</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00115">EasyKiConverter::OLECompoundWriter::DirectoryEntry::nameSize</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00116">EasyKiConverter::OLECompoundWriter::DirectoryEntry::objectType</a> , 以及 <a class="el" href="OLECompoundReader_8cpp_source.html#l00064">type</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a>.</p>
+
+</div>
+</div>
+<a id="a26d05365cbddb059762588d0d3eb9081" name="a26d05365cbddb059762588d0d3eb9081"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26d05365cbddb059762588d0d3eb9081">&#9670;&#160;</a></span>errorString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::OLECompoundWriter::errorString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取最近一次结构错误说明 </p>
+<dl class="section return"><dt>返回</dt><dd>错误说明；没有错误时为空 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00082">82</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8h_source.html#l00155">m_errorMessage</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00085">EasyKiConverter::AltiumPcbLibWriter::write()</a> , 以及 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">EasyKiConverter::AltiumSchLibWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a1d4aa2f26d334daa628f69d9e60f6f0b" name="a1d4aa2f26d334daa628f69d9e60f6f0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d4aa2f26d334daa628f69d9e60f6f0b">&#9670;&#160;</a></span>finalize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::OLECompoundWriter::finalize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最终处理：分配扇区、构建目录、准备序列化数据 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00397">397</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8h_source.html#l00135">EasyKiConverter::OLECompoundWriter::StorageNode::dirIndex</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00134">EasyKiConverter::OLECompoundWriter::StorageNode::fullPath</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00133">EasyKiConverter::OLECompoundWriter::StorageNode::name</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00116">EasyKiConverter::OLECompoundWriter::DirectoryEntry::objectType</a> , 以及 <a class="el" href="OLECompoundWriter_8h_source.html#l00125">EasyKiConverter::OLECompoundWriter::DirectoryEntry::startSector</a>.</p>
+
+</div>
+</div>
+<a id="aa745f0619828a89e96d365ea9c8bef72" name="aa745f0619828a89e96d365ea9c8bef72"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa745f0619828a89e96d365ea9c8bef72">&#9670;&#160;</a></span>hasError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::hasError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取写入过程中是否发生结构错误 </p>
+<dl class="section return"><dt>返回</dt><dd>true 表示此前的存储或流操作失败 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00074">74</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8h_source.html#l00155">m_errorMessage</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00085">EasyKiConverter::AltiumPcbLibWriter::write()</a> , 以及 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">EasyKiConverter::AltiumSchLibWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="aabcb7044766324c45ae041a2953b66d0" name="aabcb7044766324c45ae041a2953b66d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aabcb7044766324c45ae041a2953b66d0">&#9670;&#160;</a></span>isValidEntryName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::isValidEntryName </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>校验目录或流名称，确保其可安全编码为 OLE 目录条目。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>待校验的名称。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>名称是否符合 OLE 目录条目限制。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00175">175</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">writeStream()</a>.</p>
+
+</div>
+</div>
+<a id="ab62d209fccc3c99bec2e1eecfb05ea91" name="ab62d209fccc3c99bec2e1eecfb05ea91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab62d209fccc3c99bec2e1eecfb05ea91">&#9670;&#160;</a></span>saveToFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::saveToFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>保存到文件 </p>
+<p>保存到文件。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>输出文件路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>输出文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>保存是否成功。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00651">651</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00085">EasyKiConverter::AltiumPcbLibWriter::write()</a> , 以及 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">EasyKiConverter::AltiumSchLibWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="aee4bcc3a22732f60dd060e28ba34cad8" name="aee4bcc3a22732f60dd060e28ba34cad8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee4bcc3a22732f60dd060e28ba34cad8">&#9670;&#160;</a></span>serializeDirectoryEntry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::OLECompoundWriter::serializeDirectoryEntry </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">DirectoryEntry</a> &amp;&#160;</td>
+          <td class="paramname"><em>entry</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将目录条目序列化为 128 字节。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">entry</td><td>待序列化的目录条目。 </td></tr>
+    <tr><td class="paramname">buffer</td><td>接收序列化结果的缓冲区。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00204">204</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8h_source.html#l00090">OLECompoundSerializer</a>.</p>
+
+</div>
+</div>
+<a id="a2b83d2204deee4cab733e603cd41af48" name="a2b83d2204deee4cab733e603cd41af48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2b83d2204deee4cab733e603cd41af48">&#9670;&#160;</a></span>serializeFileHeader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::OLECompoundWriter::serializeFileHeader </td>
+          <td>(</td>
+          <td class="paramtype">QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>header</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>序列化文件头部（512 字节）。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">header</td><td>接收文件头数据的缓冲区。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00390">390</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="a878c13d9ef2f50b7efde006823853753" name="a878c13d9ef2f50b7efde006823853753"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a878c13d9ef2f50b7efde006823853753">&#9670;&#160;</a></span>setError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::OLECompoundWriter::setError </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>记录写入过程中的首个结构错误，保留后续诊断的根因。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>错误信息。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00184">184</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8h_source.html#l00155">m_errorMessage</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">writeStream()</a>.</p>
+
+</div>
+</div>
+<a id="a428b2ab6e26323bb05f2c681b16253b3" name="a428b2ab6e26323bb05f2c681b16253b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a428b2ab6e26323bb05f2c681b16253b3">&#9670;&#160;</a></span>writeStream() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::writeStream </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>在根存储下写入流数据 </p>
+<p>在根存储下写入流数据。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>流名称 </td></tr>
+    <tr><td class="paramname">data</td><td>流数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>流名称。 </td></tr>
+    <tr><td class="paramname">data</td><td>流内容。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>写入是否成功。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00195">195</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">writeStream()</a>.</p>
+
+</div>
+</div>
+<a id="adc10f8b3827705cb22f938a9148220c2" name="adc10f8b3827705cb22f938a9148220c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc10f8b3827705cb22f938a9148220c2">&#9670;&#160;</a></span>writeStream() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::writeStream </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>storagePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>streamName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>在指定存储下写入流数据 </p>
+<p>在指定存储下写入流数据。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">storagePath</td><td>存储路径（空字符串表示根存储） </td></tr>
+    <tr><td class="paramname">streamName</td><td>流名称 </td></tr>
+    <tr><td class="paramname">data</td><td>流数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">storagePath</td><td>目标存储路径。 </td></tr>
+    <tr><td class="paramname">streamName</td><td>流名称。 </td></tr>
+    <tr><td class="paramname">data</td><td>流内容。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>写入是否成功。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a> 第 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">147</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundWriter_8h_source.html#l00165">EasyKiConverter::OLECompoundWriter::StreamData::data</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00175">isValidEntryName()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00159">m_entryPaths</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00154">m_finalized</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00153">m_initialized</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00158">m_pathToNode</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00168">m_streams</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00184">setError()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00163">EasyKiConverter::OLECompoundWriter::StreamData::storagePath</a> , 以及 <a class="el" href="OLECompoundWriter_8h_source.html#l00164">EasyKiConverter::OLECompoundWriter::StreamData::streamName</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>, <a class="el" href="AltiumSchImageStorageWriter_8cpp_source.html#l00108">EasyKiConverter::AltiumSchImageStorageWriter::write()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00133">EasyKiConverter::AltiumPcbLibWriter::writeFileHeader()</a>, <a class="el" href="AltiumSchLibraryHeaderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchLibraryHeaderWriter::writeFileHeader()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00432">EasyKiConverter::AltiumPcbLibWriter::writeFootprintStorage()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00185">EasyKiConverter::AltiumPcbLibWriter::writeLibraryStorage()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00372">EasyKiConverter::AltiumPcbLibWriter::writeModelsStorage()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00152">EasyKiConverter::AltiumPcbLibWriter::writeSectionKeys()</a>, <a class="el" href="AltiumSchLibraryHeaderWriter_8cpp_source.html#l00091">EasyKiConverter::AltiumSchLibraryHeaderWriter::writeSectionKeys()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00195">writeStream()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">友元及相关函数文档</h2>
+<a id="a09173339266e9ac002d3f5309508ed0c" name="a09173339266e9ac002d3f5309508ed0c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09173339266e9ac002d3f5309508ed0c">&#9670;&#160;</a></span>OLECompoundSerializer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1OLECompoundSerializer.html">OLECompoundSerializer</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>允许序列化协作者读取固定格式字段和当前文件状态。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00090">90</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00204">serializeDirectoryEntry()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ac92c380764a16bfbcdab5bb4439007c1" name="ac92c380764a16bfbcdab5bb4439007c1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac92c380764a16bfbcdab5bb4439007c1">&#9670;&#160;</a></span>DIFSECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::DIFSECT = 0xFFFFFFFC</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>表示该扇区属于 DIFAT。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00098">98</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a4b8b4c191e36e2fbdae65398acbe261b" name="a4b8b4c191e36e2fbdae65398acbe261b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b8b4c191e36e2fbdae65398acbe261b">&#9670;&#160;</a></span>DIR_ENTRY_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::DIR_ENTRY_SIZE = 128</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>OLE 目录条目的字节数。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00103">103</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00017">EasyKiConverter::OLECompoundSerializer::serializeDirectoryEntry()</a> , 以及 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="a08edcaa4b62b16e270d76f6640bef496" name="a08edcaa4b62b16e270d76f6640bef496"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08edcaa4b62b16e270d76f6640bef496">&#9670;&#160;</a></span>ENDOFCHAIN</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::ENDOFCHAIN = 0xFFFFFFFE</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>OLE 复合文档目录和扇区链使用的固定值 </p>
+<p>表示扇区链已经结束。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00095">95</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="a2fcae07d8d86c28dd79f6b48f4031fa1" name="a2fcae07d8d86c28dd79f6b48f4031fa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2fcae07d8d86c28dd79f6b48f4031fa1">&#9670;&#160;</a></span>FATSECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::FATSECT = 0xFFFFFFFD</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>表示该扇区属于 FAT。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00097">97</a> 行定义.</p>
+
+</div>
+</div>
+<a id="adfe35cccad1f59d579f86280dd94e748" name="adfe35cccad1f59d579f86280dd94e748"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adfe35cccad1f59d579f86280dd94e748">&#9670;&#160;</a></span>FREESECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::FREESECT = 0xFFFFFFFF</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>表示扇区尚未分配。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00096">96</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="adbd4011bc73a087f99b00ee438e86aee" name="adbd4011bc73a087f99b00ee438e86aee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbd4011bc73a087f99b00ee438e86aee">&#9670;&#160;</a></span>m_dataSectors</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;QByteArray&gt; EasyKiConverter::OLECompoundWriter::m_dataSectors</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>普通数据扇区 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00171">171</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a>.</p>
+
+</div>
+</div>
+<a id="ac46110493f69a388c66798556dde7d7f" name="ac46110493f69a388c66798556dde7d7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac46110493f69a388c66798556dde7d7f">&#9670;&#160;</a></span>m_difatSectors</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;QByteArray&gt; EasyKiConverter::OLECompoundWriter::m_difatSectors</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>扩展 DIFAT 扇区（FAT 超过头部 109 项时使用） </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00172">172</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a> , 以及 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="a694688999969060caf800d84d6fd1f29" name="a694688999969060caf800d84d6fd1f29"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a694688999969060caf800d84d6fd1f29">&#9670;&#160;</a></span>m_directory</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;<a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">DirectoryEntry</a>&gt; EasyKiConverter::OLECompoundWriter::m_directory</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>目录条目列表 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00156">156</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00214">buildChildTree()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00066">createDirectoryEntry()</a> , 以及 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="a744df25813093e922877a18ebd31c973" name="a744df25813093e922877a18ebd31c973"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a744df25813093e922877a18ebd31c973">&#9670;&#160;</a></span>m_entryPaths</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSet&lt;QString&gt; EasyKiConverter::OLECompoundWriter::m_entryPaths</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>CFB 大小写不敏感的完整路径，用于阻止同级重名 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00159">159</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">writeStream()</a>.</p>
+
+</div>
+</div>
+<a id="ae2700cc1713ea47b973cc94defae2ed2" name="ae2700cc1713ea47b973cc94defae2ed2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2700cc1713ea47b973cc94defae2ed2">&#9670;&#160;</a></span>m_errorMessage</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::OLECompoundWriter::m_errorMessage</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次结构或写入错误说明。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00155">155</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00082">errorString()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00074">hasError()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00184">setError()</a>.</p>
+
+</div>
+</div>
+<a id="a561a5818b581c6c8653a9e4af8b0e81e" name="a561a5818b581c6c8653a9e4af8b0e81e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a561a5818b581c6c8653a9e4af8b0e81e">&#9670;&#160;</a></span>m_fat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;uint32_t&gt; EasyKiConverter::OLECompoundWriter::m_fat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>FAT 表 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00174">174</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a> , 以及 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="ad2971bf187680e0202cecbba3036c553" name="ad2971bf187680e0202cecbba3036c553"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2971bf187680e0202cecbba3036c553">&#9670;&#160;</a></span>m_finalized</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::m_finalized = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否已经完成目录和扇区数据收尾。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00154">154</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">writeStream()</a>.</p>
+
+</div>
+</div>
+<a id="a1e29d7914c4f25889957b006bccbe823" name="a1e29d7914c4f25889957b006bccbe823"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e29d7914c4f25889957b006bccbe823">&#9670;&#160;</a></span>m_initialized</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::OLECompoundWriter::m_initialized = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否已经成功初始化输出文件。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00153">153</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">writeStream()</a>.</p>
+
+</div>
+</div>
+<a id="a49848ac877ad2f6645ba87242448ad9a" name="a49848ac877ad2f6645ba87242448ad9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49848ac877ad2f6645ba87242448ad9a">&#9670;&#160;</a></span>m_miniFat</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;uint32_t&gt; EasyKiConverter::OLECompoundWriter::m_miniFat</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mini-FAT 表 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00175">175</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a> , 以及 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="a5b1374fd43bb4aa2c965ac10dea3f02a" name="a5b1374fd43bb4aa2c965ac10dea3f02a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b1374fd43bb4aa2c965ac10dea3f02a">&#9670;&#160;</a></span>m_miniStream</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::OLECompoundWriter::m_miniStream</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Mini-Stream 数据 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00173">173</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a>.</p>
+
+</div>
+</div>
+<a id="af36d008471f8e504ebae33d65a4688a0" name="af36d008471f8e504ebae33d65a4688a0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af36d008471f8e504ebae33d65a4688a0">&#9670;&#160;</a></span>m_nodes</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;<a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1StorageNode.html">StorageNode</a>&gt; EasyKiConverter::OLECompoundWriter::m_nodes</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>存储节点树 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00157">157</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00214">buildChildTree()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00344">buildSubTree()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a>.</p>
+
+</div>
+</div>
+<a id="a7bc15ec3fae1096981b31c55eb99e947" name="a7bc15ec3fae1096981b31c55eb99e947"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bc15ec3fae1096981b31c55eb99e947">&#9670;&#160;</a></span>m_pathToNode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QHash&lt;QString, int&gt; EasyKiConverter::OLECompoundWriter::m_pathToNode</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>路径 → 节点索引映射 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00158">158</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00090">addStorage()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">writeStream()</a>.</p>
+
+</div>
+</div>
+<a id="a35e46359f152c9548947422a1e1e981d" name="a35e46359f152c9548947422a1e1e981d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35e46359f152c9548947422a1e1e981d">&#9670;&#160;</a></span>m_streams</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;<a class="el" href="structEasyKiConverter_1_1OLECompoundWriter_1_1StreamData.html">StreamData</a>&gt; EasyKiConverter::OLECompoundWriter::m_streams</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>待写入 OLE 文件的流数据列表。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00168">168</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">create()</a> , 以及 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00147">writeStream()</a>.</p>
+
+</div>
+</div>
+<a id="ad4f5866b5829c168653c1c6de5e1c158" name="ad4f5866b5829c168653c1c6de5e1c158"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4f5866b5829c168653c1c6de5e1c158">&#9670;&#160;</a></span>MINI_SECTOR_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::MINI_SECTOR_SIZE = 64</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>OLE MiniStream 扇区的字节数。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00101">101</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a58ecdb1ad52f47c8aa04ec0dfb76adc7" name="a58ecdb1ad52f47c8aa04ec0dfb76adc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58ecdb1ad52f47c8aa04ec0dfb76adc7">&#9670;&#160;</a></span>MINI_STREAM_CUTOFF</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::MINI_STREAM_CUTOFF = 4096</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>使用 MiniStream 存储的最大流大小。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00102">102</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a9453739a430ce48cb5f3ca29cef0d976" name="a9453739a430ce48cb5f3ca29cef0d976"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9453739a430ce48cb5f3ca29cef0d976">&#9670;&#160;</a></span>NOSTREAM</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::NOSTREAM = 0xFFFFFFFF</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>表示目录条目没有子流或子节点。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00099">99</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundWriter_8cpp_source.html#l00214">buildChildTree()</a>.</p>
+
+</div>
+</div>
+<a id="a6d32c9cf5abde23110e775aec790f493" name="a6d32c9cf5abde23110e775aec790f493"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d32c9cf5abde23110e775aec790f493">&#9670;&#160;</a></span>SECTOR_SIZE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t EasyKiConverter::OLECompoundWriter::SECTOR_SIZE = 512</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>OLE 普通扇区的字节数。 </p>
+
+<p class="definition">在文件 <a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a> 第 <a class="el" href="OLECompoundWriter_8h_source.html#l00100">100</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/altium/compound/<a class="el" href="OLECompoundWriter_8h_source.html">OLECompoundWriter.h</a></li>
+<li>core/altium/compound/<a class="el" href="OLECompoundWriter_8cpp_source.html">OLECompoundWriter.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

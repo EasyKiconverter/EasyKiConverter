@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/compound/OLECompoundSerializer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('OLECompoundSerializer_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">OLECompoundSerializer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="OLECompoundSerializer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="OLECompoundWriter_8h.html">OLECompoundWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundSerializer.html">   14</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundSerializer.html">OLECompoundSerializer</a> final {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundSerializer.html">OLECompoundSerializer</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a>&amp; owner);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#ad41812f204c21b1c3d2b8b72bc0fcebf">serializeDirectoryEntry</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">OLECompoundWriter::DirectoryEntry</a>&amp; entry, QByteArray&amp; buffer) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a5a90dd7d989f52d8b1c64a63299851cb">serializeFileHeader</a>(QByteArray&amp; header) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(QByteArray&amp; buffer, <span class="keywordtype">int</span>&amp; offset, uint32_t <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">   47</a></span>    <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a>&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">m_owner</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>};</div>
+</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aOLECompoundWriter_8h_html"><div class="ttname"><a href="OLECompoundWriter_8h.html">OLECompoundWriter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html">EasyKiConverter::OLECompoundSerializer</a></div><div class="ttdoc">编码 OLE 复合文档的文件级固定结构。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8h_source.html#l00014">OLECompoundSerializer.h:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_a4604eb81711bb205893e1dd05568e86b"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">EasyKiConverter::OLECompoundSerializer::writeUInt32</a></div><div class="ttdeci">static void writeUInt32(QByteArray &amp;buffer, int &amp;offset, uint32_t value)</div><div class="ttdoc">按小端序写入无符号 32 位字段。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8cpp_source.html#l00163">OLECompoundSerializer.cpp:163</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_a5a90dd7d989f52d8b1c64a63299851cb"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#a5a90dd7d989f52d8b1c64a63299851cb">EasyKiConverter::OLECompoundSerializer::serializeFileHeader</a></div><div class="ttdeci">void serializeFileHeader(QByteArray &amp;header) const</div><div class="ttdoc">将当前 OLE 文档状态编码为 512 字节文件头。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8cpp_source.html#l00080">OLECompoundSerializer.cpp:80</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_ad41812f204c21b1c3d2b8b72bc0fcebf"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#ad41812f204c21b1c3d2b8b72bc0fcebf">EasyKiConverter::OLECompoundSerializer::serializeDirectoryEntry</a></div><div class="ttdeci">void serializeDirectoryEntry(const OLECompoundWriter::DirectoryEntry &amp;entry, QByteArray &amp;buffer) const</div><div class="ttdoc">将一个目录条目编码为固定 128 字节记录。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8cpp_source.html#l00017">OLECompoundSerializer.cpp:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_afd598b828074fcfbf35be5fcfd0710f6"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">EasyKiConverter::OLECompoundSerializer::m_owner</a></div><div class="ttdeci">const OLECompoundWriter &amp; m_owner</div><div class="ttdoc">被编码的 OLE 写入器。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8h_source.html#l00047">OLECompoundSerializer.h:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html">EasyKiConverter::OLECompoundWriter</a></div><div class="ttdoc">OLE 复合文档 V3 写入器</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00020">OLECompoundWriter.h:20</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">EasyKiConverter::OLECompoundWriter::DirectoryEntry</a></div><div class="ttdoc">目录条目结构（128 字节）</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00113">OLECompoundWriter.h:113</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_10cc05afe08788a169b8a286b8397029.html">compound</a></li><li class="navelem"><a class="el" href="OLECompoundSerializer_8h.html">OLECompoundSerializer.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/cli/BomConverter.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('BomConverter_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">BomConverter.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="BomConverter_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="BomConverter_8h.html">BomConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="CliContext_8h.html">CliContext.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="FileReader_8h.html">FileReader.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QCoreApplication&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BomConverter.html#a4e20f06c3eabd9055cd8b53b57d88bfb">   15</a></span><a class="code hl_function" href="classEasyKiConverter_1_1BomConverter.html#a4e20f06c3eabd9055cd8b53b57d88bfb">BomConverter::BomConverter</a>(<a class="code hl_class" href="classEasyKiConverter_1_1CliContext.html">CliContext</a>* context, QObject* parent) : <a class="code hl_class" href="classEasyKiConverter_1_1BaseConverter.html">BaseConverter</a>(context, parent) {}</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="}">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BomConverter.html#ad7301ebb4676f05a305fba68d28234cc">   21</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1BomConverter.html#ad7301ebb4676f05a305fba68d28234cc">BomConverter::execute</a>() {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">printMessage</a>(QCoreApplication::translate(<span class="stringliteral">&quot;CliConverter&quot;</span>, <span class="stringliteral">&quot;开始转换 BOM 表...&quot;</span>));</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="comment">// 读取 BOM 表文件</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    QString readError;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="comment">// 保存从 BOM 表中读取的元器件编号。</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    QStringList componentIds = <a class="code hl_function" href="classEasyKiConverter_1_1FileReader.html#a8dfac05e9ad4ba169479c698ea4b8c3d">FileReader::readBomFile</a>(<a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a559cb7fd17665c52b65f12272d510c4b">context</a>()-&gt;parser().inputFile(), readError);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">if</span> (!readError.isEmpty()) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a663245162eed89de1df25a2492ab2ea9">setError</a>(readError);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    }</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">if</span> (componentIds.isEmpty()) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a663245162eed89de1df25a2492ab2ea9">setError</a>(QCoreApplication::translate(<span class="stringliteral">&quot;CliConverter&quot;</span>, <span class="stringliteral">&quot;BOM 表中没有找到有效的元器件编号&quot;</span>));</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a79123889ca92520469040f7e140b4da9">runExport</a>(componentIds);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aBomConverter_8h_html"><div class="ttname"><a href="BomConverter_8h.html">BomConverter.h</a></div></div>
+<div class="ttc" id="aCliContext_8h_html"><div class="ttname"><a href="CliContext_8h.html">CliContext.h</a></div></div>
+<div class="ttc" id="aFileReader_8h_html"><div class="ttname"><a href="FileReader_8h.html">FileReader.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html">EasyKiConverter::BaseConverter</a></div><div class="ttdoc">转换器基类</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00021">BaseConverter.h:21</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a559cb7fd17665c52b65f12272d510c4b"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a559cb7fd17665c52b65f12272d510c4b">EasyKiConverter::BaseConverter::context</a></div><div class="ttdeci">CliContext * context() const</div><div class="ttdoc">获取 CLI 上下文</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00078">BaseConverter.h:78</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a663245162eed89de1df25a2492ab2ea9"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a663245162eed89de1df25a2492ab2ea9">EasyKiConverter::BaseConverter::setError</a></div><div class="ttdeci">void setError(const QString &amp;message)</div><div class="ttdoc">设置错误信息</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00094">BaseConverter.h:94</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a783fd66ca41172e288016bb1fa65eb5b"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">EasyKiConverter::BaseConverter::printMessage</a></div><div class="ttdeci">void printMessage(const QString &amp;message) const</div><div class="ttdoc">输出消息</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00023">BaseConverter.cpp:23</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a79123889ca92520469040f7e140b4da9"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a79123889ca92520469040f7e140b4da9">EasyKiConverter::BaseConverter::runExport</a></div><div class="ttdeci">bool runExport(const QStringList &amp;componentIds)</div><div class="ttdoc">执行 CLI 共用的预加载和导出流程。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00044">BaseConverter.cpp:44</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BomConverter_html_a4e20f06c3eabd9055cd8b53b57d88bfb"><div class="ttname"><a href="classEasyKiConverter_1_1BomConverter.html#a4e20f06c3eabd9055cd8b53b57d88bfb">EasyKiConverter::BomConverter::BomConverter</a></div><div class="ttdeci">BomConverter(CliContext *context, QObject *parent=nullptr)</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>Definition</b> <a href="BomConverter_8cpp_source.html#l00015">BomConverter.cpp:15</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BomConverter_html_ad7301ebb4676f05a305fba68d28234cc"><div class="ttname"><a href="classEasyKiConverter_1_1BomConverter.html#ad7301ebb4676f05a305fba68d28234cc">EasyKiConverter::BomConverter::execute</a></div><div class="ttdeci">bool execute() override</div><div class="ttdoc">执行 BOM 表转换</div><div class="ttdef"><b>Definition</b> <a href="BomConverter_8cpp_source.html#l00021">BomConverter.cpp:21</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html">EasyKiConverter::CliContext</a></div><div class="ttdoc">CLI 上下文</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00019">CliContext.h:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FileReader_html_a8dfac05e9ad4ba169479c698ea4b8c3d"><div class="ttname"><a href="classEasyKiConverter_1_1FileReader.html#a8dfac05e9ad4ba169479c698ea4b8c3d">EasyKiConverter::FileReader::readBomFile</a></div><div class="ttdeci">static QStringList readBomFile(const QString &amp;filePath, QString &amp;errorMessage)</div><div class="ttdoc">读取 BOM 表文件</div><div class="ttdef"><b>Definition</b> <a href="FileReader_8cpp_source.html#l00029">FileReader.cpp:29</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="dir_c802a52f71a9867085062b6c590fa632.html">cli</a></li><li class="navelem"><a class="el" href="BomConverter_8cpp.html">BomConverter.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/PathSecurity.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('PathSecurity_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">PathSecurity.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="PathSecurity_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef PATHSECURITY_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define PATHSECURITY_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00009" data-start="{" data-end="};">
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PathSecurity.html">    9</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1PathSecurity.html">PathSecurity</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1PathSecurity.html#a072e519d4be448f20561a9d011dfedfb">isValidPathComponent</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PathSecurity.html#a8bd33880091ce083505ec090b99bd1cb">   28</a></span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1PathSecurity.html#a8bd33880091ce083505ec090b99bd1cb">isSafePath</a>(<span class="keyword">const</span> QString&amp; fullPath, <span class="keyword">const</span> QString&amp; baseDir);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PathSecurity.html#ad867797fb263eb8cb132e1311cf7b99b">   40</a></span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1PathSecurity.html#ad867797fb263eb8cb132e1311cf7b99b">isSafePathCanonical</a>(<span class="keyword">const</span> QString&amp; fullPath, <span class="keyword">const</span> QString&amp; baseDir);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1PathSecurity.html#af116fe9f5dd409b28a9d9efe66bf21ad">safeRemoveRecursively</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, <span class="keywordtype">int</span> maxFileCount = 10000);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PathSecurity.html#a79bac0e72fb8fae4285f5554fd3cda99">   55</a></span>    <span class="keyword">static</span> QString <a class="code hl_function" href="classEasyKiConverter_1_1PathSecurity.html#a79bac0e72fb8fae4285f5554fd3cda99">sanitizeFilename</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// 参数顺序优化：将常用变动参数放在前面，或者保持默认值在后</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1PathSecurity.html#a5564a647d02f5a6742a27eda92ef8d2f">countFilesRecursively</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, <span class="keywordtype">int</span> limit, <span class="keywordtype">int</span> currentCount = 0);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PathSecurity.html#a6db39a9108d6b3feef0a400bd1e42cb9">   66</a></span>    <span class="keyword">static</span> QString <a class="code hl_function" href="classEasyKiConverter_1_1PathSecurity.html#a6db39a9108d6b3feef0a400bd1e42cb9">canonicalizePath</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>};</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif  </span><span class="comment">// PATHSECURITY_H</span></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PathSecurity_html"><div class="ttname"><a href="classEasyKiConverter_1_1PathSecurity.html">EasyKiConverter::PathSecurity</a></div><div class="ttdef"><b>Definition</b> <a href="PathSecurity_8h_source.html#l00009">PathSecurity.h:9</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PathSecurity_html_a072e519d4be448f20561a9d011dfedfb"><div class="ttname"><a href="classEasyKiConverter_1_1PathSecurity.html#a072e519d4be448f20561a9d011dfedfb">EasyKiConverter::PathSecurity::isValidPathComponent</a></div><div class="ttdeci">static bool isValidPathComponent(const QString &amp;name)</div><div class="ttdoc">验证路径分块（文件名）是否安全</div><div class="ttdef"><b>Definition</b> <a href="PathSecurity_8cpp_source.html#l00014">PathSecurity.cpp:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PathSecurity_html_a5564a647d02f5a6742a27eda92ef8d2f"><div class="ttname"><a href="classEasyKiConverter_1_1PathSecurity.html#a5564a647d02f5a6742a27eda92ef8d2f">EasyKiConverter::PathSecurity::countFilesRecursively</a></div><div class="ttdeci">static int countFilesRecursively(const QString &amp;path, int limit, int currentCount=0)</div><div class="ttdoc">递归统计目录项数量，并在达到上限时提前停止。</div><div class="ttdef"><b>Definition</b> <a href="PathSecurity_8cpp_source.html#l00300">PathSecurity.cpp:300</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PathSecurity_html_a6db39a9108d6b3feef0a400bd1e42cb9"><div class="ttname"><a href="classEasyKiConverter_1_1PathSecurity.html#a6db39a9108d6b3feef0a400bd1e42cb9">EasyKiConverter::PathSecurity::canonicalizePath</a></div><div class="ttdeci">static QString canonicalizePath(const QString &amp;path)</div><div class="ttdoc">获取路径的 canonical 形式（解析符号链接）</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PathSecurity_html_a79bac0e72fb8fae4285f5554fd3cda99"><div class="ttname"><a href="classEasyKiConverter_1_1PathSecurity.html#a79bac0e72fb8fae4285f5554fd3cda99">EasyKiConverter::PathSecurity::sanitizeFilename</a></div><div class="ttdeci">static QString sanitizeFilename(const QString &amp;name)</div><div class="ttdoc">清洗文件名，将非法字符替换为下划线</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PathSecurity_html_a8bd33880091ce083505ec090b99bd1cb"><div class="ttname"><a href="classEasyKiConverter_1_1PathSecurity.html#a8bd33880091ce083505ec090b99bd1cb">EasyKiConverter::PathSecurity::isSafePath</a></div><div class="ttdeci">static bool isSafePath(const QString &amp;fullPath, const QString &amp;baseDir)</div><div class="ttdoc">轻量路径安全检查（字符串前缀比较）</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PathSecurity_html_ad867797fb263eb8cb132e1311cf7b99b"><div class="ttname"><a href="classEasyKiConverter_1_1PathSecurity.html#ad867797fb263eb8cb132e1311cf7b99b">EasyKiConverter::PathSecurity::isSafePathCanonical</a></div><div class="ttdeci">static bool isSafePathCanonical(const QString &amp;fullPath, const QString &amp;baseDir)</div><div class="ttdoc">强路径安全检查（使用 canonical path）</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PathSecurity_html_af116fe9f5dd409b28a9d9efe66bf21ad"><div class="ttname"><a href="classEasyKiConverter_1_1PathSecurity.html#af116fe9f5dd409b28a9d9efe66bf21ad">EasyKiConverter::PathSecurity::safeRemoveRecursively</a></div><div class="ttdeci">static bool safeRemoveRecursively(const QString &amp;path, int maxFileCount=10000)</div><div class="ttdoc">安全递归删除目录</div><div class="ttdef"><b>Definition</b> <a href="PathSecurity_8cpp_source.html#l00277">PathSecurity.cpp:277</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="PathSecurity_8h.html">PathSecurity.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

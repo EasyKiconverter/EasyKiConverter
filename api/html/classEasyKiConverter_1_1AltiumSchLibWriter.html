@@ -1,0 +1,2638 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::AltiumSchLibWriter类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1AltiumSchLibWriter.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="#friends">友元</a> &#124;
+<a href="classEasyKiConverter_1_1AltiumSchLibWriter-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::AltiumSchLibWriter类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Altium SchLib 文件写入器  
+ <a href="classEasyKiConverter_1_1AltiumSchLibWriter.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::AltiumSchLibWriter 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1AltiumSchLibWriter__coll__graph.svg" width="234" height="634"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a32eeceab5b16dbb1d05040723655151d" id="r_a32eeceab5b16dbb1d05040723655151d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a32eeceab5b16dbb1d05040723655151d">write</a> (const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;components, const QString &amp;filePath, const QString &amp;libraryName=QString())</td></tr>
+<tr class="memdesc:a32eeceab5b16dbb1d05040723655151d"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入 SchLib 文件  <br /></td></tr>
+<tr class="separator:a32eeceab5b16dbb1d05040723655151d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e3accb142bbc6590ae6d96ca92ca8d3" id="r_a7e3accb142bbc6590ae6d96ca92ca8d3"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a7e3accb142bbc6590ae6d96ca92ca8d3">diagnostics</a> () const</td></tr>
+<tr class="memdesc:a7e3accb142bbc6590ae6d96ca92ca8d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最近一次写入产生的非致命诊断  <br /></td></tr>
+<tr class="separator:a7e3accb142bbc6590ae6d96ca92ca8d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a2f966fc3f7d770ba74c31e81ab31ccb0" id="r_a2f966fc3f7d770ba74c31e81ab31ccb0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a2f966fc3f7d770ba74c31e81ab31ccb0">writeFileHeader</a> (<a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a> &amp;ole, const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;components)</td></tr>
+<tr class="memdesc:a2f966fc3f7d770ba74c31e81ab31ccb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">兼容旧内部调用入口，并委托文件级头部写入器。  <br /></td></tr>
+<tr class="separator:a2f966fc3f7d770ba74c31e81ab31ccb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66171e632241ee639ab400ada31a75ae" id="r_a66171e632241ee639ab400ada31a75ae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a66171e632241ee639ab400ada31a75ae">writeSectionKeys</a> (<a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a> &amp;ole, const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;components, const QStringList &amp;sectionKeys)</td></tr>
+<tr class="memdesc:a66171e632241ee639ab400ada31a75ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">兼容旧内部调用入口，并委托 SectionKeys 写入器。  <br /></td></tr>
+<tr class="separator:a66171e632241ee639ab400ada31a75ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27e7e251e600418dbc15f344b9536520" id="r_a27e7e251e600418dbc15f344b9536520"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a27e7e251e600418dbc15f344b9536520">writeComponentStorage</a> (<a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a> &amp;ole, const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;component, const QString &amp;sectionKey)</td></tr>
+<tr class="memdesc:a27e7e251e600418dbc15f344b9536520"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入元件存储  <br /></td></tr>
+<tr class="separator:a27e7e251e600418dbc15f344b9536520"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8ceef3b2ec033e292f78dcf7beefdd2" id="r_ab8ceef3b2ec033e292f78dcf7beefdd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ab8ceef3b2ec033e292f78dcf7beefdd2">writeComponentRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;component)</td></tr>
+<tr class="memdesc:ab8ceef3b2ec033e292f78dcf7beefdd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入元件记录 (RECORD=1)  <br /></td></tr>
+<tr class="separator:ab8ceef3b2ec033e292f78dcf7beefdd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af20497d007ee2e2c770e461e1c04e2a5" id="r_af20497d007ee2e2c770e461e1c04e2a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#af20497d007ee2e2c770e461e1c04e2a5">writePinRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchPin.html">AltiumSchPin</a> &amp;pin)</td></tr>
+<tr class="memdesc:af20497d007ee2e2c770e461e1c04e2a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入引脚记录 (RECORD=2, 二进制格式)  <br /></td></tr>
+<tr class="separator:af20497d007ee2e2c770e461e1c04e2a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af896ec44e928a433f6663c8afe50625d" id="r_af896ec44e928a433f6663c8afe50625d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#af896ec44e928a433f6663c8afe50625d">writeRectangleRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchRectangle.html">AltiumSchRectangle</a> &amp;rect)</td></tr>
+<tr class="memdesc:af896ec44e928a433f6663c8afe50625d"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入矩形记录 (RECORD=14)  <br /></td></tr>
+<tr class="separator:af896ec44e928a433f6663c8afe50625d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7b6b1ece2ae73362bd4fecc39c726a5" id="r_ab7b6b1ece2ae73362bd4fecc39c726a5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ab7b6b1ece2ae73362bd4fecc39c726a5">writeRoundRectangleRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchRoundRectangle.html">AltiumSchRoundRectangle</a> &amp;rect)</td></tr>
+<tr class="memdesc:ab7b6b1ece2ae73362bd4fecc39c726a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入圆角矩形记录 (RECORD=10)  <br /></td></tr>
+<tr class="separator:ab7b6b1ece2ae73362bd4fecc39c726a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bf43fc11530e735c50c04757d437870" id="r_a2bf43fc11530e735c50c04757d437870"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a2bf43fc11530e735c50c04757d437870">writeLineRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchLine.html">AltiumSchLine</a> &amp;line)</td></tr>
+<tr class="memdesc:a2bf43fc11530e735c50c04757d437870"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入线段记录 (RECORD=13)  <br /></td></tr>
+<tr class="separator:a2bf43fc11530e735c50c04757d437870"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f7226eba6a762e228fe3c798e981d48" id="r_a1f7226eba6a762e228fe3c798e981d48"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a1f7226eba6a762e228fe3c798e981d48">writeArcRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchArc.html">AltiumSchArc</a> &amp;arc)</td></tr>
+<tr class="memdesc:a1f7226eba6a762e228fe3c798e981d48"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入弧线记录 (RECORD=12)  <br /></td></tr>
+<tr class="separator:a1f7226eba6a762e228fe3c798e981d48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a4910d57db75b4b3c785279d864863f" id="r_a8a4910d57db75b4b3c785279d864863f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a8a4910d57db75b4b3c785279d864863f">writePolygonRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchPolygon.html">AltiumSchPolygon</a> &amp;polygon)</td></tr>
+<tr class="memdesc:a8a4910d57db75b4b3c785279d864863f"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入多边形记录 (RECORD=7)  <br /></td></tr>
+<tr class="separator:a8a4910d57db75b4b3c785279d864863f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f02281a4487ad7684481adeb9de4d2a" id="r_a8f02281a4487ad7684481adeb9de4d2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a8f02281a4487ad7684481adeb9de4d2a">writeEllipseRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchEllipse.html">AltiumSchEllipse</a> &amp;ellipse)</td></tr>
+<tr class="memdesc:a8f02281a4487ad7684481adeb9de4d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入椭圆记录 (RECORD=8)  <br /></td></tr>
+<tr class="separator:a8f02281a4487ad7684481adeb9de4d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb05cd8ede38f7c6e997aef93e83348c" id="r_acb05cd8ede38f7c6e997aef93e83348c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#acb05cd8ede38f7c6e997aef93e83348c">writePieRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchPie.html">AltiumSchPie</a> &amp;pie)</td></tr>
+<tr class="memdesc:acb05cd8ede38f7c6e997aef93e83348c"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入扇形记录 (RECORD=9)  <br /></td></tr>
+<tr class="separator:acb05cd8ede38f7c6e997aef93e83348c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a810719d33b95f9cc58edcc5b29f29df4" id="r_a810719d33b95f9cc58edcc5b29f29df4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a810719d33b95f9cc58edcc5b29f29df4">writeEllipticalArcRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchEllipticalArc.html">AltiumSchEllipticalArc</a> &amp;arc)</td></tr>
+<tr class="memdesc:a810719d33b95f9cc58edcc5b29f29df4"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入椭圆弧记录 (RECORD=11)  <br /></td></tr>
+<tr class="separator:a810719d33b95f9cc58edcc5b29f29df4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac666cb88e40c74acf3bba3a2e697b7df" id="r_ac666cb88e40c74acf3bba3a2e697b7df"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ac666cb88e40c74acf3bba3a2e697b7df">writePolylineRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchPolyline.html">AltiumSchPolyline</a> &amp;polyline)</td></tr>
+<tr class="memdesc:ac666cb88e40c74acf3bba3a2e697b7df"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入折线记录 (RECORD=6)  <br /></td></tr>
+<tr class="separator:ac666cb88e40c74acf3bba3a2e697b7df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef3c1169d28b3f03327d881e36255b44" id="r_aef3c1169d28b3f03327d881e36255b44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#aef3c1169d28b3f03327d881e36255b44">writePathRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchPath.html">AltiumSchPath</a> &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:aef3c1169d28b3f03327d881e36255b44"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入路径记录（委托给折线记录）  <br /></td></tr>
+<tr class="separator:aef3c1169d28b3f03327d881e36255b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8f75b0de8e107304d241d469e95d799" id="r_ae8f75b0de8e107304d241d469e95d799"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ae8f75b0de8e107304d241d469e95d799">writeBezierRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchBezier.html">AltiumSchBezier</a> &amp;bezier)</td></tr>
+<tr class="memdesc:ae8f75b0de8e107304d241d469e95d799"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入三次 Bézier 曲线记录 (RECORD=5)  <br /></td></tr>
+<tr class="separator:ae8f75b0de8e107304d241d469e95d799"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae70e070b3dce9c7287f97c7a716fb60f" id="r_ae70e070b3dce9c7287f97c7a716fb60f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ae70e070b3dce9c7287f97c7a716fb60f">writeIeeeRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchIeee.html">AltiumSchIeee</a> &amp;ieee)</td></tr>
+<tr class="memdesc:ae70e070b3dce9c7287f97c7a716fb60f"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入 IEEE 图形记录 (RECORD=3)  <br /></td></tr>
+<tr class="separator:ae70e070b3dce9c7287f97c7a716fb60f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8580fd79b2a7b9bad739a0a4d0317d4c" id="r_a8580fd79b2a7b9bad739a0a4d0317d4c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a8580fd79b2a7b9bad739a0a4d0317d4c">writeTextRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchText.html">AltiumSchText</a> &amp;text)</td></tr>
+<tr class="memdesc:a8580fd79b2a7b9bad739a0a4d0317d4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">将文本记录委托给专用协作者，保持写入器对外行为不变。  <br /></td></tr>
+<tr class="separator:a8580fd79b2a7b9bad739a0a4d0317d4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9e39f9084a025060bce00741d0318a6" id="r_ac9e39f9084a025060bce00741d0318a6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ac9e39f9084a025060bce00741d0318a6">writeTextFrameRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchTextFrame.html">AltiumSchTextFrame</a> &amp;frame)</td></tr>
+<tr class="memdesc:ac9e39f9084a025060bce00741d0318a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">将文本框记录委托给专用协作者，保持写入器对外行为不变。  <br /></td></tr>
+<tr class="separator:ac9e39f9084a025060bce00741d0318a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6cfc0ceccf6600159213e3f021a49dc2" id="r_a6cfc0ceccf6600159213e3f021a49dc2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a6cfc0ceccf6600159213e3f021a49dc2">writeImageRecord</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchImage.html">AltiumSchImage</a> &amp;image)</td></tr>
+<tr class="memdesc:a6cfc0ceccf6600159213e3f021a49dc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">将图片记录委托给专用协作者，保持主写入器的状态边界不变。  <br /></td></tr>
+<tr class="separator:a6cfc0ceccf6600159213e3f021a49dc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d4f3bd900f6e74941305c168434d201" id="r_a6d4f3bd900f6e74941305c168434d201"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a6d4f3bd900f6e74941305c168434d201">prepareImageStorageNames</a> (const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;components)</td></tr>
+<tr class="memdesc:a6d4f3bd900f6e74941305c168434d201"><td class="mdescLeft">&#160;</td><td class="mdescRight">为嵌入图片生成稳定且唯一的 Storage 文件名。  <br /></td></tr>
+<tr class="separator:a6d4f3bd900f6e74941305c168434d201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaeca330a085f1dc47b1f11a9ccfd01ed" id="r_aaeca330a085f1dc47b1f11a9ccfd01ed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#aaeca330a085f1dc47b1f11a9ccfd01ed">writeImageStorage</a> (<a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a> &amp;ole, const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;components)</td></tr>
+<tr class="memdesc:aaeca330a085f1dc47b1f11a9ccfd01ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入 SchLib 根 /Storage 图片流  <br /></td></tr>
+<tr class="separator:aaeca330a085f1dc47b1f11a9ccfd01ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bd11bb7884c05554119a41ce19a4b1f" id="r_a8bd11bb7884c05554119a41ce19a4b1f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a8bd11bb7884c05554119a41ce19a4b1f">writeComponentParameterRecords</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;component)</td></tr>
+<tr class="memdesc:a8bd11bb7884c05554119a41ce19a4b1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入元件参数记录（Designator、Value 和自定义参数）  <br /></td></tr>
+<tr class="separator:a8bd11bb7884c05554119a41ce19a4b1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5548a5ffa4850ca2d18b3464f83f144b" id="r_a5548a5ffa4850ca2d18b3464f83f144b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a5548a5ffa4850ca2d18b3464f83f144b">writeImplementationRecords</a> (<a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;writer, const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;component)</td></tr>
+<tr class="memdesc:a5548a5ffa4850ca2d18b3464f83f144b"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入实现记录 (RECORD=44-48)  <br /></td></tr>
+<tr class="separator:a5548a5ffa4850ca2d18b3464f83f144b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c57a36f7dc7b2d677d00636d1ff6ffd" id="r_a4c57a36f7dc7b2d677d00636d1ff6ffd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a4c57a36f7dc7b2d677d00636d1ff6ffd">validateGeometry</a> (const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;component)</td></tr>
+<tr class="memdesc:a4c57a36f7dc7b2d677d00636d1ff6ffd"><td class="mdescLeft">&#160;</td><td class="mdescRight">委托独立校验器检查组件的几何字段和图元编码约束。  <br /></td></tr>
+<tr class="separator:a4c57a36f7dc7b2d677d00636d1ff6ffd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b881d89d1bd75ff87742e4d5b15c888" id="r_a9b881d89d1bd75ff87742e4d5b15c888"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a9b881d89d1bd75ff87742e4d5b15c888">validatePartOwnership</a> (const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;component)</td></tr>
+<tr class="memdesc:a9b881d89d1bd75ff87742e4d5b15c888"><td class="mdescLeft">&#160;</td><td class="mdescRight">校验所有图元和参数记录的 OWNERPARTID 是否落在组件部件范围内。  <br /></td></tr>
+<tr class="separator:a9b881d89d1bd75ff87742e4d5b15c888"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a287ee61fb5366592edbff6af5a37fe13" id="r_a287ee61fb5366592edbff6af5a37fe13"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a287ee61fb5366592edbff6af5a37fe13">getSectionKey</a> (const QString &amp;<a class="el" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) const</td></tr>
+<tr class="memdesc:a287ee61fb5366592edbff6af5a37fe13"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取元件的 Section Key（存储键）  <br /></td></tr>
+<tr class="separator:a287ee61fb5366592edbff6af5a37fe13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0328ae0b9025fadaa99625430f7a1f7" id="r_ae0328ae0b9025fadaa99625430f7a1f7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ae0328ae0b9025fadaa99625430f7a1f7">addCoordParam</a> (QMap&lt; QString, QString &gt; &amp;params, const QString &amp;key, int raw)</td></tr>
+<tr class="memdesc:ae0328ae0b9025fadaa99625430f7a1f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加坐标参数（DXP 单位 + 小数部分）  <br /></td></tr>
+<tr class="separator:ae0328ae0b9025fadaa99625430f7a1f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a350d5eabd44f65f7b3f24516e86bba74" id="r_a350d5eabd44f65f7b3f24516e86bba74"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a350d5eabd44f65f7b3f24516e86bba74">addColorParam</a> (QMap&lt; QString, QString &gt; &amp;params, const QString &amp;key, uint32_t <a class="el" href="AltiumSchComponentRecordWriter_8cpp.html#a66b2ef8398a8bbb0f5816f22a7b138da">color</a>)</td></tr>
+<tr class="memdesc:a350d5eabd44f65f7b3f24516e86bba74"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加颜色参数  <br /></td></tr>
+<tr class="separator:a350d5eabd44f65f7b3f24516e86bba74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a680e60c08e263a99bbc516c78fb23932" id="r_a680e60c08e263a99bbc516c78fb23932"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a680e60c08e263a99bbc516c78fb23932">addUniqueID</a> (QMap&lt; QString, QString &gt; &amp;params)</td></tr>
+<tr class="memdesc:a680e60c08e263a99bbc516c78fb23932"><td class="mdescLeft">&#160;</td><td class="mdescRight">生成并添加 UniqueID  <br /></td></tr>
+<tr class="separator:a680e60c08e263a99bbc516c78fb23932"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a0b85a62518c9d869f90291186cc98c" id="r_a1a0b85a62518c9d869f90291186cc98c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a1a0b85a62518c9d869f90291186cc98c">addContentIndex</a> (QMap&lt; QString, QString &gt; &amp;params)</td></tr>
+<tr class="memdesc:a1a0b85a62518c9d869f90291186cc98c"><td class="mdescLeft">&#160;</td><td class="mdescRight">向内容记录添加共享的 IndexInSheet 序号  <br /></td></tr>
+<tr class="separator:a1a0b85a62518c9d869f90291186cc98c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a054a36e11f2128e71a580d9877944bd6" id="r_a054a36e11f2128e71a580d9877944bd6"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a054a36e11f2128e71a580d9877944bd6">componentRecordCount</a> (const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;component) const</td></tr>
+<tr class="memdesc:a054a36e11f2128e71a580d9877944bd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">计算元件的记录总数（用于 FileHeader WEIGHT 字段）  <br /></td></tr>
+<tr class="separator:a054a36e11f2128e71a580d9877944bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70566c37b0d5366f33647a9d33f30271" id="r_a70566c37b0d5366f33647a9d33f30271"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a70566c37b0d5366f33647a9d33f30271">componentParameterRecordCount</a> (const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;component) const</td></tr>
+<tr class="memdesc:a70566c37b0d5366f33647a9d33f30271"><td class="mdescLeft">&#160;</td><td class="mdescRight">计算元件参数记录数。  <br /></td></tr>
+<tr class="separator:a70566c37b0d5366f33647a9d33f30271"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa470e77384513c15b8e664e3ad088cdb" id="r_aa470e77384513c15b8e664e3ad088cdb"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#aa470e77384513c15b8e664e3ad088cdb">normalizeOwnerPartId</a> (int <a class="el" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a>, const QString &amp;context)</td></tr>
+<tr class="memdesc:aa470e77384513c15b8e664e3ad088cdb"><td class="mdescLeft">&#160;</td><td class="mdescRight">向参数映射中添加 OwnerPartId 和 ISNOTACCESIBLE 字段  <br /></td></tr>
+<tr class="separator:aa470e77384513c15b8e664e3ad088cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a4db8df894bcfa56576cc3c2fa9a6d7" id="r_a2a4db8df894bcfa56576cc3c2fa9a6d7"><td class="memItemLeft" align="right" valign="top">double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a2a4db8df894bcfa56576cc3c2fa9a6d7">normalizeFiniteAngle</a> (double angle, double fallback, const QString &amp;context)</td></tr>
+<tr class="memdesc:a2a4db8df894bcfa56576cc3c2fa9a6d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">将非法角度归一化为回退值，并向调用方报告诊断信息。  <br /></td></tr>
+<tr class="separator:a2a4db8df894bcfa56576cc3c2fa9a6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d698568e5a31715d773d9de3ef65549" id="r_a9d698568e5a31715d773d9de3ef65549"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a9d698568e5a31715d773d9de3ef65549">addOwnerParams</a> (QMap&lt; QString, QString &gt; &amp;params, int <a class="el" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a>)</td></tr>
+<tr class="memdesc:a9d698568e5a31715d773d9de3ef65549"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入图元通用的可见性、内容索引、显示模式和部件归属参数。  <br /></td></tr>
+<tr class="separator:a9d698568e5a31715d773d9de3ef65549"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a39301e6bb2c5c9847241f509fbb57937" id="r_a39301e6bb2c5c9847241f509fbb57937"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1AltiumSchFontRegistry.html">AltiumSchFontRegistry</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a39301e6bb2c5c9847241f509fbb57937">m_fontRegistry</a></td></tr>
+<tr class="separator:a39301e6bb2c5c9847241f509fbb57937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4372ed7e74d8100fcb330451e014007c" id="r_a4372ed7e74d8100fcb330451e014007c"><td class="memItemLeft" align="right" valign="top">QHash&lt; const <a class="el" href="structEasyKiConverter_1_1AltiumSchImage.html">AltiumSchImage</a> *, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a4372ed7e74d8100fcb330451e014007c">m_embeddedImageNames</a></td></tr>
+<tr class="memdesc:a4372ed7e74d8100fcb330451e014007c"><td class="mdescLeft">&#160;</td><td class="mdescRight">图片对象到 Storage 文件名的映射。  <br /></td></tr>
+<tr class="separator:a4372ed7e74d8100fcb330451e014007c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a664052c92207085f2a79639d1ac51f03" id="r_a664052c92207085f2a79639d1ac51f03"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a664052c92207085f2a79639d1ac51f03">m_uniqueIdCounter</a> = 0</td></tr>
+<tr class="memdesc:a664052c92207085f2a79639d1ac51f03"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前库文件的记录唯一标识计数器。  <br /></td></tr>
+<tr class="separator:a664052c92207085f2a79639d1ac51f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a836113710f34e1decd484a8d71be79e5" id="r_a836113710f34e1decd484a8d71be79e5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a836113710f34e1decd484a8d71be79e5">m_nextIndexInSheet</a> = 0</td></tr>
+<tr class="memdesc:a836113710f34e1decd484a8d71be79e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前组件 Data 流的共享内容记录序号。  <br /></td></tr>
+<tr class="separator:a836113710f34e1decd484a8d71be79e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3e00539b83184f6aba05b888a5a0f96" id="r_ab3e00539b83184f6aba05b888a5a0f96"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ab3e00539b83184f6aba05b888a5a0f96">m_libraryName</a></td></tr>
+<tr class="memdesc:ab3e00539b83184f6aba05b888a5a0f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前输出 PcbLib 引用名称。  <br /></td></tr>
+<tr class="separator:ab3e00539b83184f6aba05b888a5a0f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5d3178d00f18bf106448f2288dd1f5a" id="r_ab5d3178d00f18bf106448f2288dd1f5a"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ab5d3178d00f18bf106448f2288dd1f5a">m_diagnostics</a></td></tr>
+<tr class="memdesc:ab5d3178d00f18bf106448f2288dd1f5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次写入产生的诊断信息。  <br /></td></tr>
+<tr class="separator:ab5d3178d00f18bf106448f2288dd1f5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:a8358e9c84dd1470977c5a026b8b0139d" id="r_a8358e9c84dd1470977c5a026b8b0139d"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a8358e9c84dd1470977c5a026b8b0139d">AltiumSchGraphicOrderWriter</a></td></tr>
+<tr class="separator:a8358e9c84dd1470977c5a026b8b0139d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53442b7639f2b8fd38ccc216292342bc" id="r_a53442b7639f2b8fd38ccc216292342bc"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a53442b7639f2b8fd38ccc216292342bc">AltiumSchImageRecordWriter</a></td></tr>
+<tr class="separator:a53442b7639f2b8fd38ccc216292342bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acadda6d03281db5a159de57834de5ba5" id="r_acadda6d03281db5a159de57834de5ba5"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#acadda6d03281db5a159de57834de5ba5">AltiumSchPinRecordWriter</a></td></tr>
+<tr class="separator:acadda6d03281db5a159de57834de5ba5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3c900df3d0ce6004d777cfd5da3fb49" id="r_ac3c900df3d0ce6004d777cfd5da3fb49"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ac3c900df3d0ce6004d777cfd5da3fb49">AltiumSchPrimitiveRecordWriter</a></td></tr>
+<tr class="separator:ac3c900df3d0ce6004d777cfd5da3fb49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0befc403e9d80a0729311253823d5df" id="r_ab0befc403e9d80a0729311253823d5df"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ab0befc403e9d80a0729311253823d5df">AltiumSchComponentRecordWriter</a></td></tr>
+<tr class="separator:ab0befc403e9d80a0729311253823d5df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19037de309dbf8e477d1677ce61faef0" id="r_a19037de309dbf8e477d1677ce61faef0"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a19037de309dbf8e477d1677ce61faef0">AltiumSchTextRecordWriter</a></td></tr>
+<tr class="separator:a19037de309dbf8e477d1677ce61faef0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f981eaebf44eb6fac3684d9d041f7a2" id="r_a2f981eaebf44eb6fac3684d9d041f7a2"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a2f981eaebf44eb6fac3684d9d041f7a2">AltiumSchLibraryHeaderWriter</a></td></tr>
+<tr class="separator:a2f981eaebf44eb6fac3684d9d041f7a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a329b48045c8613afb3eeb81aebea1785" id="r_a329b48045c8613afb3eeb81aebea1785"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a329b48045c8613afb3eeb81aebea1785">AltiumSchImageStorageWriter</a></td></tr>
+<tr class="separator:a329b48045c8613afb3eeb81aebea1785"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f7f05f688fe93eaca689bf7e9f3ca9f" id="r_a5f7f05f688fe93eaca689bf7e9f3ca9f"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a5f7f05f688fe93eaca689bf7e9f3ca9f">AltiumSchComponentStorageWriter</a></td></tr>
+<tr class="separator:a5f7f05f688fe93eaca689bf7e9f3ca9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b49223be6e43553012e3b9bdfd1243d" id="r_a1b49223be6e43553012e3b9bdfd1243d"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a1b49223be6e43553012e3b9bdfd1243d">AltiumSchOwnershipValidator</a></td></tr>
+<tr class="separator:a1b49223be6e43553012e3b9bdfd1243d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88630a3a6d6dfe2f199d6e873fc4dcca" id="r_a88630a3a6d6dfe2f199d6e873fc4dcca"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a88630a3a6d6dfe2f199d6e873fc4dcca">AltiumSchGeometryValidator</a></td></tr>
+<tr class="separator:a88630a3a6d6dfe2f199d6e873fc4dcca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0aa3a6d1e214f26ab8a5b9747eaca8cd" id="r_a0aa3a6d1e214f26ab8a5b9747eaca8cd"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a0aa3a6d1e214f26ab8a5b9747eaca8cd">AltiumSchInputValidator</a></td></tr>
+<tr class="separator:a0aa3a6d1e214f26ab8a5b9747eaca8cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Altium SchLib 文件写入器 </p>
+<p>将 <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html" title="Altium 符号元件">AltiumSchComponent</a> 列表写入 .SchLib 格式的 OLE 复合文档。</p>
+<p>OLE 流结构： Root/ FileHeader — 库头参数 + 元件名称列表 SectionKeys — 元件名到存储键的映射（可选） &lt;SectionKey&gt;/ — 每个元件一个存储区 Data — 所有图元记录 Storage — 嵌入图像数据（可选）</p>
+<p>文件索引、组件记录及子图元归属在同一模型上计算，保证 Header 的计数与 Data 流一致。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00029">29</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a350d5eabd44f65f7b3f24516e86bba74" name="a350d5eabd44f65f7b3f24516e86bba74"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a350d5eabd44f65f7b3f24516e86bba74">&#9670;&#160;</a></span>addColorParam()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::addColorParam </td>
+          <td>(</td>
+          <td class="paramtype">QMap&lt; QString, QString &gt; &amp;&#160;</td>
+          <td class="paramname"><em>params</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>color</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加颜色参数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">params</td><td>参数映射（输出）。 </td></tr>
+    <tr><td class="paramname">key</td><td>参数键名。 </td></tr>
+    <tr><td class="paramname">color</td><td>颜色整数值。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00058">58</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00023">color</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchImageRecordWriter_8cpp_source.html#l00018">EasyKiConverter::AltiumSchImageRecordWriter::write()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00095">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeArc()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00284">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeBezier()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00154">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipse()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00211">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipticalArc()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00315">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeIeee()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00074">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeLine()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00180">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePie()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00123">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolygon()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00242">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolyline()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00019">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRectangle()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00045">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRoundRectangle()</a>, <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00022">EasyKiConverter::AltiumSchTextRecordWriter::writeText()</a> , 以及 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00094">EasyKiConverter::AltiumSchTextRecordWriter::writeTextFrame()</a>.</p>
+
+</div>
+</div>
+<a id="a1a0b85a62518c9d869f90291186cc98c" name="a1a0b85a62518c9d869f90291186cc98c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a0b85a62518c9d869f90291186cc98c">&#9670;&#160;</a></span>addContentIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::addContentIndex </td>
+          <td>(</td>
+          <td class="paramtype">QMap&lt; QString, QString &gt; &amp;&#160;</td>
+          <td class="paramname"><em>params</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>向内容记录添加共享的 IndexInSheet 序号 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">params</td><td>参数映射（输出）</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>首条内容记录的索引 0 由 Altium 隐含表示，因此不写出字段。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00467">467</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00112">m_nextIndexInSheet</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00517">addOwnerParams()</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00148">EasyKiConverter::AltiumSchComponentRecordWriter::writeParameters()</a>.</p>
+
+</div>
+</div>
+<a id="ae0328ae0b9025fadaa99625430f7a1f7" name="ae0328ae0b9025fadaa99625430f7a1f7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0328ae0b9025fadaa99625430f7a1f7">&#9670;&#160;</a></span>addCoordParam()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::addCoordParam </td>
+          <td>(</td>
+          <td class="paramtype">QMap&lt; QString, QString &gt; &amp;&#160;</td>
+          <td class="paramname"><em>params</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>raw</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>添加坐标参数（DXP 单位 + 小数部分） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">params</td><td>参数映射（输出）。 </td></tr>
+    <tr><td class="paramname">key</td><td>参数键名。 </td></tr>
+    <tr><td class="paramname">raw</td><td><a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 原始坐标值。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00043">43</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumCoord_8h_source.html#l00040">EasyKiConverter::AltiumCoord::toDxpFrac()</a> , 以及 <a class="el" href="AltiumCoord_8h_source.html#l00029">EasyKiConverter::AltiumCoord::toDxpInt()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchImageRecordWriter_8cpp_source.html#l00018">EasyKiConverter::AltiumSchImageRecordWriter::write()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00095">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeArc()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00154">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipse()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00211">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipticalArc()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00315">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeIeee()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00074">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeLine()</a>, <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00148">EasyKiConverter::AltiumSchComponentRecordWriter::writeParameters()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00180">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePie()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00019">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRectangle()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00045">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRoundRectangle()</a>, <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00022">EasyKiConverter::AltiumSchTextRecordWriter::writeText()</a> , 以及 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00094">EasyKiConverter::AltiumSchTextRecordWriter::writeTextFrame()</a>.</p>
+
+</div>
+</div>
+<a id="a9d698568e5a31715d773d9de3ef65549" name="a9d698568e5a31715d773d9de3ef65549"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d698568e5a31715d773d9de3ef65549">&#9670;&#160;</a></span>addOwnerParams()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::addOwnerParams </td>
+          <td>(</td>
+          <td class="paramtype">QMap&lt; QString, QString &gt; &amp;&#160;</td>
+          <td class="paramname"><em>params</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ownerPartId</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入图元通用的可见性、内容索引、显示模式和部件归属参数。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">params</td><td>参数映射（输出）。 </td></tr>
+    <tr><td class="paramname">ownerPartId</td><td>所属部件 ID。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00517">517</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00467">addContentIndex()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00479">normalizeOwnerPartId()</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00029">ownerPartId</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchImageRecordWriter_8cpp_source.html#l00018">EasyKiConverter::AltiumSchImageRecordWriter::write()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00095">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeArc()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00284">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeBezier()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00154">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipse()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00211">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipticalArc()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00315">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeIeee()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00074">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeLine()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00180">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePie()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00123">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolygon()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00242">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolyline()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00019">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRectangle()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00045">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRoundRectangle()</a>, <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00022">EasyKiConverter::AltiumSchTextRecordWriter::writeText()</a> , 以及 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00094">EasyKiConverter::AltiumSchTextRecordWriter::writeTextFrame()</a>.</p>
+
+</div>
+</div>
+<a id="a680e60c08e263a99bbc516c78fb23932" name="a680e60c08e263a99bbc516c78fb23932"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a680e60c08e263a99bbc516c78fb23932">&#9670;&#160;</a></span>addUniqueID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::addUniqueID </td>
+          <td>(</td>
+          <td class="paramtype">QMap&lt; QString, QString &gt; &amp;&#160;</td>
+          <td class="paramname"><em>params</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>生成并添加 UniqueID </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">params</td><td>参数映射（输出）。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00068">68</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00111">m_uniqueIdCounter</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchImageRecordWriter_8cpp_source.html#l00018">EasyKiConverter::AltiumSchImageRecordWriter::write()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00095">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeArc()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00284">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeBezier()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00201">writeComponentRecord()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00154">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipse()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00211">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipticalArc()</a>, <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00214">EasyKiConverter::AltiumSchComponentRecordWriter::writeImplementations()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00074">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeLine()</a>, <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00148">EasyKiConverter::AltiumSchComponentRecordWriter::writeParameters()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00123">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolygon()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00242">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolyline()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00019">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRectangle()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00045">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRoundRectangle()</a>, <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00022">EasyKiConverter::AltiumSchTextRecordWriter::writeText()</a> , 以及 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00094">EasyKiConverter::AltiumSchTextRecordWriter::writeTextFrame()</a>.</p>
+
+</div>
+</div>
+<a id="a70566c37b0d5366f33647a9d33f30271" name="a70566c37b0d5366f33647a9d33f30271"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70566c37b0d5366f33647a9d33f30271">&#9670;&#160;</a></span>componentParameterRecordCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AltiumSchLibWriter::componentParameterRecordCount </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>component</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>计算元件参数记录数。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">component</td><td>元件数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>Designator、Value 和自定义参数记录总数 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00458">458</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00283">EasyKiConverter::AltiumSchComponentRecordWriter::parameterRecordCount()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00435">componentRecordCount()</a>.</p>
+
+</div>
+</div>
+<a id="a054a36e11f2128e71a580d9877944bd6" name="a054a36e11f2128e71a580d9877944bd6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a054a36e11f2128e71a580d9877944bd6">&#9670;&#160;</a></span>componentRecordCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AltiumSchLibWriter::componentRecordCount </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>component</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>计算元件的记录总数（用于 FileHeader WEIGHT 字段） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">component</td><td>元件数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>记录数（含元件记录、图元、参数和实现记录） </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00435">435</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchComponent_8h_source.html#l00355">EasyKiConverter::AltiumSchComponent::arcs</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00362">EasyKiConverter::AltiumSchComponent::beziers</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00458">componentParameterRecordCount()</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00357">EasyKiConverter::AltiumSchComponent::ellipses</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00359">EasyKiConverter::AltiumSchComponent::ellipticalArcs</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00363">EasyKiConverter::AltiumSchComponent::ieeeSymbols</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00366">EasyKiConverter::AltiumSchComponent::images</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00381">EasyKiConverter::AltiumSchComponent::implementations</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00354">EasyKiConverter::AltiumSchComponent::lines</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00361">EasyKiConverter::AltiumSchComponent::paths</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00358">EasyKiConverter::AltiumSchComponent::pies</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00351">EasyKiConverter::AltiumSchComponent::pins</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00356">EasyKiConverter::AltiumSchComponent::polygons</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00360">EasyKiConverter::AltiumSchComponent::polylines</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00352">EasyKiConverter::AltiumSchComponent::rectangles</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00353">EasyKiConverter::AltiumSchComponent::roundRectangles</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00365">EasyKiConverter::AltiumSchComponent::textFrames</a> , 以及 <a class="el" href="AltiumSchComponent_8h_source.html#l00364">EasyKiConverter::AltiumSchComponent::texts</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibraryHeaderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchLibraryHeaderWriter::writeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="a7e3accb142bbc6590ae6d96ca92ca8d3" name="a7e3accb142bbc6590ae6d96ca92ca8d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e3accb142bbc6590ae6d96ca92ca8d3">&#9670;&#160;</a></span>diagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::AltiumSchLibWriter::diagnostics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取最近一次写入产生的非致命诊断 </p>
+<dl class="section return"><dt>返回</dt><dd>图片、字体、Owner、几何和文本等输入被跳过、规范化或回退时的诊断列表 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00046">46</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00114">m_diagnostics</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExporterAltiumSymbol_8cpp_source.html#l00039">EasyKiConverter::ExporterAltiumSymbol::exportSymbol()</a> , 以及 <a class="el" href="ExporterAltiumSymbol_8cpp_source.html#l00061">EasyKiConverter::ExporterAltiumSymbol::exportSymbolLibrary()</a>.</p>
+
+</div>
+</div>
+<a id="a287ee61fb5366592edbff6af5a37fe13" name="a287ee61fb5366592edbff6af5a37fe13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a287ee61fb5366592edbff6af5a37fe13">&#9670;&#160;</a></span>getSectionKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::AltiumSchLibWriter::getSectionKey </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取元件的 Section Key（存储键） </p>
+<p>委托给 <a class="el" href="namespaceEasyKiConverter_1_1AltiumWriterUtils.html#a8f51cc591c60f3a5ac7589da428402be" title="获取元件的 Section Key（OLE 存储键）">AltiumWriterUtils::getSectionKey()</a> </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">name</td><td>元件名称。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>可用作 OLE 存储键的名称。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00033">33</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumWriterUtils_8h_source.html#l00070">EasyKiConverter::AltiumWriterUtils::getSectionKey()</a> , 以及 <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a>.</p>
+
+</div>
+</div>
+<a id="a2a4db8df894bcfa56576cc3c2fa9a6d7" name="a2a4db8df894bcfa56576cc3c2fa9a6d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a4db8df894bcfa56576cc3c2fa9a6d7">&#9670;&#160;</a></span>normalizeFiniteAngle()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double EasyKiConverter::AltiumSchLibWriter::normalizeFiniteAngle </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>angle</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>fallback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将非法角度归一化为回退值，并向调用方报告诊断信息。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">angle</td><td>待校验的角度。 </td></tr>
+    <tr><td class="paramname">fallback</td><td>非法角度使用的回退值。 </td></tr>
+    <tr><td class="paramname">context</td><td>角度字段的语义上下文。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>有限角度原值，或非法时的回退值。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00501">501</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00114">m_diagnostics</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00095">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeArc()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00211">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipticalArc()</a> , 以及 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00180">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePie()</a>.</p>
+
+</div>
+</div>
+<a id="aa470e77384513c15b8e664e3ad088cdb" name="aa470e77384513c15b8e664e3ad088cdb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa470e77384513c15b8e664e3ad088cdb">&#9670;&#160;</a></span>normalizeOwnerPartId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AltiumSchLibWriter::normalizeOwnerPartId </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ownerPartId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>context</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>向参数映射中添加 OwnerPartId 和 ISNOTACCESIBLE 字段 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">params</td><td>参数映射（输出）。 </td></tr>
+    <tr><td class="paramname">ownerPartId</td><td>所属部件 ID。 </td></tr>
+    <tr><td class="paramname">context</td><td>部件编号的语义上下文。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00479">479</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00114">m_diagnostics</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00029">ownerPartId</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00517">addOwnerParams()</a>, <a class="el" href="AltiumSchPinRecordWriter_8cpp_source.html#l00020">EasyKiConverter::AltiumSchPinRecordWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00148">EasyKiConverter::AltiumSchComponentRecordWriter::writeParameters()</a>.</p>
+
+</div>
+</div>
+<a id="a6d4f3bd900f6e74941305c168434d201" name="a6d4f3bd900f6e74941305c168434d201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d4f3bd900f6e74941305c168434d201">&#9670;&#160;</a></span>prepareImageStorageNames()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::prepareImageStorageNames </td>
+          <td>(</td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>components</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>为嵌入图片生成稳定且唯一的 Storage 文件名。 </p>
+<p>Altium 的 Storage 以文件名关联图片记录；重复名称会导致多个图元指向同一条目。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">components</td><td>待处理的组件列表。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00392">392</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchImageStorageWriter_8cpp_source.html#l00023">EasyKiConverter::AltiumSchImageStorageWriter::prepareNames()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a>.</p>
+
+</div>
+</div>
+<a id="a4c57a36f7dc7b2d677d00636d1ff6ffd" name="a4c57a36f7dc7b2d677d00636d1ff6ffd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c57a36f7dc7b2d677d00636d1ff6ffd">&#9670;&#160;</a></span>validateGeometry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumSchLibWriter::validateGeometry </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>委托独立校验器检查组件的几何字段和图元编码约束。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">component</td><td>待校验的原理图元件。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>几何数据有效时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00183">183</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchGeometryValidator_8cpp_source.html#l00019">EasyKiConverter::AltiumSchGeometryValidator::validate()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchInputValidator_8cpp_source.html#l00074">EasyKiConverter::AltiumSchInputValidator::validate()</a>.</p>
+
+</div>
+</div>
+<a id="a9b881d89d1bd75ff87742e4d5b15c888" name="a9b881d89d1bd75ff87742e4d5b15c888"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b881d89d1bd75ff87742e4d5b15c888">&#9670;&#160;</a></span>validatePartOwnership()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumSchLibWriter::validatePartOwnership </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>component</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>校验所有图元和参数记录的 OWNERPARTID 是否落在组件部件范围内。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">component</td><td>待校验的原理图元件。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>部件归属有效时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00192">192</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchOwnershipValidator_8cpp_source.html#l00015">EasyKiConverter::AltiumSchOwnershipValidator::validate()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchInputValidator_8cpp_source.html#l00074">EasyKiConverter::AltiumSchInputValidator::validate()</a>.</p>
+
+</div>
+</div>
+<a id="a32eeceab5b16dbb1d05040723655151d" name="a32eeceab5b16dbb1d05040723655151d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32eeceab5b16dbb1d05040723655151d">&#9670;&#160;</a></span>write()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumSchLibWriter::write </td>
+          <td>(</td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>components</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryName</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>写入 SchLib 文件 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">components</td><td>元件列表 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出文件路径 </td></tr>
+    <tr><td class="paramname">libraryName</td><td>库名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>是否成功</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">components</td><td>元件列表。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出文件路径。 </td></tr>
+    <tr><td class="paramname">libraryName</td><td>输出库名称。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>写入成功时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">81</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchFontRegistry_8cpp_source.html#l00012">EasyKiConverter::AltiumSchFontRegistry::clear()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00027">EasyKiConverter::OLECompoundWriter::create()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00082">EasyKiConverter::OLECompoundWriter::errorString()</a>, <a class="el" href="AltiumSchFontRegistry_8cpp_source.html#l00025">EasyKiConverter::AltiumSchFontRegistry::getOrAdd()</a>, <a class="el" href="OLECompoundWriter_8h_source.html#l00074">EasyKiConverter::OLECompoundWriter::hasError()</a>, <a class="el" href="AltiumSchLibWriter_8h_source.html#l00114">m_diagnostics</a>, <a class="el" href="AltiumSchLibWriter_8h_source.html#l00110">m_embeddedImageNames</a>, <a class="el" href="AltiumSchLibWriter_8h_source.html#l00109">m_fontRegistry</a>, <a class="el" href="AltiumSchLibWriter_8h_source.html#l00113">m_libraryName</a>, <a class="el" href="AltiumSchLibWriter_8h_source.html#l00112">m_nextIndexInSheet</a>, <a class="el" href="AltiumSchLibWriter_8h_source.html#l00111">m_uniqueIdCounter</a>, <a class="el" href="AltiumWriterUtils_8h_source.html#l00091">EasyKiConverter::AltiumWriterUtils::makeUniqueSectionKeys()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00392">prepareImageStorageNames()</a>, <a class="el" href="AltiumSchFontRegistry_8cpp_source.html#l00048">EasyKiConverter::AltiumSchFontRegistry::registerTextFonts()</a>, <a class="el" href="OLECompoundWriter_8cpp_source.html#l00651">EasyKiConverter::OLECompoundWriter::saveToFile()</a>, <a class="el" href="AltiumSchInputValidator_8cpp_source.html#l00074">EasyKiConverter::AltiumSchInputValidator::validate()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00171">writeComponentStorage()</a>, <a class="el" href="AltiumSchLibraryHeaderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchLibraryHeaderWriter::writeFileHeader()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00404">writeImageStorage()</a> , 以及 <a class="el" href="AltiumSchLibraryHeaderWriter_8cpp_source.html#l00091">EasyKiConverter::AltiumSchLibraryHeaderWriter::writeSectionKeys()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExporterAltiumSymbol_8cpp_source.html#l00039">EasyKiConverter::ExporterAltiumSymbol::exportSymbol()</a> , 以及 <a class="el" href="ExporterAltiumSymbol_8cpp_source.html#l00061">EasyKiConverter::ExporterAltiumSymbol::exportSymbolLibrary()</a>.</p>
+
+</div>
+</div>
+<a id="a1f7226eba6a762e228fe3c798e981d48" name="a1f7226eba6a762e228fe3c798e981d48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f7226eba6a762e228fe3c798e981d48">&#9670;&#160;</a></span>writeArcRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeArcRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchArc.html">AltiumSchArc</a> &amp;&#160;</td>
+          <td class="paramname"><em>arc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入弧线记录 (RECORD=12) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">arc</td><td>圆弧模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00272">272</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00095">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeArc()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="ae8f75b0de8e107304d241d469e95d799" name="ae8f75b0de8e107304d241d469e95d799"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8f75b0de8e107304d241d469e95d799">&#9670;&#160;</a></span>writeBezierRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeBezierRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchBezier.html">AltiumSchBezier</a> &amp;&#160;</td>
+          <td class="paramname"><em>bezier</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入三次 Bézier 曲线记录 (RECORD=5) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">bezier</td><td>Bézier 曲线模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00342">342</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00284">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeBezier()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a8bd11bb7884c05554119a41ce19a4b1f" name="a8bd11bb7884c05554119a41ce19a4b1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bd11bb7884c05554119a41ce19a4b1f">&#9670;&#160;</a></span>writeComponentParameterRecords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeComponentParameterRecords </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>component</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入元件参数记录（Designator、Value 和自定义参数） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>二进制写入器 </td></tr>
+    <tr><td class="paramname">component</td><td>元件数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00414">414</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00148">EasyKiConverter::AltiumSchComponentRecordWriter::writeParameters()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="ab8ceef3b2ec033e292f78dcf7beefdd2" name="ab8ceef3b2ec033e292f78dcf7beefdd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8ceef3b2ec033e292f78dcf7beefdd2">&#9670;&#160;</a></span>writeComponentRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeComponentRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>component</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入元件记录 (RECORD=1) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">component</td><td>原理图元件模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00201">201</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00068">addUniqueID()</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00349">EasyKiConverter::AltiumSchComponent::aliases</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00334">EasyKiConverter::AltiumSchComponent::description</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00333">EasyKiConverter::AltiumSchComponent::name</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00336">EasyKiConverter::AltiumSchComponent::partCount</a>, <a class="el" href="AltiumSchComponent_8h_source.html#l00351">EasyKiConverter::AltiumSchComponent::pins</a> , 以及 <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00205">EasyKiConverter::AltiumBinaryWriter::writeCStringParameterBlockUtf8()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a27e7e251e600418dbc15f344b9536520" name="a27e7e251e600418dbc15f344b9536520"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27e7e251e600418dbc15f344b9536520">&#9670;&#160;</a></span>writeComponentStorage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeComponentStorage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>ole</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>component</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>sectionKey</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入元件存储 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ole</td><td>SchLib 根 OLE 写入器。 </td></tr>
+    <tr><td class="paramname">component</td><td>待写入的原理图元件。 </td></tr>
+    <tr><td class="paramname">sectionKey</td><td>组件对应的 OLE 存储键。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00171">171</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a>.</p>
+
+</div>
+</div>
+<a id="a8f02281a4487ad7684481adeb9de4d2a" name="a8f02281a4487ad7684481adeb9de4d2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f02281a4487ad7684481adeb9de4d2a">&#9670;&#160;</a></span>writeEllipseRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeEllipseRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchEllipse.html">AltiumSchEllipse</a> &amp;&#160;</td>
+          <td class="paramname"><em>ellipse</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入椭圆记录 (RECORD=8) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">ellipse</td><td>椭圆模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00292">292</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00154">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipse()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a810719d33b95f9cc58edcc5b29f29df4" name="a810719d33b95f9cc58edcc5b29f29df4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a810719d33b95f9cc58edcc5b29f29df4">&#9670;&#160;</a></span>writeEllipticalArcRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeEllipticalArcRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchEllipticalArc.html">AltiumSchEllipticalArc</a> &amp;&#160;</td>
+          <td class="paramname"><em>arc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入椭圆弧记录 (RECORD=11) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">arc</td><td>椭圆弧模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00312">312</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00211">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeEllipticalArc()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a2f966fc3f7d770ba74c31e81ab31ccb0" name="a2f966fc3f7d770ba74c31e81ab31ccb0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f966fc3f7d770ba74c31e81ab31ccb0">&#9670;&#160;</a></span>writeFileHeader()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeFileHeader </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>ole</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>components</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>兼容旧内部调用入口，并委托文件级头部写入器。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ole</td><td>SchLib 根 OLE 写入器。 </td></tr>
+    <tr><td class="paramname">components</td><td>待写入的组件列表。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00147">147</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibraryHeaderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchLibraryHeaderWriter::writeFileHeader()</a>.</p>
+
+</div>
+</div>
+<a id="ae70e070b3dce9c7287f97c7a716fb60f" name="ae70e070b3dce9c7287f97c7a716fb60f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae70e070b3dce9c7287f97c7a716fb60f">&#9670;&#160;</a></span>writeIeeeRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeIeeeRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchIeee.html">AltiumSchIeee</a> &amp;&#160;</td>
+          <td class="paramname"><em>ieee</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入 IEEE 图形记录 (RECORD=3) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">ieee</td><td>IEEE 图形模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00352">352</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00315">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeIeee()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a6cfc0ceccf6600159213e3f021a49dc2" name="a6cfc0ceccf6600159213e3f021a49dc2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6cfc0ceccf6600159213e3f021a49dc2">&#9670;&#160;</a></span>writeImageRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeImageRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchImage.html">AltiumSchImage</a> &amp;&#160;</td>
+          <td class="paramname"><em>image</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将图片记录委托给专用协作者，保持主写入器的状态边界不变。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">image</td><td>图片模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00382">382</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchImageRecordWriter_8cpp_source.html#l00018">EasyKiConverter::AltiumSchImageRecordWriter::write()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="aaeca330a085f1dc47b1f11a9ccfd01ed" name="aaeca330a085f1dc47b1f11a9ccfd01ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaeca330a085f1dc47b1f11a9ccfd01ed">&#9670;&#160;</a></span>writeImageStorage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeImageStorage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>ole</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>components</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入 SchLib 根 /Storage 图片流 </p>
+<p>图片内容使用 Qt zlib 压缩结果（去除 qCompress 的四字节长度头）， 并按 Altium 的 D0 标记和 Pascal 文件名组织条目。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ole</td><td>SchLib 根 OLE 写入器。 </td></tr>
+    <tr><td class="paramname">components</td><td>待写入嵌入图片的组件列表。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00404">404</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchImageStorageWriter_8cpp_source.html#l00108">EasyKiConverter::AltiumSchImageStorageWriter::write()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a>.</p>
+
+</div>
+</div>
+<a id="a5548a5ffa4850ca2d18b3464f83f144b" name="a5548a5ffa4850ca2d18b3464f83f144b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5548a5ffa4850ca2d18b3464f83f144b">&#9670;&#160;</a></span>writeImplementationRecords()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeImplementationRecords </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &amp;&#160;</td>
+          <td class="paramname"><em>component</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入实现记录 (RECORD=44-48) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">component</td><td>原理图元件模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00425">425</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00214">EasyKiConverter::AltiumSchComponentRecordWriter::writeImplementations()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a2bf43fc11530e735c50c04757d437870" name="a2bf43fc11530e735c50c04757d437870"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2bf43fc11530e735c50c04757d437870">&#9670;&#160;</a></span>writeLineRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeLineRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchLine.html">AltiumSchLine</a> &amp;&#160;</td>
+          <td class="paramname"><em>line</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入线段记录 (RECORD=13) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">line</td><td>线段模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00262">262</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00074">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeLine()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="aef3c1169d28b3f03327d881e36255b44" name="aef3c1169d28b3f03327d881e36255b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef3c1169d28b3f03327d881e36255b44">&#9670;&#160;</a></span>writePathRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writePathRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchPath.html">AltiumSchPath</a> &amp;&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入路径记录（委托给折线记录） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>二进制写入器。 </td></tr>
+    <tr><td class="paramname">path</td><td>路径数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00332">332</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a> , 以及 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00269">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePath()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="acb05cd8ede38f7c6e997aef93e83348c" name="acb05cd8ede38f7c6e997aef93e83348c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb05cd8ede38f7c6e997aef93e83348c">&#9670;&#160;</a></span>writePieRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writePieRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchPie.html">AltiumSchPie</a> &amp;&#160;</td>
+          <td class="paramname"><em>pie</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入扇形记录 (RECORD=9) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">pie</td><td>扇形模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00302">302</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00180">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePie()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="af20497d007ee2e2c770e461e1c04e2a5" name="af20497d007ee2e2c770e461e1c04e2a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af20497d007ee2e2c770e461e1c04e2a5">&#9670;&#160;</a></span>writePinRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writePinRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchPin.html">AltiumSchPin</a> &amp;&#160;</td>
+          <td class="paramname"><em>pin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入引脚记录 (RECORD=2, 二进制格式) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">pin</td><td>引脚模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00232">232</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPinRecordWriter_8cpp_source.html#l00020">EasyKiConverter::AltiumSchPinRecordWriter::write()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a8a4910d57db75b4b3c785279d864863f" name="a8a4910d57db75b4b3c785279d864863f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8a4910d57db75b4b3c785279d864863f">&#9670;&#160;</a></span>writePolygonRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writePolygonRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchPolygon.html">AltiumSchPolygon</a> &amp;&#160;</td>
+          <td class="paramname"><em>polygon</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入多边形记录 (RECORD=7) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">polygon</td><td>多边形模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00282">282</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00123">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolygon()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="ac666cb88e40c74acf3bba3a2e697b7df" name="ac666cb88e40c74acf3bba3a2e697b7df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac666cb88e40c74acf3bba3a2e697b7df">&#9670;&#160;</a></span>writePolylineRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writePolylineRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchPolyline.html">AltiumSchPolyline</a> &amp;&#160;</td>
+          <td class="paramname"><em>polyline</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入折线记录 (RECORD=6) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">polyline</td><td>折线模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00322">322</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00242">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writePolyline()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="af896ec44e928a433f6663c8afe50625d" name="af896ec44e928a433f6663c8afe50625d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af896ec44e928a433f6663c8afe50625d">&#9670;&#160;</a></span>writeRectangleRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeRectangleRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchRectangle.html">AltiumSchRectangle</a> &amp;&#160;</td>
+          <td class="paramname"><em>rect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入矩形记录 (RECORD=14) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">rect</td><td>矩形模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00242">242</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00019">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRectangle()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="ab7b6b1ece2ae73362bd4fecc39c726a5" name="ab7b6b1ece2ae73362bd4fecc39c726a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7b6b1ece2ae73362bd4fecc39c726a5">&#9670;&#160;</a></span>writeRoundRectangleRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeRoundRectangleRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchRoundRectangle.html">AltiumSchRoundRectangle</a> &amp;&#160;</td>
+          <td class="paramname"><em>rect</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>写入圆角矩形记录 (RECORD=10) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">rect</td><td>圆角矩形模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00252">252</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00045">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeRoundRectangle()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a66171e632241ee639ab400ada31a75ae" name="a66171e632241ee639ab400ada31a75ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66171e632241ee639ab400ada31a75ae">&#9670;&#160;</a></span>writeSectionKeys()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeSectionKeys </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>ole</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>components</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QStringList &amp;&#160;</td>
+          <td class="paramname"><em>sectionKeys</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>兼容旧内部调用入口，并委托 SectionKeys 写入器。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ole</td><td>SchLib 根 OLE 写入器。 </td></tr>
+    <tr><td class="paramname">components</td><td>待写入的组件列表。 </td></tr>
+    <tr><td class="paramname">sectionKeys</td><td>组件对应的 OLE 存储键列表。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00158">158</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchLibraryHeaderWriter_8cpp_source.html#l00091">EasyKiConverter::AltiumSchLibraryHeaderWriter::writeSectionKeys()</a>.</p>
+
+</div>
+</div>
+<a id="ac9e39f9084a025060bce00741d0318a6" name="ac9e39f9084a025060bce00741d0318a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac9e39f9084a025060bce00741d0318a6">&#9670;&#160;</a></span>writeTextFrameRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeTextFrameRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchTextFrame.html">AltiumSchTextFrame</a> &amp;&#160;</td>
+          <td class="paramname"><em>frame</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将文本框记录委托给专用协作者，保持写入器对外行为不变。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">frame</td><td>文本框模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00372">372</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00094">EasyKiConverter::AltiumSchTextRecordWriter::writeTextFrame()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a8580fd79b2a7b9bad739a0a4d0317d4c" name="a8580fd79b2a7b9bad739a0a4d0317d4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8580fd79b2a7b9bad739a0a4d0317d4c">&#9670;&#160;</a></span>writeTextRecord()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::AltiumSchLibWriter::writeTextRecord </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1AltiumSchText.html">AltiumSchText</a> &amp;&#160;</td>
+          <td class="paramname"><em>text</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将文本记录委托给专用协作者，保持写入器对外行为不变。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">writer</td><td>目标二进制写入器。 </td></tr>
+    <tr><td class="paramname">text</td><td>文本模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a> 第 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00362">362</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00022">EasyKiConverter::AltiumSchTextRecordWriter::writeText()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGraphicOrderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchGraphicOrderWriter::write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">友元及相关函数文档</h2>
+<a id="ab0befc403e9d80a0729311253823d5df" name="ab0befc403e9d80a0729311253823d5df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0befc403e9d80a0729311253823d5df">&#9670;&#160;</a></span>AltiumSchComponentRecordWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchComponentRecordWriter.html">AltiumSchComponentRecordWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00055">55</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a5f7f05f688fe93eaca689bf7e9f3ca9f" name="a5f7f05f688fe93eaca689bf7e9f3ca9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f7f05f688fe93eaca689bf7e9f3ca9f">&#9670;&#160;</a></span>AltiumSchComponentStorageWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchComponentStorageWriter.html">AltiumSchComponentStorageWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00059">59</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a88630a3a6d6dfe2f199d6e873fc4dcca" name="a88630a3a6d6dfe2f199d6e873fc4dcca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88630a3a6d6dfe2f199d6e873fc4dcca">&#9670;&#160;</a></span>AltiumSchGeometryValidator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchGeometryValidator.html">AltiumSchGeometryValidator</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00061">61</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a8358e9c84dd1470977c5a026b8b0139d" name="a8358e9c84dd1470977c5a026b8b0139d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8358e9c84dd1470977c5a026b8b0139d">&#9670;&#160;</a></span>AltiumSchGraphicOrderWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchGraphicOrderWriter.html">AltiumSchGraphicOrderWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00051">51</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a53442b7639f2b8fd38ccc216292342bc" name="a53442b7639f2b8fd38ccc216292342bc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53442b7639f2b8fd38ccc216292342bc">&#9670;&#160;</a></span>AltiumSchImageRecordWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchImageRecordWriter.html">AltiumSchImageRecordWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00052">52</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a329b48045c8613afb3eeb81aebea1785" name="a329b48045c8613afb3eeb81aebea1785"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a329b48045c8613afb3eeb81aebea1785">&#9670;&#160;</a></span>AltiumSchImageStorageWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchImageStorageWriter.html">AltiumSchImageStorageWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00058">58</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a0aa3a6d1e214f26ab8a5b9747eaca8cd" name="a0aa3a6d1e214f26ab8a5b9747eaca8cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0aa3a6d1e214f26ab8a5b9747eaca8cd">&#9670;&#160;</a></span>AltiumSchInputValidator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchInputValidator.html">AltiumSchInputValidator</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00062">62</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a2f981eaebf44eb6fac3684d9d041f7a2" name="a2f981eaebf44eb6fac3684d9d041f7a2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f981eaebf44eb6fac3684d9d041f7a2">&#9670;&#160;</a></span>AltiumSchLibraryHeaderWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchLibraryHeaderWriter.html">AltiumSchLibraryHeaderWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00057">57</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1b49223be6e43553012e3b9bdfd1243d" name="a1b49223be6e43553012e3b9bdfd1243d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b49223be6e43553012e3b9bdfd1243d">&#9670;&#160;</a></span>AltiumSchOwnershipValidator</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html">AltiumSchOwnershipValidator</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00060">60</a> 行定义.</p>
+
+</div>
+</div>
+<a id="acadda6d03281db5a159de57834de5ba5" name="acadda6d03281db5a159de57834de5ba5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acadda6d03281db5a159de57834de5ba5">&#9670;&#160;</a></span>AltiumSchPinRecordWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchPinRecordWriter.html">AltiumSchPinRecordWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00053">53</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ac3c900df3d0ce6004d777cfd5da3fb49" name="ac3c900df3d0ce6004d777cfd5da3fb49"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac3c900df3d0ce6004d777cfd5da3fb49">&#9670;&#160;</a></span>AltiumSchPrimitiveRecordWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchPrimitiveRecordWriter.html">AltiumSchPrimitiveRecordWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00054">54</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a19037de309dbf8e477d1677ce61faef0" name="a19037de309dbf8e477d1677ce61faef0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19037de309dbf8e477d1677ce61faef0">&#9670;&#160;</a></span>AltiumSchTextRecordWriter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1AltiumSchTextRecordWriter.html">AltiumSchTextRecordWriter</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00056">56</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ab5d3178d00f18bf106448f2288dd1f5a" name="ab5d3178d00f18bf106448f2288dd1f5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5d3178d00f18bf106448f2288dd1f5a">&#9670;&#160;</a></span>m_diagnostics</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::AltiumSchLibWriter::m_diagnostics</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次写入产生的诊断信息。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00114">114</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00046">diagnostics()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00501">normalizeFiniteAngle()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00479">normalizeOwnerPartId()</a>, <a class="el" href="AltiumSchImageStorageWriter_8cpp_source.html#l00023">EasyKiConverter::AltiumSchImageStorageWriter::prepareNames()</a>, <a class="el" href="AltiumSchInputValidator_8cpp_source.html#l00074">EasyKiConverter::AltiumSchInputValidator::validate()</a>, <a class="el" href="AltiumSchGeometryValidator_8cpp_source.html#l00019">EasyKiConverter::AltiumSchGeometryValidator::validate()</a>, <a class="el" href="AltiumSchOwnershipValidator_8cpp_source.html#l00015">EasyKiConverter::AltiumSchOwnershipValidator::validate()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a>, <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>, <a class="el" href="AltiumSchImageStorageWriter_8cpp_source.html#l00108">EasyKiConverter::AltiumSchImageStorageWriter::write()</a>, <a class="el" href="AltiumSchPrimitiveRecordWriter_8cpp_source.html#l00284">EasyKiConverter::AltiumSchPrimitiveRecordWriter::writeBezier()</a>, <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00022">EasyKiConverter::AltiumSchTextRecordWriter::writeText()</a> , 以及 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00094">EasyKiConverter::AltiumSchTextRecordWriter::writeTextFrame()</a>.</p>
+
+</div>
+</div>
+<a id="a4372ed7e74d8100fcb330451e014007c" name="a4372ed7e74d8100fcb330451e014007c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4372ed7e74d8100fcb330451e014007c">&#9670;&#160;</a></span>m_embeddedImageNames</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QHash&lt;const <a class="el" href="structEasyKiConverter_1_1AltiumSchImage.html">AltiumSchImage</a>*, QString&gt; EasyKiConverter::AltiumSchLibWriter::m_embeddedImageNames</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>图片对象到 Storage 文件名的映射。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00110">110</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchImageStorageWriter_8cpp_source.html#l00023">EasyKiConverter::AltiumSchImageStorageWriter::prepareNames()</a>, <a class="el" href="AltiumSchImageRecordWriter_8cpp_source.html#l00018">EasyKiConverter::AltiumSchImageRecordWriter::write()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a> , 以及 <a class="el" href="AltiumSchImageStorageWriter_8cpp_source.html#l00108">EasyKiConverter::AltiumSchImageStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a39301e6bb2c5c9847241f509fbb57937" name="a39301e6bb2c5c9847241f509fbb57937"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a39301e6bb2c5c9847241f509fbb57937">&#9670;&#160;</a></span>m_fontRegistry</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1AltiumSchFontRegistry.html">AltiumSchFontRegistry</a> EasyKiConverter::AltiumSchLibWriter::m_fontRegistry</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00109">109</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a>, <a class="el" href="AltiumSchLibraryHeaderWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumSchLibraryHeaderWriter::writeFileHeader()</a>, <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00148">EasyKiConverter::AltiumSchComponentRecordWriter::writeParameters()</a>, <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00022">EasyKiConverter::AltiumSchTextRecordWriter::writeText()</a> , 以及 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00094">EasyKiConverter::AltiumSchTextRecordWriter::writeTextFrame()</a>.</p>
+
+</div>
+</div>
+<a id="ab3e00539b83184f6aba05b888a5a0f96" name="ab3e00539b83184f6aba05b888a5a0f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3e00539b83184f6aba05b888a5a0f96">&#9670;&#160;</a></span>m_libraryName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::AltiumSchLibWriter::m_libraryName</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前输出 PcbLib 引用名称。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00113">113</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00214">EasyKiConverter::AltiumSchComponentRecordWriter::writeImplementations()</a>.</p>
+
+</div>
+</div>
+<a id="a836113710f34e1decd484a8d71be79e5" name="a836113710f34e1decd484a8d71be79e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a836113710f34e1decd484a8d71be79e5">&#9670;&#160;</a></span>m_nextIndexInSheet</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AltiumSchLibWriter::m_nextIndexInSheet = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前组件 Data 流的共享内容记录序号。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00112">112</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00467">addContentIndex()</a>, <a class="el" href="AltiumSchPinRecordWriter_8cpp_source.html#l00020">EasyKiConverter::AltiumSchPinRecordWriter::write()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a> , 以及 <a class="el" href="AltiumSchComponentStorageWriter_8cpp_source.html#l00025">EasyKiConverter::AltiumSchComponentStorageWriter::write()</a>.</p>
+
+</div>
+</div>
+<a id="a664052c92207085f2a79639d1ac51f03" name="a664052c92207085f2a79639d1ac51f03"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a664052c92207085f2a79639d1ac51f03">&#9670;&#160;</a></span>m_uniqueIdCounter</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AltiumSchLibWriter::m_uniqueIdCounter = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前库文件的记录唯一标识计数器。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a> 第 <a class="el" href="AltiumSchLibWriter_8h_source.html#l00111">111</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00068">addUniqueID()</a> , 以及 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00081">write()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/altium/writers/<a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a></li>
+<li>core/altium/writers/<a class="el" href="AltiumSchLibWriter_8cpp_source.html">AltiumSchLibWriter.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1AltiumSchLibWriter.html">AltiumSchLibWriter</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

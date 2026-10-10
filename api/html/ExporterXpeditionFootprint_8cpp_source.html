@@ -1,0 +1,796 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/xpedition/ExporterXpeditionFootprint.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterXpeditionFootprint_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterXpeditionFootprint.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterXpeditionFootprint_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterXpeditionFootprint_8h.html">ExporterXpeditionFootprint.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="XpeditionZipWriter_8h.html">XpeditionZipWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QCryptographicHash&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QRegularExpression&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QtMath&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">constexpr</span> <span class="keywordtype">double</span> kThousandthInchMm = 0.0254;  </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">constexpr</span> <span class="keywordtype">double</span> kSolderMaskExpansionTh = 8.0;  </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keywordtype">double</span> toTh(<span class="keywordtype">double</span> valueMm) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">return</span> valueMm / kThousandthInchMm;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>QString fmt(<span class="keywordtype">double</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">return</span> QString::number(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>, <span class="charliteral">&#39;f&#39;</span>, 4);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>QString padShape(<span class="keyword">const</span> IR::FootprintPadIR&amp; pad) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="comment">// 目标格式可以直接表达圆、长圆、矩形和自定义多边形；其余形状必须先有可用顶点。</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">switch</span> (pad.shape) {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a119518c2134c46108179369f0ce81fa2">IR::PadShape::Ellipse</a>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">return</span> qFuzzyCompare(pad.size.width(), pad.size.height()) ? QStringLiteral(<span class="stringliteral">&quot;ROUND&quot;</span>)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                                                                      : QStringLiteral(<span class="stringliteral">&quot;OBLONG&quot;</span>);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a01733ae48f19ae284165e55dd2934b61">IR::PadShape::Oval</a>:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;OBLONG&quot;</span>);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a4c0a11247d92f73fb84baa51e37a3263">IR::PadShape::Polygon</a>:</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a9f47e1193b6c86239bfbe1c5bc7ed08f">IR::PadShape::RoundRect</a>:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a7e7dd435b4cc7ba2b020d5a97856dc80">IR::PadShape::Trapezoid</a>:</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            <span class="keywordflow">return</span> pad.customShapePoints.size() &gt;= 3 ? QStringLiteral(<span class="stringliteral">&quot;CUSTOM&quot;</span>) : QString();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81">IR::PadShape::Rect</a>:</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;RECTANGLE&quot;</span>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keywordflow">return</span> QString();</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>}</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keywordtype">bool</span> hasCustomPadGeometry(<span class="keyword">const</span> IR::FootprintPadIR&amp; pad) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="keywordflow">return</span> (pad.shape == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a4c0a11247d92f73fb84baa51e37a3263">IR::PadShape::Polygon</a> || pad.shape == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a9f47e1193b6c86239bfbe1c5bc7ed08f">IR::PadShape::RoundRect</a> ||</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            pad.shape == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a7e7dd435b4cc7ba2b020d5a97856dc80">IR::PadShape::Trapezoid</a>) &amp;&amp;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>           pad.customShapePoints.size() &gt;= 3;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>QString padName(<span class="keyword">const</span> IR::FootprintPadIR&amp; pad) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="comment">// 几何对象。</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    QString geometry = QStringLiteral(<span class="stringliteral">&quot;%1_%2x%3&quot;</span>)</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                           .arg(padShape(pad))</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                           .arg(fmt(toTh(pad.size.width())))</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>                           .arg(fmt(toTh(pad.size.height())));</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">if</span> (pad.shape == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a4c0a11247d92f73fb84baa51e37a3263">IR::PadShape::Polygon</a> &amp;&amp; !pad.customShapePoints.isEmpty()) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="comment">// 自定义多边形顶点参与名称计算，避免相同外接尺寸的异形焊盘错误复用。</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        QByteArray points;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; point : pad.customShapePoints)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            points += QByteArray::number(point.x(), <span class="stringliteral">&#39;f&#39;</span>, 6) + <span class="stringliteral">&#39;,&#39;</span> + QByteArray::number(point.y(), <span class="stringliteral">&#39;f&#39;</span>, 6) + <span class="stringliteral">&#39;;&#39;</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        geometry += QStringLiteral(<span class="stringliteral">&quot;_P%1&quot;</span>).arg(</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            QString::fromLatin1(QCryptographicHash::hash(points, QCryptographicHash::Sha1).toHex().<a class="code hl_variable" href="OLECompoundReader_8cpp.html#afbc3f8b1ac2bf1a63dbc7212ba850a2e">left</a>(10)));</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">if</span> (pad.isThroughHole()) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="comment">// 通孔几何参数参与名称计算，避免不同孔径或槽长共享同一个钻孔定义。</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        geometry += QStringLiteral(<span class="stringliteral">&quot;_H%1_L%2&quot;</span>).arg(fmt(toTh(pad.holeSize))).arg(fmt(toTh(pad.holeLength)));</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="comment">// 镀层属性决定孔定义的工艺选项，必须参与名称计算以避免错误复用。</span></div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">if</span> (!pad.isPlated)</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            geometry += QStringLiteral(<span class="stringliteral">&quot;_NONPLATED&quot;</span>);</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    }</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;PAD_&quot;</span>) + geometry;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>}</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>QString solderMaskPadName(<span class="keyword">const</span> QString&amp; baseName) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">return</span> baseName + QStringLiteral(<span class="stringliteral">&quot;_MASK&quot;</span>);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span><span class="keyword">struct </span>LayerSection {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="ExporterXpeditionFootprint_8cpp.html#abc29e461e01cc0c712944f8f47f91331">  113</a></span>    QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;  </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="ExporterXpeditionFootprint_8cpp.html#a6b64e7bb195dbf5c66064c54147f2459">  114</a></span>    QString <a class="code hl_variable" href="ExporterXpeditionFootprint_8cpp.html#a6b64e7bb195dbf5c66064c54147f2459">side</a>;  </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>};</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>QList&lt;QPointF&gt; rectanglePoints(<span class="keyword">const</span> IR::FootprintRectangleIR&amp; rectangle) {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keyword">const</span> QPointF <a class="code hl_variable" href="SvgPathParser_8cpp.html#af39f21db56f12fe8cb920f0812da1214">center</a> = rectangle.bounds.center();  </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> angle = qDegreesToRadians(rectangle.rotation);  </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> cosine = std::cos(angle);  </div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> sine = std::sin(angle);  </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="comment">// 矩形顶点列表。</span></div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keyword">const</span> QList&lt;QPointF&gt; corners = {rectangle.bounds.topLeft(),</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                                    rectangle.bounds.topRight(),</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                                    rectangle.bounds.bottomRight(),</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                                    rectangle.bounds.bottomLeft()};</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    QList&lt;QPointF&gt; points;  </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    points.reserve(corners.size() + 1);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; corner : corners) {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keyword">const</span> QPointF relative = corner - <a class="code hl_variable" href="SvgPathParser_8cpp.html#af39f21db56f12fe8cb920f0812da1214">center</a>;  </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        points.append(</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>            <a class="code hl_variable" href="SvgPathParser_8cpp.html#af39f21db56f12fe8cb920f0812da1214">center</a> + QPointF(relative.x() * cosine - relative.y() * sine, relative.x() * sine + relative.y() * cosine));</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    points.append(points.first());</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <span class="keywordflow">return</span> points;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>}</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>LayerSection layerSection(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981">IR::LayerType</a> layer) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="comment">// 每组图层同时决定目标段名和安装面，未知图层返回空值由调用方跳过。</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">switch</span> (layer) {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a4baeb8868722a7b0e68c685a2e3b4822">IR::LayerType::TopSilk</a>:</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac3502964a873d3a2628700d060b0874a">IR::LayerType::BottomSilk</a>:</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac6cf353604eed1bd3e71437317e132bc">IR::LayerType::TopOverlay</a>:</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a41ff03243dee2efcb879ff3c00e434c8">IR::LayerType::BottomOverlay</a>:</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            <span class="keywordflow">return</span> {QStringLiteral(<span class="stringliteral">&quot;SILKSCREEN_OUTLINE&quot;</span>),</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                    layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a4baeb8868722a7b0e68c685a2e3b4822">IR::LayerType::TopSilk</a> || layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac6cf353604eed1bd3e71437317e132bc">IR::LayerType::TopOverlay</a> ? QStringLiteral(<span class="stringliteral">&quot;MNT_SIDE&quot;</span>)</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                                                                                          : QStringLiteral(<span class="stringliteral">&quot;OPP_SIDE&quot;</span>)};</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a934c68860f93dc3e2562aea0af984d92">IR::LayerType::TopAssembly</a>:</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a9179c27c99130211b1aaf05421fa91f5">IR::LayerType::BottomAssembly</a>:</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>            <span class="keywordflow">return</span> {QStringLiteral(<span class="stringliteral">&quot;ASSEMBLY_OUTLINE&quot;</span>),</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>                    layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a934c68860f93dc3e2562aea0af984d92">IR::LayerType::TopAssembly</a> ? QStringLiteral(<span class="stringliteral">&quot;MNT_SIDE&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;OPP_SIDE&quot;</span>)};</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8a0dab736ba936c8b8af93ebd573a020">IR::LayerType::TopPaste</a>:</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a22bda87d1f7500bdbed77e7569bfb2c6">IR::LayerType::BottomPaste</a>:</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>            <span class="keywordflow">return</span> {QStringLiteral(<span class="stringliteral">&quot;SOLDER_PASTE&quot;</span>),</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>                    layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8a0dab736ba936c8b8af93ebd573a020">IR::LayerType::TopPaste</a> ? QStringLiteral(<span class="stringliteral">&quot;MNT_SIDE&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;OPP_SIDE&quot;</span>)};</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a98da48f74f4a4f01a962a2ce68fb2ccf">IR::LayerType::TopMask</a>:</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a5fbb93d97c829f0d7e76f749d3af73c9">IR::LayerType::BottomMask</a>:</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            <span class="keywordflow">return</span> {QStringLiteral(<span class="stringliteral">&quot;SOLDER_MASK&quot;</span>),</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>                    layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a98da48f74f4a4f01a962a2ce68fb2ccf">IR::LayerType::TopMask</a> ? QStringLiteral(<span class="stringliteral">&quot;MNT_SIDE&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;OPP_SIDE&quot;</span>)};</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">IR::LayerType::TopCopper</a>:</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc">IR::LayerType::BottomCopper</a>:</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>            <span class="keywordflow">return</span> {QStringLiteral(<span class="stringliteral">&quot;GRAPHIC&quot;</span>),</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>                    layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">IR::LayerType::TopCopper</a> ? QStringLiteral(<span class="stringliteral">&quot;MNT_SIDE&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;OPP_SIDE&quot;</span>)};</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8861cb4e1e2ae26a2d7f9255d38778f7">IR::LayerType::EdgeCuts</a>:</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>            <span class="keywordflow">return</span> {QStringLiteral(<span class="stringliteral">&quot;ASSEMBLY_OUTLINE&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;MNT_SIDE&quot;</span>)};</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    }</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>}</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>QString escapedText(QString text) {</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    text.replace(<span class="charliteral">&#39;\\&#39;</span>, QStringLiteral(<span class="stringliteral">&quot;\\\\&quot;</span>));</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    text.replace(<span class="charliteral">&#39;&quot;&#39;</span>, QStringLiteral(<span class="stringliteral">&quot;\\\&quot;&quot;</span>));</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    text.replace(<span class="charliteral">&#39;\n&#39;</span>, QStringLiteral(<span class="stringliteral">&quot; &quot;</span>));</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    text.replace(<span class="charliteral">&#39;\r&#39;</span>, QStringLiteral(<span class="stringliteral">&quot; &quot;</span>));</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keywordflow">return</span> text;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>}</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>QString holeName(<span class="keywordtype">double</span> diameterMm, <span class="keywordtype">double</span> slotLengthMm = 0.0, <span class="keywordtype">bool</span> isPlated = <span class="keyword">true</span>) {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;  </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keywordflow">if</span> (slotLengthMm &gt; diameterMm)</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> = QStringLiteral(<span class="stringliteral">&quot;HOLE_%1x%2&quot;</span>).arg(fmt(toTh(diameterMm))).arg(fmt(toTh(slotLengthMm)));</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> = QStringLiteral(<span class="stringliteral">&quot;HOLE_%1&quot;</span>).arg(fmt(toTh(diameterMm)));</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keywordflow">if</span> (!isPlated)</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> += QStringLiteral(<span class="stringliteral">&quot;_NONPLATED&quot;</span>);</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>}</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>QString holePadName(<span class="keywordtype">double</span> diameterMm) {</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;HOLE_PAD_%1&quot;</span>).arg(fmt(toTh(diameterMm)));</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>}</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>QString standaloneHoleStackName(<span class="keywordtype">double</span> diameterMm) {</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordflow">return</span> holeName(diameterMm, 0.0, <span class="keyword">false</span>) + QStringLiteral(<span class="stringliteral">&quot;_TH&quot;</span>);</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>}</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span> </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>QString padstackSideSuffix(<span class="keyword">const</span> IR::FootprintPadIR&amp; pad) {</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keywordflow">if</span> (pad.isThroughHole())</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="keywordflow">return</span> pad.layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc">IR::LayerType::BottomCopper</a> ? QStringLiteral(<span class="stringliteral">&quot;_BOTTOM_SMD&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;_TOP_SMD&quot;</span>);</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>}</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>QRectF footprintBounds(<span class="keyword">const</span> IR::FootprintComponentIR&amp; footprint) {</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordtype">double</span> minX = 0.0;  </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keywordtype">double</span> minY = 0.0;  </div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    <span class="keywordtype">double</span> maxX = 0.0;  </div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="keywordtype">double</span> maxY = 0.0;  </div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordtype">bool</span> initialized = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keyword">const</span> <span class="keyword">auto</span> addPoint = [&amp;](<span class="keyword">const</span> QPointF&amp; point) {</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        <span class="keywordflow">if</span> (!initialized) {</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            minX = maxX = point.x();</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            minY = maxY = point.y();</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>            initialized = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        }</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        minX = qMin(minX, point.x());</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        minY = qMin(minY, point.y());</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        maxX = qMax(maxX, point.x());</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        maxY = qMax(maxY, point.y());</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    };</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pad : footprint.pads) {</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>        addPoint(pad.position - QPointF(pad.size.width() / 2.0, pad.size.height() / 2.0));</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        addPoint(pad.position + QPointF(pad.size.width() / 2.0, pad.size.height() / 2.0));</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    }</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; circle : footprint.circles) {</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        addPoint(circle.center - QPointF(circle.radius, circle.radius));</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        addPoint(circle.center + QPointF(circle.radius, circle.radius));</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    }</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; rect : footprint.rectangles) {</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; point : rectanglePoints(rect))</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>            addPoint(point);</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    }</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; arc : footprint.arcs) {</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>        <span class="comment">// 用完整圆弧外接框参与原点计算，保证任意圆弧不会被遗漏；不会改变实际写出的弧段。</span></div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>        addPoint(arc.center - QPointF(arc.radius, arc.radius));</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        addPoint(arc.center + QPointF(arc.radius, arc.radius));</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>    }</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; region : footprint.regions) {</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; point : region.vertices)</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>            addPoint(point);</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>    }</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; text : footprint.texts)</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>        if (text.isDisplayed &amp;&amp; !text.text.isEmpty())</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>            addPoint(text.position);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; outline : footprint.outlines) {</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : outline.points)</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>            addPoint(point);</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    }</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; track : footprint.tracks) {</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : track.points)</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>            addPoint(point);</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    }</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; hole : footprint.holes) {</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        addPoint(hole.center - QPointF(hole.radius, hole.radius));</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>        addPoint(hole.center + QPointF(hole.radius, hole.radius));</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    }</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    <span class="keywordflow">return</span> initialized ? QRectF(QPointF(minX, minY), QPointF(maxX, maxY)) : QRectF(-1, -1, 2, 2);</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>}</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>QString shapeBlock(<span class="keyword">const</span> QString&amp; kind, <span class="keyword">const</span> QList&lt;QPointF&gt;&amp; points, <span class="keywordtype">double</span> width = 0.0, <span class="keywordtype">bool</span> filled = <span class="keyword">false</span>) {</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <span class="keywordflow">if</span> (points.isEmpty())</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    <span class="comment">// 输出对象。</span></div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    QString output = QStringLiteral(<span class="stringliteral">&quot; ...%1\n  ....WIDTH %2\n  ....XY (%3, %4)&quot;</span>)</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>                         .arg(kind)</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>                         .arg(fmt(toTh(width)))</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>                         .arg(fmt(toTh(points.first().x())))</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>                         .arg(fmt(toTh(points.first().y())));</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> index = 1; index &lt; points.size(); ++index)</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>        output +=</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>            QStringLiteral(<span class="stringliteral">&quot;\n   ...XY (%1, %2)&quot;</span>).arg(fmt(toTh(points[index].x()))).arg(fmt(toTh(points[index].y())));</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    <span class="keywordflow">if</span> (filled)</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        output += QStringLiteral(<span class="stringliteral">&quot;\n  ....SHAPE_OPTIONS FILLED&quot;</span>);</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    output += QLatin1Char(<span class="charliteral">&#39;\n&#39;</span>);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <span class="keywordflow">return</span> output;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>}</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span> </div>
+<div class="foldopen" id="foldopen00334" data-start="{" data-end="}">
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a8a3bb60361c50f40b254698baa33d85c">  334</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a8a3bb60361c50f40b254698baa33d85c">ExporterXpeditionFootprint::libraryFileExtension</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;_Footprints.zip&quot;</span>);</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>}</div>
+</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
+<div class="foldopen" id="foldopen00345" data-start="{" data-end="}">
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a5bf6cc492becf2a65b2611ac73e7a423">  345</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a5bf6cc492becf2a65b2611ac73e7a423">ExporterXpeditionFootprint::isDirectoryOutput</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    <span class="comment">// 写入器会在内存中组装归档，外部接口看到的是单个文件而不是目录。</span></div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>}</div>
+</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span> </div>
+<div class="foldopen" id="foldopen00353" data-start="{" data-end="}">
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aac1c29dda2fac0d1bd09e9da03ab29d9">  353</a></span>QStringList <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aac1c29dda2fac0d1bd09e9da03ab29d9">ExporterXpeditionFootprint::diagnostics</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    <span class="comment">// 返回值按导出顺序保留，调用方可以直接展示降级和跳过原因。</span></div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>}</div>
+</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span> </div>
+<div class="foldopen" id="foldopen00362" data-start="{" data-end="}">
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#af17f93de7da0f6b64ad264b3546f920b">  362</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#af17f93de7da0f6b64ad264b3546f920b">ExporterXpeditionFootprint::safeName</a>(QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    <span class="comment">// 文件名必须同时适合 ZIP 条目和 HKP 逻辑名称，因此在导出边界统一清理。</span></div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>    <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> = <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.trimmed();</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>    <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.replace(QRegularExpression(QStringLiteral(<span class="stringliteral">&quot;[^A-Za-z0-9_.-]&quot;</span>)), QStringLiteral(<span class="stringliteral">&quot;_&quot;</span>));</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.isEmpty() ? QStringLiteral(<span class="stringliteral">&quot;unnamed&quot;</span>) : <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>}</div>
+</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span> </div>
+<div class="foldopen" id="foldopen00373" data-start="{" data-end="}">
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#ad40952ed599275a23c829ba37816028c">  373</a></span>QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#ad40952ed599275a23c829ba37816028c">ExporterXpeditionFootprint::padstackFile</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a>&amp; footprint)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>    <span class="comment">// Pad 与 Padstack 分开去重，保证相同尺寸的焊盘只生成一次定义。</span></div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>    QString output = QStringLiteral(<span class="stringliteral">&quot;.FILETYPE PADSTACK_LIBRARY\n.VERSION \&quot;VB99.0\&quot;\n.SCHEMA_VERSION 13\n&quot;</span>) +</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>                     QStringLiteral(<span class="stringliteral">&quot;.CREATOR \&quot;EasyKiConverter\&quot;\n\n.UNITS TH\n\n&quot;</span>);</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>    QSet&lt;QString&gt; writtenPads;  </div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>    QSet&lt;QString&gt; writtenStacks;  </div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span> </div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <span class="comment">// IR 没有独立的阻焊扩展字段，使用明确的 8 TH 默认扩展生成工艺层焊盘。</span></div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    <span class="keyword">const</span> <span class="keyword">auto</span> appendPad = [&amp;](<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintPadIR.html">IR::FootprintPadIR</a>&amp; pad, <span class="keywordtype">double</span> expansionTh) {</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>        <span class="keywordflow">if</span> (writtenPads.contains(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>))</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> width = toTh(pad.size.width()) + expansionTh;  </div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> height = toTh(pad.size.height()) + expansionTh;  </div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>        output += QStringLiteral(<span class="stringliteral">&quot;.PAD \&quot;%1\&quot;\n..PAD_OPTIONS USER_GENERATED_NAME\n..OFFSET (0, 0)\n..%2\n&quot;</span>)</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>                      .arg(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, padShape(pad));</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>        <span class="keywordflow">if</span> (pad.shape == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a119518c2134c46108179369f0ce81fa2">IR::PadShape::Ellipse</a> &amp;&amp; qFuzzyCompare(pad.size.width(), pad.size.height())) {</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>            output += QStringLiteral(<span class="stringliteral">&quot;...DIAMETER %1\n&quot;</span>).arg(fmt(width));</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (hasCustomPadGeometry(pad)) {</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>            <span class="comment">// 自定义焊盘按 X/Y 尺寸比例扩展，保持多边形的相对形状。</span></div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>            <span class="keyword">const</span> <span class="keywordtype">double</span> scaleX = pad.size.width() &gt; 0.0 ? width / toTh(pad.size.width()) : 1.0;</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>            <span class="keyword">const</span> <span class="keywordtype">double</span> scaleY =</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>                pad.size.height() &gt; 0.0 ? height / toTh(pad.size.height()) : 1.0;  </div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>            output += QStringLiteral(<span class="stringliteral">&quot;...POLYLINE_SHAPE\n....XY&quot;</span>);</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; point : pad.customShapePoints)</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>                output +=</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>                    QStringLiteral(<span class="stringliteral">&quot; (%1, %2)&quot;</span>).arg(fmt(toTh(point.x()) * scaleX)).arg(fmt(toTh(point.y()) * scaleY));</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>            output += QStringLiteral(<span class="stringliteral">&quot;\n....SHAPE_OPTIONS FILLED\n&quot;</span>);</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>            output += QStringLiteral(<span class="stringliteral">&quot;...WIDTH %1\n...HEIGHT %2\n&quot;</span>).arg(fmt(width)).arg(fmt(height));</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>        }</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        writtenPads.insert(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>    };</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span> </div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pad : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#ad6c9a5c83f8f1f098de9b0f892d7531d">pads</a>) {</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>        <span class="keyword">const</span> QString baseName = padName(pad);  </div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>        <span class="comment">// 先写入铜焊盘，再写入供阻焊层引用的放大定义。</span></div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>        appendPad(baseName, pad, 0.0);</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>        <span class="keyword">const</span> QString maskName = solderMaskPadName(baseName);  </div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>        appendPad(maskName, pad, kSolderMaskExpansionTh);</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span> </div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>        <span class="keyword">const</span> QString stackName =</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>            baseName + (pad.isThroughHole() ? QStringLiteral(<span class="stringliteral">&quot;_TH&quot;</span>) : padstackSideSuffix(pad));  </div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>        <span class="keywordflow">if</span> (writtenStacks.contains(stackName))</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>        output += QStringLiteral(<span class="stringliteral">&quot;.PADSTACK \&quot;%1\&quot;\n..PADSTACK_TYPE %2\n..TECHNOLOGY \&quot;(Default)\&quot;\n&quot;</span>)</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>                      .arg(stackName, pad.isThroughHole() ? QStringLiteral(<span class="stringliteral">&quot;PIN_THROUGH&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;PIN_SMD&quot;</span>));</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>        output += QStringLiteral(<span class="stringliteral">&quot;...TECHNOLOGY_OPTIONS NONE\n&quot;</span>);</div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>        <span class="keywordflow">if</span> (pad.isThroughHole() || pad.layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">IR::LayerType::TopCopper</a>)</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>            output += QStringLiteral(<span class="stringliteral">&quot;...TOP_PAD \&quot;%1\&quot;\n&quot;</span>).arg(baseName);</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>        <span class="keywordflow">if</span> (pad.isThroughHole() || pad.layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc">IR::LayerType::BottomCopper</a>)</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>            output += QStringLiteral(<span class="stringliteral">&quot;...BOTTOM_PAD \&quot;%1\&quot;\n&quot;</span>).arg(baseName);</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>        <span class="keywordflow">if</span> (pad.isThroughHole() || pad.layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">IR::LayerType::TopCopper</a>)</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>            output += QStringLiteral(<span class="stringliteral">&quot;...TOP_SOLDERMASK_PAD \&quot;%1\&quot;\n&quot;</span>).arg(maskName);</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>        <span class="keywordflow">if</span> (pad.isThroughHole() || pad.layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc">IR::LayerType::BottomCopper</a>)</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>            output += QStringLiteral(<span class="stringliteral">&quot;...BOTTOM_SOLDERMASK_PAD \&quot;%1\&quot;\n&quot;</span>).arg(maskName);</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>        <span class="keywordflow">if</span> (!pad.isThroughHole() &amp;&amp; pad.layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">IR::LayerType::TopCopper</a>)</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>            output += QStringLiteral(<span class="stringliteral">&quot;...TOP_SOLDERPASTE_PAD \&quot;%1\&quot;\n&quot;</span>).arg(baseName);</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>        <span class="keywordflow">if</span> (!pad.isThroughHole() &amp;&amp; pad.layer == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc">IR::LayerType::BottomCopper</a>)</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>            output += QStringLiteral(<span class="stringliteral">&quot;...BOTTOM_SOLDERPASTE_PAD \&quot;%1\&quot;\n&quot;</span>).arg(baseName);</div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>        <span class="keywordflow">if</span> (pad.isThroughHole()) {</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>            <span class="comment">// 通孔焊盘需要独立的 Hole 定义，孔径以实际直径参与命名和写入。</span></div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>            <span class="keyword">const</span> QString drillName = holeName(pad.holeSize, pad.holeLength, pad.isPlated);</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>            output += QStringLiteral(<span class="stringliteral">&quot;...INTERNAL_PAD \&quot;%1\&quot;\n...HOLE_NAME \&quot;%2\&quot;\n&quot;</span>).arg(baseName, drillName);</div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>            output += QStringLiteral(<span class="stringliteral">&quot;.Hole \&quot;%1\&quot;\n..POSITIVE_TOLERANCE 0\n..NEGATIVE_TOLERANCE 0\n&quot;</span>).arg(drillName);</div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>            output += QStringLiteral(<span class="stringliteral">&quot;..HOLE_OPTIONS %1 DRILLED USER_GENERATED_NAME\n&quot;</span>)</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>                          .arg(pad.isPlated ? QStringLiteral(<span class="stringliteral">&quot;PLATED&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;NON_PLATED&quot;</span>));</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>            <span class="keywordflow">if</span> (pad.holeLength &gt; pad.holeSize) {</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>                <span class="comment">// 槽孔长度和孔径分别写入目标格式的宽高字段，方向由 Cell 引脚旋转控制。</span></div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>                output += QStringLiteral(<span class="stringliteral">&quot;..SLOT\n...WIDTH %1\n...HEIGHT %2\n&quot;</span>)</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>                              .arg(fmt(toTh(pad.holeLength)))</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>                              .arg(fmt(toTh(pad.holeSize)));</div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>                output += QStringLiteral(<span class="stringliteral">&quot;..ROUND\n...DIAMETER %1\n&quot;</span>).arg(fmt(toTh(pad.holeSize)));</div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>            }</div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>        }</div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>        writtenStacks.insert(stackName);</div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>    }</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; hole : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a2683945f9aca3f1ea22546fe36a89d68">holes</a>) {</div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>        <span class="comment">// IR 中没有焊盘的独立孔仍需转换为可定位的安装孔引脚。</span></div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>        <span class="keywordflow">if</span> (hole.radius &lt;= 0.0)</div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> diameterMm = hole.radius * 2.0;  </div>
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span>        <span class="keyword">const</span> QString baseName = holePadName(diameterMm);  </div>
+<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>        <span class="keyword">const</span> QString stackName = standaloneHoleStackName(diameterMm);  </div>
+<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>        <span class="keywordflow">if</span> (!writtenPads.contains(baseName)) {</div>
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span>            output += QStringLiteral(</div>
+<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>                          <span class="stringliteral">&quot;.PAD \&quot;%1\&quot;\n..PAD_OPTIONS USER_GENERATED_NAME\n..OFFSET (0, 0)\n..ROUND\n...DIAMETER %2\n&quot;</span>)</div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>                          .arg(baseName)</div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>                          .arg(fmt(toTh(diameterMm)));</div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>            writtenPads.insert(baseName);</div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>        }</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>        <span class="keywordflow">if</span> (writtenStacks.contains(stackName))</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>        <span class="keyword">const</span> QString drillName = holeName(diameterMm, 0.0, <span class="keyword">false</span>);  </div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>        output += QStringLiteral(<span class="stringliteral">&quot;.PADSTACK \&quot;%1\&quot;\n..PADSTACK_TYPE PIN_THROUGH\n..TECHNOLOGY \&quot;(Default)\&quot;\n&quot;</span>)</div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>                      .arg(stackName);</div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>        output += QStringLiteral(</div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>                      <span class="stringliteral">&quot;...TECHNOLOGY_OPTIONS NONE\n...TOP_PAD \&quot;%1\&quot;\n...BOTTOM_PAD \&quot;%1\&quot;\n...INTERNAL_PAD &quot;</span></div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>                      <span class="stringliteral">&quot;\&quot;%1\&quot;\n...HOLE_NAME \&quot;%2\&quot;\n&quot;</span>)</div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>                      .arg(baseName, drillName);</div>
+<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>        output += QStringLiteral(<span class="stringliteral">&quot;.Hole \&quot;%1\&quot;\n..POSITIVE_TOLERANCE 0\n..NEGATIVE_TOLERANCE 0\n&quot;</span>).arg(drillName);</div>
+<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span>        output += QStringLiteral(<span class="stringliteral">&quot;..HOLE_OPTIONS NON_PLATED DRILLED USER_GENERATED_NAME\n..ROUND\n...DIAMETER %1\n&quot;</span>)</div>
+<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>                      .arg(fmt(toTh(diameterMm)));</div>
+<div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>        writtenStacks.insert(stackName);</div>
+<div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span>    }</div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span>    <span class="keywordflow">return</span> output.toUtf8();</div>
+<div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span>}</div>
+</div>
+<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span> </div>
+<div class="foldopen" id="foldopen00485" data-start="{" data-end="}">
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a764c76f0eb77d0eb1c5c6c5ff2b9ebeb">  485</a></span>QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a764c76f0eb77d0eb1c5c6c5ff2b9ebeb">ExporterXpeditionFootprint::cellFile</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a>&amp; footprint)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>    <span class="comment">// Cell 的局部原点取包围盒中心，能让没有明确原点的封装保持几何居中。</span></div>
+<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>    <span class="keyword">const</span> QRectF bounds = footprintBounds(footprint);</div>
+<div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>    <span class="keyword">const</span> QPointF origin = bounds.center();  </div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>    QString output =</div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>        QStringLiteral(<span class="stringliteral">&quot;.FILETYPE CELL_LIBRARY\n.VERSION \&quot;1.01.01\&quot;\n.CREATOR \&quot;EasyKiConverter\&quot;\n\n.UNITS TH\n\n&quot;</span>);</div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>    output += QStringLiteral(<span class="stringliteral">&quot;.PACKAGE_CELL \&quot;%1\&quot;\n ..NUMBER_LAYERS 2\n ..PACKAGE_GROUP General\n ..MOUNT_TYPE %2\n&quot;</span>)</div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>                  .arg(<a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#af17f93de7da0f6b64ad264b3546f920b">safeName</a>(footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a818f987e21fb9c6fe063a219cdd00351">name</a>),</div>
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>                       footprint.<a class="code hl_function" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a7580ff180663953bdf5ebc4c129f80ba">hasThroughHolePads</a>() || !footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a2683945f9aca3f1ea22546fe36a89d68">holes</a>.isEmpty() ? QStringLiteral(<span class="stringliteral">&quot;THROUGH&quot;</span>)</div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>                                                                                    : QStringLiteral(<span class="stringliteral">&quot;SURFACE&quot;</span>));</div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span> </div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>    <span class="keywordtype">int</span> pinIndex = 1;  </div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pad : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#ad6c9a5c83f8f1f098de9b0f892d7531d">pads</a>) {</div>
+<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>        <span class="keyword">const</span> QString stackName =</div>
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>            padName(pad) + (pad.isThroughHole() ? QStringLiteral(<span class="stringliteral">&quot;_TH&quot;</span>) : padstackSideSuffix(pad));</div>
+<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>        output +=</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>            QStringLiteral(</div>
+<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>                <span class="stringliteral">&quot; ..PIN \&quot;%1\&quot;\n  ...XY (%2, %3)\n  ...PADSTACK \&quot;%4\&quot;\n  ...ROTATION %5\n  ...PIN_OPTIONS NONE\n&quot;</span>)</div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>                .arg(pad.number.isEmpty() ? QString::number(pinIndex) : pad.number)</div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>                .arg(fmt(toTh(pad.position.x() - origin.x())))</div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>                .arg(fmt(-toTh(pad.position.y() - origin.y())))</div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>                .arg(stackName)</div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>                .arg(fmt(pad.rotation));</div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>        ++pinIndex;</div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>    }</div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span> </div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>    <span class="keyword">const</span> <span class="keyword">auto</span> appendPolyline =</div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>        [&amp;](<span class="keyword">const</span> LayerSection&amp; layer, <span class="keyword">const</span> QList&lt;QPointF&gt;&amp; points, <span class="keywordtype">double</span> width, <span class="keywordtype">bool</span> filled) {</div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>            <span class="comment">// 目标坐标系的 Y 轴方向与 IR 相反，这里集中完成平移和翻转。</span></div>
+<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>            <span class="keywordflow">if</span> (layer.name.isEmpty() || points.isEmpty())</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>                <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>            QList&lt;QPointF&gt; normalized;  </div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>            <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; point : points)</div>
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>                normalized.append(QPointF(point.x() - origin.x(), -(point.y() - origin.y())));</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>            output += QStringLiteral(<span class="stringliteral">&quot; ..%1\n  ...SIDE %2\n&quot;</span>).arg(layer.name, layer.side);</div>
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span>            output += shapeBlock(</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>                filled ? QStringLiteral(<span class="stringliteral">&quot;POLYLINE_SHAPE&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;POLYLINE_PATH&quot;</span>), normalized, width, filled);</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>        };</div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; outline : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a7a8bb71e79fda91d3e72705774abe731">outlines</a>)</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>        appendPolyline(layerSection(outline.layer), outline.points, outline.strokeWidth, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; track : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#afe03fa9bce63b660d6af53e1607dc55a">tracks</a>)</div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span>        appendPolyline(layerSection(track.layer), track.points, track.width, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; rect : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a09082394bb2c1c3a7c331c470970fef7">rectangles</a>)</div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>        appendPolyline(layerSection(rect.layer), rectanglePoints(rect), rect.strokeWidth, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; circle : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#ae83ab3f2254300272b7d8c56fd72351d">circles</a>) {</div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>        <span class="keyword">const</span> LayerSection layer = layerSection(circle.layer);  </div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>        <span class="keywordflow">if</span> (layer.name.isEmpty())</div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>        output += QStringLiteral(</div>
+<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>                      <span class="stringliteral">&quot; ..%1\n  ...SIDE %2\n   ...CIRCLE_PATH\n   ....WIDTH %3\n   ....XY (%4, %5)\n   ....RADIUS %6\n&quot;</span>)</div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>                      .arg(layer.name, layer.side)</div>
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>                      .arg(fmt(toTh(circle.strokeWidth)))</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>                      .arg(fmt(toTh(circle.center.x() - origin.x())))</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>                      .arg(fmt(-toTh(circle.center.y() - origin.y())))</div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>                      .arg(fmt(toTh(circle.radius)));</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>    }</div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; arc : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a67cb640b75569dbebf772ed6ebb610ef">arcs</a>) {</div>
+<div class="line"><a id="l00542" name="l00542"></a><span class="lineno">  542</span>        <span class="comment">// 目标格式的封装图元统一使用折线，因此按最多 15 度的弦段近似圆弧。</span></div>
+<div class="line"><a id="l00543" name="l00543"></a><span class="lineno">  543</span>        <span class="keyword">const</span> LayerSection layer = layerSection(arc.layer);</div>
+<div class="line"><a id="l00544" name="l00544"></a><span class="lineno">  544</span>        <span class="keywordflow">if</span> (layer.name.isEmpty() || arc.radius &lt;= 0.0)</div>
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno">  545</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>        <span class="keywordtype">double</span> sweep = arc.endAngle - arc.startAngle;  </div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>        <span class="keywordflow">if</span> (qFuzzyIsNull(sweep))</div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>            sweep = 360.0;</div>
+<div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> segments = qMax(8, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(std::ceil(std::abs(sweep) / 15.0)));  </div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span>        QList&lt;QPointF&gt; points;  </div>
+<div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span>        points.reserve(segments + 1);</div>
+<div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> index = 0; index &lt;= segments; ++index) {</div>
+<div class="line"><a id="l00553" name="l00553"></a><span class="lineno">  553</span>            <span class="keyword">const</span> <span class="keywordtype">double</span> angle = qDegreesToRadians(arc.startAngle + sweep * index / segments);  </div>
+<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>            points.append(</div>
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>                QPointF(arc.center.x() + arc.radius * std::cos(angle), arc.center.y() + arc.radius * std::sin(angle)));</div>
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>        }</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>        appendPolyline(layer, points, arc.width, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span>    }</div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; region : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a03f14a71696f9bfd465b922e8f8359e6">regions</a>) {</div>
+<div class="line"><a id="l00560" name="l00560"></a><span class="lineno">  560</span>        <span class="comment">// 填充区域必须闭合，否则目标工具会把它解释为开放轮廓。</span></div>
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno">  561</span>        <span class="keyword">const</span> LayerSection layer = layerSection(region.layer);</div>
+<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>        <span class="keywordflow">if</span> (layer.name.isEmpty() || region.vertices.size() &lt; 3)</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span>        QList&lt;QPointF&gt; points = region.vertices;  </div>
+<div class="line"><a id="l00565" name="l00565"></a><span class="lineno">  565</span>        <span class="keywordflow">if</span> (points.first() != points.last())</div>
+<div class="line"><a id="l00566" name="l00566"></a><span class="lineno">  566</span>            points.append(points.first());</div>
+<div class="line"><a id="l00567" name="l00567"></a><span class="lineno">  567</span>        appendPolyline(layer, points, 0.0, <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00568" name="l00568"></a><span class="lineno">  568</span>    }</div>
+<div class="line"><a id="l00569" name="l00569"></a><span class="lineno">  569</span>    <span class="keywordtype">int</span> holeIndex = 1;  </div>
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno">  570</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; hole : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a2683945f9aca3f1ea22546fe36a89d68">holes</a>) {</div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>        <span class="comment">// 独立孔通过 MH 前缀的无电气引脚表达，保持其位置可被 Cell 引用。</span></div>
+<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>        <span class="keywordflow">if</span> (hole.radius &lt;= 0.0)</div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>        output +=</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>            QStringLiteral(</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>                <span class="stringliteral">&quot; ..PIN \&quot;MH%1\&quot;\n  ...XY (%2, %3)\n  ...PADSTACK \&quot;%4\&quot;\n  ...ROTATION 0\n  ...PIN_OPTIONS NONE\n&quot;</span>)</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span>                .arg(holeIndex++)</div>
+<div class="line"><a id="l00578" name="l00578"></a><span class="lineno">  578</span>                .arg(fmt(toTh(hole.center.x() - origin.x())))</div>
+<div class="line"><a id="l00579" name="l00579"></a><span class="lineno">  579</span>                .arg(fmt(-toTh(hole.center.y() - origin.y())))</div>
+<div class="line"><a id="l00580" name="l00580"></a><span class="lineno">  580</span>                .arg(standaloneHoleStackName(hole.radius * 2.0));</div>
+<div class="line"><a id="l00581" name="l00581"></a><span class="lineno">  581</span>    }</div>
+<div class="line"><a id="l00582" name="l00582"></a><span class="lineno">  582</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; text : footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a0bef45edbcf98b9f7506c800e598d66d">texts</a>) {</div>
+<div class="line"><a id="l00583" name="l00583"></a><span class="lineno">  583</span>        <span class="comment">// 仅导出可见文本；隐藏文本不应改变目标封装的视觉结果。</span></div>
+<div class="line"><a id="l00584" name="l00584"></a><span class="lineno">  584</span>        <span class="keywordflow">if</span> (!text.isDisplayed || text.text.isEmpty())</div>
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno">  585</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>        <span class="keyword">const</span> LayerSection layer = layerSection(text.layer);  </div>
+<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>        <span class="keywordflow">if</span> (layer.name.isEmpty())</div>
+<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> height = text.fontSize &gt; 0.0 ? toTh(text.fontSize) : 50.0;  </div>
+<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> stroke = text.strokeWidth &gt; 0.0 ? toTh(text.strokeWidth) : 3.0;  </div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>        output += QStringLiteral(<span class="stringliteral">&quot; ..TEXT \&quot;%1\&quot;\n  ...TEXT_TYPE USER_DEFINED\n   ...DISPLAY_ATTR\n&quot;</span>)</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>                      .arg(escapedText(text.text));</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span>        output += QStringLiteral(<span class="stringliteral">&quot;    ....XY (%1, %2)\n    ....TEXT_LYR %3\n    ....HORZ_JUST CENTER\n&quot;</span>)</div>
+<div class="line"><a id="l00594" name="l00594"></a><span class="lineno">  594</span>                      .arg(fmt(toTh(text.position.x() - origin.x())))</div>
+<div class="line"><a id="l00595" name="l00595"></a><span class="lineno">  595</span>                      .arg(fmt(-toTh(text.position.y() - origin.y())))</div>
+<div class="line"><a id="l00596" name="l00596"></a><span class="lineno">  596</span>                      .arg(layer.name == QStringLiteral(<span class="stringliteral">&quot;SILKSCREEN_OUTLINE&quot;</span>)</div>
+<div class="line"><a id="l00597" name="l00597"></a><span class="lineno">  597</span>                               ? (layer.side == QStringLiteral(<span class="stringliteral">&quot;MNT_SIDE&quot;</span>) ? QStringLiteral(<span class="stringliteral">&quot;SILKSCREEN_MNT_SIDE&quot;</span>)</div>
+<div class="line"><a id="l00598" name="l00598"></a><span class="lineno">  598</span>                                                                           : QStringLiteral(<span class="stringliteral">&quot;SILKSCREEN_OPP_SIDE&quot;</span>))</div>
+<div class="line"><a id="l00599" name="l00599"></a><span class="lineno">  599</span>                               : layer.name);</div>
+<div class="line"><a id="l00600" name="l00600"></a><span class="lineno">  600</span>        output +=</div>
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno">  601</span>            QStringLiteral(<span class="stringliteral">&quot;    ....VERT_JUST CENTER\n    ....HEIGHT %1\n    ....WIDTH 0\n    ....STROKE_WIDTH %2\n&quot;</span>)</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>                .arg(fmt(height))</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>                .arg(fmt(stroke));</div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>        output += QStringLiteral(<span class="stringliteral">&quot;    ....ROTATION %1\n    ....FONT \&quot;vf_std\&quot;\n    ....TEXT_OPTIONS NONE\n&quot;</span>)</div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>                      .arg(fmt(text.rotation));</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span>    }</div>
+<div class="line"><a id="l00607" name="l00607"></a><span class="lineno">  607</span>    <span class="keywordflow">return</span> output.toUtf8();</div>
+<div class="line"><a id="l00608" name="l00608"></a><span class="lineno">  608</span>}</div>
+</div>
+<div class="line"><a id="l00609" name="l00609"></a><span class="lineno">  609</span> </div>
+<div class="foldopen" id="foldopen00616" data-start="{" data-end="}">
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#ab83cec8a2fa876451b905ac57ad6c981">  616</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#ab83cec8a2fa876451b905ac57ad6c981">ExporterXpeditionFootprint::exportFootprint</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a>&amp; footprint,</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>                                                 <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>                                                 <span class="keyword">const</span> QString&amp; model3DPath) {</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>    <span class="comment">// 单个封装复用批量路径，确保命名、诊断和 ZIP 写入行为保持一致。</span></div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> success = <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a3fa49363737af2f3ea701c3ba7d1fbb9">exportFootprintLibrary</a>({footprint}, footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a818f987e21fb9c6fe063a219cdd00351">name</a>, filePath);</div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>    <span class="keywordflow">if</span> (!model3DPath.trimmed().isEmpty() &amp;&amp; footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a7e27108ec288e3995f78b58592dfa274">models3d</a>.isEmpty())</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 未写入 3D 模型关联&quot;</span>).arg(footprint.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a818f987e21fb9c6fe063a219cdd00351">name</a>));</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>    <span class="keywordflow">return</span> success;</div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>}</div>
+</div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span> </div>
+<div class="foldopen" id="foldopen00631" data-start="{" data-end="}">
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a3fa49363737af2f3ea701c3ba7d1fbb9">  631</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a3fa49363737af2f3ea701c3ba7d1fbb9">ExporterXpeditionFootprint::exportFootprintLibrary</a>(<span class="keyword">const</span> QList&lt;IR::FootprintComponentIR&gt;&amp; footprints,</div>
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>                                                        <span class="keyword">const</span> QString&amp;,</div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>                                                        <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>                                                        <span class="keywordtype">bool</span>,</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span>                                                        <span class="keywordtype">bool</span>,</div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>                                                        <span class="keyword">const</span> QString&amp;,</div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>                                                        <span class="keyword">const</span> QString&amp;,</div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span>                                                        <span class="keywordtype">bool</span>,</div>
+<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>                                                        <span class="keyword">const</span> QString&amp;) {</div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>    <span class="comment">// 每次批量导出都清空旧诊断，避免上一次任务的消息污染当前结果。</span></div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.clear();</div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>    <a class="code hl_class" href="classEasyKiConverter_1_1XpeditionZipWriter.html">XpeditionZipWriter</a> archive;  </div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>    QSet&lt;QString&gt; usedNames;  </div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; footprint : footprints) {</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>        <span class="keywordflow">if</span> (footprint.name.trimmed().isEmpty()) {</div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;跳过名称为空的 Xpedition 封装&quot;</span>));</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span>        }</div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>        <span class="keyword">const</span> QString baseName = <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#af17f93de7da0f6b64ad264b3546f920b">safeName</a>(footprint.name);  </div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>        QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> = baseName;  </div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>        <span class="keywordtype">int</span> suffix = 2;  </div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>        <span class="keywordflow">while</span> (usedNames.contains(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>))</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>            <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> = QStringLiteral(<span class="stringliteral">&quot;%1_%2&quot;</span>).arg(baseName).arg(suffix++);</div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> != baseName)</div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(</div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>                QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装名称重复，已重命名：%1 -&gt; %2&quot;</span>).arg(footprint.name, <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>));</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pad : footprint.pads) {</div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>            <span class="keywordflow">if</span> (padShape(pad).isEmpty()) {</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>                <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 的焊盘 %2 形状无法表达，导出已拒绝&quot;</span>)</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>                                         .arg(footprint.name, pad.number));</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>            }</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>        }</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>        <span class="keywordflow">if</span> (!footprint.arcs.isEmpty())</div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 的 %2 个圆弧已使用折线近似&quot;</span>)</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                                     .arg(footprint.name)</div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>                                     .arg(footprint.arcs.size()));</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>        <span class="keywordflow">if</span> (!footprint.texts.isEmpty())</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>                QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 已写入 %2 个文本&quot;</span>).arg(footprint.name).arg(footprint.texts.size()));</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>        <span class="keywordflow">if</span> (!footprint.regions.isEmpty())</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 已写入 %2 个填充区域&quot;</span>)</div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>                                     .arg(footprint.name)</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>                                     .arg(footprint.regions.size()));</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>        <span class="keywordflow">if</span> (!footprint.holes.isEmpty())</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 已将 %2 个独立孔写为安装孔引脚&quot;</span>)</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>                                     .arg(footprint.name)</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>                                     .arg(footprint.holes.size()));</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>        <span class="keywordtype">bool</span> hasUnsupportedLayer = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; track : footprint.tracks)</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>            hasUnsupportedLayer |= layerSection(track.layer).name.isEmpty();</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; rectangle : footprint.rectangles)</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>            hasUnsupportedLayer |= layerSection(rectangle.layer).name.isEmpty();</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; circle : footprint.circles)</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>            hasUnsupportedLayer |= layerSection(circle.layer).name.isEmpty();</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; arc : footprint.arcs)</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            hasUnsupportedLayer |= layerSection(arc.layer).name.isEmpty();</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; region : footprint.regions)</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>            hasUnsupportedLayer |= layerSection(region.layer).name.isEmpty();</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; outline : footprint.outlines)</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>            hasUnsupportedLayer |= layerSection(outline.layer).name.isEmpty();</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; text : footprint.texts)</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>            hasUnsupportedLayer |= layerSection(text.layer).name.isEmpty();</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>        <span class="keywordflow">if</span> (hasUnsupportedLayer)</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 包含无法映射的图层图元&quot;</span>).arg(footprint.name));</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>        <span class="keywordflow">if</span> (std::any_of(footprint.texts.cbegin(), footprint.texts.cend(), [](<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintTextIR.html">IR::FootprintTextIR</a>&amp; text) {</div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>                return text.mirror || !text.textPathPoints.isEmpty();</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>            })) {</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 的文本镜像或路径字形未写入&quot;</span>).arg(footprint.name));</div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>        }</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>        <span class="keywordflow">if</span> (std::any_of(footprint.regions.cbegin(), footprint.regions.cend(), [](<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintRegionIR.html">IR::FootprintRegionIR</a>&amp; region) {</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>                return region.isKeepOut &amp;&amp; region.layer != IR::LayerType::KeepOut;</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>            })) {</div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 的 KeepOut 标志与图层不一致&quot;</span>).arg(footprint.name));</div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>        }</div>
+<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>        <span class="keywordflow">if</span> (footprint.shouldGenerateCourtyard)</div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 未自动生成 courtyard&quot;</span>).arg(footprint.name));</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>        usedNames.insert(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>        <span class="keywordflow">if</span> (!archive.<a class="code hl_function" href="classEasyKiConverter_1_1XpeditionZipWriter.html#aa224d85184dd5c0246b969aab1edf6b3">addFile</a>(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> + QStringLiteral(<span class="stringliteral">&quot;_Pads.hkp&quot;</span>), <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#ad40952ed599275a23c829ba37816028c">padstackFile</a>(footprint)) ||</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>            !archive.<a class="code hl_function" href="classEasyKiConverter_1_1XpeditionZipWriter.html#aa224d85184dd5c0246b969aab1edf6b3">addFile</a>(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> + QStringLiteral(<span class="stringliteral">&quot;_Cell.hkp&quot;</span>), <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a764c76f0eb77d0eb1c5c6c5ff2b9ebeb">cellFile</a>(footprint))) {</div>
+<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装文件名重复：%1&quot;</span>).arg(footprint.name));</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>        }</div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>        <span class="keywordflow">if</span> (!footprint.models3d.isEmpty())</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 封装 %1 未写入 3D 模型关联&quot;</span>).arg(footprint.name));</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>    }</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>    <span class="keywordflow">if</span> (archive.<a class="code hl_function" href="classEasyKiConverter_1_1XpeditionZipWriter.html#a35c0a80cdb1fc6201ee6e29a4fcc0567">write</a>(filePath))</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;无法写入 Xpedition 封装 ZIP：%1&quot;</span>).arg(QFileInfo(filePath).fileName()));</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>}</div>
+</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span> </div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aExporterXpeditionFootprint_8cpp_html_a6b64e7bb195dbf5c66064c54147f2459"><div class="ttname"><a href="ExporterXpeditionFootprint_8cpp.html#a6b64e7bb195dbf5c66064c54147f2459">side</a></div><div class="ttdeci">QString side</div><div class="ttdoc">当前侧面名称。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00114">ExporterXpeditionFootprint.cpp:114</a></div></div>
+<div class="ttc" id="aExporterXpeditionFootprint_8h_html"><div class="ttname"><a href="ExporterXpeditionFootprint_8h.html">ExporterXpeditionFootprint.h</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_afbc3f8b1ac2bf1a63dbc7212ba850a2e"><div class="ttname"><a href="OLECompoundReader_8cpp.html#afbc3f8b1ac2bf1a63dbc7212ba850a2e">left</a></div><div class="ttdeci">quint32 left</div><div class="ttdoc">左子节点索引。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00065">OLECompoundReader.cpp:65</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_af39f21db56f12fe8cb920f0812da1214"><div class="ttname"><a href="SvgPathParser_8cpp.html#af39f21db56f12fe8cb920f0812da1214">center</a></div><div class="ttdeci">QPointF center</div><div class="ttdoc">椭圆圆心。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00020">SvgPathParser.cpp:20</a></div></div>
+<div class="ttc" id="aXpeditionZipWriter_8h_html"><div class="ttname"><a href="XpeditionZipWriter_8h.html">XpeditionZipWriter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_a3fa49363737af2f3ea701c3ba7d1fbb9"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a3fa49363737af2f3ea701c3ba7d1fbb9">EasyKiConverter::ExporterXpeditionFootprint::exportFootprintLibrary</a></div><div class="ttdeci">bool exportFootprintLibrary(const QList&lt; IR::FootprintComponentIR &gt; &amp;footprints, const QString &amp;libName, const QString &amp;filePath, bool preferWrl=true, bool exportStep=false, const QString &amp;libraryDescription=QString(), const QString &amp;libraryKeywords=QString(), bool useAbsolutePaths=false, const QString &amp;model3DBaseDir=QString()) override</div><div class="ttdoc">将多个统一封装表示写入一个 Xpedition 封装库。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00631">ExporterXpeditionFootprint.cpp:631</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_a5bf6cc492becf2a65b2611ac73e7a423"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a5bf6cc492becf2a65b2611ac73e7a423">EasyKiConverter::ExporterXpeditionFootprint::isDirectoryOutput</a></div><div class="ttdeci">bool isDirectoryOutput() const override</div><div class="ttdoc">指示导出结果是否为目录。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00345">ExporterXpeditionFootprint.cpp:345</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_a764c76f0eb77d0eb1c5c6c5ff2b9ebeb"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a764c76f0eb77d0eb1c5c6c5ff2b9ebeb">EasyKiConverter::ExporterXpeditionFootprint::cellFile</a></div><div class="ttdeci">QByteArray cellFile(const IR::FootprintComponentIR &amp;footprint) const</div><div class="ttdoc">生成一个封装对应的 Cell HKP 内容。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00485">ExporterXpeditionFootprint.cpp:485</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_a8a3bb60361c50f40b254698baa33d85c"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#a8a3bb60361c50f40b254698baa33d85c">EasyKiConverter::ExporterXpeditionFootprint::libraryFileExtension</a></div><div class="ttdeci">QString libraryFileExtension() const override</div><div class="ttdoc">返回封装库压缩包的扩展名。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00334">ExporterXpeditionFootprint.cpp:334</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_aab3a7d2aeb48b3724f8109587eb60e59"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aab3a7d2aeb48b3724f8109587eb60e59">EasyKiConverter::ExporterXpeditionFootprint::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8h_source.html#l00086">ExporterXpeditionFootprint.h:86</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_aac1c29dda2fac0d1bd09e9da03ab29d9"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#aac1c29dda2fac0d1bd09e9da03ab29d9">EasyKiConverter::ExporterXpeditionFootprint::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const override</div><div class="ttdoc">返回本次导出过程中收集的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00353">ExporterXpeditionFootprint.cpp:353</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_ab83cec8a2fa876451b905ac57ad6c981"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#ab83cec8a2fa876451b905ac57ad6c981">EasyKiConverter::ExporterXpeditionFootprint::exportFootprint</a></div><div class="ttdeci">bool exportFootprint(const IR::FootprintComponentIR &amp;footprint, const QString &amp;filePath, const QString &amp;model3DPath=QString()) override</div><div class="ttdoc">导出单个统一封装表示。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00616">ExporterXpeditionFootprint.cpp:616</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_ad40952ed599275a23c829ba37816028c"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#ad40952ed599275a23c829ba37816028c">EasyKiConverter::ExporterXpeditionFootprint::padstackFile</a></div><div class="ttdeci">QByteArray padstackFile(const IR::FootprintComponentIR &amp;footprint) const</div><div class="ttdoc">生成一个封装对应的 Padstack HKP 内容。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00373">ExporterXpeditionFootprint.cpp:373</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionFootprint_html_af17f93de7da0f6b64ad264b3546f920b"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionFootprint.html#af17f93de7da0f6b64ad264b3546f920b">EasyKiConverter::ExporterXpeditionFootprint::safeName</a></div><div class="ttdeci">QString safeName(QString name) const</div><div class="ttdoc">将用户可见名称转换为安全的库文件名。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00362">ExporterXpeditionFootprint.cpp:362</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html">EasyKiConverter::XpeditionZipWriter</a></div><div class="ttdoc">写入不压缩的 ZIP 文件</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8h_source.html#l00015">XpeditionZipWriter.h:15</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html_a35c0a80cdb1fc6201ee6e29a4fcc0567"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html#a35c0a80cdb1fc6201ee6e29a4fcc0567">EasyKiConverter::XpeditionZipWriter::write</a></div><div class="ttdeci">bool write(const QString &amp;filePath) const</div><div class="ttdoc">将当前条目写入 ZIP 文件。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8cpp_source.html#l00087">XpeditionZipWriter.cpp:87</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html_aa224d85184dd5c0246b969aab1edf6b3"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html#aa224d85184dd5c0246b969aab1edf6b3">EasyKiConverter::XpeditionZipWriter::addFile</a></div><div class="ttdeci">bool addFile(const QString &amp;name, const QByteArray &amp;data)</div><div class="ttdoc">添加一个文本或二进制文件条目。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8cpp_source.html#l00070">XpeditionZipWriter.cpp:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981">EasyKiConverter::IR::LayerType</a></div><div class="ttdeci">LayerType</div><div class="ttdoc">PCB 层类型枚举（EDA 无关）</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00139">IRTypes.h:139</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a20e1b1dc6ab77e2ce33a2b1ea1350dc7">EasyKiConverter::IR::LayerType::TopCopper</a></div><div class="ttdeci">@ TopCopper</div><div class="ttdoc">顶层铜</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a22bda87d1f7500bdbed77e7569bfb2c6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a22bda87d1f7500bdbed77e7569bfb2c6">EasyKiConverter::IR::LayerType::BottomPaste</a></div><div class="ttdeci">@ BottomPaste</div><div class="ttdoc">底层锡膏</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc">EasyKiConverter::IR::LayerType::BottomCopper</a></div><div class="ttdeci">@ BottomCopper</div><div class="ttdoc">底层铜</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a41ff03243dee2efcb879ff3c00e434c8"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a41ff03243dee2efcb879ff3c00e434c8">EasyKiConverter::IR::LayerType::BottomOverlay</a></div><div class="ttdeci">@ BottomOverlay</div><div class="ttdoc">底层覆盖</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a4baeb8868722a7b0e68c685a2e3b4822"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a4baeb8868722a7b0e68c685a2e3b4822">EasyKiConverter::IR::LayerType::TopSilk</a></div><div class="ttdeci">@ TopSilk</div><div class="ttdoc">顶层丝印</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a5fbb93d97c829f0d7e76f749d3af73c9"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a5fbb93d97c829f0d7e76f749d3af73c9">EasyKiConverter::IR::LayerType::BottomMask</a></div><div class="ttdeci">@ BottomMask</div><div class="ttdoc">底层阻焊</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a8861cb4e1e2ae26a2d7f9255d38778f7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8861cb4e1e2ae26a2d7f9255d38778f7">EasyKiConverter::IR::LayerType::EdgeCuts</a></div><div class="ttdeci">@ EdgeCuts</div><div class="ttdoc">板框切割</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a8a0dab736ba936c8b8af93ebd573a020"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a8a0dab736ba936c8b8af93ebd573a020">EasyKiConverter::IR::LayerType::TopPaste</a></div><div class="ttdeci">@ TopPaste</div><div class="ttdoc">顶层锡膏</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a9179c27c99130211b1aaf05421fa91f5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a9179c27c99130211b1aaf05421fa91f5">EasyKiConverter::IR::LayerType::BottomAssembly</a></div><div class="ttdeci">@ BottomAssembly</div><div class="ttdoc">底层装配</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a934c68860f93dc3e2562aea0af984d92"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a934c68860f93dc3e2562aea0af984d92">EasyKiConverter::IR::LayerType::TopAssembly</a></div><div class="ttdeci">@ TopAssembly</div><div class="ttdoc">顶层装配</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981a98da48f74f4a4f01a962a2ce68fb2ccf"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a98da48f74f4a4f01a962a2ce68fb2ccf">EasyKiConverter::IR::LayerType::TopMask</a></div><div class="ttdeci">@ TopMask</div><div class="ttdoc">顶层阻焊</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981ac3502964a873d3a2628700d060b0874a"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac3502964a873d3a2628700d060b0874a">EasyKiConverter::IR::LayerType::BottomSilk</a></div><div class="ttdeci">@ BottomSilk</div><div class="ttdoc">底层丝印</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a96a060845a5405e7dea8ffff9451e981ac6cf353604eed1bd3e71437317e132bc"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac6cf353604eed1bd3e71437317e132bc">EasyKiConverter::IR::LayerType::TopOverlay</a></div><div class="ttdeci">@ TopOverlay</div><div class="ttdoc">顶层覆盖</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a01733ae48f19ae284165e55dd2934b61"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a01733ae48f19ae284165e55dd2934b61">EasyKiConverter::IR::PadShape::Oval</a></div><div class="ttdeci">@ Oval</div><div class="ttdoc">椭圆长圆焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a119518c2134c46108179369f0ce81fa2"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a119518c2134c46108179369f0ce81fa2">EasyKiConverter::IR::PadShape::Ellipse</a></div><div class="ttdeci">@ Ellipse</div><div class="ttdoc">椭圆/圆形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a4c0a11247d92f73fb84baa51e37a3263"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a4c0a11247d92f73fb84baa51e37a3263">EasyKiConverter::IR::PadShape::Polygon</a></div><div class="ttdeci">@ Polygon</div><div class="ttdoc">多边形异形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a69ad58d91eec91b5c152d21ca117dc81">EasyKiConverter::IR::PadShape::Rect</a></div><div class="ttdeci">@ Rect</div><div class="ttdoc">矩形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a7e7dd435b4cc7ba2b020d5a97856dc80"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a7e7dd435b4cc7ba2b020d5a97856dc80">EasyKiConverter::IR::PadShape::Trapezoid</a></div><div class="ttdeci">@ Trapezoid</div><div class="ttdoc">梯形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac28a7b783f8bfd9c501c6783a4433ff6a9f47e1193b6c86239bfbe1c5bc7ed08f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac28a7b783f8bfd9c501c6783a4433ff6a9f47e1193b6c86239bfbe1c5bc7ed08f">EasyKiConverter::IR::PadShape::RoundRect</a></div><div class="ttdeci">@ RoundRect</div><div class="ttdoc">圆角矩形焊盘</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">EasyKiConverter::IR::FootprintComponentIR</a></div><div class="ttdoc">通用封装组件</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00196">FootprintIR.h:196</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a03f14a71696f9bfd465b922e8f8359e6"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a03f14a71696f9bfd465b922e8f8359e6">EasyKiConverter::IR::FootprintComponentIR::regions</a></div><div class="ttdeci">QList&lt; FootprintRegionIR &gt; regions</div><div class="ttdoc">区域图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00208">FootprintIR.h:208</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a09082394bb2c1c3a7c331c470970fef7"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a09082394bb2c1c3a7c331c470970fef7">EasyKiConverter::IR::FootprintComponentIR::rectangles</a></div><div class="ttdeci">QList&lt; FootprintRectangleIR &gt; rectangles</div><div class="ttdoc">矩形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00205">FootprintIR.h:205</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a0bef45edbcf98b9f7506c800e598d66d"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a0bef45edbcf98b9f7506c800e598d66d">EasyKiConverter::IR::FootprintComponentIR::texts</a></div><div class="ttdeci">QList&lt; FootprintTextIR &gt; texts</div><div class="ttdoc">文本图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00207">FootprintIR.h:207</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a2683945f9aca3f1ea22546fe36a89d68"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a2683945f9aca3f1ea22546fe36a89d68">EasyKiConverter::IR::FootprintComponentIR::holes</a></div><div class="ttdeci">QList&lt; FootprintHoleIR &gt; holes</div><div class="ttdoc">机械孔列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00203">FootprintIR.h:203</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a67cb640b75569dbebf772ed6ebb610ef"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a67cb640b75569dbebf772ed6ebb610ef">EasyKiConverter::IR::FootprintComponentIR::arcs</a></div><div class="ttdeci">QList&lt; FootprintArcIR &gt; arcs</div><div class="ttdoc">圆弧图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00206">FootprintIR.h:206</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a7580ff180663953bdf5ebc4c129f80ba"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a7580ff180663953bdf5ebc4c129f80ba">EasyKiConverter::IR::FootprintComponentIR::hasThroughHolePads</a></div><div class="ttdeci">bool hasThroughHolePads() const</div><div class="ttdoc">判断封装是否包含通孔焊盘。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00219">FootprintIR.h:219</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a7a8bb71e79fda91d3e72705774abe731"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a7a8bb71e79fda91d3e72705774abe731">EasyKiConverter::IR::FootprintComponentIR::outlines</a></div><div class="ttdeci">QList&lt; FootprintOutlineIR &gt; outlines</div><div class="ttdoc">板框轮廓列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00209">FootprintIR.h:209</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a7e27108ec288e3995f78b58592dfa274"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a7e27108ec288e3995f78b58592dfa274">EasyKiConverter::IR::FootprintComponentIR::models3d</a></div><div class="ttdeci">QList&lt; Model3DIR &gt; models3d</div><div class="ttdoc">关联的三维模型列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00211">FootprintIR.h:211</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_a818f987e21fb9c6fe063a219cdd00351"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#a818f987e21fb9c6fe063a219cdd00351">EasyKiConverter::IR::FootprintComponentIR::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">封装名称</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00197">FootprintIR.h:197</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_ad6c9a5c83f8f1f098de9b0f892d7531d"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#ad6c9a5c83f8f1f098de9b0f892d7531d">EasyKiConverter::IR::FootprintComponentIR::pads</a></div><div class="ttdeci">QList&lt; FootprintPadIR &gt; pads</div><div class="ttdoc">封装焊盘列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00201">FootprintIR.h:201</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_ae83ab3f2254300272b7d8c56fd72351d"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#ae83ab3f2254300272b7d8c56fd72351d">EasyKiConverter::IR::FootprintComponentIR::circles</a></div><div class="ttdeci">QList&lt; FootprintCircleIR &gt; circles</div><div class="ttdoc">圆形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00204">FootprintIR.h:204</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html_afe03fa9bce63b660d6af53e1607dc55a"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html#afe03fa9bce63b660d6af53e1607dc55a">EasyKiConverter::IR::FootprintComponentIR::tracks</a></div><div class="ttdeci">QList&lt; FootprintTrackIR &gt; tracks</div><div class="ttdoc">封装走线列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00202">FootprintIR.h:202</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintPadIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintPadIR.html">EasyKiConverter::IR::FootprintPadIR</a></div><div class="ttdoc">通用焊盘</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00037">FootprintIR.h:37</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintRegionIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintRegionIR.html">EasyKiConverter::IR::FootprintRegionIR</a></div><div class="ttdoc">通用实心区域</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00173">FootprintIR.h:173</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintTextIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintTextIR.html">EasyKiConverter::IR::FootprintTextIR</a></div><div class="ttdoc">通用文本</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00147">FootprintIR.h:147</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_d44c96e403fcd62098fb028546faf1dd.html">xpedition</a></li><li class="navelem"><a class="el" href="ExporterXpeditionFootprint_8cpp.html">ExporterXpeditionFootprint.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

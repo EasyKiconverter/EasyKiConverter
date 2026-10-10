@@ -1,0 +1,27 @@
+var structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR =
+[
+    [ "alignment", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a7108ee22871a25693a71a55585ceb8fd", null ],
+    [ "bold", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a13378c1792976fa58c1a44068747b330", null ],
+    [ "clipToRect", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#aa64092f0711976c02b880b1d3464ccdc", null ],
+    [ "fillColor", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a87e24d9269755d3fad8d79e0b9d33360", null ],
+    [ "fontFamily", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a83fe61ea42004bbae4878f6e5017d963", null ],
+    [ "fontId", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a4677e1471d038aba6213a5a2b690f0d3", null ],
+    [ "fontSizeMm", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a9f5e3ca6af30903c159d2f7e25082cd5", null ],
+    [ "isFilled", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a8fe7e7d6ecc52e238dcbe8af04c83289", null ],
+    [ "italic", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a567d6afd0e0fc1e2ad1b2e37fadb9dc5", null ],
+    [ "orientation", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#ae7c03673ee854432769601ff9aa42ee2", null ],
+    [ "partIndex", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a65f1330eb9cf2978f45080449d92a0fc", null ],
+    [ "showBorder", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#aa2b744ff8127f5eb2c9cacd93a597132", null ],
+    [ "strokeColor", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#afe70078fbc404c2d0c060f72b427ada8", null ],
+    [ "strokeStyle", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a885ad389646f6f1503a1a72dacb4ec59", null ],
+    [ "strokeWidth", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a60351dc12886f0bbd2da5a34bb618d01", null ],
+    [ "text", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a820d622c41aed62a369d1406e8bcbae7", null ],
+    [ "textColor", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#aa72b09466a190c3b9ec65170a0c81ec8", null ],
+    [ "textMargin", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#aaa20504e11f289a65d3c6fa3ed4e96e2", null ],
+    [ "transparent", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a034f2443181790e73aabcd160f12d521", null ],
+    [ "wordWrap", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a5527a04b1e0829e8e3a626075268c116", null ],
+    [ "x0", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a4362acad9144d32153071c834eff8880", null ],
+    [ "x1", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a03abfec4cc22f201a24263ef8945ebb4", null ],
+    [ "y0", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#a6bc78d609a9f3283f7c0ab52ee025d37", null ],
+    [ "y1", "structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html#ac3ced2c8aabd41dd50844ad98afebcc5", null ]
+];

@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentCacheWritePolicy.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentCacheWritePolicy_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentCacheWritePolicy.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentCacheWritePolicy_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheWritePolicy_8h.html">ComponentCacheWritePolicy.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheWritePolicy.html#addc6e4fcae1181630f832d4ce6407458">   13</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheWritePolicy.html#addc6e4fcae1181630f832d4ce6407458">ComponentCacheWritePolicy::isAllowed</a>(uint64_t currentGeneration,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>                                          uint64_t expectedGeneration,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>                                          <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1CacheTombstoneRegistry.html">CacheTombstoneRegistry</a>&amp; tombstones,</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>                                          <span class="keyword">const</span> QString&amp; componentId) {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordflow">if</span> (expectedGeneration == 0) {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    }</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">return</span> currentGeneration == expectedGeneration &amp;&amp; !tombstones.<a class="code hl_function" href="classEasyKiConverter_1_1CacheTombstoneRegistry.html#a5260df0387b1675f6e9cd47bff40a588">isBlocked</a>(componentId);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
+</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentCacheWritePolicy_8h_html"><div class="ttname"><a href="ComponentCacheWritePolicy_8h.html">ComponentCacheWritePolicy.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheTombstoneRegistry_html"><div class="ttname"><a href="classEasyKiConverter_1_1CacheTombstoneRegistry.html">EasyKiConverter::CacheTombstoneRegistry</a></div><div class="ttdoc">管理缓存删除操作对旧异步写入的屏蔽状态。</div><div class="ttdef"><b>Definition</b> <a href="CacheTombstoneRegistry_8h_source.html#l00016">CacheTombstoneRegistry.h:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheTombstoneRegistry_html_a5260df0387b1675f6e9cd47bff40a588"><div class="ttname"><a href="classEasyKiConverter_1_1CacheTombstoneRegistry.html#a5260df0387b1675f6e9cd47bff40a588">EasyKiConverter::CacheTombstoneRegistry::isBlocked</a></div><div class="ttdeci">bool isBlocked(const QString &amp;componentId) const</div><div class="ttdoc">判断元器件是否被屏蔽。</div><div class="ttdef"><b>Definition</b> <a href="CacheTombstoneRegistry_8cpp_source.html#l00055">CacheTombstoneRegistry.cpp:55</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheWritePolicy_html_addc6e4fcae1181630f832d4ce6407458"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheWritePolicy.html#addc6e4fcae1181630f832d4ce6407458">EasyKiConverter::ComponentCacheWritePolicy::isAllowed</a></div><div class="ttdeci">static bool isAllowed(uint64_t currentGeneration, uint64_t expectedGeneration, const CacheTombstoneRegistry &amp;tombstones, const QString &amp;componentId)</div><div class="ttdoc">校验写入请求是否对应当前缓存上下文。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheWritePolicy_8cpp_source.html#l00013">ComponentCacheWritePolicy.cpp:13</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentCacheWritePolicy_8cpp.html">ComponentCacheWritePolicy.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

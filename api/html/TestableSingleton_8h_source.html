@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/TestableSingleton.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('TestableSingleton_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">TestableSingleton.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="TestableSingleton_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef TESTABLESINGLETON_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define TESTABLESINGLETON_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QMutex&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QMutexLocker&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="};">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html">   26</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1TestableSingleton.html">TestableSingleton</a> {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#af28de3896a6a360384a795e1303ad333">   32</a></span>    <span class="keyword">static</span> T&amp; <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#af28de3896a6a360384a795e1303ad333">instance</a>() {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a5d3f8c44d5e016ac691a2b9aa8632c9e">s_mockInstance</a>) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keywordflow">return</span> *<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a5d3f8c44d5e016ac691a2b9aa8632c9e">s_mockInstance</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a76526ba29c27e981d89e70ab54fee093">s_mutex</a>);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a>) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a> = <span class="keyword">new</span> T();</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> *<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#a8aa5a10df13605ac686b5d9d9afedb2d">   47</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#a8aa5a10df13605ac686b5d9d9afedb2d">destroyInstance</a>() {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a76526ba29c27e981d89e70ab54fee093">s_mutex</a>);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keyword">delete</span> <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
+</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00057" data-start="{" data-end="}">
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#a8b400c578c27b9ce77c4e4ab208c2c3e">   57</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#a8b400c578c27b9ce77c4e4ab208c2c3e">setTestingInstance</a>(T* mock) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a76526ba29c27e981d89e70ab54fee093">s_mutex</a>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keyword">delete</span> <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a> = mock;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a5d3f8c44d5e016ac691a2b9aa8632c9e">s_mockInstance</a> = mock;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#ad99a6915f1fb4da257be46b78377dbd3">   67</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#ad99a6915f1fb4da257be46b78377dbd3">clearMockInstance</a>() {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a76526ba29c27e981d89e70ab54fee093">s_mutex</a>);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a5d3f8c44d5e016ac691a2b9aa8632c9e">s_mockInstance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#a0bcfa8d0d14da4c2de1ba403516223be">   76</a></span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#a0bcfa8d0d14da4c2de1ba403516223be">hasInstance</a>() {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a76526ba29c27e981d89e70ab54fee093">s_mutex</a>);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a> != <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#a6651bfd33a0a8e33740da7f858a81a7a">   85</a></span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#a6651bfd33a0a8e33740da7f858a81a7a">hasMockInstance</a>() {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a5d3f8c44d5e016ac691a2b9aa8632c9e">s_mockInstance</a> != <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#a85b2c454c93cf74b677bbe9b226db4fa">   90</a></span>    <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#a85b2c454c93cf74b677bbe9b226db4fa">TestableSingleton</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#aa0a1fe89dc74d7a58cc009615175d7e0">   91</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#aa0a1fe89dc74d7a58cc009615175d7e0">~TestableSingleton</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#a76526ba29c27e981d89e70ab54fee093">   94</a></span>    <span class="keyword">static</span> QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a76526ba29c27e981d89e70ab54fee093">s_mutex</a>;  </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">   95</a></span>    <span class="keyword">static</span> T* <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">s_instance</a>;  </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TestableSingleton.html#a5d3f8c44d5e016ac691a2b9aa8632c9e">   96</a></span>    <span class="keyword">static</span> T* <a class="code hl_variable" href="classEasyKiConverter_1_1TestableSingleton.html#a5d3f8c44d5e016ac691a2b9aa8632c9e">s_mockInstance</a>;  </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>};</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>QMutex <a class="code hl_class" href="classEasyKiConverter_1_1TestableSingleton.html">TestableSingleton&lt;T&gt;::s_mutex</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>T* <a class="code hl_class" href="classEasyKiConverter_1_1TestableSingleton.html">TestableSingleton&lt;T&gt;::s_instance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>T* <a class="code hl_class" href="classEasyKiConverter_1_1TestableSingleton.html">TestableSingleton&lt;T&gt;::s_mockInstance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span><span class="preprocessor">#endif  </span><span class="comment">// TESTABLESINGLETON_H</span></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html">EasyKiConverter::TestableSingleton</a></div><div class="ttdoc">Template for testable singleton pattern</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00026">TestableSingleton.h:26</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_a0bcfa8d0d14da4c2de1ba403516223be"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#a0bcfa8d0d14da4c2de1ba403516223be">EasyKiConverter::TestableSingleton::hasInstance</a></div><div class="ttdeci">static bool hasInstance()</div><div class="ttdoc">判断正式单例实例是否存在。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00076">TestableSingleton.h:76</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_a18f8b439ddab4fa5f3afaf9871852497"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#a18f8b439ddab4fa5f3afaf9871852497">EasyKiConverter::TestableSingleton::s_instance</a></div><div class="ttdeci">static T * s_instance</div><div class="ttdoc">正式单例实例指针。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00095">TestableSingleton.h:95</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_a5d3f8c44d5e016ac691a2b9aa8632c9e"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#a5d3f8c44d5e016ac691a2b9aa8632c9e">EasyKiConverter::TestableSingleton::s_mockInstance</a></div><div class="ttdeci">static T * s_mockInstance</div><div class="ttdoc">测试替身实例指针。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00096">TestableSingleton.h:96</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_a6651bfd33a0a8e33740da7f858a81a7a"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#a6651bfd33a0a8e33740da7f858a81a7a">EasyKiConverter::TestableSingleton::hasMockInstance</a></div><div class="ttdeci">static bool hasMockInstance()</div><div class="ttdoc">判断测试替身实例是否存在。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00085">TestableSingleton.h:85</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_a76526ba29c27e981d89e70ab54fee093"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#a76526ba29c27e981d89e70ab54fee093">EasyKiConverter::TestableSingleton::s_mutex</a></div><div class="ttdeci">static QMutex s_mutex</div><div class="ttdoc">保护单例实例指针的互斥锁。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00094">TestableSingleton.h:94</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_a85b2c454c93cf74b677bbe9b226db4fa"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#a85b2c454c93cf74b677bbe9b226db4fa">EasyKiConverter::TestableSingleton::TestableSingleton</a></div><div class="ttdeci">TestableSingleton()=default</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_a8aa5a10df13605ac686b5d9d9afedb2d"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#a8aa5a10df13605ac686b5d9d9afedb2d">EasyKiConverter::TestableSingleton::destroyInstance</a></div><div class="ttdeci">static void destroyInstance()</div><div class="ttdoc">销毁正式单例实例。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00047">TestableSingleton.h:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_a8b400c578c27b9ce77c4e4ab208c2c3e"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#a8b400c578c27b9ce77c4e4ab208c2c3e">EasyKiConverter::TestableSingleton::setTestingInstance</a></div><div class="ttdeci">static void setTestingInstance(T *mock)</div><div class="ttdoc">设置测试用单例实例。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00057">TestableSingleton.h:57</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_aa0a1fe89dc74d7a58cc009615175d7e0"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#aa0a1fe89dc74d7a58cc009615175d7e0">EasyKiConverter::TestableSingleton::~TestableSingleton</a></div><div class="ttdeci">virtual ~TestableSingleton()=default</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_ad99a6915f1fb4da257be46b78377dbd3"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#ad99a6915f1fb4da257be46b78377dbd3">EasyKiConverter::TestableSingleton::clearMockInstance</a></div><div class="ttdeci">static void clearMockInstance()</div><div class="ttdoc">清除测试替身引用。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00067">TestableSingleton.h:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_af28de3896a6a360384a795e1303ad333"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#af28de3896a6a360384a795e1303ad333">EasyKiConverter::TestableSingleton::instance</a></div><div class="ttdeci">static T &amp; instance()</div><div class="ttdoc">返回测试可替换的单例实例。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00032">TestableSingleton.h:32</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="TestableSingleton_8h.html">TestableSingleton.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

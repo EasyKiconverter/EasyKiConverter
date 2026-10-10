@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentDataMemoryStore.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentDataMemoryStore_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentDataMemoryStore.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentDataMemoryStore_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentDataMemoryStore_8h.html">ComponentDataMemoryStore.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QMutexLocker&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a9284b91ab66597372281dcb3672e3370">   12</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a9284b91ab66597372281dcb3672e3370">ComponentDataMemoryStore::contains</a>(<span class="keyword">const</span> QString&amp; normalizedId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a0f0221431f1c4164fd8a7e8fcbe152ba">m_mutex</a>);  <span class="comment">// 保护缓存查询。</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.contains(normalizedId);</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>}</div>
+</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a87176cd6b13194c6612162170f03422d">   22</a></span><a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a87176cd6b13194c6612162170f03422d">ComponentDataMemoryStore::value</a>(<span class="keyword">const</span> QString&amp; normalizedId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a0f0221431f1c4164fd8a7e8fcbe152ba">m_mutex</a>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.value(normalizedId, <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>());</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
+</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#ac0885abe4abf46a22f3ae830bec9e23d">   32</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#ac0885abe4abf46a22f3ae830bec9e23d">ComponentDataMemoryStore::set</a>(<span class="keyword">const</span> QString&amp; normalizedId, <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; data) {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a0f0221431f1c4164fd8a7e8fcbe152ba">m_mutex</a>);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>[normalizedId] = data;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>}</div>
+</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#af514112a18cead247524f7a575a9395d">   43</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#af514112a18cead247524f7a575a9395d">ComponentDataMemoryStore::replaceIfPresent</a>(<span class="keyword">const</span> QString&amp; normalizedId, <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; data) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a0f0221431f1c4164fd8a7e8fcbe152ba">m_mutex</a>);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.find(normalizedId);  <span class="comment">// 当前缓存项迭代器。</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.end()) {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    it.value() = data;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#acc61766a671e17c7d8c47af10dd6ce23">   59</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#acc61766a671e17c7d8c47af10dd6ce23">ComponentDataMemoryStore::updateDescription</a>(<span class="keyword">const</span> QString&amp; normalizedId, <span class="keyword">const</span> QString&amp; description) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a0f0221431f1c4164fd8a7e8fcbe152ba">m_mutex</a>);</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">auto</span> it = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.find(normalizedId);  <span class="comment">// 当前缓存项迭代器。</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">if</span> (it == <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.end()) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordflow">if</span> (it-&gt;symbolData()) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolInfo.html">SymbolInfo</a> info = it-&gt;symbolData()-&gt;info();  <span class="comment">// 当前符号信息。</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        info.<a class="code hl_variable" href="structEasyKiConverter_1_1SymbolInfo.html#a32b542ea40a5b8086e6698d070e6709b">description</a> = description;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        it-&gt;symbolData()-&gt;setInfo(info);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">if</span> (it-&gt;footprintData()) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1FootprintInfo.html">FootprintInfo</a> info = it-&gt;footprintData()-&gt;info();  <span class="comment">// 当前封装信息。</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        info.<a class="code hl_variable" href="structEasyKiConverter_1_1FootprintInfo.html#a3180e1057eb9291b9dd22d7e300ecff6">description</a> = description;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        it-&gt;footprintData()-&gt;setInfo(info);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>}</div>
+</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="foldopen" id="foldopen00082" data-start="{" data-end="}">
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#af738a49b657fb0344cb81e4cf53bc8d3">   82</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#af738a49b657fb0344cb81e4cf53bc8d3">ComponentDataMemoryStore::clear</a>() {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a0f0221431f1c4164fd8a7e8fcbe152ba">m_mutex</a>);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.clear();</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>}</div>
+</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="foldopen" id="foldopen00091" data-start="{" data-end="}">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a53e3f8e4b87299f82ecf80532de5199f">   91</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a53e3f8e4b87299f82ecf80532de5199f">ComponentDataMemoryStore::removeIfInvalid</a>(<span class="keyword">const</span> QString&amp; normalizedId) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a0f0221431f1c4164fd8a7e8fcbe152ba">m_mutex</a>);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keyword">const</span> <span class="keyword">auto</span> it = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.find(normalizedId);  <span class="comment">// 当前缓存项迭代器。</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">if</span> (it != <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.end() &amp;&amp; !it.value().isValid()) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">m_data</a>.erase(it);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentDataMemoryStore_8h_html"><div class="ttname"><a href="ComponentDataMemoryStore_8h.html">ComponentDataMemoryStore.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_a0f0221431f1c4164fd8a7e8fcbe152ba"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a0f0221431f1c4164fd8a7e8fcbe152ba">EasyKiConverter::ComponentDataMemoryStore::m_mutex</a></div><div class="ttdeci">QMutex m_mutex</div><div class="ttdoc">保护组件数据缓存的互斥锁。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8h_source.html#l00067">ComponentDataMemoryStore.h:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_a53e3f8e4b87299f82ecf80532de5199f"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a53e3f8e4b87299f82ecf80532de5199f">EasyKiConverter::ComponentDataMemoryStore::removeIfInvalid</a></div><div class="ttdeci">void removeIfInvalid(const QString &amp;normalizedId)</div><div class="ttdoc">删除指定编号对应的无效缓存项。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8cpp_source.html#l00091">ComponentDataMemoryStore.cpp:91</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_a87176cd6b13194c6612162170f03422d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a87176cd6b13194c6612162170f03422d">EasyKiConverter::ComponentDataMemoryStore::value</a></div><div class="ttdeci">ComponentData value(const QString &amp;normalizedId) const</div><div class="ttdoc">读取组件数据副本。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8cpp_source.html#l00022">ComponentDataMemoryStore.cpp:22</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_a9284b91ab66597372281dcb3672e3370"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a9284b91ab66597372281dcb3672e3370">EasyKiConverter::ComponentDataMemoryStore::contains</a></div><div class="ttdeci">bool contains(const QString &amp;normalizedId) const</div><div class="ttdoc">判断缓存中是否存在指定组件。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8cpp_source.html#l00012">ComponentDataMemoryStore.cpp:12</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_ac0885abe4abf46a22f3ae830bec9e23d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#ac0885abe4abf46a22f3ae830bec9e23d">EasyKiConverter::ComponentDataMemoryStore::set</a></div><div class="ttdeci">void set(const QString &amp;normalizedId, const ComponentData &amp;data)</div><div class="ttdoc">写入或覆盖组件数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8cpp_source.html#l00032">ComponentDataMemoryStore.cpp:32</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_acc61766a671e17c7d8c47af10dd6ce23"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#acc61766a671e17c7d8c47af10dd6ce23">EasyKiConverter::ComponentDataMemoryStore::updateDescription</a></div><div class="ttdeci">bool updateDescription(const QString &amp;normalizedId, const QString &amp;description)</div><div class="ttdoc">更新缓存组件的符号和封装描述。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8cpp_source.html#l00059">ComponentDataMemoryStore.cpp:59</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_aea7e1199ea1cebd7c78db1fae64cb6ad"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#aea7e1199ea1cebd7c78db1fae64cb6ad">EasyKiConverter::ComponentDataMemoryStore::m_data</a></div><div class="ttdeci">QMap&lt; QString, ComponentData &gt; m_data</div><div class="ttdoc">按规范化编号存储的组件数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8h_source.html#l00068">ComponentDataMemoryStore.h:68</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_af514112a18cead247524f7a575a9395d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#af514112a18cead247524f7a575a9395d">EasyKiConverter::ComponentDataMemoryStore::replaceIfPresent</a></div><div class="ttdeci">bool replaceIfPresent(const QString &amp;normalizedId, const ComponentData &amp;data)</div><div class="ttdoc">仅在已有缓存项时替换组件数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8cpp_source.html#l00043">ComponentDataMemoryStore.cpp:43</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_af738a49b657fb0344cb81e4cf53bc8d3"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#af738a49b657fb0344cb81e4cf53bc8d3">EasyKiConverter::ComponentDataMemoryStore::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空全部组件数据缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8cpp_source.html#l00082">ComponentDataMemoryStore.cpp:82</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html">EasyKiConverter::ComponentData</a></div><div class="ttdoc">元件数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00020">ComponentData.h:20</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintInfo_html"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintInfo.html">EasyKiConverter::FootprintInfo</a></div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00017">FootprintData.h:17</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintInfo_html_a3180e1057eb9291b9dd22d7e300ecff6"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintInfo.html#a3180e1057eb9291b9dd22d7e300ecff6">EasyKiConverter::FootprintInfo::description</a></div><div class="ttdeci">QString description</div><div class="ttdoc">封装描述。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00021">FootprintData.h:21</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolInfo_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolInfo.html">EasyKiConverter::SymbolInfo</a></div><div class="ttdoc">符号信息</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00031">SymbolData.h:31</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolInfo_html_a32b542ea40a5b8086e6698d070e6709b"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolInfo.html#a32b542ea40a5b8086e6698d070e6709b">EasyKiConverter::SymbolInfo::description</a></div><div class="ttdeci">QString description</div><div class="ttdoc">符号描述。</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00036">SymbolData.h:36</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentDataMemoryStore_8cpp.html">ComponentDataMemoryStore.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

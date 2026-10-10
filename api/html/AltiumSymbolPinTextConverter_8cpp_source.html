@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/AltiumSymbolPinTextConverter.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumSymbolPinTextConverter_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumSymbolPinTextConverter.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumSymbolPinTextConverter_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolPinTextConverter_8h.html">AltiumSymbolPinTextConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumCoord_8h.html">utils/AltiumCoord.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolConversionUtils_8h.html">utils/AltiumSymbolConversionUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keywordtype">void</span> appendDiagnostic(QStringList* diagnostics, <span class="keyword">const</span> QString&amp; message) {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">if</span> (diagnostics != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        diagnostics-&gt;append(message);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>QString normalizeAnchor(<span class="keyword">const</span> QString&amp; anchor,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                        <span class="keyword">const</span> QString&amp; symbolName,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>                        <span class="keyword">const</span> QString&amp; context,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                        QStringList* diagnostics) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">const</span> QString normalized = anchor.trimmed().toLower();  <span class="comment">// 去除空白并统一大小写后的锚点。</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">if</span> (normalized.isEmpty())</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;middle&quot;</span>);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">if</span> (!QStringList{QStringLiteral(<span class="stringliteral">&quot;start&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;middle&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;end&quot;</span>)}.contains(normalized)) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        appendDiagnostic(</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            diagnostics,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            QStringLiteral(<span class="stringliteral">&quot;符号 %1 %2 的对齐锚点无效: %3，已回退为 middle&quot;</span>).arg(symbolName).arg(context).arg(anchor));</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;middle&quot;</span>);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordflow">return</span> normalized;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>AltiumSchText makePinText(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                          <span class="keyword">const</span> QPointF&amp; position,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                          <span class="keywordtype">double</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a224188b94555cbd55c6e81f6c67a45f1">fontSizeMm</a>,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                          <span class="keywordtype">double</span> rotation,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                          <span class="keyword">const</span> QString&amp; anchor,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                          <span class="keyword">const</span> QString&amp; symbolName,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                          <span class="keyword">const</span> QString&amp; context,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                          <span class="keyword">const</span> IR::SymbolPinIR&amp; pin,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                          QStringList* diagnostics) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    AltiumSchText text;  <span class="comment">// 转换后的 Altium 引脚文本记录。</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    text.locationX = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumCoord.html#afd1a8e74bfaadfb500a77b93a91876bd">AltiumCoord::mmToRaw</a>(position.x());</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    text.locationY = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumCoord.html#afd1a8e74bfaadfb500a77b93a91876bd">AltiumCoord::mmToRaw</a>(position.y());</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    text.text = <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    text.fontSizeMm = <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a224188b94555cbd55c6e81f6c67a45f1">fontSizeMm</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    text.anchor = normalizeAnchor(anchor, symbolName, context, diagnostics);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    text.isDisplayed = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    text.orientation = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a65a469f2c2deeb77b9377eb1fec3d5a0">AltiumSymbolConversionUtils::toAltiumOrientation</a>(rotation);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    text.ownerPartId = pin.commonToAllParts ? -1 : <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#ad28339a54a94c2688fad571052d48979">AltiumSymbolConversionUtils::toAltiumOwnerPartId</a>(pin.partIndex);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    text.isPinLabel = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    text.sourcePartIndex = pin.commonToAllParts ? -1 : pin.partIndex;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> text;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="foldopen" id="foldopen00091" data-start="{" data-end="}">
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumSymbolPinTextConverter.html#abd111ab9b762ced822005a28595f050a">   91</a></span>QList&lt;AltiumSchText&gt; <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolPinTextConverter.html#abd111ab9b762ced822005a28595f050a">AltiumSymbolPinTextConverter::convert</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html">IR::SymbolPinIR</a>&amp; pin,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                                                           <span class="keyword">const</span> QString&amp; symbolName,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                                                           QStringList* diagnostics) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    QList&lt;AltiumSchText&gt; texts;  <span class="comment">// 当前引脚生成的名称和编号文本。</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">if</span> (pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a19e4990461743a4b3e0183094829e62b">hasNamePosition</a> &amp;&amp; !pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a7bfb9b013305cd36497d99e8cab1fdcf">name</a>.isEmpty()) {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordflow">if</span> (!std::isfinite(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9bddcc004201bce69e716592e896e7cf">nameFontSizeMm</a>) || pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9bddcc004201bce69e716592e896e7cf">nameFontSizeMm</a> &lt; 0.0 || !std::isfinite(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a114e73587888f88343dff58ab01471c5">nameRotation</a>) ||</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            !std::isfinite(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a08cdb62ebb833fb3062518b882ee8691">namePosition</a>.x()) || !std::isfinite(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a08cdb62ebb833fb3062518b882ee8691">namePosition</a>.y())) {</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            appendDiagnostic(</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                diagnostics,</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                QStringLiteral(<span class="stringliteral">&quot;符号 %1 引脚 %2 名称文本参数无效，已跳过&quot;</span>).arg(symbolName).arg(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9d8a3fbef2efebd622c5fe3268de3d3f">designator</a>));</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            texts.append(makePinText(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a7bfb9b013305cd36497d99e8cab1fdcf">name</a>,</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                                     pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a08cdb62ebb833fb3062518b882ee8691">namePosition</a>,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                                     pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9bddcc004201bce69e716592e896e7cf">nameFontSizeMm</a>,</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                                     pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a114e73587888f88343dff58ab01471c5">nameRotation</a>,</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                                     pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ac7cb0545fb6b7c74d233efbd2eabb12e">nameAnchor</a>,</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                                     symbolName,</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                                     QStringLiteral(<span class="stringliteral">&quot;引脚 %1 名称文本&quot;</span>).arg(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9d8a3fbef2efebd622c5fe3268de3d3f">designator</a>),</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                                     pin,</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                                     diagnostics));</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> showDesignator = pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#adf4340fc7c965188a19629b174e555f3">display</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinDisplay.html#a80315582d9fd2210368d11c6c205d30d">showDesignator</a> || pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ab4cdbac99be3b3c308f0455a1332c8bb">showDesignator</a>;  <span class="comment">// 是否需要输出引脚编号。</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordflow">if</span> (showDesignator &amp;&amp; !pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9d8a3fbef2efebd622c5fe3268de3d3f">designator</a>.isEmpty()) {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="comment">// 没有可靠的源编号坐标时使用 IR 提供的引脚位置，避免回退到 Altium 随引脚旋转的内置编号。</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <span class="keyword">const</span> QPointF numberPosition =</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#afc946c35861f199527cd8ec8d1ea69f3">hasNumberPosition</a> ? pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ab2972fc5050cd27c0a58746eb9cab97a">numberPosition</a> : pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a29dfe6633659854b720b3299db855d1d">position</a>;  <span class="comment">// 编号文本的源位置或安全回退位置。</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keywordflow">if</span> (!std::isfinite(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a3de39b789f126f01e2bcae1c1f18b6d1">numberFontSizeMm</a>) || pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a3de39b789f126f01e2bcae1c1f18b6d1">numberFontSizeMm</a> &lt; 0.0 || !std::isfinite(numberPosition.x()) ||</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>            !std::isfinite(numberPosition.y())) {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>            appendDiagnostic(</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>                diagnostics,</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                QStringLiteral(<span class="stringliteral">&quot;符号 %1 引脚 %2 编号文本参数无效，已跳过&quot;</span>).arg(symbolName).arg(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9d8a3fbef2efebd622c5fe3268de3d3f">designator</a>));</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>            <span class="comment">// 将编号作为独立水平文本记录，避免依赖 Altium 引脚内置显示方向。</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchText.html">AltiumSchText</a> numberText = makePinText(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9d8a3fbef2efebd622c5fe3268de3d3f">designator</a>,</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>                                                   numberPosition,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                                                   pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a3de39b789f126f01e2bcae1c1f18b6d1">numberFontSizeMm</a>,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                                                   0.0,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                                                   pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a88c52ed6de2a157a99812d0a3e3f5f89">numberAnchor</a>,</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                                                   symbolName,</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                                                   QStringLiteral(<span class="stringliteral">&quot;引脚 %1 编号文本&quot;</span>).arg(pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9d8a3fbef2efebd622c5fe3268de3d3f">designator</a>),</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                                                   pin,</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>                                                   diagnostics);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>            numberText.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchText.html#a757a403dbb2458359b95895006f09820">isFallbackPinNumber</a> = !pin.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#afc946c35861f199527cd8ec8d1ea69f3">hasNumberPosition</a>;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>            texts.append(numberText);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        }</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    }</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordflow">return</span> texts;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>}</div>
+</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumCoord_8h_html"><div class="ttname"><a href="AltiumCoord_8h.html">AltiumCoord.h</a></div></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a224188b94555cbd55c6e81f6c67a45f1"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a224188b94555cbd55c6e81f6c67a45f1">fontSizeMm</a></div><div class="ttdeci">double fontSizeMm</div><div class="ttdoc">参数字体大小，单位为毫米。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00030">AltiumSchComponentRecordWriter.cpp:30</a></div></div>
+<div class="ttc" id="aAltiumSymbolConversionUtils_8h_html"><div class="ttname"><a href="AltiumSymbolConversionUtils_8h.html">AltiumSymbolConversionUtils.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolPinTextConverter_8h_html"><div class="ttname"><a href="AltiumSymbolPinTextConverter_8h.html">AltiumSymbolPinTextConverter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolPinTextConverter_html_abd111ab9b762ced822005a28595f050a"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolPinTextConverter.html#abd111ab9b762ced822005a28595f050a">EasyKiConverter::AltiumSymbolPinTextConverter::convert</a></div><div class="ttdeci">static QList&lt; AltiumSchText &gt; convert(const IR::SymbolPinIR &amp;pin, const QString &amp;symbolName, QStringList *diagnostics)</div><div class="ttdoc">转换一个引脚上声明的名称和编号文本。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolPinTextConverter_8cpp_source.html#l00091">AltiumSymbolPinTextConverter.cpp:91</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumCoord_html_afd1a8e74bfaadfb500a77b93a91876bd"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumCoord.html#afd1a8e74bfaadfb500a77b93a91876bd">EasyKiConverter::AltiumCoord::mmToRaw</a></div><div class="ttdeci">int32_t mmToRaw(double mm)</div><div class="ttdef"><b>Definition</b> <a href="AltiumCoord_8h_source.html#l00131">AltiumCoord.h:131</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_a65a469f2c2deeb77b9377eb1fec3d5a0"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a65a469f2c2deeb77b9377eb1fec3d5a0">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumOrientation</a></div><div class="ttdeci">int toAltiumOrientation(double rotation)</div><div class="ttdoc">将任意角度归一化为 Altium 的四向文字方向。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00034">AltiumSymbolConversionUtils.h:34</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_ad28339a54a94c2688fad571052d48979"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#ad28339a54a94c2688fad571052d48979">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumOwnerPartId</a></div><div class="ttdeci">int toAltiumOwnerPartId(int partIndex)</div><div class="ttdoc">将 IR 部件索引转换为 Altium 的部件 ID。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00019">AltiumSymbolConversionUtils.h:19</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchText_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchText.html">EasyKiConverter::AltiumSchText</a></div><div class="ttdoc">Altium 符号文本</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00228">AltiumSchComponent.h:228</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchText_html_a757a403dbb2458359b95895006f09820"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchText.html#a757a403dbb2458359b95895006f09820">EasyKiConverter::AltiumSchText::isFallbackPinNumber</a></div><div class="ttdeci">bool isFallbackPinNumber</div><div class="ttdoc">是否需要跟随归一化后的引脚主体端</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00243">AltiumSchComponent.h:243</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinDisplay_html_a80315582d9fd2210368d11c6c205d30d"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinDisplay.html#a80315582d9fd2210368d11c6c205d30d">EasyKiConverter::IR::SymbolPinDisplay::showDesignator</a></div><div class="ttdeci">bool showDesignator</div><div class="ttdoc">是否显示引脚编号</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00056">SymbolIR.h:56</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html">EasyKiConverter::IR::SymbolPinIR</a></div><div class="ttdoc">通用符号引脚</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00077">SymbolIR.h:77</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a08cdb62ebb833fb3062518b882ee8691"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a08cdb62ebb833fb3062518b882ee8691">EasyKiConverter::IR::SymbolPinIR::namePosition</a></div><div class="ttdeci">QPointF namePosition</div><div class="ttdoc">引脚名称原始位置（已解析，单位 mm）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00082">SymbolIR.h:82</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a114e73587888f88343dff58ab01471c5"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a114e73587888f88343dff58ab01471c5">EasyKiConverter::IR::SymbolPinIR::nameRotation</a></div><div class="ttdeci">double nameRotation</div><div class="ttdoc">引脚名称旋转角度</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00083">SymbolIR.h:83</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a19e4990461743a4b3e0183094829e62b"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a19e4990461743a4b3e0183094829e62b">EasyKiConverter::IR::SymbolPinIR::hasNamePosition</a></div><div class="ttdeci">bool hasNamePosition</div><div class="ttdoc">是否存在可靠的原始名称坐标</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00086">SymbolIR.h:86</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a29dfe6633659854b720b3299db855d1d"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a29dfe6633659854b720b3299db855d1d">EasyKiConverter::IR::SymbolPinIR::position</a></div><div class="ttdeci">QPointF position</div><div class="ttdoc">引脚位置（已解析，单位 mm）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00081">SymbolIR.h:81</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a3de39b789f126f01e2bcae1c1f18b6d1"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a3de39b789f126f01e2bcae1c1f18b6d1">EasyKiConverter::IR::SymbolPinIR::numberFontSizeMm</a></div><div class="ttdeci">double numberFontSizeMm</div><div class="ttdoc">引脚编号字体大小（mm，0 表示默认）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00090">SymbolIR.h:90</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a7bfb9b013305cd36497d99e8cab1fdcf"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a7bfb9b013305cd36497d99e8cab1fdcf">EasyKiConverter::IR::SymbolPinIR::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">引脚名称（如 &quot;VCC&quot;, &quot;A0&quot;）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00079">SymbolIR.h:79</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a88c52ed6de2a157a99812d0a3e3f5f89"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a88c52ed6de2a157a99812d0a3e3f5f89">EasyKiConverter::IR::SymbolPinIR::numberAnchor</a></div><div class="ttdeci">QString numberAnchor</div><div class="ttdoc">引脚编号原始文本锚点</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00089">SymbolIR.h:89</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a9bddcc004201bce69e716592e896e7cf"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9bddcc004201bce69e716592e896e7cf">EasyKiConverter::IR::SymbolPinIR::nameFontSizeMm</a></div><div class="ttdeci">double nameFontSizeMm</div><div class="ttdoc">引脚名称字体大小（mm，0 表示默认）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00085">SymbolIR.h:85</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_a9d8a3fbef2efebd622c5fe3268de3d3f"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9d8a3fbef2efebd622c5fe3268de3d3f">EasyKiConverter::IR::SymbolPinIR::designator</a></div><div class="ttdeci">QString designator</div><div class="ttdoc">引脚编号（如 &quot;1&quot;, &quot;2&quot;）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00080">SymbolIR.h:80</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_ab2972fc5050cd27c0a58746eb9cab97a"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ab2972fc5050cd27c0a58746eb9cab97a">EasyKiConverter::IR::SymbolPinIR::numberPosition</a></div><div class="ttdeci">QPointF numberPosition</div><div class="ttdoc">引脚编号原始位置（已解析，单位 mm）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00087">SymbolIR.h:87</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_ab4cdbac99be3b3c308f0455a1332c8bb"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ab4cdbac99be3b3c308f0455a1332c8bb">EasyKiConverter::IR::SymbolPinIR::showDesignator</a></div><div class="ttdeci">bool showDesignator</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00104">SymbolIR.h:104</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_ac7cb0545fb6b7c74d233efbd2eabb12e"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ac7cb0545fb6b7c74d233efbd2eabb12e">EasyKiConverter::IR::SymbolPinIR::nameAnchor</a></div><div class="ttdeci">QString nameAnchor</div><div class="ttdoc">引脚名称原始文本锚点</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00084">SymbolIR.h:84</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_adf4340fc7c965188a19629b174e555f3"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#adf4340fc7c965188a19629b174e555f3">EasyKiConverter::IR::SymbolPinIR::display</a></div><div class="ttdeci">SymbolPinDisplay display</div><div class="ttdoc">引脚显示控制</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00100">SymbolIR.h:100</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html_afc946c35861f199527cd8ec8d1ea69f3"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#afc946c35861f199527cd8ec8d1ea69f3">EasyKiConverter::IR::SymbolPinIR::hasNumberPosition</a></div><div class="ttdeci">bool hasNumberPosition</div><div class="ttdoc">是否存在可靠的原始编号坐标</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00091">SymbolIR.h:91</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="AltiumSymbolPinTextConverter_8cpp.html">AltiumSymbolPinTextConverter.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

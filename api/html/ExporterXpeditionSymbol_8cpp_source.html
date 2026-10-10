@@ -1,0 +1,494 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/xpedition/ExporterXpeditionSymbol.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterXpeditionSymbol_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterXpeditionSymbol.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterXpeditionSymbol_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterXpeditionSymbol_8h.html">ExporterXpeditionSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="XpeditionZipWriter_8h.html">XpeditionZipWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QRegularExpression&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QtMath&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">constexpr</span> <span class="keywordtype">double</span> kThousandthInchMm = 0.0254;  </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keywordtype">double</span> toTh(<span class="keywordtype">double</span> valueMm) {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">return</span> valueMm / kThousandthInchMm;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>QString safeName(QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> = <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.trimmed();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.replace(QRegularExpression(QStringLiteral(<span class="stringliteral">&quot;[^A-Za-z0-9_.-]&quot;</span>)), QStringLiteral(<span class="stringliteral">&quot;_&quot;</span>));</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.isEmpty() ? QStringLiteral(<span class="stringliteral">&quot;unnamed&quot;</span>) : <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>QString escapedText(QString text) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    text.replace(<span class="charliteral">&#39;\\&#39;</span>, QStringLiteral(<span class="stringliteral">&quot;\\\\&quot;</span>));</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    text.replace(<span class="charliteral">&#39;&quot;&#39;</span>, QStringLiteral(<span class="stringliteral">&quot;\\\&quot;&quot;</span>));</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    text.replace(<span class="charliteral">&#39;\n&#39;</span>, QStringLiteral(<span class="stringliteral">&quot; &quot;</span>));</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    text.replace(<span class="charliteral">&#39;\r&#39;</span>, QStringLiteral(<span class="stringliteral">&quot; &quot;</span>));</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">return</span> text;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>}</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>QString fmt(<span class="keywordtype">double</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">return</span> QString::number(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>, <span class="charliteral">&#39;f&#39;</span>, 4);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>QString pinElectricalTypeName(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714">IR::PinElectricalType</a> <a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="comment">// 未指定类型不写入属性，避免用猜测覆盖目标工具的默认语义。</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">switch</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5">IR::PinElectricalType::Input</a>:</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;IN&quot;</span>);</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54">IR::PinElectricalType::Output</a>:</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;OUT&quot;</span>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40">IR::PinElectricalType::Bidirectional</a>:</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;BI&quot;</span>);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85">IR::PinElectricalType::Passive</a>:</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;PASSIVE&quot;</span>);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de">IR::PinElectricalType::Power</a>:</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;PWR&quot;</span>);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c">IR::PinElectricalType::OpenCollector</a>:</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;OCL&quot;</span>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90">IR::PinElectricalType::OpenEmitter</a>:</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;OEM&quot;</span>);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5">IR::PinElectricalType::Unspecified</a>:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>QPointF directionVector(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065cae">IR::PinDirection</a> direction) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="comment">// 方向枚举到单位向量的转换决定引脚内外端点的几何关系。</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">switch</span> (direction) {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">IR::PinDirection::Left</a>:</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            <span class="keywordflow">return</span> {-1.0, 0.0};</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">IR::PinDirection::Up</a>:</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">return</span> {0.0, 1.0};</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">IR::PinDirection::Down</a>:</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keywordflow">return</span> {0.0, -1.0};</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">IR::PinDirection::Right</a>:</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <span class="keywordflow">return</span> {1.0, 0.0};</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>QPointF pinDisplayPosition(<span class="keyword">const</span> QPointF&amp; position, <span class="keywordtype">bool</span> hasPosition, <span class="keyword">const</span> QPointF&amp; pinPosition) {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordflow">return</span> hasPosition ? position : pinPosition;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="keywordtype">void</span> appendLine(QString&amp; output, <span class="keywordtype">double</span> x1, <span class="keywordtype">double</span> y1, <span class="keywordtype">double</span> x2, <span class="keywordtype">double</span> y2) {</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    output += QStringLiteral(<span class="stringliteral">&quot;l 2 %1 %2 %3 %4\n|GRPHSTL -1 0 0 1\n&quot;</span>)</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                  .arg(fmt(toTh(x1)), fmt(toTh(y1)), fmt(toTh(x2)), fmt(toTh(y2)));</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>}</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span><span class="keywordtype">void</span> appendPolyline(QString&amp; output, <span class="keyword">const</span> QList&lt;QPointF&gt;&amp; points) {</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; points.size(); ++i)</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        appendLine(output, points[i - 1].x(), points[i - 1].y(), points[i].x(), points[i].y());</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>}</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>QRectF symbolBounds(<span class="keyword">const</span> IR::SymbolComponentIR&amp; symbol, <span class="keywordtype">int</span> partIndex) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    QRectF bounds;  </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordtype">bool</span> initialized = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keyword">const</span> <span class="keyword">auto</span> addPoint = [&amp;](<span class="keyword">const</span> QPointF&amp; point) {</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">if</span> (!initialized) {</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>            bounds = QRectF(point, QSizeF(0.0, 0.0));</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>            initialized = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        }</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        bounds.setLeft(qMin(bounds.left(), point.x()));</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        bounds.setTop(qMin(bounds.top(), point.y()));</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        bounds.setRight(qMax(bounds.right(), point.x()));</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        bounds.setBottom(qMax(bounds.bottom(), point.y()));</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    };</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPinIR&amp; pin : symbol.pins) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>        <span class="keywordflow">if</span> (pin.partIndex != partIndex &amp;&amp; !pin.commonToAllParts)</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        addPoint(pin.position);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        addPoint(pin.position - directionVector(pin.direction) * pin.length);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    }</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolRectangleIR&amp; rect : symbol.rectangles) {</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        <span class="keywordflow">if</span> (rect.partIndex != partIndex)</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        addPoint(QPointF(rect.x0, rect.y0));</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        addPoint(QPointF(rect.x1, rect.y1));</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    }</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keyword">const</span> <span class="keyword">auto</span> addPointList = [&amp;](<span class="keyword">const</span> QList&lt;QPointF&gt;&amp; points, <span class="keywordtype">int</span> elementPartIndex) {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keywordflow">if</span> (elementPartIndex != partIndex)</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; point : points)</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>            addPoint(point);</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    };</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPolylineIR&amp; polyline : symbol.polylines)</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        addPointList(polyline.points, polyline.partIndex);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPolygonIR&amp; polygon : symbol.polygons)</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        addPointList(polygon.points, polygon.partIndex);</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolCircleIR&amp; circle : symbol.circles) {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="keywordflow">if</span> (circle.partIndex != partIndex)</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        addPoint(circle.center - QPointF(circle.radius, circle.radius));</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        addPoint(circle.center + QPointF(circle.radius, circle.radius));</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    }</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolArcIR&amp; arc : symbol.arcs) {</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keywordflow">if</span> (arc.partIndex != partIndex)</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        addPoint(arc.startPoint);</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>        addPoint(arc.midPoint);</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        addPoint(arc.endPoint);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    }</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    <span class="keywordflow">return</span> initialized ? bounds.normalized() : QRectF(-1.0, -1.0, 2.0, 2.0);</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>}</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span><span class="keywordtype">void</span> appendPin(QString&amp; output, <span class="keyword">const</span> IR::SymbolPinIR&amp; pin, <span class="keywordtype">int</span> index) {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    <span class="keyword">const</span> QPointF direction = directionVector(pin.direction);  </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <span class="keyword">const</span> QPointF outer = pin.position;  </div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="keyword">const</span> QPointF inner = outer - direction * pin.length;  </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    <span class="comment">// Xpedition 侧标识对应引脚方向的枚举值。</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="ExporterXpeditionFootprint_8cpp.html#a6b64e7bb195dbf5c66064c54147f2459">side</a> = pin.direction == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">IR::PinDirection::Left</a>   ? 3</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                     : pin.direction == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">IR::PinDirection::Up</a>   ? 0</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>                     : pin.direction == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">IR::PinDirection::Down</a> ? 1</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>                                                               : 2;</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    output += QStringLiteral(<span class="stringliteral">&quot;P %1 %2 %3 %4 %5 0 %6 0\n&quot;</span>)</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>                  .arg(index)</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>                  .arg(fmt(toTh(outer.x())))</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>                  .arg(fmt(toTh(outer.y())))</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>                  .arg(fmt(toTh(inner.x())))</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>                  .arg(fmt(toTh(inner.y())))</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>                  .arg(<a class="code hl_variable" href="ExporterXpeditionFootprint_8cpp.html#a6b64e7bb195dbf5c66064c54147f2459">side</a>);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keyword">const</span> QPointF namePosition =</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        pinDisplayPosition(pin.namePosition, pin.hasNamePosition, outer);  </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keyword">const</span> QPointF numberPosition =</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        pinDisplayPosition(pin.numberPosition, pin.hasNumberPosition, outer);  </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keywordflow">if</span> (pin.display.showName &amp;&amp; !pin.name.isEmpty())</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        output += QStringLiteral(<span class="stringliteral">&quot;L %1 %2 8 0 2 0 1 0 %3\n&quot;</span>)</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>                      .arg(fmt(toTh(namePosition.x())))</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>                      .arg(fmt(toTh(namePosition.y())))</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>                      .arg(escapedText(pin.name));</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordflow">if</span> (pin.display.showDesignator &amp;&amp; !pin.designator.isEmpty())</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        output += QStringLiteral(<span class="stringliteral">&quot;A %1 %2 8 0 3 3 #=%4\n&quot;</span>)</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>                      .arg(fmt(toTh(numberPosition.x())))</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>                      .arg(fmt(toTh(numberPosition.y())))</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                      .arg(escapedText(pin.designator));</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keyword">const</span> QString electricalType = pinElectricalTypeName(pin.electricalType);  </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    <span class="keywordflow">if</span> (!electricalType.isEmpty())</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        output += QStringLiteral(<span class="stringliteral">&quot;A %1 %2 10 0 2 0 PINTYPE=%3\n&quot;</span>)</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>                      .arg(fmt(toTh(outer.x())))</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>                      .arg(fmt(toTh(outer.y())))</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>                      .arg(electricalType);</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>}</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span> </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="foldopen" id="foldopen00250" data-start="{" data-end="}">
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a9b44d468d6ae9dd4440d6a9c3efe197f">  250</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a9b44d468d6ae9dd4440d6a9c3efe197f">ExporterXpeditionSymbol::libraryFileExtension</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="comment">// 符号库同样使用 ZIP，但条目内容是 ASCII 符号部件文件。</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;_Symbols.zip&quot;</span>);</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>}</div>
+</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="foldopen" id="foldopen00259" data-start="{" data-end="}">
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#aec5b6bef00088e336f2d1fc4f28f8a4e">  259</a></span>QStringList <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#aec5b6bef00088e336f2d1fc4f28f8a4e">ExporterXpeditionSymbol::diagnostics</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    <span class="comment">// 诊断信息描述未支持图元和文件写入失败，供 CLI 与 GUI 共用。</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>;</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>}</div>
+</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span> </div>
+<div class="foldopen" id="foldopen00270" data-start="{" data-end="}">
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a8314d9b04cfef6c42edfff66ff3c0125">  270</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a8314d9b04cfef6c42edfff66ff3c0125">ExporterXpeditionSymbol::symbolFileName</a>(<span class="keyword">const</span> QString&amp; outputName, <span class="keywordtype">int</span> partIndex)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    <span class="comment">// 部件序号从 1 开始，符合目标符号库的多单元命名约定。</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;%1.%2&quot;</span>).arg(outputName).arg(partIndex + 1);</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>}</div>
+</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
+<div class="foldopen" id="foldopen00282" data-start="{" data-end="}">
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#ae95b5a73e99f10e55651747eb48ba0f3">  282</a></span>QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#ae95b5a73e99f10e55651747eb48ba0f3">ExporterXpeditionSymbol::symbolFile</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol,</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>                                               <span class="keywordtype">int</span> partIndex,</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                                               <span class="keyword">const</span> QString&amp; outputName)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <span class="comment">// 每个部件独立成文件，同时保留 commonToAllParts 引脚，避免多单元符号丢失公共引脚。</span></div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    QString body;  </div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    body += QStringLiteral(<span class="stringliteral">&quot;V 50\nK 1000000000 %1\nY 1\nZ 0\ni 0\n&quot;</span>).arg(outputName);</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>    body += QStringLiteral(<span class="stringliteral">&quot;U 0 0 10 0 5 0 %1\n&quot;</span>).arg(outputName);</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    body += QStringLiteral(<span class="stringliteral">&quot;U 0 0 5 0 5 0 REFDES=%1\n&quot;</span>).arg(escapedText(symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#adaaa5f15d75cbcfe9f6ecaf502b5cc23">designatorPrefix</a>));</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    body += QStringLiteral(<span class="stringliteral">&quot;U 0 0 5 0 5 0 VALUE=%1\n&quot;</span>).arg(escapedText(symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">name</a>));</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    <span class="keyword">const</span> QRectF bounds = symbolBounds(symbol, partIndex);  </div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    body += QStringLiteral(<span class="stringliteral">&quot;b %1 %2 %3 %4\n&quot;</span>)</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>                .arg(fmt(toTh(bounds.left())))</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>                .arg(fmt(toTh(bounds.top())))</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>                .arg(fmt(toTh(bounds.right())))</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>                .arg(fmt(toTh(bounds.bottom())));</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    <span class="keywordtype">int</span> pinIndex = 1;  </div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html">IR::SymbolPinIR</a>&amp; pin : symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#afbe71bdb9bf6b3ad2d3a38353a5679ca">pins</a>) {</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        <span class="keywordflow">if</span> (pin.partIndex == partIndex || pin.commonToAllParts)</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            appendPin(body, pin, pinIndex++);</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    }</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html">IR::SymbolRectangleIR</a>&amp; rect : symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#af85ad517c3969fdc6e7de9c286c23675">rectangles</a>) {</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>        <span class="keywordflow">if</span> (rect.partIndex != partIndex)</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>        appendLine(body, rect.x0, rect.y0, rect.x1, rect.y0);</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>        appendLine(body, rect.x1, rect.y0, rect.x1, rect.y1);</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>        appendLine(body, rect.x1, rect.y1, rect.x0, rect.y1);</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>        appendLine(body, rect.x0, rect.y1, rect.x0, rect.y0);</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    }</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPolylineIR.html">IR::SymbolPolylineIR</a>&amp; polyline : symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#adc38458b07667275e19ae7ca39c06027">polylines</a>) {</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>        <span class="keywordflow">if</span> (polyline.partIndex == partIndex)</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>            appendPolyline(body, polyline.points);</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    }</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPolygonIR.html">IR::SymbolPolygonIR</a>&amp; polygon : symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a80f9173459349254a0c61719059e8d39">polygons</a>) {</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        <span class="keywordflow">if</span> (polygon.partIndex == partIndex)</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>            appendPolyline(body, polygon.points);</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    }</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolCircleIR.html">IR::SymbolCircleIR</a>&amp; circle : symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a875e6c46f486d50142d76272db2bbebc">circles</a>) {</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>        <span class="keywordflow">if</span> (circle.partIndex != partIndex)</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        body += QStringLiteral(<span class="stringliteral">&quot;c %1 %2 %3\n|GRPHSTL_EXT01 255 -1 0 1 1\n&quot;</span>)</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>                    .arg(fmt(toTh(circle.center.x())))</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>                    .arg(fmt(toTh(circle.center.y())))</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>                    .arg(fmt(toTh(circle.radius)));</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    }</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolArcIR.html">IR::SymbolArcIR</a>&amp; arc : symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aced591c82a46fda26eaa506505c35aa4">arcs</a>) {</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>        <span class="keywordflow">if</span> (arc.partIndex != partIndex)</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>        body += QStringLiteral(<span class="stringliteral">&quot;a %1 %2 %3 %4 %5 %6\n|GRPHSTL_EXT01 255 -1 0 1 1\n&quot;</span>)</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>                    .arg(fmt(toTh(arc.startPoint.x())))</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>                    .arg(fmt(toTh(arc.startPoint.y())))</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>                    .arg(fmt(toTh(arc.midPoint.x())))</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>                    .arg(fmt(toTh(arc.midPoint.y())))</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>                    .arg(fmt(toTh(arc.endPoint.x())))</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                    .arg(fmt(toTh(arc.endPoint.y())));</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    }</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>    body += QStringLiteral(<span class="stringliteral">&quot;E\n&quot;</span>);</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>    <span class="keywordflow">return</span> body.toUtf8();</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>}</div>
+</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span> </div>
+<div class="foldopen" id="foldopen00348" data-start="{" data-end="}">
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a412175596cebef5d17e80982a4b57545">  348</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a412175596cebef5d17e80982a4b57545">ExporterXpeditionSymbol::exportSymbol</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol, <span class="keyword">const</span> QString&amp; filePath) {</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>    <span class="comment">// 单符号入口委托批量入口，避免两条路径产生不同的 ZIP 结构。</span></div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a961418d1b43834130c8a8483d5045aa5">exportSymbolLibrary</a>({symbol}, symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">name</a>, filePath, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>}</div>
+</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
+<div class="foldopen" id="foldopen00363" data-start="{" data-end="}">
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a961418d1b43834130c8a8483d5045aa5">  363</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a961418d1b43834130c8a8483d5045aa5">ExporterXpeditionSymbol::exportSymbolLibrary</a>(<span class="keyword">const</span> QList&lt;IR::SymbolComponentIR&gt;&amp; symbols,</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>                                                  <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>                                                  <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>                                                  <span class="keywordtype">bool</span> appendMode,</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>                                                  <span class="keywordtype">bool</span> updateMode,</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>                                                  <span class="keyword">const</span> QString&amp; libraryDescription) {</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    Q_UNUSED(libName);</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    Q_UNUSED(libraryDescription);</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    <span class="comment">// 清理任务级诊断后再写入各个部件，保证调用者读取到的是本次结果。</span></div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>.clear();</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>    <span class="keywordflow">if</span> (appendMode || updateMode) {</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 符号 ZIP 暂不支持追加或更新模式&quot;</span>));</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>    }</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>    <a class="code hl_class" href="classEasyKiConverter_1_1XpeditionZipWriter.html">XpeditionZipWriter</a> archive;  </div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>    QSet&lt;QString&gt; usedNames;  </div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol : symbols) {</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        <span class="keywordflow">if</span> (symbol.name.trimmed().isEmpty()) {</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;跳过名称为空的 Xpedition 符号&quot;</span>));</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>        }</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>        <span class="keyword">const</span> QString baseName = safeName(symbol.name);  </div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>        QString outputName = baseName;  </div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>        <span class="keywordtype">int</span> suffix = 2;  </div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>        <span class="keywordflow">while</span> (usedNames.contains(outputName))</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            outputName = QStringLiteral(<span class="stringliteral">&quot;%1_%2&quot;</span>).arg(baseName).arg(suffix++);</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>        <span class="keywordflow">if</span> (outputName != baseName)</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>.append(</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>                QStringLiteral(<span class="stringliteral">&quot;Xpedition 符号名称重复，已重命名：%1 -&gt; %2&quot;</span>).arg(symbol.name, outputName));</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>        usedNames.insert(outputName);</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> partCount = qMax(1, symbol.partCount);  </div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>        <span class="keywordflow">if</span> (!symbol.ellipses.isEmpty() || !symbol.pies.isEmpty() || !symbol.ellipticalArcs.isEmpty() ||</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>            !symbol.paths.isEmpty() || !symbol.beziers.isEmpty() || !symbol.ieeeSymbols.isEmpty() ||</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>            !symbol.texts.isEmpty() || !symbol.textFrames.isEmpty() || !symbol.images.isEmpty()) {</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 符号 %1 包含当前未写入的 IR 图元&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>        }</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        <span class="keywordflow">if</span> (std::any_of(symbol.pins.cbegin(), symbol.pins.cend(), [](<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html">IR::SymbolPinIR</a>&amp; pin) {</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>                return pin.style.hasAny();</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>            })) {</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 符号 %1 包含当前未写入的引脚装饰&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        }</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> partIndex = 0; partIndex &lt; partCount; ++partIndex) {</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>            <span class="keywordflow">if</span> (!archive.<a class="code hl_function" href="classEasyKiConverter_1_1XpeditionZipWriter.html#aa224d85184dd5c0246b969aab1edf6b3">addFile</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a8314d9b04cfef6c42edfff66ff3c0125">symbolFileName</a>(outputName, partIndex), <a class="code hl_function" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#ae95b5a73e99f10e55651747eb48ba0f3">symbolFile</a>(symbol, partIndex, outputName))) {</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>                <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Xpedition 符号文件名重复：%1&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>            }</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>        }</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>    }</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>    <span class="keywordflow">if</span> (archive.<a class="code hl_function" href="classEasyKiConverter_1_1XpeditionZipWriter.html#a35c0a80cdb1fc6201ee6e29a4fcc0567">write</a>(filePath))</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;无法写入 Xpedition 符号 ZIP：%1&quot;</span>).arg(QFileInfo(filePath).fileName()));</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>}</div>
+</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span> </div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aExporterXpeditionFootprint_8cpp_html_a6b64e7bb195dbf5c66064c54147f2459"><div class="ttname"><a href="ExporterXpeditionFootprint_8cpp.html#a6b64e7bb195dbf5c66064c54147f2459">side</a></div><div class="ttdeci">QString side</div><div class="ttdoc">当前侧面名称。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionFootprint_8cpp_source.html#l00114">ExporterXpeditionFootprint.cpp:114</a></div></div>
+<div class="ttc" id="aExporterXpeditionSymbol_8h_html"><div class="ttname"><a href="ExporterXpeditionSymbol_8h.html">ExporterXpeditionSymbol.h</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_a515c02d1ed2c32753cd4e2cd7140acdd"><div class="ttname"><a href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a></div><div class="ttdeci">quint8 type</div><div class="ttdoc">类型。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00064">OLECompoundReader.cpp:64</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aXpeditionZipWriter_8h_html"><div class="ttname"><a href="XpeditionZipWriter_8h.html">XpeditionZipWriter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionSymbol_html_a094c0b5be614e839f8a86ea021835cd2"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a094c0b5be614e839f8a86ea021835cd2">EasyKiConverter::ExporterXpeditionSymbol::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionSymbol_8h_source.html#l00061">ExporterXpeditionSymbol.h:61</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionSymbol_html_a412175596cebef5d17e80982a4b57545"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a412175596cebef5d17e80982a4b57545">EasyKiConverter::ExporterXpeditionSymbol::exportSymbol</a></div><div class="ttdeci">bool exportSymbol(const IR::SymbolComponentIR &amp;symbol, const QString &amp;filePath) override</div><div class="ttdoc">导出单个符号到 Xpedition 符号库。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionSymbol_8cpp_source.html#l00348">ExporterXpeditionSymbol.cpp:348</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionSymbol_html_a8314d9b04cfef6c42edfff66ff3c0125"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a8314d9b04cfef6c42edfff66ff3c0125">EasyKiConverter::ExporterXpeditionSymbol::symbolFileName</a></div><div class="ttdeci">QString symbolFileName(const QString &amp;outputName, int partIndex) const</div><div class="ttdoc">生成符号部件对应的 ZIP 条目名称。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionSymbol_8cpp_source.html#l00270">ExporterXpeditionSymbol.cpp:270</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionSymbol_html_a961418d1b43834130c8a8483d5045aa5"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a961418d1b43834130c8a8483d5045aa5">EasyKiConverter::ExporterXpeditionSymbol::exportSymbolLibrary</a></div><div class="ttdeci">bool exportSymbolLibrary(const QList&lt; IR::SymbolComponentIR &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath, bool appendMode=true, bool updateMode=false, const QString &amp;libraryDescription=QString()) override</div><div class="ttdoc">将多个符号及其多单元部件写入一个符号库压缩包。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionSymbol_8cpp_source.html#l00363">ExporterXpeditionSymbol.cpp:363</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionSymbol_html_a9b44d468d6ae9dd4440d6a9c3efe197f"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#a9b44d468d6ae9dd4440d6a9c3efe197f">EasyKiConverter::ExporterXpeditionSymbol::libraryFileExtension</a></div><div class="ttdeci">QString libraryFileExtension() const override</div><div class="ttdoc">返回符号库压缩包扩展名。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionSymbol_8cpp_source.html#l00250">ExporterXpeditionSymbol.cpp:250</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionSymbol_html_ae95b5a73e99f10e55651747eb48ba0f3"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#ae95b5a73e99f10e55651747eb48ba0f3">EasyKiConverter::ExporterXpeditionSymbol::symbolFile</a></div><div class="ttdeci">QByteArray symbolFile(const IR::SymbolComponentIR &amp;symbol, int partIndex, const QString &amp;outputName) const</div><div class="ttdoc">生成一个符号部件的 Xpedition ASCII 内容。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionSymbol_8cpp_source.html#l00282">ExporterXpeditionSymbol.cpp:282</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterXpeditionSymbol_html_aec5b6bef00088e336f2d1fc4f28f8a4e"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterXpeditionSymbol.html#aec5b6bef00088e336f2d1fc4f28f8a4e">EasyKiConverter::ExporterXpeditionSymbol::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const override</div><div class="ttdoc">返回符号导出阶段收集的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterXpeditionSymbol_8cpp_source.html#l00259">ExporterXpeditionSymbol.cpp:259</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html">EasyKiConverter::XpeditionZipWriter</a></div><div class="ttdoc">写入不压缩的 ZIP 文件</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8h_source.html#l00015">XpeditionZipWriter.h:15</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html_a35c0a80cdb1fc6201ee6e29a4fcc0567"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html#a35c0a80cdb1fc6201ee6e29a4fcc0567">EasyKiConverter::XpeditionZipWriter::write</a></div><div class="ttdeci">bool write(const QString &amp;filePath) const</div><div class="ttdoc">将当前条目写入 ZIP 文件。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8cpp_source.html#l00087">XpeditionZipWriter.cpp:87</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html_aa224d85184dd5c0246b969aab1edf6b3"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html#aa224d85184dd5c0246b969aab1edf6b3">EasyKiConverter::XpeditionZipWriter::addFile</a></div><div class="ttdeci">bool addFile(const QString &amp;name, const QByteArray &amp;data)</div><div class="ttdoc">添加一个文本或二进制文件条目。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8cpp_source.html#l00070">XpeditionZipWriter.cpp:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714">EasyKiConverter::IR::PinElectricalType</a></div><div class="ttdeci">PinElectricalType</div><div class="ttdoc">引脚电气类型枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00055">IRTypes.h:55</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54">EasyKiConverter::IR::PinElectricalType::Output</a></div><div class="ttdeci">@ Output</div><div class="ttdoc">输出</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5">EasyKiConverter::IR::PinElectricalType::Input</a></div><div class="ttdeci">@ Input</div><div class="ttdoc">输入</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c">EasyKiConverter::IR::PinElectricalType::OpenCollector</a></div><div class="ttdeci">@ OpenCollector</div><div class="ttdoc">集电极开路</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5">EasyKiConverter::IR::PinElectricalType::Unspecified</a></div><div class="ttdeci">@ Unspecified</div><div class="ttdoc">未指定</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40">EasyKiConverter::IR::PinElectricalType::Bidirectional</a></div><div class="ttdeci">@ Bidirectional</div><div class="ttdoc">双向</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de">EasyKiConverter::IR::PinElectricalType::Power</a></div><div class="ttdeci">@ Power</div><div class="ttdoc">电源引脚</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90">EasyKiConverter::IR::PinElectricalType::OpenEmitter</a></div><div class="ttdeci">@ OpenEmitter</div><div class="ttdoc">发射极开路</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85">EasyKiConverter::IR::PinElectricalType::Passive</a></div><div class="ttdeci">@ Passive</div><div class="ttdoc">无源（电阻、电容等）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065cae"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065cae">EasyKiConverter::IR::PinDirection</a></div><div class="ttdeci">PinDirection</div><div class="ttdoc">引脚方向枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00070">IRTypes.h:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">EasyKiConverter::IR::PinDirection::Down</a></div><div class="ttdeci">@ Down</div><div class="ttdoc">向下</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">EasyKiConverter::IR::PinDirection::Up</a></div><div class="ttdeci">@ Up</div><div class="ttdoc">向上</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">EasyKiConverter::IR::PinDirection::Right</a></div><div class="ttdeci">@ Right</div><div class="ttdoc">向右</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">EasyKiConverter::IR::PinDirection::Left</a></div><div class="ttdeci">@ Left</div><div class="ttdoc">向左</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolArcIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolArcIR.html">EasyKiConverter::IR::SymbolArcIR</a></div><div class="ttdoc">通用符号圆弧</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00152">SymbolIR.h:152</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolCircleIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolCircleIR.html">EasyKiConverter::IR::SymbolCircleIR</a></div><div class="ttdoc">通用符号圆形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00135">SymbolIR.h:135</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">EasyKiConverter::IR::SymbolComponentIR</a></div><div class="ttdoc">通用符号组件</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00418">SymbolIR.h:418</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_a80f9173459349254a0c61719059e8d39"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a80f9173459349254a0c61719059e8d39">EasyKiConverter::IR::SymbolComponentIR::polygons</a></div><div class="ttdeci">QList&lt; SymbolPolygonIR &gt; polygons</div><div class="ttdoc">多边形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00435">SymbolIR.h:435</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_a875e6c46f486d50142d76272db2bbebc"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a875e6c46f486d50142d76272db2bbebc">EasyKiConverter::IR::SymbolComponentIR::circles</a></div><div class="ttdeci">QList&lt; SymbolCircleIR &gt; circles</div><div class="ttdoc">圆形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00429">SymbolIR.h:429</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_aa71be9bd1e94d77e9816289f4b867689"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">EasyKiConverter::IR::SymbolComponentIR::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">组件名称</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00419">SymbolIR.h:419</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_aced591c82a46fda26eaa506505c35aa4"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aced591c82a46fda26eaa506505c35aa4">EasyKiConverter::IR::SymbolComponentIR::arcs</a></div><div class="ttdeci">QList&lt; SymbolArcIR &gt; arcs</div><div class="ttdoc">圆弧图元列表。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00430">SymbolIR.h:430</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_adaaa5f15d75cbcfe9f6ecaf502b5cc23"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#adaaa5f15d75cbcfe9f6ecaf502b5cc23">EasyKiConverter::IR::SymbolComponentIR::designatorPrefix</a></div><div class="ttdeci">QString designatorPrefix</div><div class="ttdoc">位号前缀（&quot;U&quot;, &quot;R&quot;, &quot;C&quot; 等）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00421">SymbolIR.h:421</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_adc38458b07667275e19ae7ca39c06027"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#adc38458b07667275e19ae7ca39c06027">EasyKiConverter::IR::SymbolComponentIR::polylines</a></div><div class="ttdeci">QList&lt; SymbolPolylineIR &gt; polylines</div><div class="ttdoc">折线图元列表。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00434">SymbolIR.h:434</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_af85ad517c3969fdc6e7de9c286c23675"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#af85ad517c3969fdc6e7de9c286c23675">EasyKiConverter::IR::SymbolComponentIR::rectangles</a></div><div class="ttdeci">QList&lt; SymbolRectangleIR &gt; rectangles</div><div class="ttdoc">矩形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00428">SymbolIR.h:428</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_afbe71bdb9bf6b3ad2d3a38353a5679ca"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#afbe71bdb9bf6b3ad2d3a38353a5679ca">EasyKiConverter::IR::SymbolComponentIR::pins</a></div><div class="ttdeci">QList&lt; SymbolPinIR &gt; pins</div><div class="ttdoc">符号引脚列表。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00427">SymbolIR.h:427</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html">EasyKiConverter::IR::SymbolPinIR</a></div><div class="ttdoc">通用符号引脚</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00077">SymbolIR.h:77</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPolygonIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPolygonIR.html">EasyKiConverter::IR::SymbolPolygonIR</a></div><div class="ttdoc">通用符号多边形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00232">SymbolIR.h:232</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPolylineIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPolylineIR.html">EasyKiConverter::IR::SymbolPolylineIR</a></div><div class="ttdoc">通用符号折线</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00218">SymbolIR.h:218</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolRectangleIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html">EasyKiConverter::IR::SymbolRectangleIR</a></div><div class="ttdoc">通用符号矩形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00117">SymbolIR.h:117</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_d44c96e403fcd62098fb028546faf1dd.html">xpedition</a></li><li class="navelem"><a class="el" href="ExporterXpeditionSymbol_8cpp.html">ExporterXpeditionSymbol.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

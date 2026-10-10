@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentCacheMemoryStore.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentCacheMemoryStore_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentCacheMemoryStore.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentCacheMemoryStore_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheMemoryStore_8h.html">ComponentCacheMemoryStore.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="CacheDataValidator_8h.html">CacheDataValidator.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QJsonDocument&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a3191ffe35cdd398a51af873756360461">   13</a></span><a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a3191ffe35cdd398a51af873756360461">ComponentCacheMemoryStore::ComponentCacheMemoryStore</a>(<span class="keywordtype">int</span> maxCost) : m_store(maxCost) {}</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a5a29c446da442fdd3a54c1586b1f679d">   20</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a5a29c446da442fdd3a54c1586b1f679d">ComponentCacheMemoryStore::containsMetadata</a>(<span class="keyword">const</span> QString&amp; componentId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#a78f4dd7d4dff8a7c235624dbc8c04ffc">contains</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;metadata&quot;</span>)));</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
+</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad652c670fb8026b29df8125aa4c9f117">   29</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad652c670fb8026b29df8125aa4c9f117">ComponentCacheMemoryStore::loadMetadata</a>(<span class="keyword">const</span> QString&amp; componentId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">const</span> QByteArray data = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#afa55879ec05b8cb0647865a53ebefb3e">value</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;metadata&quot;</span>)));  <span class="comment">// 缓存中的 JSON 数据。</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordflow">if</span> (data.isEmpty())</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    QJsonParseError error;  <span class="comment">// JSON 解析错误。</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">const</span> QJsonDocument document = QJsonDocument::fromJson(data, &amp;error);  <span class="comment">// 解析后的 JSON 文档。</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (error.error != QJsonParseError::NoError)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">return</span> document.object();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>}</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a5d76f06629109863c9ccdf3f6c477d43">   47</a></span>qint64 <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a5d76f06629109863c9ccdf3f6c477d43">ComponentCacheMemoryStore::saveMetadata</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QJsonObject&amp; metadata) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">const</span> QJsonDocument document(metadata);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#a93c1d163076af4e513a7d24033705494">insert</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;metadata&quot;</span>)), document.toJson(QJsonDocument::Compact));</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="foldopen" id="foldopen00057" data-start="{" data-end="}">
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a242a807a0b1f465f5b47e32916f54d78">   57</a></span>QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a242a807a0b1f465f5b47e32916f54d78">ComponentCacheMemoryStore::loadSymbol</a>(<span class="keyword">const</span> QString&amp; componentId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#afa55879ec05b8cb0647865a53ebefb3e">value</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;symbol&quot;</span>)));</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>}</div>
+</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="}">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a34c6ad38383c018a58f9af350244d79f">   67</a></span>std::optional&lt;qint64&gt; <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a34c6ad38383c018a58f9af350244d79f">ComponentCacheMemoryStore::saveSymbol</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QByteArray&amp; data) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1CacheDataValidator.html#aaf030cbba99cb80b8fcf7d12d248ef3a">CacheDataValidator::isValidCadData</a>(data))</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#a93c1d163076af4e513a7d24033705494">insert</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;symbol&quot;</span>)), data);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}</div>
+</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="}">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a21faa68f2a5c7e7cff7213bda3bcc1d6">   78</a></span>QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a21faa68f2a5c7e7cff7213bda3bcc1d6">ComponentCacheMemoryStore::loadFootprint</a>(<span class="keyword">const</span> QString&amp; componentId)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#afa55879ec05b8cb0647865a53ebefb3e">value</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;footprint&quot;</span>)));</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="foldopen" id="foldopen00088" data-start="{" data-end="}">
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad640cdda735e2aa2a72a00b3a6c309c9">   88</a></span>std::optional&lt;qint64&gt; <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad640cdda735e2aa2a72a00b3a6c309c9">ComponentCacheMemoryStore::saveFootprint</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QByteArray&amp; data) {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1CacheDataValidator.html#aaf030cbba99cb80b8fcf7d12d248ef3a">CacheDataValidator::isValidCadData</a>(data))</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#a93c1d163076af4e513a7d24033705494">insert</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;footprint&quot;</span>)), data);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
+</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="foldopen" id="foldopen00099" data-start="{" data-end="}">
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a7435cfb4213490680555714d5c0ccca7">   99</a></span>qint64 <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a7435cfb4213490680555714d5c0ccca7">ComponentCacheMemoryStore::removeComponent</a>(<span class="keyword">const</span> QString&amp; componentId) {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#a35b8530bd0a5e9cc1171872a502e4ed6">remove</a>({<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;metadata&quot;</span>)),</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                           <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;symbol&quot;</span>)),</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>                           <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">makeKey</a>(componentId, QStringLiteral(<span class="stringliteral">&quot;footprint&quot;</span>))});</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}</div>
+</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="foldopen" id="foldopen00108" data-start="{" data-end="}">
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad43f1e5c93eb2b378c90ce3ccb5d38f1">  108</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad43f1e5c93eb2b378c90ce3ccb5d38f1">ComponentCacheMemoryStore::clear</a>() {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#abecda0855e63381d76eb08f9c29e397c">clear</a>();</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
+</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="foldopen" id="foldopen00116" data-start="{" data-end="}">
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac4e63cfdc0c3f6532040f4d0c51fd877">  116</a></span>qint64 <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac4e63cfdc0c3f6532040f4d0c51fd877">ComponentCacheMemoryStore::totalCost</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#af8485ef99c8e99207c32af83ca75f9af">totalCost</a>();</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}</div>
+</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="foldopen" id="foldopen00124" data-start="{" data-end="}">
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a7f19a5cfd45df576a5d8c5d0d4d684d6">  124</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a7f19a5cfd45df576a5d8c5d0d4d684d6">ComponentCacheMemoryStore::setMaxCost</a>(<span class="keywordtype">int</span> maxCost) {</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#a0dca01e72c0b4e27e477caa6d8637726">setMaxCost</a>(<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a8602f45cb6e963898ccff1cf447c0963">maxCost</a>);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>}</div>
+</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="foldopen" id="foldopen00132" data-start="{" data-end="}">
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a8602f45cb6e963898ccff1cf447c0963">  132</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a8602f45cb6e963898ccff1cf447c0963">ComponentCacheMemoryStore::maxCost</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">m_store</a>.<a class="code hl_function" href="classEasyKiConverter_1_1CacheMemoryStore.html#a1028f21cdf05491b94e29e6f198433dd">maxCost</a>();</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>}</div>
+</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span> </div>
+<div class="foldopen" id="foldopen00142" data-start="{" data-end="}">
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">  142</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">ComponentCacheMemoryStore::makeKey</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordflow">return</span> componentId.toUpper() + <span class="stringliteral">&quot;:&quot;</span> + <a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>}</div>
+</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aCacheDataValidator_8h_html"><div class="ttname"><a href="CacheDataValidator_8h.html">CacheDataValidator.h</a></div></div>
+<div class="ttc" id="aComponentCacheMemoryStore_8h_html"><div class="ttname"><a href="ComponentCacheMemoryStore_8h.html">ComponentCacheMemoryStore.h</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_a515c02d1ed2c32753cd4e2cd7140acdd"><div class="ttname"><a href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a></div><div class="ttdeci">quint8 type</div><div class="ttdoc">类型。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00064">OLECompoundReader.cpp:64</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheDataValidator_html_aaf030cbba99cb80b8fcf7d12d248ef3a"><div class="ttname"><a href="classEasyKiConverter_1_1CacheDataValidator.html#aaf030cbba99cb80b8fcf7d12d248ef3a">EasyKiConverter::CacheDataValidator::isValidCadData</a></div><div class="ttdeci">static bool isValidCadData(const QByteArray &amp;data)</div><div class="ttdoc">判断数据是否为可解析的 CAD JSON 对象。</div><div class="ttdef"><b>Definition</b> <a href="CacheDataValidator_8cpp_source.html#l00016">CacheDataValidator.cpp:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMemoryStore_html_a0dca01e72c0b4e27e477caa6d8637726"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMemoryStore.html#a0dca01e72c0b4e27e477caa6d8637726">EasyKiConverter::CacheMemoryStore::setMaxCost</a></div><div class="ttdeci">void setMaxCost(int maxCost)</div><div class="ttdoc">设置缓存最大成本。</div><div class="ttdef"><b>Definition</b> <a href="CacheMemoryStore_8cpp_source.html#l00082">CacheMemoryStore.cpp:82</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMemoryStore_html_a1028f21cdf05491b94e29e6f198433dd"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMemoryStore.html#a1028f21cdf05491b94e29e6f198433dd">EasyKiConverter::CacheMemoryStore::maxCost</a></div><div class="ttdeci">int maxCost() const</div><div class="ttdoc">返回缓存最大成本。</div><div class="ttdef"><b>Definition</b> <a href="CacheMemoryStore_8cpp_source.html#l00091">CacheMemoryStore.cpp:91</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMemoryStore_html_a35b8530bd0a5e9cc1171872a502e4ed6"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMemoryStore.html#a35b8530bd0a5e9cc1171872a502e4ed6">EasyKiConverter::CacheMemoryStore::remove</a></div><div class="ttdeci">qint64 remove(const QStringList &amp;keys)</div><div class="ttdoc">删除指定键集合。</div><div class="ttdef"><b>Definition</b> <a href="CacheMemoryStore_8cpp_source.html#l00061">CacheMemoryStore.cpp:61</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMemoryStore_html_a78f4dd7d4dff8a7c235624dbc8c04ffc"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMemoryStore.html#a78f4dd7d4dff8a7c235624dbc8c04ffc">EasyKiConverter::CacheMemoryStore::contains</a></div><div class="ttdeci">bool contains(const QString &amp;key) const</div><div class="ttdoc">判断缓存是否包含指定键。</div><div class="ttdef"><b>Definition</b> <a href="CacheMemoryStore_8cpp_source.html#l00028">CacheMemoryStore.cpp:28</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMemoryStore_html_a93c1d163076af4e513a7d24033705494"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMemoryStore.html#a93c1d163076af4e513a7d24033705494">EasyKiConverter::CacheMemoryStore::insert</a></div><div class="ttdeci">qint64 insert(const QString &amp;key, const QByteArray &amp;data)</div><div class="ttdoc">写入指定键的数据。</div><div class="ttdef"><b>Definition</b> <a href="CacheMemoryStore_8cpp_source.html#l00050">CacheMemoryStore.cpp:50</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMemoryStore_html_abecda0855e63381d76eb08f9c29e397c"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMemoryStore.html#abecda0855e63381d76eb08f9c29e397c">EasyKiConverter::CacheMemoryStore::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空全部内存缓存。</div><div class="ttdef"><b>Definition</b> <a href="CacheMemoryStore_8cpp_source.html#l00018">CacheMemoryStore.cpp:18</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMemoryStore_html_af8485ef99c8e99207c32af83ca75f9af"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMemoryStore.html#af8485ef99c8e99207c32af83ca75f9af">EasyKiConverter::CacheMemoryStore::totalCost</a></div><div class="ttdeci">qint64 totalCost() const</div><div class="ttdoc">返回当前缓存总成本。</div><div class="ttdef"><b>Definition</b> <a href="CacheMemoryStore_8cpp_source.html#l00073">CacheMemoryStore.cpp:73</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMemoryStore_html_afa55879ec05b8cb0647865a53ebefb3e"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMemoryStore.html#afa55879ec05b8cb0647865a53ebefb3e">EasyKiConverter::CacheMemoryStore::value</a></div><div class="ttdeci">QByteArray value(const QString &amp;key) const</div><div class="ttdoc">读取指定键的数据副本。</div><div class="ttdef"><b>Definition</b> <a href="CacheMemoryStore_8cpp_source.html#l00038">CacheMemoryStore.cpp:38</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a21faa68f2a5c7e7cff7213bda3bcc1d6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a21faa68f2a5c7e7cff7213bda3bcc1d6">EasyKiConverter::ComponentCacheMemoryStore::loadFootprint</a></div><div class="ttdeci">QByteArray loadFootprint(const QString &amp;componentId) const</div><div class="ttdoc">读取一级缓存中的封装数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00078">ComponentCacheMemoryStore.cpp:78</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a242a807a0b1f465f5b47e32916f54d78"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a242a807a0b1f465f5b47e32916f54d78">EasyKiConverter::ComponentCacheMemoryStore::loadSymbol</a></div><div class="ttdeci">QByteArray loadSymbol(const QString &amp;componentId) const</div><div class="ttdoc">读取一级缓存中的符号数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00057">ComponentCacheMemoryStore.cpp:57</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a3191ffe35cdd398a51af873756360461"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a3191ffe35cdd398a51af873756360461">EasyKiConverter::ComponentCacheMemoryStore::ComponentCacheMemoryStore</a></div><div class="ttdeci">ComponentCacheMemoryStore(int maxCost)</div><div class="ttdoc">创建带有指定容量的元器件内存缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00013">ComponentCacheMemoryStore.cpp:13</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a34c6ad38383c018a58f9af350244d79f"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a34c6ad38383c018a58f9af350244d79f">EasyKiConverter::ComponentCacheMemoryStore::saveSymbol</a></div><div class="ttdeci">std::optional&lt; qint64 &gt; saveSymbol(const QString &amp;componentId, const QByteArray &amp;data)</div><div class="ttdoc">校验并写入一级缓存中的符号数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00067">ComponentCacheMemoryStore.cpp:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a5a29c446da442fdd3a54c1586b1f679d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a5a29c446da442fdd3a54c1586b1f679d">EasyKiConverter::ComponentCacheMemoryStore::containsMetadata</a></div><div class="ttdeci">bool containsMetadata(const QString &amp;componentId) const</div><div class="ttdoc">判断指定元器件是否存在元数据缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00020">ComponentCacheMemoryStore.cpp:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a5d76f06629109863c9ccdf3f6c477d43"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a5d76f06629109863c9ccdf3f6c477d43">EasyKiConverter::ComponentCacheMemoryStore::saveMetadata</a></div><div class="ttdeci">qint64 saveMetadata(const QString &amp;componentId, const QJsonObject &amp;metadata)</div><div class="ttdoc">写入一级缓存中的元数据并返回当前成本。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00047">ComponentCacheMemoryStore.cpp:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a7435cfb4213490680555714d5c0ccca7"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a7435cfb4213490680555714d5c0ccca7">EasyKiConverter::ComponentCacheMemoryStore::removeComponent</a></div><div class="ttdeci">qint64 removeComponent(const QString &amp;componentId)</div><div class="ttdoc">删除指定元器件的一级缓存并返回当前成本。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00099">ComponentCacheMemoryStore.cpp:99</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a78f34b1e84200236f71e9d5a2adddfda"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a78f34b1e84200236f71e9d5a2adddfda">EasyKiConverter::ComponentCacheMemoryStore::makeKey</a></div><div class="ttdeci">static QString makeKey(const QString &amp;componentId, const QString &amp;type)</div><div class="ttdoc">生成统一的一级缓存复合键。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00142">ComponentCacheMemoryStore.cpp:142</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a7f19a5cfd45df576a5d8c5d0d4d684d6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a7f19a5cfd45df576a5d8c5d0d4d684d6">EasyKiConverter::ComponentCacheMemoryStore::setMaxCost</a></div><div class="ttdeci">void setMaxCost(int maxCost)</div><div class="ttdoc">设置一级缓存最大成本。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00124">ComponentCacheMemoryStore.cpp:124</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a8602f45cb6e963898ccff1cf447c0963"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a8602f45cb6e963898ccff1cf447c0963">EasyKiConverter::ComponentCacheMemoryStore::maxCost</a></div><div class="ttdeci">int maxCost() const</div><div class="ttdoc">返回一级缓存最大成本。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00132">ComponentCacheMemoryStore.cpp:132</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_ac4e63cfdc0c3f6532040f4d0c51fd877"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac4e63cfdc0c3f6532040f4d0c51fd877">EasyKiConverter::ComponentCacheMemoryStore::totalCost</a></div><div class="ttdeci">qint64 totalCost() const</div><div class="ttdoc">返回当前一级缓存成本。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00116">ComponentCacheMemoryStore.cpp:116</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_ac5b2b64c56de746d6bc0808c40702bbe"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ac5b2b64c56de746d6bc0808c40702bbe">EasyKiConverter::ComponentCacheMemoryStore::m_store</a></div><div class="ttdeci">CacheMemoryStore m_store</div><div class="ttdoc">一级缓存实际存储器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8h_source.html#l00114">ComponentCacheMemoryStore.h:114</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_ad43f1e5c93eb2b378c90ce3ccb5d38f1"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad43f1e5c93eb2b378c90ce3ccb5d38f1">EasyKiConverter::ComponentCacheMemoryStore::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空全部一级缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00108">ComponentCacheMemoryStore.cpp:108</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_ad640cdda735e2aa2a72a00b3a6c309c9"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad640cdda735e2aa2a72a00b3a6c309c9">EasyKiConverter::ComponentCacheMemoryStore::saveFootprint</a></div><div class="ttdeci">std::optional&lt; qint64 &gt; saveFootprint(const QString &amp;componentId, const QByteArray &amp;data)</div><div class="ttdoc">校验并写入一级缓存中的封装数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00088">ComponentCacheMemoryStore.cpp:88</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_ad652c670fb8026b29df8125aa4c9f117"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#ad652c670fb8026b29df8125aa4c9f117">EasyKiConverter::ComponentCacheMemoryStore::loadMetadata</a></div><div class="ttdeci">QJsonObject loadMetadata(const QString &amp;componentId) const</div><div class="ttdoc">读取一级缓存中的元数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00029">ComponentCacheMemoryStore.cpp:29</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentCacheMemoryStore_8cpp.html">ComponentCacheMemoryStore.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,1471 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::TempFileManager类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1TempFileManager.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1TempFileManager-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::TempFileManager类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>临时文件管理器  
+ <a href="classEasyKiConverter_1_1TempFileManager.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="TempFileManager_8h_source.html">TempFileManager.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::TempFileManager 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1TempFileManager__inherit__graph.svg" width="252" height="619"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::TempFileManager 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1TempFileManager__coll__graph.svg" width="252" height="619"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html">CommitItem</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a9ebbcfd03a45037b30b2475cae075228" id="r_a9ebbcfd03a45037b30b2475cae075228"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a9ebbcfd03a45037b30b2475cae075228">TempFileManager</a> (QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a9ebbcfd03a45037b30b2475cae075228"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a9ebbcfd03a45037b30b2475cae075228"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5afae54f1b8c0cd4dcbb389e1cdb1d97" id="r_a5afae54f1b8c0cd4dcbb389e1cdb1d97"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a5afae54f1b8c0cd4dcbb389e1cdb1d97">~TempFileManager</a> () override</td></tr>
+<tr class="memdesc:a5afae54f1b8c0cd4dcbb389e1cdb1d97"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a5afae54f1b8c0cd4dcbb389e1cdb1d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b8591fbfead930c23a57e5f2c8a1aab" id="r_a8b8591fbfead930c23a57e5f2c8a1aab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a8b8591fbfead930c23a57e5f2c8a1aab">setOutputPath</a> (const QString &amp;outputPath)</td></tr>
+<tr class="memdesc:a8b8591fbfead930c23a57e5f2c8a1aab"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置输出目录  <br /></td></tr>
+<tr class="separator:a8b8591fbfead930c23a57e5f2c8a1aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a3eeb6f17fc2d53239fd527ef474b0b" id="r_a0a3eeb6f17fc2d53239fd527ef474b0b"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a0a3eeb6f17fc2d53239fd527ef474b0b">tempDirectory</a> () const</td></tr>
+<tr class="memdesc:a0a3eeb6f17fc2d53239fd527ef474b0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取临时文件目录路径  <br /></td></tr>
+<tr class="separator:a0a3eeb6f17fc2d53239fd527ef474b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fd24e169682b8e4429aab908b751016" id="r_a3fd24e169682b8e4429aab908b751016"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a3fd24e169682b8e4429aab908b751016">createTempFilePath</a> (const QString &amp;componentId, const QString &amp;suffix)</td></tr>
+<tr class="memdesc:a3fd24e169682b8e4429aab908b751016"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建临时文件路径  <br /></td></tr>
+<tr class="separator:a3fd24e169682b8e4429aab908b751016"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab00a5f0ad9318c698b79c2b50c7fb46e" id="r_ab00a5f0ad9318c698b79c2b50c7fb46e"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ab00a5f0ad9318c698b79c2b50c7fb46e">tempFilePath</a> (const QString &amp;finalPath) const</td></tr>
+<tr class="memdesc:ab00a5f0ad9318c698b79c2b50c7fb46e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取临时文件对应的实际路径  <br /></td></tr>
+<tr class="separator:ab00a5f0ad9318c698b79c2b50c7fb46e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5419a929c46712580b4853c2d53baeb" id="r_ae5419a929c46712580b4853c2d53baeb"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ae5419a929c46712580b4853c2d53baeb">createSymbolTempPath</a> (const QString &amp;libName, const QString &amp;suffix)</td></tr>
+<tr class="memdesc:ae5419a929c46712580b4853c2d53baeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取符号库临时文件路径  <br /></td></tr>
+<tr class="separator:ae5419a929c46712580b4853c2d53baeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e97e5fab0fdfb7906b8313c1d9af77d" id="r_a9e97e5fab0fdfb7906b8313c1d9af77d"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a9e97e5fab0fdfb7906b8313c1d9af77d">createTempDirectoryPath</a> (const QString &amp;dirName)</td></tr>
+<tr class="memdesc:a9e97e5fab0fdfb7906b8313c1d9af77d"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建临时目录路径  <br /></td></tr>
+<tr class="separator:a9e97e5fab0fdfb7906b8313c1d9af77d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc1129a0a5a0df3810a60a2846214b01" id="r_afc1129a0a5a0df3810a60a2846214b01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#afc1129a0a5a0df3810a60a2846214b01">commit</a> (const QString &amp;finalPath)</td></tr>
+<tr class="memdesc:afc1129a0a5a0df3810a60a2846214b01"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交临时文件（完成导出）  <br /></td></tr>
+<tr class="separator:afc1129a0a5a0df3810a60a2846214b01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a846b35b69c5c7b972f337a829f41d7ed" id="r_a846b35b69c5c7b972f337a829f41d7ed"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a846b35b69c5c7b972f337a829f41d7ed">commitDirectory</a> (const QString &amp;finalDirPath)</td></tr>
+<tr class="memdesc:a846b35b69c5c7b972f337a829f41d7ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交临时目录（完成导出）  <br /></td></tr>
+<tr class="separator:a846b35b69c5c7b972f337a829f41d7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ea60f7200dfdec0b46bac56d7a35bf" id="r_a29ea60f7200dfdec0b46bac56d7a35bf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a29ea60f7200dfdec0b46bac56d7a35bf">commitWithBackup</a> (const QString &amp;tempPath, const QString &amp;finalPath)</td></tr>
+<tr class="memdesc:a29ea60f7200dfdec0b46bac56d7a35bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交指定临时文件  <br /></td></tr>
+<tr class="separator:a29ea60f7200dfdec0b46bac56d7a35bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a093e8aae7ad37e970fe4c2d1e781ef66" id="r_a093e8aae7ad37e970fe4c2d1e781ef66"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a093e8aae7ad37e970fe4c2d1e781ef66">commitDirectoryWithBackup</a> (const QString &amp;tempDirPath, const QString &amp;finalDirPath)</td></tr>
+<tr class="memdesc:a093e8aae7ad37e970fe4c2d1e781ef66"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交指定临时目录  <br /></td></tr>
+<tr class="separator:a093e8aae7ad37e970fe4c2d1e781ef66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad26adbc139fe020b903eb17bd0fdcffa" id="r_ad26adbc139fe020b903eb17bd0fdcffa"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ad26adbc139fe020b903eb17bd0fdcffa">commitBatch</a> (const QVector&lt; <a class="el" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html">CommitItem</a> &gt; &amp;items)</td></tr>
+<tr class="memdesc:ad26adbc139fe020b903eb17bd0fdcffa"><td class="mdescLeft">&#160;</td><td class="mdescRight">全有或全无地提交一组临时文件/目录  <br /></td></tr>
+<tr class="separator:ad26adbc139fe020b903eb17bd0fdcffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab00c36b4482d572cec3196964cb25ab7" id="r_ab00c36b4482d572cec3196964cb25ab7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ab00c36b4482d572cec3196964cb25ab7">rollbackAll</a> ()</td></tr>
+<tr class="memdesc:ab00c36b4482d572cec3196964cb25ab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">回滚所有临时文件（取消导出）  <br /></td></tr>
+<tr class="separator:ab00c36b4482d572cec3196964cb25ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86f3851e8b4aae929bfbedc48b9b1749" id="r_a86f3851e8b4aae929bfbedc48b9b1749"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a86f3851e8b4aae929bfbedc48b9b1749">cleanupTempDirectory</a> ()</td></tr>
+<tr class="memdesc:a86f3851e8b4aae929bfbedc48b9b1749"><td class="mdescLeft">&#160;</td><td class="mdescRight">仅删除临时目录（保留其他文件）  <br /></td></tr>
+<tr class="separator:a86f3851e8b4aae929bfbedc48b9b1749"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5cdb388e8c71914f4760dad3c644be0" id="r_af5cdb388e8c71914f4760dad3c644be0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#af5cdb388e8c71914f4760dad3c644be0">cleanupOrphanedTempFiles</a> ()</td></tr>
+<tr class="memdesc:af5cdb388e8c71914f4760dad3c644be0"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查并清理遗留的临时文件  <br /></td></tr>
+<tr class="separator:af5cdb388e8c71914f4760dad3c644be0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6d5f6812d97b1d147b063f34615f21f" id="r_ac6d5f6812d97b1d147b063f34615f21f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ac6d5f6812d97b1d147b063f34615f21f">registerTempFile</a> (const QString &amp;tempPath)</td></tr>
+<tr class="memdesc:ac6d5f6812d97b1d147b063f34615f21f"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册一个临时文件路径（用于追踪）  <br /></td></tr>
+<tr class="separator:ac6d5f6812d97b1d147b063f34615f21f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd2d24d1d8baf5ec351fda0509ddc41a" id="r_abd2d24d1d8baf5ec351fda0509ddc41a"><td class="memItemLeft" align="right" valign="top">QSet&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#abd2d24d1d8baf5ec351fda0509ddc41a">registeredTempFiles</a> () const</td></tr>
+<tr class="memdesc:abd2d24d1d8baf5ec351fda0509ddc41a"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取所有已注册的临时文件  <br /></td></tr>
+<tr class="separator:abd2d24d1d8baf5ec351fda0509ddc41a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7b171aa0dcc2ad8de0b4b86e4b9f840" id="r_ad7b171aa0dcc2ad8de0b4b86e4b9f840"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ad7b171aa0dcc2ad8de0b4b86e4b9f840">cleanupCompleted</a> (int deletedCount)</td></tr>
+<tr class="memdesc:ad7b171aa0dcc2ad8de0b4b86e4b9f840"><td class="mdescLeft">&#160;</td><td class="mdescRight">临时文件清理完成信号  <br /></td></tr>
+<tr class="separator:ad7b171aa0dcc2ad8de0b4b86e4b9f840"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a416118934f84365ad1993f6c2e09c3ab" id="r_a416118934f84365ad1993f6c2e09c3ab"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">commitCompleted</a> (const QString &amp;finalPath, bool success)</td></tr>
+<tr class="memdesc:a416118934f84365ad1993f6c2e09c3ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">提交完成信号  <br /></td></tr>
+<tr class="separator:a416118934f84365ad1993f6c2e09c3ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a7b44a8f553e5a03dc0a32935d554b563" id="r_a7b44a8f553e5a03dc0a32935d554b563"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a7b44a8f553e5a03dc0a32935d554b563">recoverIncompleteTransactions</a> ()</td></tr>
+<tr class="memdesc:a7b44a8f553e5a03dc0a32935d554b563"><td class="mdescLeft">&#160;</td><td class="mdescRight">恢复上次崩溃或异常退出留下的未完成提交事务  <br /></td></tr>
+<tr class="separator:a7b44a8f553e5a03dc0a32935d554b563"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a7eeefc391949d90d4d0fcc1b19392fb4" id="r_a7eeefc391949d90d4d0fcc1b19392fb4"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a7eeefc391949d90d4d0fcc1b19392fb4">generateUniqueTempName</a> (const QString &amp;prefix, const QString &amp;suffix) const</td></tr>
+<tr class="memdesc:a7eeefc391949d90d4d0fcc1b19392fb4"><td class="mdescLeft">&#160;</td><td class="mdescRight">生成唯一的临时文件名  <br /></td></tr>
+<tr class="separator:a7eeefc391949d90d4d0fcc1b19392fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26c0cabd434559854111a1a89806c860" id="r_a26c0cabd434559854111a1a89806c860"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a26c0cabd434559854111a1a89806c860">ensureTempDirectory</a> () const</td></tr>
+<tr class="memdesc:a26c0cabd434559854111a1a89806c860"><td class="mdescLeft">&#160;</td><td class="mdescRight">确保临时目录存在  <br /></td></tr>
+<tr class="separator:a26c0cabd434559854111a1a89806c860"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada8ffca9b4d613e045d7cf1ca84a5407" id="r_ada8ffca9b4d613e045d7cf1ca84a5407"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ada8ffca9b4d613e045d7cf1ca84a5407">deleteFile</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) const</td></tr>
+<tr class="memdesc:ada8ffca9b4d613e045d7cf1ca84a5407"><td class="mdescLeft">&#160;</td><td class="mdescRight">实际执行文件删除  <br /></td></tr>
+<tr class="separator:ada8ffca9b4d613e045d7cf1ca84a5407"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a230445c3467458dd8ec51f0ce84a62e6" id="r_a230445c3467458dd8ec51f0ce84a62e6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a230445c3467458dd8ec51f0ce84a62e6">commitBatchLocked</a> (const QVector&lt; <a class="el" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html">CommitItem</a> &gt; &amp;items)</td></tr>
+<tr class="memdesc:a230445c3467458dd8ec51f0ce84a62e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">在持有互斥锁时执行带备份的批量提交事务。  <br /></td></tr>
+<tr class="separator:a230445c3467458dd8ec51f0ce84a62e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2b3dc14ff37a121c2b8feff60d9ccdd" id="r_ab2b3dc14ff37a121c2b8feff60d9ccdd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ab2b3dc14ff37a121c2b8feff60d9ccdd">cleanupEmptyTempDirectoryLocked</a> () const</td></tr>
+<tr class="memdesc:ab2b3dc14ff37a121c2b8feff60d9ccdd"><td class="mdescLeft">&#160;</td><td class="mdescRight">在持锁状态下清理空的共享临时目录。  <br /></td></tr>
+<tr class="separator:ab2b3dc14ff37a121c2b8feff60d9ccdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa076525af4bd1814056e4cd26788f8c7" id="r_aa076525af4bd1814056e4cd26788f8c7"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#aa076525af4bd1814056e4cd26788f8c7">m_outputPath</a></td></tr>
+<tr class="memdesc:aa076525af4bd1814056e4cd26788f8c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">输出目录路径  <br /></td></tr>
+<tr class="separator:aa076525af4bd1814056e4cd26788f8c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ece29924ad94ec6f32f62680d2d1f66" id="r_a7ece29924ad94ec6f32f62680d2d1f66"><td class="memItemLeft" align="right" valign="top">QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a7ece29924ad94ec6f32f62680d2d1f66">m_mutex</a></td></tr>
+<tr class="memdesc:a7ece29924ad94ec6f32f62680d2d1f66"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护临时文件集合  <br /></td></tr>
+<tr class="separator:a7ece29924ad94ec6f32f62680d2d1f66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef5002a5b0a92158ab46072549f331d8" id="r_aef5002a5b0a92158ab46072549f331d8"><td class="memItemLeft" align="right" valign="top">QSet&lt; QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#aef5002a5b0a92158ab46072549f331d8">m_tempFiles</a></td></tr>
+<tr class="memdesc:aef5002a5b0a92158ab46072549f331d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册的临时文件集合  <br /></td></tr>
+<tr class="separator:aef5002a5b0a92158ab46072549f331d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae9a153a7f1f92ead6c4cd55ea675b94" id="r_aae9a153a7f1f92ead6c4cd55ea675b94"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#aae9a153a7f1f92ead6c4cd55ea675b94">m_tempDirName</a> = QStringLiteral(&quot;.tmp&quot;)</td></tr>
+<tr class="memdesc:aae9a153a7f1f92ead6c4cd55ea675b94"><td class="mdescLeft">&#160;</td><td class="mdescRight">临时目录名称  <br /></td></tr>
+<tr class="separator:aae9a153a7f1f92ead6c4cd55ea675b94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ef595508f97ba2fdb57e1b47e9912ae" id="r_a9ef595508f97ba2fdb57e1b47e9912ae"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a9ef595508f97ba2fdb57e1b47e9912ae">m_registeredTempDirectory</a></td></tr>
+<tr class="memdesc:a9ef595508f97ba2fdb57e1b47e9912ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前实例登记的共享临时目录  <br /></td></tr>
+<tr class="separator:a9ef595508f97ba2fdb57e1b47e9912ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>临时文件管理器 </p>
+<p>管理导出临时路径、备份事务提交、失败回滚和启动恢复。 <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#afc1129a0a5a0df3810a60a2846214b01" title="提交临时文件（完成导出）">commit()</a>/commitDirectory() 保留旧调用面，内部同样使用备份事务。 </p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8h_source.html">TempFileManager.h</a> 第 <a class="el" href="TempFileManager_8h_source.html#l00020">20</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a9ebbcfd03a45037b30b2475cae075228" name="a9ebbcfd03a45037b30b2475cae075228"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ebbcfd03a45037b30b2475cae075228">&#9670;&#160;</a></span>TempFileManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::TempFileManager::TempFileManager </td>
+          <td>(</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<p>初始化临时文件管理器。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">parent</td><td>父对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00086">86</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a5afae54f1b8c0cd4dcbb389e1cdb1d97" name="a5afae54f1b8c0cd4dcbb389e1cdb1d97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5afae54f1b8c0cd4dcbb389e1cdb1d97">&#9670;&#160;</a></span>~TempFileManager()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::TempFileManager::~TempFileManager </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+<p>自动清理所有临时文件 </p>
+<p>析构时不调用 <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ab00c36b4482d572cec3196964cb25ab7" title="回滚所有临时文件（取消导出）">rollbackAll()</a>，避免删除其他 Stage 共享的 .tmp 目录 只清理本实例注册的临时文件（如果还存在的话）</p>
+<p>&lt; 保护本实例临时文件集合的锁。</p>
+<p>&lt; 当前待清理的临时路径。</p>
+<p>&lt; 本实例即将释放的共享临时目录。</p>
+<p>&lt; 已释放共享目录的目录对象。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00088">88</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>, <a class="el" href="TempFileManager_8h_source.html#l00207">m_registeredTempDirectory</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ad7b171aa0dcc2ad8de0b4b86e4b9f840" name="ad7b171aa0dcc2ad8de0b4b86e4b9f840"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7b171aa0dcc2ad8de0b4b86e4b9f840">&#9670;&#160;</a></span>cleanupCompleted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::TempFileManager::cleanupCompleted </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>deletedCount</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>临时文件清理完成信号 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">deletedCount</td><td>删除的文件数量 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00555">cleanupTempDirectory()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00527">rollbackAll()</a>.</p>
+
+</div>
+</div>
+<a id="ab2b3dc14ff37a121c2b8feff60d9ccdd" name="ab2b3dc14ff37a121c2b8feff60d9ccdd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab2b3dc14ff37a121c2b8feff60d9ccdd">&#9670;&#160;</a></span>cleanupEmptyTempDirectoryLocked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::cleanupEmptyTempDirectoryLocked </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在持锁状态下清理空的共享临时目录。 </p>
+<p>&lt; 当前共享临时目录路径。</p>
+<p>&lt; 当前共享临时目录对象。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00689">689</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00419">commitBatchLocked()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00527">rollbackAll()</a>.</p>
+
+</div>
+</div>
+<a id="af5cdb388e8c71914f4760dad3c644be0" name="af5cdb388e8c71914f4760dad3c644be0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5cdb388e8c71914f4760dad3c644be0">&#9670;&#160;</a></span>cleanupOrphanedTempFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::TempFileManager::cleanupOrphanedTempFiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查并清理遗留的临时文件 </p>
+<p>清理临时目录中未登记的孤立文件。</p>
+<p>在应用程序启动时调用，清理上次异常退出留下的临时文件 </p>
+<p>&lt; 当前共享临时目录路径。</p>
+<p>&lt; 已成功删除的孤立文件数量。</p>
+<p>&lt; 当前共享临时目录对象。</p>
+<p>&lt; 当前待处理的孤立文件。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00587">587</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00667">deleteFile()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+</div>
+</div>
+<a id="a86f3851e8b4aae929bfbedc48b9b1749" name="a86f3851e8b4aae929bfbedc48b9b1749"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86f3851e8b4aae929bfbedc48b9b1749">&#9670;&#160;</a></span>cleanupTempDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::TempFileManager::cleanupTempDirectory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>仅删除临时目录（保留其他文件） </p>
+<p>清理当前临时目录中的普通临时文件。</p>
+<p>用于导出完成后的清理 </p>
+<p>&lt; 保护清理过程和临时目录状态的锁。</p>
+<p>&lt; 当前共享临时目录路径。</p>
+<p>&lt; 已成功删除的普通临时文件数量。</p>
+<p>&lt; 当前共享临时目录对象。</p>
+<p>&lt; 当前待处理的临时文件。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00555">555</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ad7b171aa0dcc2ad8de0b4b86e4b9f840">cleanupCompleted()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00667">deleteFile()</a>, <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+</div>
+</div>
+<a id="afc1129a0a5a0df3810a60a2846214b01" name="afc1129a0a5a0df3810a60a2846214b01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc1129a0a5a0df3810a60a2846214b01">&#9670;&#160;</a></span>commit()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::commit </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>finalPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>提交临时文件（完成导出） </p>
+<p>将匹配的临时文件提交到最终文件路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalPath</td><td>最终文件路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true 提交成功，false 失败</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalPath</td><td>待处理的 finalPath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时事务状态的锁。</p>
+<p>&lt; 与最终文件匹配的临时路径。</p>
+<p>&lt; 当前已登记的临时路径。</p>
+<p>&lt; 批量提交结果。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00231">231</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00419">commitBatchLocked()</a>, <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">commitCompleted()</a>, <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a>.</p>
+
+</div>
+</div>
+<a id="ad26adbc139fe020b903eb17bd0fdcffa" name="ad26adbc139fe020b903eb17bd0fdcffa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad26adbc139fe020b903eb17bd0fdcffa">&#9670;&#160;</a></span>commitBatch()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::commitBatch </td>
+          <td>(</td>
+          <td class="paramtype">const QVector&lt; <a class="el" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html">CommitItem</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>items</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>全有或全无地提交一组临时文件/目录 </p>
+<p>原子提交一组文件或目录，并为每项发出提交结果信号。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">items</td><td>临时路径与最终路径的映射 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true 全部提交成功，false 失败且已尽量恢复全部旧版本</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">items</td><td>待处理的 items。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时事务状态的锁。</p>
+<p>&lt; 批量提交结果。</p>
+<p>&lt; 当前需要发送结果信号的提交项。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00340">340</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00419">commitBatchLocked()</a>, <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">commitCompleted()</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a> , 以及 <a class="el" href="SymbolExportStage_8cpp_source.html#l00119">EasyKiConverter::SymbolExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="a230445c3467458dd8ec51f0ce84a62e6" name="a230445c3467458dd8ec51f0ce84a62e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a230445c3467458dd8ec51f0ce84a62e6">&#9670;&#160;</a></span>commitBatchLocked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::commitBatchLocked </td>
+          <td>(</td>
+          <td class="paramtype">const QVector&lt; <a class="el" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html">CommitItem</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>items</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在持有互斥锁时执行带备份的批量提交事务。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">items</td><td>待处理的 items。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 当前提交事务标识。</p>
+<p>&lt; 事务备份目录。</p>
+<p>&lt; 待写入清单的备份条目。</p>
+<p>&lt; 当前提交项索引。</p>
+<p>&lt; 当前待提交的文件或目录。</p>
+<p>&lt; 当前提交项对应的备份清单条目。</p>
+<p>&lt; 事务清单路径。</p>
+<p>&lt; 已成功备份的目标条目。</p>
+<p>&lt; 当前需要备份的条目。</p>
+<p>&lt; 已从临时路径提升到最终路径的条目。</p>
+<p>&lt; 当前需要提升的条目。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00419">419</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00689">cleanupEmptyTempDirectoryLocked()</a>, <a class="el" href="TempFileManager_8h_source.html#l00026">EasyKiConverter::TempFileManager::CommitItem::finalPath</a>, <a class="el" href="TempFileManager_8h_source.html#l00027">EasyKiConverter::TempFileManager::CommitItem::isDirectory</a>, <a class="el" href="TempFileManager_8h_source.html#l00203">m_outputPath</a>, <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00025">EasyKiConverter::TempFileManager::CommitItem::tempPath</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00231">commit()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00340">commitBatch()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00270">commitDirectory()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00326">commitDirectoryWithBackup()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00311">commitWithBackup()</a>.</p>
+
+</div>
+</div>
+<a id="a416118934f84365ad1993f6c2e09c3ab" name="a416118934f84365ad1993f6c2e09c3ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a416118934f84365ad1993f6c2e09c3ab">&#9670;&#160;</a></span>commitCompleted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::TempFileManager::commitCompleted </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>finalPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>success</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>提交完成信号 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalPath</td><td>最终文件路径 </td></tr>
+    <tr><td class="paramname">success</td><td>是否成功 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00231">commit()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00340">commitBatch()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00270">commitDirectory()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00326">commitDirectoryWithBackup()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00311">commitWithBackup()</a>.</p>
+
+</div>
+</div>
+<a id="a846b35b69c5c7b972f337a829f41d7ed" name="a846b35b69c5c7b972f337a829f41d7ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a846b35b69c5c7b972f337a829f41d7ed">&#9670;&#160;</a></span>commitDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::commitDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>finalDirPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>提交临时目录（完成导出） </p>
+<p>将匹配的临时目录提交到最终目录路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalDirPath</td><td>最终目录路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true 提交成功，false 失败</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalDirPath</td><td>待处理的 finalDirPath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时事务状态的锁。</p>
+<p>&lt; 与最终目录匹配的临时路径。</p>
+<p>&lt; 最终目录名称。</p>
+<p>&lt; 当前已登记的临时路径。</p>
+<p>&lt; 批量提交结果。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00270">270</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00419">commitBatchLocked()</a>, <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">commitCompleted()</a>, <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a>.</p>
+
+</div>
+</div>
+<a id="a093e8aae7ad37e970fe4c2d1e781ef66" name="a093e8aae7ad37e970fe4c2d1e781ef66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a093e8aae7ad37e970fe4c2d1e781ef66">&#9670;&#160;</a></span>commitDirectoryWithBackup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::commitDirectoryWithBackup </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>tempDirPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>finalDirPath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>提交指定临时目录 </p>
+<p>带备份地提交单个临时目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tempDirPath</td><td>临时目录路径 </td></tr>
+    <tr><td class="paramname">finalDirPath</td><td>最终目录路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true 提交成功，false 失败且已尽量恢复旧目录</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tempDirPath</td><td>待处理的 tempDirPath。 </td></tr>
+    <tr><td class="paramname">finalDirPath</td><td>待处理的 finalDirPath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时事务状态的锁。</p>
+<p>&lt; 批量提交结果。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00326">326</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00419">commitBatchLocked()</a>, <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">commitCompleted()</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a> , 以及 <a class="el" href="SymbolExportStage_8cpp_source.html#l00119">EasyKiConverter::SymbolExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="a29ea60f7200dfdec0b46bac56d7a35bf" name="a29ea60f7200dfdec0b46bac56d7a35bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29ea60f7200dfdec0b46bac56d7a35bf">&#9670;&#160;</a></span>commitWithBackup()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::commitWithBackup </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>tempPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>finalPath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>提交指定临时文件 </p>
+<p>带备份地提交单个临时文件。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tempPath</td><td>临时文件路径 </td></tr>
+    <tr><td class="paramname">finalPath</td><td>最终文件路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true 提交成功，false 失败且已尽量恢复旧文件</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tempPath</td><td>待处理的 tempPath。 </td></tr>
+    <tr><td class="paramname">finalPath</td><td>待处理的 finalPath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时事务状态的锁。</p>
+<p>&lt; 批量提交结果。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00311">311</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00419">commitBatchLocked()</a>, <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">commitCompleted()</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="ae5419a929c46712580b4853c2d53baeb" name="ae5419a929c46712580b4853c2d53baeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5419a929c46712580b4853c2d53baeb">&#9670;&#160;</a></span>createSymbolTempPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::createSymbolTempPath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>suffix</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取符号库临时文件路径 </p>
+<p>创建并登记符号库文件的临时路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">libName</td><td>库名称 </td></tr>
+    <tr><td class="paramname">suffix</td><td>文件扩展名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>临时文件路径</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">libName</td><td>目标库名称。 </td></tr>
+    <tr><td class="paramname">suffix</td><td>待处理的 suffix。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时文件集合的锁。</p>
+<p>&lt; 符号库临时文件名。</p>
+<p>&lt; 共享临时目录路径。</p>
+<p>&lt; 符号库临时文件完整路径。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00191">191</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00647">ensureTempDirectory()</a>, <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>, <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a> , 以及 <a class="el" href="SymbolExportStage_8cpp_source.html#l00119">EasyKiConverter::SymbolExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="a9e97e5fab0fdfb7906b8313c1d9af77d" name="a9e97e5fab0fdfb7906b8313c1d9af77d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e97e5fab0fdfb7906b8313c1d9af77d">&#9670;&#160;</a></span>createTempDirectoryPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::createTempDirectoryPath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>dirName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>创建临时目录路径 </p>
+<p>创建并登记目录型导出结果的临时路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dirName</td><td>目录名称（如 "libName.pretty"） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>临时目录路径</dd></dl>
+<p>注意：仅创建路径信息，实际目录由调用方创建</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dirName</td><td>待处理的 dirName。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时文件集合的锁。</p>
+<p>&lt; 目录型导出的临时路径。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00212">212</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00647">ensureTempDirectory()</a>, <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>, <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="PreviewImagesExportStage_8cpp_source.html#l00081">EasyKiConverter::PreviewImagesExportStage::createTempPathsForComponent()</a>, <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a> , 以及 <a class="el" href="SymbolExportStage_8cpp_source.html#l00119">EasyKiConverter::SymbolExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="a3fd24e169682b8e4429aab908b751016" name="a3fd24e169682b8e4429aab908b751016"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fd24e169682b8e4429aab908b751016">&#9670;&#160;</a></span>createTempFilePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::createTempFilePath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>suffix</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>创建临时文件路径 </p>
+<p>创建并登记单个元器件的临时文件路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元器件ID（用于生成文件名） </td></tr>
+    <tr><td class="paramname">suffix</td><td>文件扩展名（如 ".kicad_sym"） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>最终文件路径（用于调用方写入）</dd></dl>
+<p>注意：实际文件创建在 .tmp 子目录中，此方法返回最终路径供写入使用</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元器件编号。 </td></tr>
+    <tr><td class="paramname">suffix</td><td>待处理的 suffix。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时文件集合的锁。</p>
+<p>&lt; 生成的临时文件名。</p>
+<p>&lt; 临时文件完整路径。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00148">148</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8cpp_source.html#l00647">ensureTempDirectory()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00638">generateUniqueTempName()</a>, <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>, <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="DatasheetExportStage_8cpp_source.html#l00023">EasyKiConverter::DatasheetExportStage::start()</a> , 以及 <a class="el" href="Model3DExportStage_8cpp_source.html#l00044">EasyKiConverter::Model3DExportStage::start()</a>.</p>
+
+</div>
+</div>
+<a id="ada8ffca9b4d613e045d7cf1ca84a5407" name="ada8ffca9b4d613e045d7cf1ca84a5407"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada8ffca9b4d613e045d7cf1ca84a5407">&#9670;&#160;</a></span>deleteFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::deleteFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>实际执行文件删除 </p>
+<p>删除指定文件，并将不存在的文件视为已完成清理。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>文件路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>true 删除成功或文件不存在</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>目标路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 待删除的文件对象。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00667">667</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00587">cleanupOrphanedTempFiles()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00555">cleanupTempDirectory()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00527">rollbackAll()</a>.</p>
+
+</div>
+</div>
+<a id="a26c0cabd434559854111a1a89806c860" name="a26c0cabd434559854111a1a89806c860"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26c0cabd434559854111a1a89806c860">&#9670;&#160;</a></span>ensureTempDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::ensureTempDirectory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>确保临时目录存在 </p>
+<p>确保当前共享临时目录存在。</p>
+<dl class="section return"><dt>返回</dt><dd>true 目录存在或创建成功 </dd></dl>
+<p>&lt; 当前共享临时目录路径。</p>
+<p>&lt; 创建共享临时目录的结果。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00647">647</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8h_source.html#l00203">m_outputPath</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00191">createSymbolTempPath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00212">createTempDirectoryPath()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00148">createTempFilePath()</a>.</p>
+
+</div>
+</div>
+<a id="a7eeefc391949d90d4d0fcc1b19392fb4" name="a7eeefc391949d90d4d0fcc1b19392fb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7eeefc391949d90d4d0fcc1b19392fb4">&#9670;&#160;</a></span>generateUniqueTempName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::generateUniqueTempName </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>prefix</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>suffix</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>生成唯一的临时文件名 </p>
+<p>根据前缀、后缀和随机值生成临时文件名。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prefix</td><td>文件名前缀 </td></tr>
+    <tr><td class="paramname">suffix</td><td>文件扩展名 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>唯一的临时文件名</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">prefix</td><td>待处理的 prefix。 </td></tr>
+    <tr><td class="paramname">suffix</td><td>待处理的 suffix。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 用于降低临时文件名冲突概率的随机值。</p>
+<p>&lt; 随机值的十六进制字符串。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00638">638</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00148">createTempFilePath()</a>.</p>
+
+</div>
+</div>
+<a id="a7b44a8f553e5a03dc0a32935d554b563" name="a7b44a8f553e5a03dc0a32935d554b563"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b44a8f553e5a03dc0a32935d554b563">&#9670;&#160;</a></span>recoverIncompleteTransactions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::TempFileManager::recoverIncompleteTransactions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>恢复上次崩溃或异常退出留下的未完成提交事务 </p>
+<p>扫描并恢复未完成的备份事务，同时清理过期备份。</p>
+<dl class="section return"><dt>返回</dt><dd>true 扫描和恢复流程完成，false 发生不可恢复错误 </dd></dl>
+<p>&lt; 备份事务根目录。</p>
+<p>&lt; 是否所有未完成事务都恢复成功。</p>
+<p>&lt; 已完成、可参与过期清理的事务目录。</p>
+<p>&lt; 按时间排序的事务目录。</p>
+<p>&lt; 当前扫描的事务目录。</p>
+<p>&lt; 清单是否记录该事务已完成提交。</p>
+<p>&lt; 事务清单条目。</p>
+<p>&lt; 当前需要恢复的备份条目。</p>
+<p>&lt; 备份过期时间界限。</p>
+<p>&lt; 当前已完成事务索引。</p>
+<p>&lt; 当前已完成事务目录。</p>
+<p>&lt; 是否超出最大保留组数。</p>
+<p>&lt; 是否已超过保留期限。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00355">355</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="abd2d24d1d8baf5ec351fda0509ddc41a" name="abd2d24d1d8baf5ec351fda0509ddc41a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd2d24d1d8baf5ec351fda0509ddc41a">&#9670;&#160;</a></span>registeredTempFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSet&lt; QString &gt; EasyKiConverter::TempFileManager::registeredTempFiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取所有已注册的临时文件 </p>
+<p>返回当前实例登记的临时路径集合快照。</p>
+<dl class="section return"><dt>返回</dt><dd>临时文件路径集合 </dd></dl>
+<p>&lt; 保护临时文件集合的锁。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00628">628</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a>.</p>
+
+</div>
+</div>
+<a id="ac6d5f6812d97b1d147b063f34615f21f" name="ac6d5f6812d97b1d147b063f34615f21f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac6d5f6812d97b1d147b063f34615f21f">&#9670;&#160;</a></span>registerTempFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::TempFileManager::registerTempFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>tempPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>注册一个临时文件路径（用于追踪） </p>
+<p>登记一个由本实例负责回收的临时路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">tempPath</td><td>临时文件路径</td></tr>
+    <tr><td class="paramname">tempPath</td><td>待处理的 tempPath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00620">620</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SymbolExportStage_8cpp_source.html#l00119">EasyKiConverter::SymbolExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="ab00c36b4482d572cec3196964cb25ab7" name="ab00c36b4482d572cec3196964cb25ab7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab00c36b4482d572cec3196964cb25ab7">&#9670;&#160;</a></span>rollbackAll()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::TempFileManager::rollbackAll </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>回滚所有临时文件（取消导出） </p>
+<p>删除本实例登记的全部临时文件并回收空临时目录。</p>
+<p>删除所有临时文件，清空追踪列表 </p>
+<p>&lt; 保护临时文件集合的锁。</p>
+<p>&lt; 已成功删除的临时路径数量。</p>
+<p>&lt; 当前待回滚的临时路径。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00527">527</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#ad7b171aa0dcc2ad8de0b4b86e4b9f840">cleanupCompleted()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00689">cleanupEmptyTempDirectoryLocked()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00667">deleteFile()</a>, <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="DatasheetExportStage_8cpp_source.html#l00082">EasyKiConverter::DatasheetExportStage::cancel()</a>, <a class="el" href="FootprintExportStage_8cpp_source.html#l00207">EasyKiConverter::FootprintExportStage::cancel()</a>, <a class="el" href="Model3DExportStage_8cpp_source.html#l00201">EasyKiConverter::Model3DExportStage::cancel()</a>, <a class="el" href="PreviewImagesExportStage_8cpp_source.html#l00069">EasyKiConverter::PreviewImagesExportStage::cancel()</a>, <a class="el" href="SymbolExportStage_8cpp_source.html#l00086">EasyKiConverter::SymbolExportStage::cancel()</a>, <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a> , 以及 <a class="el" href="SymbolExportStage_8cpp_source.html#l00119">EasyKiConverter::SymbolExportStage::doLibraryExport()</a>.</p>
+
+</div>
+</div>
+<a id="a8b8591fbfead930c23a57e5f2c8a1aab" name="a8b8591fbfead930c23a57e5f2c8a1aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b8591fbfead930c23a57e5f2c8a1aab">&#9670;&#160;</a></span>setOutputPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::TempFileManager::setOutputPath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>outputPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置输出目录 </p>
+<p>设置导出输出目录并更新共享临时目录引用。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">outputPath</td><td>导出输出目录路径</td></tr>
+    <tr><td class="paramname">outputPath</td><td>输出路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护输出目录和共享引用状态的锁。</p>
+<p>&lt; 新的共享临时目录。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00116">116</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>, <a class="el" href="TempFileManager_8h_source.html#l00203">m_outputPath</a>, <a class="el" href="TempFileManager_8h_source.html#l00207">m_registeredTempDirectory</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00206">m_tempDirName</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FootprintExportStage_8cpp_source.html#l00240">EasyKiConverter::FootprintExportStage::doLibraryExport()</a>, <a class="el" href="DatasheetExportStage_8cpp_source.html#l00023">EasyKiConverter::DatasheetExportStage::start()</a>, <a class="el" href="FootprintExportStage_8cpp_source.html#l00160">EasyKiConverter::FootprintExportStage::start()</a>, <a class="el" href="Model3DExportStage_8cpp_source.html#l00044">EasyKiConverter::Model3DExportStage::start()</a>, <a class="el" href="PreviewImagesExportStage_8cpp_source.html#l00028">EasyKiConverter::PreviewImagesExportStage::start()</a> , 以及 <a class="el" href="SymbolExportStage_8cpp_source.html#l00039">EasyKiConverter::SymbolExportStage::start()</a>.</p>
+
+</div>
+</div>
+<a id="a0a3eeb6f17fc2d53239fd527ef474b0b" name="a0a3eeb6f17fc2d53239fd527ef474b0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a3eeb6f17fc2d53239fd527ef474b0b">&#9670;&#160;</a></span>tempDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::tempDirectory </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取临时文件目录路径 </p>
+<p>返回当前输出目录下的共享临时目录。</p>
+<dl class="section return"><dt>返回</dt><dd>.tmp 子目录的完整路径 </dd></dl>
+<p>使用与 <a class="el" href="classEasyKiConverter_1_1TempFileManager.html#a8b8591fbfead930c23a57e5f2c8a1aab" title="设置输出目录">setOutputPath()</a> 注册引用时相同的路径构造方式，避免 Windows 下不同路径分隔符导致共享临时目录引用计数无法匹配。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m_tempDirName</td><td>待处理的 m_tempDirName。</td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00131">131</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8h_source.html#l00203">m_outputPath</a> , 以及 <a class="el" href="TempFileManager_8h_source.html#l00206">m_tempDirName</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00689">cleanupEmptyTempDirectoryLocked()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00587">cleanupOrphanedTempFiles()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00555">cleanupTempDirectory()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00191">createSymbolTempPath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00212">createTempDirectoryPath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00148">createTempFilePath()</a>, <a class="el" href="SymbolExportStage_8cpp_source.html#l00119">EasyKiConverter::SymbolExportStage::doLibraryExport()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00647">ensureTempDirectory()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00168">tempFilePath()</a>.</p>
+
+</div>
+</div>
+<a id="ab00a5f0ad9318c698b79c2b50c7fb46e" name="ab00a5f0ad9318c698b79c2b50c7fb46e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab00a5f0ad9318c698b79c2b50c7fb46e">&#9670;&#160;</a></span>tempFilePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::tempFilePath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>finalPath</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取临时文件对应的实际路径 </p>
+<p>根据最终文件名查找已登记的临时文件路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalPath</td><td>最终文件路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>临时文件路径（.tmp/ 目录下的路径）</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">finalPath</td><td>待处理的 finalPath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 保护临时文件集合的锁。</p>
+<p>&lt; 最终路径中的文件名。</p>
+<p>&lt; 当前已登记的临时路径。</p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a> 第 <a class="el" href="TempFileManager_8cpp_source.html#l00168">168</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="TempFileManager_8h_source.html#l00204">m_mutex</a>, <a class="el" href="TempFileManager_8h_source.html#l00203">m_outputPath</a>, <a class="el" href="TempFileManager_8h_source.html#l00205">m_tempFiles</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a7ece29924ad94ec6f32f62680d2d1f66" name="a7ece29924ad94ec6f32f62680d2d1f66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ece29924ad94ec6f32f62680d2d1f66">&#9670;&#160;</a></span>m_mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex EasyKiConverter::TempFileManager::m_mutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护临时文件集合 </p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8h_source.html">TempFileManager.h</a> 第 <a class="el" href="TempFileManager_8h_source.html#l00204">204</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00088">~TempFileManager()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00555">cleanupTempDirectory()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00231">commit()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00340">commitBatch()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00270">commitDirectory()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00326">commitDirectoryWithBackup()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00311">commitWithBackup()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00191">createSymbolTempPath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00212">createTempDirectoryPath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00148">createTempFilePath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00628">registeredTempFiles()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00620">registerTempFile()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00527">rollbackAll()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00116">setOutputPath()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00168">tempFilePath()</a>.</p>
+
+</div>
+</div>
+<a id="aa076525af4bd1814056e4cd26788f8c7" name="aa076525af4bd1814056e4cd26788f8c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa076525af4bd1814056e4cd26788f8c7">&#9670;&#160;</a></span>m_outputPath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::m_outputPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>输出目录路径 </p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8h_source.html">TempFileManager.h</a> 第 <a class="el" href="TempFileManager_8h_source.html#l00203">203</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00419">commitBatchLocked()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00647">ensureTempDirectory()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00116">setOutputPath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00168">tempFilePath()</a>.</p>
+
+</div>
+</div>
+<a id="a9ef595508f97ba2fdb57e1b47e9912ae" name="a9ef595508f97ba2fdb57e1b47e9912ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ef595508f97ba2fdb57e1b47e9912ae">&#9670;&#160;</a></span>m_registeredTempDirectory</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::m_registeredTempDirectory</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前实例登记的共享临时目录 </p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8h_source.html">TempFileManager.h</a> 第 <a class="el" href="TempFileManager_8h_source.html#l00207">207</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00088">~TempFileManager()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00116">setOutputPath()</a>.</p>
+
+</div>
+</div>
+<a id="aae9a153a7f1f92ead6c4cd55ea675b94" name="aae9a153a7f1f92ead6c4cd55ea675b94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae9a153a7f1f92ead6c4cd55ea675b94">&#9670;&#160;</a></span>m_tempDirName</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::TempFileManager::m_tempDirName = QStringLiteral(&quot;.tmp&quot;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>临时目录名称 </p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8h_source.html">TempFileManager.h</a> 第 <a class="el" href="TempFileManager_8h_source.html#l00206">206</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00116">setOutputPath()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00131">tempDirectory()</a>.</p>
+
+</div>
+</div>
+<a id="aef5002a5b0a92158ab46072549f331d8" name="aef5002a5b0a92158ab46072549f331d8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef5002a5b0a92158ab46072549f331d8">&#9670;&#160;</a></span>m_tempFiles</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSet&lt;QString&gt; EasyKiConverter::TempFileManager::m_tempFiles</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>注册的临时文件集合 </p>
+
+<p class="definition">在文件 <a class="el" href="TempFileManager_8h_source.html">TempFileManager.h</a> 第 <a class="el" href="TempFileManager_8h_source.html#l00205">205</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="TempFileManager_8cpp_source.html#l00088">~TempFileManager()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00231">commit()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00419">commitBatchLocked()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00270">commitDirectory()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00191">createSymbolTempPath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00212">createTempDirectoryPath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00148">createTempFilePath()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00628">registeredTempFiles()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00620">registerTempFile()</a>, <a class="el" href="TempFileManager_8cpp_source.html#l00527">rollbackAll()</a> , 以及 <a class="el" href="TempFileManager_8cpp_source.html#l00168">tempFilePath()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>services/export/<a class="el" href="TempFileManager_8h_source.html">TempFileManager.h</a></li>
+<li>services/export/<a class="el" href="TempFileManager_8cpp_source.html">TempFileManager.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1TempFileManager.html">TempFileManager</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

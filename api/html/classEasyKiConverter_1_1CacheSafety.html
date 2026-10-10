@@ -1,0 +1,1292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::CacheSafety类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1CacheSafety.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-static-methods">静态 Private 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1CacheSafety-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::CacheSafety类 参考<span class="mlabels"><span class="mlabel">final</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>缓存目录安全策略和所有权校验工具。  
+ <a href="classEasyKiConverter_1_1CacheSafety.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="CacheSafety_8h_source.html">CacheSafety.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::CacheSafety 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1CacheSafety__coll__graph.svg" width="256" height="356"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:adeea4f0c0a9e998015b8a2f82e6a55d5" id="r_adeea4f0c0a9e998015b8a2f82e6a55d5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">TrashFunction</a> = std::function&lt; bool(const QString &amp;, QString *)&gt;</td></tr>
+<tr class="memdesc:adeea4f0c0a9e998015b8a2f82e6a55d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">系统回收站操作的可替换函数类型。  <br /></td></tr>
+<tr class="separator:adeea4f0c0a9e998015b8a2f82e6a55d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:ad4224eff0f9fe927476a31ef5a2645d0" id="r_ad4224eff0f9fe927476a31ef5a2645d0"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#ad4224eff0f9fe927476a31ef5a2645d0">ownershipMarkerName</a> ()</td></tr>
+<tr class="memdesc:ad4224eff0f9fe927476a31ef5a2645d0"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回缓存根目录所有权标记文件名。  <br /></td></tr>
+<tr class="separator:ad4224eff0f9fe927476a31ef5a2645d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5dc785f0306567b5de349633a3a1af50" id="r_a5dc785f0306567b5de349633a3a1af50"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a5dc785f0306567b5de349633a3a1af50">model3DMarkerName</a> ()</td></tr>
+<tr class="memdesc:a5dc785f0306567b5de349633a3a1af50"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回三维模型子目录所有权标记文件名。  <br /></td></tr>
+<tr class="separator:a5dc785f0306567b5de349633a3a1af50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32d90cf700933d3cb966ef639423b8df" id="r_a32d90cf700933d3cb966ef639423b8df"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a32d90cf700933d3cb966ef639423b8df">validateSelection</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, QString *normalizedPath, QString *error)</td></tr>
+<tr class="memdesc:a32d90cf700933d3cb966ef639423b8df"><td class="mdescLeft">&#160;</td><td class="mdescRight">校验并规范化用户选择的缓存目录。  <br /></td></tr>
+<tr class="separator:a32d90cf700933d3cb966ef639423b8df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a136da1c65fd331f32e19dd44c7d9fa5a" id="r_a136da1c65fd331f32e19dd44c7d9fa5a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a136da1c65fd331f32e19dd44c7d9fa5a">ensureOwnedRoot</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, QString *error=nullptr)</td></tr>
+<tr class="memdesc:a136da1c65fd331f32e19dd44c7d9fa5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建或验证应用拥有的缓存根目录。  <br /></td></tr>
+<tr class="separator:a136da1c65fd331f32e19dd44c7d9fa5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6539399fccf3e35a9ba8b2775cf617de" id="r_a6539399fccf3e35a9ba8b2775cf617de"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a6539399fccf3e35a9ba8b2775cf617de">isOwnedRoot</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:a6539399fccf3e35a9ba8b2775cf617de"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断根目录是否包含有效的 <a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a> 所有权标记。  <br /></td></tr>
+<tr class="separator:a6539399fccf3e35a9ba8b2775cf617de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55c4e7303e39a3482b877d8bd29490a5" id="r_a55c4e7303e39a3482b877d8bd29490a5"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a55c4e7303e39a3482b877d8bd29490a5">ensureOwnedModel3DDirectory</a> (const QString &amp;rootPath, QString *error=nullptr)</td></tr>
+<tr class="memdesc:a55c4e7303e39a3482b877d8bd29490a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">确保应用拥有的三维模型子目录及其标记存在。  <br /></td></tr>
+<tr class="separator:a55c4e7303e39a3482b877d8bd29490a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a778db750106563f82850d0acf31a0200" id="r_a778db750106563f82850d0acf31a0200"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a778db750106563f82850d0acf31a0200">isOwnedComponentDirectory</a> (const QString &amp;rootPath, const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:a778db750106563f82850d0acf31a0200"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断元器件缓存目录是否能通过元数据证明归应用所有。  <br /></td></tr>
+<tr class="separator:a778db750106563f82850d0acf31a0200"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ab16cfe24d276be750bfa7355eabc7d" id="r_a6ab16cfe24d276be750bfa7355eabc7d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a6ab16cfe24d276be750bfa7355eabc7d">isOwnedComponentFile</a> (const QString &amp;rootPath, const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:a6ab16cfe24d276be750bfa7355eabc7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断元器件缓存文件是否位于已验证目录且文件名属于缓存布局。  <br /></td></tr>
+<tr class="separator:a6ab16cfe24d276be750bfa7355eabc7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c07a61c1f1b899b38f8f2a33abaaf9c" id="r_a8c07a61c1f1b899b38f8f2a33abaaf9c"><td class="memItemLeft" align="right" valign="top">static QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a8c07a61c1f1b899b38f8f2a33abaaf9c">ownedComponentFiles</a> (const QString &amp;rootPath, const QString &amp;componentPath)</td></tr>
+<tr class="memdesc:a8c07a61c1f1b899b38f8f2a33abaaf9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">列出指定元器件目录中所有可验证归属的缓存文件。  <br /></td></tr>
+<tr class="separator:a8c07a61c1f1b899b38f8f2a33abaaf9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a239684b528c636f2d951bd68e46b0230" id="r_a239684b528c636f2d951bd68e46b0230"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a239684b528c636f2d951bd68e46b0230">isLegacyComponentDirectory</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:a239684b528c636f2d951bd68e46b0230"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断目录是否符合旧版本缓存的可识别结构。  <br /></td></tr>
+<tr class="separator:a239684b528c636f2d951bd68e46b0230"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af6300b71a9a19a3c251af5f1d6794e48" id="r_af6300b71a9a19a3c251af5f1d6794e48"><td class="memItemLeft" align="right" valign="top">static QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#af6300b71a9a19a3c251af5f1d6794e48">legacyComponentDirectories</a> (const QString &amp;rootPath)</td></tr>
+<tr class="memdesc:af6300b71a9a19a3c251af5f1d6794e48"><td class="mdescLeft">&#160;</td><td class="mdescRight">列出旧版本缓存中可安全迁移的元器件目录。  <br /></td></tr>
+<tr class="separator:af6300b71a9a19a3c251af5f1d6794e48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acff22885828aa5f8fba30cd4dd9f6005" id="r_acff22885828aa5f8fba30cd4dd9f6005"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#acff22885828aa5f8fba30cd4dd9f6005">canAdoptLegacyRoot</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:acff22885828aa5f8fba30cd4dd9f6005"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断未带新标记的旧缓存根目录是否可以安全升级。  <br /></td></tr>
+<tr class="separator:acff22885828aa5f8fba30cd4dd9f6005"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf8b55e664fbdae516ddc9bc35f4fab7" id="r_aaf8b55e664fbdae516ddc9bc35f4fab7"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#aaf8b55e664fbdae516ddc9bc35f4fab7">isOwnedModel3DFile</a> (const QString &amp;rootPath, const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:aaf8b55e664fbdae516ddc9bc35f4fab7"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断三维模型缓存文件是否属于已标记的模型缓存目录。  <br /></td></tr>
+<tr class="separator:aaf8b55e664fbdae516ddc9bc35f4fab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad73f7c813ce55245ce8181dbe728ed2d" id="r_ad73f7c813ce55245ce8181dbe728ed2d"><td class="memItemLeft" align="right" valign="top">static QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#ad73f7c813ce55245ce8181dbe728ed2d">ownedComponentDirectories</a> (const QString &amp;rootPath)</td></tr>
+<tr class="memdesc:ad73f7c813ce55245ce8181dbe728ed2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">列出所有权可验证的元器件缓存目录。  <br /></td></tr>
+<tr class="separator:ad73f7c813ce55245ce8181dbe728ed2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf3cc8e403f81336dcba5788ce49c2e9" id="r_acf3cc8e403f81336dcba5788ce49c2e9"><td class="memItemLeft" align="right" valign="top">static QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#acf3cc8e403f81336dcba5788ce49c2e9">ownedModel3DFiles</a> (const QString &amp;rootPath)</td></tr>
+<tr class="memdesc:acf3cc8e403f81336dcba5788ce49c2e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">列出所有权可验证的三维模型文件。  <br /></td></tr>
+<tr class="separator:acf3cc8e403f81336dcba5788ce49c2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dc028a0206a0d9b6d73f24ce6c989ad" id="r_a3dc028a0206a0d9b6d73f24ce6c989ad"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a3dc028a0206a0d9b6d73f24ce6c989ad">moveToTrash</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, QString *error=nullptr, const <a class="el" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">TrashFunction</a> &amp;trash=<a class="el" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">TrashFunction</a>())</td></tr>
+<tr class="memdesc:a3dc028a0206a0d9b6d73f24ce6c989ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">将已验证条目移入系统回收站。  <br /></td></tr>
+<tr class="separator:a3dc028a0206a0d9b6d73f24ce6c989ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+静态 Private 成员函数</h2></td></tr>
+<tr class="memitem:af69cee45cefbc7a31e16ad43cc2d5dd4" id="r_af69cee45cefbc7a31e16ad43cc2d5dd4"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#af69cee45cefbc7a31e16ad43cc2d5dd4">writeMarker</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, const QString &amp;format, QString *error)</td></tr>
+<tr class="memdesc:af69cee45cefbc7a31e16ad43cc2d5dd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">使用原子写入方式创建指定类型的缓存所有权标记。  <br /></td></tr>
+<tr class="separator:af69cee45cefbc7a31e16ad43cc2d5dd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a822bcc71375594c9323d2403804741bb" id="r_a822bcc71375594c9323d2403804741bb"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a822bcc71375594c9323d2403804741bb">hasValidMarker</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, const QString &amp;format)</td></tr>
+<tr class="memdesc:a822bcc71375594c9323d2403804741bb"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取并严格校验缓存所有权标记的格式、所有者和版本。  <br /></td></tr>
+<tr class="separator:a822bcc71375594c9323d2403804741bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0db6d29a1e792da568ccc1e6dc216199" id="r_a0db6d29a1e792da568ccc1e6dc216199"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a0db6d29a1e792da568ccc1e6dc216199">isSafePath</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, QString *normalizedPath, QString *error)</td></tr>
+<tr class="memdesc:a0db6d29a1e792da568ccc1e6dc216199"><td class="mdescLeft">&#160;</td><td class="mdescRight">校验路径是否为可安全继续处理的缓存目录候选路径。  <br /></td></tr>
+<tr class="separator:a0db6d29a1e792da568ccc1e6dc216199"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3615ad54f0e88f5df3393d88e75281e9" id="r_a3615ad54f0e88f5df3393d88e75281e9"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#a3615ad54f0e88f5df3393d88e75281e9">isDirectChild</a> (const QString &amp;rootPath, const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:a3615ad54f0e88f5df3393d88e75281e9"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断路径是否为指定目录的直接子项，避免递归越界维护。  <br /></td></tr>
+<tr class="separator:a3615ad54f0e88f5df3393d88e75281e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>缓存目录安全策略和所有权校验工具。 </p>
+<p>所有清理路径都必须先通过根目录标记和条目身份校验。无法证明属于 <a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a> 的文件、目录和符号链接一律保留。 </p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8h_source.html">CacheSafety.h</a> 第 <a class="el" href="CacheSafety_8h_source.html#l00017">17</a> 行定义.</p>
+</div><h2 class="groupheader">成员类型定义说明</h2>
+<a id="adeea4f0c0a9e998015b8a2f82e6a55d5" name="adeea4f0c0a9e998015b8a2f82e6a55d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adeea4f0c0a9e998015b8a2f82e6a55d5">&#9670;&#160;</a></span>TrashFunction</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">EasyKiConverter::CacheSafety::TrashFunction</a> =  std::function&lt;bool(const QString&amp;, QString*)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>系统回收站操作的可替换函数类型。 </p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8h_source.html">CacheSafety.h</a> 第 <a class="el" href="CacheSafety_8h_source.html#l00022">22</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="acff22885828aa5f8fba30cd4dd9f6005" name="acff22885828aa5f8fba30cd4dd9f6005"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acff22885828aa5f8fba30cd4dd9f6005">&#9670;&#160;</a></span>canAdoptLegacyRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::canAdoptLegacyRoot </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断未带新标记的旧缓存根目录是否可以安全升级。 </p>
+<p>判断旧版本根目录是否只包含可识别缓存，避免把用户目录标记为应用目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>旧缓存根目录路径。</td></tr>
+    <tr><td class="paramname">path</td><td>待检查的旧版缓存根目录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>目录可安全接管时返回 true。 </dd></dl>
+<p>&lt; 旧版根目录的规范路径。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00500">500</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00200">isSafePath()</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00310">ensureOwnedRoot()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00215">EasyKiConverter::CacheDirectoryMigrator::migrate()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00285">validateSelection()</a>.</p>
+
+</div>
+</div>
+<a id="a55c4e7303e39a3482b877d8bd29490a5" name="a55c4e7303e39a3482b877d8bd29490a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55c4e7303e39a3482b877d8bd29490a5">&#9670;&#160;</a></span>ensureOwnedModel3DDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::ensureOwnedModel3DDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>error</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>确保应用拥有的三维模型子目录及其标记存在。 </p>
+<p>创建并标记三维模型缓存子目录，同时拒绝接管已有未知内容。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">error</td><td>输出错误信息。</td></tr>
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">error</td><td>错误信息输出指针。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>创建或验证成功时返回 true。 </dd></dl>
+<p>&lt; 三维模型缓存目录路径。</p>
+<p>&lt; 三维模型目录信息。</p>
+<p>&lt; 模型目录条目。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00361">361</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00348">isOwnedRoot()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00244">writeMarker()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheService_8cpp_source.html#l00133">EasyKiConverter::ComponentCacheService::ensureModel3DCacheDir()</a> , 以及 <a class="el" href="CacheDirectoryCoordinator_8cpp_source.html#l00027">EasyKiConverter::CacheDirectoryCoordinator::setDirectory()</a>.</p>
+
+</div>
+</div>
+<a id="a136da1c65fd331f32e19dd44c7d9fa5a" name="a136da1c65fd331f32e19dd44c7d9fa5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a136da1c65fd331f32e19dd44c7d9fa5a">&#9670;&#160;</a></span>ensureOwnedRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::ensureOwnedRoot </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>error</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建或验证应用拥有的缓存根目录。 </p>
+<p>创建并标记一个由应用负责维护的缓存根目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>缓存根目录。 </td></tr>
+    <tr><td class="paramname">error</td><td>输出错误信息。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>根目录可安全使用时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">error</td><td>错误信息输出指针。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>创建或验证成功时返回 true。 </dd></dl>
+<p>&lt; 新缓存根目录的规范路径。</p>
+<p>&lt; 用于创建缓存根目录的目录对象。</p>
+<p>&lt; 是否接管可识别的旧版缓存根目录。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00310">310</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00500">canAdoptLegacyRoot()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00200">isSafePath()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00483">legacyComponentDirectories()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00244">writeMarker()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentDataCache_8cpp_source.html#l00029">EasyKiConverter::ComponentDataCache::setCacheDir()</a> , 以及 <a class="el" href="CacheDirectoryCoordinator_8cpp_source.html#l00027">EasyKiConverter::CacheDirectoryCoordinator::setDirectory()</a>.</p>
+
+</div>
+</div>
+<a id="a822bcc71375594c9323d2403804741bb" name="a822bcc71375594c9323d2403804741bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a822bcc71375594c9323d2403804741bb">&#9670;&#160;</a></span>hasValidMarker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::hasValidMarker </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>读取并严格校验缓存所有权标记的格式、所有者和版本。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>缓存目录路径。 </td></tr>
+    <tr><td class="paramname">format</td><td>期望的缓存类型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>标记有效时返回 true。 </dd></dl>
+<p>&lt; 所有权标记 JSON 解析错误。</p>
+<p>&lt; 解析后的所有权标记。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00261">261</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00189">model3DMarkerName()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00181">ownershipMarkerName()</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00500">canAdoptLegacyRoot()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00361">ensureOwnedModel3DDirectory()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00310">ensureOwnedRoot()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00516">isOwnedModel3DFile()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00348">isOwnedRoot()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00553">ownedModel3DFiles()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00285">validateSelection()</a>.</p>
+
+</div>
+</div>
+<a id="a3615ad54f0e88f5df3393d88e75281e9" name="a3615ad54f0e88f5df3393d88e75281e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3615ad54f0e88f5df3393d88e75281e9">&#9670;&#160;</a></span>isDirectChild()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::isDirectChild </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断路径是否为指定目录的直接子项，避免递归越界维护。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>根目录路径。 </td></tr>
+    <tr><td class="paramname">path</td><td>待检查路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>路径是直接子项时返回 true。 </dd></dl>
+<p>&lt; 规范化后的根目录。</p>
+<p>&lt; 规范化后的子路径。</p>
+<p>&lt; 子路径相对根目录的路径。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00397">397</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundReader_8cpp_source.html#l00067">child</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00413">isOwnedComponentDirectory()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00435">isOwnedComponentFile()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00516">isOwnedModel3DFile()</a>.</p>
+
+</div>
+</div>
+<a id="a239684b528c636f2d951bd68e46b0230" name="a239684b528c636f2d951bd68e46b0230"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a239684b528c636f2d951bd68e46b0230">&#9670;&#160;</a></span>isLegacyComponentDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::isLegacyComponentDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断目录是否符合旧版本缓存的可识别结构。 </p>
+<p>判断旧版本元数据是否能证明目录对应一个元器件缓存。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>待检查的目录路径。</td></tr>
+    <tr><td class="paramname">path</td><td>旧版组件目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>元数据能够证明组件身份时返回 true。 </dd></dl>
+<p>&lt; 旧版组件目录信息。</p>
+<p>&lt; 旧版组件元数据。</p>
+<p>&lt; 旧版元数据中的组件编号。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00468">468</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>, <a class="el" href="CacheMetadataStore_8cpp_source.html#l00044">EasyKiConverter::CacheMetadataStore::read()</a> , 以及 <a class="el" href="BomParser_8cpp_source.html#l00087">EasyKiConverter::BomParser::validateId()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00483">legacyComponentDirectories()</a>.</p>
+
+</div>
+</div>
+<a id="a778db750106563f82850d0acf31a0200" name="a778db750106563f82850d0acf31a0200"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a778db750106563f82850d0acf31a0200">&#9670;&#160;</a></span>isOwnedComponentDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::isOwnedComponentDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断元器件缓存目录是否能通过元数据证明归应用所有。 </p>
+<p>校验组件目录标记、目录身份和组件编号是否全部匹配。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">path</td><td>元器件缓存目录路径。</td></tr>
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">path</td><td>组件目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>组件目录所有权有效时返回 true。 </dd></dl>
+<p>&lt; 组件目录信息。</p>
+<p>&lt; 组件元数据。</p>
+<p>&lt; 组件目录名称。</p>
+<p>&lt; 元数据中的组件编号。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00413">413</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00397">isDirectChild()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00348">isOwnedRoot()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a> , 以及 <a class="el" href="CacheMetadataStore_8cpp_source.html#l00044">EasyKiConverter::CacheMetadataStore::read()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00129">EasyKiConverter::ComponentCacheMaintenance::cachedComponentIds()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00109">EasyKiConverter::ComponentCacheService::ensureComponentDir()</a>, <a class="el" href="CacheHealthManager_8cpp_source.html#l00154">EasyKiConverter::CacheHealthManager::healAll()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00435">isOwnedComponentFile()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00215">EasyKiConverter::CacheDirectoryMigrator::migrate()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00330">EasyKiConverter::CacheDirectoryMigrator::moveDirectoryContents()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00535">ownedComponentDirectories()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00452">ownedComponentFiles()</a>.</p>
+
+</div>
+</div>
+<a id="a6ab16cfe24d276be750bfa7355eabc7d" name="a6ab16cfe24d276be750bfa7355eabc7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ab16cfe24d276be750bfa7355eabc7d">&#9670;&#160;</a></span>isOwnedComponentFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::isOwnedComponentFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断元器件缓存文件是否位于已验证目录且文件名属于缓存布局。 </p>
+<p>校验组件缓存文件的父目录、直接层级和已知文件名，拒绝接管未知内容。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">path</td><td>元器件缓存文件路径。</td></tr>
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">path</td><td>组件缓存文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>文件所有权有效时返回 true。 </dd></dl>
+<p>&lt; 缓存文件信息。</p>
+<p>&lt; 缓存文件所属的组件目录。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00435">435</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00397">isDirectChild()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00413">isOwnedComponentDirectory()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00348">isOwnedRoot()</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="DatasheetDownloadService_8cpp_source.html#l00035">EasyKiConverter::DatasheetDownloadService::download()</a>, <a class="el" href="PreviewImageDownloadService_8cpp_source.html#l00035">EasyKiConverter::PreviewImageDownloadService::download()</a>, <a class="el" href="DatasheetCacheFileStore_8cpp_source.html#l00028">EasyKiConverter::DatasheetCacheFileStore::load()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00452">ownedComponentFiles()</a> , 以及 <a class="el" href="DatasheetCacheFileStore_8cpp_source.html#l00064">EasyKiConverter::DatasheetCacheFileStore::save()</a>.</p>
+
+</div>
+</div>
+<a id="aaf8b55e664fbdae516ddc9bc35f4fab7" name="aaf8b55e664fbdae516ddc9bc35f4fab7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf8b55e664fbdae516ddc9bc35f4fab7">&#9670;&#160;</a></span>isOwnedModel3DFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::isOwnedModel3DFile </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断三维模型缓存文件是否属于已标记的模型缓存目录。 </p>
+<p>校验三维模型文件是否位于受标记保护的模型目录中。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">path</td><td>三维模型缓存文件路径。</td></tr>
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">path</td><td>三维模型文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>文件所有权有效时返回 true。 </dd></dl>
+<p>&lt; 三维模型缓存根目录。</p>
+<p>&lt; 三维模型缓存根目录信息。</p>
+<p>&lt; 三维模型文件信息。</p>
+<p>&lt; 规范化后的三维模型路径。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00516">516</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00397">isDirectChild()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00348">isOwnedRoot()</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00553">ownedModel3DFiles()</a>, <a class="el" href="Model3DCacheFileStore_8cpp_source.html#l00019">EasyKiConverter::Model3DCacheFileStore::read()</a> , 以及 <a class="el" href="CacheHealthManager_8cpp_source.html#l00422">EasyKiConverter::CacheHealthManager::repairModel3DCache()</a>.</p>
+
+</div>
+</div>
+<a id="a6539399fccf3e35a9ba8b2775cf617de" name="a6539399fccf3e35a9ba8b2775cf617de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6539399fccf3e35a9ba8b2775cf617de">&#9670;&#160;</a></span>isOwnedRoot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::isOwnedRoot </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断根目录是否包含有效的 <a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a> 所有权标记。 </p>
+<p>判断目录是否拥有有效的 <a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a> 缓存根标记。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>缓存根目录路径。</td></tr>
+    <tr><td class="paramname">path</td><td>缓存根目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>目录拥有有效标记时返回 true。 </dd></dl>
+<p>&lt; 已规范化的缓存根目录路径。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00348">348</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00200">isSafePath()</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00361">ensureOwnedModel3DDirectory()</a>, <a class="el" href="CacheHealthManager_8cpp_source.html#l00154">EasyKiConverter::CacheHealthManager::healAll()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00413">isOwnedComponentDirectory()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00435">isOwnedComponentFile()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00516">isOwnedModel3DFile()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00215">EasyKiConverter::CacheDirectoryMigrator::migrate()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00535">ownedComponentDirectories()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00553">ownedModel3DFiles()</a> , 以及 <a class="el" href="CacheHealthManager_8cpp_source.html#l00422">EasyKiConverter::CacheHealthManager::repairModel3DCache()</a>.</p>
+
+</div>
+</div>
+<a id="a0db6d29a1e792da568ccc1e6dc216199" name="a0db6d29a1e792da568ccc1e6dc216199"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0db6d29a1e792da568ccc1e6dc216199">&#9670;&#160;</a></span>isSafePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::isSafePath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>normalizedPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>校验路径是否为可安全继续处理的缓存目录候选路径。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>待校验的缓存路径。 </td></tr>
+    <tr><td class="paramname">normalizedPath</td><td>规范化路径输出指针。 </td></tr>
+    <tr><td class="paramname">error</td><td>错误信息输出指针。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>路径满足安全边界时返回 true。 </dd></dl>
+<p>&lt; 去除首尾空白的用户路径。</p>
+<p>&lt; 用户选择路径的信息。</p>
+<p>&lt; 规范化后的缓存路径。</p>
+<p>&lt; 文件系统根目录。</p>
+<p>&lt; 用户主目录。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00200">200</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00500">canAdoptLegacyRoot()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00310">ensureOwnedRoot()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00348">isOwnedRoot()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00285">validateSelection()</a>.</p>
+
+</div>
+</div>
+<a id="af6300b71a9a19a3c251af5f1d6794e48" name="af6300b71a9a19a3c251af5f1d6794e48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af6300b71a9a19a3c251af5f1d6794e48">&#9670;&#160;</a></span>legacyComponentDirectories()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::CacheSafety::legacyComponentDirectories </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>列出旧版本缓存中可安全迁移的元器件目录。 </p>
+<p>列出旧版本缓存根目录中可迁移的元器件目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。</td></tr>
+    <tr><td class="paramname">rootPath</td><td>旧版缓存根目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>可迁移的组件目录列表。 </dd></dl>
+<p>&lt; 可迁移的旧版组件目录列表。</p>
+<p>&lt; 旧版缓存根目录对象。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00483">483</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00468">isLegacyComponentDirectory()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00310">ensureOwnedRoot()</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00215">EasyKiConverter::CacheDirectoryMigrator::migrate()</a>.</p>
+
+</div>
+</div>
+<a id="a5dc785f0306567b5de349633a3a1af50" name="a5dc785f0306567b5de349633a3a1af50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5dc785f0306567b5de349633a3a1af50">&#9670;&#160;</a></span>model3DMarkerName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CacheSafety::model3DMarkerName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回三维模型子目录所有权标记文件名。 </p>
+<p>返回三维模型缓存目录的所有权标记文件名。</p>
+<dl class="section return"><dt>返回</dt><dd>三维模型目录所有权标记文件名。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00189">189</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheHealthManager_8cpp_source.html#l00422">EasyKiConverter::CacheHealthManager::repairModel3DCache()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00244">writeMarker()</a>.</p>
+
+</div>
+</div>
+<a id="a3dc028a0206a0d9b6d73f24ce6c989ad" name="a3dc028a0206a0d9b6d73f24ce6c989ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dc028a0206a0d9b6d73f24ce6c989ad">&#9670;&#160;</a></span>moveToTrash()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::moveToTrash </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>error</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">TrashFunction</a> &amp;&#160;</td>
+          <td class="paramname"><em>trash</em> = <code><a class="el" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">TrashFunction</a>()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将已验证条目移入系统回收站。 </p>
+<p>将指定的已验证缓存条目移入系统回收站，并确认原路径已消失。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>已通过所有权检查的文件或目录。 </td></tr>
+    <tr><td class="paramname">error</td><td>输出错误信息。 </td></tr>
+    <tr><td class="paramname">trash</td><td>可选的测试替身；为空时使用 Qt 系统回收站接口。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>移动成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>已验证的缓存条目路径。 </td></tr>
+    <tr><td class="paramname">error</td><td>错误信息输出指针。 </td></tr>
+    <tr><td class="paramname">trash</td><td>可注入的回收站操作。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>条目成功移入回收站时返回 true。 </dd></dl>
+<p>&lt; 待移入回收站的缓存条目信息。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00572">572</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00077">EasyKiConverter::ComponentCacheMaintenance::clearAll()</a>, <a class="el" href="DatasheetDownloadService_8cpp_source.html#l00035">EasyKiConverter::DatasheetDownloadService::download()</a>, <a class="el" href="PreviewImageDownloadService_8cpp_source.html#l00035">EasyKiConverter::PreviewImageDownloadService::download()</a>, <a class="el" href="DatasheetCacheFileStore_8cpp_source.html#l00028">EasyKiConverter::DatasheetCacheFileStore::load()</a>, <a class="el" href="CachePruner_8cpp_source.html#l00074">EasyKiConverter::CachePruner::pruneTo()</a>, <a class="el" href="Model3DCacheFileStore_8cpp_source.html#l00019">EasyKiConverter::Model3DCacheFileStore::read()</a>, <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00030">EasyKiConverter::ComponentCacheMaintenance::remove()</a>, <a class="el" href="CacheHealthManager_8cpp_source.html#l00268">EasyKiConverter::CacheHealthManager::repairComponentCache()</a>, <a class="el" href="CacheHealthManager_8cpp_source.html#l00422">EasyKiConverter::CacheHealthManager::repairModel3DCache()</a> , 以及 <a class="el" href="DatasheetCacheFileStore_8cpp_source.html#l00064">EasyKiConverter::DatasheetCacheFileStore::save()</a>.</p>
+
+</div>
+</div>
+<a id="ad73f7c813ce55245ce8181dbe728ed2d" name="ad73f7c813ce55245ce8181dbe728ed2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad73f7c813ce55245ce8181dbe728ed2d">&#9670;&#160;</a></span>ownedComponentDirectories()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::CacheSafety::ownedComponentDirectories </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>列出所有权可验证的元器件缓存目录。 </p>
+<p>枚举根目录下所有通过所有权验证的组件缓存目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。</td></tr>
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>已验证的组件缓存目录列表。 </dd></dl>
+<p>&lt; 已验证的组件缓存目录列表。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00535">535</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00413">isOwnedComponentDirectory()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00348">isOwnedRoot()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00160">EasyKiConverter::ComponentCacheMaintenance::cacheSize()</a>, <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00077">EasyKiConverter::ComponentCacheMaintenance::clearAll()</a>, <a class="el" href="CachePruner_8cpp_source.html#l00060">EasyKiConverter::CachePruner::currentCacheSize()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00591">EasyKiConverter::ComponentCacheService::getOwnedCacheEntryCount()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00215">EasyKiConverter::CacheDirectoryMigrator::migrate()</a> , 以及 <a class="el" href="CachePruner_8cpp_source.html#l00074">EasyKiConverter::CachePruner::pruneTo()</a>.</p>
+
+</div>
+</div>
+<a id="a8c07a61c1f1b899b38f8f2a33abaaf9c" name="a8c07a61c1f1b899b38f8f2a33abaaf9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c07a61c1f1b899b38f8f2a33abaaf9c">&#9670;&#160;</a></span>ownedComponentFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::CacheSafety::ownedComponentFiles </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentPath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>列出指定元器件目录中所有可验证归属的缓存文件。 </p>
+<p>列出指定元器件目录中的已知、非符号链接缓存文件。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">componentPath</td><td>元器件缓存目录路径。</td></tr>
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+    <tr><td class="paramname">componentPath</td><td>组件目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>已验证的组件缓存文件列表。 </dd></dl>
+<p>&lt; 已验证的组件缓存文件列表。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00452">452</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00413">isOwnedComponentDirectory()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00435">isOwnedComponentFile()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00160">EasyKiConverter::ComponentCacheMaintenance::cacheSize()</a>, <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00077">EasyKiConverter::ComponentCacheMaintenance::clearAll()</a>, <a class="el" href="CachePruner_8cpp_source.html#l00060">EasyKiConverter::CachePruner::currentCacheSize()</a>, <a class="el" href="CachePruner_8cpp_source.html#l00074">EasyKiConverter::CachePruner::pruneTo()</a> , 以及 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00030">EasyKiConverter::ComponentCacheMaintenance::remove()</a>.</p>
+
+</div>
+</div>
+<a id="acf3cc8e403f81336dcba5788ce49c2e9" name="acf3cc8e403f81336dcba5788ce49c2e9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf3cc8e403f81336dcba5788ce49c2e9">&#9670;&#160;</a></span>ownedModel3DFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::CacheSafety::ownedModel3DFiles </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>rootPath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>列出所有权可验证的三维模型文件。 </p>
+<p>枚举模型缓存目录下所有通过所有权验证的三维模型文件。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。</td></tr>
+    <tr><td class="paramname">rootPath</td><td>缓存根目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>已验证的三维模型文件列表。 </dd></dl>
+<p>&lt; 已验证的三维模型文件列表。</p>
+<p>&lt; 三维模型缓存目录对象。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00553">553</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00516">isOwnedModel3DFile()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00348">isOwnedRoot()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00160">EasyKiConverter::ComponentCacheMaintenance::cacheSize()</a>, <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00077">EasyKiConverter::ComponentCacheMaintenance::clearAll()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00591">EasyKiConverter::ComponentCacheService::getOwnedCacheEntryCount()</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00215">EasyKiConverter::CacheDirectoryMigrator::migrate()</a>.</p>
+
+</div>
+</div>
+<a id="ad4224eff0f9fe927476a31ef5a2645d0" name="ad4224eff0f9fe927476a31ef5a2645d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4224eff0f9fe927476a31ef5a2645d0">&#9670;&#160;</a></span>ownershipMarkerName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CacheSafety::ownershipMarkerName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回缓存根目录所有权标记文件名。 </p>
+<p>返回缓存根目录的所有权标记文件名。</p>
+<dl class="section return"><dt>返回</dt><dd>缓存根目录所有权标记文件名。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00181">181</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMaintenance_8cpp_source.html#l00129">EasyKiConverter::ComponentCacheMaintenance::cachedComponentIds()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheHealthManager_8cpp_source.html#l00154">EasyKiConverter::CacheHealthManager::healAll()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00244">writeMarker()</a>.</p>
+
+</div>
+</div>
+<a id="a32d90cf700933d3cb966ef639423b8df" name="a32d90cf700933d3cb966ef639423b8df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32d90cf700933d3cb966ef639423b8df">&#9670;&#160;</a></span>validateSelection()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::validateSelection </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>normalizedPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>校验并规范化用户选择的缓存目录。 </p>
+<p>校验用户选择的目录是否为空目录或已经由本应用托管。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>用户输入或对话框返回的路径。 </td></tr>
+    <tr><td class="paramname">normalizedPath</td><td>输出规范化后的路径。 </td></tr>
+    <tr><td class="paramname">error</td><td>输出面向用户的错误信息。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>路径安全且可作为缓存目录时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>用户选择的目录路径。 </td></tr>
+    <tr><td class="paramname">normalizedPath</td><td>规范化路径输出指针。 </td></tr>
+    <tr><td class="paramname">error</td><td>错误信息输出指针。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>目录可安全选择时返回 true。 </dd></dl>
+<p>&lt; 用于检查的规范路径。</p>
+<p>&lt; 规范路径的信息。</p>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00285">285</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00500">canAdoptLegacyRoot()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00261">hasValidMarker()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00200">isSafePath()</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportSettingsViewModel_8cpp_source.html#l00691">EasyKiConverter::ExportSettingsViewModel::loadFromConfig()</a>, <a class="el" href="ExportSettingsViewModel_8cpp_source.html#l00811">EasyKiConverter::ExportSettingsViewModel::resetConfig()</a>, <a class="el" href="ExportSettingsViewModel_8cpp_source.html#l00455">EasyKiConverter::ExportSettingsViewModel::setCacheDir()</a> , 以及 <a class="el" href="CacheDirectoryCoordinator_8cpp_source.html#l00027">EasyKiConverter::CacheDirectoryCoordinator::setDirectory()</a>.</p>
+
+</div>
+</div>
+<a id="af69cee45cefbc7a31e16ad43cc2d5dd4" name="af69cee45cefbc7a31e16ad43cc2d5dd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af69cee45cefbc7a31e16ad43cc2d5dd4">&#9670;&#160;</a></span>writeMarker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheSafety::writeMarker </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>error</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>使用原子写入方式创建指定类型的缓存所有权标记。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>缓存目录路径。 </td></tr>
+    <tr><td class="paramname">format</td><td>标记对应的缓存类型。 </td></tr>
+    <tr><td class="paramname">error</td><td>错误信息输出指针。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>标记写入成功时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a> 第 <a class="el" href="CacheSafety_8cpp_source.html#l00244">244</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00189">model3DMarkerName()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00181">ownershipMarkerName()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a> , 以及 <a class="el" href="SymbolDataSerializer_8cpp_source.html#l00012">EasyKiConverter::toJson()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheSafety_8cpp_source.html#l00361">ensureOwnedModel3DDirectory()</a> , 以及 <a class="el" href="CacheSafety_8cpp_source.html#l00310">ensureOwnedRoot()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>services/<a class="el" href="CacheSafety_8h_source.html">CacheSafety.h</a></li>
+<li>services/<a class="el" href="CacheSafety_8cpp_source.html">CacheSafety.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1CacheSafety.html">CacheSafety</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

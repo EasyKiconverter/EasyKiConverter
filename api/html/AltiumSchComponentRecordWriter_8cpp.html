@@ -1,0 +1,382 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/writers/AltiumSchComponentRecordWriter.cpp 文件参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumSchComponentRecordWriter_8cpp.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#namespaces">命名空间</a>  </div>
+  <div class="headertitle"><div class="title">AltiumSchComponentRecordWriter.cpp 文件参考</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &quot;<a class="el" href="AltiumSchComponentRecordWriter_8h_source.html">AltiumSchComponentRecordWriter.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="AltiumSchLibWriter_8h_source.html">AltiumSchLibWriter.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="AltiumCoord_8h_source.html">utils/AltiumCoord.h</a>&quot;</code><br />
+<code>#include &lt;QSet&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
+</div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> AltiumSchComponentRecordWriter.cpp 的引用(Include)关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="AltiumSchComponentRecordWriter_8cpp__incl.svg" width="1423" height="432"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+</div>
+<p><a href="AltiumSchComponentRecordWriter_8cpp_source.html">浏览源代码.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+命名空间</h2></td></tr>
+<tr class="memitem:namespaceEasyKiConverter" id="r_namespaceEasyKiConverter"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">变量说明</h2>
+<a id="a66b2ef8398a8bbb0f5816f22a7b138da" name="a66b2ef8398a8bbb0f5816f22a7b138da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66b2ef8398a8bbb0f5816f22a7b138da">&#9670;&#160;</a></span>color</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t color = 0x000000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数文本颜色。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00023">23</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00058">EasyKiConverter::AltiumSchLibWriter::addColorParam()</a>, <a class="el" href="SymbolIR_8cpp_source.html#l00017">EasyKiConverter::IR::parseColor()</a> , 以及 <a class="el" href="AltiumSymbolConversionUtils_8h_source.html#l00071">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumColor()</a>.</p>
+
+</div>
+</div>
+<a id="ad08e65bab7cb4886cb4bf738defda465" name="ad08e65bab7cb4886cb4bf738defda465"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad08e65bab7cb4886cb4bf738defda465">&#9670;&#160;</a></span>fontId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int fontId = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Altium 字体表索引。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00022">22</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00148">EasyKiConverter::AltiumSchComponentRecordWriter::writeParameters()</a>, <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00022">EasyKiConverter::AltiumSchTextRecordWriter::writeText()</a> , 以及 <a class="el" href="AltiumSchTextRecordWriter_8cpp_source.html#l00094">EasyKiConverter::AltiumSchTextRecordWriter::writeTextFrame()</a>.</p>
+
+</div>
+</div>
+<a id="a224188b94555cbd55c6e81f6c67a45f1" name="a224188b94555cbd55c6e81f6c67a45f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a224188b94555cbd55c6e81f6c67a45f1">&#9670;&#160;</a></span>fontSizeMm</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">double fontSizeMm = 0.0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数字体大小，单位为毫米。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00030">30</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="SymbolGraphicsGenerator_8cpp_source.html#l00068">EasyKiConverter::SymbolGraphicsGenerator::generatePin()</a>.</p>
+
+</div>
+</div>
+<a id="a82ab3ca36639267aa6a868cd6f244df8" name="a82ab3ca36639267aa6a868cd6f244df8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82ab3ca36639267aa6a868cd6f244df8">&#9670;&#160;</a></span>hasLocation</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hasLocation = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否存在显式位置。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00024">24</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ae907c32f3f137ad5855b0370007872a8" name="ae907c32f3f137ad5855b0370007872a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae907c32f3f137ad5855b0370007872a8">&#9670;&#160;</a></span>hasVisibility</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool hasVisibility = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否提供可见性状态。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00025">25</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a95d7f7b1a69af0f6d2a1b43e3b1342b1" name="a95d7f7b1a69af0f6d2a1b43e3b1342b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95d7f7b1a69af0f6d2a1b43e3b1342b1">&#9670;&#160;</a></span>isHidden</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool isHidden = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数是否隐藏。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00026">26</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1ee126345c29e964774fea48317bc83a" name="a1ee126345c29e964774fea48317bc83a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ee126345c29e964774fea48317bc83a">&#9670;&#160;</a></span>locationX</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int locationX = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数 X 坐标。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00020">20</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a68908cbd3eda5b87c35b121bb3370936" name="a68908cbd3eda5b87c35b121bb3370936"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68908cbd3eda5b87c35b121bb3370936">&#9670;&#160;</a></span>locationY</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int locationY = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数 Y 坐标。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00021">21</a> 行定义.</p>
+
+</div>
+</div>
+<a id="abc29e461e01cc0c712944f8f47f91331" name="abc29e461e01cc0c712944f8f47f91331"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc29e461e01cc0c712944f8f47f91331">&#9670;&#160;</a></span>name</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString name</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数名称。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00018">18</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a528d22a2a1651a4831eb643884a3c718" name="a528d22a2a1651a4831eb643884a3c718"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a528d22a2a1651a4831eb643884a3c718">&#9670;&#160;</a></span>orientation</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int orientation = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数文本方向。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00028">28</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchGeometryValidator_8cpp_source.html#l00019">EasyKiConverter::AltiumSchGeometryValidator::validate()</a>.</p>
+
+</div>
+</div>
+<a id="a16c79385988b51dcf82d16943be8774d" name="a16c79385988b51dcf82d16943be8774d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16c79385988b51dcf82d16943be8774d">&#9670;&#160;</a></span>ownerPartId</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int ownerPartId = -1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>所属元件部件编号。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00029">29</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00517">EasyKiConverter::AltiumSchLibWriter::addOwnerParams()</a>, <a class="el" href="AltiumSchLibWriter_8cpp_source.html#l00479">EasyKiConverter::AltiumSchLibWriter::normalizeOwnerPartId()</a>, <a class="el" href="AltiumSchOwnershipValidator_8cpp_source.html#l00015">EasyKiConverter::AltiumSchOwnershipValidator::validate()</a> , 以及 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00148">EasyKiConverter::AltiumSchComponentRecordWriter::writeParameters()</a>.</p>
+
+</div>
+</div>
+<a id="a2661d851ae26aa3aeaac87ebf74c779f" name="a2661d851ae26aa3aeaac87ebf74c779f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2661d851ae26aa3aeaac87ebf74c779f">&#9670;&#160;</a></span>readOnly</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool readOnly = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数是否只读。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00027">27</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a0c0d1b18d3033cb858562e5e8636c18f" name="a0c0d1b18d3033cb858562e5e8636c18f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c0d1b18d3033cb858562e5e8636c18f">&#9670;&#160;</a></span>value</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString value</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>参数显示值。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html">AltiumSchComponentRecordWriter.cpp</a> 第 <a class="el" href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">19</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00256">EasyKiConverter::AltiumPcbLibWriter::buildLibraryMetadata()</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00287">EasyKiConverter::Exporter3DModel::calculateWrlDisplayMinZ()</a>, <a class="el" href="AltiumCoord_8h_source.html#l00118">EasyKiConverter::AltiumCoord::clampToInt32()</a>, <a class="el" href="KiCadTableUtils_8cpp_source.html#l00011">EasyKiConverter::KiCadTableUtils::escapeTableValue()</a>, <a class="el" href="AltiumSymbolConversionUtils_8h_source.html#l00043">EasyKiConverter::AltiumSymbolConversionUtils::finiteNonNegative()</a>, <a class="el" href="ComponentData_8cpp_source.html#l00070">EasyKiConverter::ComponentData::fromJson()</a>, <a class="el" href="Model3DData_8cpp_source.html#l00026">EasyKiConverter::Model3DBase::fromJson()</a>, <a class="el" href="Model3DData_8cpp_source.html#l00084">EasyKiConverter::Model3DData::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00121">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00019">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00087">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataSerializer_8cpp_source.html#l00205">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00070">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00172">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00036">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00104">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00155">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00138">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00053">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00189">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00206">EasyKiConverter::FootprintDataSerializer::fromJson()</a>, <a class="el" href="SymbolShapeSerializer_8cpp_source.html#l00158">EasyKiConverter::SymbolShapeSerializer::fromJson()</a>, <a class="el" href="SymbolDataSerializer_8cpp_source.html#l00595">EasyKiConverter::SymbolDataSerializer::fromJson()</a>, <a class="el" href="SymbolDataSerializer_8cpp_source.html#l00377">EasyKiConverter::SymbolDataSerializer::fromJson()</a>, <a class="el" href="ExporterSymbol_8cpp_source.html#l00408">EasyKiConverter::ExporterSymbol::generateSymbolContent()</a>, <a class="el" href="MemoryMonitor_8cpp_source.html#l00036">EasyKiConverter::MemoryMonitor::getCurrentUsage()</a>, <a class="el" href="ConfigManager_8cpp_source.html#l00152">EasyKiConverter::ConfigManager::getExportOptions()</a>, <a class="el" href="ConfigManager_8cpp_source.html#l00116">EasyKiConverter::ConfigManager::getExportPath()</a>, <a class="el" href="ConfigManager_8cpp_source.html#l00134">EasyKiConverter::ConfigManager::getLibName()</a>, <a class="el" href="CacheMetadataStore_8cpp_source.html#l00070">EasyKiConverter::CacheMetadataStore::hasValidModel3D()</a>, <a class="el" href="CacheMetadataStore_8cpp_source.html#l00154">EasyKiConverter::CacheMetadataStore::merge()</a>, <a class="el" href="HorizonUnits_8h_source.html#l00015">EasyKiConverter::HorizonUnits::mm()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00057">EasyKiConverter::AltiumPcbLibWriter::normalizeFiniteValue()</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00104">EasyKiConverter::OLECompoundReader::open()</a>, <a class="el" href="XpeditionSymbolModel_8cpp_source.html#l00175">EasyKiConverter::Parser::XpeditionSymbolParser::parse()</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00086">EasyKiConverter::Parser::StrictNumberParser::parseDouble()</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00109">EasyKiConverter::Parser::StrictNumberParser::parseInteger()</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00173">EasyKiConverter::SvgPathParser::parsePath()</a>, <a class="el" href="SvgPathParser_8cpp_source.html#l00556">EasyKiConverter::SvgPathParser::parseSegments()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00030">EasyKiConverter::Parser::parseType()</a>, <a class="el" href="AltiumSymbolConversionUtils_8h_source.html#l00084">EasyKiConverter::AltiumSymbolConversionUtils::quantizeSchematicOffset()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00181">EasyKiConverter::AltiumBinaryReader::readBytes()</a>, <a class="el" href="AltiumSchLibReader_8cpp_source.html#l00477">EasyKiConverter::AltiumSchLibReader::readComponentRecords()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00162">EasyKiConverter::AltiumBinaryReader::readDouble()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00147">EasyKiConverter::AltiumBinaryReader::readFloat()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00072">EasyKiConverter::AltiumBinaryReader::readInt16()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00105">EasyKiConverter::AltiumBinaryReader::readInt32()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00043">EasyKiConverter::AltiumBinaryReader::readInt8()</a>, <a class="el" href="TempFileTransactionUtils_8cpp_source.html#l00219">EasyKiConverter::TempFileTransaction::readManifestEntries()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00212">EasyKiConverter::AltiumBinaryReader::readPascalShortString()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00253">EasyKiConverter::AltiumBinaryReader::readPascalString()</a>, <a class="el" href="CacheComponentDataReader_8cpp_source.html#l00029">EasyKiConverter::readPreviewUrls()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00230">EasyKiConverter::AltiumBinaryReader::readStringBlock()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00087">EasyKiConverter::AltiumBinaryReader::readUInt16()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00138">EasyKiConverter::AltiumBinaryReader::readUInt32()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00120">EasyKiConverter::AltiumBinaryReader::readUInt32Internal()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00058">EasyKiConverter::AltiumBinaryReader::readUInt8()</a>, <a class="el" href="FootprintGraphicsGenerator_8cpp_source.html#l00527">EasyKiConverter::FootprintGraphicsGenerator::roundTo2()</a>, <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00017">EasyKiConverter::OLECompoundSerializer::serializeDirectoryEntry()</a>, <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00080">EasyKiConverter::OLECompoundSerializer::serializeFileHeader()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00112">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00010">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00078">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00061">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00163">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00027">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00095">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00146">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00129">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00044">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00180">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="FootprintDataShapeCompatibility_8cpp_source.html#l00197">EasyKiConverter::FootprintDataSerializer::toJson()</a>, <a class="el" href="GeometryTransforms_8cpp_source.html#l00013">EasyKiConverter::Parser::UnitConverter::toMillimeters()</a>, <a class="el" href="Logger_8h_source.html#l00240">EasyKiConverter::LogUtils::toString()</a>, <a class="el" href="IrBuilder_8h_source.html#l00037">EasyKiConverter::IR::toSymbolIR()</a>, <a class="el" href="AltiumPcbInputValidator_8cpp_source.html#l00020">EasyKiConverter::AltiumPcbInputValidator::validate()</a>, <a class="el" href="AltiumSchGeometryValidator_8cpp_source.html#l00019">EasyKiConverter::AltiumSchGeometryValidator::validate()</a>, <a class="el" href="SymbolData_8cpp_source.html#l00054">EasyKiConverter::SymbolData::validationErrors()</a>, <a class="el" href="Model3DExportStage_8cpp_source.html#l00350">EasyKiConverter::Model3DExportStage::writeAssociationManifest()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00288">EasyKiConverter::AltiumBinaryWriter::writeCoord()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00171">EasyKiConverter::AltiumBinaryWriter::writeCStringParameterBlock()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00205">EasyKiConverter::AltiumBinaryWriter::writeCStringParameterBlockUtf8()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00082">EasyKiConverter::AltiumBinaryWriter::writeDouble()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00072">EasyKiConverter::AltiumBinaryWriter::writeFloat()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00032">EasyKiConverter::AltiumBinaryWriter::writeInt16()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00050">EasyKiConverter::AltiumBinaryWriter::writeInt32()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00016">EasyKiConverter::AltiumBinaryWriter::writeInt8()</a>, <a class="el" href="AltiumPcbLibWriter_8cpp_source.html#l00372">EasyKiConverter::AltiumPcbLibWriter::writeModelsStorage()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00041">EasyKiConverter::AltiumBinaryWriter::writeUInt16()</a>, <a class="el" href="OLECompoundSerializer_8cpp_source.html#l00163">EasyKiConverter::OLECompoundSerializer::writeUInt32()</a>, <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00061">EasyKiConverter::AltiumBinaryWriter::writeUInt32()</a> , 以及 <a class="el" href="AltiumBinaryWriter_8cpp_source.html#l00024">EasyKiConverter::AltiumBinaryWriter::writeUInt8()</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_4b0a7f407ec41a4fc3d6e08c8e7af107.html">writers</a></li><li class="navelem"><a class="el" href="AltiumSchComponentRecordWriter_8cpp.html">AltiumSchComponentRecordWriter.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

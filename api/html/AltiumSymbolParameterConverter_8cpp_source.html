@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/AltiumSymbolParameterConverter.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumSymbolParameterConverter_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumSymbolParameterConverter.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumSymbolParameterConverter_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolParameterConverter_8h.html">AltiumSymbolParameterConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumCoord_8h.html">utils/AltiumCoord.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolConversionUtils_8h.html">utils/AltiumSymbolConversionUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumSymbolParameterConverter.html#a0442d80823071f172b17f5b9fae1fc6b">   13</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchParameter.html">AltiumSchParameter</a> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolParameterConverter.html#a0442d80823071f172b17f5b9fae1fc6b">AltiumSymbolParameterConverter::convert</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html">IR::SymbolParameterIR</a>&amp; parameter) {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchParameter.html">AltiumSchParameter</a> altiumParameter;  <span class="comment">// 转换后的 Altium 参数记录。</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#a0147af6cbd09f2af92c14f48b820b90f">name</a> = parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a3144e29358a6b043fa8cb20a6677ba83">name</a>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#ab045dc043d10191b5a0bdd3660618667">value</a> = parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a726ab24df8434e29bae5bd9e294c4891">value</a>;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#ac1bb1d7bf05c2f3900a524f0c6739f78">locationX</a> = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumCoord.html#afd1a8e74bfaadfb500a77b93a91876bd">AltiumCoord::mmToRaw</a>(parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a7075eb81edb7470dcd32c65bf42ed72c">position</a>.x());</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#ae88ae1c5b0a6a159b5ad80379c81fead">locationY</a> = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumCoord.html#afd1a8e74bfaadfb500a77b93a91876bd">AltiumCoord::mmToRaw</a>(parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a7075eb81edb7470dcd32c65bf42ed72c">position</a>.y());</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#a2561e9b20f58c9e4caab4b1d297c5058">fontSizeMm</a> = parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a66a07226f8a4d2ea4c939effc31fe311">fontSizeMm</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#ac19295ef55b475aaa96b085a67b12a0e">isHidden</a> = !parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a54ce11a923e65b5ceef8c9b8d9208ca1">visible</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#af5b28d5f0d0b5e55c1ce0389f74f7c95">readOnly</a> = parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#ae8fdf8b311f153b7cb5f93de70e7290e">readOnly</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#ab345e76dc76e5759cca0901efcb846b7">orientation</a> = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a65a469f2c2deeb77b9377eb1fec3d5a0">AltiumSymbolConversionUtils::toAltiumOrientation</a>(parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#aad8a613f2722fc1a2b8ebca4454bd0c8">rotation</a>);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#ab18c830a7f5021eea7b63fa9dd3db070">ownerPartId</a> = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#ad28339a54a94c2688fad571052d48979">AltiumSymbolConversionUtils::toAltiumOwnerPartId</a>(parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a7db4fb36281c2d4c68eea318a1c22f58">partIndex</a>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    altiumParameter.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchParameter.html#abd3ca8025810e18fc866b86bbd3622fb">color</a> = <a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a093f1b508293013cdf05bb03a79ba026">AltiumSymbolConversionUtils::toAltiumColor</a>(parameter.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#adaf3e95abcbde5451db4d6f4f17a2f5d">color</a>);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordflow">return</span> altiumParameter;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumCoord_8h_html"><div class="ttname"><a href="AltiumCoord_8h.html">AltiumCoord.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolConversionUtils_8h_html"><div class="ttname"><a href="AltiumSymbolConversionUtils_8h.html">AltiumSymbolConversionUtils.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolParameterConverter_8h_html"><div class="ttname"><a href="AltiumSymbolParameterConverter_8h.html">AltiumSymbolParameterConverter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolParameterConverter_html_a0442d80823071f172b17f5b9fae1fc6b"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolParameterConverter.html#a0442d80823071f172b17f5b9fae1fc6b">EasyKiConverter::AltiumSymbolParameterConverter::convert</a></div><div class="ttdeci">static AltiumSchParameter convert(const IR::SymbolParameterIR &amp;parameter)</div><div class="ttdoc">转换单个符号参数。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolParameterConverter_8cpp_source.html#l00013">AltiumSymbolParameterConverter.cpp:13</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumCoord_html_afd1a8e74bfaadfb500a77b93a91876bd"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumCoord.html#afd1a8e74bfaadfb500a77b93a91876bd">EasyKiConverter::AltiumCoord::mmToRaw</a></div><div class="ttdeci">int32_t mmToRaw(double mm)</div><div class="ttdef"><b>Definition</b> <a href="AltiumCoord_8h_source.html#l00131">AltiumCoord.h:131</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_a093f1b508293013cdf05bb03a79ba026"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a093f1b508293013cdf05bb03a79ba026">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumColor</a></div><div class="ttdeci">uint32_t toAltiumColor(const QColor &amp;color)</div><div class="ttdoc">将 Qt 颜色转换为 Altium 使用的 0x00BBGGRR 编码。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00071">AltiumSymbolConversionUtils.h:71</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_a65a469f2c2deeb77b9377eb1fec3d5a0"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a65a469f2c2deeb77b9377eb1fec3d5a0">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumOrientation</a></div><div class="ttdeci">int toAltiumOrientation(double rotation)</div><div class="ttdoc">将任意角度归一化为 Altium 的四向文字方向。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00034">AltiumSymbolConversionUtils.h:34</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_ad28339a54a94c2688fad571052d48979"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#ad28339a54a94c2688fad571052d48979">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumOwnerPartId</a></div><div class="ttdeci">int toAltiumOwnerPartId(int partIndex)</div><div class="ttdoc">将 IR 部件索引转换为 Altium 的部件 ID。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00019">AltiumSymbolConversionUtils.h:19</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html">EasyKiConverter::AltiumSchParameter</a></div><div class="ttdoc">Altium 符号参数字段</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00314">AltiumSchComponent.h:314</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_a0147af6cbd09f2af92c14f48b820b90f"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#a0147af6cbd09f2af92c14f48b820b90f">EasyKiConverter::AltiumSchParameter::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">参数名称</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00315">AltiumSchComponent.h:315</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_a2561e9b20f58c9e4caab4b1d297c5058"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#a2561e9b20f58c9e4caab4b1d297c5058">EasyKiConverter::AltiumSchParameter::fontSizeMm</a></div><div class="ttdeci">double fontSizeMm</div><div class="ttdoc">参数字体大小（mm，0 表示默认）</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00320">AltiumSchComponent.h:320</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_ab045dc043d10191b5a0bdd3660618667"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#ab045dc043d10191b5a0bdd3660618667">EasyKiConverter::AltiumSchParameter::value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">原理图元件属性对应的文本值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00316">AltiumSchComponent.h:316</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_ab18c830a7f5021eea7b63fa9dd3db070"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#ab18c830a7f5021eea7b63fa9dd3db070">EasyKiConverter::AltiumSchParameter::ownerPartId</a></div><div class="ttdeci">int ownerPartId</div><div class="ttdoc">所属部件，-1 表示所有部件</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00325">AltiumSchComponent.h:325</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_ab345e76dc76e5759cca0901efcb846b7"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#ab345e76dc76e5759cca0901efcb846b7">EasyKiConverter::AltiumSchParameter::orientation</a></div><div class="ttdeci">int orientation</div><div class="ttdoc">0-3，表示 0°/90°/180°/270°</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00324">AltiumSchComponent.h:324</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_abd3ca8025810e18fc866b86bbd3622fb"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#abd3ca8025810e18fc866b86bbd3622fb">EasyKiConverter::AltiumSchParameter::color</a></div><div class="ttdeci">uint32_t color</div><div class="ttdoc">颜色（0x00BBGGRR）</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00321">AltiumSchComponent.h:321</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_ac19295ef55b475aaa96b085a67b12a0e"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#ac19295ef55b475aaa96b085a67b12a0e">EasyKiConverter::AltiumSchParameter::isHidden</a></div><div class="ttdeci">bool isHidden</div><div class="ttdoc">是否隐藏</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00322">AltiumSchComponent.h:322</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_ac1bb1d7bf05c2f3900a524f0c6739f78"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#ac1bb1d7bf05c2f3900a524f0c6739f78">EasyKiConverter::AltiumSchParameter::locationX</a></div><div class="ttdeci">int locationX</div><div class="ttdoc">参数位置 X（原始单位）</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00317">AltiumSchComponent.h:317</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_ae88ae1c5b0a6a159b5ad80379c81fead"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#ae88ae1c5b0a6a159b5ad80379c81fead">EasyKiConverter::AltiumSchParameter::locationY</a></div><div class="ttdeci">int locationY</div><div class="ttdoc">参数位置 Y（原始单位）</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00318">AltiumSchComponent.h:318</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchParameter_html_af5b28d5f0d0b5e55c1ce0389f74f7c95"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchParameter.html#af5b28d5f0d0b5e55c1ce0389f74f7c95">EasyKiConverter::AltiumSchParameter::readOnly</a></div><div class="ttdeci">bool readOnly</div><div class="ttdoc">是否只读</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00323">AltiumSchComponent.h:323</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html">EasyKiConverter::IR::SymbolParameterIR</a></div><div class="ttdoc">符号参数字段</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00377">SymbolIR.h:377</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_a3144e29358a6b043fa8cb20a6677ba83"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a3144e29358a6b043fa8cb20a6677ba83">EasyKiConverter::IR::SymbolParameterIR::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">参数名称</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00378">SymbolIR.h:378</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_a54ce11a923e65b5ceef8c9b8d9208ca1"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a54ce11a923e65b5ceef8c9b8d9208ca1">EasyKiConverter::IR::SymbolParameterIR::visible</a></div><div class="ttdeci">bool visible</div><div class="ttdoc">是否在符号图面显示</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00380">SymbolIR.h:380</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_a66a07226f8a4d2ea4c939effc31fe311"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a66a07226f8a4d2ea4c939effc31fe311">EasyKiConverter::IR::SymbolParameterIR::fontSizeMm</a></div><div class="ttdeci">double fontSizeMm</div><div class="ttdoc">字体大小（mm，0 表示默认）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00383">SymbolIR.h:383</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_a7075eb81edb7470dcd32c65bf42ed72c"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a7075eb81edb7470dcd32c65bf42ed72c">EasyKiConverter::IR::SymbolParameterIR::position</a></div><div class="ttdeci">QPointF position</div><div class="ttdoc">参数位置（mm）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00382">SymbolIR.h:382</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_a726ab24df8434e29bae5bd9e294c4891"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a726ab24df8434e29bae5bd9e294c4891">EasyKiConverter::IR::SymbolParameterIR::value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">符号属性对应的文本值。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00379">SymbolIR.h:379</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_a7db4fb36281c2d4c68eea318a1c22f58"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#a7db4fb36281c2d4c68eea318a1c22f58">EasyKiConverter::IR::SymbolParameterIR::partIndex</a></div><div class="ttdeci">int partIndex</div><div class="ttdoc">所属部件索引</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00386">SymbolIR.h:386</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_aad8a613f2722fc1a2b8ebca4454bd0c8"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#aad8a613f2722fc1a2b8ebca4454bd0c8">EasyKiConverter::IR::SymbolParameterIR::rotation</a></div><div class="ttdeci">double rotation</div><div class="ttdoc">旋转角度（度）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00385">SymbolIR.h:385</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_adaf3e95abcbde5451db4d6f4f17a2f5d"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#adaf3e95abcbde5451db4d6f4f17a2f5d">EasyKiConverter::IR::SymbolParameterIR::color</a></div><div class="ttdeci">QColor color</div><div class="ttdoc">参数颜色</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00384">SymbolIR.h:384</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolParameterIR_html_ae8fdf8b311f153b7cb5f93de70e7290e"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolParameterIR.html#ae8fdf8b311f153b7cb5f93de70e7290e">EasyKiConverter::IR::SymbolParameterIR::readOnly</a></div><div class="ttdeci">bool readOnly</div><div class="ttdoc">是否禁止在目标 EDA 中编辑</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00381">SymbolIR.h:381</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="AltiumSymbolParameterConverter_8cpp.html">AltiumSymbolParameterConverter.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

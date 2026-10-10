@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/ir/GeometryNormalizer.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('GeometryNormalizer_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">GeometryNormalizer.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="GeometryNormalizer_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="IRTypes_8h.html">IRTypes.h</a>&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="SvgPathParser_8h.html">core/utils/SvgPathParser.h</a>&quot;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;QPointF&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;QRegularExpression&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">namespace </span>IR {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="}">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html">   31</a></span><span class="keyword">namespace </span>GeometryNormalizer {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="}">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#afe825d2e1da65aaf1ae924d7e521ef4c">   38</a></span><span class="keyword">inline</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#a9e456a9c97be9494f30dd84a5f7c8f82">StrokeStyle</a> <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#afe825d2e1da65aaf1ae924d7e521ef4c">parseStrokeStyle</a>(<span class="keyword">const</span> QString&amp; style) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keyword">const</span> QString normalized = style.trimmed().toLower();  <span class="comment">// 规范化后的线型名称。</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">if</span> (normalized.contains(QStringLiteral(<span class="stringliteral">&quot;dash&quot;</span>)))</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9e456a9c97be9494f30dd84a5f7c8f82aeb656e41b6da91494775ecf47a51da91">StrokeStyle::Dashed</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (normalized.contains(QStringLiteral(<span class="stringliteral">&quot;dot&quot;</span>)))</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9e456a9c97be9494f30dd84a5f7c8f82a90c09393a4c0970bc9a6703ad527781c">StrokeStyle::Dotted</a>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9e456a9c97be9494f30dd84a5f7c8f82ae41480b6bbfbf7407974a88d3d34f4fa">StrokeStyle::Solid</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span><span class="comment">// ==================== 坐标字符串解析 ====================</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="foldopen" id="foldopen00055" data-start="{" data-end="}">
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a3853768252d4e5a2baf71b67414aca79">   55</a></span><span class="keyword">inline</span> QList&lt;QPointF&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a3853768252d4e5a2baf71b67414aca79">parseFlatPointString</a>(<span class="keyword">const</span> QString&amp; pointsStr, <span class="keywordtype">double</span> scaleFactor = <a class="code hl_variable" href="namespaceEasyKiConverter_1_1IR.html#a986b048275afec1f0587d2fe323e8603">EASYEDA_PX_TO_MM</a>) {</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    QList&lt;QPointF&gt; points;  <span class="comment">// 解析得到的缩放后坐标点列表。</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// 将输入字符串按连续空白拆分为数值字段。</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keyword">const</span> QStringList parts = pointsStr.trimmed().split(QRegularExpression(QStringLiteral(<span class="stringliteral">&quot;\\s+&quot;</span>)),</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                                                        Qt::SkipEmptyParts);  <span class="comment">// 空格分隔的数值字段。</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i + 1 &lt; parts.size(); i += 2) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordtype">bool</span> ok1 = <span class="keyword">false</span>, ok2 = <span class="keyword">false</span>;  <span class="comment">// X/Y 字符串是否解析成功。</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> x = parts[i].toDouble(&amp;ok1);  <span class="comment">// 原始 X 坐标。</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> y = parts[i + 1].toDouble(&amp;ok2);  <span class="comment">// 原始 Y 坐标。</span></div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">if</span> (ok1 &amp;&amp; ok2) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            points.append(QPointF(x * scaleFactor, y * scaleFactor));</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> points;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="foldopen" id="foldopen00077" data-start="{" data-end="}">
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a85a14b6a9632f891ddade318affd8738">   77</a></span><span class="keyword">inline</span> QList&lt;QPointF&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a85a14b6a9632f891ddade318affd8738">parseCommaSeparatedPoints</a>(<span class="keyword">const</span> QString&amp; pointsStr, <span class="keywordtype">double</span> scaleFactor = <a class="code hl_variable" href="namespaceEasyKiConverter_1_1IR.html#a986b048275afec1f0587d2fe323e8603">EASYEDA_PX_TO_MM</a>) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    QList&lt;QPointF&gt; points;  <span class="comment">// 解析得到的缩放后坐标点列表。</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keyword">const</span> QStringList pairs =</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        pointsStr.trimmed().split(QRegularExpression(QStringLiteral(<span class="stringliteral">&quot;\\s+&quot;</span>)), Qt::SkipEmptyParts);  <span class="comment">// 坐标对字段。</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pair : pairs) {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keyword">const</span> QStringList xy = pair.split(<span class="charliteral">&#39;,&#39;</span>);  <span class="comment">// 当前坐标对的 X/Y 字段。</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordflow">if</span> (xy.size() &gt;= 2) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <span class="keywordtype">bool</span> ok1 = <span class="keyword">false</span>, ok2 = <span class="keyword">false</span>;  <span class="comment">// X/Y 字符串是否解析成功。</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            <span class="keyword">const</span> <span class="keywordtype">double</span> x = xy[0].toDouble(&amp;ok1);  <span class="comment">// 原始 X 坐标。</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <span class="keyword">const</span> <span class="keywordtype">double</span> y = xy[1].toDouble(&amp;ok2);  <span class="comment">// 原始 Y 坐标。</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordflow">if</span> (ok1 &amp;&amp; ok2) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                points.append(QPointF(x * scaleFactor, y * scaleFactor));</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        }</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">return</span> points;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}</div>
+</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#ad02dec492593329be202e44e09a051f9">  104</a></span><span class="keyword">inline</span> QList&lt;QPointF&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#ad02dec492593329be202e44e09a051f9">parseSimpleSvgPath</a>(<span class="keyword">const</span> QString&amp; pathStr, <span class="keywordtype">double</span> scaleFactor = <a class="code hl_variable" href="namespaceEasyKiConverter_1_1IR.html#a986b048275afec1f0587d2fe323e8603">EASYEDA_PX_TO_MM</a>) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    QList&lt;QPointF&gt; points = <a class="code hl_function" href="classEasyKiConverter_1_1SvgPathParser.html#af70c5e413eab91803dcf55209c270c3c">SvgPathParser::parsePath</a>(pathStr);  <span class="comment">// SVG 解析器返回的原始点序列。</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordflow">for</span> (QPointF&amp; point : points)</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        point *= scaleFactor;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">return</span> points;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}</div>
+</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span><span class="comment">// ==================== 坐标变换 ====================</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="foldopen" id="foldopen00126" data-start="{" data-end="}">
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a3cd34d4127880204d066e946f931c59a">  126</a></span><span class="keyword">inline</span> QPointF <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a3cd34d4127880204d066e946f931c59a">transformPoint</a>(<span class="keywordtype">double</span> rawX,</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>                              <span class="keywordtype">double</span> rawY,</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                              <span class="keywordtype">double</span> originX,</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>                              <span class="keywordtype">double</span> originY,</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                              <span class="keywordtype">double</span> scaleFactor = <a class="code hl_variable" href="namespaceEasyKiConverter_1_1IR.html#a986b048275afec1f0587d2fe323e8603">EASYEDA_PX_TO_MM</a>) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">return</span> QPointF((rawX - originX) * scaleFactor, -(rawY - originY) * scaleFactor);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>}</div>
+</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="foldopen" id="foldopen00144" data-start="{" data-end="}">
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a1870297ebe92c0bce533a6f357036ac6">  144</a></span><span class="keyword">inline</span> QList&lt;QPointF&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a1870297ebe92c0bce533a6f357036ac6">transformPoints</a>(<span class="keyword">const</span> QList&lt;QPointF&gt;&amp; points, <span class="keyword">const</span> QPointF&amp; originMm) {</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    QList&lt;QPointF&gt; result;  <span class="comment">// 平移并翻转后的点列表。</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    result.reserve(points.size());</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pt : points) {</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        result.append(QPointF(pt.x() - originMm.x(), -(pt.y() - originMm.y())));</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    }</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>}</div>
+</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="foldopen" id="foldopen00161" data-start="{" data-end="};">
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html">  161</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html">BBoxOrigin</a> {</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a4b5da0018cc524ddf8bbb7e01624af8c">  162</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a4b5da0018cc524ddf8bbb7e01624af8c">x</a> = 0.0;  </div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a1d7ffc03a2871f372fd3d13eaecea97e">  163</a></span>    <span class="keywordtype">double</span> <a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a1d7ffc03a2871f372fd3d13eaecea97e">y</a> = 0.0;  </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a8042408deb291af90a4a144dd86588b6">  164</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a8042408deb291af90a4a144dd86588b6">valid</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>};</div>
+</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>}  <span class="comment">// namespace GeometryNormalizer</span></div>
+</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>}  <span class="comment">// namespace IR</span></div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aIRTypes_8h_html"><div class="ttname"><a href="IRTypes_8h.html">IRTypes.h</a></div><div class="ttdoc">EDA 无关的通用枚举和类型定义</div></div>
+<div class="ttc" id="aSvgPathParser_8h_html"><div class="ttname"><a href="SvgPathParser_8h.html">SvgPathParser.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SvgPathParser_html_af70c5e413eab91803dcf55209c270c3c"><div class="ttname"><a href="classEasyKiConverter_1_1SvgPathParser.html#af70c5e413eab91803dcf55209c270c3c">EasyKiConverter::SvgPathParser::parsePath</a></div><div class="ttdeci">static QList&lt; QPointF &gt; parsePath(const QString &amp;path)</div><div class="ttdoc">解析SVG路径字符</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00173">SvgPathParser.cpp:173</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer_html_a1870297ebe92c0bce533a6f357036ac6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a1870297ebe92c0bce533a6f357036ac6">EasyKiConverter::IR::GeometryNormalizer::transformPoints</a></div><div class="ttdeci">QList&lt; QPointF &gt; transformPoints(const QList&lt; QPointF &gt; &amp;points, const QPointF &amp;originMm)</div><div class="ttdoc">对点列表应用原点偏移和 Y 轴翻转</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00144">GeometryNormalizer.h:144</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer_html_a3853768252d4e5a2baf71b67414aca79"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a3853768252d4e5a2baf71b67414aca79">EasyKiConverter::IR::GeometryNormalizer::parseFlatPointString</a></div><div class="ttdeci">QList&lt; QPointF &gt; parseFlatPointString(const QString &amp;pointsStr, double scaleFactor=EASYEDA_PX_TO_MM)</div><div class="ttdoc">解析 EasyEDA 空格分隔的扁平坐标字符串</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00055">GeometryNormalizer.h:55</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer_html_a3cd34d4127880204d066e946f931c59a"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a3cd34d4127880204d066e946f931c59a">EasyKiConverter::IR::GeometryNormalizer::transformPoint</a></div><div class="ttdeci">QPointF transformPoint(double rawX, double rawY, double originX, double originY, double scaleFactor=EASYEDA_PX_TO_MM)</div><div class="ttdoc">对单点应用原点偏移和 Y 轴翻转</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00126">GeometryNormalizer.h:126</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer_html_a85a14b6a9632f891ddade318affd8738"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#a85a14b6a9632f891ddade318affd8738">EasyKiConverter::IR::GeometryNormalizer::parseCommaSeparatedPoints</a></div><div class="ttdeci">QList&lt; QPointF &gt; parseCommaSeparatedPoints(const QString &amp;pointsStr, double scaleFactor=EASYEDA_PX_TO_MM)</div><div class="ttdoc">解析 EasyEDA 逗号分隔的坐标字符串</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00077">GeometryNormalizer.h:77</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer_html_ad02dec492593329be202e44e09a051f9"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#ad02dec492593329be202e44e09a051f9">EasyKiConverter::IR::GeometryNormalizer::parseSimpleSvgPath</a></div><div class="ttdeci">QList&lt; QPointF &gt; parseSimpleSvgPath(const QString &amp;pathStr, double scaleFactor=EASYEDA_PX_TO_MM)</div><div class="ttdoc">解析 SVG 路径字符串为点序列</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00104">GeometryNormalizer.h:104</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer_html_afe825d2e1da65aaf1ae924d7e521ef4c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR_1_1GeometryNormalizer.html#afe825d2e1da65aaf1ae924d7e521ef4c">EasyKiConverter::IR::GeometryNormalizer::parseStrokeStyle</a></div><div class="ttdeci">StrokeStyle parseStrokeStyle(const QString &amp;style)</div><div class="ttdoc">将来源线型字符串映射到通用线型枚举</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00038">GeometryNormalizer.h:38</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a986b048275afec1f0587d2fe323e8603"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a986b048275afec1f0587d2fe323e8603">EasyKiConverter::IR::EASYEDA_PX_TO_MM</a></div><div class="ttdeci">constexpr double EASYEDA_PX_TO_MM</div><div class="ttdoc">EasyEDA 坐标单位 → mm 转换因子（1 EasyEDA 单位 = 10 mil = 0.254 mm）</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00022">IRTypes.h:22</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9e456a9c97be9494f30dd84a5f7c8f82"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9e456a9c97be9494f30dd84a5f7c8f82">EasyKiConverter::IR::StrokeStyle</a></div><div class="ttdeci">StrokeStyle</div><div class="ttdoc">笔划样式枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00171">IRTypes.h:171</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9e456a9c97be9494f30dd84a5f7c8f82a90c09393a4c0970bc9a6703ad527781c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9e456a9c97be9494f30dd84a5f7c8f82a90c09393a4c0970bc9a6703ad527781c">EasyKiConverter::IR::StrokeStyle::Dotted</a></div><div class="ttdeci">@ Dotted</div><div class="ttdoc">点线</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9e456a9c97be9494f30dd84a5f7c8f82ae41480b6bbfbf7407974a88d3d34f4fa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9e456a9c97be9494f30dd84a5f7c8f82ae41480b6bbfbf7407974a88d3d34f4fa">EasyKiConverter::IR::StrokeStyle::Solid</a></div><div class="ttdeci">@ Solid</div><div class="ttdoc">实线</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9e456a9c97be9494f30dd84a5f7c8f82aeb656e41b6da91494775ecf47a51da91"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9e456a9c97be9494f30dd84a5f7c8f82aeb656e41b6da91494775ecf47a51da91">EasyKiConverter::IR::StrokeStyle::Dashed</a></div><div class="ttdeci">@ Dashed</div><div class="ttdoc">虚线</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html">EasyKiConverter::IR::GeometryNormalizer::BBoxOrigin</a></div><div class="ttdoc">计算一组图元的几何边界框原点</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00161">GeometryNormalizer.h:161</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin_html_a1d7ffc03a2871f372fd3d13eaecea97e"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a1d7ffc03a2871f372fd3d13eaecea97e">EasyKiConverter::IR::GeometryNormalizer::BBoxOrigin::y</a></div><div class="ttdeci">double y</div><div class="ttdoc">边界框原点 Y 坐标。</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00163">GeometryNormalizer.h:163</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin_html_a4b5da0018cc524ddf8bbb7e01624af8c"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a4b5da0018cc524ddf8bbb7e01624af8c">EasyKiConverter::IR::GeometryNormalizer::BBoxOrigin::x</a></div><div class="ttdeci">double x</div><div class="ttdoc">边界框原点 X 坐标。</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00162">GeometryNormalizer.h:162</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin_html_a8042408deb291af90a4a144dd86588b6"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1GeometryNormalizer_1_1BBoxOrigin.html#a8042408deb291af90a4a144dd86588b6">EasyKiConverter::IR::GeometryNormalizer::BBoxOrigin::valid</a></div><div class="ttdeci">bool valid</div><div class="ttdoc">是否已收集到有效图元。</div><div class="ttdef"><b>Definition</b> <a href="GeometryNormalizer_8h_source.html#l00164">GeometryNormalizer.h:164</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_f90f91cbf7b973d2ec9d8c4dc24c1c5f.html">ir</a></li><li class="navelem"><a class="el" href="GeometryNormalizer_8h.html">GeometryNormalizer.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

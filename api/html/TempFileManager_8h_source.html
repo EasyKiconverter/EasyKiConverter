@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/export/TempFileManager.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('TempFileManager_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">TempFileManager.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="TempFileManager_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef TEMPFILEMANAGER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define TEMPFILEMANAGER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QMutex&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QVector&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="};">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TempFileManager.html">   20</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1TempFileManager.html">TempFileManager</a> : <span class="keyword">public</span> QObject {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    Q_OBJECT</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="};">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html">   24</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html">CommitItem</a> {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#af8e386d9059e76c66eb76d9b5047a379">   25</a></span>        QString <a class="code hl_variable" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#af8e386d9059e76c66eb76d9b5047a379">tempPath</a>;  </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#a767f075b05f3e7b8f17e4ff35d0c3f22">   26</a></span>        QString <a class="code hl_variable" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#a767f075b05f3e7b8f17e4ff35d0c3f22">finalPath</a>;  </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#a90f2f80c0a073c87ca7368fe08f401ad">   27</a></span>        <span class="keywordtype">bool</span> <a class="code hl_variable" href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#a90f2f80c0a073c87ca7368fe08f401ad">isDirectory</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    };</div>
+</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1TempFileManager.html">TempFileManager</a>(QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a5afae54f1b8c0cd4dcbb389e1cdb1d97">~TempFileManager</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a8b8591fbfead930c23a57e5f2c8a1aab">setOutputPath</a>(<span class="keyword">const</span> QString&amp; outputPath);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a0a3eeb6f17fc2d53239fd527ef474b0b">tempDirectory</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a3fd24e169682b8e4429aab908b751016">createTempFilePath</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QString&amp; suffix);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#ab00a5f0ad9318c698b79c2b50c7fb46e">tempFilePath</a>(<span class="keyword">const</span> QString&amp; finalPath) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#ae5419a929c46712580b4853c2d53baeb">createSymbolTempPath</a>(<span class="keyword">const</span> QString&amp; libName, <span class="keyword">const</span> QString&amp; suffix);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a9e97e5fab0fdfb7906b8313c1d9af77d">createTempDirectoryPath</a>(<span class="keyword">const</span> QString&amp; dirName);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#afc1129a0a5a0df3810a60a2846214b01">commit</a>(<span class="keyword">const</span> QString&amp; finalPath);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a846b35b69c5c7b972f337a829f41d7ed">commitDirectory</a>(<span class="keyword">const</span> QString&amp; finalDirPath);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a29ea60f7200dfdec0b46bac56d7a35bf">commitWithBackup</a>(<span class="keyword">const</span> QString&amp; tempPath, <span class="keyword">const</span> QString&amp; finalPath);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a093e8aae7ad37e970fe4c2d1e781ef66">commitDirectoryWithBackup</a>(<span class="keyword">const</span> QString&amp; tempDirPath, <span class="keyword">const</span> QString&amp; finalDirPath);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#ad26adbc139fe020b903eb17bd0fdcffa">commitBatch</a>(<span class="keyword">const</span> QVector&lt;CommitItem&gt;&amp; items);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a7b44a8f553e5a03dc0a32935d554b563">recoverIncompleteTransactions</a>();</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#ab00c36b4482d572cec3196964cb25ab7">rollbackAll</a>();</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a86f3851e8b4aae929bfbedc48b9b1749">cleanupTempDirectory</a>();</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#af5cdb388e8c71914f4760dad3c644be0">cleanupOrphanedTempFiles</a>();</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#ac6d5f6812d97b1d147b063f34615f21f">registerTempFile</a>(<span class="keyword">const</span> QString&amp; tempPath);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    QSet&lt;QString&gt; <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#abd2d24d1d8baf5ec351fda0509ddc41a">registeredTempFiles</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>signals:</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TempFileManager.html#ad7b171aa0dcc2ad8de0b4b86e4b9f840">  169</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#ad7b171aa0dcc2ad8de0b4b86e4b9f840">cleanupCompleted</a>(<span class="keywordtype">int</span> deletedCount);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">  176</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">commitCompleted</a>(<span class="keyword">const</span> QString&amp; finalPath, <span class="keywordtype">bool</span> success);</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a7eeefc391949d90d4d0fcc1b19392fb4">generateUniqueTempName</a>(<span class="keyword">const</span> QString&amp; prefix, <span class="keyword">const</span> QString&amp; suffix) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a26c0cabd434559854111a1a89806c860">ensureTempDirectory</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#ada8ffca9b4d613e045d7cf1ca84a5407">deleteFile</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#a230445c3467458dd8ec51f0ce84a62e6">commitBatchLocked</a>(<span class="keyword">const</span> QVector&lt;CommitItem&gt;&amp; items);</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1TempFileManager.html#ab2b3dc14ff37a121c2b8feff60d9ccdd">cleanupEmptyTempDirectoryLocked</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TempFileManager.html#aa076525af4bd1814056e4cd26788f8c7">  203</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1TempFileManager.html#aa076525af4bd1814056e4cd26788f8c7">m_outputPath</a>;  </div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TempFileManager.html#a7ece29924ad94ec6f32f62680d2d1f66">  204</a></span>    <span class="keyword">mutable</span> QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1TempFileManager.html#a7ece29924ad94ec6f32f62680d2d1f66">m_mutex</a>;  </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TempFileManager.html#aef5002a5b0a92158ab46072549f331d8">  205</a></span>    QSet&lt;QString&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1TempFileManager.html#aef5002a5b0a92158ab46072549f331d8">m_tempFiles</a>;  </div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TempFileManager.html#aae9a153a7f1f92ead6c4cd55ea675b94">  206</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1TempFileManager.html#aae9a153a7f1f92ead6c4cd55ea675b94">m_tempDirName</a> = QStringLiteral(<span class="stringliteral">&quot;.tmp&quot;</span>);  </div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1TempFileManager.html#a9ef595508f97ba2fdb57e1b47e9912ae">  207</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1TempFileManager.html#a9ef595508f97ba2fdb57e1b47e9912ae">m_registeredTempDirectory</a>;  </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>};</div>
+</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span><span class="preprocessor">#endif  </span><span class="comment">// TEMPFILEMANAGER_H</span></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html">EasyKiConverter::TempFileManager</a></div><div class="ttdoc">临时文件管理器</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00020">TempFileManager.h:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a093e8aae7ad37e970fe4c2d1e781ef66"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a093e8aae7ad37e970fe4c2d1e781ef66">EasyKiConverter::TempFileManager::commitDirectoryWithBackup</a></div><div class="ttdeci">bool commitDirectoryWithBackup(const QString &amp;tempDirPath, const QString &amp;finalDirPath)</div><div class="ttdoc">提交指定临时目录</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00326">TempFileManager.cpp:326</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a0a3eeb6f17fc2d53239fd527ef474b0b"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a0a3eeb6f17fc2d53239fd527ef474b0b">EasyKiConverter::TempFileManager::tempDirectory</a></div><div class="ttdeci">QString tempDirectory() const</div><div class="ttdoc">获取临时文件目录路径</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00131">TempFileManager.cpp:131</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a230445c3467458dd8ec51f0ce84a62e6"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a230445c3467458dd8ec51f0ce84a62e6">EasyKiConverter::TempFileManager::commitBatchLocked</a></div><div class="ttdeci">bool commitBatchLocked(const QVector&lt; CommitItem &gt; &amp;items)</div><div class="ttdoc">在持有互斥锁时执行带备份的批量提交事务。</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00419">TempFileManager.cpp:419</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a26c0cabd434559854111a1a89806c860"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a26c0cabd434559854111a1a89806c860">EasyKiConverter::TempFileManager::ensureTempDirectory</a></div><div class="ttdeci">bool ensureTempDirectory() const</div><div class="ttdoc">确保临时目录存在</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00647">TempFileManager.cpp:647</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a29ea60f7200dfdec0b46bac56d7a35bf"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a29ea60f7200dfdec0b46bac56d7a35bf">EasyKiConverter::TempFileManager::commitWithBackup</a></div><div class="ttdeci">bool commitWithBackup(const QString &amp;tempPath, const QString &amp;finalPath)</div><div class="ttdoc">提交指定临时文件</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00311">TempFileManager.cpp:311</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a3fd24e169682b8e4429aab908b751016"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a3fd24e169682b8e4429aab908b751016">EasyKiConverter::TempFileManager::createTempFilePath</a></div><div class="ttdeci">QString createTempFilePath(const QString &amp;componentId, const QString &amp;suffix)</div><div class="ttdoc">创建临时文件路径</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00148">TempFileManager.cpp:148</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a416118934f84365ad1993f6c2e09c3ab"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a416118934f84365ad1993f6c2e09c3ab">EasyKiConverter::TempFileManager::commitCompleted</a></div><div class="ttdeci">void commitCompleted(const QString &amp;finalPath, bool success)</div><div class="ttdoc">提交完成信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a5afae54f1b8c0cd4dcbb389e1cdb1d97"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a5afae54f1b8c0cd4dcbb389e1cdb1d97">EasyKiConverter::TempFileManager::~TempFileManager</a></div><div class="ttdeci">~TempFileManager() override</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00088">TempFileManager.cpp:88</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a7b44a8f553e5a03dc0a32935d554b563"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a7b44a8f553e5a03dc0a32935d554b563">EasyKiConverter::TempFileManager::recoverIncompleteTransactions</a></div><div class="ttdeci">static bool recoverIncompleteTransactions()</div><div class="ttdoc">恢复上次崩溃或异常退出留下的未完成提交事务</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00355">TempFileManager.cpp:355</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a7ece29924ad94ec6f32f62680d2d1f66"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a7ece29924ad94ec6f32f62680d2d1f66">EasyKiConverter::TempFileManager::m_mutex</a></div><div class="ttdeci">QMutex m_mutex</div><div class="ttdoc">保护临时文件集合</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00204">TempFileManager.h:204</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a7eeefc391949d90d4d0fcc1b19392fb4"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a7eeefc391949d90d4d0fcc1b19392fb4">EasyKiConverter::TempFileManager::generateUniqueTempName</a></div><div class="ttdeci">QString generateUniqueTempName(const QString &amp;prefix, const QString &amp;suffix) const</div><div class="ttdoc">生成唯一的临时文件名</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00638">TempFileManager.cpp:638</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a846b35b69c5c7b972f337a829f41d7ed"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a846b35b69c5c7b972f337a829f41d7ed">EasyKiConverter::TempFileManager::commitDirectory</a></div><div class="ttdeci">bool commitDirectory(const QString &amp;finalDirPath)</div><div class="ttdoc">提交临时目录（完成导出）</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00270">TempFileManager.cpp:270</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a86f3851e8b4aae929bfbedc48b9b1749"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a86f3851e8b4aae929bfbedc48b9b1749">EasyKiConverter::TempFileManager::cleanupTempDirectory</a></div><div class="ttdeci">void cleanupTempDirectory()</div><div class="ttdoc">仅删除临时目录（保留其他文件）</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00555">TempFileManager.cpp:555</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a8b8591fbfead930c23a57e5f2c8a1aab"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a8b8591fbfead930c23a57e5f2c8a1aab">EasyKiConverter::TempFileManager::setOutputPath</a></div><div class="ttdeci">void setOutputPath(const QString &amp;outputPath)</div><div class="ttdoc">设置输出目录</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00116">TempFileManager.cpp:116</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a9e97e5fab0fdfb7906b8313c1d9af77d"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a9e97e5fab0fdfb7906b8313c1d9af77d">EasyKiConverter::TempFileManager::createTempDirectoryPath</a></div><div class="ttdeci">QString createTempDirectoryPath(const QString &amp;dirName)</div><div class="ttdoc">创建临时目录路径</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00212">TempFileManager.cpp:212</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_a9ef595508f97ba2fdb57e1b47e9912ae"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#a9ef595508f97ba2fdb57e1b47e9912ae">EasyKiConverter::TempFileManager::m_registeredTempDirectory</a></div><div class="ttdeci">QString m_registeredTempDirectory</div><div class="ttdoc">当前实例登记的共享临时目录</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00207">TempFileManager.h:207</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_aa076525af4bd1814056e4cd26788f8c7"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#aa076525af4bd1814056e4cd26788f8c7">EasyKiConverter::TempFileManager::m_outputPath</a></div><div class="ttdeci">QString m_outputPath</div><div class="ttdoc">输出目录路径</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00203">TempFileManager.h:203</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_aae9a153a7f1f92ead6c4cd55ea675b94"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#aae9a153a7f1f92ead6c4cd55ea675b94">EasyKiConverter::TempFileManager::m_tempDirName</a></div><div class="ttdeci">QString m_tempDirName</div><div class="ttdoc">临时目录名称</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00206">TempFileManager.h:206</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_ab00a5f0ad9318c698b79c2b50c7fb46e"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#ab00a5f0ad9318c698b79c2b50c7fb46e">EasyKiConverter::TempFileManager::tempFilePath</a></div><div class="ttdeci">QString tempFilePath(const QString &amp;finalPath) const</div><div class="ttdoc">获取临时文件对应的实际路径</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00168">TempFileManager.cpp:168</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_ab00c36b4482d572cec3196964cb25ab7"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#ab00c36b4482d572cec3196964cb25ab7">EasyKiConverter::TempFileManager::rollbackAll</a></div><div class="ttdeci">void rollbackAll()</div><div class="ttdoc">回滚所有临时文件（取消导出）</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00527">TempFileManager.cpp:527</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_ab2b3dc14ff37a121c2b8feff60d9ccdd"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#ab2b3dc14ff37a121c2b8feff60d9ccdd">EasyKiConverter::TempFileManager::cleanupEmptyTempDirectoryLocked</a></div><div class="ttdeci">bool cleanupEmptyTempDirectoryLocked() const</div><div class="ttdoc">在持锁状态下清理空的共享临时目录。</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00689">TempFileManager.cpp:689</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_abd2d24d1d8baf5ec351fda0509ddc41a"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#abd2d24d1d8baf5ec351fda0509ddc41a">EasyKiConverter::TempFileManager::registeredTempFiles</a></div><div class="ttdeci">QSet&lt; QString &gt; registeredTempFiles() const</div><div class="ttdoc">获取所有已注册的临时文件</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00628">TempFileManager.cpp:628</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_ac6d5f6812d97b1d147b063f34615f21f"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#ac6d5f6812d97b1d147b063f34615f21f">EasyKiConverter::TempFileManager::registerTempFile</a></div><div class="ttdeci">void registerTempFile(const QString &amp;tempPath)</div><div class="ttdoc">注册一个临时文件路径（用于追踪）</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00620">TempFileManager.cpp:620</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_ad26adbc139fe020b903eb17bd0fdcffa"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#ad26adbc139fe020b903eb17bd0fdcffa">EasyKiConverter::TempFileManager::commitBatch</a></div><div class="ttdeci">bool commitBatch(const QVector&lt; CommitItem &gt; &amp;items)</div><div class="ttdoc">全有或全无地提交一组临时文件/目录</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00340">TempFileManager.cpp:340</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_ad7b171aa0dcc2ad8de0b4b86e4b9f840"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#ad7b171aa0dcc2ad8de0b4b86e4b9f840">EasyKiConverter::TempFileManager::cleanupCompleted</a></div><div class="ttdeci">void cleanupCompleted(int deletedCount)</div><div class="ttdoc">临时文件清理完成信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_ada8ffca9b4d613e045d7cf1ca84a5407"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#ada8ffca9b4d613e045d7cf1ca84a5407">EasyKiConverter::TempFileManager::deleteFile</a></div><div class="ttdeci">bool deleteFile(const QString &amp;path) const</div><div class="ttdoc">实际执行文件删除</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00667">TempFileManager.cpp:667</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_ae5419a929c46712580b4853c2d53baeb"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#ae5419a929c46712580b4853c2d53baeb">EasyKiConverter::TempFileManager::createSymbolTempPath</a></div><div class="ttdeci">QString createSymbolTempPath(const QString &amp;libName, const QString &amp;suffix)</div><div class="ttdoc">获取符号库临时文件路径</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00191">TempFileManager.cpp:191</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_aef5002a5b0a92158ab46072549f331d8"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#aef5002a5b0a92158ab46072549f331d8">EasyKiConverter::TempFileManager::m_tempFiles</a></div><div class="ttdeci">QSet&lt; QString &gt; m_tempFiles</div><div class="ttdoc">注册的临时文件集合</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00205">TempFileManager.h:205</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_af5cdb388e8c71914f4760dad3c644be0"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#af5cdb388e8c71914f4760dad3c644be0">EasyKiConverter::TempFileManager::cleanupOrphanedTempFiles</a></div><div class="ttdeci">void cleanupOrphanedTempFiles()</div><div class="ttdoc">检查并清理遗留的临时文件</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00587">TempFileManager.cpp:587</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html_afc1129a0a5a0df3810a60a2846214b01"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html#afc1129a0a5a0df3810a60a2846214b01">EasyKiConverter::TempFileManager::commit</a></div><div class="ttdeci">bool commit(const QString &amp;finalPath)</div><div class="ttdoc">提交临时文件（完成导出）</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8cpp_source.html#l00231">TempFileManager.cpp:231</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileManager_1_1CommitItem_html"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html">EasyKiConverter::TempFileManager::CommitItem</a></div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00024">TempFileManager.h:24</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileManager_1_1CommitItem_html_a767f075b05f3e7b8f17e4ff35d0c3f22"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#a767f075b05f3e7b8f17e4ff35d0c3f22">EasyKiConverter::TempFileManager::CommitItem::finalPath</a></div><div class="ttdeci">QString finalPath</div><div class="ttdoc">提交后的最终文件或目录路径。</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00026">TempFileManager.h:26</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileManager_1_1CommitItem_html_a90f2f80c0a073c87ca7368fe08f401ad"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#a90f2f80c0a073c87ca7368fe08f401ad">EasyKiConverter::TempFileManager::CommitItem::isDirectory</a></div><div class="ttdeci">bool isDirectory</div><div class="ttdoc">路径是否指向目录。</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00027">TempFileManager.h:27</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1TempFileManager_1_1CommitItem_html_af8e386d9059e76c66eb76d9b5047a379"><div class="ttname"><a href="structEasyKiConverter_1_1TempFileManager_1_1CommitItem.html#af8e386d9059e76c66eb76d9b5047a379">EasyKiConverter::TempFileManager::CommitItem::tempPath</a></div><div class="ttdeci">QString tempPath</div><div class="ttdoc">待提交的临时文件或目录路径。</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00025">TempFileManager.h:25</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="dir_a384dc2a66e9a2b9e112fff859fd4142.html">export</a></li><li class="navelem"><a class="el" href="TempFileManager_8h.html">TempFileManager.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

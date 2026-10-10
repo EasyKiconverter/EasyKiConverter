@@ -1,0 +1,308 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/compound/OLECompoundSerializer.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('OLECompoundSerializer_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">OLECompoundSerializer.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="OLECompoundSerializer_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="OLECompoundSerializer_8h.html">OLECompoundSerializer.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="OLECompoundWriter_8h.html">OLECompoundWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundSerializer.html#ada5cf7499f77affc10cd68126ad68a71">   10</a></span><a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#ada5cf7499f77affc10cd68126ad68a71">OLECompoundSerializer::OLECompoundSerializer</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a>&amp; owner) : m_owner(owner) {}</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="}">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundSerializer.html#ad41812f204c21b1c3d2b8b72bc0fcebf">   17</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#ad41812f204c21b1c3d2b8b72bc0fcebf">OLECompoundSerializer::serializeDirectoryEntry</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">OLECompoundWriter::DirectoryEntry</a>&amp; entry,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                                                    QByteArray&amp; buffer)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    buffer.resize(<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a4b8b4c191e36e2fbdae65398acbe261b">OLECompoundWriter::DIR_ENTRY_SIZE</a>);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    buffer.fill(0);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordtype">int</span> offset = 0;  <span class="comment">// 当前写入位置。</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">// 名称（64 字节，UTF-16LE）。</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 32; ++i) {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a7cdcffaecac3f0b5331276ba51e15bd5">name</a>[i] &amp; 0xFF);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a7cdcffaecac3f0b5331276ba51e15bd5">name</a>[i] &gt;&gt; 8) &amp; 0xFF);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    }</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 名称大小（2 字节，包含结尾空字符）。</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a9c6430541ab17742178a04f90ce981b6">nameSize</a> &amp; 0xFF);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a9c6430541ab17742178a04f90ce981b6">nameSize</a> &gt;&gt; 8) &amp; 0xFF);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="comment">// 对象类型和红黑树颜色标志。</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a85ce5ab37a1ba0498fde962eda075e3c">objectType</a>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a1fdd86242b706a332e567ed3f44cfb44">colorFlag</a>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="comment">// 左子节点、右子节点和子节点索引。</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">const</span> uint32_t childLinks[] = {entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a848873a12f07d3c019285c5665536ad8">leftChild</a>, entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#aa796741fdab93f28aca250a9d63e2224">rightChild</a>, entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#acc4569edee4ef360d7d12e40e6e2e8d6">child</a>};  <span class="comment">// 三个目录树链接索引。</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">for</span> (uint32_t link : childLinks) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(link &amp; 0xFF);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((link &gt;&gt; 8) &amp; 0xFF);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((link &gt;&gt; 16) &amp; 0xFF);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((link &gt;&gt; 24) &amp; 0xFF);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="comment">// CLSID（16 字节）。</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">for</span> (uint8_t <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> : entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a7e226321d229ff9c768ca5b8f53fd166">clsid</a>) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="comment">// StateBits（4 字节）。</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 4; ++i) {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a631bfcc8741e8eac9f5561322ea382ea">stateBits</a> &gt;&gt; (i * 8)) &amp; 0xFF);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// 创建时间和修改时间（各 8 字节）。</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 8; ++i) {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a91c14d06b7f26be27b75a9850aea71c5">creationTime</a> &gt;&gt; (i * 8)) &amp; 0xFF);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 8; ++i) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a866e2c1ac838e534ac7c919fb06927b7">modifiedTime</a> &gt;&gt; (i * 8)) &amp; 0xFF);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// 起始扇区（4 字节）。</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#aad99bd2755217feb8331d1cd42d35558">startSector</a> &amp; 0xFF);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#aad99bd2755217feb8331d1cd42d35558">startSector</a> &gt;&gt; 8) &amp; 0xFF);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#aad99bd2755217feb8331d1cd42d35558">startSector</a> &gt;&gt; 16) &amp; 0xFF);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#aad99bd2755217feb8331d1cd42d35558">startSector</a> &gt;&gt; 24) &amp; 0xFF);</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="comment">// 流大小（8 字节）。</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 8; ++i) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((entry.<a class="code hl_variable" href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a183dd223f099dc387a6ee369d9c29d38">streamSize</a> &gt;&gt; (i * 8)) &amp; 0xFF);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>}</div>
+</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="foldopen" id="foldopen00080" data-start="{" data-end="}">
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a5a90dd7d989f52d8b1c64a63299851cb">   80</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a5a90dd7d989f52d8b1c64a63299851cb">OLECompoundSerializer::serializeFileHeader</a>(QByteArray&amp; header)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    header.resize(<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a6d32c9cf5abde23110e775aec790f493">OLECompoundWriter::SECTOR_SIZE</a>);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    header.fill(0);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">int</span> offset = 0;  <span class="comment">// 当前文件头写入位置。</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="comment">// Compound File Binary Format 魔数（8 字节）。</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">const</span> <span class="keywordtype">char</span> signature[] = {<span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0xD0),</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>                              <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0xCF),</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                              <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0x11),</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                              <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0xE0),</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                              <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0xA1),</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                              <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0xB1),</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                              <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0x1A),</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                              <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0xE1)};</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> : signature) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        header[offset++] = <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// CLSID（16 字节）保留为零。</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    offset += 16;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="comment">// V3 版本、小端字节序、512 字节扇区和 64 字节 mini sector。</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    header[offset++] = 0x3E;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    header[offset++] = 0x00;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    header[offset++] = 0x03;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    header[offset++] = 0x00;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    header[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0xFE);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    header[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(0xFF);</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    header[offset++] = 0x09;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    header[offset++] = 0x00;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    header[offset++] = 0x06;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    header[offset++] = 0x00;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="comment">// 保留字段和 V3 不使用的目录扇区数。</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    offset += 6;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    offset += 4;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="keyword">const</span> uint32_t fatSectorCount =</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a561a5818b581c6c8653a9e4af8b0e81e">m_fat</a>.size()) / (<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a6d32c9cf5abde23110e775aec790f493">OLECompoundWriter::SECTOR_SIZE</a> / 4);  <span class="comment">// FAT 扇区数量。</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(header, offset, fatSectorCount);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="comment">// FAT 和 DIFAT 位于文件头之后，目录紧随其后。</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keyword">const</span> uint32_t difatSectorCount = <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#ac46110493f69a388c66798556dde7d7f">m_difatSectors</a>.size());  <span class="comment">// DIFAT 扇区数量。</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(header, offset, fatSectorCount + difatSectorCount);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="comment">// Transaction signature 保留为零。</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    offset += 4;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="comment">// 小流阈值为 4096 字节。</span></div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(header, offset, 4096);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    uint32_t firstMiniFatSector = <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a08edcaa4b62b16e270d76f6640bef496">OLECompoundWriter::ENDOFCHAIN</a>;  <span class="comment">// 第一个 MiniFAT 扇区索引。</span></div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a49848ac877ad2f6645ba87242448ad9a">m_miniFat</a>.isEmpty()) {</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        <span class="keyword">const</span> uint32_t directorySectors =</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>            (<span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a694688999969060caf800d84d6fd1f29">m_directory</a>.size()) * <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a4b8b4c191e36e2fbdae65398acbe261b">OLECompoundWriter::DIR_ENTRY_SIZE</a> +</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>             <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a6d32c9cf5abde23110e775aec790f493">OLECompoundWriter::SECTOR_SIZE</a> - 1) /</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a6d32c9cf5abde23110e775aec790f493">OLECompoundWriter::SECTOR_SIZE</a>;  <span class="comment">// 目录占用的扇区数量。</span></div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        firstMiniFatSector = fatSectorCount + difatSectorCount + directorySectors;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    }</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(header, offset, firstMiniFatSector);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="keyword">const</span> uint32_t miniFatSectorCount =</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>        <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>((<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a49848ac877ad2f6645ba87242448ad9a">m_miniFat</a>.size() * 4 + <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a6d32c9cf5abde23110e775aec790f493">OLECompoundWriter::SECTOR_SIZE</a> - 1) /</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                              <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a6d32c9cf5abde23110e775aec790f493">OLECompoundWriter::SECTOR_SIZE</a>);  <span class="comment">// MiniFAT 占用的扇区数量。</span></div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(header, offset, miniFatSectorCount);</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span> </div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    <span class="keyword">const</span> uint32_t firstDifatSector =</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        difatSectorCount == 0 ? <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#a08edcaa4b62b16e270d76f6640bef496">OLECompoundWriter::ENDOFCHAIN</a> : fatSectorCount;  <span class="comment">// 第一个 DIFAT 扇区索引。</span></div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(header, offset, firstDifatSector);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(header, offset, difatSectorCount);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="comment">// 头部最多直接保存 109 个 FAT 扇区索引。</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; 109; ++i) {</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>        <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">writeUInt32</a>(header, offset, i &lt; fatSectorCount ? i : <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundWriter.html#adfe35cccad1f59d579f86280dd94e748">OLECompoundWriter::FREESECT</a>);</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    }</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>}</div>
+</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="foldopen" id="foldopen00163" data-start="{" data-end="}">
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">  163</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">OLECompoundSerializer::writeUInt32</a>(QByteArray&amp; buffer, <span class="keywordtype">int</span>&amp; offset, uint32_t <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> &amp; 0xFF);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> &gt;&gt; 8) &amp; 0xFF);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> &gt;&gt; 16) &amp; 0xFF);</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    buffer[offset++] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>((<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> &gt;&gt; 24) &amp; 0xFF);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>}</div>
+</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aOLECompoundSerializer_8h_html"><div class="ttname"><a href="OLECompoundSerializer_8h.html">OLECompoundSerializer.h</a></div></div>
+<div class="ttc" id="aOLECompoundWriter_8h_html"><div class="ttname"><a href="OLECompoundWriter_8h.html">OLECompoundWriter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_a4604eb81711bb205893e1dd05568e86b"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#a4604eb81711bb205893e1dd05568e86b">EasyKiConverter::OLECompoundSerializer::writeUInt32</a></div><div class="ttdeci">static void writeUInt32(QByteArray &amp;buffer, int &amp;offset, uint32_t value)</div><div class="ttdoc">按小端序写入无符号 32 位字段。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8cpp_source.html#l00163">OLECompoundSerializer.cpp:163</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_a5a90dd7d989f52d8b1c64a63299851cb"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#a5a90dd7d989f52d8b1c64a63299851cb">EasyKiConverter::OLECompoundSerializer::serializeFileHeader</a></div><div class="ttdeci">void serializeFileHeader(QByteArray &amp;header) const</div><div class="ttdoc">将当前 OLE 文档状态编码为 512 字节文件头。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8cpp_source.html#l00080">OLECompoundSerializer.cpp:80</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_ad41812f204c21b1c3d2b8b72bc0fcebf"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#ad41812f204c21b1c3d2b8b72bc0fcebf">EasyKiConverter::OLECompoundSerializer::serializeDirectoryEntry</a></div><div class="ttdeci">void serializeDirectoryEntry(const OLECompoundWriter::DirectoryEntry &amp;entry, QByteArray &amp;buffer) const</div><div class="ttdoc">将一个目录条目编码为固定 128 字节记录。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8cpp_source.html#l00017">OLECompoundSerializer.cpp:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_ada5cf7499f77affc10cd68126ad68a71"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#ada5cf7499f77affc10cd68126ad68a71">EasyKiConverter::OLECompoundSerializer::OLECompoundSerializer</a></div><div class="ttdeci">OLECompoundSerializer(const OLECompoundWriter &amp;owner)</div><div class="ttdoc">保存所属 OLE 写入器的只读状态引用。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8cpp_source.html#l00010">OLECompoundSerializer.cpp:10</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundSerializer_html_afd598b828074fcfbf35be5fcfd0710f6"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundSerializer.html#afd598b828074fcfbf35be5fcfd0710f6">EasyKiConverter::OLECompoundSerializer::m_owner</a></div><div class="ttdeci">const OLECompoundWriter &amp; m_owner</div><div class="ttdoc">被编码的 OLE 写入器。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundSerializer_8h_source.html#l00047">OLECompoundSerializer.h:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html">EasyKiConverter::OLECompoundWriter</a></div><div class="ttdoc">OLE 复合文档 V3 写入器</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00020">OLECompoundWriter.h:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html_a08edcaa4b62b16e270d76f6640bef496"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html#a08edcaa4b62b16e270d76f6640bef496">EasyKiConverter::OLECompoundWriter::ENDOFCHAIN</a></div><div class="ttdeci">static constexpr uint32_t ENDOFCHAIN</div><div class="ttdoc">OLE 复合文档目录和扇区链使用的固定值</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00095">OLECompoundWriter.h:95</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html_a49848ac877ad2f6645ba87242448ad9a"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html#a49848ac877ad2f6645ba87242448ad9a">EasyKiConverter::OLECompoundWriter::m_miniFat</a></div><div class="ttdeci">QVector&lt; uint32_t &gt; m_miniFat</div><div class="ttdoc">Mini-FAT 表</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00175">OLECompoundWriter.h:175</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html_a4b8b4c191e36e2fbdae65398acbe261b"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html#a4b8b4c191e36e2fbdae65398acbe261b">EasyKiConverter::OLECompoundWriter::DIR_ENTRY_SIZE</a></div><div class="ttdeci">static constexpr uint32_t DIR_ENTRY_SIZE</div><div class="ttdoc">OLE 目录条目的字节数。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00103">OLECompoundWriter.h:103</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html_a561a5818b581c6c8653a9e4af8b0e81e"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html#a561a5818b581c6c8653a9e4af8b0e81e">EasyKiConverter::OLECompoundWriter::m_fat</a></div><div class="ttdeci">QVector&lt; uint32_t &gt; m_fat</div><div class="ttdoc">FAT 表</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00174">OLECompoundWriter.h:174</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html_a694688999969060caf800d84d6fd1f29"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html#a694688999969060caf800d84d6fd1f29">EasyKiConverter::OLECompoundWriter::m_directory</a></div><div class="ttdeci">QVector&lt; DirectoryEntry &gt; m_directory</div><div class="ttdoc">目录条目列表</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00156">OLECompoundWriter.h:156</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html_a6d32c9cf5abde23110e775aec790f493"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html#a6d32c9cf5abde23110e775aec790f493">EasyKiConverter::OLECompoundWriter::SECTOR_SIZE</a></div><div class="ttdeci">static constexpr uint32_t SECTOR_SIZE</div><div class="ttdoc">OLE 普通扇区的字节数。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00100">OLECompoundWriter.h:100</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html_ac46110493f69a388c66798556dde7d7f"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html#ac46110493f69a388c66798556dde7d7f">EasyKiConverter::OLECompoundWriter::m_difatSectors</a></div><div class="ttdeci">QVector&lt; QByteArray &gt; m_difatSectors</div><div class="ttdoc">扩展 DIFAT 扇区（FAT 超过头部 109 项时使用）</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00172">OLECompoundWriter.h:172</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html_adfe35cccad1f59d579f86280dd94e748"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html#adfe35cccad1f59d579f86280dd94e748">EasyKiConverter::OLECompoundWriter::FREESECT</a></div><div class="ttdeci">static constexpr uint32_t FREESECT</div><div class="ttdoc">表示扇区尚未分配。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00096">OLECompoundWriter.h:96</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html">EasyKiConverter::OLECompoundWriter::DirectoryEntry</a></div><div class="ttdoc">目录条目结构（128 字节）</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00113">OLECompoundWriter.h:113</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a183dd223f099dc387a6ee369d9c29d38"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a183dd223f099dc387a6ee369d9c29d38">EasyKiConverter::OLECompoundWriter::DirectoryEntry::streamSize</a></div><div class="ttdeci">uint64_t streamSize</div><div class="ttdoc">流数据的字节数。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00126">OLECompoundWriter.h:126</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a1fdd86242b706a332e567ed3f44cfb44"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a1fdd86242b706a332e567ed3f44cfb44">EasyKiConverter::OLECompoundWriter::DirectoryEntry::colorFlag</a></div><div class="ttdeci">uint8_t colorFlag</div><div class="ttdoc">0=Red, 1=Black（红黑树节点颜色）</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00117">OLECompoundWriter.h:117</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a631bfcc8741e8eac9f5561322ea382ea"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a631bfcc8741e8eac9f5561322ea382ea">EasyKiConverter::OLECompoundWriter::DirectoryEntry::stateBits</a></div><div class="ttdeci">uint32_t stateBits</div><div class="ttdoc">目录条目的状态标志。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00122">OLECompoundWriter.h:122</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a7cdcffaecac3f0b5331276ba51e15bd5"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a7cdcffaecac3f0b5331276ba51e15bd5">EasyKiConverter::OLECompoundWriter::DirectoryEntry::name</a></div><div class="ttdeci">uint16_t name[32]</div><div class="ttdoc">UTF-16LE 名称（最大 31 字符 + null）</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00114">OLECompoundWriter.h:114</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a7e226321d229ff9c768ca5b8f53fd166"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a7e226321d229ff9c768ca5b8f53fd166">EasyKiConverter::OLECompoundWriter::DirectoryEntry::clsid</a></div><div class="ttdeci">uint8_t clsid[16]</div><div class="ttdoc">目录条目关联的 CLSID 字节序列。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00121">OLECompoundWriter.h:121</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a848873a12f07d3c019285c5665536ad8"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a848873a12f07d3c019285c5665536ad8">EasyKiConverter::OLECompoundWriter::DirectoryEntry::leftChild</a></div><div class="ttdeci">uint32_t leftChild</div><div class="ttdoc">左子目录条目的索引。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00118">OLECompoundWriter.h:118</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a85ce5ab37a1ba0498fde962eda075e3c"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a85ce5ab37a1ba0498fde962eda075e3c">EasyKiConverter::OLECompoundWriter::DirectoryEntry::objectType</a></div><div class="ttdeci">ObjectType objectType</div><div class="ttdoc">目录条目的对象类型。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00116">OLECompoundWriter.h:116</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a866e2c1ac838e534ac7c919fb06927b7"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a866e2c1ac838e534ac7c919fb06927b7">EasyKiConverter::OLECompoundWriter::DirectoryEntry::modifiedTime</a></div><div class="ttdeci">uint64_t modifiedTime</div><div class="ttdoc">目录条目的修改时间戳。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00124">OLECompoundWriter.h:124</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a91c14d06b7f26be27b75a9850aea71c5"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a91c14d06b7f26be27b75a9850aea71c5">EasyKiConverter::OLECompoundWriter::DirectoryEntry::creationTime</a></div><div class="ttdeci">uint64_t creationTime</div><div class="ttdoc">目录条目的创建时间戳。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00123">OLECompoundWriter.h:123</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_a9c6430541ab17742178a04f90ce981b6"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#a9c6430541ab17742178a04f90ce981b6">EasyKiConverter::OLECompoundWriter::DirectoryEntry::nameSize</a></div><div class="ttdeci">uint16_t nameSize</div><div class="ttdoc">名称字节数（含 null 终止符）</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00115">OLECompoundWriter.h:115</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_aa796741fdab93f28aca250a9d63e2224"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#aa796741fdab93f28aca250a9d63e2224">EasyKiConverter::OLECompoundWriter::DirectoryEntry::rightChild</a></div><div class="ttdeci">uint32_t rightChild</div><div class="ttdoc">右子目录条目的索引。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00119">OLECompoundWriter.h:119</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_aad99bd2755217feb8331d1cd42d35558"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#aad99bd2755217feb8331d1cd42d35558">EasyKiConverter::OLECompoundWriter::DirectoryEntry::startSector</a></div><div class="ttdeci">uint32_t startSector</div><div class="ttdoc">流数据起始扇区的索引。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00125">OLECompoundWriter.h:125</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry_html_acc4569edee4ef360d7d12e40e6e2e8d6"><div class="ttname"><a href="structEasyKiConverter_1_1OLECompoundWriter_1_1DirectoryEntry.html#acc4569edee4ef360d7d12e40e6e2e8d6">EasyKiConverter::OLECompoundWriter::DirectoryEntry::child</a></div><div class="ttdeci">uint32_t child</div><div class="ttdoc">子树根目录条目的索引。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00120">OLECompoundWriter.h:120</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_10cc05afe08788a169b8a286b8397029.html">compound</a></li><li class="navelem"><a class="el" href="OLECompoundSerializer_8cpp.html">OLECompoundSerializer.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+var structEasyKiConverter_1_1AltiumSchTextFrame =
+[
+    [ "alignment", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a45768a85f8e5cf1ac7f65f98e72814e5", null ],
+    [ "areaColor", "structEasyKiConverter_1_1AltiumSchTextFrame.html#af300e0ce563d00422c82f3e7825801cb", null ],
+    [ "bold", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a7b1bf61cf1b7e24e20f231746c47b5a7", null ],
+    [ "clipToRect", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a90402e8e0d7b62c48f24e01ffb651de2", null ],
+    [ "color", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a30bf1825fa6ce79587c88c53b054a453", null ],
+    [ "cornerX", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a5723e50a20823998a0a590980e75aab5", null ],
+    [ "cornerY", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a0773bd8aebe4b3db747d0d6f49c3fa87", null ],
+    [ "fontId", "structEasyKiConverter_1_1AltiumSchTextFrame.html#ac36b2a0a902ad8ae53445810e0f10492", null ],
+    [ "fontName", "structEasyKiConverter_1_1AltiumSchTextFrame.html#ad3c861864d90dd1b4bb6c1bd51105f46", null ],
+    [ "fontSizeMm", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a946637ea9976ae72c255911ced25a1b8", null ],
+    [ "isSolid", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a8baf039a81cc6aae94942d39e687714f", null ],
+    [ "italic", "structEasyKiConverter_1_1AltiumSchTextFrame.html#adeedbb3a29cfcc255f0622bbfd24d5f8", null ],
+    [ "lineStyle", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a58fd7967d88e9936f268941eba9ff20b", null ],
+    [ "lineWidth", "structEasyKiConverter_1_1AltiumSchTextFrame.html#ad95260a994914a73baf1ce6e32092567", null ],
+    [ "locationX", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a3b7864c71ba0b455e6346981961372a3", null ],
+    [ "locationY", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a020a5b47823026c709bc12a7c98f08f4", null ],
+    [ "orientation", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a5088d996f3c1b027a3829be2d1c6d279", null ],
+    [ "ownerPartId", "structEasyKiConverter_1_1AltiumSchTextFrame.html#abdc87ea2dd3a234e089393cb2ff71ec3", null ],
+    [ "showBorder", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a9287cbcdfff792668c222012944e307a", null ],
+    [ "text", "structEasyKiConverter_1_1AltiumSchTextFrame.html#af10767315cc719d4dd36028fb0bca0c1", null ],
+    [ "textColor", "structEasyKiConverter_1_1AltiumSchTextFrame.html#af690ad4b44ebf62f245c81fdafd84c6c", null ],
+    [ "textMargin", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a122c13244f3124888b8a1883a1e0e817", null ],
+    [ "transparent", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a0d0d0075bdc91f37e4dbad1f16cc6c2a", null ],
+    [ "wordWrap", "structEasyKiConverter_1_1AltiumSchTextFrame.html#a873f877f4198b86e05bd5ae9b42ac02d", null ]
+];

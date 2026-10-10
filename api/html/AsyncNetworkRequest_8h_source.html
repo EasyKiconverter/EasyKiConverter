@@ -1,0 +1,297 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/network/AsyncNetworkRequest.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AsyncNetworkRequest_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AsyncNetworkRequest.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AsyncNetworkRequest_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef ASYNCNETWORKREQUEST_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define ASYNCNETWORKREQUEST_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="INetworkClient_8h.html">core/network/INetworkClient.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QNetworkAccessManager&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QNetworkReply&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="comment">// Forward declaration for friend class</span></div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="}">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1Test.html">   10</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter_1_1Test.html">EasyKiConverter::Test</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">class </span>MockNetworkClient;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>}</div>
+</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;QAtomicInt&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;QList&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &lt;QMutex&gt;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;QNetworkAccessManager&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;QNetworkReply&gt;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;QNetworkRequest&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">#include &lt;QRandomGenerator&gt;</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#include &lt;QTimer&gt;</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;QUrl&gt;</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="foldopen" id="foldopen00045" data-start="{" data-end="};">
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">   45</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> : <span class="keyword">public</span> QObject {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    Q_OBJECT</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keyword">static</span> <a class="code hl_class" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>* <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4bc8be745991b7093a3f9fc3d172fb2b">createFinished</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&amp; <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>, QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a3912f6a53b12619a008b520849fcbe3e">completeWithResultDelayed</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&amp; <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>, <span class="keywordtype">int</span> delayMs = 0);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#afdd7b3469c74866b733afc9e35aa809d">~AsyncNetworkRequest</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    Q_INVOKABLE <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a19c2928774d26aa764fd6adf9fdbf46f">cancel</a>();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab0bc82f329bcbb9707b8d3f652fa5d9e">isCancelled</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a2f6e4711c8653b21b6d96741fc064359">isFinished</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a8f96d6e9ff5e9f9f46b93eee496a0a96">setTimeoutMs</a>(<span class="keywordtype">int</span> ms);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4880170daf13c936f0b7953dd9948656">currentRetryCount</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>signals:</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">  118</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">finished</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&amp; <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae831956dc1254c26c47275fb19ac8fa3">  125</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae831956dc1254c26c47275fb19ac8fa3">downloadProgress</a>(qint64 bytesReceived, qint64 bytesTotal);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa78713cdb8a23d45b2082e46e50c1cbb">  130</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa78713cdb8a23d45b2082e46e50c1cbb">timeout</a>();</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span> </div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4e49445c299941f40f3c1c3e274cf9d7">  137</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4e49445c299941f40f3c1c3e274cf9d7">retrying</a>(<span class="keywordtype">int</span> retryCount, <span class="keywordtype">int</span> delayMs);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#af7e769830808bf3274fb1b51e60929fd">  140</a></span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1NetworkClient.html">NetworkClient</a>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a95b86b9d707826f1c2c22adc06d3ab61">  141</a></span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_friend" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a95b86b9d707826f1c2c22adc06d3ab61">Test::MockNetworkClient</a>;</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <a class="code hl_class" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>(<span class="keyword">const</span> QUrl&amp; url,</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>                        QNetworkAccessManager* networkManager,</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>                        <a class="code hl_enumeration" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType,</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>                        <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a>&amp; policy,</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>                        <span class="keyword">const</span> QByteArray&amp; body = QByteArray(),</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>                        QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad71552d4e017994c217414a041675518">start</a>();</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a65858dbb18e57efbe25a4824c27fdd5e">startAttempt</a>(<span class="keywordtype">int</span> attemptNumber);</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a5d9c49bb26d860f27d6be0f48b7d8bbd">handleAttemptFinished</a>();</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a3b6759c4d845470a1c4773553012d3fa">handleTimeout</a>();</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a1be942d2a5dbfc9e7cb6694a6b95e765">handleDownloadProgress</a>(qint64 bytesReceived, qint64 bytesTotal);</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span> </div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a41846159d0ba42fdb8c01434bfee7c6e">processResponse</a>(QNetworkReply* reply);</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad60f396a89d6e2002ed6893f259e3338">scheduleRetry</a>(<span class="keywordtype">int</span> retryCount);</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae0a7ed3d13ffb939e44f1a6a76ba3528">calculateRetryDelay</a>(<span class="keywordtype">int</span> retryCount) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#acb76f820a1e52b021fd7a080e9ba65a8">shouldRetryInternal</a>(<span class="keywordtype">int</span> statusCode, QNetworkReply::NetworkError error, <span class="keywordtype">int</span> retryCount) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span> </div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a31d4e68e24f937db80edf9c73dbeb086">cleanupAttempt</a>();</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa4b0c6ee0c802ffa8523b2c584aa518c">completeWithResult</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&amp; <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">result</a>);</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a97fe4c50b9dbdd25ba1bcb69d6cb96ce">cancelledResult</a>(<span class="keyword">const</span> QString&amp; errorMessage = QStringLiteral(<span class="stringliteral">&quot;Cancelled&quot;</span>)) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6111aa96f0664643b03385dbacaacc31">timeoutResult</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a9ed355f2385676279030ae9cb743b6e5">hasActiveReply</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad58cc56faeb2df5015b9de426dde0e86">  222</a></span>    QUrl <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad58cc56faeb2df5015b9de426dde0e86">m_url</a>;  </div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae09e7ee36a3295abd9c497d302d7a377">  223</a></span>    QNetworkAccessManager* <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae09e7ee36a3295abd9c497d302d7a377">m_networkManager</a>;  </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a28d92a8e475da200657edfdb198e2e29">  224</a></span>    <a class="code hl_enumeration" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a28d92a8e475da200657edfdb198e2e29">m_resourceType</a>;  </div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6704ef2418f97adb47bf6119ff1a81d5">  225</a></span>    <a class="code hl_struct" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6704ef2418f97adb47bf6119ff1a81d5">m_policy</a>;  </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab3475ca72e99fc0c42733fbe75f7cccf">  226</a></span>    QByteArray <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab3475ca72e99fc0c42733fbe75f7cccf">m_postBody</a>;  </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ac7b4d8254b35f0eb3d85c538f3bb30f6">  227</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ac7b4d8254b35f0eb3d85c538f3bb30f6">m_isPostRequest</a>;  </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab777eeaf572936e64d75556b3835e5cd">  228</a></span>    QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab777eeaf572936e64d75556b3835e5cd">m_cancelled</a>;  </div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#abf8602426ca221168065ae12a9678bb9">  229</a></span>    QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#abf8602426ca221168065ae12a9678bb9">m_finished</a>;  </div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a2112a9ee47e9ebc22e8958e04c92ebeb">  230</a></span>    <span class="keyword">mutable</span> QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a2112a9ee47e9ebc22e8958e04c92ebeb">m_resultMutex</a>;  </div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a01f8837074c863452b898de68a432bb5">  231</a></span>    <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a01f8837074c863452b898de68a432bb5">m_result</a>;  </div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab929a16bcd84232177d08c04d3af9552">  233</a></span>    QNetworkReply* <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab929a16bcd84232177d08c04d3af9552">m_currentReply</a>;  </div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6ee4890235769abca8586219e42e0d95">  234</a></span>    QTimer* <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6ee4890235769abca8586219e42e0d95">m_timeoutTimer</a>;  </div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#af9b00f86aefba602db707600c811d585">  235</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#af9b00f86aefba602db707600c811d585">m_currentRetryCount</a>;  </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a9e4dab9f31c5224e9fe80c581265e5b8">  236</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a9e4dab9f31c5224e9fe80c581265e5b8">m_timeoutMs</a>;  </div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a61f3c10e0b29bf14af272ae605a068a1">  237</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a61f3c10e0b29bf14af272ae605a068a1">m_gzipUsed</a>;  </div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa8d023db029f5c2f3bf4887c0457090c">  238</a></span>    QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa8d023db029f5c2f3bf4887c0457090c">m_currentAttemptTimedOut</a>;  </div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab035aacd801171748e0877b3887e6a09">  240</a></span>    QList&lt;QNetworkReply*&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab035aacd801171748e0877b3887e6a09">m_pendingReplies</a>;  </div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6ee63074cee06d915dc5fb0e344b85de">  241</a></span>    <span class="keyword">mutable</span> QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6ee63074cee06d915dc5fb0e344b85de">m_repliesMutex</a>;  </div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a5788b95f04bcdbc679917b411f2d5d27">  243</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QList&lt;QNetworkReply*&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a5788b95f04bcdbc679917b411f2d5d27">s_emptyReplies</a>;  </div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>};</div>
+</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span><span class="preprocessor">#endif  </span><span class="comment">// ASYNCNETWORKREQUEST_H</span></div>
+<div class="ttc" id="aINetworkClient_8h_html"><div class="ttname"><a href="INetworkClient_8h.html">INetworkClient.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html">EasyKiConverter::AsyncNetworkRequest</a></div><div class="ttdoc">异步网络请求，支持取消</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00045">AsyncNetworkRequest.h:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a01f8837074c863452b898de68a432bb5"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a01f8837074c863452b898de68a432bb5">EasyKiConverter::AsyncNetworkRequest::m_result</a></div><div class="ttdeci">NetworkResult m_result</div><div class="ttdoc">当前请求的最终结果。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00231">AsyncNetworkRequest.h:231</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a19c2928774d26aa764fd6adf9fdbf46f"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a19c2928774d26aa764fd6adf9fdbf46f">EasyKiConverter::AsyncNetworkRequest::cancel</a></div><div class="ttdeci">void cancel()</div><div class="ttdoc">取消请求</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00165">AsyncNetworkRequest.cpp:165</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a1be942d2a5dbfc9e7cb6694a6b95e765"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a1be942d2a5dbfc9e7cb6694a6b95e765">EasyKiConverter::AsyncNetworkRequest::handleDownloadProgress</a></div><div class="ttdeci">void handleDownloadProgress(qint64 bytesReceived, qint64 bytesTotal)</div><div class="ttdoc">处理下载进度，检查响应大小限制。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00376">AsyncNetworkRequest.cpp:376</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a2112a9ee47e9ebc22e8958e04c92ebeb"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a2112a9ee47e9ebc22e8958e04c92ebeb">EasyKiConverter::AsyncNetworkRequest::m_resultMutex</a></div><div class="ttdeci">QMutex m_resultMutex</div><div class="ttdoc">保护最终结果的互斥锁。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00230">AsyncNetworkRequest.h:230</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a28d92a8e475da200657edfdb198e2e29"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a28d92a8e475da200657edfdb198e2e29">EasyKiConverter::AsyncNetworkRequest::m_resourceType</a></div><div class="ttdeci">ResourceType m_resourceType</div><div class="ttdoc">请求资源类型。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00224">AsyncNetworkRequest.h:224</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a2f6e4711c8653b21b6d96741fc064359"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a2f6e4711c8653b21b6d96741fc064359">EasyKiConverter::AsyncNetworkRequest::isFinished</a></div><div class="ttdeci">bool isFinished() const</div><div class="ttdoc">检查请求是否已完成 (successfully or with error)</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00203">AsyncNetworkRequest.cpp:203</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a31d4e68e24f937db80edf9c73dbeb086"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a31d4e68e24f937db80edf9c73dbeb086">EasyKiConverter::AsyncNetworkRequest::cleanupAttempt</a></div><div class="ttdeci">void cleanupAttempt()</div><div class="ttdoc">清理当前尝试</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00653">AsyncNetworkRequest.cpp:653</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a3912f6a53b12619a008b520849fcbe3e"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a3912f6a53b12619a008b520849fcbe3e">EasyKiConverter::AsyncNetworkRequest::completeWithResultDelayed</a></div><div class="ttdeci">void completeWithResultDelayed(const NetworkResult &amp;result, int delayMs=0)</div><div class="ttdoc">延迟完成请求 - 用于测试场景</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00749">AsyncNetworkRequest.cpp:749</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a3b6759c4d845470a1c4773553012d3fa"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a3b6759c4d845470a1c4773553012d3fa">EasyKiConverter::AsyncNetworkRequest::handleTimeout</a></div><div class="ttdeci">void handleTimeout()</div><div class="ttdoc">处理超时</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00354">AsyncNetworkRequest.cpp:354</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a41846159d0ba42fdb8c01434bfee7c6e"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a41846159d0ba42fdb8c01434bfee7c6e">EasyKiConverter::AsyncNetworkRequest::processResponse</a></div><div class="ttdeci">void processResponse(QNetworkReply *reply)</div><div class="ttdoc">处理响应数据。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00409">AsyncNetworkRequest.cpp:409</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a4880170daf13c936f0b7953dd9948656"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4880170daf13c936f0b7953dd9948656">EasyKiConverter::AsyncNetworkRequest::currentRetryCount</a></div><div class="ttdeci">int currentRetryCount() const</div><div class="ttdoc">获取当前重试次数</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00228">AsyncNetworkRequest.cpp:228</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a4bc8be745991b7093a3f9fc3d172fb2b"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4bc8be745991b7093a3f9fc3d172fb2b">EasyKiConverter::AsyncNetworkRequest::createFinished</a></div><div class="ttdeci">static AsyncNetworkRequest * createFinished(const NetworkResult &amp;result, QObject *parent=nullptr)</div><div class="ttdoc">创建已完成的异步请求对象。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00080">AsyncNetworkRequest.cpp:80</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a4e49445c299941f40f3c1c3e274cf9d7"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a4e49445c299941f40f3c1c3e274cf9d7">EasyKiConverter::AsyncNetworkRequest::retrying</a></div><div class="ttdeci">void retrying(int retryCount, int delayMs)</div><div class="ttdoc">请求重试时发射</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a5788b95f04bcdbc679917b411f2d5d27"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a5788b95f04bcdbc679917b411f2d5d27">EasyKiConverter::AsyncNetworkRequest::s_emptyReplies</a></div><div class="ttdeci">static const QList&lt; QNetworkReply * &gt; s_emptyReplies</div><div class="ttdoc">空响应列表的静态占位对象。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00243">AsyncNetworkRequest.h:243</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a5d9c49bb26d860f27d6be0f48b7d8bbd"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a5d9c49bb26d860f27d6be0f48b7d8bbd">EasyKiConverter::AsyncNetworkRequest::handleAttemptFinished</a></div><div class="ttdeci">void handleAttemptFinished()</div><div class="ttdoc">处理尝试完成</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00323">AsyncNetworkRequest.cpp:323</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a6111aa96f0664643b03385dbacaacc31"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6111aa96f0664643b03385dbacaacc31">EasyKiConverter::AsyncNetworkRequest::timeoutResult</a></div><div class="ttdeci">NetworkResult timeoutResult() const</div><div class="ttdoc">构造保留原始诊断上下文的超时结果。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00719">AsyncNetworkRequest.cpp:719</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a61f3c10e0b29bf14af272ae605a068a1"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a61f3c10e0b29bf14af272ae605a068a1">EasyKiConverter::AsyncNetworkRequest::m_gzipUsed</a></div><div class="ttdeci">bool m_gzipUsed</div><div class="ttdoc">当前响应是否使用了 Gzip 解压。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00237">AsyncNetworkRequest.h:237</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a632e2d5b2ad425ae6892d9a2a67c44f7"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a632e2d5b2ad425ae6892d9a2a67c44f7">EasyKiConverter::AsyncNetworkRequest::result</a></div><div class="ttdeci">NetworkResult result() const</div><div class="ttdoc">获取结果</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00211">AsyncNetworkRequest.cpp:211</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a65858dbb18e57efbe25a4824c27fdd5e"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a65858dbb18e57efbe25a4824c27fdd5e">EasyKiConverter::AsyncNetworkRequest::startAttempt</a></div><div class="ttdeci">void startAttempt(int attemptNumber)</div><div class="ttdoc">启动单次尝试（重试时会多次调用）。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00253">AsyncNetworkRequest.cpp:253</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a6704ef2418f97adb47bf6119ff1a81d5"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6704ef2418f97adb47bf6119ff1a81d5">EasyKiConverter::AsyncNetworkRequest::m_policy</a></div><div class="ttdeci">RetryPolicy m_policy</div><div class="ttdoc">当前请求的重试和超时策略。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00225">AsyncNetworkRequest.h:225</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a6ee4890235769abca8586219e42e0d95"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6ee4890235769abca8586219e42e0d95">EasyKiConverter::AsyncNetworkRequest::m_timeoutTimer</a></div><div class="ttdeci">QTimer * m_timeoutTimer</div><div class="ttdoc">当前请求的超时计时器。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00234">AsyncNetworkRequest.h:234</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a6ee63074cee06d915dc5fb0e344b85de"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a6ee63074cee06d915dc5fb0e344b85de">EasyKiConverter::AsyncNetworkRequest::m_repliesMutex</a></div><div class="ttdeci">QMutex m_repliesMutex</div><div class="ttdoc">保护当前和待清理响应列表的互斥锁。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00241">AsyncNetworkRequest.h:241</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a8f96d6e9ff5e9f9f46b93eee496a0a96"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a8f96d6e9ff5e9f9f46b93eee496a0a96">EasyKiConverter::AsyncNetworkRequest::setTimeoutMs</a></div><div class="ttdeci">void setTimeoutMs(int ms)</div><div class="ttdoc">设置超时时间（毫秒）</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00220">AsyncNetworkRequest.cpp:220</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a91a6a5a56e5405812955e14dc6ed1cc1"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">EasyKiConverter::AsyncNetworkRequest::finished</a></div><div class="ttdeci">void finished(const NetworkResult &amp;result)</div><div class="ttdoc">请求完成时发射（成功、错误或取消） (success, error, or cancelled)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a95b86b9d707826f1c2c22adc06d3ab61"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a95b86b9d707826f1c2c22adc06d3ab61">EasyKiConverter::AsyncNetworkRequest::MockNetworkClient</a></div><div class="ttdeci">friend class Test::MockNetworkClient</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00141">AsyncNetworkRequest.h:141</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a97fe4c50b9dbdd25ba1bcb69d6cb96ce"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a97fe4c50b9dbdd25ba1bcb69d6cb96ce">EasyKiConverter::AsyncNetworkRequest::cancelledResult</a></div><div class="ttdeci">NetworkResult cancelledResult(const QString &amp;errorMessage=QStringLiteral(&quot;Cancelled&quot;)) const</div><div class="ttdoc">构造保留原始诊断上下文的取消结果。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00698">AsyncNetworkRequest.cpp:698</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a9e4dab9f31c5224e9fe80c581265e5b8"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a9e4dab9f31c5224e9fe80c581265e5b8">EasyKiConverter::AsyncNetworkRequest::m_timeoutMs</a></div><div class="ttdeci">int m_timeoutMs</div><div class="ttdoc">当前尝试使用的超时时间（毫秒）。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00236">AsyncNetworkRequest.h:236</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_a9ed355f2385676279030ae9cb743b6e5"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a9ed355f2385676279030ae9cb743b6e5">EasyKiConverter::AsyncNetworkRequest::hasActiveReply</a></div><div class="ttdeci">bool hasActiveReply() const</div><div class="ttdoc">检查当前是否仍有未完成的网络回复。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00739">AsyncNetworkRequest.cpp:739</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_aa4b0c6ee0c802ffa8523b2c584aa518c"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa4b0c6ee0c802ffa8523b2c584aa518c">EasyKiConverter::AsyncNetworkRequest::completeWithResult</a></div><div class="ttdeci">bool completeWithResult(const NetworkResult &amp;result)</div><div class="ttdoc">只允许第一个完成结果写入状态并发出信号。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00679">AsyncNetworkRequest.cpp:679</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_aa78713cdb8a23d45b2082e46e50c1cbb"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa78713cdb8a23d45b2082e46e50c1cbb">EasyKiConverter::AsyncNetworkRequest::timeout</a></div><div class="ttdeci">void timeout()</div><div class="ttdoc">请求超时时发射</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_aa8d023db029f5c2f3bf4887c0457090c"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#aa8d023db029f5c2f3bf4887c0457090c">EasyKiConverter::AsyncNetworkRequest::m_currentAttemptTimedOut</a></div><div class="ttdeci">QAtomicInt m_currentAttemptTimedOut</div><div class="ttdoc">当前尝试是否已因超时结束。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00238">AsyncNetworkRequest.h:238</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ab035aacd801171748e0877b3887e6a09"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab035aacd801171748e0877b3887e6a09">EasyKiConverter::AsyncNetworkRequest::m_pendingReplies</a></div><div class="ttdeci">QList&lt; QNetworkReply * &gt; m_pendingReplies</div><div class="ttdoc">等待析构清理的网络响应列表。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00240">AsyncNetworkRequest.h:240</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ab0bc82f329bcbb9707b8d3f652fa5d9e"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab0bc82f329bcbb9707b8d3f652fa5d9e">EasyKiConverter::AsyncNetworkRequest::isCancelled</a></div><div class="ttdeci">bool isCancelled() const</div><div class="ttdoc">检查请求是否已取消</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00195">AsyncNetworkRequest.cpp:195</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ab3475ca72e99fc0c42733fbe75f7cccf"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab3475ca72e99fc0c42733fbe75f7cccf">EasyKiConverter::AsyncNetworkRequest::m_postBody</a></div><div class="ttdeci">QByteArray m_postBody</div><div class="ttdoc">Request body for POST requests</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00226">AsyncNetworkRequest.h:226</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ab777eeaf572936e64d75556b3835e5cd"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab777eeaf572936e64d75556b3835e5cd">EasyKiConverter::AsyncNetworkRequest::m_cancelled</a></div><div class="ttdeci">QAtomicInt m_cancelled</div><div class="ttdoc">取消状态原子标志。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00228">AsyncNetworkRequest.h:228</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ab929a16bcd84232177d08c04d3af9552"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ab929a16bcd84232177d08c04d3af9552">EasyKiConverter::AsyncNetworkRequest::m_currentReply</a></div><div class="ttdeci">QNetworkReply * m_currentReply</div><div class="ttdoc">当前网络响应对象，不拥有其生命周期。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00233">AsyncNetworkRequest.h:233</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_abf8602426ca221168065ae12a9678bb9"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#abf8602426ca221168065ae12a9678bb9">EasyKiConverter::AsyncNetworkRequest::m_finished</a></div><div class="ttdeci">QAtomicInt m_finished</div><div class="ttdoc">完成状态原子标志。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00229">AsyncNetworkRequest.h:229</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ac7b4d8254b35f0eb3d85c538f3bb30f6"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ac7b4d8254b35f0eb3d85c538f3bb30f6">EasyKiConverter::AsyncNetworkRequest::m_isPostRequest</a></div><div class="ttdeci">bool m_isPostRequest</div><div class="ttdoc">是否为 POST 请求。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00227">AsyncNetworkRequest.h:227</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_acb76f820a1e52b021fd7a080e9ba65a8"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#acb76f820a1e52b021fd7a080e9ba65a8">EasyKiConverter::AsyncNetworkRequest::shouldRetryInternal</a></div><div class="ttdeci">bool shouldRetryInternal(int statusCode, QNetworkReply::NetworkError error, int retryCount) const</div><div class="ttdoc">检查是否应该根据状态码重试。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00625">AsyncNetworkRequest.cpp:625</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ad58cc56faeb2df5015b9de426dde0e86"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad58cc56faeb2df5015b9de426dde0e86">EasyKiConverter::AsyncNetworkRequest::m_url</a></div><div class="ttdeci">QUrl m_url</div><div class="ttdoc">请求目标 URL。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00222">AsyncNetworkRequest.h:222</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ad60f396a89d6e2002ed6893f259e3338"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad60f396a89d6e2002ed6893f259e3338">EasyKiConverter::AsyncNetworkRequest::scheduleRetry</a></div><div class="ttdeci">void scheduleRetry(int retryCount)</div><div class="ttdoc">调度重试。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00574">AsyncNetworkRequest.cpp:574</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ad71552d4e017994c217414a041675518"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ad71552d4e017994c217414a041675518">EasyKiConverter::AsyncNetworkRequest::start</a></div><div class="ttdeci">void start()</div><div class="ttdoc">启动请求</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00235">AsyncNetworkRequest.cpp:235</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ae09e7ee36a3295abd9c497d302d7a377"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae09e7ee36a3295abd9c497d302d7a377">EasyKiConverter::AsyncNetworkRequest::m_networkManager</a></div><div class="ttdeci">QNetworkAccessManager * m_networkManager</div><div class="ttdoc">所属线程的网络管理器，不由请求对象拥有。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00223">AsyncNetworkRequest.h:223</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ae0a7ed3d13ffb939e44f1a6a76ba3528"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae0a7ed3d13ffb939e44f1a6a76ba3528">EasyKiConverter::AsyncNetworkRequest::calculateRetryDelay</a></div><div class="ttdeci">int calculateRetryDelay(int retryCount) const</div><div class="ttdoc">计算带抖动的重试延迟。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00606">AsyncNetworkRequest.cpp:606</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_ae831956dc1254c26c47275fb19ac8fa3"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#ae831956dc1254c26c47275fb19ac8fa3">EasyKiConverter::AsyncNetworkRequest::downloadProgress</a></div><div class="ttdeci">void downloadProgress(qint64 bytesReceived, qint64 bytesTotal)</div><div class="ttdoc">下载过程中发射以报告进度 to report progress</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_af9b00f86aefba602db707600c811d585"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#af9b00f86aefba602db707600c811d585">EasyKiConverter::AsyncNetworkRequest::m_currentRetryCount</a></div><div class="ttdeci">int m_currentRetryCount</div><div class="ttdoc">已执行的重试次数。</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00235">AsyncNetworkRequest.h:235</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html_afdd7b3469c74866b733afc9e35aa809d"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html#afdd7b3469c74866b733afc9e35aa809d">EasyKiConverter::AsyncNetworkRequest::~AsyncNetworkRequest</a></div><div class="ttdeci">~AsyncNetworkRequest() override</div><div class="ttdoc">析构函数，确保清理</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8cpp_source.html#l00136">AsyncNetworkRequest.cpp:136</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkClient_html"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkClient.html">EasyKiConverter::NetworkClient</a></div><div class="ttdoc">单例网络客户端，统一管理重试/退避行为</div><div class="ttdef"><b>Definition</b> <a href="NetworkClient_8h_source.html#l00024">NetworkClient.h:24</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Test_html"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Test.html">EasyKiConverter::Test</a></div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00010">AsyncNetworkRequest.h:10</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_ab181dbbf82acb26de2e9a29a77e21a66"><div class="ttname"><a href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">EasyKiConverter::ResourceType</a></div><div class="ttdeci">ResourceType</div><div class="ttdoc">网络请求资源类型</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00019">INetworkClient.h:19</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1NetworkResult_html"><div class="ttname"><a href="structEasyKiConverter_1_1NetworkResult.html">EasyKiConverter::NetworkResult</a></div><div class="ttdoc">网络请求结果</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00414">INetworkClient.h:414</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1RetryPolicy_html"><div class="ttname"><a href="structEasyKiConverter_1_1RetryPolicy.html">EasyKiConverter::RetryPolicy</a></div><div class="ttdoc">网络请求重试策略</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00376">INetworkClient.h:376</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_e47a0da176a2d81021b9e15379f1915c.html">network</a></li><li class="navelem"><a class="el" href="AsyncNetworkRequest_8h.html">AsyncNetworkRequest.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

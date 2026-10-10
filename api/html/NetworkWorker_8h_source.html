@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: workers/NetworkWorker.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('NetworkWorker_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">NetworkWorker.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="NetworkWorker_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef NETWORKWORKER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define NETWORKWORKER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="BaseWorker_8h.html">BaseWorker.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="INetworkClient_8h.html">core/network/INetworkClient.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QJsonObject&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QMutex&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">class </span>AsyncNetworkRequest;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="};">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html">   19</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1NetworkWorker.html">NetworkWorker</a> : <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1BaseWorker.html">BaseWorker</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    Q_OBJECT</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452">   23</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452">TaskType</a> { <a class="code hl_enumvalue" href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452ae777f490f5cabac466291447bd750ff9">FetchComponentInfo</a>, <a class="code hl_enumvalue" href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452a6adac46c3c272f9bebaca8ca27de5e52">FetchCadData</a>, <a class="code hl_enumvalue" href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452a44666c6fe7b16f11ff3a04289360a999">Fetch3DModelObj</a>, <a class="code hl_enumvalue" href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452ac36f67e0c7c88191e864f80934aca318">Fetch3DModelMtl</a> };</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1NetworkWorker.html">NetworkWorker</a>(<span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                           <a class="code hl_enumeration" href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452">TaskType</a> taskType,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                           <span class="keyword">const</span> QString&amp; uuid = QString(),</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>                           QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#aa5ad6e4f9c18674614ed3906289b8fb4">~NetworkWorker</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#a169732769fc4cf68485f519049ac2e9c">run</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>signals:</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a770c77872661feb02eb18f04c578290e">   42</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#a770c77872661feb02eb18f04c578290e">componentInfoFetched</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QJsonObject&amp; data);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a1c3f1c8fed9c4bd030d762d7672fc96f">   43</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#a1c3f1c8fed9c4bd030d762d7672fc96f">cadDataFetched</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QJsonObject&amp; data);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a1847504aea91f706bc406ebc00f43b0a">   44</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#a1847504aea91f706bc406ebc00f43b0a">model3DFetched</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QString&amp; uuid, <span class="keyword">const</span> QByteArray&amp; data);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a60ef69c3ac2b0ea287bb7fd1fab061fe">   45</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#a60ef69c3ac2b0ea287bb7fd1fab061fe">fetchError</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QString&amp; errorMessage);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a024a952b1bd8c1785766d325f63ce6eb">   46</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#a024a952b1bd8c1785766d325f63ce6eb">requestProgress</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keywordtype">int</span> progress);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#a964fdedf614ce58025e190ddf5129586">fetchComponentInfo</a>();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#ae213f1e6dca8d0a9d0ea6e7bef66a4a3">fetchCadData</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#ab3e154ac6dc23d9bb5a3e370a1a4f1c4">fetch3DModelObj</a>();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#adb4d7edbe030fa1815b66cea24aa96a8">fetch3DModelMtl</a>();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="keyword">public</span> slots:</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#ac7cc0f9ae004478b51622c99610a4868">abort</a>();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1NetworkWorker.html#a072990f2e23c10fa8faccf7df7bd0f57">executeRequest</a>(<span class="keyword">const</span> QUrl&amp; url,</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>                        <a class="code hl_enumeration" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                        <span class="keywordtype">int</span> timeoutMs,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                        <span class="keywordtype">int</span> maxRetries,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                        QByteArray&amp; outData,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                        QString&amp; errorMsg);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#aa5bba33d9aecfef920a838cfe8a1cf74">   65</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1NetworkWorker.html#aa5bba33d9aecfef920a838cfe8a1cf74">m_componentId</a>;  </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#acd5a92fab1b395e89cc493e2e70933fe">   66</a></span>    <a class="code hl_enumeration" href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452">TaskType</a> <a class="code hl_variable" href="classEasyKiConverter_1_1NetworkWorker.html#acd5a92fab1b395e89cc493e2e70933fe">m_taskType</a>;  </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a284b99e91d2cfcfb109decf91cf94068">   67</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1NetworkWorker.html#a284b99e91d2cfcfb109decf91cf94068">m_uuid</a>;  </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#ae21d673950c9827363f923ae610204f6">   68</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>* <a class="code hl_variable" href="classEasyKiConverter_1_1NetworkWorker.html#ae21d673950c9827363f923ae610204f6">m_currentRequest</a>;  </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a6863a00c97922e6b555f4fd1ae83aa4f">   69</a></span>    QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1NetworkWorker.html#a6863a00c97922e6b555f4fd1ae83aa4f">m_mutex</a>;  </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#af49faae6b3423e2caf8332d7a44a2d72">   71</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1NetworkWorker.html#af49faae6b3423e2caf8332d7a44a2d72">DEFAULT_TIMEOUT_MS</a> = 30000;  </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#a2c5279dd79250eeaae5f51473e3d23d3">   72</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1NetworkWorker.html#a2c5279dd79250eeaae5f51473e3d23d3">MODEL_TIMEOUT_MS</a> = 45000;  </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1NetworkWorker.html#aca3f379bce71f7069f3b07ed33eab4b8">   73</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1NetworkWorker.html#aca3f379bce71f7069f3b07ed33eab4b8">MAX_RETRIES</a> = 3;  </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>};</div>
+</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span><span class="preprocessor">#endif  </span><span class="comment">// NETWORKWORKER_H</span></div>
+<div class="ttc" id="aBaseWorker_8h_html"><div class="ttname"><a href="BaseWorker_8h.html">BaseWorker.h</a></div></div>
+<div class="ttc" id="aINetworkClient_8h_html"><div class="ttname"><a href="INetworkClient_8h.html">INetworkClient.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html">EasyKiConverter::AsyncNetworkRequest</a></div><div class="ttdoc">异步网络请求，支持取消</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00045">AsyncNetworkRequest.h:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseWorker_html"><div class="ttname"><a href="classEasyKiConverter_1_1BaseWorker.html">EasyKiConverter::BaseWorker</a></div><div class="ttdoc">Base class for all workers with unified lifecycle management</div><div class="ttdef"><b>Definition</b> <a href="BaseWorker_8h_source.html#l00027">BaseWorker.h:27</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html">EasyKiConverter::NetworkWorker</a></div><div class="ttdoc">网络工作线程</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00019">NetworkWorker.h:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a024a952b1bd8c1785766d325f63ce6eb"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a024a952b1bd8c1785766d325f63ce6eb">EasyKiConverter::NetworkWorker::requestProgress</a></div><div class="ttdeci">void requestProgress(const QString &amp;componentId, int progress)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a072990f2e23c10fa8faccf7df7bd0f57"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a072990f2e23c10fa8faccf7df7bd0f57">EasyKiConverter::NetworkWorker::executeRequest</a></div><div class="ttdeci">bool executeRequest(const QUrl &amp;url, ResourceType resourceType, int timeoutMs, int maxRetries, QByteArray &amp;outData, QString &amp;errorMsg)</div><div class="ttdoc">执行一次带重试策略的同步等待请求。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8cpp_source.html#l00191">NetworkWorker.cpp:191</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a169732769fc4cf68485f519049ac2e9c"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a169732769fc4cf68485f519049ac2e9c">EasyKiConverter::NetworkWorker::run</a></div><div class="ttdeci">void run() override</div><div class="ttdoc">根据任务类型执行对应的网络获取流程。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8cpp_source.html#l00044">NetworkWorker.cpp:44</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a1847504aea91f706bc406ebc00f43b0a"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a1847504aea91f706bc406ebc00f43b0a">EasyKiConverter::NetworkWorker::model3DFetched</a></div><div class="ttdeci">void model3DFetched(const QString &amp;componentId, const QString &amp;uuid, const QByteArray &amp;data)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a1c3f1c8fed9c4bd030d762d7672fc96f"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a1c3f1c8fed9c4bd030d762d7672fc96f">EasyKiConverter::NetworkWorker::cadDataFetched</a></div><div class="ttdeci">void cadDataFetched(const QString &amp;componentId, const QJsonObject &amp;data)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a284b99e91d2cfcfb109decf91cf94068"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a284b99e91d2cfcfb109decf91cf94068">EasyKiConverter::NetworkWorker::m_uuid</a></div><div class="ttdeci">QString m_uuid</div><div class="ttdoc">标识符。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00067">NetworkWorker.h:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a2c5279dd79250eeaae5f51473e3d23d3"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a2c5279dd79250eeaae5f51473e3d23d3">EasyKiConverter::NetworkWorker::MODEL_TIMEOUT_MS</a></div><div class="ttdeci">static const int MODEL_TIMEOUT_MS</div><div class="ttdoc">三维模型请求超时时间（毫秒）。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00072">NetworkWorker.h:72</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a60ef69c3ac2b0ea287bb7fd1fab061fe"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a60ef69c3ac2b0ea287bb7fd1fab061fe">EasyKiConverter::NetworkWorker::fetchError</a></div><div class="ttdeci">void fetchError(const QString &amp;componentId, const QString &amp;errorMessage)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a6863a00c97922e6b555f4fd1ae83aa4f"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a6863a00c97922e6b555f4fd1ae83aa4f">EasyKiConverter::NetworkWorker::m_mutex</a></div><div class="ttdeci">QMutex m_mutex</div><div class="ttdoc">对象状态互斥量。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00069">NetworkWorker.h:69</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a770c77872661feb02eb18f04c578290e"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a770c77872661feb02eb18f04c578290e">EasyKiConverter::NetworkWorker::componentInfoFetched</a></div><div class="ttdeci">void componentInfoFetched(const QString &amp;componentId, const QJsonObject &amp;data)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a802d68fe316c8f91ff74bc170c718452"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452">EasyKiConverter::NetworkWorker::TaskType</a></div><div class="ttdeci">TaskType</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00023">NetworkWorker.h:23</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a802d68fe316c8f91ff74bc170c718452a44666c6fe7b16f11ff3a04289360a999"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452a44666c6fe7b16f11ff3a04289360a999">EasyKiConverter::NetworkWorker::TaskType::Fetch3DModelObj</a></div><div class="ttdeci">@ Fetch3DModelObj</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a802d68fe316c8f91ff74bc170c718452a6adac46c3c272f9bebaca8ca27de5e52"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452a6adac46c3c272f9bebaca8ca27de5e52">EasyKiConverter::NetworkWorker::TaskType::FetchCadData</a></div><div class="ttdeci">@ FetchCadData</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a802d68fe316c8f91ff74bc170c718452ac36f67e0c7c88191e864f80934aca318"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452ac36f67e0c7c88191e864f80934aca318">EasyKiConverter::NetworkWorker::TaskType::Fetch3DModelMtl</a></div><div class="ttdeci">@ Fetch3DModelMtl</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a802d68fe316c8f91ff74bc170c718452ae777f490f5cabac466291447bd750ff9"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a802d68fe316c8f91ff74bc170c718452ae777f490f5cabac466291447bd750ff9">EasyKiConverter::NetworkWorker::TaskType::FetchComponentInfo</a></div><div class="ttdeci">@ FetchComponentInfo</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_a964fdedf614ce58025e190ddf5129586"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#a964fdedf614ce58025e190ddf5129586">EasyKiConverter::NetworkWorker::fetchComponentInfo</a></div><div class="ttdeci">bool fetchComponentInfo()</div><div class="ttdoc">获取元器件基础信息。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8cpp_source.html#l00078">NetworkWorker.cpp:78</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_aa5ad6e4f9c18674614ed3906289b8fb4"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#aa5ad6e4f9c18674614ed3906289b8fb4">EasyKiConverter::NetworkWorker::~NetworkWorker</a></div><div class="ttdeci">~NetworkWorker() override</div><div class="ttdoc">记录 Worker 销毁并释放其请求关联。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8cpp_source.html#l00037">NetworkWorker.cpp:37</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_aa5bba33d9aecfef920a838cfe8a1cf74"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#aa5bba33d9aecfef920a838cfe8a1cf74">EasyKiConverter::NetworkWorker::m_componentId</a></div><div class="ttdeci">QString m_componentId</div><div class="ttdoc">标识符。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00065">NetworkWorker.h:65</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_ab3e154ac6dc23d9bb5a3e370a1a4f1c4"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#ab3e154ac6dc23d9bb5a3e370a1a4f1c4">EasyKiConverter::NetworkWorker::fetch3DModelObj</a></div><div class="ttdeci">bool fetch3DModelObj()</div><div class="ttdoc">获取元器件 OBJ 三维模型。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8cpp_source.html#l00142">NetworkWorker.cpp:142</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_ac7cc0f9ae004478b51622c99610a4868"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#ac7cc0f9ae004478b51622c99610a4868">EasyKiConverter::NetworkWorker::abort</a></div><div class="ttdeci">void abort()</div><div class="ttdoc">取消当前网络请求并标记 Worker 终止。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8cpp_source.html#l00278">NetworkWorker.cpp:278</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_aca3f379bce71f7069f3b07ed33eab4b8"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#aca3f379bce71f7069f3b07ed33eab4b8">EasyKiConverter::NetworkWorker::MAX_RETRIES</a></div><div class="ttdeci">static const int MAX_RETRIES</div><div class="ttdoc">网络请求最大重试次数。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00073">NetworkWorker.h:73</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_acd5a92fab1b395e89cc493e2e70933fe"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#acd5a92fab1b395e89cc493e2e70933fe">EasyKiConverter::NetworkWorker::m_taskType</a></div><div class="ttdeci">TaskType m_taskType</div><div class="ttdoc">类型。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00066">NetworkWorker.h:66</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_adb4d7edbe030fa1815b66cea24aa96a8"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#adb4d7edbe030fa1815b66cea24aa96a8">EasyKiConverter::NetworkWorker::fetch3DModelMtl</a></div><div class="ttdeci">bool fetch3DModelMtl()</div><div class="ttdoc">获取元器件 MTL 三维材质文件。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8cpp_source.html#l00163">NetworkWorker.cpp:163</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_ae213f1e6dca8d0a9d0ea6e7bef66a4a3"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#ae213f1e6dca8d0a9d0ea6e7bef66a4a3">EasyKiConverter::NetworkWorker::fetchCadData</a></div><div class="ttdeci">bool fetchCadData()</div><div class="ttdoc">获取元器件 CAD 数据。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8cpp_source.html#l00109">NetworkWorker.cpp:109</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_ae21d673950c9827363f923ae610204f6"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#ae21d673950c9827363f923ae610204f6">EasyKiConverter::NetworkWorker::m_currentRequest</a></div><div class="ttdeci">AsyncNetworkRequest * m_currentRequest</div><div class="ttdoc">请求。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00068">NetworkWorker.h:68</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkWorker_html_af49faae6b3423e2caf8332d7a44a2d72"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkWorker.html#af49faae6b3423e2caf8332d7a44a2d72">EasyKiConverter::NetworkWorker::DEFAULT_TIMEOUT_MS</a></div><div class="ttdeci">static const int DEFAULT_TIMEOUT_MS</div><div class="ttdoc">普通网络请求超时时间（毫秒）。</div><div class="ttdef"><b>Definition</b> <a href="NetworkWorker_8h_source.html#l00071">NetworkWorker.h:71</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_ab181dbbf82acb26de2e9a29a77e21a66"><div class="ttname"><a href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">EasyKiConverter::ResourceType</a></div><div class="ttdeci">ResourceType</div><div class="ttdoc">网络请求资源类型</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00019">INetworkClient.h:19</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_16b488fbba2495673abe79f720aebac4.html">workers</a></li><li class="navelem"><a class="el" href="NetworkWorker_8h.html">NetworkWorker.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

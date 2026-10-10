@@ -1,0 +1,19 @@
+var searchData=
+[
+  ['b_5fadhes_0',['B_Adhes',['../classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfac7b8d2f987183de5ec8883e1293cfde0',1,'EasyKiConverter::LayerMapper']]],
+  ['b_5fcrtyd_1',['B_CrtYd',['../classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa6985ada4630a531505f3de1fff7df8f8',1,'EasyKiConverter::LayerMapper']]],
+  ['b_5fcu_2',['B_Cu',['../classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa1248e0a91d7fa0e0c394fa6d73a8ea5f',1,'EasyKiConverter::LayerMapper']]],
+  ['b_5ffab_3',['B_Fab',['../classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfacddb52a594546f3e6d0672287b09652d',1,'EasyKiConverter::LayerMapper']]],
+  ['b_5fmask_4',['B_Mask',['../classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfadb321e768a1c27089d3e98a1c97f9047',1,'EasyKiConverter::LayerMapper']]],
+  ['b_5fpaste_5',['B_Paste',['../classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfaa0992146a880fd07e7a70e51c5f696ea',1,'EasyKiConverter::LayerMapper']]],
+  ['b_5fsilks_6',['B_SilkS',['../classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa2e852e106483fdf4ddbf339bea911594',1,'EasyKiConverter::LayerMapper']]],
+  ['bash_7',['Bash',['../classEasyKiConverter_1_1CompletionGenerator.html#aa0ba33fa9752caac7214a910c15b0966a7024ff0860dec6ab1519a3f71c7d8779',1,'EasyKiConverter::CompletionGenerator']]],
+  ['bidirectional_8',['bidirectional',['../namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40',1,'EasyKiConverter::IR::Bidirectional'],['../namespaceEasyKiConverter.html#a0b64cf3e5e732b083267e8f5b3b46cbbaabd4328c725637aabedbd02d3b7ffd40',1,'EasyKiConverter::Bidirectional']]],
+  ['bidirectionalsignalflow_9',['BidirectionalSignalFlow',['../namespaceEasyKiConverter_1_1IR.html#ae2ebcbc87fff2de2c5b2c6bbb4b52326ae758db9ca60d3ce9aac74106bff9e04a',1,'EasyKiConverter::IR']]],
+  ['bottomassembly_10',['BottomAssembly',['../namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a9179c27c99130211b1aaf05421fa91f5',1,'EasyKiConverter::IR']]],
+  ['bottomcopper_11',['BottomCopper',['../namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a32f0dbdc20ce42078b4e05ee7f1ba2fc',1,'EasyKiConverter::IR']]],
+  ['bottommask_12',['BottomMask',['../namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a5fbb93d97c829f0d7e76f749d3af73c9',1,'EasyKiConverter::IR']]],
+  ['bottomoverlay_13',['BottomOverlay',['../namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a41ff03243dee2efcb879ff3c00e434c8',1,'EasyKiConverter::IR']]],
+  ['bottompaste_14',['BottomPaste',['../namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981a22bda87d1f7500bdbed77e7569bfb2c6',1,'EasyKiConverter::IR']]],
+  ['bottomsilk_15',['BottomSilk',['../namespaceEasyKiConverter_1_1IR.html#a96a060845a5405e7dea8ffff9451e981ac3502964a873d3a2628700d060b0874a',1,'EasyKiConverter::IR']]]
+];

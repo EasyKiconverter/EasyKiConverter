@@ -1,0 +1,474 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::Parser::ParseDiagnostics类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::Parser::ParseDiagnostics类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>收集解析过程中的信息、警告、错误和跳过记录。  
+ <a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ParseDiagnostics_8h_source.html">ParseDiagnostics.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::Parser::ParseDiagnostics 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics__coll__graph.svg" width="182" height="231"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a4996b6b0998692342728cdfe5f388a09" id="r_a4996b6b0998692342728cdfe5f388a09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">add</a> (<a class="el" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393">ParseSeverity</a> severity, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cd">ParseScope</a> scope, const QString &amp;message, const QString &amp;entity=QString(), int line=0, int column=0)</td></tr>
+<tr class="memdesc:a4996b6b0998692342728cdfe5f388a09"><td class="mdescLeft">&#160;</td><td class="mdescRight">添加一条解析诊断。  <br /></td></tr>
+<tr class="separator:a4996b6b0998692342728cdfe5f388a09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff797940deb0b845979c468bbb9fcf3f" id="r_aff797940deb0b845979c468bbb9fcf3f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aff797940deb0b845979c468bbb9fcf3f">setFilePath</a> (const QString &amp;filePath)</td></tr>
+<tr class="memdesc:aff797940deb0b845979c468bbb9fcf3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置当前诊断关联的源文件路径。  <br /></td></tr>
+<tr class="separator:aff797940deb0b845979c468bbb9fcf3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacfb4e54a1c18d19f7d6d7f4ebc91aa0" id="r_aacfb4e54a1c18d19f7d6d7f4ebc91aa0"><td class="memItemLeft" align="right" valign="top">const QList&lt; <a class="el" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html">ParseDiagnostic</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aacfb4e54a1c18d19f7d6d7f4ebc91aa0">items</a> () const</td></tr>
+<tr class="memdesc:aacfb4e54a1c18d19f7d6d7f4ebc91aa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回全部诊断，顺序与解析发生顺序一致。  <br /></td></tr>
+<tr class="separator:aacfb4e54a1c18d19f7d6d7f4ebc91aa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade2256b0b54f0a336f05efb5bc9abbb1" id="r_ade2256b0b54f0a336f05efb5bc9abbb1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#ade2256b0b54f0a336f05efb5bc9abbb1">append</a> (const <a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a> &amp;other)</td></tr>
+<tr class="memdesc:ade2256b0b54f0a336f05efb5bc9abbb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">追加另一阶段的诊断并保留其原始文件和位置。  <br /></td></tr>
+<tr class="separator:ade2256b0b54f0a336f05efb5bc9abbb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a859d1f36fa5567686ba97443516f8734" id="r_a859d1f36fa5567686ba97443516f8734"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a859d1f36fa5567686ba97443516f8734">hasErrors</a> () const</td></tr>
+<tr class="memdesc:a859d1f36fa5567686ba97443516f8734"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否存在错误诊断。  <br /></td></tr>
+<tr class="separator:a859d1f36fa5567686ba97443516f8734"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a062a8a6f560410f5e86b48914fcbe90f" id="r_a062a8a6f560410f5e86b48914fcbe90f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a062a8a6f560410f5e86b48914fcbe90f">isEmpty</a> () const</td></tr>
+<tr class="memdesc:a062a8a6f560410f5e86b48914fcbe90f"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否为空。  <br /></td></tr>
+<tr class="separator:a062a8a6f560410f5e86b48914fcbe90f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafe4cc57489dbc52e69b5df54aebbb28" id="r_aafe4cc57489dbc52e69b5df54aebbb28"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aafe4cc57489dbc52e69b5df54aebbb28">clear</a> ()</td></tr>
+<tr class="memdesc:aafe4cc57489dbc52e69b5df54aebbb28"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空当前诊断。  <br /></td></tr>
+<tr class="separator:aafe4cc57489dbc52e69b5df54aebbb28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a232c4811c9a4bd5ece995beecf226ed7" id="r_a232c4811c9a4bd5ece995beecf226ed7"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a232c4811c9a4bd5ece995beecf226ed7">m_filePath</a></td></tr>
+<tr class="memdesc:a232c4811c9a4bd5ece995beecf226ed7"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前诊断集合关联的源文件路径。  <br /></td></tr>
+<tr class="separator:a232c4811c9a4bd5ece995beecf226ed7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76f4d687a427a020cceada6e087d0ee7" id="r_a76f4d687a427a020cceada6e087d0ee7"><td class="memItemLeft" align="right" valign="top">QList&lt; <a class="el" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html">ParseDiagnostic</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a76f4d687a427a020cceada6e087d0ee7">m_items</a></td></tr>
+<tr class="memdesc:a76f4d687a427a020cceada6e087d0ee7"><td class="mdescLeft">&#160;</td><td class="mdescRight">按产生顺序保存的诊断条目。  <br /></td></tr>
+<tr class="separator:a76f4d687a427a020cceada6e087d0ee7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>收集解析过程中的信息、警告、错误和跳过记录。 </p>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8h_source.html">ParseDiagnostics.h</a> 第 <a class="el" href="ParseDiagnostics_8h_source.html#l00040">40</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a4996b6b0998692342728cdfe5f388a09" name="a4996b6b0998692342728cdfe5f388a09"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4996b6b0998692342728cdfe5f388a09">&#9670;&#160;</a></span>add()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Parser::ParseDiagnostics::add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393">ParseSeverity</a>&#160;</td>
+          <td class="paramname"><em>severity</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cd">ParseScope</a>&#160;</td>
+          <td class="paramname"><em>scope</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>message</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>entity</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>line</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>column</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>添加一条解析诊断。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">severity</td><td>诊断严重级别。 </td></tr>
+    <tr><td class="paramname">scope</td><td>诊断关联范围。 </td></tr>
+    <tr><td class="paramname">message</td><td>诊断文本。 </td></tr>
+    <tr><td class="paramname">entity</td><td>可选的实体标识。 </td></tr>
+    <tr><td class="paramname">line</td><td>可选的源文件行号。 </td></tr>
+    <tr><td class="paramname">column</td><td>可选的源文件列号。</td></tr>
+    <tr><td class="paramname">severity</td><td>诊断严重级别。 </td></tr>
+    <tr><td class="paramname">scope</td><td>诊断作用域。 </td></tr>
+    <tr><td class="paramname">message</td><td>诊断信息。 </td></tr>
+    <tr><td class="paramname">entity</td><td>相关实体名称。 </td></tr>
+    <tr><td class="paramname">line</td><td>相关行号。 </td></tr>
+    <tr><td class="paramname">column</td><td>相关列号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8cpp_source.html">ParseDiagnostics.cpp</a> 第 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00018">18</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ParseDiagnostics_8h_source.html#l00091">m_filePath</a> , 以及 <a class="el" href="ParseDiagnostics_8h_source.html#l00092">m_items</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="EncodingDetector_8cpp_source.html#l00083">EasyKiConverter::Parser::EncodingDetector::decode()</a>, <a class="el" href="ArchiveInspector_8cpp_source.html#l00105">EasyKiConverter::Parser::ArchiveInspector::inspect()</a>, <a class="el" href="CadstarModel_8cpp_source.html#l00682">EasyKiConverter::Parser::CadstarMerger::merge()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00198">EasyKiConverter::Parser::XpeditionHkpMerger::merge()</a>, <a class="el" href="XpeditionHkpModel_8cpp_source.html#l00657">EasyKiConverter::Parser::XpeditionHkpModelParser::parse()</a>, <a class="el" href="CadstarModel_8cpp_source.html#l00429">EasyKiConverter::Parser::CadstarParser::parse()</a>, <a class="el" href="PcadModel_8cpp_source.html#l00425">EasyKiConverter::Parser::PcadParser::parse()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00047">EasyKiConverter::Parser::XpeditionHkpReader::parse()</a>, <a class="el" href="XpeditionSymbolModel_8cpp_source.html#l00175">EasyKiConverter::Parser::XpeditionSymbolParser::parse()</a>, <a class="el" href="TextParsers_8cpp_source.html#l00237">EasyKiConverter::Parser::DelimitedSectionParser::parse()</a>, <a class="el" href="TextParsers_8cpp_source.html#l00131">EasyKiConverter::Parser::IndentedSectionParser::parse()</a>, <a class="el" href="TextParsers_8cpp_source.html#l00320">EasyKiConverter::Parser::SExpressionParser::parse()</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00086">EasyKiConverter::Parser::StrictNumberParser::parseDouble()</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00109">EasyKiConverter::Parser::StrictNumberParser::parseInteger()</a>, <a class="el" href="GeometryTransforms_8cpp_source.html#l00034">EasyKiConverter::Parser::UnitConverter::parseUnit()</a>, <a class="el" href="PcadAdapter_8cpp_source.html#l00284">EasyKiConverter::PcadAdapter::toFootprint()</a>, <a class="el" href="XpeditionHkpAdapter_8cpp_source.html#l00170">EasyKiConverter::XpeditionHkpAdapter::toFootprint()</a>, <a class="el" href="CadstarAdapter_8cpp_source.html#l00354">EasyKiConverter::CadstarAdapter::toIR()</a>, <a class="el" href="PcadAdapter_8cpp_source.html#l00243">EasyKiConverter::PcadAdapter::toIR()</a>, <a class="el" href="XpeditionHkpAdapter_8cpp_source.html#l00292">EasyKiConverter::XpeditionHkpAdapter::toIR()</a>, <a class="el" href="XpeditionHkpAdapter_8cpp_source.html#l00240">EasyKiConverter::XpeditionHkpAdapter::toIR()</a>, <a class="el" href="XpeditionSymbolAdapter_8cpp_source.html#l00066">EasyKiConverter::XpeditionSymbolAdapter::toIR()</a> , 以及 <a class="el" href="TextParsers_8cpp_source.html#l00076">EasyKiConverter::Parser::TextTokenizer::tokenize()</a>.</p>
+
+</div>
+</div>
+<a id="ade2256b0b54f0a336f05efb5bc9abbb1" name="ade2256b0b54f0a336f05efb5bc9abbb1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade2256b0b54f0a336f05efb5bc9abbb1">&#9670;&#160;</a></span>append()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Parser::ParseDiagnostics::append </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>追加另一阶段的诊断并保留其原始文件和位置。 </p>
+<p>合并另一组解析诊断。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">other</td><td>待追加的诊断集合。</td></tr>
+    <tr><td class="paramname">other</td><td>要追加的诊断集合。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8cpp_source.html">ParseDiagnostics.cpp</a> 第 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00047">47</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00039">items()</a> , 以及 <a class="el" href="ParseDiagnostics_8h_source.html#l00092">m_items</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CadstarModel_8cpp_source.html#l00682">EasyKiConverter::Parser::CadstarMerger::merge()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00198">EasyKiConverter::Parser::XpeditionHkpMerger::merge()</a>, <a class="el" href="CadstarModel_8cpp_source.html#l00664">EasyKiConverter::Parser::CadstarParser::parseBytes()</a>, <a class="el" href="PcadModel_8cpp_source.html#l00547">EasyKiConverter::Parser::PcadParser::parseBytes()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00096">EasyKiConverter::Parser::XpeditionHkpReader::parseBytes()</a>, <a class="el" href="XpeditionSymbolModel_8cpp_source.html#l00362">EasyKiConverter::Parser::XpeditionSymbolParser::parseBytes()</a> , 以及 <a class="el" href="XpeditionHkpAdapter_8cpp_source.html#l00292">EasyKiConverter::XpeditionHkpAdapter::toIR()</a>.</p>
+
+</div>
+</div>
+<a id="aafe4cc57489dbc52e69b5df54aebbb28" name="aafe4cc57489dbc52e69b5df54aebbb28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aafe4cc57489dbc52e69b5df54aebbb28">&#9670;&#160;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Parser::ParseDiagnostics::clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>清空当前诊断。 </p>
+<p>清理上一轮解析的诊断。 </p>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8cpp_source.html">ParseDiagnostics.cpp</a> 第 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00074">74</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ParseDiagnostics_8h_source.html#l00092">m_items</a>.</p>
+
+</div>
+</div>
+<a id="a859d1f36fa5567686ba97443516f8734" name="a859d1f36fa5567686ba97443516f8734"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a859d1f36fa5567686ba97443516f8734">&#9670;&#160;</a></span>hasErrors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::Parser::ParseDiagnostics::hasErrors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断是否存在错误诊断。 </p>
+<p>判断本次解析是否存在错误。</p>
+<dl class="section return"><dt>返回</dt><dd>存在错误时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8cpp_source.html">ParseDiagnostics.cpp</a> 第 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00055">55</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd">EasyKiConverter::Parser::Error</a> , 以及 <a class="el" href="ParseDiagnostics_8h_source.html#l00092">m_items</a>.</p>
+
+</div>
+</div>
+<a id="a062a8a6f560410f5e86b48914fcbe90f" name="a062a8a6f560410f5e86b48914fcbe90f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a062a8a6f560410f5e86b48914fcbe90f">&#9670;&#160;</a></span>isEmpty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::Parser::ParseDiagnostics::isEmpty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断是否为空。 </p>
+<p>判断是否没有产生任何诊断。</p>
+<dl class="section return"><dt>返回</dt><dd>没有诊断时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8cpp_source.html">ParseDiagnostics.cpp</a> 第 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00067">67</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ParseDiagnostics_8h_source.html#l00092">m_items</a>.</p>
+
+</div>
+</div>
+<a id="aacfb4e54a1c18d19f7d6d7f4ebc91aa0" name="aacfb4e54a1c18d19f7d6d7f4ebc91aa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacfb4e54a1c18d19f7d6d7f4ebc91aa0">&#9670;&#160;</a></span>items()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QList&lt; <a class="el" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html">ParseDiagnostic</a> &gt; &amp; EasyKiConverter::Parser::ParseDiagnostics::items </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回全部诊断，顺序与解析发生顺序一致。 </p>
+<p>以解析顺序返回诊断列表。</p>
+<dl class="section return"><dt>返回</dt><dd>当前诊断列表。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8cpp_source.html">ParseDiagnostics.cpp</a> 第 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00039">39</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ParseDiagnostics_8h_source.html#l00092">m_items</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00047">append()</a>.</p>
+
+</div>
+</div>
+<a id="aff797940deb0b845979c468bbb9fcf3f" name="aff797940deb0b845979c468bbb9fcf3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff797940deb0b845979c468bbb9fcf3f">&#9670;&#160;</a></span>setFilePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::Parser::ParseDiagnostics::setFilePath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置当前诊断关联的源文件路径。 </p>
+<p>设置后续诊断共享的源文件位置。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>源文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8cpp_source.html">ParseDiagnostics.cpp</a> 第 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00031">31</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ParseDiagnostics_8h_source.html#l00091">m_filePath</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="EncodingDetector_8cpp_source.html#l00083">EasyKiConverter::Parser::EncodingDetector::decode()</a>, <a class="el" href="ArchiveInspector_8cpp_source.html#l00105">EasyKiConverter::Parser::ArchiveInspector::inspect()</a>, <a class="el" href="CadstarModel_8cpp_source.html#l00682">EasyKiConverter::Parser::CadstarMerger::merge()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00198">EasyKiConverter::Parser::XpeditionHkpMerger::merge()</a>, <a class="el" href="CadstarModel_8cpp_source.html#l00429">EasyKiConverter::Parser::CadstarParser::parse()</a>, <a class="el" href="PcadModel_8cpp_source.html#l00425">EasyKiConverter::Parser::PcadParser::parse()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00047">EasyKiConverter::Parser::XpeditionHkpReader::parse()</a>, <a class="el" href="XpeditionSymbolModel_8cpp_source.html#l00175">EasyKiConverter::Parser::XpeditionSymbolParser::parse()</a>, <a class="el" href="CadstarModel_8cpp_source.html#l00664">EasyKiConverter::Parser::CadstarParser::parseBytes()</a>, <a class="el" href="PcadModel_8cpp_source.html#l00547">EasyKiConverter::Parser::PcadParser::parseBytes()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00096">EasyKiConverter::Parser::XpeditionHkpReader::parseBytes()</a> , 以及 <a class="el" href="XpeditionSymbolModel_8cpp_source.html#l00362">EasyKiConverter::Parser::XpeditionSymbolParser::parseBytes()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a232c4811c9a4bd5ece995beecf226ed7" name="a232c4811c9a4bd5ece995beecf226ed7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a232c4811c9a4bd5ece995beecf226ed7">&#9670;&#160;</a></span>m_filePath</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::Parser::ParseDiagnostics::m_filePath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前诊断集合关联的源文件路径。 </p>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8h_source.html">ParseDiagnostics.h</a> 第 <a class="el" href="ParseDiagnostics_8h_source.html#l00091">91</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00018">add()</a> , 以及 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00031">setFilePath()</a>.</p>
+
+</div>
+</div>
+<a id="a76f4d687a427a020cceada6e087d0ee7" name="a76f4d687a427a020cceada6e087d0ee7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76f4d687a427a020cceada6e087d0ee7">&#9670;&#160;</a></span>m_items</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;<a class="el" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html">ParseDiagnostic</a>&gt; EasyKiConverter::Parser::ParseDiagnostics::m_items</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>按产生顺序保存的诊断条目。 </p>
+
+<p class="definition">在文件 <a class="el" href="ParseDiagnostics_8h_source.html">ParseDiagnostics.h</a> 第 <a class="el" href="ParseDiagnostics_8h_source.html#l00092">92</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00018">add()</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00047">append()</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00074">clear()</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00055">hasErrors()</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00067">isEmpty()</a> , 以及 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00039">items()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/parser/<a class="el" href="ParseDiagnostics_8h_source.html">ParseDiagnostics.h</a></li>
+<li>core/parser/<a class="el" href="ParseDiagnostics_8cpp_source.html">ParseDiagnostics.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="namespaceEasyKiConverter_1_1Parser.html">Parser</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

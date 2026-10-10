@@ -1,0 +1,203 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: ui/viewmodels/ComponentListTimerCoordinator.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentListTimerCoordinator_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentListTimerCoordinator.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentListTimerCoordinator_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentListTimerCoordinator_8h.html">ComponentListTimerCoordinator.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentListViewModel_8h.html">ComponentListViewModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QPointer&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QTimer&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="}">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListTimerCoordinator.html#a8e74d5e4f5407e486ad0364aa407698a">   15</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListTimerCoordinator.html#a8e74d5e4f5407e486ad0364aa407698a">ComponentListTimerCoordinator::initialize</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentListViewModel.html">ComponentListViewModel</a>&amp; owner) {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="comment">// 缓存预览图使用固定时间窗批量更新，保证图片可以渐进显示。</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a63215124f0116912aa1324c80cabeb63">m_cachePreviewImageTimer</a> = <span class="keyword">new</span> QTimer(&amp;owner);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a63215124f0116912aa1324c80cabeb63">m_cachePreviewImageTimer</a>-&gt;setSingleShot(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a63215124f0116912aa1324c80cabeb63">m_cachePreviewImageTimer</a>-&gt;setInterval(120);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    QObject::connect(</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a63215124f0116912aa1324c80cabeb63">m_cachePreviewImageTimer</a>, &amp;QTimer::timeout, &amp;owner, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#a6d8e6c2ee9221d0f27d2753ab9649b8e">ComponentListViewModel::processCachePreviewImages</a>);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="comment">// 普通添加模式和 BOM 导入模式共用添加批处理定时器。</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#aa2b89151bfc44708f10717ad5e43a8db">m_batchAddTimer</a> = <span class="keyword">new</span> QTimer(&amp;owner);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#aa2b89151bfc44708f10717ad5e43a8db">m_batchAddTimer</a>-&gt;setSingleShot(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#aa2b89151bfc44708f10717ad5e43a8db">m_batchAddTimer</a>-&gt;setInterval(50);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    QObject::connect(owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#aa2b89151bfc44708f10717ad5e43a8db">m_batchAddTimer</a>, &amp;QTimer::timeout, &amp;owner, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#afbf905484bd7dfa3491925cad8770973">ComponentListViewModel::processNextBatchAdd</a>);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 聚合列表项属性通知，避免每个异步基础信息响应都刷新界面。</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a01ed2c1a3a6043de268e916bf5fae2c8">m_batchUpdateTimer</a> = <span class="keyword">new</span> QTimer(&amp;owner);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a01ed2c1a3a6043de268e916bf5fae2c8">m_batchUpdateTimer</a>-&gt;setSingleShot(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a01ed2c1a3a6043de268e916bf5fae2c8">m_batchUpdateTimer</a>-&gt;setInterval(100);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    QObject::connect(owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a01ed2c1a3a6043de268e916bf5fae2c8">m_batchUpdateTimer</a>, &amp;QTimer::timeout, &amp;owner, [&amp;owner]() {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        const QList&lt;QPointer&lt;ComponentListItemData&gt;&gt; items =</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            owner.m_batchUpdateItems.take();  <span class="comment">// 待发送属性变更通知的列表项。</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        for (const QPointer&lt;ComponentListItemData&gt;&amp; item : items) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            if (item) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                emit item-&gt;dataChanged();</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    });</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// 列表统计更新使用较短批处理窗口，减少批量操作时的界面抖动。</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    owner.m_batchListUpdateTimer = <span class="keyword">new</span> QTimer(&amp;owner);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    owner.m_batchListUpdateTimer-&gt;setSingleShot(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    owner.m_batchListUpdateTimer-&gt;setInterval(150);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    QObject::connect(owner.m_batchListUpdateTimer, &amp;QTimer::timeout, &amp;owner, [&amp;owner]() {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        owner.m_batchListUpdateMode = false;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        owner.m_listUpdatePending = false;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        owner.recomputeStateCounters();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        owner.updateHasInvalidComponents();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        emit owner.componentCountChanged();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        emit owner.filteredCountChanged();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    });</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="comment">// BOM 导入模式使用更长的窗口，集中处理累积的验证完成通知。</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    owner.m_bomImportUpdateTimer = <span class="keyword">new</span> QTimer(&amp;owner);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    owner.m_bomImportUpdateTimer-&gt;setSingleShot(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    owner.m_bomImportUpdateTimer-&gt;setInterval(300);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    QObject::connect(owner.m_bomImportUpdateTimer, &amp;QTimer::timeout, &amp;owner, [&amp;owner]() {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        owner.m_bomImportMode = false;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        owner.m_listUpdatePending = false;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        if (owner.m_bomImportPendingUpdates &gt; 0) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            owner.m_bomImportPendingUpdates = 0;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>            owner.scheduleListUpdate();</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    });</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    <span class="comment">// 延迟获取预览图，给验证完成信号和列表状态更新留出时间。</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    owner.m_delayedFetchPreviewTimer = <span class="keyword">new</span> QTimer(&amp;owner);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    owner.m_delayedFetchPreviewTimer-&gt;setSingleShot(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    owner.m_delayedFetchPreviewTimer-&gt;setInterval(100);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    QObject::connect(</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        owner.m_delayedFetchPreviewTimer, &amp;QTimer::timeout, &amp;owner, &amp;ComponentListViewModel::delayedFetchPreviewImages);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>}</div>
+</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentListTimerCoordinator_8h_html"><div class="ttname"><a href="ComponentListTimerCoordinator_8h.html">ComponentListTimerCoordinator.h</a></div></div>
+<div class="ttc" id="aComponentListViewModel_8h_html"><div class="ttname"><a href="ComponentListViewModel_8h.html">ComponentListViewModel.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListTimerCoordinator_html_a8e74d5e4f5407e486ad0364aa407698a"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListTimerCoordinator.html#a8e74d5e4f5407e486ad0364aa407698a">EasyKiConverter::ComponentListTimerCoordinator::initialize</a></div><div class="ttdeci">static void initialize(ComponentListViewModel &amp;owner)</div><div class="ttdoc">创建并连接组件列表所需的全部定时器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListTimerCoordinator_8cpp_source.html#l00015">ComponentListTimerCoordinator.cpp:15</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html">EasyKiConverter::ComponentListViewModel</a></div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00031">ComponentListViewModel.h:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a01ed2c1a3a6043de268e916bf5fae2c8"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a01ed2c1a3a6043de268e916bf5fae2c8">EasyKiConverter::ComponentListViewModel::m_batchUpdateTimer</a></div><div class="ttdeci">QTimer * m_batchUpdateTimer</div><div class="ttdoc">列表项批量更新定时器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00255">ComponentListViewModel.h:255</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a63215124f0116912aa1324c80cabeb63"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a63215124f0116912aa1324c80cabeb63">EasyKiConverter::ComponentListViewModel::m_cachePreviewImageTimer</a></div><div class="ttdeci">QTimer * m_cachePreviewImageTimer</div><div class="ttdoc">缓存预览图批量更新定时器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00245">ComponentListViewModel.h:245</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a6d8e6c2ee9221d0f27d2753ab9649b8e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a6d8e6c2ee9221d0f27d2753ab9649b8e">EasyKiConverter::ComponentListViewModel::processCachePreviewImages</a></div><div class="ttdeci">void processCachePreviewImages()</div><div class="ttdoc">批量应用缓存中的预览图编码结果。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8cpp_source.html#l00321">ComponentListViewModel.cpp:321</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_aa2b89151bfc44708f10717ad5e43a8db"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#aa2b89151bfc44708f10717ad5e43a8db">EasyKiConverter::ComponentListViewModel::m_batchAddTimer</a></div><div class="ttdeci">QTimer * m_batchAddTimer</div><div class="ttdoc">批量加入任务调度定时器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00249">ComponentListViewModel.h:249</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_afbf905484bd7dfa3491925cad8770973"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#afbf905484bd7dfa3491925cad8770973">EasyKiConverter::ComponentListViewModel::processNextBatchAdd</a></div><div class="ttdeci">void processNextBatchAdd()</div><div class="ttdoc">处理一批待添加元件并更新验证队列。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8cpp_source.html#l00150">ComponentListViewModel.cpp:150</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1788f8309b1a812dcb800a185471cf6c.html">ui</a></li><li class="navelem"><a class="el" href="dir_fea4d5651ef76d72b143e7607c90e565.html">viewmodels</a></li><li class="navelem"><a class="el" href="ComponentListTimerCoordinator_8cpp.html">ComponentListTimerCoordinator.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

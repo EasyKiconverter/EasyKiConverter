@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/logging/ConsoleAppender.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ConsoleAppender_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ConsoleAppender.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ConsoleAppender_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CONSOLEAPPENDER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define CONSOLEAPPENDER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="IAppender_8h.html">IAppender.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="LogLevel_8h.html">LogLevel.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QAtomicInt&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QHash&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QMutex&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QQueue&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;QThread&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;QWaitCondition&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="};">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html">   30</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1ConsoleAppender.html">ConsoleAppender</a> : <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1IAppender.html">IAppender</a> {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1ConsoleAppender.html">ConsoleAppender</a>(<span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#af6f016462bd3c8c273c67e925804a466">useColors</a> = <span class="keyword">true</span>, <span class="keywordtype">bool</span> async = <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a1bc10944f2e63eff1dfdf790c36ed67d">~ConsoleAppender</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#abe3db90378e6209149708bb7a7718bc8">append</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a>&amp; record, <span class="keyword">const</span> QString&amp; formatted) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#adc77073b7981b65d1bb2f92f3e69cd4a">flush</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a2d9344c9744ff00f1214f7c66a2e5055">close</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="foldopen" id="foldopen00065" data-start="{" data-end="}">
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a69dc825f4212a6ce604c7f5fb7352f43">   65</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a69dc825f4212a6ce604c7f5fb7352f43">setUseColors</a>(<span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#af6f016462bd3c8c273c67e925804a466">useColors</a>) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aada6b5266f82a616426c48b6e501ece2">m_useColors</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#af6f016462bd3c8c273c67e925804a466">useColors</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#af6f016462bd3c8c273c67e925804a466">   72</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#af6f016462bd3c8c273c67e925804a466">useColors</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aada6b5266f82a616426c48b6e501ece2">m_useColors</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#afdeacaf812abaf1a9374c1382069f936">setLevelColor</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter.html#a701580bbc1aa964bacf32bd217fdfe2e">LogLevel</a> level, <span class="keyword">const</span> QString&amp; colorCode);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a4e1c23068118c86271264ea585332c0f">setLevelBackground</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter.html#a701580bbc1aa964bacf32bd217fdfe2e">LogLevel</a> level, <span class="keyword">const</span> QString&amp; bgColorCode);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="foldopen" id="foldopen00094" data-start="{" data-end="}">
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a9cca81773efd3ca411469c15b4a41046">   94</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a9cca81773efd3ca411469c15b4a41046">setMaxQueueSize</a>(<span class="keywordtype">int</span> size) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aed97cd095215908389bfc589f8af4bcf">m_maxQueueSize</a> = size;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
+</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#aada6b5266f82a616426c48b6e501ece2">   99</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aada6b5266f82a616426c48b6e501ece2">m_useColors</a>;  </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#ad2b2a1a0adb1665ea1baba017218ed63">  100</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#ad2b2a1a0adb1665ea1baba017218ed63">m_async</a>;  </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#aac164ccbebe244ff449e34a7d78295d8">  101</a></span>    QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aac164ccbebe244ff449e34a7d78295d8">m_mutex</a>;  </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="comment">// 异步写入相关</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a74d68dd37a04f7bc5ac04d71fed946ce">  104</a></span>    QThread* <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#a74d68dd37a04f7bc5ac04d71fed946ce">m_writerThread</a> = <span class="keyword">nullptr</span>;  </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a62e2eea202d568c0e35b4f97ba3f84c5">  105</a></span>    QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#a62e2eea202d568c0e35b4f97ba3f84c5">m_queueMutex</a>;  </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a64fe138d255d7bafaf67798b05372622">  106</a></span>    QQueue&lt;QByteArray&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#a64fe138d255d7bafaf67798b05372622">m_writeQueue</a>;  </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#ae170ed45b676b910de54760ec4493dde">  107</a></span>    QWaitCondition <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#ae170ed45b676b910de54760ec4493dde">m_queueCondition</a>;  </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a7e7185e2439631c8162a3989eccd1279">  108</a></span>    QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#a7e7185e2439631c8162a3989eccd1279">m_running</a>;  </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#ad7685e35d0319be78cba2ccfa17df893">  109</a></span>    QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#ad7685e35d0319be78cba2ccfa17df893">m_flushRequested</a>;  </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#abafb6fae99b3aaa50122f58fed5ca283">  110</a></span>    QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#abafb6fae99b3aaa50122f58fed5ca283">m_queueOverflow</a>;  </div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#aed97cd095215908389bfc589f8af4bcf">  111</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aed97cd095215908389bfc589f8af4bcf">m_maxQueueSize</a> = 1000;  <span class="comment">// 最大队列大小</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="comment">// ANSI 颜色代码</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a9b047cfc999a9c47b3048ff655f5726c">  114</a></span>    QHash&lt;LogLevel, QString&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#a9b047cfc999a9c47b3048ff655f5726c">m_levelColors</a>;  </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#ab0370dd1873628a969fb0aa97ac17a82">  115</a></span>    QHash&lt;LogLevel, QString&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#ab0370dd1873628a969fb0aa97ac17a82">m_levelBackgrounds</a>;  </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    <span class="comment">// ANSI 转义序列</span></div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#aeaabfabfabef89dab62a894a8c3053e7">  118</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QString <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aeaabfabfabef89dab62a894a8c3053e7">s_colorReset</a>;  </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#aac63c8577b95e9d0d0de645fa6074529">  119</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QString <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aac63c8577b95e9d0d0de645fa6074529">s_colorGray</a>;  </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#aa365ca8744b45a89e40f033d6ecbf7f7">  120</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QString <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#aa365ca8744b45a89e40f033d6ecbf7f7">s_colorCyan</a>;  </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#ac24dc6b23e3a0e6cd039c82cbfa7bac0">  121</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QString <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#ac24dc6b23e3a0e6cd039c82cbfa7bac0">s_colorWhite</a>;  </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a72ac9d3de8f16d07c69531e784169868">  122</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QString <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#a72ac9d3de8f16d07c69531e784169868">s_colorYellow</a>;  </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a01e9b87d3e9c096ee2b3b16481556b2d">  123</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QString <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#a01e9b87d3e9c096ee2b3b16481556b2d">s_colorRed</a>;  </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ConsoleAppender.html#a3ed9b20a8b131c3f3c920877118a5b89">  124</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QString <a class="code hl_variable" href="classEasyKiConverter_1_1ConsoleAppender.html#a3ed9b20a8b131c3f3c920877118a5b89">s_bgRed</a>;  </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a7b3d30c4c2adf4b12ebdc08b888d6b95">supportsColors</a>();</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a1c74c09659dff5b9295e7710a2102b1a">colorize</a>(<span class="keyword">const</span> QString&amp; text, <a class="code hl_enumeration" href="namespaceEasyKiConverter.html#a701580bbc1aa964bacf32bd217fdfe2e">LogLevel</a> level) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a9e3eb63abddb122f216dc4ba469e357d">writerThreadFunc</a>();</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ConsoleAppender.html#a66d76e0c28bb35897e0a0164258b4593">writeDirect</a>(<span class="keyword">const</span> QByteArray&amp; data, <span class="keywordtype">bool</span> isError);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>};</div>
+</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="preprocessor">#endif  </span><span class="comment">// CONSOLEAPPENDER_H</span></div>
+<div class="ttc" id="aIAppender_8h_html"><div class="ttname"><a href="IAppender_8h.html">IAppender.h</a></div></div>
+<div class="ttc" id="aLogLevel_8h_html"><div class="ttname"><a href="LogLevel_8h.html">LogLevel.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html">EasyKiConverter::ConsoleAppender</a></div><div class="ttdoc">控制台日志输出器</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00030">ConsoleAppender.h:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a01e9b87d3e9c096ee2b3b16481556b2d"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a01e9b87d3e9c096ee2b3b16481556b2d">EasyKiConverter::ConsoleAppender::s_colorRed</a></div><div class="ttdeci">static const QString s_colorRed</div><div class="ttdoc">Error 日志的 ANSI 前景色。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00123">ConsoleAppender.h:123</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a1bc10944f2e63eff1dfdf790c36ed67d"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a1bc10944f2e63eff1dfdf790c36ed67d">EasyKiConverter::ConsoleAppender::~ConsoleAppender</a></div><div class="ttdeci">~ConsoleAppender() override</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00062">ConsoleAppender.cpp:62</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a1c74c09659dff5b9295e7710a2102b1a"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a1c74c09659dff5b9295e7710a2102b1a">EasyKiConverter::ConsoleAppender::colorize</a></div><div class="ttdeci">QString colorize(const QString &amp;text, LogLevel level) const</div><div class="ttdoc">获取带颜色的字符串</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00217">ConsoleAppender.cpp:217</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a2d9344c9744ff00f1214f7c66a2e5055"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a2d9344c9744ff00f1214f7c66a2e5055">EasyKiConverter::ConsoleAppender::close</a></div><div class="ttdeci">void close() override</div><div class="ttdoc">关闭输出器</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00136">ConsoleAppender.cpp:136</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a3ed9b20a8b131c3f3c920877118a5b89"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a3ed9b20a8b131c3f3c920877118a5b89">EasyKiConverter::ConsoleAppender::s_bgRed</a></div><div class="ttdeci">static const QString s_bgRed</div><div class="ttdoc">Fatal 日志的 ANSI 背景色。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00124">ConsoleAppender.h:124</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a4e1c23068118c86271264ea585332c0f"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a4e1c23068118c86271264ea585332c0f">EasyKiConverter::ConsoleAppender::setLevelBackground</a></div><div class="ttdeci">void setLevelBackground(LogLevel level, const QString &amp;bgColorCode)</div><div class="ttdoc">设置特定级别的背景色（用于 Fatal）</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00168">ConsoleAppender.cpp:168</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a62e2eea202d568c0e35b4f97ba3f84c5"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a62e2eea202d568c0e35b4f97ba3f84c5">EasyKiConverter::ConsoleAppender::m_queueMutex</a></div><div class="ttdeci">QMutex m_queueMutex</div><div class="ttdoc">保护异步写入队列的互斥量。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00105">ConsoleAppender.h:105</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a64fe138d255d7bafaf67798b05372622"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a64fe138d255d7bafaf67798b05372622">EasyKiConverter::ConsoleAppender::m_writeQueue</a></div><div class="ttdeci">QQueue&lt; QByteArray &gt; m_writeQueue</div><div class="ttdoc">待写入的带流标记日志队列。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00106">ConsoleAppender.h:106</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a66d76e0c28bb35897e0a0164258b4593"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a66d76e0c28bb35897e0a0164258b4593">EasyKiConverter::ConsoleAppender::writeDirect</a></div><div class="ttdeci">void writeDirect(const QByteArray &amp;data, bool isError)</div><div class="ttdoc">直接写入控制台</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00308">ConsoleAppender.cpp:308</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a69dc825f4212a6ce604c7f5fb7352f43"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a69dc825f4212a6ce604c7f5fb7352f43">EasyKiConverter::ConsoleAppender::setUseColors</a></div><div class="ttdeci">void setUseColors(bool useColors)</div><div class="ttdoc">启用/禁用彩色输出</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00065">ConsoleAppender.h:65</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a72ac9d3de8f16d07c69531e784169868"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a72ac9d3de8f16d07c69531e784169868">EasyKiConverter::ConsoleAppender::s_colorYellow</a></div><div class="ttdeci">static const QString s_colorYellow</div><div class="ttdoc">Warn 日志的 ANSI 前景色。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00122">ConsoleAppender.h:122</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a74d68dd37a04f7bc5ac04d71fed946ce"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a74d68dd37a04f7bc5ac04d71fed946ce">EasyKiConverter::ConsoleAppender::m_writerThread</a></div><div class="ttdeci">QThread * m_writerThread</div><div class="ttdoc">异步日志写入线程。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00104">ConsoleAppender.h:104</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a7b3d30c4c2adf4b12ebdc08b888d6b95"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a7b3d30c4c2adf4b12ebdc08b888d6b95">EasyKiConverter::ConsoleAppender::supportsColors</a></div><div class="ttdeci">static bool supportsColors()</div><div class="ttdoc">检测终端是否支持颜色</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00175">ConsoleAppender.cpp:175</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a7e7185e2439631c8162a3989eccd1279"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a7e7185e2439631c8162a3989eccd1279">EasyKiConverter::ConsoleAppender::m_running</a></div><div class="ttdeci">QAtomicInt m_running</div><div class="ttdoc">异步写入线程运行状态。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00108">ConsoleAppender.h:108</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a9b047cfc999a9c47b3048ff655f5726c"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a9b047cfc999a9c47b3048ff655f5726c">EasyKiConverter::ConsoleAppender::m_levelColors</a></div><div class="ttdeci">QHash&lt; LogLevel, QString &gt; m_levelColors</div><div class="ttdoc">日志级别到前景颜色的映射。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00114">ConsoleAppender.h:114</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a9cca81773efd3ca411469c15b4a41046"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a9cca81773efd3ca411469c15b4a41046">EasyKiConverter::ConsoleAppender::setMaxQueueSize</a></div><div class="ttdeci">void setMaxQueueSize(int size)</div><div class="ttdoc">设置异步队列最大大小</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00094">ConsoleAppender.h:94</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_a9e3eb63abddb122f216dc4ba469e357d"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#a9e3eb63abddb122f216dc4ba469e357d">EasyKiConverter::ConsoleAppender::writerThreadFunc</a></div><div class="ttdeci">void writerThreadFunc()</div><div class="ttdoc">异步写入线程函数</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00237">ConsoleAppender.cpp:237</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_aa365ca8744b45a89e40f033d6ecbf7f7"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#aa365ca8744b45a89e40f033d6ecbf7f7">EasyKiConverter::ConsoleAppender::s_colorCyan</a></div><div class="ttdeci">static const QString s_colorCyan</div><div class="ttdoc">Debug 日志的 ANSI 前景色。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00120">ConsoleAppender.h:120</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_aac164ccbebe244ff449e34a7d78295d8"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#aac164ccbebe244ff449e34a7d78295d8">EasyKiConverter::ConsoleAppender::m_mutex</a></div><div class="ttdeci">QMutex m_mutex</div><div class="ttdoc">保护同步控制台写入的互斥量。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00101">ConsoleAppender.h:101</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_aac63c8577b95e9d0d0de645fa6074529"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#aac63c8577b95e9d0d0de645fa6074529">EasyKiConverter::ConsoleAppender::s_colorGray</a></div><div class="ttdeci">static const QString s_colorGray</div><div class="ttdoc">Trace 日志的 ANSI 前景色。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00119">ConsoleAppender.h:119</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_aada6b5266f82a616426c48b6e501ece2"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#aada6b5266f82a616426c48b6e501ece2">EasyKiConverter::ConsoleAppender::m_useColors</a></div><div class="ttdeci">bool m_useColors</div><div class="ttdoc">是否为终端输出添加 ANSI 颜色。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00099">ConsoleAppender.h:99</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_ab0370dd1873628a969fb0aa97ac17a82"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#ab0370dd1873628a969fb0aa97ac17a82">EasyKiConverter::ConsoleAppender::m_levelBackgrounds</a></div><div class="ttdeci">QHash&lt; LogLevel, QString &gt; m_levelBackgrounds</div><div class="ttdoc">日志级别到背景颜色的映射。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00115">ConsoleAppender.h:115</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_abafb6fae99b3aaa50122f58fed5ca283"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#abafb6fae99b3aaa50122f58fed5ca283">EasyKiConverter::ConsoleAppender::m_queueOverflow</a></div><div class="ttdeci">QAtomicInt m_queueOverflow</div><div class="ttdoc">队列溢出标志。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00110">ConsoleAppender.h:110</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_abe3db90378e6209149708bb7a7718bc8"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#abe3db90378e6209149708bb7a7718bc8">EasyKiConverter::ConsoleAppender::append</a></div><div class="ttdeci">void append(const LogRecord &amp;record, const QString &amp;formatted) override</div><div class="ttdoc">输出日志到控制台</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00071">ConsoleAppender.cpp:71</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_ac24dc6b23e3a0e6cd039c82cbfa7bac0"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#ac24dc6b23e3a0e6cd039c82cbfa7bac0">EasyKiConverter::ConsoleAppender::s_colorWhite</a></div><div class="ttdeci">static const QString s_colorWhite</div><div class="ttdoc">Info 日志的 ANSI 前景色。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00121">ConsoleAppender.h:121</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_ad2b2a1a0adb1665ea1baba017218ed63"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#ad2b2a1a0adb1665ea1baba017218ed63">EasyKiConverter::ConsoleAppender::m_async</a></div><div class="ttdeci">bool m_async</div><div class="ttdoc">是否使用异步写入线程。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00100">ConsoleAppender.h:100</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_ad7685e35d0319be78cba2ccfa17df893"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#ad7685e35d0319be78cba2ccfa17df893">EasyKiConverter::ConsoleAppender::m_flushRequested</a></div><div class="ttdeci">QAtomicInt m_flushRequested</div><div class="ttdoc">异步刷新请求标志。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00109">ConsoleAppender.h:109</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_adc77073b7981b65d1bb2f92f3e69cd4a"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#adc77073b7981b65d1bb2f92f3e69cd4a">EasyKiConverter::ConsoleAppender::flush</a></div><div class="ttdeci">void flush() override</div><div class="ttdoc">刷新输出流</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00108">ConsoleAppender.cpp:108</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_ae170ed45b676b910de54760ec4493dde"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#ae170ed45b676b910de54760ec4493dde">EasyKiConverter::ConsoleAppender::m_queueCondition</a></div><div class="ttdeci">QWaitCondition m_queueCondition</div><div class="ttdoc">唤醒异步写入线程的条件变量。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00107">ConsoleAppender.h:107</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_aeaabfabfabef89dab62a894a8c3053e7"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#aeaabfabfabef89dab62a894a8c3053e7">EasyKiConverter::ConsoleAppender::s_colorReset</a></div><div class="ttdeci">static const QString s_colorReset</div><div class="ttdoc">重置终端颜色的 ANSI 序列。</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00118">ConsoleAppender.h:118</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_aed97cd095215908389bfc589f8af4bcf"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#aed97cd095215908389bfc589f8af4bcf">EasyKiConverter::ConsoleAppender::m_maxQueueSize</a></div><div class="ttdeci">int m_maxQueueSize</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00111">ConsoleAppender.h:111</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_af6f016462bd3c8c273c67e925804a466"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#af6f016462bd3c8c273c67e925804a466">EasyKiConverter::ConsoleAppender::useColors</a></div><div class="ttdeci">bool useColors() const</div><div class="ttdoc">是否启用彩色输出</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8h_source.html#l00072">ConsoleAppender.h:72</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConsoleAppender_html_afdeacaf812abaf1a9374c1382069f936"><div class="ttname"><a href="classEasyKiConverter_1_1ConsoleAppender.html#afdeacaf812abaf1a9374c1382069f936">EasyKiConverter::ConsoleAppender::setLevelColor</a></div><div class="ttdeci">void setLevelColor(LogLevel level, const QString &amp;colorCode)</div><div class="ttdoc">设置特定级别的颜色</div><div class="ttdef"><b>Definition</b> <a href="ConsoleAppender_8cpp_source.html#l00159">ConsoleAppender.cpp:159</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IAppender_html"><div class="ttname"><a href="classEasyKiConverter_1_1IAppender.html">EasyKiConverter::IAppender</a></div><div class="ttdoc">日志输出器接口</div><div class="ttdef"><b>Definition</b> <a href="IAppender_8h_source.html#l00017">IAppender.h:17</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a701580bbc1aa964bacf32bd217fdfe2e"><div class="ttname"><a href="namespaceEasyKiConverter.html#a701580bbc1aa964bacf32bd217fdfe2e">EasyKiConverter::LogLevel</a></div><div class="ttdeci">LogLevel</div><div class="ttdoc">日志级别枚举</div><div class="ttdef"><b>Definition</b> <a href="LogLevel_8h_source.html#l00013">LogLevel.h:13</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html">EasyKiConverter::LogRecord</a></div><div class="ttdoc">日志记录结构</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00018">LogRecord.h:18</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="dir_fb798ecc4aaad6bce5c96e231ca5fd90.html">logging</a></li><li class="navelem"><a class="el" href="ConsoleAppender_8h.html">ConsoleAppender.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

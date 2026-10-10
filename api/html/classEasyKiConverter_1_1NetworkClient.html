@@ -1,0 +1,1911 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::NetworkClient类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1NetworkClient.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pro-methods">Protected 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="#friends">友元</a> &#124;
+<a href="classEasyKiConverter_1_1NetworkClient-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::NetworkClient类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>单例网络客户端，统一管理重试/退避行为  
+ <a href="classEasyKiConverter_1_1NetworkClient.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::NetworkClient 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1NetworkClient__inherit__graph.svg" width="543" height="1383"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::NetworkClient 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1NetworkClient__coll__graph.svg" width="542" height="1338"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1NetworkClient_1_1MutableResourceStats.html">MutableResourceStats</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1NetworkClient_1_1PendingAsyncRequest.html">PendingAsyncRequest</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:abba59b9291b3c3eba97a9ddee2124d83" id="r_abba59b9291b3c3eba97a9ddee2124d83"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#abba59b9291b3c3eba97a9ddee2124d83">get</a> (const QUrl &amp;url, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy={}) override</td></tr>
+<tr class="memdesc:abba59b9291b3c3eba97a9ddee2124d83"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送 HTTP GET 请求（同步，阻塞直到完成）  <br /></td></tr>
+<tr class="separator:abba59b9291b3c3eba97a9ddee2124d83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a67ff90dec738c1ec7bf776d56d666c70" id="r_a67ff90dec738c1ec7bf776d56d666c70"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a67ff90dec738c1ec7bf776d56d666c70">get</a> (const QUrl &amp;url, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy={}) override</td></tr>
+<tr class="memdesc:a67ff90dec738c1ec7bf776d56d666c70"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送 HTTP GET 请求（带资源类型，用于配置Profile）  <br /></td></tr>
+<tr class="separator:a67ff90dec738c1ec7bf776d56d666c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2475e07f647e6968497a2495994bf062" id="r_a2475e07f647e6968497a2495994bf062"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a2475e07f647e6968497a2495994bf062">post</a> (const QUrl &amp;url, const QByteArray &amp;body, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy={}) override</td></tr>
+<tr class="memdesc:a2475e07f647e6968497a2495994bf062"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送 HTTP POST 请求（同步，阻塞直到完成）  <br /></td></tr>
+<tr class="separator:a2475e07f647e6968497a2495994bf062"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe6059ad56d9a5be8c650369d04254fd" id="r_afe6059ad56d9a5be8c650369d04254fd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#afe6059ad56d9a5be8c650369d04254fd">post</a> (const QUrl &amp;url, const QByteArray &amp;body, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy={}) override</td></tr>
+<tr class="memdesc:afe6059ad56d9a5be8c650369d04254fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送 HTTP POST 请求（带资源类型，用于配置Profile）  <br /></td></tr>
+<tr class="separator:afe6059ad56d9a5be8c650369d04254fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9dd280679080b0f27bc49c0cad13670" id="r_ab9dd280679080b0f27bc49c0cad13670"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ab9dd280679080b0f27bc49c0cad13670">getAsync</a> (const QUrl &amp;url, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType=<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a88183b946cc5f0e8c96b2e66e1c74a7e">ResourceType::Unknown</a>, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy={}) override</td></tr>
+<tr class="memdesc:ab9dd280679080b0f27bc49c0cad13670"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送 HTTP GET 请求（异步，非阻塞）  <br /></td></tr>
+<tr class="separator:ab9dd280679080b0f27bc49c0cad13670"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a442c27590ad80472ef6e550d416e9250" id="r_a442c27590ad80472ef6e550d416e9250"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a442c27590ad80472ef6e550d416e9250">postAsync</a> (const QUrl &amp;url, const QByteArray &amp;body, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType=<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a88183b946cc5f0e8c96b2e66e1c74a7e">ResourceType::Unknown</a>, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy={}) override</td></tr>
+<tr class="memdesc:a442c27590ad80472ef6e550d416e9250"><td class="mdescLeft">&#160;</td><td class="mdescRight">发送 HTTP POST 请求（异步，非阻塞）  <br /></td></tr>
+<tr class="separator:a442c27590ad80472ef6e550d416e9250"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15c6e5c8393240bc84186396c62667ce" id="r_a15c6e5c8393240bc84186396c62667ce"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkRuntimeStats.html">NetworkRuntimeStats</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a15c6e5c8393240bc84186396c62667ce">runtimeStats</a> () const override</td></tr>
+<tr class="memdesc:a15c6e5c8393240bc84186396c62667ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取网络运行统计。  <br /></td></tr>
+<tr class="separator:a15c6e5c8393240bc84186396c62667ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d88f2dbf08a6cc8b2d2afdeb8e6a4ad" id="r_a0d88f2dbf08a6cc8b2d2afdeb8e6a4ad"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a0d88f2dbf08a6cc8b2d2afdeb8e6a4ad">formatRuntimeStats</a> () const override</td></tr>
+<tr class="memdesc:a0d88f2dbf08a6cc8b2d2afdeb8e6a4ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">将网络运行统计格式化为诊断文本。  <br /></td></tr>
+<tr class="separator:a0d88f2dbf08a6cc8b2d2afdeb8e6a4ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae0dd5aaca8aaff933d99cd790717c63" id="r_aae0dd5aaca8aaff933d99cd790717c63"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#aae0dd5aaca8aaff933d99cd790717c63">cancelAllRequests</a> ()</td></tr>
+<tr class="memdesc:aae0dd5aaca8aaff933d99cd790717c63"><td class="mdescLeft">&#160;</td><td class="mdescRight">取消此客户端管理的所有排队和活动异步请求。  <br /></td></tr>
+<tr class="separator:aae0dd5aaca8aaff933d99cd790717c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classEasyKiConverter_1_1INetworkClient"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classEasyKiConverter_1_1INetworkClient')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html">EasyKiConverter::INetworkClient</a></td></tr>
+<tr class="memitem:a90d7d95c745276b3c464373d168cef3a inherit pub_methods_classEasyKiConverter_1_1INetworkClient" id="r_a90d7d95c745276b3c464373d168cef3a"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a90d7d95c745276b3c464373d168cef3a">~INetworkClient</a> ()=default</td></tr>
+<tr class="separator:a90d7d95c745276b3c464373d168cef3a inherit pub_methods_classEasyKiConverter_1_1INetworkClient"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a56ec163a62e0db2a8823ecf84130b694" id="r_a56ec163a62e0db2a8823ecf84130b694"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a56ec163a62e0db2a8823ecf84130b694">isGzipCompressed</a> (const QByteArray &amp;data)</td></tr>
+<tr class="memdesc:a56ec163a62e0db2a8823ecf84130b694"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查数据是否为 Gzip 压缩格式。  <br /></td></tr>
+<tr class="separator:a56ec163a62e0db2a8823ecf84130b694"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd4df82b588d41292e26e6e124ad950b" id="r_abd4df82b588d41292e26e6e124ad950b"><td class="memItemLeft" align="right" valign="top">static QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#abd4df82b588d41292e26e6e124ad950b">decompressGzip</a> (const QByteArray &amp;data)</td></tr>
+<tr class="memdesc:abd4df82b588d41292e26e6e124ad950b"><td class="mdescLeft">&#160;</td><td class="mdescRight">解压 Gzip 数据。  <br /></td></tr>
+<tr class="separator:abd4df82b588d41292e26e6e124ad950b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classEasyKiConverter_1_1TestableSingleton')"><img src="closed.png" alt="-"/>&#160;静态 Public 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1TestableSingleton.html">EasyKiConverter::TestableSingleton&lt; NetworkClient &gt;</a></td></tr>
+<tr class="memitem:af28de3896a6a360384a795e1303ad333 inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton" id="r_af28de3896a6a360384a795e1303ad333"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classEasyKiConverter_1_1NetworkClient.html">NetworkClient</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TestableSingleton.html#af28de3896a6a360384a795e1303ad333">instance</a> ()</td></tr>
+<tr class="memdesc:af28de3896a6a360384a795e1303ad333 inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回测试可替换的单例实例。  <br /></td></tr>
+<tr class="separator:af28de3896a6a360384a795e1303ad333 inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8aa5a10df13605ac686b5d9d9afedb2d inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton" id="r_a8aa5a10df13605ac686b5d9d9afedb2d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TestableSingleton.html#a8aa5a10df13605ac686b5d9d9afedb2d">destroyInstance</a> ()</td></tr>
+<tr class="memdesc:a8aa5a10df13605ac686b5d9d9afedb2d inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="mdescLeft">&#160;</td><td class="mdescRight">销毁正式单例实例。  <br /></td></tr>
+<tr class="separator:a8aa5a10df13605ac686b5d9d9afedb2d inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b400c578c27b9ce77c4e4ab208c2c3e inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton" id="r_a8b400c578c27b9ce77c4e4ab208c2c3e"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TestableSingleton.html#a8b400c578c27b9ce77c4e4ab208c2c3e">setTestingInstance</a> (<a class="el" href="classEasyKiConverter_1_1NetworkClient.html">NetworkClient</a> *mock)</td></tr>
+<tr class="memdesc:a8b400c578c27b9ce77c4e4ab208c2c3e inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置测试用单例实例。  <br /></td></tr>
+<tr class="separator:a8b400c578c27b9ce77c4e4ab208c2c3e inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad99a6915f1fb4da257be46b78377dbd3 inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton" id="r_ad99a6915f1fb4da257be46b78377dbd3"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TestableSingleton.html#ad99a6915f1fb4da257be46b78377dbd3">clearMockInstance</a> ()</td></tr>
+<tr class="memdesc:ad99a6915f1fb4da257be46b78377dbd3 inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="mdescLeft">&#160;</td><td class="mdescRight">清除测试替身引用。  <br /></td></tr>
+<tr class="separator:ad99a6915f1fb4da257be46b78377dbd3 inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bcfa8d0d14da4c2de1ba403516223be inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton" id="r_a0bcfa8d0d14da4c2de1ba403516223be"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TestableSingleton.html#a0bcfa8d0d14da4c2de1ba403516223be">hasInstance</a> ()</td></tr>
+<tr class="memdesc:a0bcfa8d0d14da4c2de1ba403516223be inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断正式单例实例是否存在。  <br /></td></tr>
+<tr class="separator:a0bcfa8d0d14da4c2de1ba403516223be inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6651bfd33a0a8e33740da7f858a81a7a inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton" id="r_a6651bfd33a0a8e33740da7f858a81a7a"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TestableSingleton.html#a6651bfd33a0a8e33740da7f858a81a7a">hasMockInstance</a> ()</td></tr>
+<tr class="memdesc:a6651bfd33a0a8e33740da7f858a81a7a inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断测试替身实例是否存在。  <br /></td></tr>
+<tr class="separator:a6651bfd33a0a8e33740da7f858a81a7a inherit pub_static_methods_classEasyKiConverter_1_1TestableSingleton"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected 成员函数</h2></td></tr>
+<tr class="memitem:a531dd3833b407e753c3d1f03e0be3e43" id="r_a531dd3833b407e753c3d1f03e0be3e43"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a531dd3833b407e753c3d1f03e0be3e43">NetworkClient</a> ()</td></tr>
+<tr class="separator:a531dd3833b407e753c3d1f03e0be3e43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad92a0c4a3a14314eb593d468f3705c70" id="r_ad92a0c4a3a14314eb593d468f3705c70"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ad92a0c4a3a14314eb593d468f3705c70">~NetworkClient</a> () override</td></tr>
+<tr class="separator:ad92a0c4a3a14314eb593d468f3705c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classEasyKiConverter_1_1TestableSingleton"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classEasyKiConverter_1_1TestableSingleton')"><img src="closed.png" alt="-"/>&#160;Protected 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1TestableSingleton.html">EasyKiConverter::TestableSingleton&lt; NetworkClient &gt;</a></td></tr>
+<tr class="memitem:a85b2c454c93cf74b677bbe9b226db4fa inherit pro_methods_classEasyKiConverter_1_1TestableSingleton" id="r_a85b2c454c93cf74b677bbe9b226db4fa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TestableSingleton.html#a85b2c454c93cf74b677bbe9b226db4fa">TestableSingleton</a> ()=default</td></tr>
+<tr class="separator:a85b2c454c93cf74b677bbe9b226db4fa inherit pro_methods_classEasyKiConverter_1_1TestableSingleton"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0a1fe89dc74d7a58cc009615175d7e0 inherit pro_methods_classEasyKiConverter_1_1TestableSingleton" id="r_aa0a1fe89dc74d7a58cc009615175d7e0"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1TestableSingleton.html#aa0a1fe89dc74d7a58cc009615175d7e0">~TestableSingleton</a> ()=default</td></tr>
+<tr class="separator:aa0a1fe89dc74d7a58cc009615175d7e0 inherit pro_methods_classEasyKiConverter_1_1TestableSingleton"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ae2e3ef9ec2d0383d40d790d73a7f1bf1" id="r_ae2e3ef9ec2d0383d40d790d73a7f1bf1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ae2e3ef9ec2d0383d40d790d73a7f1bf1">executeRequest</a> (const QUrl &amp;url, const QByteArray &amp;body, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy)</td></tr>
+<tr class="memdesc:ae2e3ef9ec2d0383d40d790d73a7f1bf1"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行同步网络请求并等待异步结果。  <br /></td></tr>
+<tr class="separator:ae2e3ef9ec2d0383d40d790d73a7f1bf1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf6ada95a48a35ac4544eebafcd61878" id="r_acf6ada95a48a35ac4544eebafcd61878"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#acf6ada95a48a35ac4544eebafcd61878">enqueueAsyncRequest</a> (const QUrl &amp;url, const QByteArray &amp;body, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy)</td></tr>
+<tr class="memdesc:acf6ada95a48a35ac4544eebafcd61878"><td class="mdescLeft">&#160;</td><td class="mdescRight">校验并将异步请求加入调度队列。  <br /></td></tr>
+<tr class="separator:acf6ada95a48a35ac4544eebafcd61878"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae84e4d1959d90b8fb6486e2bc72aa133" id="r_ae84e4d1959d90b8fb6486e2bc72aa133"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ae84e4d1959d90b8fb6486e2bc72aa133">scheduleAsyncPump</a> ()</td></tr>
+<tr class="memdesc:ae84e4d1959d90b8fb6486e2bc72aa133"><td class="mdescLeft">&#160;</td><td class="mdescRight">安排异步请求队列的下一次调度。  <br /></td></tr>
+<tr class="separator:ae84e4d1959d90b8fb6486e2bc72aa133"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a039f824276bc417d6ddc2fd0a85b7a8d" id="r_a039f824276bc417d6ddc2fd0a85b7a8d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a039f824276bc417d6ddc2fd0a85b7a8d">pumpAsyncQueue</a> ()</td></tr>
+<tr class="memdesc:a039f824276bc417d6ddc2fd0a85b7a8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">按并发和优先级限制启动等待中的异步请求。  <br /></td></tr>
+<tr class="separator:a039f824276bc417d6ddc2fd0a85b7a8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6026c5cec7dc42b1844cb3586ee2b15a" id="r_a6026c5cec7dc42b1844cb3586ee2b15a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a6026c5cec7dc42b1844cb3586ee2b15a">onAsyncRequestFinished</a> (<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType)</td></tr>
+<tr class="memdesc:a6026c5cec7dc42b1844cb3586ee2b15a"><td class="mdescLeft">&#160;</td><td class="mdescRight">收敛异步请求完成后的活动计数并继续调度。  <br /></td></tr>
+<tr class="separator:a6026c5cec7dc42b1844cb3586ee2b15a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc52d11adea00e025178bcbffb4fcd7f" id="r_afc52d11adea00e025178bcbffb4fcd7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#afc52d11adea00e025178bcbffb4fcd7f">updateStatsForEnqueuedRequest</a> (<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType)</td></tr>
+<tr class="memdesc:afc52d11adea00e025178bcbffb4fcd7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录请求入队后的资源统计。  <br /></td></tr>
+<tr class="separator:afc52d11adea00e025178bcbffb4fcd7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11531f3830728f8227d391433b9b0606" id="r_a11531f3830728f8227d391433b9b0606"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a11531f3830728f8227d391433b9b0606">updateStatsForDequeuedRequest</a> (<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType, qint64 queueDelayMs)</td></tr>
+<tr class="memdesc:a11531f3830728f8227d391433b9b0606"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录请求离开等待队列时的延迟统计。  <br /></td></tr>
+<tr class="separator:a11531f3830728f8227d391433b9b0606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0183404fbc10813565adbd2342886c4b" id="r_a0183404fbc10813565adbd2342886c4b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a0183404fbc10813565adbd2342886c4b">updateStatsForStartedRequest</a> (<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType)</td></tr>
+<tr class="memdesc:a0183404fbc10813565adbd2342886c4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">记录请求开始执行时的资源统计。  <br /></td></tr>
+<tr class="separator:a0183404fbc10813565adbd2342886c4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9ec301648f05c3592ad02e1f57ebd66" id="r_ad9ec301648f05c3592ad02e1f57ebd66"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ad9ec301648f05c3592ad02e1f57ebd66">updateStatsForCompletedRequest</a> (<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType, const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;result)</td></tr>
+<tr class="memdesc:ad9ec301648f05c3592ad02e1f57ebd66"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据请求结果更新完成、失败和重试统计。  <br /></td></tr>
+<tr class="separator:ad9ec301648f05c3592ad02e1f57ebd66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1a34c8e30ae2ee0cd3b12e085b137a1" id="r_aa1a34c8e30ae2ee0cd3b12e085b137a1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#aa1a34c8e30ae2ee0cd3b12e085b137a1">refreshDynamicStatsLocked</a> (<a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType)</td></tr>
+<tr class="memdesc:aa1a34c8e30ae2ee0cd3b12e085b137a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">在持有统计锁时刷新指定资源的动态计数。  <br /></td></tr>
+<tr class="separator:aa1a34c8e30ae2ee0cd3b12e085b137a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0343da2a03483c5d12255d2df368229d" id="r_a0343da2a03483c5d12255d2df368229d"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a0343da2a03483c5d12255d2df368229d">calculateRetryDelay</a> (int retryCount, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy)</td></tr>
+<tr class="memdesc:a0343da2a03483c5d12255d2df368229d"><td class="mdescLeft">&#160;</td><td class="mdescRight">计算重试次数对应的退避时长。  <br /></td></tr>
+<tr class="separator:a0343da2a03483c5d12255d2df368229d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af72b7ae4977f987f724ef4cb2b2b71ad" id="r_af72b7ae4977f987f724ef4cb2b2b71ad"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#af72b7ae4977f987f724ef4cb2b2b71ad">shouldRetry</a> (int statusCode, QNetworkReply::NetworkError error, int retryCount, const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;policy)</td></tr>
+<tr class="memdesc:af72b7ae4977f987f724ef4cb2b2b71ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断请求失败是否应进入重试流程。  <br /></td></tr>
+<tr class="separator:af72b7ae4977f987f724ef4cb2b2b71ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2cc90f38c5d9673c8909d7e8c7e9beae" id="r_a2cc90f38c5d9673c8909d7e8c7e9beae"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a2cc90f38c5d9673c8909d7e8c7e9beae">populateDiagnostic</a> (<a class="el" href="structEasyKiConverter_1_1NetworkDiagnostic.html">NetworkDiagnostic</a> &amp;diag, const QUrl &amp;url, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType)</td></tr>
+<tr class="memdesc:a2cc90f38c5d9673c8909d7e8c7e9beae"><td class="mdescLeft">&#160;</td><td class="mdescRight">填充网络请求诊断中的 URL、主机和资源类型。  <br /></td></tr>
+<tr class="separator:a2cc90f38c5d9673c8909d7e8c7e9beae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a6068bd4dadd86ee18f3beb506ddfe486" id="r_a6068bd4dadd86ee18f3beb506ddfe486"><td class="memItemLeft" align="right" valign="top">QThread&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a6068bd4dadd86ee18f3beb506ddfe486">m_networkThread</a></td></tr>
+<tr class="memdesc:a6068bd4dadd86ee18f3beb506ddfe486"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行异步网络请求的专用线程。  <br /></td></tr>
+<tr class="separator:a6068bd4dadd86ee18f3beb506ddfe486"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a427d707e95780e9ad4d8d8c61e9eb60b" id="r_a427d707e95780e9ad4d8d8c61e9eb60b"><td class="memItemLeft" align="right" valign="top">QNetworkAccessManager *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a427d707e95780e9ad4d8d8c61e9eb60b">m_asyncNetworkManager</a> = nullptr</td></tr>
+<tr class="memdesc:a427d707e95780e9ad4d8d8c61e9eb60b"><td class="mdescLeft">&#160;</td><td class="mdescRight">异步请求使用的网络管理器。  <br /></td></tr>
+<tr class="separator:a427d707e95780e9ad4d8d8c61e9eb60b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af729826fb5c7d71115345b79d9238bd3" id="r_af729826fb5c7d71115345b79d9238bd3"><td class="memItemLeft" align="right" valign="top">QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#af729826fb5c7d71115345b79d9238bd3">m_asyncQueueMutex</a></td></tr>
+<tr class="memdesc:af729826fb5c7d71115345b79d9238bd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护异步队列和运行统计的互斥锁。  <br /></td></tr>
+<tr class="separator:af729826fb5c7d71115345b79d9238bd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ce2089fe5e528db0ea61fc9fb951336" id="r_a3ce2089fe5e528db0ea61fc9fb951336"><td class="memItemLeft" align="right" valign="top">QList&lt; <a class="el" href="structEasyKiConverter_1_1NetworkClient_1_1PendingAsyncRequest.html">PendingAsyncRequest</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a3ce2089fe5e528db0ea61fc9fb951336">m_pendingAsyncRequests</a></td></tr>
+<tr class="memdesc:a3ce2089fe5e528db0ea61fc9fb951336"><td class="mdescLeft">&#160;</td><td class="mdescRight">等待调度的异步请求。  <br /></td></tr>
+<tr class="separator:a3ce2089fe5e528db0ea61fc9fb951336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a547069bc662cc716c0a6fbf1ae71792f" id="r_a547069bc662cc716c0a6fbf1ae71792f"><td class="memItemLeft" align="right" valign="top">QList&lt; QPointer&lt; <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a547069bc662cc716c0a6fbf1ae71792f">m_liveAsyncRequests</a></td></tr>
+<tr class="memdesc:a547069bc662cc716c0a6fbf1ae71792f"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前仍存活的异步请求。  <br /></td></tr>
+<tr class="separator:a547069bc662cc716c0a6fbf1ae71792f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20cb2bfe6ea42b29b3a216d262651bf7" id="r_a20cb2bfe6ea42b29b3a216d262651bf7"><td class="memItemLeft" align="right" valign="top">QHash&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a20cb2bfe6ea42b29b3a216d262651bf7">m_activeAsyncRequestsByType</a></td></tr>
+<tr class="memdesc:a20cb2bfe6ea42b29b3a216d262651bf7"><td class="mdescLeft">&#160;</td><td class="mdescRight">各资源类型的活动请求数。  <br /></td></tr>
+<tr class="separator:a20cb2bfe6ea42b29b3a216d262651bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a306d5174ed34ef54bcd7d455b714f6ce" id="r_a306d5174ed34ef54bcd7d455b714f6ce"><td class="memItemLeft" align="right" valign="top">QHash&lt; int, <a class="el" href="structEasyKiConverter_1_1NetworkClient_1_1MutableResourceStats.html">MutableResourceStats</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a306d5174ed34ef54bcd7d455b714f6ce">m_resourceStats</a></td></tr>
+<tr class="memdesc:a306d5174ed34ef54bcd7d455b714f6ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">各资源类型的运行统计。  <br /></td></tr>
+<tr class="separator:a306d5174ed34ef54bcd7d455b714f6ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2dbbb9fe1af47d371c18828a7e7293d" id="r_ad2dbbb9fe1af47d371c18828a7e7293d"><td class="memItemLeft" align="right" valign="top">quint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ad2dbbb9fe1af47d371c18828a7e7293d">m_asyncSequence</a> = 0</td></tr>
+<tr class="memdesc:ad2dbbb9fe1af47d371c18828a7e7293d"><td class="mdescLeft">&#160;</td><td class="mdescRight">下一个异步请求的入队序号。  <br /></td></tr>
+<tr class="separator:ad2dbbb9fe1af47d371c18828a7e7293d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac219fa3d3b50ab4bc87181f151918b1d" id="r_ac219fa3d3b50ab4bc87181f151918b1d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#ac219fa3d3b50ab4bc87181f151918b1d">m_asyncPumpScheduled</a> = false</td></tr>
+<tr class="memdesc:ac219fa3d3b50ab4bc87181f151918b1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已安排队列泵任务。  <br /></td></tr>
+<tr class="separator:ac219fa3d3b50ab4bc87181f151918b1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+友元</h2></td></tr>
+<tr class="memitem:a32b7ecb049eb91ddae02483ac812592d" id="r_a32b7ecb049eb91ddae02483ac812592d"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html#a32b7ecb049eb91ddae02483ac812592d">TestableSingleton&lt; NetworkClient &gt;</a></td></tr>
+<tr class="separator:a32b7ecb049eb91ddae02483ac812592d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>单例网络客户端，统一管理重试/退避行为 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00024">24</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a531dd3833b407e753c3d1f03e0be3e43" name="a531dd3833b407e753c3d1f03e0be3e43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a531dd3833b407e753c3d1f03e0be3e43">&#9670;&#160;</a></span>NetworkClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::NetworkClient::NetworkClient </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00023">23</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8h_source.html#l00211">m_asyncNetworkManager</a> , 以及 <a class="el" href="NetworkClient_8h_source.html#l00210">m_networkThread</a>.</p>
+
+</div>
+</div>
+<a id="ad92a0c4a3a14314eb593d468f3705c70" name="ad92a0c4a3a14314eb593d468f3705c70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad92a0c4a3a14314eb593d468f3705c70">&#9670;&#160;</a></span>~NetworkClient()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::NetworkClient::~NetworkClient </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00031">31</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8cpp_source.html#l00452">cancelAllRequests()</a>, <a class="el" href="NetworkClient_8h_source.html#l00211">m_asyncNetworkManager</a> , 以及 <a class="el" href="NetworkClient_8h_source.html#l00210">m_networkThread</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a0343da2a03483c5d12255d2df368229d" name="a0343da2a03483c5d12255d2df368229d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0343da2a03483c5d12255d2df368229d">&#9670;&#160;</a></span>calculateRetryDelay()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::NetworkClient::calculateRetryDelay </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>retryCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>计算重试次数对应的退避时长。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">retryCount</td><td>当前重试次数。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>本次重试等待的毫秒数。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00622">622</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00380">EasyKiConverter::RetryPolicy::delays</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00379">EasyKiConverter::RetryPolicy::jitterFactor</a>.</p>
+
+</div>
+</div>
+<a id="aae0dd5aaca8aaff933d99cd790717c63" name="aae0dd5aaca8aaff933d99cd790717c63"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae0dd5aaca8aaff933d99cd790717c63">&#9670;&#160;</a></span>cancelAllRequests()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::cancelAllRequests </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>取消此客户端管理的所有排队和活动异步请求。 </p>
+<p>取消队列中和运行中的全部异步请求。</p>
+<p>用于导出或应用退出时解除等待同步请求的调用方。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00452">452</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00165">EasyKiConverter::AsyncNetworkRequest::cancel()</a>, <a class="el" href="NetworkClient_8h_source.html#l00218">m_asyncPumpScheduled</a>, <a class="el" href="NetworkClient_8h_source.html#l00212">m_asyncQueueMutex</a>, <a class="el" href="NetworkClient_8h_source.html#l00214">m_liveAsyncRequests</a>, <a class="el" href="NetworkClient_8h_source.html#l00210">m_networkThread</a> , 以及 <a class="el" href="NetworkClient_8h_source.html#l00213">m_pendingAsyncRequests</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00031">~NetworkClient()</a>, <a class="el" href="ParallelExportService_8cpp_source.html#l00029">EasyKiConverter::ParallelExportService::~ParallelExportService()</a>, <a class="el" href="ComponentRequestCancellationCoordinator_8cpp_source.html#l00016">EasyKiConverter::ComponentRequestCancellationCoordinator::cancelAll()</a> , 以及 <a class="el" href="ParallelExportService_8cpp_source.html#l00355">EasyKiConverter::ParallelExportService::cancelExport()</a>.</p>
+
+</div>
+</div>
+<a id="abd4df82b588d41292e26e6e124ad950b" name="abd4df82b588d41292e26e6e124ad950b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd4df82b588d41292e26e6e124ad950b">&#9670;&#160;</a></span>decompressGzip()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::NetworkClient::decompressGzip </td>
+          <td>(</td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解压 Gzip 数据。 </p>
+<p>解压 Gzip 响应数据。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Gzip 压缩数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>解压后的数据；失败时返回空数据。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Gzip 压缩数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>解压后的数据，解压失败时返回空数据。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00057">57</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="GzipUtils_8h_source.html#l00019">GzipUtils::DecompressResult::data</a>, <a class="el" href="GzipUtils_8cpp_source.html#l00034">GzipUtils::decompress()</a> , 以及 <a class="el" href="GzipUtils_8h_source.html#l00020">GzipUtils::DecompressResult::success</a>.</p>
+
+</div>
+</div>
+<a id="acf6ada95a48a35ac4544eebafcd61878" name="acf6ada95a48a35ac4544eebafcd61878"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acf6ada95a48a35ac4544eebafcd61878">&#9670;&#160;</a></span>enqueueAsyncRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> * EasyKiConverter::NetworkClient::enqueueAsyncRequest </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>校验并将异步请求加入调度队列。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">body</td><td>请求体。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>排队的异步请求对象，拒绝时返回已完成的失败请求。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00291">291</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AsyncNetworkRequest_8cpp_source.html#l00080">EasyKiConverter::AsyncNetworkRequest::createFinished()</a>, <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="NetworkClient_8h_source.html#l00181">EasyKiConverter::NetworkClient::PendingAsyncRequest::enqueuedAtMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00417">EasyKiConverter::NetworkResult::error</a>, <a class="el" href="INetworkClient_8h_source.html#l00310">EasyKiConverter::NetworkDiagnostic::errorMessage</a>, <a class="el" href="INetworkClient_8h_source.html#l00309">EasyKiConverter::NetworkDiagnostic::errorType</a>, <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">EasyKiConverter::AsyncNetworkRequest::finished()</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="INetworkClient_8h_source.html#l00305">EasyKiConverter::NetworkDiagnostic::host</a>, <a class="el" href="UrlUtils_8cpp_source.html#l00188">EasyKiConverter::UrlUtils::isAllowedUrl()</a>, <a class="el" href="NetworkClient_8h_source.html#l00211">m_asyncNetworkManager</a>, <a class="el" href="NetworkClient_8h_source.html#l00212">m_asyncQueueMutex</a>, <a class="el" href="NetworkClient_8h_source.html#l00217">m_asyncSequence</a>, <a class="el" href="NetworkClient_8h_source.html#l00214">m_liveAsyncRequests</a>, <a class="el" href="NetworkClient_8h_source.html#l00210">m_networkThread</a>, <a class="el" href="NetworkClient_8h_source.html#l00213">m_pendingAsyncRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00039">EasyKiConverter::RequestProfile::name</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00482">onAsyncRequestFinished()</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa6311ae17c1ee52b36e68aaf4ad066387">EasyKiConverter::Other</a>, <a class="el" href="INetworkClient_8h_source.html#l00051">EasyKiConverter::RequestProfile::priority</a>, <a class="el" href="NetworkClient_8h_source.html#l00179">EasyKiConverter::NetworkClient::PendingAsyncRequest::priority</a>, <a class="el" href="INetworkClient_8h_source.html#l00307">EasyKiConverter::NetworkDiagnostic::profileName</a>, <a class="el" href="NetworkClient_8h_source.html#l00177">EasyKiConverter::NetworkClient::PendingAsyncRequest::request</a>, <a class="el" href="INetworkClient_8h_source.html#l00306">EasyKiConverter::NetworkDiagnostic::resourceType</a>, <a class="el" href="NetworkClient_8h_source.html#l00178">EasyKiConverter::NetworkClient::PendingAsyncRequest::resourceType</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00358">scheduleAsyncPump()</a>, <a class="el" href="NetworkClient_8h_source.html#l00180">EasyKiConverter::NetworkClient::PendingAsyncRequest::sequence</a>, <a class="el" href="INetworkClient_8h_source.html#l00420">EasyKiConverter::NetworkResult::success</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00561">updateStatsForCompletedRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00502">updateStatsForEnqueuedRequest()</a>, <a class="el" href="INetworkClient_8h_source.html#l00304">EasyKiConverter::NetworkDiagnostic::url</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00421">EasyKiConverter::NetworkResult::wasCancelled</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00239">executeRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00199">getAsync()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00211">postAsync()</a>.</p>
+
+</div>
+</div>
+<a id="ae2e3ef9ec2d0383d40d790d73a7f1bf1" name="ae2e3ef9ec2d0383d40d790d73a7f1bf1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2e3ef9ec2d0383d40d790d73a7f1bf1">&#9670;&#160;</a></span>executeRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::NetworkClient::executeRequest </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行同步网络请求并等待异步结果。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">body</td><td>请求体。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00239">239</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>, <a class="el" href="INetworkClient_8h_source.html#l00417">EasyKiConverter::NetworkResult::error</a>, <a class="el" href="INetworkClient_8h_source.html#l00310">EasyKiConverter::NetworkDiagnostic::errorMessage</a>, <a class="el" href="INetworkClient_8h_source.html#l00309">EasyKiConverter::NetworkDiagnostic::errorType</a>, <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a91a6a5a56e5405812955e14dc6ed1cc1">EasyKiConverter::AsyncNetworkRequest::finished()</a>, <a class="el" href="UrlUtils_8cpp_source.html#l00188">EasyKiConverter::UrlUtils::isAllowedUrl()</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fa6311ae17c1ee52b36e68aaf4ad066387">EasyKiConverter::Other</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00224">populateDiagnostic()</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00420">EasyKiConverter::NetworkResult::success</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00072">get()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00083">get()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00094">post()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00106">post()</a>.</p>
+
+</div>
+</div>
+<a id="a0d88f2dbf08a6cc8b2d2afdeb8e6a4ad" name="a0d88f2dbf08a6cc8b2d2afdeb8e6a4ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d88f2dbf08a6cc8b2d2afdeb8e6a4ad">&#9670;&#160;</a></span>formatRuntimeStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::NetworkClient::formatRuntimeStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将网络运行统计格式化为诊断文本。 </p>
+<p>将网络请求运行统计格式化为诊断文本。</p>
+<dl class="section return"><dt>返回</dt><dd>可读的统计文本。</dd>
+<dd>
+可读的网络请求统计文本。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a00116481c03c2cdc3e7072ab62bdc495">EasyKiConverter::INetworkClient</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00144">144</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00451">EasyKiConverter::NetworkRuntimeStats::resources</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00117">runtimeStats()</a>, <a class="el" href="INetworkClient_8h_source.html#l00462">EasyKiConverter::NetworkRuntimeStats::totalActiveRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00460">EasyKiConverter::NetworkRuntimeStats::totalBackpressureEvents</a>, <a class="el" href="INetworkClient_8h_source.html#l00456">EasyKiConverter::NetworkRuntimeStats::totalCancelledRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00453">EasyKiConverter::NetworkRuntimeStats::totalCompletedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00455">EasyKiConverter::NetworkRuntimeStats::totalFailedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00461">EasyKiConverter::NetworkRuntimeStats::totalQueuedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00458">EasyKiConverter::NetworkRuntimeStats::totalRateLimitedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00459">EasyKiConverter::NetworkRuntimeStats::totalRetryAttempts</a>, <a class="el" href="INetworkClient_8h_source.html#l00452">EasyKiConverter::NetworkRuntimeStats::totalStartedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00454">EasyKiConverter::NetworkRuntimeStats::totalSucceededRequests</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00457">EasyKiConverter::NetworkRuntimeStats::totalTimeoutRequests</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportReportGenerator_8cpp_source.html#l00019">EasyKiConverter::ExportReportGenerator::logNetworkStats()</a> , 以及 <a class="el" href="ExportReportGenerator_8cpp_source.html#l00030">EasyKiConverter::ExportReportGenerator::writeDetailedReport()</a>.</p>
+
+</div>
+</div>
+<a id="abba59b9291b3c3eba97a9ddee2124d83" name="abba59b9291b3c3eba97a9ddee2124d83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abba59b9291b3c3eba97a9ddee2124d83">&#9670;&#160;</a></span>get() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::NetworkClient::get </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>发送 HTTP GET 请求（同步，阻塞直到完成） </p>
+<p>发送使用默认资源类型的同步 GET 请求。</p>
+<dl class="section note"><dt>注解</dt><dd>此方法使用 thread-local QNetworkAccessManager，必须在具有 Qt 事件循环的线程中调用。 请勿在 bare std::thread 中调用。</dd></dl>
+<p>发送 HTTP GET 请求（同步，阻塞直到完成）。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求 URL。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a08ae54f8f04a8b75f5f6635a0a8aed94">EasyKiConverter::INetworkClient</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00072">72</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8cpp_source.html#l00239">executeRequest()</a> , 以及 <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Unknown</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="DatasheetDownloadService_8cpp_source.html#l00035">EasyKiConverter::DatasheetDownloadService::download()</a>, <a class="el" href="PreviewImageDownloadService_8cpp_source.html#l00035">EasyKiConverter::PreviewImageDownloadService::download()</a>, <a class="el" href="Exporter3DModel_8cpp_source.html#l00527">EasyKiConverter::Exporter3DModel::downloadModelDataSync()</a>, <a class="el" href="DatasheetExporter_8cpp_source.html#l00038">EasyKiConverter::DatasheetExporter::exportDatasheet()</a>, <a class="el" href="PreviewImageExporter_8cpp_source.html#l00038">EasyKiConverter::PreviewImageExporter::exportFromUrls()</a> , 以及 <a class="el" href="CadDataLoader_8cpp_source.html#l00137">EasyKiConverter::CadDataLoader::fetchAndParseCadData()</a>.</p>
+
+</div>
+</div>
+<a id="a67ff90dec738c1ec7bf776d56d666c70" name="a67ff90dec738c1ec7bf776d56d666c70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a67ff90dec738c1ec7bf776d56d666c70">&#9670;&#160;</a></span>get() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::NetworkClient::get </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>发送 HTTP GET 请求（带资源类型，用于配置Profile） </p>
+<p>发送带资源类型的同步 GET 请求。</p>
+<dl class="section note"><dt>注解</dt><dd>此方法使用 thread-local QNetworkAccessManager，必须在具有 Qt 事件循环的线程中调用。 请勿在 bare std::thread 中调用。</dd></dl>
+<p>发送带资源类型的同步 HTTP GET 请求。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求 URL。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#ac23cb2ea276c300e5ebda71f0daf2cb8">EasyKiConverter::INetworkClient</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00083">83</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8cpp_source.html#l00239">executeRequest()</a>.</p>
+
+</div>
+</div>
+<a id="ab9dd280679080b0f27bc49c0cad13670" name="ab9dd280679080b0f27bc49c0cad13670"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9dd280679080b0f27bc49c0cad13670">&#9670;&#160;</a></span>getAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> * EasyKiConverter::NetworkClient::getAsync </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em> = <code><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a88183b946cc5f0e8c96b2e66e1c74a7e">ResourceType::Unknown</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>发送 HTTP GET 请求（异步，非阻塞） </p>
+<p>创建异步 GET 请求并加入调度队列。</p>
+<p>返回的 <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html" title="异步网络请求，支持取消">AsyncNetworkRequest</a> 由调用方管理生命周期。 调用方应连接 finished() 信号并在完成后删除请求。 可通过 <a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html#a19c2928774d26aa764fd6adf9fdbf46f" title="取消请求">AsyncNetworkRequest::cancel()</a> 随时取消请求。</p>
+<dl class="section note"><dt>注解</dt><dd>此方法使用 thread-local QNetworkAccessManager，必须在具有 Qt 事件循环的线程中调用 （如主线程或 QThread 子类）。请勿在 bare std::thread 中调用。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求 URL </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>AsyncNetworkRequest* - 调用方负责生命周期管理</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>创建的异步请求对象。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a53ff8a0629ae76a03f50c7cd50e8bea7">EasyKiConverter::INetworkClient</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00199">199</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="JLCDatasheet_8cpp_source.html#l00038">EasyKiConverter::JLCDatasheet::downloadDatasheet()</a>, <a class="el" href="NetworkWorker_8cpp_source.html#l00191">EasyKiConverter::NetworkWorker::executeRequest()</a>, <a class="el" href="CacheRepository_8h_source.html#l00124">EasyKiConverter::CacheRepository::fetchDatasheetAsync()</a>, <a class="el" href="CacheRepository_8h_source.html#l00034">EasyKiConverter::CacheRepository::fetchPreviewImageAsync()</a>, <a class="el" href="FetchWorker_8cpp_source.html#l00267">EasyKiConverter::FetchWorker::httpGet()</a>, <a class="el" href="LcscImageService_8cpp_source.html#l00558">EasyKiConverter::LcscImageService::performDatasheetDownload()</a> , 以及 <a class="el" href="LcscImageService_8cpp_source.html#l00430">EasyKiConverter::LcscImageService::performDownload()</a>.</p>
+
+</div>
+</div>
+<a id="a56ec163a62e0db2a8823ecf84130b694" name="a56ec163a62e0db2a8823ecf84130b694"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56ec163a62e0db2a8823ecf84130b694">&#9670;&#160;</a></span>isGzipCompressed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::NetworkClient::isGzipCompressed </td>
+          <td>(</td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检查数据是否为 Gzip 压缩格式。 </p>
+<p>判断响应数据是否为 Gzip 压缩数据。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>待检查的数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>数据带有 Gzip 标识时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>待检查的响应数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>数据带有 Gzip 标识时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00048">48</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="GzipUtils_8cpp_source.html#l00021">GzipUtils::isGzipped()</a>.</p>
+
+</div>
+</div>
+<a id="a6026c5cec7dc42b1844cb3586ee2b15a" name="a6026c5cec7dc42b1844cb3586ee2b15a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6026c5cec7dc42b1844cb3586ee2b15a">&#9670;&#160;</a></span>onAsyncRequestFinished()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::onAsyncRequestFinished </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>收敛异步请求完成后的活动计数并继续调度。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">resourceType</td><td>已完成请求的资源类型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00482">482</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8h_source.html#l00215">m_activeAsyncRequestsByType</a>, <a class="el" href="NetworkClient_8h_source.html#l00212">m_asyncQueueMutex</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00600">refreshDynamicStatsLocked()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00358">scheduleAsyncPump()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00376">pumpAsyncQueue()</a>.</p>
+
+</div>
+</div>
+<a id="a2cc90f38c5d9673c8909d7e8c7e9beae" name="a2cc90f38c5d9673c8909d7e8c7e9beae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2cc90f38c5d9673c8909d7e8c7e9beae">&#9670;&#160;</a></span>populateDiagnostic()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::populateDiagnostic </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="structEasyKiConverter_1_1NetworkDiagnostic.html">NetworkDiagnostic</a> &amp;&#160;</td>
+          <td class="paramname"><em>diag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>填充网络请求诊断中的 URL、主机和资源类型。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">diag</td><td>待填充的诊断对象。 </td></tr>
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00224">224</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="INetworkClient_8h_source.html#l00305">EasyKiConverter::NetworkDiagnostic::host</a>, <a class="el" href="INetworkClient_8h_source.html#l00039">EasyKiConverter::RequestProfile::name</a>, <a class="el" href="INetworkClient_8h_source.html#l00307">EasyKiConverter::NetworkDiagnostic::profileName</a>, <a class="el" href="INetworkClient_8h_source.html#l00306">EasyKiConverter::NetworkDiagnostic::resourceType</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00304">EasyKiConverter::NetworkDiagnostic::url</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00239">executeRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a2475e07f647e6968497a2495994bf062" name="a2475e07f647e6968497a2495994bf062"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2475e07f647e6968497a2495994bf062">&#9670;&#160;</a></span>post() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::NetworkClient::post </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>发送 HTTP POST 请求（同步，阻塞直到完成） </p>
+<p>发送使用默认资源类型的同步 POST 请求。</p>
+<dl class="section note"><dt>注解</dt><dd>此方法使用 thread-local QNetworkAccessManager，必须在具有 Qt 事件循环的线程中调用。 请勿在 bare std::thread 中调用。</dd></dl>
+<p>发送 HTTP POST 请求（同步，阻塞直到完成）。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求 URL。 </td></tr>
+    <tr><td class="paramname">body</td><td>请求正文。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">body</td><td>POST 请求体。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a8dbaf6f68279872d9b37a7ae2de09571">EasyKiConverter::INetworkClient</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00094">94</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8cpp_source.html#l00239">executeRequest()</a> , 以及 <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Unknown</a>.</p>
+
+</div>
+</div>
+<a id="afe6059ad56d9a5be8c650369d04254fd" name="afe6059ad56d9a5be8c650369d04254fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe6059ad56d9a5be8c650369d04254fd">&#9670;&#160;</a></span>post() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> EasyKiConverter::NetworkClient::post </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>发送 HTTP POST 请求（带资源类型，用于配置Profile） </p>
+<p>发送带资源类型的同步 POST 请求。</p>
+<dl class="section note"><dt>注解</dt><dd>此方法使用 thread-local QNetworkAccessManager，必须在具有 Qt 事件循环的线程中调用。 请勿在 bare std::thread 中调用。</dd></dl>
+<p>发送带资源类型的同步 HTTP POST 请求。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求 URL。 </td></tr>
+    <tr><td class="paramname">body</td><td>请求正文。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">body</td><td>POST 请求体。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>网络请求结果。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a7a780b94a9bb1a60284b75768c598f93">EasyKiConverter::INetworkClient</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00106">106</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8cpp_source.html#l00239">executeRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a442c27590ad80472ef6e550d416e9250" name="a442c27590ad80472ef6e550d416e9250"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a442c27590ad80472ef6e550d416e9250">&#9670;&#160;</a></span>postAsync()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a> * EasyKiConverter::NetworkClient::postAsync </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>body</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em> = <code><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a88183b946cc5f0e8c96b2e66e1c74a7e">ResourceType::Unknown</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>发送 HTTP POST 请求（异步，非阻塞） </p>
+<p>创建异步 POST 请求并加入调度队列。</p>
+<dl class="section note"><dt>注解</dt><dd>此方法使用 thread-local QNetworkAccessManager，必须在具有 Qt 事件循环的线程中调用 （如主线程或 QThread 子类）。请勿在 bare std::thread 中调用。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求 URL </td></tr>
+    <tr><td class="paramname">body</td><td>请求体 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>AsyncNetworkRequest* - 调用方负责生命周期管理</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>请求地址。 </td></tr>
+    <tr><td class="paramname">body</td><td>POST 请求体。 </td></tr>
+    <tr><td class="paramname">resourceType</td><td>资源类型。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>创建的异步请求对象。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a045edb3a434240120d2605406713fd46">EasyKiConverter::INetworkClient</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00211">211</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="LcscImageService_8cpp_source.html#l00337">EasyKiConverter::LcscImageService::performApiSearch()</a>.</p>
+
+</div>
+</div>
+<a id="a039f824276bc417d6ddc2fd0a85b7a8d" name="a039f824276bc417d6ddc2fd0a85b7a8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a039f824276bc417d6ddc2fd0a85b7a8d">&#9670;&#160;</a></span>pumpAsyncQueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::pumpAsyncQueue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>按并发和优先级限制启动等待中的异步请求。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00376">376</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8h_source.html#l00181">EasyKiConverter::NetworkClient::PendingAsyncRequest::enqueuedAtMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="NetworkClient_8h_source.html#l00215">m_activeAsyncRequestsByType</a>, <a class="el" href="NetworkClient_8h_source.html#l00218">m_asyncPumpScheduled</a>, <a class="el" href="NetworkClient_8h_source.html#l00212">m_asyncQueueMutex</a>, <a class="el" href="NetworkClient_8h_source.html#l00213">m_pendingAsyncRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00053">EasyKiConverter::RequestProfile::maxConcurrent</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00482">onAsyncRequestFinished()</a>, <a class="el" href="NetworkClient_8h_source.html#l00179">EasyKiConverter::NetworkClient::PendingAsyncRequest::priority</a>, <a class="el" href="NetworkClient_8h_source.html#l00177">EasyKiConverter::NetworkClient::PendingAsyncRequest::request</a>, <a class="el" href="NetworkClient_8h_source.html#l00178">EasyKiConverter::NetworkClient::PendingAsyncRequest::resourceType</a>, <a class="el" href="NetworkClient_8h_source.html#l00180">EasyKiConverter::NetworkClient::PendingAsyncRequest::sequence</a>, <a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Unknown</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00520">updateStatsForDequeuedRequest()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00541">updateStatsForStartedRequest()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00358">scheduleAsyncPump()</a>.</p>
+
+</div>
+</div>
+<a id="aa1a34c8e30ae2ee0cd3b12e085b137a1" name="aa1a34c8e30ae2ee0cd3b12e085b137a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1a34c8e30ae2ee0cd3b12e085b137a1">&#9670;&#160;</a></span>refreshDynamicStatsLocked()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::refreshDynamicStatsLocked </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在持有统计锁时刷新指定资源的动态计数。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">resourceType</td><td>请求的资源类型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00600">600</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00429">EasyKiConverter::NetworkResourceStats::activeRequests</a>, <a class="el" href="NetworkClient_8h_source.html#l00215">m_activeAsyncRequestsByType</a>, <a class="el" href="NetworkClient_8h_source.html#l00213">m_pendingAsyncRequests</a>, <a class="el" href="NetworkClient_8h_source.html#l00216">m_resourceStats</a>, <a class="el" href="INetworkClient_8h_source.html#l00431">EasyKiConverter::NetworkResourceStats::peakActiveRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00430">EasyKiConverter::NetworkResourceStats::peakQueuedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00428">EasyKiConverter::NetworkResourceStats::queuedRequests</a> , 以及 <a class="el" href="NetworkClient_8h_source.html#l00185">EasyKiConverter::NetworkClient::MutableResourceStats::snapshot</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00482">onAsyncRequestFinished()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00561">updateStatsForCompletedRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00520">updateStatsForDequeuedRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00502">updateStatsForEnqueuedRequest()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00541">updateStatsForStartedRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a15c6e5c8393240bc84186396c62667ce" name="a15c6e5c8393240bc84186396c62667ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15c6e5c8393240bc84186396c62667ce">&#9670;&#160;</a></span>runtimeStats()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1NetworkRuntimeStats.html">NetworkRuntimeStats</a> EasyKiConverter::NetworkClient::runtimeStats </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取网络运行统计。 </p>
+<p>获取当前网络请求运行统计。</p>
+<dl class="section return"><dt>返回</dt><dd>网络运行统计快照。</dd>
+<dd>
+当前网络请求统计快照。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1INetworkClient.html#a6e35b6e780bb66813c0e1be45b6be3ca">EasyKiConverter::INetworkClient</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00117">117</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00429">EasyKiConverter::NetworkResourceStats::activeRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00433">EasyKiConverter::NetworkResourceStats::backpressureEvents</a>, <a class="el" href="INetworkClient_8h_source.html#l00438">EasyKiConverter::NetworkResourceStats::cancelledRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00435">EasyKiConverter::NetworkResourceStats::completedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00437">EasyKiConverter::NetworkResourceStats::failedRequests</a>, <a class="el" href="NetworkClient_8h_source.html#l00212">m_asyncQueueMutex</a>, <a class="el" href="NetworkClient_8h_source.html#l00216">m_resourceStats</a>, <a class="el" href="INetworkClient_8h_source.html#l00428">EasyKiConverter::NetworkResourceStats::queuedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00440">EasyKiConverter::NetworkResourceStats::rateLimitedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00451">EasyKiConverter::NetworkRuntimeStats::resources</a>, <a class="el" href="INetworkClient_8h_source.html#l00441">EasyKiConverter::NetworkResourceStats::retryAttempts</a>, <a class="el" href="INetworkClient_8h_source.html#l00434">EasyKiConverter::NetworkResourceStats::startedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00436">EasyKiConverter::NetworkResourceStats::succeededRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00439">EasyKiConverter::NetworkResourceStats::timeoutRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00462">EasyKiConverter::NetworkRuntimeStats::totalActiveRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00460">EasyKiConverter::NetworkRuntimeStats::totalBackpressureEvents</a>, <a class="el" href="INetworkClient_8h_source.html#l00456">EasyKiConverter::NetworkRuntimeStats::totalCancelledRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00453">EasyKiConverter::NetworkRuntimeStats::totalCompletedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00455">EasyKiConverter::NetworkRuntimeStats::totalFailedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00461">EasyKiConverter::NetworkRuntimeStats::totalQueuedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00458">EasyKiConverter::NetworkRuntimeStats::totalRateLimitedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00459">EasyKiConverter::NetworkRuntimeStats::totalRetryAttempts</a>, <a class="el" href="INetworkClient_8h_source.html#l00452">EasyKiConverter::NetworkRuntimeStats::totalStartedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00454">EasyKiConverter::NetworkRuntimeStats::totalSucceededRequests</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00457">EasyKiConverter::NetworkRuntimeStats::totalTimeoutRequests</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00144">formatRuntimeStats()</a>.</p>
+
+</div>
+</div>
+<a id="ae84e4d1959d90b8fb6486e2bc72aa133" name="ae84e4d1959d90b8fb6486e2bc72aa133"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae84e4d1959d90b8fb6486e2bc72aa133">&#9670;&#160;</a></span>scheduleAsyncPump()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::scheduleAsyncPump </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>安排异步请求队列的下一次调度。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00358">358</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="NetworkClient_8h_source.html#l00218">m_asyncPumpScheduled</a>, <a class="el" href="NetworkClient_8h_source.html#l00212">m_asyncQueueMutex</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00376">pumpAsyncQueue()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00482">onAsyncRequestFinished()</a>.</p>
+
+</div>
+</div>
+<a id="af72b7ae4977f987f724ef4cb2b2b71ad" name="af72b7ae4977f987f724ef4cb2b2b71ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af72b7ae4977f987f724ef4cb2b2b71ad">&#9670;&#160;</a></span>shouldRetry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::NetworkClient::shouldRetry </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>statusCode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QNetworkReply::NetworkError&#160;</td>
+          <td class="paramname"><em>error</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>retryCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1RetryPolicy.html">RetryPolicy</a> &amp;&#160;</td>
+          <td class="paramname"><em>policy</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断请求失败是否应进入重试流程。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">statusCode</td><td>HTTP 状态码。 </td></tr>
+    <tr><td class="paramname">error</td><td>Qt 网络错误类型。 </td></tr>
+    <tr><td class="paramname">retryCount</td><td>当前重试次数。 </td></tr>
+    <tr><td class="paramname">policy</td><td>重试策略。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>满足重试条件时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00641">641</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00377">EasyKiConverter::RetryPolicy::maxRetries</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00382">EasyKiConverter::RetryPolicy::retryableStatusCodes</a>.</p>
+
+</div>
+</div>
+<a id="ad9ec301648f05c3592ad02e1f57ebd66" name="ad9ec301648f05c3592ad02e1f57ebd66"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9ec301648f05c3592ad02e1f57ebd66">&#9670;&#160;</a></span>updateStatsForCompletedRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::updateStatsForCompletedRequest </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>根据请求结果更新完成、失败和重试统计。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">resourceType</td><td>请求的资源类型。 </td></tr>
+    <tr><td class="paramname">result</td><td>请求结果。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00561">561</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00446">EasyKiConverter::NetworkResourceStats::averageLatencyMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00438">EasyKiConverter::NetworkResourceStats::cancelledRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00435">EasyKiConverter::NetworkResourceStats::completedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00422">EasyKiConverter::NetworkResult::diagnostic</a>, <a class="el" href="INetworkClient_8h_source.html#l00419">EasyKiConverter::NetworkResult::elapsedMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00309">EasyKiConverter::NetworkDiagnostic::errorType</a>, <a class="el" href="INetworkClient_8h_source.html#l00437">EasyKiConverter::NetworkResourceStats::failedRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="INetworkClient_8h_source.html#l00445">EasyKiConverter::NetworkResourceStats::lastLatencyMs</a>, <a class="el" href="NetworkClient_8h_source.html#l00212">m_asyncQueueMutex</a>, <a class="el" href="NetworkClient_8h_source.html#l00216">m_resourceStats</a>, <a class="el" href="INetworkClient_8h_source.html#l00053">EasyKiConverter::RequestProfile::maxConcurrent</a>, <a class="el" href="INetworkClient_8h_source.html#l00432">EasyKiConverter::NetworkResourceStats::maxConcurrent</a>, <a class="el" href="INetworkClient_8h_source.html#l00447">EasyKiConverter::NetworkResourceStats::maxLatencyMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00039">EasyKiConverter::RequestProfile::name</a>, <a class="el" href="INetworkClient_8h_source.html#l00427">EasyKiConverter::NetworkResourceStats::profileName</a>, <a class="el" href="INetworkClient_8h_source.html#l00440">EasyKiConverter::NetworkResourceStats::rateLimitedRequests</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00600">refreshDynamicStatsLocked()</a>, <a class="el" href="INetworkClient_8h_source.html#l00426">EasyKiConverter::NetworkResourceStats::resourceType</a>, <a class="el" href="INetworkClient_8h_source.html#l00441">EasyKiConverter::NetworkResourceStats::retryAttempts</a>, <a class="el" href="INetworkClient_8h_source.html#l00418">EasyKiConverter::NetworkResult::retryCount</a>, <a class="el" href="NetworkClient_8h_source.html#l00185">EasyKiConverter::NetworkClient::MutableResourceStats::snapshot</a>, <a class="el" href="INetworkClient_8h_source.html#l00416">EasyKiConverter::NetworkResult::statusCode</a>, <a class="el" href="INetworkClient_8h_source.html#l00436">EasyKiConverter::NetworkResourceStats::succeededRequests</a>, <a class="el" href="INetworkClient_8h_source.html#l00420">EasyKiConverter::NetworkResult::success</a>, <a class="el" href="namespaceEasyKiConverter.html#a02b5c9ccdbd5a1eb434c81b4fd61454fac85a251cc457840f1e032f1b733e9398">EasyKiConverter::Timeout</a>, <a class="el" href="INetworkClient_8h_source.html#l00439">EasyKiConverter::NetworkResourceStats::timeoutRequests</a>, <a class="el" href="NetworkClient_8h_source.html#l00187">EasyKiConverter::NetworkClient::MutableResourceStats::totalLatencyMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00323">EasyKiConverter::NetworkDiagnostic::wasCanceled</a>, <a class="el" href="INetworkClient_8h_source.html#l00421">EasyKiConverter::NetworkResult::wasCancelled</a> , 以及 <a class="el" href="INetworkClient_8h_source.html#l00321">EasyKiConverter::NetworkDiagnostic::wasRateLimited</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a11531f3830728f8227d391433b9b0606" name="a11531f3830728f8227d391433b9b0606"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11531f3830728f8227d391433b9b0606">&#9670;&#160;</a></span>updateStatsForDequeuedRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::updateStatsForDequeuedRequest </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">qint64&#160;</td>
+          <td class="paramname"><em>queueDelayMs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>记录请求离开等待队列时的延迟统计。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">resourceType</td><td>请求的资源类型。 </td></tr>
+    <tr><td class="paramname">queueDelayMs</td><td>请求在队列中的等待时长。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00520">520</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00443">EasyKiConverter::NetworkResourceStats::averageQueueDelayMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="INetworkClient_8h_source.html#l00442">EasyKiConverter::NetworkResourceStats::lastQueueDelayMs</a>, <a class="el" href="NetworkClient_8h_source.html#l00216">m_resourceStats</a>, <a class="el" href="INetworkClient_8h_source.html#l00053">EasyKiConverter::RequestProfile::maxConcurrent</a>, <a class="el" href="INetworkClient_8h_source.html#l00432">EasyKiConverter::NetworkResourceStats::maxConcurrent</a>, <a class="el" href="INetworkClient_8h_source.html#l00444">EasyKiConverter::NetworkResourceStats::maxQueueDelayMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00039">EasyKiConverter::RequestProfile::name</a>, <a class="el" href="INetworkClient_8h_source.html#l00427">EasyKiConverter::NetworkResourceStats::profileName</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00600">refreshDynamicStatsLocked()</a>, <a class="el" href="INetworkClient_8h_source.html#l00426">EasyKiConverter::NetworkResourceStats::resourceType</a>, <a class="el" href="NetworkClient_8h_source.html#l00185">EasyKiConverter::NetworkClient::MutableResourceStats::snapshot</a>, <a class="el" href="INetworkClient_8h_source.html#l00434">EasyKiConverter::NetworkResourceStats::startedRequests</a> , 以及 <a class="el" href="NetworkClient_8h_source.html#l00186">EasyKiConverter::NetworkClient::MutableResourceStats::totalQueueDelayMs</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00376">pumpAsyncQueue()</a>.</p>
+
+</div>
+</div>
+<a id="afc52d11adea00e025178bcbffb4fcd7f" name="afc52d11adea00e025178bcbffb4fcd7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc52d11adea00e025178bcbffb4fcd7f">&#9670;&#160;</a></span>updateStatsForEnqueuedRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::updateStatsForEnqueuedRequest </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>记录请求入队后的资源统计。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">resourceType</td><td>请求的资源类型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00502">502</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00433">EasyKiConverter::NetworkResourceStats::backpressureEvents</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="NetworkClient_8h_source.html#l00215">m_activeAsyncRequestsByType</a>, <a class="el" href="NetworkClient_8h_source.html#l00216">m_resourceStats</a>, <a class="el" href="INetworkClient_8h_source.html#l00053">EasyKiConverter::RequestProfile::maxConcurrent</a>, <a class="el" href="INetworkClient_8h_source.html#l00432">EasyKiConverter::NetworkResourceStats::maxConcurrent</a>, <a class="el" href="INetworkClient_8h_source.html#l00039">EasyKiConverter::RequestProfile::name</a>, <a class="el" href="INetworkClient_8h_source.html#l00427">EasyKiConverter::NetworkResourceStats::profileName</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00600">refreshDynamicStatsLocked()</a>, <a class="el" href="INetworkClient_8h_source.html#l00426">EasyKiConverter::NetworkResourceStats::resourceType</a> , 以及 <a class="el" href="NetworkClient_8h_source.html#l00185">EasyKiConverter::NetworkClient::MutableResourceStats::snapshot</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a0183404fbc10813565adbd2342886c4b" name="a0183404fbc10813565adbd2342886c4b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0183404fbc10813565adbd2342886c4b">&#9670;&#160;</a></span>updateStatsForStartedRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::NetworkClient::updateStatsForStartedRequest </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a>&#160;</td>
+          <td class="paramname"><em>resourceType</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>记录请求开始执行时的资源统计。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">resourceType</td><td>请求的资源类型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a> 第 <a class="el" href="NetworkClient_8cpp_source.html#l00541">541</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="INetworkClient_8h_source.html#l00443">EasyKiConverter::NetworkResourceStats::averageQueueDelayMs</a>, <a class="el" href="INetworkClient_8h_source.html#l00254">EasyKiConverter::RequestProfiles::fromType()</a>, <a class="el" href="NetworkClient_8h_source.html#l00216">m_resourceStats</a>, <a class="el" href="INetworkClient_8h_source.html#l00053">EasyKiConverter::RequestProfile::maxConcurrent</a>, <a class="el" href="INetworkClient_8h_source.html#l00432">EasyKiConverter::NetworkResourceStats::maxConcurrent</a>, <a class="el" href="INetworkClient_8h_source.html#l00039">EasyKiConverter::RequestProfile::name</a>, <a class="el" href="INetworkClient_8h_source.html#l00427">EasyKiConverter::NetworkResourceStats::profileName</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00600">refreshDynamicStatsLocked()</a>, <a class="el" href="INetworkClient_8h_source.html#l00426">EasyKiConverter::NetworkResourceStats::resourceType</a>, <a class="el" href="NetworkClient_8h_source.html#l00185">EasyKiConverter::NetworkClient::MutableResourceStats::snapshot</a>, <a class="el" href="INetworkClient_8h_source.html#l00434">EasyKiConverter::NetworkResourceStats::startedRequests</a> , 以及 <a class="el" href="NetworkClient_8h_source.html#l00186">EasyKiConverter::NetworkClient::MutableResourceStats::totalQueueDelayMs</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00376">pumpAsyncQueue()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">友元及相关函数文档</h2>
+<a id="a32b7ecb049eb91ddae02483ac812592d" name="a32b7ecb049eb91ddae02483ac812592d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32b7ecb049eb91ddae02483ac812592d">&#9670;&#160;</a></span>TestableSingleton&lt; NetworkClient &gt;</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="classEasyKiConverter_1_1TestableSingleton.html">TestableSingleton</a>&lt; <a class="el" href="classEasyKiConverter_1_1NetworkClient.html">NetworkClient</a> &gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00001">1</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a20cb2bfe6ea42b29b3a216d262651bf7" name="a20cb2bfe6ea42b29b3a216d262651bf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20cb2bfe6ea42b29b3a216d262651bf7">&#9670;&#160;</a></span>m_activeAsyncRequestsByType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QHash&lt;int, int&gt; EasyKiConverter::NetworkClient::m_activeAsyncRequestsByType</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>各资源类型的活动请求数。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00215">215</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00482">onAsyncRequestFinished()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00376">pumpAsyncQueue()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00600">refreshDynamicStatsLocked()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00502">updateStatsForEnqueuedRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a427d707e95780e9ad4d8d8c61e9eb60b" name="a427d707e95780e9ad4d8d8c61e9eb60b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a427d707e95780e9ad4d8d8c61e9eb60b">&#9670;&#160;</a></span>m_asyncNetworkManager</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QNetworkAccessManager* EasyKiConverter::NetworkClient::m_asyncNetworkManager = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>异步请求使用的网络管理器。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00211">211</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00023">NetworkClient()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00031">~NetworkClient()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>.</p>
+
+</div>
+</div>
+<a id="ac219fa3d3b50ab4bc87181f151918b1d" name="ac219fa3d3b50ab4bc87181f151918b1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac219fa3d3b50ab4bc87181f151918b1d">&#9670;&#160;</a></span>m_asyncPumpScheduled</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::NetworkClient::m_asyncPumpScheduled = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否已安排队列泵任务。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00218">218</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00452">cancelAllRequests()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00376">pumpAsyncQueue()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00358">scheduleAsyncPump()</a>.</p>
+
+</div>
+</div>
+<a id="af729826fb5c7d71115345b79d9238bd3" name="af729826fb5c7d71115345b79d9238bd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af729826fb5c7d71115345b79d9238bd3">&#9670;&#160;</a></span>m_asyncQueueMutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex EasyKiConverter::NetworkClient::m_asyncQueueMutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护异步队列和运行统计的互斥锁。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00212">212</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00452">cancelAllRequests()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00482">onAsyncRequestFinished()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00376">pumpAsyncQueue()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00117">runtimeStats()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00358">scheduleAsyncPump()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00561">updateStatsForCompletedRequest()</a>.</p>
+
+</div>
+</div>
+<a id="ad2dbbb9fe1af47d371c18828a7e7293d" name="ad2dbbb9fe1af47d371c18828a7e7293d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad2dbbb9fe1af47d371c18828a7e7293d">&#9670;&#160;</a></span>m_asyncSequence</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">quint64 EasyKiConverter::NetworkClient::m_asyncSequence = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>下一个异步请求的入队序号。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00217">217</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a547069bc662cc716c0a6fbf1ae71792f" name="a547069bc662cc716c0a6fbf1ae71792f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a547069bc662cc716c0a6fbf1ae71792f">&#9670;&#160;</a></span>m_liveAsyncRequests</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;QPointer&lt;<a class="el" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>&gt; &gt; EasyKiConverter::NetworkClient::m_liveAsyncRequests</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前仍存活的异步请求。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00214">214</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00452">cancelAllRequests()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a6068bd4dadd86ee18f3beb506ddfe486" name="a6068bd4dadd86ee18f3beb506ddfe486"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6068bd4dadd86ee18f3beb506ddfe486">&#9670;&#160;</a></span>m_networkThread</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QThread EasyKiConverter::NetworkClient::m_networkThread</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行异步网络请求的专用线程。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00210">210</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00023">NetworkClient()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00031">~NetworkClient()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00452">cancelAllRequests()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>.</p>
+
+</div>
+</div>
+<a id="a3ce2089fe5e528db0ea61fc9fb951336" name="a3ce2089fe5e528db0ea61fc9fb951336"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ce2089fe5e528db0ea61fc9fb951336">&#9670;&#160;</a></span>m_pendingAsyncRequests</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;<a class="el" href="structEasyKiConverter_1_1NetworkClient_1_1PendingAsyncRequest.html">PendingAsyncRequest</a>&gt; EasyKiConverter::NetworkClient::m_pendingAsyncRequests</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>等待调度的异步请求。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00213">213</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00452">cancelAllRequests()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00291">enqueueAsyncRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00376">pumpAsyncQueue()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00600">refreshDynamicStatsLocked()</a>.</p>
+
+</div>
+</div>
+<a id="a306d5174ed34ef54bcd7d455b714f6ce" name="a306d5174ed34ef54bcd7d455b714f6ce"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a306d5174ed34ef54bcd7d455b714f6ce">&#9670;&#160;</a></span>m_resourceStats</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QHash&lt;int, <a class="el" href="structEasyKiConverter_1_1NetworkClient_1_1MutableResourceStats.html">MutableResourceStats</a>&gt; EasyKiConverter::NetworkClient::m_resourceStats</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>各资源类型的运行统计。 </p>
+
+<p class="definition">在文件 <a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a> 第 <a class="el" href="NetworkClient_8h_source.html#l00216">216</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="NetworkClient_8cpp_source.html#l00600">refreshDynamicStatsLocked()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00117">runtimeStats()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00561">updateStatsForCompletedRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00520">updateStatsForDequeuedRequest()</a>, <a class="el" href="NetworkClient_8cpp_source.html#l00502">updateStatsForEnqueuedRequest()</a> , 以及 <a class="el" href="NetworkClient_8cpp_source.html#l00541">updateStatsForStartedRequest()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/network/<a class="el" href="NetworkClient_8h_source.html">NetworkClient.h</a></li>
+<li>core/network/<a class="el" href="NetworkClient_8cpp_source.html">NetworkClient.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1NetworkClient.html">NetworkClient</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+var dir_1ae4179d5e953611aae20c997279e02c =
+[
+    [ "ComponentData.cpp", "ComponentData_8cpp.html", null ],
+    [ "ComponentData.h", "ComponentData_8h.html", "ComponentData_8h" ],
+    [ "ComponentExportStatus.h", "ComponentExportStatus_8h.html", "ComponentExportStatus_8h" ],
+    [ "ComponentListItemData.cpp", "ComponentListItemData_8cpp.html", null ],
+    [ "ComponentListItemData.h", "ComponentListItemData_8h.html", "ComponentListItemData_8h" ],
+    [ "FootprintData.cpp", "FootprintData_8cpp.html", null ],
+    [ "FootprintData.h", "FootprintData_8h.html", "FootprintData_8h" ],
+    [ "FootprintDataSerializer.cpp", "FootprintDataSerializer_8cpp.html", null ],
+    [ "FootprintDataSerializer.h", "FootprintDataSerializer_8h.html", "FootprintDataSerializer_8h" ],
+    [ "FootprintDataShapeCompatibility.cpp", "FootprintDataShapeCompatibility_8cpp.html", null ],
+    [ "FootprintShapeSerializer.cpp", "FootprintShapeSerializer_8cpp.html", null ],
+    [ "FootprintShapeSerializer.h", "FootprintShapeSerializer_8h.html", "FootprintShapeSerializer_8h" ],
+    [ "Model3DData.cpp", "Model3DData_8cpp.html", null ],
+    [ "Model3DData.h", "Model3DData_8h.html", "Model3DData_8h" ],
+    [ "SymbolData.cpp", "SymbolData_8cpp.html", null ],
+    [ "SymbolData.h", "SymbolData_8h.html", "SymbolData_8h" ],
+    [ "SymbolDataSerializer.cpp", "SymbolDataSerializer_8cpp.html", "SymbolDataSerializer_8cpp" ],
+    [ "SymbolDataSerializer.h", "SymbolDataSerializer_8h.html", "SymbolDataSerializer_8h" ],
+    [ "SymbolDataShapeCompatibility.cpp", "SymbolDataShapeCompatibility_8cpp.html", null ],
+    [ "SymbolPinSerializer.cpp", "SymbolPinSerializer_8cpp.html", null ],
+    [ "SymbolPinSerializer.h", "SymbolPinSerializer_8h.html", "SymbolPinSerializer_8h" ],
+    [ "SymbolShapeSerializer.cpp", "SymbolShapeSerializer_8cpp.html", null ],
+    [ "SymbolShapeSerializer.h", "SymbolShapeSerializer_8h.html", "SymbolShapeSerializer_8h" ]
+];

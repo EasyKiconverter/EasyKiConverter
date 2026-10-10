@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/logging/PatternFormatter.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('PatternFormatter_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">PatternFormatter.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="PatternFormatter_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="PatternFormatter_8h.html">PatternFormatter.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QDateTime&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QRegularExpression&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">const</span> QRegularExpression <a class="code hl_variable" href="classEasyKiConverter_1_1PatternFormatter.html#aaad9d00590b01c2df05a39ac66365bac">PatternFormatter::s_placeholderRegex</a>(QStringLiteral(<span class="stringliteral">&quot;%\\{([a-zA-Z]+)\\}&quot;</span>));</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PatternFormatter.html#a396356789897ab7910c7179ca3b363aa">   16</a></span><a class="code hl_function" href="classEasyKiConverter_1_1PatternFormatter.html#a396356789897ab7910c7179ca3b363aa">PatternFormatter::PatternFormatter</a>(<span class="keyword">const</span> QString&amp; pattern) : m_pattern(pattern) {}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="{" data-end="}">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PatternFormatter.html#a98272253ae17cdc9197960f674c39b86">   22</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1PatternFormatter.html#a98272253ae17cdc9197960f674c39b86">PatternFormatter::format</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a>&amp; record) {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    QString result = <a class="code hl_variable" href="classEasyKiConverter_1_1PatternFormatter.html#aee6d65880ef694c571d0a853a8f31a57">m_pattern</a>;  </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    QRegularExpressionMatchIterator it = <a class="code hl_variable" href="classEasyKiConverter_1_1PatternFormatter.html#aaad9d00590b01c2df05a39ac66365bac">s_placeholderRegex</a>.globalMatch(<a class="code hl_variable" href="classEasyKiConverter_1_1PatternFormatter.html#aee6d65880ef694c571d0a853a8f31a57">m_pattern</a>);  </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    QStringList processed;  </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">while</span> (it.hasNext()) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        QRegularExpressionMatch match = it.next();  </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        QString placeholder = match.captured(1).toLower();  </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        <span class="comment">// 避免重复处理相同的占位符</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        QString fullMatch = match.captured(0);  </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordflow">if</span> (processed.contains(fullMatch)) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        processed.append(fullMatch);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        QString replacement = <a class="code hl_function" href="classEasyKiConverter_1_1PatternFormatter.html#aa9307f44af70af1372043fd633a57229">replacePlaceholder</a>(placeholder, record);  </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        result.replace(fullMatch, replacement);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// 处理 %% 转义</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    result.replace(QStringLiteral(<span class="stringliteral">&quot;%%&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;%&quot;</span>));</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
+</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PatternFormatter.html#aa3450d2fe8ca3f844d852ba9cf17cded">   52</a></span>QSharedPointer&lt;IFormatter&gt; <a class="code hl_function" href="classEasyKiConverter_1_1PatternFormatter.html#aa3450d2fe8ca3f844d852ba9cf17cded">PatternFormatter::clone</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> QSharedPointer&lt;PatternFormatter&gt;::create(<a class="code hl_variable" href="classEasyKiConverter_1_1PatternFormatter.html#aee6d65880ef694c571d0a853a8f31a57">m_pattern</a>);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}</div>
+</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PatternFormatter.html#a7be5d6ac1d32209368fec86c3ca6dc8a">   60</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PatternFormatter.html#a7be5d6ac1d32209368fec86c3ca6dc8a">PatternFormatter::setPattern</a>(<span class="keyword">const</span> QString&amp; pattern) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1PatternFormatter.html#aee6d65880ef694c571d0a853a8f31a57">m_pattern</a> = <a class="code hl_function" href="classEasyKiConverter_1_1PatternFormatter.html#a0ac06ae2881df157974aeecf089b7bbc">pattern</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
+</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="foldopen" id="foldopen00069" data-start="{" data-end="}">
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PatternFormatter.html#aa9307f44af70af1372043fd633a57229">   69</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1PatternFormatter.html#aa9307f44af70af1372043fd633a57229">PatternFormatter::replacePlaceholder</a>(<span class="keyword">const</span> QString&amp; placeholder, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a>&amp; record)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;timestamp&quot;</span>) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">return</span> record.<a class="code hl_function" href="structEasyKiConverter_1_1LogRecord.html#a3190d3ef03676a0535cb785ab1453511">formattedTimestamp</a>();</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    }</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;time&quot;</span>) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">return</span> QDateTime::fromMSecsSinceEpoch(record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#aeba890d5d3c99222722511e35b4be0a3">timestamp</a>).toString(<span class="stringliteral">&quot;HH:mm:ss.zzz&quot;</span>);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;date&quot;</span>) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">return</span> QDateTime::fromMSecsSinceEpoch(record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#aeba890d5d3c99222722511e35b4be0a3">timestamp</a>).toString(<span class="stringliteral">&quot;yyyy-MM-dd&quot;</span>);</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;level&quot;</span>) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceEasyKiConverter.html#a06916f9f5ace7e2d558cc64b98176e78">logLevelToString</a>(record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#a1e13cfdb0c21a7d8dc57249c4ee8feed">level</a>);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    }</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;module&quot;</span>) {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="namespaceEasyKiConverter.html#a62574fc5349ca1ea1022191e68ee6baf">logModuleToString</a>(record.module);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;thread&quot;</span>) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">return</span> QString::number(<span class="keyword">reinterpret_cast&lt;</span>quintptr<span class="keyword">&gt;</span>(record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#a5488212fa38f5d45c30df4ea77f4a169">threadId</a>), 16).toUpper().rightJustified(5, <span class="charliteral">&#39;0&#39;</span>);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;threadname&quot;</span>) {</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span> record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#a8c94bfbffb25c46ac8c749967774bc2f">threadName</a>.isEmpty()</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                   ? QString::number(<span class="keyword">reinterpret_cast&lt;</span>quintptr<span class="keyword">&gt;</span>(record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#a5488212fa38f5d45c30df4ea77f4a169">threadId</a>), 16).toUpper().rightJustified(5, <span class="charliteral">&#39;0&#39;</span>)</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                   : record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#a8c94bfbffb25c46ac8c749967774bc2f">threadName</a>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;file&quot;</span>) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">return</span> record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#abeb14f39cab78b0d21c41b81269defcb">fileName</a>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;shortfile&quot;</span>) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        <span class="keywordflow">return</span> record.<a class="code hl_function" href="structEasyKiConverter_1_1LogRecord.html#af2ad6b3639c4304b8769ee5b20dcfeea">shortFileName</a>();</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;line&quot;</span>) {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">return</span> QString::number(record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#a4b447dafaa7e870e0f7d495d8dbc87af">line</a>);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;function&quot;</span>) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">return</span> record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#a1d20cf6a4b483eff302a5fc624063d12">functionName</a>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;message&quot;</span>) {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordflow">return</span> record.<a class="code hl_variable" href="structEasyKiConverter_1_1LogRecord.html#a41b76de3d661da075697c80d0623f67d">message</a>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (placeholder == <span class="stringliteral">&quot;newline&quot;</span>) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="comment">// 未知占位符，保持原样</span></div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;%{&quot;</span>) + placeholder + QStringLiteral(<span class="stringliteral">&quot;}&quot;</span>);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
+</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aPatternFormatter_8h_html"><div class="ttname"><a href="PatternFormatter_8h.html">PatternFormatter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PatternFormatter_html_a0ac06ae2881df157974aeecf089b7bbc"><div class="ttname"><a href="classEasyKiConverter_1_1PatternFormatter.html#a0ac06ae2881df157974aeecf089b7bbc">EasyKiConverter::PatternFormatter::pattern</a></div><div class="ttdeci">QString pattern() const</div><div class="ttdoc">获取当前格式化模式</div><div class="ttdef"><b>Definition</b> <a href="PatternFormatter_8h_source.html#l00060">PatternFormatter.h:60</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PatternFormatter_html_a396356789897ab7910c7179ca3b363aa"><div class="ttname"><a href="classEasyKiConverter_1_1PatternFormatter.html#a396356789897ab7910c7179ca3b363aa">EasyKiConverter::PatternFormatter::PatternFormatter</a></div><div class="ttdeci">PatternFormatter(const QString &amp;pattern=defaultPattern())</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>Definition</b> <a href="PatternFormatter_8cpp_source.html#l00016">PatternFormatter.cpp:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PatternFormatter_html_a7be5d6ac1d32209368fec86c3ca6dc8a"><div class="ttname"><a href="classEasyKiConverter_1_1PatternFormatter.html#a7be5d6ac1d32209368fec86c3ca6dc8a">EasyKiConverter::PatternFormatter::setPattern</a></div><div class="ttdeci">void setPattern(const QString &amp;pattern)</div><div class="ttdoc">设置格式化模式</div><div class="ttdef"><b>Definition</b> <a href="PatternFormatter_8cpp_source.html#l00060">PatternFormatter.cpp:60</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PatternFormatter_html_a98272253ae17cdc9197960f674c39b86"><div class="ttname"><a href="classEasyKiConverter_1_1PatternFormatter.html#a98272253ae17cdc9197960f674c39b86">EasyKiConverter::PatternFormatter::format</a></div><div class="ttdeci">QString format(const LogRecord &amp;record) override</div><div class="ttdoc">格式化日志记录</div><div class="ttdef"><b>Definition</b> <a href="PatternFormatter_8cpp_source.html#l00022">PatternFormatter.cpp:22</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PatternFormatter_html_aa3450d2fe8ca3f844d852ba9cf17cded"><div class="ttname"><a href="classEasyKiConverter_1_1PatternFormatter.html#aa3450d2fe8ca3f844d852ba9cf17cded">EasyKiConverter::PatternFormatter::clone</a></div><div class="ttdeci">QSharedPointer&lt; IFormatter &gt; clone() const override</div><div class="ttdoc">克隆格式化器</div><div class="ttdef"><b>Definition</b> <a href="PatternFormatter_8cpp_source.html#l00052">PatternFormatter.cpp:52</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PatternFormatter_html_aa9307f44af70af1372043fd633a57229"><div class="ttname"><a href="classEasyKiConverter_1_1PatternFormatter.html#aa9307f44af70af1372043fd633a57229">EasyKiConverter::PatternFormatter::replacePlaceholder</a></div><div class="ttdeci">QString replacePlaceholder(const QString &amp;placeholder, const LogRecord &amp;record) const</div><div class="ttdoc">替换单个占位符</div><div class="ttdef"><b>Definition</b> <a href="PatternFormatter_8cpp_source.html#l00069">PatternFormatter.cpp:69</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PatternFormatter_html_aaad9d00590b01c2df05a39ac66365bac"><div class="ttname"><a href="classEasyKiConverter_1_1PatternFormatter.html#aaad9d00590b01c2df05a39ac66365bac">EasyKiConverter::PatternFormatter::s_placeholderRegex</a></div><div class="ttdeci">static const QRegularExpression s_placeholderRegex</div><div class="ttdoc">日志占位符匹配表达式。</div><div class="ttdef"><b>Definition</b> <a href="PatternFormatter_8h_source.html#l00090">PatternFormatter.h:90</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PatternFormatter_html_aee6d65880ef694c571d0a853a8f31a57"><div class="ttname"><a href="classEasyKiConverter_1_1PatternFormatter.html#aee6d65880ef694c571d0a853a8f31a57">EasyKiConverter::PatternFormatter::m_pattern</a></div><div class="ttdeci">QString m_pattern</div><div class="ttdoc">当前日志格式模式。</div><div class="ttdef"><b>Definition</b> <a href="PatternFormatter_8h_source.html#l00087">PatternFormatter.h:87</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a06916f9f5ace7e2d558cc64b98176e78"><div class="ttname"><a href="namespaceEasyKiConverter.html#a06916f9f5ace7e2d558cc64b98176e78">EasyKiConverter::logLevelToString</a></div><div class="ttdeci">QString logLevelToString(LogLevel level)</div><div class="ttdoc">将日志级别转换为字符串</div><div class="ttdef"><b>Definition</b> <a href="LogLevel_8h_source.html#l00027">LogLevel.h:27</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a62574fc5349ca1ea1022191e68ee6baf"><div class="ttname"><a href="namespaceEasyKiConverter.html#a62574fc5349ca1ea1022191e68ee6baf">EasyKiConverter::logModuleToString</a></div><div class="ttdeci">QString logModuleToString(LogModule module)</div><div class="ttdoc">将模块转换为字符串名称</div><div class="ttdef"><b>Definition</b> <a href="LogModule_8h_source.html#l00067">LogModule.h:67</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html">EasyKiConverter::LogRecord</a></div><div class="ttdoc">日志记录结构</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00018">LogRecord.h:18</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_a1d20cf6a4b483eff302a5fc624063d12"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#a1d20cf6a4b483eff302a5fc624063d12">EasyKiConverter::LogRecord::functionName</a></div><div class="ttdeci">QString functionName</div><div class="ttdoc">函数名</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00023">LogRecord.h:23</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_a1e13cfdb0c21a7d8dc57249c4ee8feed"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#a1e13cfdb0c21a7d8dc57249c4ee8feed">EasyKiConverter::LogRecord::level</a></div><div class="ttdeci">LogLevel level</div><div class="ttdoc">日志级别</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00019">LogRecord.h:19</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_a3190d3ef03676a0535cb785ab1453511"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#a3190d3ef03676a0535cb785ab1453511">EasyKiConverter::LogRecord::formattedTimestamp</a></div><div class="ttdeci">QString formattedTimestamp() const</div><div class="ttdoc">获取格式化的时间戳字符串</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00032">LogRecord.h:32</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_a41b76de3d661da075697c80d0623f67d"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#a41b76de3d661da075697c80d0623f67d">EasyKiConverter::LogRecord::message</a></div><div class="ttdeci">QString message</div><div class="ttdoc">日志消息</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00021">LogRecord.h:21</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_a4b447dafaa7e870e0f7d495d8dbc87af"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#a4b447dafaa7e870e0f7d495d8dbc87af">EasyKiConverter::LogRecord::line</a></div><div class="ttdeci">int line</div><div class="ttdoc">行号</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00024">LogRecord.h:24</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_a5488212fa38f5d45c30df4ea77f4a169"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#a5488212fa38f5d45c30df4ea77f4a169">EasyKiConverter::LogRecord::threadId</a></div><div class="ttdeci">Qt::HANDLE threadId</div><div class="ttdoc">线程 ID</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00025">LogRecord.h:25</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_a8c94bfbffb25c46ac8c749967774bc2f"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#a8c94bfbffb25c46ac8c749967774bc2f">EasyKiConverter::LogRecord::threadName</a></div><div class="ttdeci">QString threadName</div><div class="ttdoc">可选：线程名称</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00027">LogRecord.h:27</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_abeb14f39cab78b0d21c41b81269defcb"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#abeb14f39cab78b0d21c41b81269defcb">EasyKiConverter::LogRecord::fileName</a></div><div class="ttdeci">QString fileName</div><div class="ttdoc">源文件名</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00022">LogRecord.h:22</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_aeba890d5d3c99222722511e35b4be0a3"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#aeba890d5d3c99222722511e35b4be0a3">EasyKiConverter::LogRecord::timestamp</a></div><div class="ttdeci">qint64 timestamp</div><div class="ttdoc">毫秒级时间戳</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00026">LogRecord.h:26</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1LogRecord_html_af2ad6b3639c4304b8769ee5b20dcfeea"><div class="ttname"><a href="structEasyKiConverter_1_1LogRecord.html#af2ad6b3639c4304b8769ee5b20dcfeea">EasyKiConverter::LogRecord::shortFileName</a></div><div class="ttdeci">QString shortFileName() const</div><div class="ttdoc">获取简化的文件名（不含路径）</div><div class="ttdef"><b>Definition</b> <a href="LogRecord_8h_source.html#l00039">LogRecord.h:39</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="dir_fb798ecc4aaad6bce5c96e231ca5fd90.html">logging</a></li><li class="navelem"><a class="el" href="PatternFormatter_8cpp.html">PatternFormatter.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

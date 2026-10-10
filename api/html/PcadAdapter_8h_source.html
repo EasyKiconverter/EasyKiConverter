@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/pcad/PcadAdapter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('PcadAdapter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">PcadAdapter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="PcadAdapter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="BoardIR_8h.html">core/ir/BoardIR.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="PcadModel_8h.html">core/parser/PcadModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="};">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1PcadConversionResult.html">   16</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1PcadConversionResult.html">PcadConversionResult</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1PcadConversionResult.html#ac090bbc92ed5f693c9ade83f4893505a">   17</a></span>    QList&lt;IR::FootprintComponentIR&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1PcadConversionResult.html#ac090bbc92ed5f693c9ade83f4893505a">footprints</a>;  </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1PcadConversionResult.html#ac519cef53f640d7a565277bd8fd07f24">   18</a></span>    QList&lt;IR::FootprintPlacementIR&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1PcadConversionResult.html#ac519cef53f640d7a565277bd8fd07f24">placements</a>;  </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1PcadConversionResult.html#a2423d3f0d01e0a33c40dce9c41542c3c">   19</a></span>    <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1BoardIR.html">IR::BoardIR</a> <a class="code hl_variable" href="structEasyKiConverter_1_1PcadConversionResult.html#a2423d3f0d01e0a33c40dce9c41542c3c">board</a>;  </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>};</div>
+</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="};">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PcadAdapter.html">   26</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1PcadAdapter.html">PcadAdapter</a> {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1PcadConversionResult.html">PcadConversionResult</a> <a class="code hl_function" href="classEasyKiConverter_1_1PcadAdapter.html#a452742821c9b5c8a5a48ca13912b34dc">toIR</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1PcadBoard.html">Parser::PcadBoard</a>&amp; board, <a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">Parser::ParseDiagnostics</a>* diagnostics = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a> <a class="code hl_function" href="classEasyKiConverter_1_1PcadAdapter.html#af7c1b7939d5ed89d575f94b01e3ee0a4">toFootprint</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1PcadBoard.html">Parser::PcadBoard</a>&amp; board,</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>                                                <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1PcadPattern.html">Parser::PcadPattern</a>&amp; pattern,</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>                                                <a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">Parser::ParseDiagnostics</a>* diagnostics = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>};</div>
+</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aBoardIR_8h_html"><div class="ttname"><a href="BoardIR_8h.html">BoardIR.h</a></div><div class="ttdoc">PCB 板级图形和放置的通用中间表示。</div></div>
+<div class="ttc" id="aPcadModel_8h_html"><div class="ttname"><a href="PcadModel_8h.html">PcadModel.h</a></div><div class="ttdoc">P-CAD ASCII PCB 的格式专用模型和解析入口。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">EasyKiConverter::Parser::ParseDiagnostics</a></div><div class="ttdoc">收集解析过程中的信息、警告、错误和跳过记录。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00040">ParseDiagnostics.h:40</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PcadAdapter_html"><div class="ttname"><a href="classEasyKiConverter_1_1PcadAdapter.html">EasyKiConverter::PcadAdapter</a></div><div class="ttdoc">将 P-CAD Pad Style、Pattern 和图形转换为现有 Footprint IR。</div><div class="ttdef"><b>Definition</b> <a href="PcadAdapter_8h_source.html#l00026">PcadAdapter.h:26</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PcadAdapter_html_a452742821c9b5c8a5a48ca13912b34dc"><div class="ttname"><a href="classEasyKiConverter_1_1PcadAdapter.html#a452742821c9b5c8a5a48ca13912b34dc">EasyKiConverter::PcadAdapter::toIR</a></div><div class="ttdeci">static PcadConversionResult toIR(const Parser::PcadBoard &amp;board, Parser::ParseDiagnostics *diagnostics=nullptr)</div><div class="ttdoc">转换整个 P-CAD PCB 模型并校验引用。</div><div class="ttdef"><b>Definition</b> <a href="PcadAdapter_8cpp_source.html#l00243">PcadAdapter.cpp:243</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PcadAdapter_html_af7c1b7939d5ed89d575f94b01e3ee0a4"><div class="ttname"><a href="classEasyKiConverter_1_1PcadAdapter.html#af7c1b7939d5ed89d575f94b01e3ee0a4">EasyKiConverter::PcadAdapter::toFootprint</a></div><div class="ttdeci">static IR::FootprintComponentIR toFootprint(const Parser::PcadBoard &amp;board, const Parser::PcadPattern &amp;pattern, Parser::ParseDiagnostics *diagnostics=nullptr)</div><div class="ttdoc">将一个 P-CAD Pattern 转换为封装 IR。</div><div class="ttdef"><b>Definition</b> <a href="PcadAdapter_8cpp_source.html#l00284">PcadAdapter.cpp:284</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1BoardIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1BoardIR.html">EasyKiConverter::IR::BoardIR</a></div><div class="ttdoc">通用 PCB 板级图形集合。</div><div class="ttdef"><b>Definition</b> <a href="BoardIR_8h_source.html#l00016">BoardIR.h:16</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">EasyKiConverter::IR::FootprintComponentIR</a></div><div class="ttdoc">通用封装组件</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00196">FootprintIR.h:196</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1PcadBoard_html"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1PcadBoard.html">EasyKiConverter::Parser::PcadBoard</a></div><div class="ttdoc">P-CAD ASCII PCB 的完整格式模型。</div><div class="ttdef"><b>Definition</b> <a href="PcadModel_8h_source.html#l00099">PcadModel.h:99</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1PcadPattern_html"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1PcadPattern.html">EasyKiConverter::Parser::PcadPattern</a></div><div class="ttdoc">P-CAD 封装 Pattern。</div><div class="ttdef"><b>Definition</b> <a href="PcadModel_8h_source.html#l00079">PcadModel.h:79</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1PcadConversionResult_html"><div class="ttname"><a href="structEasyKiConverter_1_1PcadConversionResult.html">EasyKiConverter::PcadConversionResult</a></div><div class="ttdoc">P-CAD Pattern 和板级放置的统一转换结果。</div><div class="ttdef"><b>Definition</b> <a href="PcadAdapter_8h_source.html#l00016">PcadAdapter.h:16</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1PcadConversionResult_html_a2423d3f0d01e0a33c40dce9c41542c3c"><div class="ttname"><a href="structEasyKiConverter_1_1PcadConversionResult.html#a2423d3f0d01e0a33c40dce9c41542c3c">EasyKiConverter::PcadConversionResult::board</a></div><div class="ttdeci">IR::BoardIR board</div><div class="ttdoc">转换得到的板级图形。</div><div class="ttdef"><b>Definition</b> <a href="PcadAdapter_8h_source.html#l00019">PcadAdapter.h:19</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1PcadConversionResult_html_ac090bbc92ed5f693c9ade83f4893505a"><div class="ttname"><a href="structEasyKiConverter_1_1PcadConversionResult.html#ac090bbc92ed5f693c9ade83f4893505a">EasyKiConverter::PcadConversionResult::footprints</a></div><div class="ttdeci">QList&lt; IR::FootprintComponentIR &gt; footprints</div><div class="ttdoc">转换得到的封装定义。</div><div class="ttdef"><b>Definition</b> <a href="PcadAdapter_8h_source.html#l00017">PcadAdapter.h:17</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1PcadConversionResult_html_ac519cef53f640d7a565277bd8fd07f24"><div class="ttname"><a href="structEasyKiConverter_1_1PcadConversionResult.html#ac519cef53f640d7a565277bd8fd07f24">EasyKiConverter::PcadConversionResult::placements</a></div><div class="ttdeci">QList&lt; IR::FootprintPlacementIR &gt; placements</div><div class="ttdoc">转换得到的板级器件放置。</div><div class="ttdef"><b>Definition</b> <a href="PcadAdapter_8h_source.html#l00018">PcadAdapter.h:18</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_2f4391cbcf3f84fd3f052b4b7fcd9950.html">pcad</a></li><li class="navelem"><a class="el" href="PcadAdapter_8h.html">PcadAdapter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

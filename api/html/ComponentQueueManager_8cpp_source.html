@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentQueueManager.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentQueueManager_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentQueueManager.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentQueueManager_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentQueueManager_8h.html">ComponentQueueManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="}">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a6d4435f4b0a792d12678d7b690e57d2f">   12</a></span><a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a6d4435f4b0a792d12678d7b690e57d2f">ComponentQueueManager::ComponentQueueManager</a>(<span class="keywordtype">int</span> maxConcurrent, QObject* parent)</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    : QObject(parent)</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    , m_maxConcurrentRequests(maxConcurrent)</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    , m_checkTimer(new QTimer(this))</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    , m_totalTimer(new QTimer(this))</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    , m_isRunning(false) {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;setSingleShot(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;setInterval(<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a6359158fdd2a771108b23ff769b41d1f">QUEUE_CHECK_INTERVAL_MS</a>);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    connect(<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>, &amp;QTimer::timeout, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a764f0bcbc55cf4474aa8671ec64e7600">ComponentQueueManager::onCheckTimeout</a>);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a52064413cdca612a1fae363c0b3f3050">m_totalTimer</a>-&gt;setSingleShot(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a52064413cdca612a1fae363c0b3f3050">m_totalTimer</a>-&gt;setInterval(<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a75246ecc66cdf1fc228938b765ae87a2">TOTAL_TIMEOUT_MS</a>);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    connect(<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a52064413cdca612a1fae363c0b3f3050">m_totalTimer</a>, &amp;QTimer::timeout, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a720e86192030dcd7a81d23932d1fd634">ComponentQueueManager::onTotalTimeout</a>);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
+</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00030" data-start="{" data-end="}">
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a6762f5754c697e71c1c1b046ff9d5533">   30</a></span><a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a6762f5754c697e71c1c1b046ff9d5533">ComponentQueueManager::~ComponentQueueManager</a>() {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">stop</a>();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
+</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="}">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a3ce2c2dc18754d4f6c15b00d44e0fe97">   38</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a3ce2c2dc18754d4f6c15b00d44e0fe97">ComponentQueueManager::start</a>(<span class="keyword">const</span> QStringList&amp; componentIds) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4">m_isRunning</a>) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: Already running, ignoring new request&quot;</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: Starting with&quot;</span> &lt;&lt; componentIds.size()</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>             &lt;&lt; <span class="stringliteral">&quot;components, max concurrent:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">m_maxConcurrentRequests</a>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">m_requestQueue</a> = componentIds;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.clear();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4">m_isRunning</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a52064413cdca612a1fae363c0b3f3050">m_totalTimer</a>-&gt;start();</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;start();</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a9cbb87c0cf56d3db5322651b7ec35af7">checkAndProcessNext</a>();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">   60</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">ComponentQueueManager::stop</a>() {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4">m_isRunning</a>) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: Stopping&quot;</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;stop();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a52064413cdca612a1fae363c0b3f3050">m_totalTimer</a>-&gt;stop();</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">m_requestQueue</a>.clear();</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.clear();</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4">m_isRunning</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>}</div>
+</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="foldopen" id="foldopen00079" data-start="{" data-end="}">
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a299adad555c987eaac258e45356b1ab9">   79</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a299adad555c987eaac258e45356b1ab9">ComponentQueueManager::setMaxConcurrentRequests</a>(<span class="keywordtype">int</span> maxConcurrent) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">if</span> (maxConcurrent &lt;= 0) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">m_maxConcurrentRequests</a> != maxConcurrent) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">m_maxConcurrentRequests</a> = maxConcurrent;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: Max concurrent requests set to&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">m_maxConcurrentRequests</a>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}</div>
+</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="foldopen" id="foldopen00092" data-start="{" data-end="}">
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a9cbb87c0cf56d3db5322651b7ec35af7">   92</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a9cbb87c0cf56d3db5322651b7ec35af7">ComponentQueueManager::checkAndProcessNext</a>() {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4">m_isRunning</a>) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;stop();</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordtype">int</span> activeCount = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.size();  <span class="comment">// 当前正在处理的请求数量。</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="comment">// 如果所有槽位都满了，启用定时器作为安全网（防止某些请求完成但信号未触发的情况）</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="comment">// 否则禁用定时器（正常情况下 requestCompleted 会直接触发处理）</span></div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordflow">if</span> (activeCount &gt;= <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">m_maxConcurrentRequests</a> &amp;&amp; !<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">m_requestQueue</a>.isEmpty()) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;isActive()) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;start();</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;stop();</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="keywordflow">while</span> (activeCount &lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">m_maxConcurrentRequests</a> &amp;&amp; !<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">m_requestQueue</a>.isEmpty()) {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        QString componentId = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">m_requestQueue</a>.takeFirst();  <span class="comment">// 从队首取出的元器件编号。</span></div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.contains(componentId)) {</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Component&quot;</span> &lt;&lt; componentId &lt;&lt; <span class="stringliteral">&quot;already pending, skipping&quot;</span>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        }</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.insert(componentId);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        activeCount++;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: Request ready for:&quot;</span> &lt;&lt; componentId &lt;&lt; <span class="stringliteral">&quot;(Active:&quot;</span> &lt;&lt; activeCount &lt;&lt; <span class="stringliteral">&quot;/&quot;</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>                 &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">m_maxConcurrentRequests</a> &lt;&lt; <span class="stringliteral">&quot;Remaining:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">m_requestQueue</a>.size() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#ac9e1492bddcee71626dcb9d7bdafdcb3">requestReady</a>(componentId);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    }</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">m_requestQueue</a>.isEmpty() &amp;&amp; activeCount == 0) {</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: All components processed. Queue empty.&quot;</span>;</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">m_checkTimer</a>-&gt;stop();</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#ad1baae5efca98bad06b3146f5a1fd6d3">queueEmpty</a>();</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>        <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">stop</a>();</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    }</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>}</div>
+</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
+<div class="foldopen" id="foldopen00138" data-start="{" data-end="}">
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a9f6c7b38ca87af48b509d9d3e1715562">  138</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a9f6c7b38ca87af48b509d9d3e1715562">ComponentQueueManager::reset</a>() {</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">stop</a>();</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>}</div>
+</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="foldopen" id="foldopen00146" data-start="{" data-end="}">
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a3aadbabdaac0680f73288f53467a0c2a">  146</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a3aadbabdaac0680f73288f53467a0c2a">ComponentQueueManager::requestCompleted</a>(<span class="keyword">const</span> QString&amp; componentId) {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4">m_isRunning</a>) {</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    }</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span> </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.remove(componentId);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: Request completed for:&quot;</span> &lt;&lt; componentId</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>             &lt;&lt; <span class="stringliteral">&quot;(Remaining active:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.size() &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a9cbb87c0cf56d3db5322651b7ec35af7">checkAndProcessNext</a>();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>}</div>
+</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="foldopen" id="foldopen00162" data-start="{" data-end="}">
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a951025628dbf45b97d4c9e35c9bb1759">  162</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a951025628dbf45b97d4c9e35c9bb1759">ComponentQueueManager::activeRequestCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.size();</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>}</div>
+</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span> </div>
+<div class="foldopen" id="foldopen00170" data-start="{" data-end="}">
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a85d75fcb98e66076c4c504ae40c20558">  170</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a85d75fcb98e66076c4c504ae40c20558">ComponentQueueManager::isRunning</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4">m_isRunning</a>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>}</div>
+</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="foldopen" id="foldopen00178" data-start="{" data-end="}">
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a18564f2e49bdad1cf1d1b68cb8558bae">  178</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a18564f2e49bdad1cf1d1b68cb8558bae">ComponentQueueManager::maxConcurrentRequests</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">m_maxConcurrentRequests</a>;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>}</div>
+</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span> </div>
+<div class="foldopen" id="foldopen00185" data-start="{" data-end="}">
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a764f0bcbc55cf4474aa8671ec64e7600">  185</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a764f0bcbc55cf4474aa8671ec64e7600">ComponentQueueManager::onCheckTimeout</a>() {</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a9cbb87c0cf56d3db5322651b7ec35af7">checkAndProcessNext</a>();</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>}</div>
+</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="foldopen" id="foldopen00192" data-start="{" data-end="}">
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentQueueManager.html#a720e86192030dcd7a81d23932d1fd634">  192</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a720e86192030dcd7a81d23932d1fd634">ComponentQueueManager::onTotalTimeout</a>() {</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    qWarning() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: Queue timeout reached after&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#a75246ecc66cdf1fc228938b765ae87a2">TOTAL_TIMEOUT_MS</a> &lt;&lt; <span class="stringliteral">&quot;ms&quot;</span>;</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    qWarning() &lt;&lt; <span class="stringliteral">&quot;ComponentQueueManager: Pending:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">m_pendingComponents</a>.size()</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>               &lt;&lt; <span class="stringliteral">&quot;Remaining in queue:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">m_requestQueue</a>.size();</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#aec502b223dacf003e956d864408ecd09">timeout</a>();</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">stop</a>();</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>}</div>
+</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentQueueManager_8h_html"><div class="ttname"><a href="ComponentQueueManager_8h.html">ComponentQueueManager.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a18564f2e49bdad1cf1d1b68cb8558bae"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a18564f2e49bdad1cf1d1b68cb8558bae">EasyKiConverter::ComponentQueueManager::maxConcurrentRequests</a></div><div class="ttdeci">int maxConcurrentRequests() const</div><div class="ttdoc">返回最大并发请求数。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00178">ComponentQueueManager.cpp:178</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a1e055ffd85f691976415403fe88aec0b"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a1e055ffd85f691976415403fe88aec0b">EasyKiConverter::ComponentQueueManager::m_checkTimer</a></div><div class="ttdeci">QTimer * m_checkTimer</div><div class="ttdoc">更新检查定时器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8h_source.html#l00046">ComponentQueueManager.h:46</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a299adad555c987eaac258e45356b1ab9"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a299adad555c987eaac258e45356b1ab9">EasyKiConverter::ComponentQueueManager::setMaxConcurrentRequests</a></div><div class="ttdeci">void setMaxConcurrentRequests(int maxConcurrent)</div><div class="ttdoc">设置最大并发请求数。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00079">ComponentQueueManager.cpp:79</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a3aadbabdaac0680f73288f53467a0c2a"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a3aadbabdaac0680f73288f53467a0c2a">EasyKiConverter::ComponentQueueManager::requestCompleted</a></div><div class="ttdeci">void requestCompleted(const QString &amp;componentId)</div><div class="ttdoc">标记一个元器件请求已完成并继续调度队列。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00146">ComponentQueueManager.cpp:146</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a3ce2c2dc18754d4f6c15b00d44e0fe97"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a3ce2c2dc18754d4f6c15b00d44e0fe97">EasyKiConverter::ComponentQueueManager::start</a></div><div class="ttdeci">void start(const QStringList &amp;componentIds)</div><div class="ttdoc">启动元器件请求队列。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00038">ComponentQueueManager.cpp:38</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a4f8e6ae1f6a1fd8d0083c823253f12b6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a4f8e6ae1f6a1fd8d0083c823253f12b6">EasyKiConverter::ComponentQueueManager::m_maxConcurrentRequests</a></div><div class="ttdeci">int m_maxConcurrentRequests</div><div class="ttdoc">最大并发请求数。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8h_source.html#l00045">ComponentQueueManager.h:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a52064413cdca612a1fae363c0b3f3050"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a52064413cdca612a1fae363c0b3f3050">EasyKiConverter::ComponentQueueManager::m_totalTimer</a></div><div class="ttdeci">QTimer * m_totalTimer</div><div class="ttdoc">更新检查总计时器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8h_source.html#l00047">ComponentQueueManager.h:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a6359158fdd2a771108b23ff769b41d1f"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a6359158fdd2a771108b23ff769b41d1f">EasyKiConverter::ComponentQueueManager::QUEUE_CHECK_INTERVAL_MS</a></div><div class="ttdeci">static const int QUEUE_CHECK_INTERVAL_MS</div><div class="ttdoc">队列检查间隔（毫秒）。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8h_source.html#l00029">ComponentQueueManager.h:29</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a6762f5754c697e71c1c1b046ff9d5533"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a6762f5754c697e71c1c1b046ff9d5533">EasyKiConverter::ComponentQueueManager::~ComponentQueueManager</a></div><div class="ttdeci">~ComponentQueueManager() override</div><div class="ttdoc">销毁元器件请求队列管理器并停止队列。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00030">ComponentQueueManager.cpp:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a6d4435f4b0a792d12678d7b690e57d2f"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a6d4435f4b0a792d12678d7b690e57d2f">EasyKiConverter::ComponentQueueManager::ComponentQueueManager</a></div><div class="ttdeci">ComponentQueueManager(int maxConcurrent=5, QObject *parent=nullptr)</div><div class="ttdoc">创建元器件请求队列管理器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00012">ComponentQueueManager.cpp:12</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a720e86192030dcd7a81d23932d1fd634"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a720e86192030dcd7a81d23932d1fd634">EasyKiConverter::ComponentQueueManager::onTotalTimeout</a></div><div class="ttdeci">void onTotalTimeout()</div><div class="ttdoc">处理队列总超时并停止队列。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00192">ComponentQueueManager.cpp:192</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a75246ecc66cdf1fc228938b765ae87a2"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a75246ecc66cdf1fc228938b765ae87a2">EasyKiConverter::ComponentQueueManager::TOTAL_TIMEOUT_MS</a></div><div class="ttdeci">static const int TOTAL_TIMEOUT_MS</div><div class="ttdoc">队列整体超时时间（毫秒）。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8h_source.html#l00030">ComponentQueueManager.h:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a764f0bcbc55cf4474aa8671ec64e7600"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a764f0bcbc55cf4474aa8671ec64e7600">EasyKiConverter::ComponentQueueManager::onCheckTimeout</a></div><div class="ttdeci">void onCheckTimeout()</div><div class="ttdoc">处理队列检查定时器超时。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00185">ComponentQueueManager.cpp:185</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a85d75fcb98e66076c4c504ae40c20558"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a85d75fcb98e66076c4c504ae40c20558">EasyKiConverter::ComponentQueueManager::isRunning</a></div><div class="ttdeci">bool isRunning() const</div><div class="ttdoc">返回队列是否正在运行。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00170">ComponentQueueManager.cpp:170</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a8e977702c52b7459312e822366ebada4"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a8e977702c52b7459312e822366ebada4">EasyKiConverter::ComponentQueueManager::m_isRunning</a></div><div class="ttdeci">bool m_isRunning</div><div class="ttdoc">服务运行状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8h_source.html#l00048">ComponentQueueManager.h:48</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a951025628dbf45b97d4c9e35c9bb1759"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a951025628dbf45b97d4c9e35c9bb1759">EasyKiConverter::ComponentQueueManager::activeRequestCount</a></div><div class="ttdeci">int activeRequestCount() const</div><div class="ttdoc">返回当前活动请求数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00162">ComponentQueueManager.cpp:162</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a9cbb87c0cf56d3db5322651b7ec35af7"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a9cbb87c0cf56d3db5322651b7ec35af7">EasyKiConverter::ComponentQueueManager::checkAndProcessNext</a></div><div class="ttdeci">void checkAndProcessNext()</div><div class="ttdoc">根据可用并发槽位发出下一批请求。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00092">ComponentQueueManager.cpp:92</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a9f6c7b38ca87af48b509d9d3e1715562"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a9f6c7b38ca87af48b509d9d3e1715562">EasyKiConverter::ComponentQueueManager::reset</a></div><div class="ttdeci">void reset()</div><div class="ttdoc">重置队列状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00138">ComponentQueueManager.cpp:138</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_aa4d2857e7b8faa843178da58feb1ef63"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">EasyKiConverter::ComponentQueueManager::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">停止队列并清理未开始的请求。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00060">ComponentQueueManager.cpp:60</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_ac9e1492bddcee71626dcb9d7bdafdcb3"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#ac9e1492bddcee71626dcb9d7bdafdcb3">EasyKiConverter::ComponentQueueManager::requestReady</a></div><div class="ttdeci">void requestReady(const QString &amp;componentId)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_acc35da4fc02d010f0c3f23a95e8dba1e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#acc35da4fc02d010f0c3f23a95e8dba1e">EasyKiConverter::ComponentQueueManager::m_requestQueue</a></div><div class="ttdeci">QStringList m_requestQueue</div><div class="ttdoc">队列。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8h_source.html#l00043">ComponentQueueManager.h:43</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_ad1baae5efca98bad06b3146f5a1fd6d3"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#ad1baae5efca98bad06b3146f5a1fd6d3">EasyKiConverter::ComponentQueueManager::queueEmpty</a></div><div class="ttdeci">void queueEmpty()</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_add558dc1d20e18a018c447f81d7ab391"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#add558dc1d20e18a018c447f81d7ab391">EasyKiConverter::ComponentQueueManager::m_pendingComponents</a></div><div class="ttdeci">QSet&lt; QString &gt; m_pendingComponents</div><div class="ttdoc">待处理元器件集合。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8h_source.html#l00044">ComponentQueueManager.h:44</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_aec502b223dacf003e956d864408ecd09"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#aec502b223dacf003e956d864408ecd09">EasyKiConverter::ComponentQueueManager::timeout</a></div><div class="ttdeci">void timeout()</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentQueueManager_8cpp.html">ComponentQueueManager.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

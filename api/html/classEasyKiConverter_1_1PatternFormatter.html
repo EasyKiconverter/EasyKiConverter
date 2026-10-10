@@ -1,0 +1,592 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::PatternFormatter类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1PatternFormatter.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="#pri-static-attribs">静态 Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1PatternFormatter-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::PatternFormatter类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>模式格式化器  
+ <a href="classEasyKiConverter_1_1PatternFormatter.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::PatternFormatter 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1PatternFormatter__inherit__graph.svg" width="210" height="444"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::PatternFormatter 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1PatternFormatter__coll__graph.svg" width="210" height="444"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a396356789897ab7910c7179ca3b363aa" id="r_a396356789897ab7910c7179ca3b363aa"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a396356789897ab7910c7179ca3b363aa">PatternFormatter</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a0ac06ae2881df157974aeecf089b7bbc">pattern</a>=<a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a63bcf6be665c39a79a47dccec4955711">defaultPattern</a>())</td></tr>
+<tr class="memdesc:a396356789897ab7910c7179ca3b363aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a396356789897ab7910c7179ca3b363aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98272253ae17cdc9197960f674c39b86" id="r_a98272253ae17cdc9197960f674c39b86"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a98272253ae17cdc9197960f674c39b86">format</a> (const <a class="el" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a> &amp;record) override</td></tr>
+<tr class="memdesc:a98272253ae17cdc9197960f674c39b86"><td class="mdescLeft">&#160;</td><td class="mdescRight">格式化日志记录  <br /></td></tr>
+<tr class="separator:a98272253ae17cdc9197960f674c39b86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3450d2fe8ca3f844d852ba9cf17cded" id="r_aa3450d2fe8ca3f844d852ba9cf17cded"><td class="memItemLeft" align="right" valign="top">QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1IFormatter.html">IFormatter</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#aa3450d2fe8ca3f844d852ba9cf17cded">clone</a> () const override</td></tr>
+<tr class="memdesc:aa3450d2fe8ca3f844d852ba9cf17cded"><td class="mdescLeft">&#160;</td><td class="mdescRight">克隆格式化器  <br /></td></tr>
+<tr class="separator:aa3450d2fe8ca3f844d852ba9cf17cded"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7be5d6ac1d32209368fec86c3ca6dc8a" id="r_a7be5d6ac1d32209368fec86c3ca6dc8a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a7be5d6ac1d32209368fec86c3ca6dc8a">setPattern</a> (const QString &amp;<a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a0ac06ae2881df157974aeecf089b7bbc">pattern</a>)</td></tr>
+<tr class="memdesc:a7be5d6ac1d32209368fec86c3ca6dc8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置格式化模式  <br /></td></tr>
+<tr class="separator:a7be5d6ac1d32209368fec86c3ca6dc8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0ac06ae2881df157974aeecf089b7bbc" id="r_a0ac06ae2881df157974aeecf089b7bbc"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a0ac06ae2881df157974aeecf089b7bbc">pattern</a> () const</td></tr>
+<tr class="memdesc:a0ac06ae2881df157974aeecf089b7bbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取当前格式化模式  <br /></td></tr>
+<tr class="separator:a0ac06ae2881df157974aeecf089b7bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classEasyKiConverter_1_1IFormatter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classEasyKiConverter_1_1IFormatter')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1IFormatter.html">EasyKiConverter::IFormatter</a></td></tr>
+<tr class="memitem:a2062f6e08bc50e3cce2260abd8d6bf1a inherit pub_methods_classEasyKiConverter_1_1IFormatter" id="r_a2062f6e08bc50e3cce2260abd8d6bf1a"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IFormatter.html#a2062f6e08bc50e3cce2260abd8d6bf1a">~IFormatter</a> ()=default</td></tr>
+<tr class="separator:a2062f6e08bc50e3cce2260abd8d6bf1a inherit pub_methods_classEasyKiConverter_1_1IFormatter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89488ee8d257562230fdc0c38ffc0e15 inherit pub_methods_classEasyKiConverter_1_1IFormatter" id="r_a89488ee8d257562230fdc0c38ffc0e15"><td class="memItemLeft" align="right" valign="top">virtual QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IFormatter.html#a89488ee8d257562230fdc0c38ffc0e15">header</a> () const</td></tr>
+<tr class="memdesc:a89488ee8d257562230fdc0c38ffc0e15 inherit pub_methods_classEasyKiConverter_1_1IFormatter"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取格式化器头部（如文件头信息）  <br /></td></tr>
+<tr class="separator:a89488ee8d257562230fdc0c38ffc0e15 inherit pub_methods_classEasyKiConverter_1_1IFormatter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a63bcf6be665c39a79a47dccec4955711" id="r_a63bcf6be665c39a79a47dccec4955711"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a63bcf6be665c39a79a47dccec4955711">defaultPattern</a> ()</td></tr>
+<tr class="memdesc:a63bcf6be665c39a79a47dccec4955711"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取默认模式  <br /></td></tr>
+<tr class="separator:a63bcf6be665c39a79a47dccec4955711"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a977ef5397f9d9321dad1c1c544c03d23" id="r_a977ef5397f9d9321dad1c1c544c03d23"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a977ef5397f9d9321dad1c1c544c03d23">simplePattern</a> ()</td></tr>
+<tr class="memdesc:a977ef5397f9d9321dad1c1c544c03d23"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取简单模式（不含文件位置）  <br /></td></tr>
+<tr class="separator:a977ef5397f9d9321dad1c1c544c03d23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada2ed9aea677f086271b623124ab4d17" id="r_ada2ed9aea677f086271b623124ab4d17"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#ada2ed9aea677f086271b623124ab4d17">verbosePattern</a> ()</td></tr>
+<tr class="memdesc:ada2ed9aea677f086271b623124ab4d17"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取详细模式（包含函数名）  <br /></td></tr>
+<tr class="separator:ada2ed9aea677f086271b623124ab4d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:aa9307f44af70af1372043fd633a57229" id="r_aa9307f44af70af1372043fd633a57229"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#aa9307f44af70af1372043fd633a57229">replacePlaceholder</a> (const QString &amp;placeholder, const <a class="el" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a> &amp;record) const</td></tr>
+<tr class="memdesc:aa9307f44af70af1372043fd633a57229"><td class="mdescLeft">&#160;</td><td class="mdescRight">替换单个占位符  <br /></td></tr>
+<tr class="separator:aa9307f44af70af1372043fd633a57229"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aee6d65880ef694c571d0a853a8f31a57" id="r_aee6d65880ef694c571d0a853a8f31a57"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#aee6d65880ef694c571d0a853a8f31a57">m_pattern</a></td></tr>
+<tr class="memdesc:aee6d65880ef694c571d0a853a8f31a57"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前日志格式模式。  <br /></td></tr>
+<tr class="separator:aee6d65880ef694c571d0a853a8f31a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-attribs" name="pri-static-attribs"></a>
+静态 Private 属性</h2></td></tr>
+<tr class="memitem:aaad9d00590b01c2df05a39ac66365bac" id="r_aaad9d00590b01c2df05a39ac66365bac"><td class="memItemLeft" align="right" valign="top">static const QRegularExpression&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#aaad9d00590b01c2df05a39ac66365bac">s_placeholderRegex</a></td></tr>
+<tr class="memdesc:aaad9d00590b01c2df05a39ac66365bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">日志占位符匹配表达式。  <br /></td></tr>
+<tr class="separator:aaad9d00590b01c2df05a39ac66365bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>模式格式化器 </p>
+<p>支持占位符的日志格式化器：</p><ul>
+<li>%{timestamp} - 时间戳 (2024-01-15 10:30:45.123)</li>
+<li>%{time} - 时间 (10:30:45.123)</li>
+<li>%{date} - 日期 (2024-01-15)</li>
+<li>%{level} - 日志级别 (DEBUG/WARN/ERROR)</li>
+<li>%{module} - 模块名 (Network/Export)</li>
+<li>%{thread} - 线程 ID</li>
+<li>%{threadname} - 线程名称</li>
+<li>%{file} - 文件名（含路径）</li>
+<li>%{shortfile} - 简化文件名（不含路径）</li>
+<li>%{line} - 行号</li>
+<li>%{function} - 函数名</li>
+<li>%{message} - 日志消息</li>
+<li>%{newline} - 换行符</li>
+<li>%% - 百分号</li>
+</ul>
+<p>默认模式: "[%{timestamp}] [%{level}] [%{module}] [%{thread}] %{message} (%{shortfile}:%{line})" </p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a> 第 <a class="el" href="PatternFormatter_8h_source.html#l00032">32</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a396356789897ab7910c7179ca3b363aa" name="a396356789897ab7910c7179ca3b363aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a396356789897ab7910c7179ca3b363aa">&#9670;&#160;</a></span>PatternFormatter()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::PatternFormatter::PatternFormatter </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>pattern</em> = <code><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html#a63bcf6be665c39a79a47dccec4955711">defaultPattern</a>()</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<p>使用指定日志格式创建模式格式化器。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pattern</td><td>格式化模式 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8cpp_source.html">PatternFormatter.cpp</a> 第 <a class="el" href="PatternFormatter_8cpp_source.html#l00016">16</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aa3450d2fe8ca3f844d852ba9cf17cded" name="aa3450d2fe8ca3f844d852ba9cf17cded"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3450d2fe8ca3f844d852ba9cf17cded">&#9670;&#160;</a></span>clone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QSharedPointer&lt; <a class="el" href="classEasyKiConverter_1_1IFormatter.html">IFormatter</a> &gt; EasyKiConverter::PatternFormatter::clone </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>克隆格式化器 </p>
+<p>创建当前格式化器的独立副本。 </p>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IFormatter.html#abbbdbe975d33af18cc5591a34d476937">EasyKiConverter::IFormatter</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8cpp_source.html">PatternFormatter.cpp</a> 第 <a class="el" href="PatternFormatter_8cpp_source.html#l00052">52</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="PatternFormatter_8h_source.html#l00087">m_pattern</a>.</p>
+
+</div>
+</div>
+<a id="a63bcf6be665c39a79a47dccec4955711" name="a63bcf6be665c39a79a47dccec4955711"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a63bcf6be665c39a79a47dccec4955711">&#9670;&#160;</a></span>defaultPattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static QString EasyKiConverter::PatternFormatter::defaultPattern </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取默认模式 </p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a> 第 <a class="el" href="PatternFormatter_8h_source.html#l00067">67</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a98272253ae17cdc9197960f674c39b86" name="a98272253ae17cdc9197960f674c39b86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98272253ae17cdc9197960f674c39b86">&#9670;&#160;</a></span>format()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::PatternFormatter::format </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a> &amp;&#160;</td>
+          <td class="paramname"><em>record</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>格式化日志记录 </p>
+<p>按当前模式替换日志记录中的占位符。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">record</td><td>日志记录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 待替换占位符的格式化结果。</p>
+<p>&lt; 占位符匹配迭代器。</p>
+<p>&lt; 已处理的完整占位符集合。</p>
+<p>&lt; 当前占位符匹配结果。</p>
+<p>&lt; 当前占位符名称。</p>
+<p>&lt; 当前占位符的完整文本。</p>
+<p>&lt; 当前占位符的替换文本。</p>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IFormatter.html#ac5c334050e1b9bdbae2d70ff3f32c61d">EasyKiConverter::IFormatter</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8cpp_source.html">PatternFormatter.cpp</a> 第 <a class="el" href="PatternFormatter_8cpp_source.html#l00022">22</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="PatternFormatter_8h_source.html#l00087">m_pattern</a>, <a class="el" href="PatternFormatter_8cpp_source.html#l00069">replacePlaceholder()</a> , 以及 <a class="el" href="PatternFormatter_8h_source.html#l00090">s_placeholderRegex</a>.</p>
+
+</div>
+</div>
+<a id="a0ac06ae2881df157974aeecf089b7bbc" name="a0ac06ae2881df157974aeecf089b7bbc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0ac06ae2881df157974aeecf089b7bbc">&#9670;&#160;</a></span>pattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::PatternFormatter::pattern </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取当前格式化模式 </p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a> 第 <a class="el" href="PatternFormatter_8h_source.html#l00060">60</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="PatternFormatter_8h_source.html#l00087">m_pattern</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="PatternFormatter_8cpp_source.html#l00060">setPattern()</a>.</p>
+
+</div>
+</div>
+<a id="aa9307f44af70af1372043fd633a57229" name="aa9307f44af70af1372043fd633a57229"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9307f44af70af1372043fd633a57229">&#9670;&#160;</a></span>replacePlaceholder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::PatternFormatter::replacePlaceholder </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>placeholder</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1LogRecord.html">LogRecord</a> &amp;&#160;</td>
+          <td class="paramname"><em>record</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>替换单个占位符 </p>
+<p>将单个日志占位符转换为对应的记录字段文本。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">placeholder</td><td>占位符名称。 </td></tr>
+    <tr><td class="paramname">record</td><td>日志记录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8cpp_source.html">PatternFormatter.cpp</a> 第 <a class="el" href="PatternFormatter_8cpp_source.html#l00069">69</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LogRecord_8h_source.html#l00022">EasyKiConverter::LogRecord::fileName</a>, <a class="el" href="LogRecord_8h_source.html#l00032">EasyKiConverter::LogRecord::formattedTimestamp()</a>, <a class="el" href="LogRecord_8h_source.html#l00023">EasyKiConverter::LogRecord::functionName</a>, <a class="el" href="LogRecord_8h_source.html#l00019">EasyKiConverter::LogRecord::level</a>, <a class="el" href="LogRecord_8h_source.html#l00024">EasyKiConverter::LogRecord::line</a>, <a class="el" href="LogLevel_8h_source.html#l00027">EasyKiConverter::logLevelToString()</a>, <a class="el" href="LogModule_8h_source.html#l00067">EasyKiConverter::logModuleToString()</a>, <a class="el" href="LogRecord_8h_source.html#l00021">EasyKiConverter::LogRecord::message</a>, <a class="el" href="LogRecord_8h_source.html#l00039">EasyKiConverter::LogRecord::shortFileName()</a>, <a class="el" href="LogRecord_8h_source.html#l00025">EasyKiConverter::LogRecord::threadId</a>, <a class="el" href="LogRecord_8h_source.html#l00027">EasyKiConverter::LogRecord::threadName</a> , 以及 <a class="el" href="LogRecord_8h_source.html#l00026">EasyKiConverter::LogRecord::timestamp</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="PatternFormatter_8cpp_source.html#l00022">format()</a>.</p>
+
+</div>
+</div>
+<a id="a7be5d6ac1d32209368fec86c3ca6dc8a" name="a7be5d6ac1d32209368fec86c3ca6dc8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7be5d6ac1d32209368fec86c3ca6dc8a">&#9670;&#160;</a></span>setPattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::PatternFormatter::setPattern </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>pattern</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置格式化模式 </p>
+<p>更新日志格式模式。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pattern</td><td>格式化模式。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8cpp_source.html">PatternFormatter.cpp</a> 第 <a class="el" href="PatternFormatter_8cpp_source.html#l00060">60</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="PatternFormatter_8h_source.html#l00087">m_pattern</a> , 以及 <a class="el" href="PatternFormatter_8h_source.html#l00060">pattern()</a>.</p>
+
+</div>
+</div>
+<a id="a977ef5397f9d9321dad1c1c544c03d23" name="a977ef5397f9d9321dad1c1c544c03d23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a977ef5397f9d9321dad1c1c544c03d23">&#9670;&#160;</a></span>simplePattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static QString EasyKiConverter::PatternFormatter::simplePattern </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取简单模式（不含文件位置） </p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a> 第 <a class="el" href="PatternFormatter_8h_source.html#l00074">74</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ada2ed9aea677f086271b623124ab4d17" name="ada2ed9aea677f086271b623124ab4d17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada2ed9aea677f086271b623124ab4d17">&#9670;&#160;</a></span>verbosePattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static QString EasyKiConverter::PatternFormatter::verbosePattern </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取详细模式（包含函数名） </p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a> 第 <a class="el" href="PatternFormatter_8h_source.html#l00081">81</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="aee6d65880ef694c571d0a853a8f31a57" name="aee6d65880ef694c571d0a853a8f31a57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee6d65880ef694c571d0a853a8f31a57">&#9670;&#160;</a></span>m_pattern</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::PatternFormatter::m_pattern</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前日志格式模式。 </p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a> 第 <a class="el" href="PatternFormatter_8h_source.html#l00087">87</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="PatternFormatter_8cpp_source.html#l00052">clone()</a>, <a class="el" href="PatternFormatter_8cpp_source.html#l00022">format()</a>, <a class="el" href="PatternFormatter_8h_source.html#l00060">pattern()</a> , 以及 <a class="el" href="PatternFormatter_8cpp_source.html#l00060">setPattern()</a>.</p>
+
+</div>
+</div>
+<a id="aaad9d00590b01c2df05a39ac66365bac" name="aaad9d00590b01c2df05a39ac66365bac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaad9d00590b01c2df05a39ac66365bac">&#9670;&#160;</a></span>s_placeholderRegex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QRegularExpression EasyKiConverter::PatternFormatter::s_placeholderRegex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>日志占位符匹配表达式。 </p>
+
+<p class="definition">在文件 <a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a> 第 <a class="el" href="PatternFormatter_8h_source.html#l00090">90</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="PatternFormatter_8cpp_source.html#l00022">format()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>utils/logging/<a class="el" href="PatternFormatter_8h_source.html">PatternFormatter.h</a></li>
+<li>utils/logging/<a class="el" href="PatternFormatter_8cpp_source.html">PatternFormatter.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1PatternFormatter.html">PatternFormatter</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

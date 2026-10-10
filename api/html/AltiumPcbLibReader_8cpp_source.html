@@ -1,0 +1,807 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/readers/AltiumPcbLibReader.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumPcbLibReader_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumPcbLibReader.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumPcbLibReader_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumPcbLibReader_8h.html">AltiumPcbLibReader.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumBinaryReader_8h.html">core/altium/utils/AltiumBinaryReader.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumConstants_8h.html">core/altium/utils/AltiumConstants.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keywordtype">int</span> primitiveBlockCount(quint8 objectId) {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="comment">// 不同图元的块布局固定，焊盘和文本包含额外的字符串或扩展块。</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordflow">switch</span> (objectId) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordflow">case</span> <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a8e08c8fd5990ed7cd6ea2eb762bcec43">AltiumConstants::PCB_OBJECT_ARC</a>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordflow">case</span> <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a97433d11578513b2693ae9ba80dde863">AltiumConstants::PCB_OBJECT_VIA</a>:</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">case</span> <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a2288fff0e23e39f69e0939379fc6da65">AltiumConstants::PCB_OBJECT_TRACK</a>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">case</span> <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#aa96f674b265a060d7a705662ec060bed">AltiumConstants::PCB_OBJECT_FILL</a>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">case</span> <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a15acc66422cc4ae71b916aee26996557">AltiumConstants::PCB_OBJECT_REGION</a>:</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordflow">case</span> <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a5e5eda590dc593d9c8198f82a3926c05">AltiumConstants::PCB_OBJECT_COMPONENT_BODY</a>:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keywordflow">case</span> <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#ad416f15cf367307e17cd7b8967b5f103">AltiumConstants::PCB_OBJECT_PAD</a>:</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <span class="keywordflow">return</span> 6;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">case</span> <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#af952feaa7708f21689a7e9db72b00c90">AltiumConstants::PCB_OBJECT_TEXT</a>:</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            <span class="keywordflow">return</span> 2;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="keywordtype">bool</span> readStringBlockPayload(<span class="keyword">const</span> QByteArray&amp; payload, QString* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    uint8_t stringSize = 0;  <span class="comment">// 字符串字节数。</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    QByteArray stringData;  <span class="comment">// 字符串原始字节。</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">if</span> (!reader.readUInt8(&amp;stringSize) || !reader.readBytes(stringSize, &amp;stringData) || reader.remaining() != 0)</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = QString::fromLatin1(stringData);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span><span class="keywordtype">bool</span> isStringBlockPayload(<span class="keyword">const</span> QByteArray&amp; payload) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">return</span> readStringBlockPayload(payload, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span><span class="keywordtype">bool</span> readWideStringIndices(<span class="keyword">const</span> QByteArray&amp; data, QSet&lt;quint32&gt;* indices) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">if</span> (indices == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    indices-&gt;clear();</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    AltiumBinaryReader reader(data);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    QMap&lt;QString, QString&gt; parameters;  <span class="comment">// 参数块键值表。</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">if</span> (!reader.readCStringParameterBlock(&amp;parameters) || reader.hasError() || reader.remaining() != 0)</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = parameters.cbegin(); it != parameters.cend(); ++it) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordflow">if</span> (!it.key().startsWith(QStringLiteral(<span class="stringliteral">&quot;ENCODEDTEXT&quot;</span>)))</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keyword">const</span> QString suffix = it.key().mid(QStringLiteral(<span class="stringliteral">&quot;ENCODEDTEXT&quot;</span>).size());  <span class="comment">// 文本索引后缀。</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordtype">bool</span> ok = <span class="keyword">false</span>;  <span class="comment">// 文本索引转换是否成功。</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keyword">const</span> quint32 index = suffix.toUInt(&amp;ok);  <span class="comment">// 解析得到的文本索引。</span></div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">if</span> (!ok || suffix.isEmpty() || indices-&gt;contains(index))</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        indices-&gt;insert(index);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">for</span> (quint32 expected = 0; expected &lt; static_cast&lt;quint32&gt;(indices-&gt;size()); ++expected) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">if</span> (!indices-&gt;contains(expected))</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>}</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span><span class="keywordtype">bool</span> readCommonPrimitiveHeader(AltiumBinaryReader&amp; reader, quint8* layer, quint16* flags) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">if</span> (layer == <span class="keyword">nullptr</span> || flags == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    QByteArray objectIndexes;  <span class="comment">// 公共头部中的保留对象索引字节。</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">return</span> reader.readUInt8(layer) &amp;&amp; reader.readUInt16(flags) &amp;&amp; reader.readBytes(10, &amp;objectIndexes);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>}</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span><span class="keywordtype">bool</span> readCommonPrimitiveHeader(<span class="keyword">const</span> QByteArray&amp; payload, quint8* layer, quint16* flags) {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> readCommonPrimitiveHeader(reader, layer, flags);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span><span class="keywordtype">bool</span> parseTrackFields(<span class="keyword">const</span> QByteArray&amp; payload, AltiumPcbLibReader::TrackFields* fields) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">if</span> (fields == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    quint8 layer = 0;  <span class="comment">// 走线所在层。</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    quint16 flags = 0;  <span class="comment">// 走线公共标志。</span></div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordflow">return</span> readCommonPrimitiveHeader(reader, &amp;layer, &amp;flags) &amp;&amp; reader.readInt32(&amp;fields-&gt;startX) &amp;&amp;</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>           reader.readInt32(&amp;fields-&gt;startY) &amp;&amp; reader.readInt32(&amp;fields-&gt;endX) &amp;&amp; reader.readInt32(&amp;fields-&gt;endY) &amp;&amp;</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>           reader.readInt32(&amp;fields-&gt;width) &amp;&amp; reader.readUInt16(&amp;fields-&gt;netIndex) &amp;&amp;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>           reader.readUInt8(&amp;fields-&gt;componentIndex);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>}</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span><span class="keywordtype">bool</span> parseArcFields(<span class="keyword">const</span> QByteArray&amp; payload, AltiumPcbLibReader::ArcFields* fields) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordflow">if</span> (fields == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    quint8 layer = 0;  <span class="comment">// 弧线所在层。</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    quint16 flags = 0;  <span class="comment">// 弧线公共标志。</span></div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">return</span> readCommonPrimitiveHeader(reader, &amp;layer, &amp;flags) &amp;&amp; reader.readInt32(&amp;fields-&gt;centerX) &amp;&amp;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>           reader.readInt32(&amp;fields-&gt;centerY) &amp;&amp; reader.readInt32(&amp;fields-&gt;radius) &amp;&amp;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>           reader.readDouble(&amp;fields-&gt;startAngle) &amp;&amp; reader.readDouble(&amp;fields-&gt;endAngle) &amp;&amp;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>           reader.readInt32(&amp;fields-&gt;width);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>}</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span><span class="keywordtype">bool</span> parsePadMainFields(<span class="keyword">const</span> QByteArray&amp; payload, AltiumPcbLibReader::PadFields* fields) {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <span class="keywordflow">if</span> (fields == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    quint8 layer = 0;  <span class="comment">// 焊盘所在层。</span></div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    quint16 flags = 0;  <span class="comment">// 焊盘公共标志。</span></div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    QByteArray reserved;  <span class="comment">// 主块中的保留字节。</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordflow">return</span> readCommonPrimitiveHeader(reader, &amp;layer, &amp;flags) &amp;&amp; reader.readInt32(&amp;fields-&gt;locationX) &amp;&amp;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>           reader.readInt32(&amp;fields-&gt;locationY) &amp;&amp; reader.readInt32(&amp;fields-&gt;sizeTopX) &amp;&amp;</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>           reader.readInt32(&amp;fields-&gt;sizeTopY) &amp;&amp; reader.readInt32(&amp;fields-&gt;sizeMidX) &amp;&amp;</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>           reader.readInt32(&amp;fields-&gt;sizeMidY) &amp;&amp; reader.readInt32(&amp;fields-&gt;sizeBotX) &amp;&amp;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>           reader.readInt32(&amp;fields-&gt;sizeBotY) &amp;&amp; reader.readInt32(&amp;fields-&gt;holeSize) &amp;&amp;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>           reader.readUInt8(&amp;fields-&gt;shapeTop) &amp;&amp; reader.readUInt8(&amp;fields-&gt;shapeMid) &amp;&amp;</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>           reader.readUInt8(&amp;fields-&gt;shapeBot) &amp;&amp; reader.readDouble(&amp;fields-&gt;rotation) &amp;&amp;</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>           reader.readUInt8(&amp;fields-&gt;isPlated) &amp;&amp; reader.readUInt8(&amp;fields-&gt;stackMode) &amp;&amp;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>           reader.readUInt8(&amp;fields-&gt;mode) &amp;&amp; reader.readUInt8(&amp;fields-&gt;powerPlaneConnectStyle) &amp;&amp;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>           reader.readInt32(&amp;fields-&gt;reliefAirGapRaw) &amp;&amp; reader.readInt32(&amp;fields-&gt;reliefConductorWidthRaw) &amp;&amp;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>           reader.readInt16(&amp;fields-&gt;reliefEntries) &amp;&amp; reader.readInt32(&amp;fields-&gt;powerPlaneClearanceRaw) &amp;&amp;</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>           reader.readInt32(&amp;fields-&gt;powerPlaneReliefExpansionRaw) &amp;&amp;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>           reader.readInt32(&amp;fields-&gt;pasteMaskExpansionRaw) &amp;&amp; reader.readInt32(&amp;fields-&gt;solderMaskExpansionRaw) &amp;&amp;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>           reader.readBytes(7, &amp;reserved) &amp;&amp; reader.readUInt8(&amp;fields-&gt;pasteMaskExpansionMode) &amp;&amp;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>           reader.readUInt8(&amp;fields-&gt;solderMaskExpansionMode) &amp;&amp; reader.readUInt8(&amp;fields-&gt;drillType) &amp;&amp;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>           reader.readBytes(2, &amp;reserved) &amp;&amp; reader.readBytes(4, &amp;reserved) &amp;&amp; reader.readBytes(2, &amp;reserved) &amp;&amp;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>           reader.readBytes(2, &amp;reserved);</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>}</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="keywordtype">bool</span> parsePadExtendedFields(<span class="keyword">const</span> QByteArray&amp; payload, AltiumPcbLibReader::PadFields* fields) {</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keywordflow">if</span> (fields == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    QByteArray reserved;  <span class="comment">// 扩展块中的保留字节。</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    qint32 reservedInt32 = 0;  <span class="comment">// 扩展块中的保留整数。</span></div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    quint8 reservedByte = 0;  <span class="comment">// 扩展块中的保留字节值。</span></div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 29; ++i) {</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        <span class="keywordflow">if</span> (!reader.readInt32(&amp;reservedInt32))</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    }</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 29; ++i) {</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        <span class="keywordflow">if</span> (!reader.readInt32(&amp;reservedInt32))</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    }</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 29; ++i) {</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="keywordflow">if</span> (!reader.readUInt8(&amp;fields-&gt;extendedShapeMid))</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    }</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    <span class="keywordflow">if</span> (!reader.readUInt8(&amp;reservedByte))</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="keywordflow">if</span> (!reader.readUInt8(&amp;fields-&gt;holeType) || !reader.readInt32(&amp;fields-&gt;holeSlotLengthRaw) ||</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        !reader.readDouble(&amp;fields-&gt;holeRotation) || !reader.readBytes(32 * 4, &amp;reserved) ||</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        !reader.readBytes(32 * 4, &amp;reserved) || !reader.readUInt8(&amp;fields-&gt;hasRoundedRect) ||</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        !reader.readUInt8(&amp;fields-&gt;extendedShapeTop))</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 30; ++i) {</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        <span class="keywordflow">if</span> (!reader.readUInt8(&amp;fields-&gt;extendedShapeMid))</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    }</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keywordflow">if</span> (!reader.readUInt8(&amp;fields-&gt;extendedShapeBottom))</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 32; ++i) {</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>        <span class="keywordflow">if</span> (!reader.readUInt8(&amp;fields-&gt;cornerRadiusPercentage))</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    }</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>}</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="keywordtype">bool</span> readVertexList(AltiumBinaryReader&amp; reader, QVector&lt;QPointF&gt;* vertices) {</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    <span class="keywordflow">if</span> (vertices == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    quint32 count = 0;  <span class="comment">// 顶点数量。</span></div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordflow">if</span> (!reader.readUInt32(&amp;count) || count &gt; <span class="keyword">static_cast&lt;</span>quint32<span class="keyword">&gt;</span>(reader.remaining() / 16))</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    vertices-&gt;clear();</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    vertices-&gt;reserve(<span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(count));</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    <span class="keywordflow">for</span> (quint32 i = 0; i &lt; count; ++i) {</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        <span class="keywordtype">double</span> x = 0.0;  <span class="comment">// 当前顶点 X 坐标。</span></div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        <span class="keywordtype">double</span> y = 0.0;  <span class="comment">// 当前顶点 Y 坐标。</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>        <span class="keywordflow">if</span> (!reader.readDouble(&amp;x) || !reader.readDouble(&amp;y))</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        vertices-&gt;append(QPointF(x, y));</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    }</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    <span class="keywordflow">return</span> reader.remaining() == 0;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>}</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span> </div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span><span class="keywordtype">bool</span> parseFillFields(<span class="keyword">const</span> QByteArray&amp; payload, AltiumPcbLibReader::FillFields* fields) {</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>    <span class="keywordflow">if</span> (fields == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>    quint8 layer = 0;  <span class="comment">// 填充所在层。</span></div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    quint16 flags = 0;  <span class="comment">// 填充公共标志。</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    QByteArray reserved;  <span class="comment">// 填充块中的保留字节。</span></div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    <span class="keywordflow">return</span> readCommonPrimitiveHeader(reader, &amp;layer, &amp;flags) &amp;&amp; reader.readInt32(&amp;fields-&gt;corner1X) &amp;&amp;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>           reader.readInt32(&amp;fields-&gt;corner1Y) &amp;&amp; reader.readInt32(&amp;fields-&gt;corner2X) &amp;&amp;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>           reader.readInt32(&amp;fields-&gt;corner2Y) &amp;&amp; reader.readDouble(&amp;fields-&gt;rotation) &amp;&amp;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>           reader.readInt32(&amp;fields-&gt;solderMaskExpansionRaw) &amp;&amp; reader.readUInt8(&amp;fields-&gt;pasteMaskExpansion) &amp;&amp;</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>           reader.readUInt32(&amp;fields-&gt;v7LayerId) &amp;&amp; reader.readUInt8(&amp;fields-&gt;keepoutRestrictions) &amp;&amp;</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>           reader.readBytes(3, &amp;reserved) &amp;&amp; reader.remaining() == 0;</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>}</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span> </div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span><span class="keywordtype">bool</span> parseRegionFields(<span class="keyword">const</span> QByteArray&amp; payload, AltiumPcbLibReader::RegionFields* fields) {</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    <span class="keywordflow">if</span> (fields == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    quint8 layer = 0;  <span class="comment">// 区域所在层。</span></div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    quint16 flags = 0;  <span class="comment">// 区域公共标志。</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="keywordflow">return</span> readCommonPrimitiveHeader(reader, &amp;layer, &amp;flags) &amp;&amp; reader.readUInt32(&amp;fields-&gt;reserved) &amp;&amp;</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>           reader.readUInt8(&amp;fields-&gt;reservedByte) &amp;&amp; reader.readCStringParameterBlock(&amp;fields-&gt;parameters) &amp;&amp;</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>           readVertexList(reader, &amp;fields-&gt;vertices);</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>}</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span><span class="keywordtype">bool</span> parseComponentBodyFields(<span class="keyword">const</span> QByteArray&amp; payload, AltiumPcbLibReader::ComponentBodyFields* fields) {</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    <span class="keywordflow">if</span> (fields == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>    quint8 layer = 0;  <span class="comment">// 元件体所在层。</span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    quint16 flags = 0;  <span class="comment">// 元件体公共标志。</span></div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>    <span class="keywordflow">return</span> readCommonPrimitiveHeader(reader, &amp;layer, &amp;flags) &amp;&amp; reader.readUInt32(&amp;fields-&gt;reserved) &amp;&amp;</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>           reader.readUInt8(&amp;fields-&gt;reservedByte) &amp;&amp; reader.readCStringParameterBlock(&amp;fields-&gt;parameters) &amp;&amp;</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>           readVertexList(reader, &amp;fields-&gt;outline);</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>}</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span><span class="keywordtype">bool</span> parseTextFields(<span class="keyword">const</span> QByteArray&amp; payload, AltiumPcbLibReader::TextFields* fields) {</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    <span class="keywordflow">if</span> (fields == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>    AltiumBinaryReader reader(payload);</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    quint8 layer = 0;  <span class="comment">// 文本所在层。</span></div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    quint16 flags = 0;  <span class="comment">// 文本公共标志。</span></div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    QByteArray padding;  <span class="comment">// 文本块中的保留字节。</span></div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    <span class="keywordflow">return</span> readCommonPrimitiveHeader(reader, &amp;layer, &amp;flags) &amp;&amp; reader.readInt32(&amp;fields-&gt;locationX) &amp;&amp;</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>           reader.readInt32(&amp;fields-&gt;locationY) &amp;&amp; reader.readInt32(&amp;fields-&gt;height) &amp;&amp;</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>           reader.readInt16(&amp;fields-&gt;fontId) &amp;&amp; reader.readDouble(&amp;fields-&gt;rotation) &amp;&amp;</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>           reader.readUInt8(&amp;fields-&gt;mirrored) &amp;&amp; reader.readInt32(&amp;fields-&gt;strokeWidth) &amp;&amp;</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>           reader.readUInt8(&amp;fields-&gt;isComment) &amp;&amp; reader.readUInt8(&amp;fields-&gt;isDesignator) &amp;&amp;</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>           reader.readUInt8(&amp;fields-&gt;characterSet) &amp;&amp; reader.readUInt8(&amp;fields-&gt;baseFontType) &amp;&amp;</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>           reader.readBytes(71, &amp;padding) &amp;&amp; reader.readUInt32(&amp;fields-&gt;wideStringIndex) &amp;&amp;</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>           reader.readBytes(41, &amp;padding) &amp;&amp; reader.readUInt8(&amp;fields-&gt;kind) &amp;&amp; reader.readBytes(65, &amp;padding) &amp;&amp;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>           reader.readUInt32(&amp;fields-&gt;v7LayerId);</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>}</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span><span class="keywordtype">bool</span> validatePrimitiveFields(<span class="keyword">const</span> AltiumPcbLibReader::PrimitiveRecord&amp; <span class="keywordtype">object</span>, QString* error) {</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    <span class="keyword">auto</span> reject = [error](<span class="keyword">const</span> QString&amp; message) {  <span class="comment">// 记录校验错误并返回失败。</span></div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        <span class="keywordflow">if</span> (error != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>            *error = message;</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    };</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasTrackFields || <span class="keywordtype">object</span>.hasArcFields || <span class="keywordtype">object</span>.hasPadFields || <span class="keywordtype">object</span>.hasFillFields ||</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>        <span class="keywordtype">object</span>.hasRegionFields || <span class="keywordtype">object</span>.hasComponentBodyFields || <span class="keywordtype">object</span>.hasTextFields) {</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>        <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.layer &lt; 1 || object.layer &gt; 74)</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 图元层号必须在 1..74 范围内&quot;</span>));</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    }</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span> </div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasArcFields) {</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.arc.radius &lt;= 0)</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 弧线半径必须为正&quot;</span>));</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.arc.width &lt;= 0)</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 弧线宽度必须为正&quot;</span>));</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>        <span class="keywordflow">if</span> (!std::isfinite(<span class="keywordtype">object</span>.arc.startAngle) || !std::isfinite(<span class="keywordtype">object</span>.arc.endAngle))</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 弧线角度必须为有限值&quot;</span>));</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    }</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasTrackFields &amp;&amp; <span class="keywordtype">object</span>.track.width &lt;= 0)</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 走线宽度必须为正&quot;</span>));</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasPadFields) {</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; pad = <span class="keywordtype">object</span>.pad;  <span class="comment">// 当前焊盘字段。</span></div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        <span class="keyword">const</span> <span class="keyword">auto</span> isValidPadShape = [](quint8 shape) {  <span class="comment">// 检查焊盘形状编码。</span></div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>            <span class="keywordflow">return</span> shape == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#afb794a63697d7465c384c92f522bd337">AltiumConstants::PCB_PAD_SHAPE_ROUND</a> ||</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>                   shape == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a03e35abaffb3b0b2652d2582bde57a7b">AltiumConstants::PCB_PAD_SHAPE_RECTANGULAR</a> ||</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>                   shape == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#ae16ae59d9ffe04e9e50c663aa38f7980">AltiumConstants::PCB_PAD_SHAPE_OCTAGONAL</a> ||</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>                   shape == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#aa3b2abdb2c60ce1817dac3b65a3ac0f3">AltiumConstants::PCB_PAD_SHAPE_ROUNDED_RECT</a>;</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>        };</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>        <span class="keywordflow">if</span> (pad.sizeTopX &lt;= 0 || pad.sizeTopY &lt;= 0 || pad.sizeMidX &lt;= 0 || pad.sizeMidY &lt;= 0 || pad.sizeBotX &lt;= 0 ||</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            pad.sizeBotY &lt;= 0)</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 焊盘尺寸必须为正&quot;</span>));</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        <span class="keywordflow">if</span> (!isValidPadShape(pad.shapeTop) || !isValidPadShape(pad.shapeMid) || !isValidPadShape(pad.shapeBot))</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 焊盘形状无效&quot;</span>));</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>        <span class="keywordflow">if</span> (pad.holeSize &lt; 0 || pad.holeSlotLengthRaw &lt; 0)</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 焊盘孔尺寸不能为负&quot;</span>));</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>        <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.layer == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a72a832174d53da20c76b6f32631d1314">AltiumConstants::PCB_LAYER_MULTI</a> &amp;&amp; pad.holeSize &lt;= 0)</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 通孔焊盘孔径必须为正&quot;</span>));</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>        <span class="keywordflow">if</span> (pad.cornerRadiusPercentage &gt; 100 || pad.mode &gt; 3 || pad.powerPlaneConnectStyle &gt; 2 ||</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>            (pad.reliefEntries != 2 &amp;&amp; pad.reliefEntries != 4) || pad.drillType &gt; 2 || pad.holeType &gt; 2)</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 焊盘扩展属性无效&quot;</span>));</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>        <span class="keywordflow">if</span> (pad.holeType == 2 &amp;&amp; pad.holeSlotLengthRaw &lt;= 0)</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 焊盘槽孔长度必须为正&quot;</span>));</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>        <span class="keywordflow">if</span> (!std::isfinite(pad.rotation) || !std::isfinite(pad.holeRotation))</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 焊盘旋转角度必须为有限值&quot;</span>));</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>    }</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>    <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasFillFields &amp;&amp; !std::isfinite(<span class="keywordtype">object</span>.fill.rotation))</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 填充旋转角度必须为有限值&quot;</span>));</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasTextFields) {</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>        <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.textFields.height &lt;= 0 || <span class="keywordtype">object</span>.textFields.strokeWidth &lt; 0)</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 文本尺寸必须有效&quot;</span>));</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        <span class="keywordflow">if</span> (!std::isfinite(<span class="keywordtype">object</span>.textFields.rotation))</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 文本旋转角度必须为有限值&quot;</span>));</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    }</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>    <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasRegionFields) {</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.region.vertices.size() &lt; 3)</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>            <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 区域至少需要三个顶点&quot;</span>));</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; vertex : object.region.vertices) {</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>            <span class="keywordflow">if</span> (!std::isfinite(vertex.x()) || !std::isfinite(vertex.y()))</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>                <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 区域顶点必须为有限值&quot;</span>));</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>        }</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>    }</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>    <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasComponentBodyFields) {</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; vertex : object.componentBody.outline) {</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>            <span class="keywordflow">if</span> (!std::isfinite(vertex.x()) || !std::isfinite(vertex.y()))</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>                <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 三维元件体轮廓顶点必须为有限值&quot;</span>));</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>        }</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>        <span class="keyword">const</span> <span class="keyword">auto</span>&amp; parameters = <span class="keywordtype">object</span>.componentBody.parameters;  <span class="comment">// 元件体参数表。</span></div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>        <span class="keywordflow">if</span> (parameters.contains(QStringLiteral(<span class="stringliteral">&quot;BODYOPACITY3D&quot;</span>))) {</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>            <span class="keywordtype">bool</span> opacityOk = <span class="keyword">false</span>;  <span class="comment">// 透明度文本转换是否成功。</span></div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>            <span class="keyword">const</span> <span class="keywordtype">double</span> opacity =</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>                parameters.value(QStringLiteral(<span class="stringliteral">&quot;BODYOPACITY3D&quot;</span>)).toDouble(&amp;opacityOk);  <span class="comment">// 透明度值。</span></div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>            <span class="keywordflow">if</span> (!opacityOk || !std::isfinite(opacity) || opacity &lt; 0.0 || opacity &gt; 1.0)</div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>                <span class="keywordflow">return</span> reject(QStringLiteral(<span class="stringliteral">&quot;PcbLib 三维元件体透明度必须在 0..1 范围内&quot;</span>));</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>        }</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>    }</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>}</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span> </div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span> </div>
+<div class="foldopen" id="foldopen00434" data-start="{" data-end="}">
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">  434</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">AltiumPcbLibReader::fail</a>(<span class="keyword">const</span> QString&amp; message) {</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a>.clear();</div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a531856b62b3c9bf58158047641afcfd4">m_fileVersion</a>.clear();</div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">m_libraryMetadata</a>.clear();</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">m_errorMessage</a> = message;</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>}</div>
+</div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span> </div>
+<div class="foldopen" id="foldopen00447" data-start="{" data-end="}">
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af3c574a11cca50ae82572155d0a2b091">  447</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af3c574a11cca50ae82572155d0a2b091">AltiumPcbLibReader::open</a>(<span class="keyword">const</span> QString&amp; filePath) {</div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a>.clear();</div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a531856b62b3c9bf58158047641afcfd4">m_fileVersion</a>.clear();</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">m_libraryMetadata</a>.clear();</div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">m_errorMessage</a>.clear();</div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span> </div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a>.<a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a77debcc67a42b8b3ecb8eef00f5e71b3">open</a>(filePath))</div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a>.<a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#ac47fce96aa6cce35f6cff269a97fe572">errorString</a>());</div>
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span> </div>
+<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>    QByteArray fileHeaderData;  <span class="comment">// FileHeader 流数据。</span></div>
+<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a>.<a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a91c32f8c4fe1ebccc050abeb7cc2404c">readStream</a>(QStringLiteral(<span class="stringliteral">&quot;FileHeader&quot;</span>), &amp;fileHeaderData))</div>
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib 缺少 FileHeader 流&quot;</span>));</div>
+<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>    <a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryReader.html">AltiumBinaryReader</a> fileHeaderReader(fileHeaderData);</div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span>    int32_t versionLength = 0;  <span class="comment">// 版本字符串长度。</span></div>
+<div class="line"><a id="l00461" name="l00461"></a><span class="lineno">  461</span>    <span class="keywordflow">if</span> (!fileHeaderReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#af064a0146be2d1aa1d660078102f33cc">readInt32</a>(&amp;versionLength) || versionLength &lt; 0 || versionLength &gt; 255 ||</div>
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno">  462</span>        !fileHeaderReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a98fb9f9964852698b8c79804462ab263">readPascalShortString</a>(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a531856b62b3c9bf58158047641afcfd4">m_fileVersion</a>) || <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a531856b62b3c9bf58158047641afcfd4">m_fileVersion</a>.toLatin1().size() != versionLength ||</div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>        fileHeaderReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>() != 0)</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib FileHeader 无效&quot;</span>));</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>    QByteArray libraryData;  <span class="comment">// Library/Data 流数据。</span></div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a>.<a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a91c32f8c4fe1ebccc050abeb7cc2404c">readStream</a>(QStringLiteral(<span class="stringliteral">&quot;Library/Data&quot;</span>), &amp;libraryData))</div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib 缺少 Library/Data 流&quot;</span>));</div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span>    <a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryReader.html">AltiumBinaryReader</a> libraryReader(libraryData);</div>
+<div class="line"><a id="l00470" name="l00470"></a><span class="lineno">  470</span>    <span class="keywordflow">if</span> (!libraryReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a608149136d345a6c46286c710afb4a02">readBlock</a>(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">m_libraryMetadata</a>))</div>
+<div class="line"><a id="l00471" name="l00471"></a><span class="lineno">  471</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib Library/Data 元数据块无效: %1&quot;</span>).arg(libraryReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">errorString</a>()));</div>
+<div class="line"><a id="l00472" name="l00472"></a><span class="lineno">  472</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">m_libraryMetadata</a>.isEmpty() &amp;&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">m_libraryMetadata</a>.endsWith(<span class="charliteral">&#39;\0&#39;</span>))</div>
+<div class="line"><a id="l00473" name="l00473"></a><span class="lineno">  473</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">m_libraryMetadata</a>.chop(1);</div>
+<div class="line"><a id="l00474" name="l00474"></a><span class="lineno">  474</span> </div>
+<div class="line"><a id="l00475" name="l00475"></a><span class="lineno">  475</span>    uint32_t componentCount = 0;  <span class="comment">// 库中封装数量。</span></div>
+<div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>    <span class="keywordflow">if</span> (!libraryReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">readUInt32</a>(&amp;componentCount) ||</div>
+<div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span>        componentCount &gt; <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(libraryReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>() / 5))</div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib Library/Data 的封装数量无效&quot;</span>));</div>
+<div class="line"><a id="l00479" name="l00479"></a><span class="lineno">  479</span> </div>
+<div class="line"><a id="l00480" name="l00480"></a><span class="lineno">  480</span>    QVector&lt;QString&gt; names;  <span class="comment">// 封装名称列表。</span></div>
+<div class="line"><a id="l00481" name="l00481"></a><span class="lineno">  481</span>    names.reserve(<span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(componentCount));</div>
+<div class="line"><a id="l00482" name="l00482"></a><span class="lineno">  482</span>    QSet&lt;QString&gt; componentNames;  <span class="comment">// 大小写折叠后的封装名称集合。</span></div>
+<div class="line"><a id="l00483" name="l00483"></a><span class="lineno">  483</span>    <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; componentCount; ++i) {</div>
+<div class="line"><a id="l00484" name="l00484"></a><span class="lineno">  484</span>        QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;  <span class="comment">// 当前封装名称。</span></div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>        <span class="keywordflow">if</span> (!libraryReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ac2f86de3b8ce896e33949f8350a25f04">readStringBlock</a>(&amp;<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) || <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.isEmpty())</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib Library/Data 的封装名称无效&quot;</span>));</div>
+<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span>        <span class="keyword">const</span> QString foldedName = <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.toCaseFolded();  <span class="comment">// 用于重复检查的折叠名称。</span></div>
+<div class="line"><a id="l00488" name="l00488"></a><span class="lineno">  488</span>        <span class="keywordflow">if</span> (componentNames.contains(foldedName))</div>
+<div class="line"><a id="l00489" name="l00489"></a><span class="lineno">  489</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib Library/Data 的封装名称重复: %1&quot;</span>).arg(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>));</div>
+<div class="line"><a id="l00490" name="l00490"></a><span class="lineno">  490</span>        componentNames.insert(foldedName);</div>
+<div class="line"><a id="l00491" name="l00491"></a><span class="lineno">  491</span>        names.append(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00492" name="l00492"></a><span class="lineno">  492</span>    }</div>
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno">  493</span>    <span class="keywordflow">if</span> (libraryReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aab071dc6a3dd94f353b1db218afad1ce">hasError</a>() || libraryReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>() != 0)</div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib Library/Data 末尾包含无效数据&quot;</span>));</div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span> </div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span>    QMap&lt;QString, QString&gt; sectionKeys;  <span class="comment">// 封装名称到 OLE 节名称的映射。</span></div>
+<div class="line"><a id="l00497" name="l00497"></a><span class="lineno">  497</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a>.<a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#af20f43b9cbf7a70d5c6e283ddf128abe">containsStream</a>(QStringLiteral(<span class="stringliteral">&quot;SectionKeys&quot;</span>))) {</div>
+<div class="line"><a id="l00498" name="l00498"></a><span class="lineno">  498</span>        QByteArray sectionKeyData;  <span class="comment">// SectionKeys 流数据。</span></div>
+<div class="line"><a id="l00499" name="l00499"></a><span class="lineno">  499</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a>.<a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a91c32f8c4fe1ebccc050abeb7cc2404c">readStream</a>(QStringLiteral(<span class="stringliteral">&quot;SectionKeys&quot;</span>), &amp;sectionKeyData))</div>
+<div class="line"><a id="l00500" name="l00500"></a><span class="lineno">  500</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;无法读取 PcbLib SectionKeys 流&quot;</span>));</div>
+<div class="line"><a id="l00501" name="l00501"></a><span class="lineno">  501</span>        <a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryReader.html">AltiumBinaryReader</a> sectionKeyReader(sectionKeyData);</div>
+<div class="line"><a id="l00502" name="l00502"></a><span class="lineno">  502</span>        uint32_t keyCount = 0;  <span class="comment">// 节映射数量。</span></div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>        <span class="keywordflow">if</span> (!sectionKeyReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">readUInt32</a>(&amp;keyCount) ||</div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>            keyCount &gt; <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(sectionKeyReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>() / 9))</div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib SectionKeys 的数量无效&quot;</span>));</div>
+<div class="line"><a id="l00506" name="l00506"></a><span class="lineno">  506</span>        QSet&lt;QString&gt; mappedComponents;  <span class="comment">// 已映射的封装名称集合。</span></div>
+<div class="line"><a id="l00507" name="l00507"></a><span class="lineno">  507</span>        QSet&lt;QString&gt; mappedSectionKeys;  <span class="comment">// 已使用的节名称集合。</span></div>
+<div class="line"><a id="l00508" name="l00508"></a><span class="lineno">  508</span>        <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; keyCount; ++i) {</div>
+<div class="line"><a id="l00509" name="l00509"></a><span class="lineno">  509</span>            QString libRef;  <span class="comment">// SectionKeys 中的封装名称。</span></div>
+<div class="line"><a id="l00510" name="l00510"></a><span class="lineno">  510</span>            QString sectionKey;  <span class="comment">// 对应的 OLE 节名称。</span></div>
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno">  511</span>            <span class="keywordflow">if</span> (!sectionKeyReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a522bd572d0f3805593284acf8c7eef21">readPascalString</a>(&amp;libRef) || !sectionKeyReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ac2f86de3b8ce896e33949f8350a25f04">readStringBlock</a>(&amp;sectionKey) ||</div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>                libRef.isEmpty() || sectionKey.isEmpty())</div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib SectionKeys 映射不完整&quot;</span>));</div>
+<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>            <span class="keywordflow">if</span> (!names.contains(libRef))</div>
+<div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib SectionKeys 包含未知封装: %1&quot;</span>).arg(libRef));</div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>            <span class="keywordflow">if</span> (mappedComponents.contains(libRef.toCaseFolded()) ||</div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>                mappedSectionKeys.contains(sectionKey.toCaseFolded()))</div>
+<div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib SectionKeys 映射重复: %1&quot;</span>).arg(libRef));</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>            mappedComponents.insert(libRef.toCaseFolded());</div>
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span>            mappedSectionKeys.insert(sectionKey.toCaseFolded());</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>            sectionKeys.insert(libRef, sectionKey);</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>        }</div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>        <span class="keywordflow">if</span> (sectionKeyReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aab071dc6a3dd94f353b1db218afad1ce">hasError</a>() || sectionKeyReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>() != 0)</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib SectionKeys 末尾包含无效数据&quot;</span>));</div>
+<div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>    }</div>
+<div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span> </div>
+<div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>    QSet&lt;QString&gt; resolvedSectionKeys;  <span class="comment">// 已解析的 OLE 节名称集合。</span></div>
+<div class="line"><a id="l00528" name="l00528"></a><span class="lineno">  528</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> : names) {</div>
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno">  529</span>        <span class="keyword">const</span> QString sectionKey = sectionKeys.value(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);  <span class="comment">// 当前封装对应的节名称。</span></div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>        <span class="keywordflow">if</span> (resolvedSectionKeys.contains(sectionKey.toCaseFolded()))</div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib 封装存储键重复: %1&quot;</span>).arg(sectionKey));</div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span>        resolvedSectionKeys.insert(sectionKey.toCaseFolded());</div>
+<div class="line"><a id="l00533" name="l00533"></a><span class="lineno">  533</span>        <span class="keyword">const</span> QString dataPath = sectionKey + QStringLiteral(<span class="stringliteral">&quot;/Data&quot;</span>);  <span class="comment">// 封装 Data 流路径。</span></div>
+<div class="line"><a id="l00534" name="l00534"></a><span class="lineno">  534</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a>.<a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#af20f43b9cbf7a70d5c6e283ddf128abe">containsStream</a>(dataPath))</div>
+<div class="line"><a id="l00535" name="l00535"></a><span class="lineno">  535</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a>(QStringLiteral(<span class="stringliteral">&quot;PcbLib 缺少封装 Data 流: %1&quot;</span>).arg(dataPath));</div>
+<div class="line"><a id="l00536" name="l00536"></a><span class="lineno">  536</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a>.append({<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, sectionKey});</div>
+<div class="line"><a id="l00537" name="l00537"></a><span class="lineno">  537</span>    }</div>
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno">  538</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>}</div>
+</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span> </div>
+<div class="foldopen" id="foldopen00545" data-start="{" data-end="}">
+<div class="line"><a id="l00545" name="l00545"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a2a2db5055be7d99efc1be664d27a49a6">  545</a></span>QVector&lt;AltiumPcbLibReader::ComponentInfo&gt; <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a2a2db5055be7d99efc1be664d27a49a6">AltiumPcbLibReader::components</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00546" name="l00546"></a><span class="lineno">  546</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a>;</div>
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno">  547</span>}</div>
+</div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span> </div>
+<div class="foldopen" id="foldopen00553" data-start="{" data-end="}">
+<div class="line"><a id="l00553" name="l00553"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a36129e7f71423e9bf595823406e498a6">  553</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a36129e7f71423e9bf595823406e498a6">AltiumPcbLibReader::fileVersion</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00554" name="l00554"></a><span class="lineno">  554</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a531856b62b3c9bf58158047641afcfd4">m_fileVersion</a>;</div>
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno">  555</span>}</div>
+</div>
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span> </div>
+<div class="foldopen" id="foldopen00561" data-start="{" data-end="}">
+<div class="line"><a id="l00561" name="l00561"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a8fdbbb427ba502f8a3fe0ddafa0a7763">  561</a></span>QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a8fdbbb427ba502f8a3fe0ddafa0a7763">AltiumPcbLibReader::libraryMetadata</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00562" name="l00562"></a><span class="lineno">  562</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">m_libraryMetadata</a>;</div>
+<div class="line"><a id="l00563" name="l00563"></a><span class="lineno">  563</span>}</div>
+</div>
+<div class="line"><a id="l00564" name="l00564"></a><span class="lineno">  564</span> </div>
+<div class="foldopen" id="foldopen00570" data-start="{" data-end="}">
+<div class="line"><a id="l00570" name="l00570"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a56172fd3e0511427e7b63b4ba8e6f8fa">  570</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a56172fd3e0511427e7b63b4ba8e6f8fa">AltiumPcbLibReader::componentIndex</a>(<span class="keyword">const</span> QString&amp; componentName)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00571" name="l00571"></a><span class="lineno">  571</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a>.size(); ++i) {</div>
+<div class="line"><a id="l00572" name="l00572"></a><span class="lineno">  572</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a>.at(i).name == componentName)</div>
+<div class="line"><a id="l00573" name="l00573"></a><span class="lineno">  573</span>            <span class="keywordflow">return</span> i;</div>
+<div class="line"><a id="l00574" name="l00574"></a><span class="lineno">  574</span>    }</div>
+<div class="line"><a id="l00575" name="l00575"></a><span class="lineno">  575</span>    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a id="l00576" name="l00576"></a><span class="lineno">  576</span>}</div>
+</div>
+<div class="line"><a id="l00577" name="l00577"></a><span class="lineno">  577</span> </div>
+<div class="foldopen" id="foldopen00585" data-start="{" data-end="}">
+<div class="line"><a id="l00585" name="l00585"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af00b47c34bfd94f3e66b3b0089877837">  585</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af00b47c34bfd94f3e66b3b0089877837">AltiumPcbLibReader::readFootprintStream</a>(<span class="keywordtype">int</span> componentIndexValue,</div>
+<div class="line"><a id="l00586" name="l00586"></a><span class="lineno">  586</span>                                             <span class="keyword">const</span> QString&amp; streamName,</div>
+<div class="line"><a id="l00587" name="l00587"></a><span class="lineno">  587</span>                                             QByteArray* data)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00588" name="l00588"></a><span class="lineno">  588</span>    <span class="keywordflow">if</span> (data == <span class="keyword">nullptr</span> || componentIndexValue &lt; 0 || componentIndexValue &gt;= <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a>.size() ||</div>
+<div class="line"><a id="l00589" name="l00589"></a><span class="lineno">  589</span>        streamName.isEmpty())</div>
+<div class="line"><a id="l00590" name="l00590"></a><span class="lineno">  590</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00591" name="l00591"></a><span class="lineno">  591</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a>.<a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a91c32f8c4fe1ebccc050abeb7cc2404c">readStream</a>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a>.at(componentIndexValue).sectionKey + <span class="stringliteral">&quot;/&quot;</span> + streamName, data);</div>
+<div class="line"><a id="l00592" name="l00592"></a><span class="lineno">  592</span>}</div>
+</div>
+<div class="line"><a id="l00593" name="l00593"></a><span class="lineno">  593</span> </div>
+<div class="foldopen" id="foldopen00601" data-start="{" data-end="}">
+<div class="line"><a id="l00601" name="l00601"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#ad8aa60819c7dbcdadde54d3b4ca1f062">  601</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af00b47c34bfd94f3e66b3b0089877837">AltiumPcbLibReader::readFootprintStream</a>(<span class="keyword">const</span> QString&amp; componentName,</div>
+<div class="line"><a id="l00602" name="l00602"></a><span class="lineno">  602</span>                                             <span class="keyword">const</span> QString&amp; streamName,</div>
+<div class="line"><a id="l00603" name="l00603"></a><span class="lineno">  603</span>                                             QByteArray* data)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00604" name="l00604"></a><span class="lineno">  604</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af00b47c34bfd94f3e66b3b0089877837">readFootprintStream</a>(<a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a56172fd3e0511427e7b63b4ba8e6f8fa">componentIndex</a>(componentName), streamName, data);</div>
+<div class="line"><a id="l00605" name="l00605"></a><span class="lineno">  605</span>}</div>
+</div>
+<div class="line"><a id="l00606" name="l00606"></a><span class="lineno">  606</span> </div>
+<div class="foldopen" id="foldopen00613" data-start="{" data-end="}">
+<div class="line"><a id="l00613" name="l00613"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#abbb4a4a02b652472e2d7654de97f649c">  613</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#abbb4a4a02b652472e2d7654de97f649c">AltiumPcbLibReader::readFootprintObjects</a>(<span class="keywordtype">int</span> componentIndexValue, QVector&lt;PrimitiveRecord&gt;* objects)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00614" name="l00614"></a><span class="lineno">  614</span>    <span class="keywordflow">if</span> (objects == <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00615" name="l00615"></a><span class="lineno">  615</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">m_errorMessage</a> = QStringLiteral(<span class="stringliteral">&quot;读取 PcbLib 图元时输出容器为空&quot;</span>);</div>
+<div class="line"><a id="l00616" name="l00616"></a><span class="lineno">  616</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00617" name="l00617"></a><span class="lineno">  617</span>    }</div>
+<div class="line"><a id="l00618" name="l00618"></a><span class="lineno">  618</span>    objects-&gt;clear();</div>
+<div class="line"><a id="l00619" name="l00619"></a><span class="lineno">  619</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">m_errorMessage</a>.clear();</div>
+<div class="line"><a id="l00620" name="l00620"></a><span class="lineno">  620</span> </div>
+<div class="line"><a id="l00621" name="l00621"></a><span class="lineno">  621</span>    <span class="keyword">const</span> <span class="keyword">auto</span> failRead = [<span class="keyword">this</span>, objects](<span class="keyword">const</span> QString&amp; message) {</div>
+<div class="line"><a id="l00622" name="l00622"></a><span class="lineno">  622</span>        objects-&gt;clear();</div>
+<div class="line"><a id="l00623" name="l00623"></a><span class="lineno">  623</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">m_errorMessage</a> = message;</div>
+<div class="line"><a id="l00624" name="l00624"></a><span class="lineno">  624</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00625" name="l00625"></a><span class="lineno">  625</span>    };</div>
+<div class="line"><a id="l00626" name="l00626"></a><span class="lineno">  626</span> </div>
+<div class="line"><a id="l00627" name="l00627"></a><span class="lineno">  627</span>    QByteArray data;  <span class="comment">// 封装 Data 流数据。</span></div>
+<div class="line"><a id="l00628" name="l00628"></a><span class="lineno">  628</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af00b47c34bfd94f3e66b3b0089877837">readFootprintStream</a>(componentIndexValue, QStringLiteral(<span class="stringliteral">&quot;Data&quot;</span>), &amp;data))</div>
+<div class="line"><a id="l00629" name="l00629"></a><span class="lineno">  629</span>        <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;无法读取 PcbLib 封装 Data 流&quot;</span>));</div>
+<div class="line"><a id="l00630" name="l00630"></a><span class="lineno">  630</span> </div>
+<div class="line"><a id="l00631" name="l00631"></a><span class="lineno">  631</span>    <a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryReader.html">AltiumBinaryReader</a> reader(data);</div>
+<div class="line"><a id="l00632" name="l00632"></a><span class="lineno">  632</span>    QString footprintName;  <span class="comment">// Data 流头部声明的封装名称。</span></div>
+<div class="line"><a id="l00633" name="l00633"></a><span class="lineno">  633</span>    <span class="keywordflow">if</span> (!reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ac2f86de3b8ce896e33949f8350a25f04">readStringBlock</a>(&amp;footprintName) || footprintName.isEmpty())</div>
+<div class="line"><a id="l00634" name="l00634"></a><span class="lineno">  634</span>        <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 封装 Data 首部无效: %1&quot;</span>).arg(reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">errorString</a>()));</div>
+<div class="line"><a id="l00635" name="l00635"></a><span class="lineno">  635</span> </div>
+<div class="line"><a id="l00636" name="l00636"></a><span class="lineno">  636</span>    QSet&lt;quint32&gt; wideStringIndices;  <span class="comment">// WideStrings 中已声明的文本索引。</span></div>
+<div class="line"><a id="l00637" name="l00637"></a><span class="lineno">  637</span>    <span class="keywordtype">bool</span> wideStringsLoaded = <span class="keyword">false</span>;  <span class="comment">// 是否已经加载 WideStrings 流。</span></div>
+<div class="line"><a id="l00638" name="l00638"></a><span class="lineno">  638</span> </div>
+<div class="line"><a id="l00639" name="l00639"></a><span class="lineno">  639</span>    <span class="keywordflow">while</span> (reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>() &gt; 0) {</div>
+<div class="line"><a id="l00640" name="l00640"></a><span class="lineno">  640</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> objectStart = reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ab6a6106c2e2f2c05d07a6a6455814bb5">position</a>();  <span class="comment">// 当前图元起始偏移。</span></div>
+<div class="line"><a id="l00641" name="l00641"></a><span class="lineno">  641</span>        uint8_t objectId = 0;  <span class="comment">// 当前图元对象类型编号。</span></div>
+<div class="line"><a id="l00642" name="l00642"></a><span class="lineno">  642</span>        <span class="keywordflow">if</span> (!reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">readUInt8</a>(&amp;objectId)) {</div>
+<div class="line"><a id="l00643" name="l00643"></a><span class="lineno">  643</span>            <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;读取 PcbLib 图元 ID 失败: %1&quot;</span>).arg(reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">errorString</a>()));</div>
+<div class="line"><a id="l00644" name="l00644"></a><span class="lineno">  644</span>        }</div>
+<div class="line"><a id="l00645" name="l00645"></a><span class="lineno">  645</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> blockCount = primitiveBlockCount(objectId);  <span class="comment">// 当前图元的子块数量。</span></div>
+<div class="line"><a id="l00646" name="l00646"></a><span class="lineno">  646</span>        <span class="keywordflow">if</span> (blockCount &lt; 0)</div>
+<div class="line"><a id="l00647" name="l00647"></a><span class="lineno">  647</span>            <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 图元 ID %1 不受支持&quot;</span>).arg(objectId));</div>
+<div class="line"><a id="l00648" name="l00648"></a><span class="lineno">  648</span> </div>
+<div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html">PrimitiveRecord</a> object;  <span class="comment">// 当前图元解析结果。</span></div>
+<div class="line"><a id="l00650" name="l00650"></a><span class="lineno">  650</span>        <span class="keywordtype">object</span>.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html#a0aeebbcfa874ebfc7d777b15859191e2">objectId</a> = objectId;</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>        <span class="keywordtype">object</span>.blocks.reserve(blockCount);</div>
+<div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> blockIndex = 0; blockIndex &lt; blockCount; ++blockIndex) {</div>
+<div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>            <span class="keyword">const</span> <span class="keywordtype">int</span> blockStart = reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ab6a6106c2e2f2c05d07a6a6455814bb5">position</a>();  <span class="comment">// 当前子块起始偏移。</span></div>
+<div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>            QByteArray payload;  <span class="comment">// 子块载荷。</span></div>
+<div class="line"><a id="l00655" name="l00655"></a><span class="lineno">  655</span>            uint8_t flags = 0;  <span class="comment">// 子块标志位。</span></div>
+<div class="line"><a id="l00656" name="l00656"></a><span class="lineno">  656</span>            <span class="keywordflow">if</span> (!reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a608149136d345a6c46286c710afb4a02">readBlock</a>(&amp;payload, &amp;flags))</div>
+<div class="line"><a id="l00657" name="l00657"></a><span class="lineno">  657</span>                <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;读取 PcbLib 图元 %1 的子块 %2 失败: %3&quot;</span>)</div>
+<div class="line"><a id="l00658" name="l00658"></a><span class="lineno">  658</span>                                    .arg(objectId)</div>
+<div class="line"><a id="l00659" name="l00659"></a><span class="lineno">  659</span>                                    .arg(blockIndex)</div>
+<div class="line"><a id="l00660" name="l00660"></a><span class="lineno">  660</span>                                    .arg(reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">errorString</a>()));</div>
+<div class="line"><a id="l00661" name="l00661"></a><span class="lineno">  661</span>            <span class="keywordflow">if</span> (payload.isEmpty())</div>
+<div class="line"><a id="l00662" name="l00662"></a><span class="lineno">  662</span>                <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 图元 %1 的子块 %2 为空&quot;</span>).arg(objectId).arg(blockIndex));</div>
+<div class="line"><a id="l00663" name="l00663"></a><span class="lineno">  663</span>            <span class="keyword">const</span> <span class="keywordtype">bool</span> isPadStringBlock =</div>
+<div class="line"><a id="l00664" name="l00664"></a><span class="lineno">  664</span>                objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#ad416f15cf367307e17cd7b8967b5f103">AltiumConstants::PCB_OBJECT_PAD</a> &amp;&amp; blockIndex &lt; 3;  <span class="comment">// 是否为焊盘字符串块。</span></div>
+<div class="line"><a id="l00665" name="l00665"></a><span class="lineno">  665</span>            <span class="keyword">const</span> <span class="keywordtype">bool</span> isTextStringBlock =</div>
+<div class="line"><a id="l00666" name="l00666"></a><span class="lineno">  666</span>                objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#af952feaa7708f21689a7e9db72b00c90">AltiumConstants::PCB_OBJECT_TEXT</a> &amp;&amp; blockIndex == 1;  <span class="comment">// 是否为文本字符串块。</span></div>
+<div class="line"><a id="l00667" name="l00667"></a><span class="lineno">  667</span>            <span class="keywordflow">if</span> ((isPadStringBlock || isTextStringBlock) &amp;&amp; !isStringBlockPayload(payload)) {</div>
+<div class="line"><a id="l00668" name="l00668"></a><span class="lineno">  668</span>                <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 图元 %1 的字符串子块 %2 无效&quot;</span>).arg(objectId).arg(blockIndex));</div>
+<div class="line"><a id="l00669" name="l00669"></a><span class="lineno">  669</span>            }</div>
+<div class="line"><a id="l00670" name="l00670"></a><span class="lineno">  670</span>            <span class="keyword">const</span> <span class="keywordtype">bool</span> isMainBlock =</div>
+<div class="line"><a id="l00671" name="l00671"></a><span class="lineno">  671</span>                (objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#ad416f15cf367307e17cd7b8967b5f103">AltiumConstants::PCB_OBJECT_PAD</a> &amp;&amp; blockIndex == 4) ||</div>
+<div class="line"><a id="l00672" name="l00672"></a><span class="lineno">  672</span>                (objectId != <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#ad416f15cf367307e17cd7b8967b5f103">AltiumConstants::PCB_OBJECT_PAD</a> &amp;&amp; blockIndex == 0);  <span class="comment">// 是否为主字段块。</span></div>
+<div class="line"><a id="l00673" name="l00673"></a><span class="lineno">  673</span>            <span class="keywordflow">if</span> (isMainBlock &amp;&amp; !readCommonPrimitiveHeader(payload, &amp;<span class="keywordtype">object</span>.layer, &amp;<span class="keywordtype">object</span>.primitiveFlags))</div>
+<div class="line"><a id="l00674" name="l00674"></a><span class="lineno">  674</span>                <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 图元 %1 的公共头部不完整&quot;</span>).arg(objectId));</div>
+<div class="line"><a id="l00675" name="l00675"></a><span class="lineno">  675</span>            <span class="keywordflow">if</span> (isMainBlock &amp;&amp; objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a2288fff0e23e39f69e0939379fc6da65">AltiumConstants::PCB_OBJECT_TRACK</a>) {</div>
+<div class="line"><a id="l00676" name="l00676"></a><span class="lineno">  676</span>                <span class="keywordflow">if</span> (!parseTrackFields(payload, &amp;<span class="keywordtype">object</span>.track))</div>
+<div class="line"><a id="l00677" name="l00677"></a><span class="lineno">  677</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 走线图元字段不完整&quot;</span>));</div>
+<div class="line"><a id="l00678" name="l00678"></a><span class="lineno">  678</span>                <span class="keywordtype">object</span>.hasTrackFields = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00679" name="l00679"></a><span class="lineno">  679</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isMainBlock &amp;&amp; objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a8e08c8fd5990ed7cd6ea2eb762bcec43">AltiumConstants::PCB_OBJECT_ARC</a>) {</div>
+<div class="line"><a id="l00680" name="l00680"></a><span class="lineno">  680</span>                <span class="keywordflow">if</span> (!parseArcFields(payload, &amp;<span class="keywordtype">object</span>.arc))</div>
+<div class="line"><a id="l00681" name="l00681"></a><span class="lineno">  681</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 弧线图元字段不完整&quot;</span>));</div>
+<div class="line"><a id="l00682" name="l00682"></a><span class="lineno">  682</span>                <span class="keywordtype">object</span>.hasArcFields = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00683" name="l00683"></a><span class="lineno">  683</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isMainBlock &amp;&amp; objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#ad416f15cf367307e17cd7b8967b5f103">AltiumConstants::PCB_OBJECT_PAD</a>) {</div>
+<div class="line"><a id="l00684" name="l00684"></a><span class="lineno">  684</span>                <span class="keywordflow">if</span> (!parsePadMainFields(payload, &amp;<span class="keywordtype">object</span>.pad))</div>
+<div class="line"><a id="l00685" name="l00685"></a><span class="lineno">  685</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 焊盘图元主块字段不完整&quot;</span>));</div>
+<div class="line"><a id="l00686" name="l00686"></a><span class="lineno">  686</span>                <span class="keywordtype">object</span>.hasPadFields = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00687" name="l00687"></a><span class="lineno">  687</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isMainBlock &amp;&amp; objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#aa96f674b265a060d7a705662ec060bed">AltiumConstants::PCB_OBJECT_FILL</a>) {</div>
+<div class="line"><a id="l00688" name="l00688"></a><span class="lineno">  688</span>                <span class="keywordflow">if</span> (!parseFillFields(payload, &amp;<span class="keywordtype">object</span>.fill))</div>
+<div class="line"><a id="l00689" name="l00689"></a><span class="lineno">  689</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 填充图元字段不完整&quot;</span>));</div>
+<div class="line"><a id="l00690" name="l00690"></a><span class="lineno">  690</span>                <span class="keywordtype">object</span>.hasFillFields = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00691" name="l00691"></a><span class="lineno">  691</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isMainBlock &amp;&amp; objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a15acc66422cc4ae71b916aee26996557">AltiumConstants::PCB_OBJECT_REGION</a>) {</div>
+<div class="line"><a id="l00692" name="l00692"></a><span class="lineno">  692</span>                <span class="keywordflow">if</span> (!parseRegionFields(payload, &amp;<span class="keywordtype">object</span>.region))</div>
+<div class="line"><a id="l00693" name="l00693"></a><span class="lineno">  693</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 区域图元字段不完整&quot;</span>));</div>
+<div class="line"><a id="l00694" name="l00694"></a><span class="lineno">  694</span>                <span class="keywordtype">object</span>.hasRegionFields = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00695" name="l00695"></a><span class="lineno">  695</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isMainBlock &amp;&amp; objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#a5e5eda590dc593d9c8198f82a3926c05">AltiumConstants::PCB_OBJECT_COMPONENT_BODY</a>) {</div>
+<div class="line"><a id="l00696" name="l00696"></a><span class="lineno">  696</span>                <span class="keywordflow">if</span> (!parseComponentBodyFields(payload, &amp;<span class="keywordtype">object</span>.componentBody))</div>
+<div class="line"><a id="l00697" name="l00697"></a><span class="lineno">  697</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 三维元件体图元字段不完整&quot;</span>));</div>
+<div class="line"><a id="l00698" name="l00698"></a><span class="lineno">  698</span>                <span class="keywordtype">object</span>.hasComponentBodyFields = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00699" name="l00699"></a><span class="lineno">  699</span>            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (isMainBlock &amp;&amp; objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#af952feaa7708f21689a7e9db72b00c90">AltiumConstants::PCB_OBJECT_TEXT</a>) {</div>
+<div class="line"><a id="l00700" name="l00700"></a><span class="lineno">  700</span>                <span class="keywordflow">if</span> (!parseTextFields(payload, &amp;<span class="keywordtype">object</span>.textFields))</div>
+<div class="line"><a id="l00701" name="l00701"></a><span class="lineno">  701</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 文本图元字段不完整&quot;</span>));</div>
+<div class="line"><a id="l00702" name="l00702"></a><span class="lineno">  702</span>                <span class="keywordtype">object</span>.hasTextFields = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00703" name="l00703"></a><span class="lineno">  703</span>            }</div>
+<div class="line"><a id="l00704" name="l00704"></a><span class="lineno">  704</span>            <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html">PrimitiveBlock</a> block;  <span class="comment">// 当前子块的原始记录。</span></div>
+<div class="line"><a id="l00705" name="l00705"></a><span class="lineno">  705</span>            block.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html#a569ab483c5e1a43cf9dda47c7bf1b787">flags</a> = flags;</div>
+<div class="line"><a id="l00706" name="l00706"></a><span class="lineno">  706</span>            block.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html#abee7881b9b86bdd008bfb96885c87cc4">payload</a> = payload;</div>
+<div class="line"><a id="l00707" name="l00707"></a><span class="lineno">  707</span>            block.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html#afbd0c4004ff3fde5f66825ac7be41ffe">encoded</a> = data.mid(blockStart, reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ab6a6106c2e2f2c05d07a6a6455814bb5">position</a>() - blockStart);</div>
+<div class="line"><a id="l00708" name="l00708"></a><span class="lineno">  708</span>            <span class="keywordtype">object</span>.blocks.append(block);</div>
+<div class="line"><a id="l00709" name="l00709"></a><span class="lineno">  709</span>        }</div>
+<div class="line"><a id="l00710" name="l00710"></a><span class="lineno">  710</span>        <span class="keywordflow">if</span> (objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#ad416f15cf367307e17cd7b8967b5f103">AltiumConstants::PCB_OBJECT_PAD</a>) {</div>
+<div class="line"><a id="l00711" name="l00711"></a><span class="lineno">  711</span>            <span class="keywordflow">if</span> (!readStringBlockPayload(<span class="keywordtype">object</span>.blocks.at(0).payload, &amp;<span class="keywordtype">object</span>.designator) ||</div>
+<div class="line"><a id="l00712" name="l00712"></a><span class="lineno">  712</span>                !parsePadExtendedFields(<span class="keywordtype">object</span>.blocks.at(5).payload, &amp;<span class="keywordtype">object</span>.pad))</div>
+<div class="line"><a id="l00713" name="l00713"></a><span class="lineno">  713</span>                <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 焊盘图元扩展字段不完整&quot;</span>));</div>
+<div class="line"><a id="l00714" name="l00714"></a><span class="lineno">  714</span>        }</div>
+<div class="line"><a id="l00715" name="l00715"></a><span class="lineno">  715</span>        <span class="keywordflow">if</span> (objectId == <a class="code hl_variable" href="namespaceEasyKiConverter_1_1AltiumConstants.html#af952feaa7708f21689a7e9db72b00c90">AltiumConstants::PCB_OBJECT_TEXT</a> &amp;&amp;</div>
+<div class="line"><a id="l00716" name="l00716"></a><span class="lineno">  716</span>            !readStringBlockPayload(<span class="keywordtype">object</span>.blocks.at(1).payload, &amp;<span class="keywordtype">object</span>.text))</div>
+<div class="line"><a id="l00717" name="l00717"></a><span class="lineno">  717</span>            <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 文本图元字符串内容无效&quot;</span>));</div>
+<div class="line"><a id="l00718" name="l00718"></a><span class="lineno">  718</span>        QString semanticError;  <span class="comment">// 图元语义校验错误说明。</span></div>
+<div class="line"><a id="l00719" name="l00719"></a><span class="lineno">  719</span>        <span class="keywordflow">if</span> (!validatePrimitiveFields(<span class="keywordtype">object</span>, &amp;semanticError))</div>
+<div class="line"><a id="l00720" name="l00720"></a><span class="lineno">  720</span>            <span class="keywordflow">return</span> failRead(semanticError);</div>
+<div class="line"><a id="l00721" name="l00721"></a><span class="lineno">  721</span>        <span class="keywordflow">if</span> (<span class="keywordtype">object</span>.hasTextFields) {</div>
+<div class="line"><a id="l00722" name="l00722"></a><span class="lineno">  722</span>            <span class="keywordflow">if</span> (!wideStringsLoaded) {</div>
+<div class="line"><a id="l00723" name="l00723"></a><span class="lineno">  723</span>                QByteArray wideStrings;  <span class="comment">// WideStrings 流数据。</span></div>
+<div class="line"><a id="l00724" name="l00724"></a><span class="lineno">  724</span>                <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af00b47c34bfd94f3e66b3b0089877837">readFootprintStream</a>(componentIndexValue, QStringLiteral(<span class="stringliteral">&quot;WideStrings&quot;</span>), &amp;wideStrings))</div>
+<div class="line"><a id="l00725" name="l00725"></a><span class="lineno">  725</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;无法读取 PcbLib 封装 WideStrings 流&quot;</span>));</div>
+<div class="line"><a id="l00726" name="l00726"></a><span class="lineno">  726</span>                <span class="keywordflow">if</span> (!readWideStringIndices(wideStrings, &amp;wideStringIndices))</div>
+<div class="line"><a id="l00727" name="l00727"></a><span class="lineno">  727</span>                    <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 封装 WideStrings 流无效&quot;</span>));</div>
+<div class="line"><a id="l00728" name="l00728"></a><span class="lineno">  728</span>                wideStringsLoaded = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00729" name="l00729"></a><span class="lineno">  729</span>            }</div>
+<div class="line"><a id="l00730" name="l00730"></a><span class="lineno">  730</span>            <span class="keywordflow">if</span> (!wideStringIndices.contains(<span class="keywordtype">object</span>.textFields.wideStringIndex))</div>
+<div class="line"><a id="l00731" name="l00731"></a><span class="lineno">  731</span>                <span class="keywordflow">return</span> failRead(QStringLiteral(<span class="stringliteral">&quot;PcbLib 文本图元引用了不存在的 WideStrings 索引: %1&quot;</span>)</div>
+<div class="line"><a id="l00732" name="l00732"></a><span class="lineno">  732</span>                                    .arg(<span class="keywordtype">object</span>.textFields.wideStringIndex));</div>
+<div class="line"><a id="l00733" name="l00733"></a><span class="lineno">  733</span>        }</div>
+<div class="line"><a id="l00734" name="l00734"></a><span class="lineno">  734</span>        <span class="keywordtype">object</span>.encoded = data.mid(objectStart, reader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ab6a6106c2e2f2c05d07a6a6455814bb5">position</a>() - objectStart);</div>
+<div class="line"><a id="l00735" name="l00735"></a><span class="lineno">  735</span>        objects-&gt;append(<span class="keywordtype">object</span>);</div>
+<div class="line"><a id="l00736" name="l00736"></a><span class="lineno">  736</span>    }</div>
+<div class="line"><a id="l00737" name="l00737"></a><span class="lineno">  737</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00738" name="l00738"></a><span class="lineno">  738</span>}</div>
+</div>
+<div class="line"><a id="l00739" name="l00739"></a><span class="lineno">  739</span> </div>
+<div class="foldopen" id="foldopen00746" data-start="{" data-end="}">
+<div class="line"><a id="l00746" name="l00746"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a45b55fa716246299293b0c25417e5990">  746</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#abbb4a4a02b652472e2d7654de97f649c">AltiumPcbLibReader::readFootprintObjects</a>(<span class="keyword">const</span> QString&amp; componentName, QVector&lt;PrimitiveRecord&gt;* objects)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00747" name="l00747"></a><span class="lineno">  747</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#abbb4a4a02b652472e2d7654de97f649c">readFootprintObjects</a>(<a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a56172fd3e0511427e7b63b4ba8e6f8fa">componentIndex</a>(componentName), objects);</div>
+<div class="line"><a id="l00748" name="l00748"></a><span class="lineno">  748</span>}</div>
+</div>
+<div class="line"><a id="l00749" name="l00749"></a><span class="lineno">  749</span> </div>
+<div class="foldopen" id="foldopen00754" data-start="{" data-end="}">
+<div class="line"><a id="l00754" name="l00754"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a89e1a3858186045586ae7e114e8679e2">  754</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a89e1a3858186045586ae7e114e8679e2">AltiumPcbLibReader::errorString</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00755" name="l00755"></a><span class="lineno">  755</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">m_errorMessage</a>;</div>
+<div class="line"><a id="l00756" name="l00756"></a><span class="lineno">  756</span>}</div>
+</div>
+<div class="line"><a id="l00757" name="l00757"></a><span class="lineno">  757</span> </div>
+<div class="foldopen" id="foldopen00762" data-start="{" data-end="}">
+<div class="line"><a id="l00762" name="l00762"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a14204733f140979de1139b79a45c11e8">  762</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a14204733f140979de1139b79a45c11e8">AltiumPcbLibReader::hasError</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00763" name="l00763"></a><span class="lineno">  763</span>    <span class="keywordflow">return</span> !<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">m_errorMessage</a>.isEmpty();</div>
+<div class="line"><a id="l00764" name="l00764"></a><span class="lineno">  764</span>}</div>
+</div>
+<div class="line"><a id="l00765" name="l00765"></a><span class="lineno">  765</span> </div>
+<div class="line"><a id="l00766" name="l00766"></a><span class="lineno">  766</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumBinaryReader_8h_html"><div class="ttname"><a href="AltiumBinaryReader_8h.html">AltiumBinaryReader.h</a></div></div>
+<div class="ttc" id="aAltiumConstants_8h_html"><div class="ttname"><a href="AltiumConstants_8h.html">AltiumConstants.h</a></div></div>
+<div class="ttc" id="aAltiumPcbLibReader_8h_html"><div class="ttname"><a href="AltiumPcbLibReader_8h.html">AltiumPcbLibReader.h</a></div></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html">EasyKiConverter::AltiumBinaryReader</a></div><div class="ttdoc">Altium 二进制格式读取器</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8h_source.html#l00016">AltiumBinaryReader.h:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a22433c292103367b9628497420523775"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">EasyKiConverter::AltiumBinaryReader::errorString</a></div><div class="ttdeci">QString errorString() const</div><div class="ttdoc">获取读取错误说明</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00349">AltiumBinaryReader.cpp:349</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a522bd572d0f3805593284acf8c7eef21"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a522bd572d0f3805593284acf8c7eef21">EasyKiConverter::AltiumBinaryReader::readPascalString</a></div><div class="ttdeci">bool readPascalString(QString *value)</div><div class="ttdoc">读取带额外 NUL 的 Pascal 字符串块</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00253">AltiumBinaryReader.cpp:253</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a608149136d345a6c46286c710afb4a02"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a608149136d345a6c46286c710afb4a02">EasyKiConverter::AltiumBinaryReader::readBlock</a></div><div class="ttdeci">bool readBlock(QByteArray *payload, uint8_t *flags=nullptr)</div><div class="ttdoc">读取 Altium 长度前缀块</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00197">AltiumBinaryReader.cpp:197</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a8cfc0e63ca412fa97d361bb86d66bbb6"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">EasyKiConverter::AltiumBinaryReader::remaining</a></div><div class="ttdeci">int remaining() const</div><div class="ttdoc">获取剩余字节数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00333">AltiumBinaryReader.cpp:333</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a9355a50ea9c023e229ce06a0ae9f97ba"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">EasyKiConverter::AltiumBinaryReader::readUInt32</a></div><div class="ttdeci">bool readUInt32(uint32_t *value)</div><div class="ttdoc">读取无符号 32 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00138">AltiumBinaryReader.cpp:138</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a98fb9f9964852698b8c79804462ab263"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a98fb9f9964852698b8c79804462ab263">EasyKiConverter::AltiumBinaryReader::readPascalShortString</a></div><div class="ttdeci">bool readPascalShortString(QString *value)</div><div class="ttdoc">读取 Pascal 短字符串</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00212">AltiumBinaryReader.cpp:212</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_aab071dc6a3dd94f353b1db218afad1ce"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#aab071dc6a3dd94f353b1db218afad1ce">EasyKiConverter::AltiumBinaryReader::hasError</a></div><div class="ttdeci">bool hasError() const</div><div class="ttdoc">获取是否发生读取错误</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00341">AltiumBinaryReader.cpp:341</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_aae894ada4946a4d540fccb7187855eb4"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">EasyKiConverter::AltiumBinaryReader::readUInt8</a></div><div class="ttdeci">bool readUInt8(uint8_t *value)</div><div class="ttdoc">读取无符号 8 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00058">AltiumBinaryReader.cpp:58</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_ab6a6106c2e2f2c05d07a6a6455814bb5"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#ab6a6106c2e2f2c05d07a6a6455814bb5">EasyKiConverter::AltiumBinaryReader::position</a></div><div class="ttdeci">int position() const</div><div class="ttdoc">获取当前读取位置</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00325">AltiumBinaryReader.cpp:325</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_ac2f86de3b8ce896e33949f8350a25f04"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#ac2f86de3b8ce896e33949f8350a25f04">EasyKiConverter::AltiumBinaryReader::readStringBlock</a></div><div class="ttdeci">bool readStringBlock(QString *value)</div><div class="ttdoc">读取字符串块</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00230">AltiumBinaryReader.cpp:230</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_af064a0146be2d1aa1d660078102f33cc"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#af064a0146be2d1aa1d660078102f33cc">EasyKiConverter::AltiumBinaryReader::readInt32</a></div><div class="ttdeci">bool readInt32(int32_t *value)</div><div class="ttdoc">读取有符号 32 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00105">AltiumBinaryReader.cpp:105</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a11b61b3d44d9c39b203ce22966497d43"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">EasyKiConverter::AltiumPcbLibReader::m_errorMessage</a></div><div class="ttdeci">QString m_errorMessage</div><div class="ttdoc">最近一次读取错误说明。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00259">AltiumPcbLibReader.h:259</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a14204733f140979de1139b79a45c11e8"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a14204733f140979de1139b79a45c11e8">EasyKiConverter::AltiumPcbLibReader::hasError</a></div><div class="ttdeci">bool hasError() const</div><div class="ttdoc">获取是否发生读取错误</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00762">AltiumPcbLibReader.cpp:762</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a2a2db5055be7d99efc1be664d27a49a6"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a2a2db5055be7d99efc1be664d27a49a6">EasyKiConverter::AltiumPcbLibReader::components</a></div><div class="ttdeci">QVector&lt; ComponentInfo &gt; components() const</div><div class="ttdoc">获取封装目录</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00545">AltiumPcbLibReader.cpp:545</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a334bf5e2bcd36e02f68cbffa02178059"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">EasyKiConverter::AltiumPcbLibReader::m_components</a></div><div class="ttdeci">QVector&lt; ComponentInfo &gt; m_components</div><div class="ttdoc">已解析的封装目录项。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00256">AltiumPcbLibReader.h:256</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a36129e7f71423e9bf595823406e498a6"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a36129e7f71423e9bf595823406e498a6">EasyKiConverter::AltiumPcbLibReader::fileVersion</a></div><div class="ttdeci">QString fileVersion() const</div><div class="ttdoc">获取 PcbLib 文件版本文本</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00553">AltiumPcbLibReader.cpp:553</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a3851404b99da1b85000d919744e538eb"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">EasyKiConverter::AltiumPcbLibReader::m_libraryMetadata</a></div><div class="ttdeci">QByteArray m_libraryMetadata</div><div class="ttdoc">Library/Data 元数据块。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00258">AltiumPcbLibReader.h:258</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a531856b62b3c9bf58158047641afcfd4"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a531856b62b3c9bf58158047641afcfd4">EasyKiConverter::AltiumPcbLibReader::m_fileVersion</a></div><div class="ttdeci">QString m_fileVersion</div><div class="ttdoc">PcbLib 文件版本字符串。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00257">AltiumPcbLibReader.h:257</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a56172fd3e0511427e7b63b4ba8e6f8fa"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a56172fd3e0511427e7b63b4ba8e6f8fa">EasyKiConverter::AltiumPcbLibReader::componentIndex</a></div><div class="ttdeci">int componentIndex(const QString &amp;componentName) const</div><div class="ttdoc">按封装名称查找其在库组件列表中的索引</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00570">AltiumPcbLibReader.cpp:570</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a7c1469cfe6f5164cef1f2404e2820ee9"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">EasyKiConverter::AltiumPcbLibReader::fail</a></div><div class="ttdeci">bool fail(const QString &amp;message)</div><div class="ttdoc">清理已读取内容并记录 PcbLib 解析失败原因</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00434">AltiumPcbLibReader.cpp:434</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a884d0cd83bc2f8ce0d733e4771e9fb59"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">EasyKiConverter::AltiumPcbLibReader::m_oleReader</a></div><div class="ttdeci">OLECompoundReader m_oleReader</div><div class="ttdoc">OLE 复合文档读取器。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00255">AltiumPcbLibReader.h:255</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a89e1a3858186045586ae7e114e8679e2"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a89e1a3858186045586ae7e114e8679e2">EasyKiConverter::AltiumPcbLibReader::errorString</a></div><div class="ttdeci">QString errorString() const</div><div class="ttdoc">获取最近一次错误说明</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00754">AltiumPcbLibReader.cpp:754</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_a8fdbbb427ba502f8a3fe0ddafa0a7763"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a8fdbbb427ba502f8a3fe0ddafa0a7763">EasyKiConverter::AltiumPcbLibReader::libraryMetadata</a></div><div class="ttdeci">QByteArray libraryMetadata() const</div><div class="ttdoc">获取 Library/Data 中的元数据块</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00561">AltiumPcbLibReader.cpp:561</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_abbb4a4a02b652472e2d7654de97f649c"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#abbb4a4a02b652472e2d7654de97f649c">EasyKiConverter::AltiumPcbLibReader::readFootprintObjects</a></div><div class="ttdeci">bool readFootprintObjects(int componentIndex, QVector&lt; PrimitiveRecord &gt; *objects) const</div><div class="ttdoc">扫描指定封装 Data 流中的已知图元对象</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00613">AltiumPcbLibReader.cpp:613</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_af00b47c34bfd94f3e66b3b0089877837"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af00b47c34bfd94f3e66b3b0089877837">EasyKiConverter::AltiumPcbLibReader::readFootprintStream</a></div><div class="ttdeci">bool readFootprintStream(int componentIndex, const QString &amp;streamName, QByteArray *data) const</div><div class="ttdoc">读取指定封装的指定流</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00585">AltiumPcbLibReader.cpp:585</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibReader_html_af3c574a11cca50ae82572155d0a2b091"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af3c574a11cca50ae82572155d0a2b091">EasyKiConverter::AltiumPcbLibReader::open</a></div><div class="ttdeci">bool open(const QString &amp;filePath)</div><div class="ttdoc">打开并解析 PcbLib 文件</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8cpp_source.html#l00447">AltiumPcbLibReader.cpp:447</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a77debcc67a42b8b3ecb8eef00f5e71b3"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a77debcc67a42b8b3ecb8eef00f5e71b3">EasyKiConverter::OLECompoundReader::open</a></div><div class="ttdeci">bool open(const QString &amp;filePath)</div><div class="ttdoc">从文件加载 OLE 复合文档</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00104">OLECompoundReader.cpp:104</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a91c32f8c4fe1ebccc050abeb7cc2404c"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a91c32f8c4fe1ebccc050abeb7cc2404c">EasyKiConverter::OLECompoundReader::readStream</a></div><div class="ttdeci">bool readStream(const QString &amp;streamPath, QByteArray *data) const</div><div class="ttdoc">读取指定流</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00370">OLECompoundReader.cpp:370</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_ac47fce96aa6cce35f6cff269a97fe572"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#ac47fce96aa6cce35f6cff269a97fe572">EasyKiConverter::OLECompoundReader::errorString</a></div><div class="ttdeci">QString errorString() const</div><div class="ttdoc">获取最近一次错误说明</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00341">OLECompoundReader.cpp:341</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_af20f43b9cbf7a70d5c6e283ddf128abe"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#af20f43b9cbf7a70d5c6e283ddf128abe">EasyKiConverter::OLECompoundReader::containsStream</a></div><div class="ttdeci">bool containsStream(const QString &amp;streamPath) const</div><div class="ttdoc">判断指定流是否存在</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00360">OLECompoundReader.cpp:360</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_a03e35abaffb3b0b2652d2582bde57a7b"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#a03e35abaffb3b0b2652d2582bde57a7b">EasyKiConverter::AltiumConstants::PCB_PAD_SHAPE_RECTANGULAR</a></div><div class="ttdeci">constexpr uint8_t PCB_PAD_SHAPE_RECTANGULAR</div><div class="ttdoc">矩形焊盘</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00229">AltiumConstants.h:229</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_a15acc66422cc4ae71b916aee26996557"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#a15acc66422cc4ae71b916aee26996557">EasyKiConverter::AltiumConstants::PCB_OBJECT_REGION</a></div><div class="ttdeci">constexpr uint8_t PCB_OBJECT_REGION</div><div class="ttdoc">区域</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00175">AltiumConstants.h:175</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_a2288fff0e23e39f69e0939379fc6da65"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#a2288fff0e23e39f69e0939379fc6da65">EasyKiConverter::AltiumConstants::PCB_OBJECT_TRACK</a></div><div class="ttdeci">constexpr uint8_t PCB_OBJECT_TRACK</div><div class="ttdoc">走线</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00160">AltiumConstants.h:160</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_a5e5eda590dc593d9c8198f82a3926c05"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#a5e5eda590dc593d9c8198f82a3926c05">EasyKiConverter::AltiumConstants::PCB_OBJECT_COMPONENT_BODY</a></div><div class="ttdeci">constexpr uint8_t PCB_OBJECT_COMPONENT_BODY</div><div class="ttdoc">3D 元件体</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00180">AltiumConstants.h:180</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_a72a832174d53da20c76b6f32631d1314"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#a72a832174d53da20c76b6f32631d1314">EasyKiConverter::AltiumConstants::PCB_LAYER_MULTI</a></div><div class="ttdeci">constexpr uint8_t PCB_LAYER_MULTI</div><div class="ttdoc">多层（通孔焊盘）</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00266">AltiumConstants.h:266</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_a8e08c8fd5990ed7cd6ea2eb762bcec43"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#a8e08c8fd5990ed7cd6ea2eb762bcec43">EasyKiConverter::AltiumConstants::PCB_OBJECT_ARC</a></div><div class="ttdeci">constexpr uint8_t PCB_OBJECT_ARC</div><div class="ttdoc">弧线</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00145">AltiumConstants.h:145</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_a97433d11578513b2693ae9ba80dde863"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#a97433d11578513b2693ae9ba80dde863">EasyKiConverter::AltiumConstants::PCB_OBJECT_VIA</a></div><div class="ttdeci">constexpr uint8_t PCB_OBJECT_VIA</div><div class="ttdoc">过孔</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00155">AltiumConstants.h:155</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_aa3b2abdb2c60ce1817dac3b65a3ac0f3"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#aa3b2abdb2c60ce1817dac3b65a3ac0f3">EasyKiConverter::AltiumConstants::PCB_PAD_SHAPE_ROUNDED_RECT</a></div><div class="ttdeci">constexpr uint8_t PCB_PAD_SHAPE_ROUNDED_RECT</div><div class="ttdoc">圆角矩形焊盘</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00239">AltiumConstants.h:239</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_aa96f674b265a060d7a705662ec060bed"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#aa96f674b265a060d7a705662ec060bed">EasyKiConverter::AltiumConstants::PCB_OBJECT_FILL</a></div><div class="ttdeci">constexpr uint8_t PCB_OBJECT_FILL</div><div class="ttdoc">填充</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00170">AltiumConstants.h:170</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_ad416f15cf367307e17cd7b8967b5f103"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#ad416f15cf367307e17cd7b8967b5f103">EasyKiConverter::AltiumConstants::PCB_OBJECT_PAD</a></div><div class="ttdeci">constexpr uint8_t PCB_OBJECT_PAD</div><div class="ttdoc">焊盘</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00150">AltiumConstants.h:150</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_ae16ae59d9ffe04e9e50c663aa38f7980"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#ae16ae59d9ffe04e9e50c663aa38f7980">EasyKiConverter::AltiumConstants::PCB_PAD_SHAPE_OCTAGONAL</a></div><div class="ttdeci">constexpr uint8_t PCB_PAD_SHAPE_OCTAGONAL</div><div class="ttdoc">八角形焊盘</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00234">AltiumConstants.h:234</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_af952feaa7708f21689a7e9db72b00c90"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#af952feaa7708f21689a7e9db72b00c90">EasyKiConverter::AltiumConstants::PCB_OBJECT_TEXT</a></div><div class="ttdeci">constexpr uint8_t PCB_OBJECT_TEXT</div><div class="ttdoc">文本</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00165">AltiumConstants.h:165</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumConstants_html_afb794a63697d7465c384c92f522bd337"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumConstants.html#afb794a63697d7465c384c92f522bd337">EasyKiConverter::AltiumConstants::PCB_PAD_SHAPE_ROUND</a></div><div class="ttdeci">constexpr uint8_t PCB_PAD_SHAPE_ROUND</div><div class="ttdoc">圆形焊盘</div><div class="ttdef"><b>Definition</b> <a href="AltiumConstants_8h_source.html#l00224">AltiumConstants.h:224</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html">EasyKiConverter::AltiumPcbLibReader::PrimitiveBlock</a></div><div class="ttdoc">PcbLib Data 中的已知图元块</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00031">AltiumPcbLibReader.h:31</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock_html_a569ab483c5e1a43cf9dda47c7bf1b787"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html#a569ab483c5e1a43cf9dda47c7bf1b787">EasyKiConverter::AltiumPcbLibReader::PrimitiveBlock::flags</a></div><div class="ttdeci">quint8 flags</div><div class="ttdoc">子块标志位。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00032">AltiumPcbLibReader.h:32</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock_html_abee7881b9b86bdd008bfb96885c87cc4"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html#abee7881b9b86bdd008bfb96885c87cc4">EasyKiConverter::AltiumPcbLibReader::PrimitiveBlock::payload</a></div><div class="ttdeci">QByteArray payload</div><div class="ttdoc">去除块头后的原始载荷。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00033">AltiumPcbLibReader.h:33</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock_html_afbd0c4004ff3fde5f66825ac7be41ffe"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html#afbd0c4004ff3fde5f66825ac7be41ffe">EasyKiConverter::AltiumPcbLibReader::PrimitiveBlock::encoded</a></div><div class="ttdeci">QByteArray encoded</div><div class="ttdoc">包含块头的完整编码数据。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00034">AltiumPcbLibReader.h:34</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html">EasyKiConverter::AltiumPcbLibReader::PrimitiveRecord</a></div><div class="ttdoc">PcbLib Data 中的图元对象</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00162">AltiumPcbLibReader.h:162</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord_html_a0aeebbcfa874ebfc7d777b15859191e2"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html#a0aeebbcfa874ebfc7d777b15859191e2">EasyKiConverter::AltiumPcbLibReader::PrimitiveRecord::objectId</a></div><div class="ttdeci">quint8 objectId</div><div class="ttdoc">图元对象类型编号。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibReader_8h_source.html#l00163">AltiumPcbLibReader.h:163</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_918585fee400f91062d4b15fa5a5b3e6.html">readers</a></li><li class="navelem"><a class="el" href="AltiumPcbLibReader_8cpp.html">AltiumPcbLibReader.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

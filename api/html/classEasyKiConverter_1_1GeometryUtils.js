@@ -1,0 +1,25 @@
+var classEasyKiConverter_1_1GeometryUtils =
+[
+    [ "SvgArcEndpoints", "structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints.html", "structEasyKiConverter_1_1GeometryUtils_1_1SvgArcEndpoints" ],
+    [ "SvgArcResult", "structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult.html", "structEasyKiConverter_1_1GeometryUtils_1_1SvgArcResult" ],
+    [ "SvgPoint", "structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint.html", "structEasyKiConverter_1_1GeometryUtils_1_1SvgPoint" ],
+    [ "arcToPath", "classEasyKiConverter_1_1GeometryUtils.html#aa1c191bb3d6f64204d01db7d91765c9e", null ],
+    [ "bezierToPolyline", "classEasyKiConverter_1_1GeometryUtils.html#ae1764c36e2259eae06b2be58b792bdcf", null ],
+    [ "calcSvgArc", "classEasyKiConverter_1_1GeometryUtils.html#ad4176d199a6ca7c557a7dbb57187fcdc", null ],
+    [ "computeArc", "classEasyKiConverter_1_1GeometryUtils.html#a4391b7718f76ace474e2f5dc7dc8daeb", null ],
+    [ "convertToMm", "classEasyKiConverter_1_1GeometryUtils.html#aef67ed63d5e31b1a08d5edb04ed166e1", null ],
+    [ "degreesToRadians", "classEasyKiConverter_1_1GeometryUtils.html#aab65f0d99e6a2ed0da444150c237ee25", null ],
+    [ "distance", "classEasyKiConverter_1_1GeometryUtils.html#a7eae768897d88b3d0d02621d50480162", null ],
+    [ "getAngle", "classEasyKiConverter_1_1GeometryUtils.html#a741930dc6d1d2897dae15c0fc3e5f988", null ],
+    [ "getArcAngleEnd", "classEasyKiConverter_1_1GeometryUtils.html#addbe17f4d77846d25a12ca5af2f2f747", null ],
+    [ "getArcCenter", "classEasyKiConverter_1_1GeometryUtils.html#ae8b5597710379a4855c6d6810b7cdb42", null ],
+    [ "getMiddleArcPos", "classEasyKiConverter_1_1GeometryUtils.html#a4476db5e526457993382e6666287acb9", null ],
+    [ "isASCII", "classEasyKiConverter_1_1GeometryUtils.html#ad75261a010b3573d037309e1105e3133", null ],
+    [ "normalizeAngle", "classEasyKiConverter_1_1GeometryUtils.html#a5dbd59951d4a1555901e57a578741c1f", null ],
+    [ "parseSvgPath", "classEasyKiConverter_1_1GeometryUtils.html#a484e7d0f6523468dbd9df0dd94c43912", null ],
+    [ "pxToMil", "classEasyKiConverter_1_1GeometryUtils.html#a67241406f84d1ebfe4494c4aeae2c5f9", null ],
+    [ "pxToMm", "classEasyKiConverter_1_1GeometryUtils.html#a7236bb7b4d841de8244ee80c9829d730", null ],
+    [ "pxToMmFloor", "classEasyKiConverter_1_1GeometryUtils.html#aac4bf21929be0cf82e3bc102fee4d6e1", null ],
+    [ "radiansToDegrees", "classEasyKiConverter_1_1GeometryUtils.html#aa2f7844abf1010f846448e74ae212485", null ],
+    [ "solveSvgArc", "classEasyKiConverter_1_1GeometryUtils.html#a0c8b0600b42eab25c6b5a489ac8e0cd8", null ]
+];

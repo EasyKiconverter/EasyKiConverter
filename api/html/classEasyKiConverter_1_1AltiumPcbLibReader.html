@@ -1,0 +1,845 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::AltiumPcbLibReader类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1AltiumPcbLibReader.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">类</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1AltiumPcbLibReader-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::AltiumPcbLibReader类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Altium PcbLib 库级读取器  
+ <a href="classEasyKiConverter_1_1AltiumPcbLibReader.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="AltiumPcbLibReader_8h_source.html">AltiumPcbLibReader.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::AltiumPcbLibReader 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1AltiumPcbLibReader__coll__graph.svg" width="236" height="734"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+类</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ArcFields.html">ArcFields</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 弧线公共字段之后的结构化数据  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ArcFields.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ComponentBodyFields.html">ComponentBodyFields</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 三维元件体图元的结构化数据  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ComponentBodyFields.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ComponentInfo.html">ComponentInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 封装目录项  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ComponentInfo.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1FillFields.html">FillFields</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 填充图元的结构化数据  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1FillFields.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PadFields.html">PadFields</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 焊盘主块和扩展块的结构化数据  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PadFields.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html">PrimitiveBlock</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib Data 中的已知图元块  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveBlock.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html">PrimitiveRecord</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib Data 中的图元对象  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1RegionFields.html">RegionFields</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 区域图元的结构化数据  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1RegionFields.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1TextFields.html">TextFields</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 文本主块的结构化数据  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1TextFields.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1TrackFields.html">TrackFields</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 走线公共字段之后的结构化数据  <a href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1TrackFields.html#details">更多...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:af3c574a11cca50ae82572155d0a2b091" id="r_af3c574a11cca50ae82572155d0a2b091"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af3c574a11cca50ae82572155d0a2b091">open</a> (const QString &amp;filePath)</td></tr>
+<tr class="memdesc:af3c574a11cca50ae82572155d0a2b091"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开并解析 PcbLib 文件  <br /></td></tr>
+<tr class="separator:af3c574a11cca50ae82572155d0a2b091"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a2db5055be7d99efc1be664d27a49a6" id="r_a2a2db5055be7d99efc1be664d27a49a6"><td class="memItemLeft" align="right" valign="top">QVector&lt; <a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ComponentInfo.html">ComponentInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a2a2db5055be7d99efc1be664d27a49a6">components</a> () const</td></tr>
+<tr class="memdesc:a2a2db5055be7d99efc1be664d27a49a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取封装目录  <br /></td></tr>
+<tr class="separator:a2a2db5055be7d99efc1be664d27a49a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36129e7f71423e9bf595823406e498a6" id="r_a36129e7f71423e9bf595823406e498a6"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a36129e7f71423e9bf595823406e498a6">fileVersion</a> () const</td></tr>
+<tr class="memdesc:a36129e7f71423e9bf595823406e498a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取 PcbLib 文件版本文本  <br /></td></tr>
+<tr class="separator:a36129e7f71423e9bf595823406e498a6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8fdbbb427ba502f8a3fe0ddafa0a7763" id="r_a8fdbbb427ba502f8a3fe0ddafa0a7763"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a8fdbbb427ba502f8a3fe0ddafa0a7763">libraryMetadata</a> () const</td></tr>
+<tr class="memdesc:a8fdbbb427ba502f8a3fe0ddafa0a7763"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取 Library/Data 中的元数据块  <br /></td></tr>
+<tr class="separator:a8fdbbb427ba502f8a3fe0ddafa0a7763"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af00b47c34bfd94f3e66b3b0089877837" id="r_af00b47c34bfd94f3e66b3b0089877837"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#af00b47c34bfd94f3e66b3b0089877837">readFootprintStream</a> (int <a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a56172fd3e0511427e7b63b4ba8e6f8fa">componentIndex</a>, const QString &amp;streamName, QByteArray *data) const</td></tr>
+<tr class="memdesc:af00b47c34bfd94f3e66b3b0089877837"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取指定封装的指定流  <br /></td></tr>
+<tr class="separator:af00b47c34bfd94f3e66b3b0089877837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8aa60819c7dbcdadde54d3b4ca1f062" id="r_ad8aa60819c7dbcdadde54d3b4ca1f062"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#ad8aa60819c7dbcdadde54d3b4ca1f062">readFootprintStream</a> (const QString &amp;componentName, const QString &amp;streamName, QByteArray *data) const</td></tr>
+<tr class="memdesc:ad8aa60819c7dbcdadde54d3b4ca1f062"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取指定封装的指定流  <br /></td></tr>
+<tr class="separator:ad8aa60819c7dbcdadde54d3b4ca1f062"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbb4a4a02b652472e2d7654de97f649c" id="r_abbb4a4a02b652472e2d7654de97f649c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#abbb4a4a02b652472e2d7654de97f649c">readFootprintObjects</a> (int <a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a56172fd3e0511427e7b63b4ba8e6f8fa">componentIndex</a>, QVector&lt; <a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html">PrimitiveRecord</a> &gt; *objects) const</td></tr>
+<tr class="memdesc:abbb4a4a02b652472e2d7654de97f649c"><td class="mdescLeft">&#160;</td><td class="mdescRight">扫描指定封装 Data 流中的已知图元对象  <br /></td></tr>
+<tr class="separator:abbb4a4a02b652472e2d7654de97f649c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45b55fa716246299293b0c25417e5990" id="r_a45b55fa716246299293b0c25417e5990"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a45b55fa716246299293b0c25417e5990">readFootprintObjects</a> (const QString &amp;componentName, QVector&lt; <a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html">PrimitiveRecord</a> &gt; *objects) const</td></tr>
+<tr class="memdesc:a45b55fa716246299293b0c25417e5990"><td class="mdescLeft">&#160;</td><td class="mdescRight">按封装名称扫描已知图元对象  <br /></td></tr>
+<tr class="separator:a45b55fa716246299293b0c25417e5990"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89e1a3858186045586ae7e114e8679e2" id="r_a89e1a3858186045586ae7e114e8679e2"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a89e1a3858186045586ae7e114e8679e2">errorString</a> () const</td></tr>
+<tr class="memdesc:a89e1a3858186045586ae7e114e8679e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最近一次错误说明  <br /></td></tr>
+<tr class="separator:a89e1a3858186045586ae7e114e8679e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14204733f140979de1139b79a45c11e8" id="r_a14204733f140979de1139b79a45c11e8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a14204733f140979de1139b79a45c11e8">hasError</a> () const</td></tr>
+<tr class="memdesc:a14204733f140979de1139b79a45c11e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取是否发生读取错误  <br /></td></tr>
+<tr class="separator:a14204733f140979de1139b79a45c11e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a7c1469cfe6f5164cef1f2404e2820ee9" id="r_a7c1469cfe6f5164cef1f2404e2820ee9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a7c1469cfe6f5164cef1f2404e2820ee9">fail</a> (const QString &amp;message)</td></tr>
+<tr class="memdesc:a7c1469cfe6f5164cef1f2404e2820ee9"><td class="mdescLeft">&#160;</td><td class="mdescRight">清理已读取内容并记录 PcbLib 解析失败原因  <br /></td></tr>
+<tr class="separator:a7c1469cfe6f5164cef1f2404e2820ee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56172fd3e0511427e7b63b4ba8e6f8fa" id="r_a56172fd3e0511427e7b63b4ba8e6f8fa"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a56172fd3e0511427e7b63b4ba8e6f8fa">componentIndex</a> (const QString &amp;componentName) const</td></tr>
+<tr class="memdesc:a56172fd3e0511427e7b63b4ba8e6f8fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">按封装名称查找其在库组件列表中的索引  <br /></td></tr>
+<tr class="separator:a56172fd3e0511427e7b63b4ba8e6f8fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a884d0cd83bc2f8ce0d733e4771e9fb59" id="r_a884d0cd83bc2f8ce0d733e4771e9fb59"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1OLECompoundReader.html">OLECompoundReader</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a884d0cd83bc2f8ce0d733e4771e9fb59">m_oleReader</a></td></tr>
+<tr class="memdesc:a884d0cd83bc2f8ce0d733e4771e9fb59"><td class="mdescLeft">&#160;</td><td class="mdescRight">OLE 复合文档读取器。  <br /></td></tr>
+<tr class="separator:a884d0cd83bc2f8ce0d733e4771e9fb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a334bf5e2bcd36e02f68cbffa02178059" id="r_a334bf5e2bcd36e02f68cbffa02178059"><td class="memItemLeft" align="right" valign="top">QVector&lt; <a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ComponentInfo.html">ComponentInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a334bf5e2bcd36e02f68cbffa02178059">m_components</a></td></tr>
+<tr class="memdesc:a334bf5e2bcd36e02f68cbffa02178059"><td class="mdescLeft">&#160;</td><td class="mdescRight">已解析的封装目录项。  <br /></td></tr>
+<tr class="separator:a334bf5e2bcd36e02f68cbffa02178059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a531856b62b3c9bf58158047641afcfd4" id="r_a531856b62b3c9bf58158047641afcfd4"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a531856b62b3c9bf58158047641afcfd4">m_fileVersion</a></td></tr>
+<tr class="memdesc:a531856b62b3c9bf58158047641afcfd4"><td class="mdescLeft">&#160;</td><td class="mdescRight">PcbLib 文件版本字符串。  <br /></td></tr>
+<tr class="separator:a531856b62b3c9bf58158047641afcfd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3851404b99da1b85000d919744e538eb" id="r_a3851404b99da1b85000d919744e538eb"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a3851404b99da1b85000d919744e538eb">m_libraryMetadata</a></td></tr>
+<tr class="memdesc:a3851404b99da1b85000d919744e538eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Library/Data 元数据块。  <br /></td></tr>
+<tr class="separator:a3851404b99da1b85000d919744e538eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11b61b3d44d9c39b203ce22966497d43" id="r_a11b61b3d44d9c39b203ce22966497d43"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html#a11b61b3d44d9c39b203ce22966497d43">m_errorMessage</a></td></tr>
+<tr class="memdesc:a11b61b3d44d9c39b203ce22966497d43"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次读取错误说明。  <br /></td></tr>
+<tr class="separator:a11b61b3d44d9c39b203ce22966497d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>Altium PcbLib 库级读取器 </p>
+<p>解析 FileHeader、Library/Data、SectionKeys 以及封装 Storage 映射。 当前只读，不执行增量写回。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8h_source.html">AltiumPcbLibReader.h</a> 第 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00018">18</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a56172fd3e0511427e7b63b4ba8e6f8fa" name="a56172fd3e0511427e7b63b4ba8e6f8fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56172fd3e0511427e7b63b4ba8e6f8fa">&#9670;&#160;</a></span>componentIndex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::AltiumPcbLibReader::componentIndex </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentName</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>按封装名称查找其在库组件列表中的索引 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentName</td><td>封装名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>封装索引；未找到时返回 -1 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00570">570</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00256">m_components</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00746">readFootprintObjects()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00601">readFootprintStream()</a>.</p>
+
+</div>
+</div>
+<a id="a2a2db5055be7d99efc1be664d27a49a6" name="a2a2db5055be7d99efc1be664d27a49a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a2db5055be7d99efc1be664d27a49a6">&#9670;&#160;</a></span>components()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt; <a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ComponentInfo.html">AltiumPcbLibReader::ComponentInfo</a> &gt; EasyKiConverter::AltiumPcbLibReader::components </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取封装目录 </p>
+<p>返回当前库中按文件顺序解析出的封装信息</p>
+<dl class="section return"><dt>返回</dt><dd>已解析的封装目录项列表</dd>
+<dd>
+封装目录项列表 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00545">545</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00256">m_components</a>.</p>
+
+</div>
+</div>
+<a id="a89e1a3858186045586ae7e114e8679e2" name="a89e1a3858186045586ae7e114e8679e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a89e1a3858186045586ae7e114e8679e2">&#9670;&#160;</a></span>errorString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::AltiumPcbLibReader::errorString </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取最近一次错误说明 </p>
+<p>返回最近一次 PcbLib 读取错误</p>
+<dl class="section return"><dt>返回</dt><dd>最近一次读取错误；没有错误时为空</dd>
+<dd>
+最近一次错误说明；没有错误时为空 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00754">754</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00259">m_errorMessage</a>.</p>
+
+</div>
+</div>
+<a id="a7c1469cfe6f5164cef1f2404e2820ee9" name="a7c1469cfe6f5164cef1f2404e2820ee9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c1469cfe6f5164cef1f2404e2820ee9">&#9670;&#160;</a></span>fail()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumPcbLibReader::fail </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>message</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>清理已读取内容并记录 PcbLib 解析失败原因 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">message</td><td>解析失败说明 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>始终返回 false，便于错误路径直接返回 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00434">434</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00256">m_components</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00259">m_errorMessage</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00257">m_fileVersion</a> , 以及 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00258">m_libraryMetadata</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00447">open()</a>.</p>
+
+</div>
+</div>
+<a id="a36129e7f71423e9bf595823406e498a6" name="a36129e7f71423e9bf595823406e498a6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36129e7f71423e9bf595823406e498a6">&#9670;&#160;</a></span>fileVersion()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::AltiumPcbLibReader::fileVersion </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取 PcbLib 文件版本文本 </p>
+<p>返回 PcbLib 文件头声明的版本字符串</p>
+<dl class="section return"><dt>返回</dt><dd>文件头中的版本字符串</dd>
+<dd>
+文件版本字符串 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00553">553</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00257">m_fileVersion</a>.</p>
+
+</div>
+</div>
+<a id="a14204733f140979de1139b79a45c11e8" name="a14204733f140979de1139b79a45c11e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14204733f140979de1139b79a45c11e8">&#9670;&#160;</a></span>hasError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumPcbLibReader::hasError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取是否发生读取错误 </p>
+<p>判断 PcbLib 读取器是否处于错误状态</p>
+<dl class="section return"><dt>返回</dt><dd>已发生读取错误时返回 true </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00762">762</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00259">m_errorMessage</a>.</p>
+
+</div>
+</div>
+<a id="a8fdbbb427ba502f8a3fe0ddafa0a7763" name="a8fdbbb427ba502f8a3fe0ddafa0a7763"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8fdbbb427ba502f8a3fe0ddafa0a7763">&#9670;&#160;</a></span>libraryMetadata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::AltiumPcbLibReader::libraryMetadata </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取 Library/Data 中的元数据块 </p>
+<p>返回 Library/Data 流中的原始库元数据</p>
+<dl class="section return"><dt>返回</dt><dd>元数据块的原始字节数据</dd>
+<dd>
+原始元数据块 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00561">561</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00258">m_libraryMetadata</a>.</p>
+
+</div>
+</div>
+<a id="af3c574a11cca50ae82572155d0a2b091" name="af3c574a11cca50ae82572155d0a2b091"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af3c574a11cca50ae82572155d0a2b091">&#9670;&#160;</a></span>open()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumPcbLibReader::open </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>打开并解析 PcbLib 文件 </p>
+<p>打开 PcbLib 容器，读取库头、封装名称和存储键映射</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>文件路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>结构完整且封装映射有效时返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filePath</td><td>PcbLib 文件路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>文件结构和封装映射有效时返回 true </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00447">447</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="OLECompoundReader_8cpp_source.html#l00360">EasyKiConverter::OLECompoundReader::containsStream()</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00341">EasyKiConverter::OLECompoundReader::errorString()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00349">EasyKiConverter::AltiumBinaryReader::errorString()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00434">fail()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00341">EasyKiConverter::AltiumBinaryReader::hasError()</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00256">m_components</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00259">m_errorMessage</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00257">m_fileVersion</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00258">m_libraryMetadata</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00255">m_oleReader</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00070">name</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00104">EasyKiConverter::OLECompoundReader::open()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00197">EasyKiConverter::AltiumBinaryReader::readBlock()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00105">EasyKiConverter::AltiumBinaryReader::readInt32()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00212">EasyKiConverter::AltiumBinaryReader::readPascalShortString()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00253">EasyKiConverter::AltiumBinaryReader::readPascalString()</a>, <a class="el" href="OLECompoundReader_8cpp_source.html#l00370">EasyKiConverter::OLECompoundReader::readStream()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00230">EasyKiConverter::AltiumBinaryReader::readStringBlock()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00138">EasyKiConverter::AltiumBinaryReader::readUInt32()</a> , 以及 <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00333">EasyKiConverter::AltiumBinaryReader::remaining()</a>.</p>
+
+</div>
+</div>
+<a id="a45b55fa716246299293b0c25417e5990" name="a45b55fa716246299293b0c25417e5990"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45b55fa716246299293b0c25417e5990">&#9670;&#160;</a></span>readFootprintObjects() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumPcbLibReader::readFootprintObjects </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QVector&lt; <a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html">PrimitiveRecord</a> &gt; *&#160;</td>
+          <td class="paramname"><em>objects</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>按封装名称扫描已知图元对象 </p>
+<p>按封装名称解析其 Data 流中的全部图元</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentName</td><td>封装名称 </td></tr>
+    <tr><td class="paramname">objects</td><td>用于接收图元记录的输出指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>扫描成功时返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentName</td><td>封装名称 </td></tr>
+    <tr><td class="paramname">objects</td><td>用于接收图元记录的输出指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>解析成功时返回 true </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00746">746</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00570">componentIndex()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00613">readFootprintObjects()</a>.</p>
+
+</div>
+</div>
+<a id="abbb4a4a02b652472e2d7654de97f649c" name="abbb4a4a02b652472e2d7654de97f649c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbb4a4a02b652472e2d7654de97f649c">&#9670;&#160;</a></span>readFootprintObjects() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumPcbLibReader::readFootprintObjects </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>componentIndexValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QVector&lt; <a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1PrimitiveRecord.html">PrimitiveRecord</a> &gt; *&#160;</td>
+          <td class="paramname"><em>objects</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>扫描指定封装 Data 流中的已知图元对象 </p>
+<p>解析指定封装 Data 流中的图元块，并保留原始编码供后续导出使用</p>
+<p>Data 流首部的封装名称不会作为对象返回。当前支持项目写入器使用的对象类型； 遇到未知对象 ID 或损坏子块时返回 false，调用方仍可通过 readFootprintStream 获取原始流。 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentIndex</td><td>封装目录项索引 </td></tr>
+    <tr><td class="paramname">objects</td><td>用于接收图元记录的输出指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>扫描成功时返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentIndexValue</td><td>封装目录项索引 </td></tr>
+    <tr><td class="paramname">objects</td><td>用于接收图元记录的输出指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>解析成功时返回 true </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00613">613</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00034">EasyKiConverter::AltiumPcbLibReader::PrimitiveBlock::encoded</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00349">EasyKiConverter::AltiumBinaryReader::errorString()</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00032">EasyKiConverter::AltiumPcbLibReader::PrimitiveBlock::flags</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00259">m_errorMessage</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00163">EasyKiConverter::AltiumPcbLibReader::PrimitiveRecord::objectId</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00033">EasyKiConverter::AltiumPcbLibReader::PrimitiveBlock::payload</a>, <a class="el" href="AltiumConstants_8h_source.html#l00145">EasyKiConverter::AltiumConstants::PCB_OBJECT_ARC</a>, <a class="el" href="AltiumConstants_8h_source.html#l00180">EasyKiConverter::AltiumConstants::PCB_OBJECT_COMPONENT_BODY</a>, <a class="el" href="AltiumConstants_8h_source.html#l00170">EasyKiConverter::AltiumConstants::PCB_OBJECT_FILL</a>, <a class="el" href="AltiumConstants_8h_source.html#l00150">EasyKiConverter::AltiumConstants::PCB_OBJECT_PAD</a>, <a class="el" href="AltiumConstants_8h_source.html#l00175">EasyKiConverter::AltiumConstants::PCB_OBJECT_REGION</a>, <a class="el" href="AltiumConstants_8h_source.html#l00165">EasyKiConverter::AltiumConstants::PCB_OBJECT_TEXT</a>, <a class="el" href="AltiumConstants_8h_source.html#l00160">EasyKiConverter::AltiumConstants::PCB_OBJECT_TRACK</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00325">EasyKiConverter::AltiumBinaryReader::position()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00197">EasyKiConverter::AltiumBinaryReader::readBlock()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00585">readFootprintStream()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00230">EasyKiConverter::AltiumBinaryReader::readStringBlock()</a>, <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00058">EasyKiConverter::AltiumBinaryReader::readUInt8()</a> , 以及 <a class="el" href="AltiumBinaryReader_8cpp_source.html#l00333">EasyKiConverter::AltiumBinaryReader::remaining()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00746">readFootprintObjects()</a>.</p>
+
+</div>
+</div>
+<a id="ad8aa60819c7dbcdadde54d3b4ca1f062" name="ad8aa60819c7dbcdadde54d3b4ca1f062"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8aa60819c7dbcdadde54d3b4ca1f062">&#9670;&#160;</a></span>readFootprintStream() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumPcbLibReader::readFootprintStream </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>streamName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QByteArray *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>读取指定封装的指定流 </p>
+<p>按封装名称读取其指定名称的 OLE 流</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentName</td><td>封装名称 </td></tr>
+    <tr><td class="paramname">streamName</td><td>OLE 流名称 </td></tr>
+    <tr><td class="paramname">data</td><td>用于接收流数据的输出指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>读取成功时返回 true </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00601">601</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00570">componentIndex()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00585">readFootprintStream()</a>.</p>
+
+</div>
+</div>
+<a id="af00b47c34bfd94f3e66b3b0089877837" name="af00b47c34bfd94f3e66b3b0089877837"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af00b47c34bfd94f3e66b3b0089877837">&#9670;&#160;</a></span>readFootprintStream() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::AltiumPcbLibReader::readFootprintStream </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>componentIndexValue</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>streamName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QByteArray *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>读取指定封装的指定流 </p>
+<p>按封装索引读取其指定名称的 OLE 流</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentIndex</td><td>封装目录项索引 </td></tr>
+    <tr><td class="paramname">streamName</td><td>OLE 流名称 </td></tr>
+    <tr><td class="paramname">data</td><td>用于接收流数据的输出指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>读取成功时返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentIndexValue</td><td>封装目录项索引 </td></tr>
+    <tr><td class="paramname">streamName</td><td>OLE 流名称 </td></tr>
+    <tr><td class="paramname">data</td><td>用于接收流数据的输出指针 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>读取成功时返回 true </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a> 第 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00585">585</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00256">m_components</a>, <a class="el" href="AltiumPcbLibReader_8h_source.html#l00255">m_oleReader</a> , 以及 <a class="el" href="OLECompoundReader_8cpp_source.html#l00370">EasyKiConverter::OLECompoundReader::readStream()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00613">readFootprintObjects()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00601">readFootprintStream()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a334bf5e2bcd36e02f68cbffa02178059" name="a334bf5e2bcd36e02f68cbffa02178059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a334bf5e2bcd36e02f68cbffa02178059">&#9670;&#160;</a></span>m_components</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVector&lt;<a class="el" href="structEasyKiConverter_1_1AltiumPcbLibReader_1_1ComponentInfo.html">ComponentInfo</a>&gt; EasyKiConverter::AltiumPcbLibReader::m_components</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>已解析的封装目录项。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8h_source.html">AltiumPcbLibReader.h</a> 第 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00256">256</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00570">componentIndex()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00545">components()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00434">fail()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00447">open()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00585">readFootprintStream()</a>.</p>
+
+</div>
+</div>
+<a id="a11b61b3d44d9c39b203ce22966497d43" name="a11b61b3d44d9c39b203ce22966497d43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11b61b3d44d9c39b203ce22966497d43">&#9670;&#160;</a></span>m_errorMessage</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::AltiumPcbLibReader::m_errorMessage</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次读取错误说明。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8h_source.html">AltiumPcbLibReader.h</a> 第 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00259">259</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00754">errorString()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00434">fail()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00762">hasError()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00447">open()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00613">readFootprintObjects()</a>.</p>
+
+</div>
+</div>
+<a id="a531856b62b3c9bf58158047641afcfd4" name="a531856b62b3c9bf58158047641afcfd4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a531856b62b3c9bf58158047641afcfd4">&#9670;&#160;</a></span>m_fileVersion</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::AltiumPcbLibReader::m_fileVersion</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>PcbLib 文件版本字符串。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8h_source.html">AltiumPcbLibReader.h</a> 第 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00257">257</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00434">fail()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00553">fileVersion()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00447">open()</a>.</p>
+
+</div>
+</div>
+<a id="a3851404b99da1b85000d919744e538eb" name="a3851404b99da1b85000d919744e538eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3851404b99da1b85000d919744e538eb">&#9670;&#160;</a></span>m_libraryMetadata</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::AltiumPcbLibReader::m_libraryMetadata</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Library/Data 元数据块。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8h_source.html">AltiumPcbLibReader.h</a> 第 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00258">258</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00434">fail()</a>, <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00561">libraryMetadata()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00447">open()</a>.</p>
+
+</div>
+</div>
+<a id="a884d0cd83bc2f8ce0d733e4771e9fb59" name="a884d0cd83bc2f8ce0d733e4771e9fb59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a884d0cd83bc2f8ce0d733e4771e9fb59">&#9670;&#160;</a></span>m_oleReader</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1OLECompoundReader.html">OLECompoundReader</a> EasyKiConverter::AltiumPcbLibReader::m_oleReader</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>OLE 复合文档读取器。 </p>
+
+<p class="definition">在文件 <a class="el" href="AltiumPcbLibReader_8h_source.html">AltiumPcbLibReader.h</a> 第 <a class="el" href="AltiumPcbLibReader_8h_source.html#l00255">255</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00447">open()</a> , 以及 <a class="el" href="AltiumPcbLibReader_8cpp_source.html#l00585">readFootprintStream()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/altium/readers/<a class="el" href="AltiumPcbLibReader_8h_source.html">AltiumPcbLibReader.h</a></li>
+<li>core/altium/readers/<a class="el" href="AltiumPcbLibReader_8cpp_source.html">AltiumPcbLibReader.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1AltiumPcbLibReader.html">AltiumPcbLibReader</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

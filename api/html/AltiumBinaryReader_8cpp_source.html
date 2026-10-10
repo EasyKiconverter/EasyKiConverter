@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/utils/AltiumBinaryReader.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumBinaryReader_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumBinaryReader.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumBinaryReader_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumBinaryReader_8h.html">AltiumBinaryReader.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;cstring&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a167570f7dcb29c32277e4a00e6726d50">   13</a></span><a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a167570f7dcb29c32277e4a00e6726d50">AltiumBinaryReader::AltiumBinaryReader</a>(<span class="keyword">const</span> QByteArray&amp; buffer) : m_buffer(buffer) {}</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="}">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a13146567a08b3ab7928e9969577d2264">   21</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a13146567a08b3ab7928e9969577d2264">AltiumBinaryReader::ensure</a>(<span class="keywordtype">int</span> size, <span class="keyword">const</span> QString&amp; operation) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordflow">if</span> (size &lt; 0 || size &gt; <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>())</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 %1 时超出数据边界&quot;</span>).arg(operation));</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
+</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">   32</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">AltiumBinaryReader::fail</a>(<span class="keyword">const</span> QString&amp; message) {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a17dbfafcf0f9389020762501307b1a01">m_errorMessage</a>.isEmpty())</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a17dbfafcf0f9389020762501307b1a01">m_errorMessage</a> = message;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
+</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a1cadcf4a5e96f9145637ef1ca582637b">   43</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a1cadcf4a5e96f9145637ef1ca582637b">AltiumBinaryReader::readInt8</a>(int8_t* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 i8 时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    uint8_t raw = 0;  <span class="comment">// 原始无符号字节。</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">readUInt8</a>(&amp;raw))</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <span class="keyword">static_cast&lt;</span>int8_t<span class="keyword">&gt;</span>(raw);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00058" data-start="{" data-end="}">
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">   58</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">AltiumBinaryReader::readUInt8</a>(uint8_t* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 u8 时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a13146567a08b3ab7928e9969577d2264">ensure</a>(1, QStringLiteral(<span class="stringliteral">&quot;u8&quot;</span>)))</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.at(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a>++));</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>}</div>
+</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a0ab6279cec04ee5877665dbbc94ebf04">   72</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a0ab6279cec04ee5877665dbbc94ebf04">AltiumBinaryReader::readInt16</a>(int16_t* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 i16 时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    uint16_t raw = 0;  <span class="comment">// 原始无符号整数。</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a3724b2fa3440676c826ad1adfeed8944">readUInt16</a>(&amp;raw))</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <span class="keyword">static_cast&lt;</span>int16_t<span class="keyword">&gt;</span>(raw);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a3724b2fa3440676c826ad1adfeed8944">   87</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a3724b2fa3440676c826ad1adfeed8944">AltiumBinaryReader::readUInt16</a>(uint16_t* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 u16 时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a13146567a08b3ab7928e9969577d2264">ensure</a>(2, QStringLiteral(<span class="stringliteral">&quot;u16&quot;</span>)))</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keyword">const</span> <span class="keyword">auto</span> <span class="keywordtype">byte</span> = [<span class="keyword">this</span>](<span class="keywordtype">int</span> offset) {  <span class="comment">// 按偏移读取一个无符号字节。</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>uint16_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.at(offset)));</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    };</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = byte(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a>) | <span class="keyword">static_cast&lt;</span>uint16_t<span class="keyword">&gt;</span>(byte(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> + 1) &lt;&lt; 8);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> += 2;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>}</div>
+</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="foldopen" id="foldopen00105" data-start="{" data-end="}">
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#af064a0146be2d1aa1d660078102f33cc">  105</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#af064a0146be2d1aa1d660078102f33cc">AltiumBinaryReader::readInt32</a>(int32_t* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 i32 时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    uint32_t raw = 0;  <span class="comment">// 原始无符号整数。</span></div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">readUInt32</a>(&amp;raw))</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <span class="keyword">static_cast&lt;</span>int32_t<span class="keyword">&gt;</span>(raw);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
+</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="foldopen" id="foldopen00120" data-start="{" data-end="}">
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#af945c740424b12528235d6da0329f23b">  120</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#af945c740424b12528235d6da0329f23b">AltiumBinaryReader::readUInt32Internal</a>(uint32_t* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 u32 时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a13146567a08b3ab7928e9969577d2264">ensure</a>(4, QStringLiteral(<span class="stringliteral">&quot;u32&quot;</span>)))</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.at(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a>))) |</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>             (<span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.at(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> + 1))) &lt;&lt; 8) |</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>             (<span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.at(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> + 2))) &lt;&lt; 16) |</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>             (<span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.at(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> + 3))) &lt;&lt; 24);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> += 4;</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
+</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="foldopen" id="foldopen00138" data-start="{" data-end="}">
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">  138</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">AltiumBinaryReader::readUInt32</a>(uint32_t* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#af945c740424b12528235d6da0329f23b">readUInt32Internal</a>(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>}</div>
+</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="foldopen" id="foldopen00147" data-start="{" data-end="}">
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a2114d51759e57187f22c7286173173ce">  147</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a2114d51759e57187f22c7286173173ce">AltiumBinaryReader::readFloat</a>(<span class="keywordtype">float</span>* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 float 时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    uint32_t raw = 0;  <span class="comment">// 浮点数的原始位模式。</span></div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">readUInt32</a>(&amp;raw))</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    std::memcpy(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>, &amp;raw, <span class="keyword">sizeof</span>(raw));</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>}</div>
+</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span> </div>
+<div class="foldopen" id="foldopen00162" data-start="{" data-end="}">
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8647cac19d7319cf4e15b85e3806e57f">  162</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8647cac19d7319cf4e15b85e3806e57f">AltiumBinaryReader::readDouble</a>(<span class="keywordtype">double</span>* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 double 时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a13146567a08b3ab7928e9969577d2264">ensure</a>(8, QStringLiteral(<span class="stringliteral">&quot;double&quot;</span>)))</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    uint64_t raw = 0;  <span class="comment">// 浮点数的原始位模式。</span></div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 8; ++i)</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        raw |= <span class="keyword">static_cast&lt;</span>uint64_t<span class="keyword">&gt;</span>(<span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.at(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> + i))) &lt;&lt; (i * 8);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> += 8;</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    std::memcpy(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>, &amp;raw, <span class="keyword">sizeof</span>(raw));</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>}</div>
+</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="foldopen" id="foldopen00181" data-start="{" data-end="}">
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a972b94414a923d5de69621500b8706df">  181</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a972b94414a923d5de69621500b8706df">AltiumBinaryReader::readBytes</a>(<span class="keywordtype">int</span> size, QByteArray* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取字节时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a13146567a08b3ab7928e9969577d2264">ensure</a>(size, QStringLiteral(<span class="stringliteral">&quot;字节&quot;</span>)))</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.mid(<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a>, size);</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> += size;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>}</div>
+</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span> </div>
+<div class="foldopen" id="foldopen00197" data-start="{" data-end="}">
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a608149136d345a6c46286c710afb4a02">  197</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a608149136d345a6c46286c710afb4a02">AltiumBinaryReader::readBlock</a>(QByteArray* payload, uint8_t* flags) {</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    uint32_t header = 0;  <span class="comment">// 块长度和标志组合值。</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">readUInt32</a>(&amp;header))</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> size = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(header &amp; 0x00FFFFFFU);  <span class="comment">// 块内容长度。</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="keywordflow">if</span> (flags != <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        *flags = <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(header &gt;&gt; 24);</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a972b94414a923d5de69621500b8706df">readBytes</a>(size, payload);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>}</div>
+</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span> </div>
+<div class="foldopen" id="foldopen00212" data-start="{" data-end="}">
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a98fb9f9964852698b8c79804462ab263">  212</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a98fb9f9964852698b8c79804462ab263">AltiumBinaryReader::readPascalShortString</a>(QString* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取 Pascal 短字符串时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    uint8_t size = 0;  <span class="comment">// 字符串字节数。</span></div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">readUInt8</a>(&amp;size))</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    QByteArray data;  <span class="comment">// 字符串原始字节。</span></div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a972b94414a923d5de69621500b8706df">readBytes</a>(size, &amp;data))</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = QString::fromLatin1(data);</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>}</div>
+</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span> </div>
+<div class="foldopen" id="foldopen00230" data-start="{" data-end="}">
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ac2f86de3b8ce896e33949f8350a25f04">  230</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ac2f86de3b8ce896e33949f8350a25f04">AltiumBinaryReader::readStringBlock</a>(QString* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    uint32_t blockSize = 0;  <span class="comment">// 字符串块总长度。</span></div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">readUInt32</a>(&amp;blockSize) || blockSize &lt; 1 || blockSize &gt; <span class="keyword">static_cast&lt;</span>uint32_t<span class="keyword">&gt;</span>(<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>()))</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;字符串块长度无效&quot;</span>));</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> payloadStart = <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a>;  <span class="comment">// 字符串块载荷起始偏移。</span></div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    uint8_t stringSize = 0;  <span class="comment">// 字符串内容长度。</span></div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">readUInt8</a>(&amp;stringSize) || stringSize &gt; blockSize - 1)</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;字符串块内容长度无效&quot;</span>));</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    QByteArray data;  <span class="comment">// 字符串原始字节。</span></div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a972b94414a923d5de69621500b8706df">readBytes</a>(stringSize, &amp;data))</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a> = payloadStart + <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(blockSize);</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取字符串块时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    *<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> = QString::fromLatin1(data);</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>}</div>
+</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span> </div>
+<div class="foldopen" id="foldopen00253" data-start="{" data-end="}">
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a522bd572d0f3805593284acf8c7eef21">  253</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a522bd572d0f3805593284acf8c7eef21">AltiumBinaryReader::readPascalString</a>(QString* <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>    QByteArray block;  <span class="comment">// Pascal 字符串块数据。</span></div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a608149136d345a6c46286c710afb4a02">readBlock</a>(&amp;block))</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>    <a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryReader.html">AltiumBinaryReader</a> blockReader(block);  <span class="comment">// 字符串块读取器。</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>    <span class="keywordflow">if</span> (!blockReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a98fb9f9964852698b8c79804462ab263">readPascalShortString</a>(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>))</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(blockReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">errorString</a>());</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>    uint8_t terminator = 0;  <span class="comment">// Pascal 字符串终止字节。</span></div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    <span class="keywordflow">if</span> (!blockReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">readUInt8</a>(&amp;terminator) || terminator != 0 || blockReader.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">remaining</a>() != 0)</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;Pascal 字符串块终止符无效&quot;</span>));</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>}</div>
+</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="foldopen" id="foldopen00271" data-start="{" data-end="}">
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a105c95a925db1a14c98266cbe020c7e8">  271</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a105c95a925db1a14c98266cbe020c7e8">AltiumBinaryReader::readCStringParameterBlock</a>(QMap&lt;QString, QString&gt;* params) {</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keywordflow">if</span> (params == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;读取参数块时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    QByteArray block;  <span class="comment">// 参数块原始数据。</span></div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a608149136d345a6c46286c710afb4a02">readBlock</a>(&amp;block))</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a659c66f70fb659da7d36bc9c098de010">parseCStringParameterData</a>(block, params);</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>}</div>
+</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="foldopen" id="foldopen00286" data-start="{" data-end="}">
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a659c66f70fb659da7d36bc9c098de010">  286</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a659c66f70fb659da7d36bc9c098de010">AltiumBinaryReader::parseCStringParameterData</a>(<span class="keyword">const</span> QByteArray&amp; data, QMap&lt;QString, QString&gt;* params) {</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="keywordflow">if</span> (params == <span class="keyword">nullptr</span>)</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>        <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;解析参数数据时输出指针为空&quot;</span>));</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>    params-&gt;clear();</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>    QByteArray block = data;  <span class="comment">// 去除末尾 NUL 后的参数块数据。</span></div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    <span class="keywordflow">if</span> (!block.isEmpty() &amp;&amp; block.endsWith(<span class="charliteral">&#39;\0&#39;</span>))</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        block.chop(1);</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    <span class="keyword">const</span> QList&lt;QByteArray&gt; fields = block.split(<span class="charliteral">&#39;|&#39;</span>);  <span class="comment">// 参数字段列表。</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    QSet&lt;QString&gt; rawKeys;  <span class="comment">// ANSI 参数键集合。</span></div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    QSet&lt;QString&gt; utf8Keys;  <span class="comment">// UTF-8 覆盖键集合。</span></div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QByteArray&amp; field : fields) {</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        <span class="keywordflow">if</span> (field.isEmpty())</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> separator = field.indexOf(<span class="charliteral">&#39;=&#39;</span>);  <span class="comment">// 键值分隔符位置。</span></div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        <span class="keywordflow">if</span> (separator &lt;= 0)</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>            <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;参数块字段缺少键值分隔符&quot;</span>));</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        <span class="keyword">const</span> QByteArray key = field.left(separator);  <span class="comment">// 参数键原始字节。</span></div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>        <span class="keyword">const</span> QByteArray rawValue = field.mid(separator + 1);  <span class="comment">// 参数值原始字节。</span></div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>        <span class="keywordflow">if</span> (key.startsWith(<span class="stringliteral">&quot;%UTF8%&quot;</span>)) {</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            <span class="keyword">const</span> QString baseKey = QString::fromUtf8(key.mid(6));  <span class="comment">// UTF-8 覆盖对应的基础键。</span></div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>            <span class="keywordflow">if</span> (baseKey.isEmpty() || utf8Keys.contains(baseKey))</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;参数块包含重复或空的 UTF-8 键&quot;</span>));</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>            utf8Keys.insert(baseKey);</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>            (*params)[baseKey] = QString::fromUtf8(rawValue);</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>            <span class="keyword">const</span> QString baseKey = QString::fromLatin1(key);  <span class="comment">// ANSI 参数基础键。</span></div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>            <span class="keywordflow">if</span> (rawKeys.contains(baseKey) || utf8Keys.contains(baseKey))</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">fail</a>(QStringLiteral(<span class="stringliteral">&quot;参数块包含重复键: %1&quot;</span>).arg(baseKey));</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>            rawKeys.insert(baseKey);</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>            (*params)[baseKey] = QString::fromLatin1(rawValue);</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        }</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>    }</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>}</div>
+</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span> </div>
+<div class="foldopen" id="foldopen00325" data-start="{" data-end="}">
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ab6a6106c2e2f2c05d07a6a6455814bb5">  325</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#ab6a6106c2e2f2c05d07a6a6455814bb5">AltiumBinaryReader::position</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a>;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>}</div>
+</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
+<div class="foldopen" id="foldopen00333" data-start="{" data-end="}">
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">  333</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">AltiumBinaryReader::remaining</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">m_buffer</a>.size() - <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">m_position</a>;</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>}</div>
+</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span> </div>
+<div class="foldopen" id="foldopen00341" data-start="{" data-end="}">
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aab071dc6a3dd94f353b1db218afad1ce">  341</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#aab071dc6a3dd94f353b1db218afad1ce">AltiumBinaryReader::hasError</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>    <span class="keywordflow">return</span> !<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a17dbfafcf0f9389020762501307b1a01">m_errorMessage</a>.isEmpty();</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>}</div>
+</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span> </div>
+<div class="foldopen" id="foldopen00349" data-start="{" data-end="}">
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">  349</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">AltiumBinaryReader::errorString</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumBinaryReader.html#a17dbfafcf0f9389020762501307b1a01">m_errorMessage</a>;</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>}</div>
+</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span> </div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumBinaryReader_8h_html"><div class="ttname"><a href="AltiumBinaryReader_8h.html">AltiumBinaryReader.h</a></div></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html">EasyKiConverter::AltiumBinaryReader</a></div><div class="ttdoc">Altium 二进制格式读取器</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8h_source.html#l00016">AltiumBinaryReader.h:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a0ab6279cec04ee5877665dbbc94ebf04"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a0ab6279cec04ee5877665dbbc94ebf04">EasyKiConverter::AltiumBinaryReader::readInt16</a></div><div class="ttdeci">bool readInt16(int16_t *value)</div><div class="ttdoc">读取有符号 16 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00072">AltiumBinaryReader.cpp:72</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a105c95a925db1a14c98266cbe020c7e8"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a105c95a925db1a14c98266cbe020c7e8">EasyKiConverter::AltiumBinaryReader::readCStringParameterBlock</a></div><div class="ttdeci">bool readCStringParameterBlock(QMap&lt; QString, QString &gt; *params)</div><div class="ttdoc">读取 C 字符串参数块</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00271">AltiumBinaryReader.cpp:271</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a13146567a08b3ab7928e9969577d2264"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a13146567a08b3ab7928e9969577d2264">EasyKiConverter::AltiumBinaryReader::ensure</a></div><div class="ttdeci">bool ensure(int size, const QString &amp;operation)</div><div class="ttdoc">检查即将读取的字节数，防止解析位置越过输入缓冲区</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00021">AltiumBinaryReader.cpp:21</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a167570f7dcb29c32277e4a00e6726d50"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a167570f7dcb29c32277e4a00e6726d50">EasyKiConverter::AltiumBinaryReader::AltiumBinaryReader</a></div><div class="ttdeci">AltiumBinaryReader(const QByteArray &amp;buffer)</div><div class="ttdoc">构造读取器</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00013">AltiumBinaryReader.cpp:13</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a17dbfafcf0f9389020762501307b1a01"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a17dbfafcf0f9389020762501307b1a01">EasyKiConverter::AltiumBinaryReader::m_errorMessage</a></div><div class="ttdeci">QString m_errorMessage</div><div class="ttdoc">最近一次读取错误说明。</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8h_source.html#l00139">AltiumBinaryReader.h:139</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a1cadcf4a5e96f9145637ef1ca582637b"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a1cadcf4a5e96f9145637ef1ca582637b">EasyKiConverter::AltiumBinaryReader::readInt8</a></div><div class="ttdeci">bool readInt8(int8_t *value)</div><div class="ttdoc">读取有符号 8 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00043">AltiumBinaryReader.cpp:43</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a2114d51759e57187f22c7286173173ce"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a2114d51759e57187f22c7286173173ce">EasyKiConverter::AltiumBinaryReader::readFloat</a></div><div class="ttdeci">bool readFloat(float *value)</div><div class="ttdoc">读取单精度浮点数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00147">AltiumBinaryReader.cpp:147</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a22433c292103367b9628497420523775"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a22433c292103367b9628497420523775">EasyKiConverter::AltiumBinaryReader::errorString</a></div><div class="ttdeci">QString errorString() const</div><div class="ttdoc">获取读取错误说明</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00349">AltiumBinaryReader.cpp:349</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a3724b2fa3440676c826ad1adfeed8944"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a3724b2fa3440676c826ad1adfeed8944">EasyKiConverter::AltiumBinaryReader::readUInt16</a></div><div class="ttdeci">bool readUInt16(uint16_t *value)</div><div class="ttdoc">读取无符号 16 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00087">AltiumBinaryReader.cpp:87</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a522bd572d0f3805593284acf8c7eef21"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a522bd572d0f3805593284acf8c7eef21">EasyKiConverter::AltiumBinaryReader::readPascalString</a></div><div class="ttdeci">bool readPascalString(QString *value)</div><div class="ttdoc">读取带额外 NUL 的 Pascal 字符串块</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00253">AltiumBinaryReader.cpp:253</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a5ead72a19227345e39c309a3ecd5bb07"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a5ead72a19227345e39c309a3ecd5bb07">EasyKiConverter::AltiumBinaryReader::fail</a></div><div class="ttdeci">bool fail(const QString &amp;message)</div><div class="ttdoc">只保留首次解析失败的错误信息，避免后续错误覆盖根因</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00032">AltiumBinaryReader.cpp:32</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a608149136d345a6c46286c710afb4a02"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a608149136d345a6c46286c710afb4a02">EasyKiConverter::AltiumBinaryReader::readBlock</a></div><div class="ttdeci">bool readBlock(QByteArray *payload, uint8_t *flags=nullptr)</div><div class="ttdoc">读取 Altium 长度前缀块</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00197">AltiumBinaryReader.cpp:197</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a659c66f70fb659da7d36bc9c098de010"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a659c66f70fb659da7d36bc9c098de010">EasyKiConverter::AltiumBinaryReader::parseCStringParameterData</a></div><div class="ttdeci">bool parseCStringParameterData(const QByteArray &amp;data, QMap&lt; QString, QString &gt; *params)</div><div class="ttdoc">解析已经去除长度前缀的 C 字符串参数数据</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00286">AltiumBinaryReader.cpp:286</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a8647cac19d7319cf4e15b85e3806e57f"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8647cac19d7319cf4e15b85e3806e57f">EasyKiConverter::AltiumBinaryReader::readDouble</a></div><div class="ttdeci">bool readDouble(double *value)</div><div class="ttdoc">读取双精度浮点数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00162">AltiumBinaryReader.cpp:162</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a8b8450855c9469d734a7f76c27670fa6"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8b8450855c9469d734a7f76c27670fa6">EasyKiConverter::AltiumBinaryReader::m_position</a></div><div class="ttdeci">int m_position</div><div class="ttdoc">当前读取偏移。</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8h_source.html#l00138">AltiumBinaryReader.h:138</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a8cfc0e63ca412fa97d361bb86d66bbb6"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a8cfc0e63ca412fa97d361bb86d66bbb6">EasyKiConverter::AltiumBinaryReader::remaining</a></div><div class="ttdeci">int remaining() const</div><div class="ttdoc">获取剩余字节数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00333">AltiumBinaryReader.cpp:333</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a9355a50ea9c023e229ce06a0ae9f97ba"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a9355a50ea9c023e229ce06a0ae9f97ba">EasyKiConverter::AltiumBinaryReader::readUInt32</a></div><div class="ttdeci">bool readUInt32(uint32_t *value)</div><div class="ttdoc">读取无符号 32 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00138">AltiumBinaryReader.cpp:138</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a972b94414a923d5de69621500b8706df"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a972b94414a923d5de69621500b8706df">EasyKiConverter::AltiumBinaryReader::readBytes</a></div><div class="ttdeci">bool readBytes(int size, QByteArray *value)</div><div class="ttdoc">读取指定长度的原始字节</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00181">AltiumBinaryReader.cpp:181</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a98fb9f9964852698b8c79804462ab263"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a98fb9f9964852698b8c79804462ab263">EasyKiConverter::AltiumBinaryReader::readPascalShortString</a></div><div class="ttdeci">bool readPascalShortString(QString *value)</div><div class="ttdoc">读取 Pascal 短字符串</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00212">AltiumBinaryReader.cpp:212</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_a99a8086e1cd49408577a9badd1254aa5"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#a99a8086e1cd49408577a9badd1254aa5">EasyKiConverter::AltiumBinaryReader::m_buffer</a></div><div class="ttdeci">const QByteArray &amp; m_buffer</div><div class="ttdoc">待读取的二进制缓冲区引用。</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8h_source.html#l00137">AltiumBinaryReader.h:137</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_aab071dc6a3dd94f353b1db218afad1ce"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#aab071dc6a3dd94f353b1db218afad1ce">EasyKiConverter::AltiumBinaryReader::hasError</a></div><div class="ttdeci">bool hasError() const</div><div class="ttdoc">获取是否发生读取错误</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00341">AltiumBinaryReader.cpp:341</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_aae894ada4946a4d540fccb7187855eb4"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#aae894ada4946a4d540fccb7187855eb4">EasyKiConverter::AltiumBinaryReader::readUInt8</a></div><div class="ttdeci">bool readUInt8(uint8_t *value)</div><div class="ttdoc">读取无符号 8 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00058">AltiumBinaryReader.cpp:58</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_ab6a6106c2e2f2c05d07a6a6455814bb5"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#ab6a6106c2e2f2c05d07a6a6455814bb5">EasyKiConverter::AltiumBinaryReader::position</a></div><div class="ttdeci">int position() const</div><div class="ttdoc">获取当前读取位置</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00325">AltiumBinaryReader.cpp:325</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_ac2f86de3b8ce896e33949f8350a25f04"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#ac2f86de3b8ce896e33949f8350a25f04">EasyKiConverter::AltiumBinaryReader::readStringBlock</a></div><div class="ttdeci">bool readStringBlock(QString *value)</div><div class="ttdoc">读取字符串块</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00230">AltiumBinaryReader.cpp:230</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_af064a0146be2d1aa1d660078102f33cc"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#af064a0146be2d1aa1d660078102f33cc">EasyKiConverter::AltiumBinaryReader::readInt32</a></div><div class="ttdeci">bool readInt32(int32_t *value)</div><div class="ttdoc">读取有符号 32 位整数</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00105">AltiumBinaryReader.cpp:105</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryReader_html_af945c740424b12528235d6da0329f23b"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryReader.html#af945c740424b12528235d6da0329f23b">EasyKiConverter::AltiumBinaryReader::readUInt32Internal</a></div><div class="ttdeci">bool readUInt32Internal(uint32_t *value)</div><div class="ttdoc">执行小端序无符号三十二位整数的实际读取</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryReader_8cpp_source.html#l00120">AltiumBinaryReader.cpp:120</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_56f847198c0ccc8b1dcbc43eadb2d0cc.html">utils</a></li><li class="navelem"><a class="el" href="AltiumBinaryReader_8cpp.html">AltiumBinaryReader.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

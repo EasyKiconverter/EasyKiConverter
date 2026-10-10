@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentCacheCadDataWriter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentCacheCadDataWriter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentCacheCadDataWriter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentCacheCadDataWriter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentData_8h.html">models/ComponentData.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">class </span>ComponentCacheService;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html">   18</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html">ComponentCacheCadDataWriter</a> final {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html">ComponentCacheCadDataWriter</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a>&amp; owner);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ae1cd8d8b7bff87d8de654e334da309ee">writeSymbol</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QByteArray&amp; data, uint64_t expectedGeneration);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#a61a5fb1477e0031f1776db0d347f33a9">writeFootprint</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QByteArray&amp; data, uint64_t expectedGeneration);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ac1b041fae46d806b57da84a62cf738f6">writeCadJson</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QByteArray&amp; data, uint64_t expectedGeneration);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1c">   49</a></span>    <span class="keyword">enum class</span> <a class="code hl_enumeration" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1c">DataKind</a> { <a class="code hl_enumvalue" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1ca02c86eb2792f3262c21d030a87e19793">Symbol</a>, <a class="code hl_enumvalue" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1cad2fd6989d5d304206f29ececd6b72270">Footprint</a>, <a class="code hl_enumvalue" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1ca3a15ef042c83b81a6b4a3bbc5878fd93">CadJson</a> };</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#a3e21c753e6a7df6ef72e7a8bc635ff5c">writeCadFile</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QByteArray&amp; data, uint64_t expectedGeneration, <a class="code hl_enumeration" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1c">DataKind</a> kind);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#a323acb3c3b6d1412c63bceae2d3f85b2">   60</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a>&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#a323acb3c3b6d1412c63bceae2d3f85b2">m_owner</a>;  </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>};</div>
+</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentData_8h_html"><div class="ttname"><a href="ComponentData_8h.html">ComponentData.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html">EasyKiConverter::ComponentCacheCadDataWriter</a></div><div class="ttdoc">协调符号、封装和 CAD JSON 的二级缓存写入。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheCadDataWriter_8h_source.html#l00018">ComponentCacheCadDataWriter.h:18</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_a323acb3c3b6d1412c63bceae2d3f85b2"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#a323acb3c3b6d1412c63bceae2d3f85b2">EasyKiConverter::ComponentCacheCadDataWriter::m_owner</a></div><div class="ttdeci">ComponentCacheService &amp; m_owner</div><div class="ttdoc">所属缓存服务。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheCadDataWriter_8h_source.html#l00060">ComponentCacheCadDataWriter.h:60</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_a3e21c753e6a7df6ef72e7a8bc635ff5c"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#a3e21c753e6a7df6ef72e7a8bc635ff5c">EasyKiConverter::ComponentCacheCadDataWriter::writeCadFile</a></div><div class="ttdeci">void writeCadFile(const QString &amp;componentId, const QByteArray &amp;data, uint64_t expectedGeneration, DataKind kind)</div><div class="ttdoc">执行三类 CAD 文件共用的校验、加锁和原子写入流程。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheCadDataWriter_8cpp_source.html#l00064">ComponentCacheCadDataWriter.cpp:64</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_a61a5fb1477e0031f1776db0d347f33a9"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#a61a5fb1477e0031f1776db0d347f33a9">EasyKiConverter::ComponentCacheCadDataWriter::writeFootprint</a></div><div class="ttdeci">void writeFootprint(const QString &amp;componentId, const QByteArray &amp;data, uint64_t expectedGeneration)</div><div class="ttdoc">写入封装 CAD 数据并同步 L1 缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheCadDataWriter_8cpp_source.html#l00038">ComponentCacheCadDataWriter.cpp:38</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_ac1b041fae46d806b57da84a62cf738f6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ac1b041fae46d806b57da84a62cf738f6">EasyKiConverter::ComponentCacheCadDataWriter::writeCadJson</a></div><div class="ttdeci">void writeCadJson(const QString &amp;componentId, const QByteArray &amp;data, uint64_t expectedGeneration)</div><div class="ttdoc">写入原始 CAD JSON 数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheCadDataWriter_8cpp_source.html#l00050">ComponentCacheCadDataWriter.cpp:50</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_ad62096cca02112de2ed81d4f9590de1c"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1c">EasyKiConverter::ComponentCacheCadDataWriter::DataKind</a></div><div class="ttdeci">DataKind</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheCadDataWriter_8h_source.html#l00049">ComponentCacheCadDataWriter.h:49</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_ad62096cca02112de2ed81d4f9590de1ca02c86eb2792f3262c21d030a87e19793"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1ca02c86eb2792f3262c21d030a87e19793">EasyKiConverter::ComponentCacheCadDataWriter::DataKind::Symbol</a></div><div class="ttdeci">@ Symbol</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_ad62096cca02112de2ed81d4f9590de1ca3a15ef042c83b81a6b4a3bbc5878fd93"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1ca3a15ef042c83b81a6b4a3bbc5878fd93">EasyKiConverter::ComponentCacheCadDataWriter::DataKind::CadJson</a></div><div class="ttdeci">@ CadJson</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_ad62096cca02112de2ed81d4f9590de1cad2fd6989d5d304206f29ececd6b72270"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ad62096cca02112de2ed81d4f9590de1cad2fd6989d5d304206f29ececd6b72270">EasyKiConverter::ComponentCacheCadDataWriter::DataKind::Footprint</a></div><div class="ttdeci">@ Footprint</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheCadDataWriter_html_ae1cd8d8b7bff87d8de654e334da309ee"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheCadDataWriter.html#ae1cd8d8b7bff87d8de654e334da309ee">EasyKiConverter::ComponentCacheCadDataWriter::writeSymbol</a></div><div class="ttdeci">void writeSymbol(const QString &amp;componentId, const QByteArray &amp;data, uint64_t expectedGeneration)</div><div class="ttdoc">写入符号 CAD 数据并同步 L1 缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheCadDataWriter_8cpp_source.html#l00026">ComponentCacheCadDataWriter.cpp:26</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html">EasyKiConverter::ComponentCacheService</a></div><div class="ttdoc">元器件缓存服务类（两层缓存架构）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00074">ComponentCacheService.h:74</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentCacheCadDataWriter_8h.html">ComponentCacheCadDataWriter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

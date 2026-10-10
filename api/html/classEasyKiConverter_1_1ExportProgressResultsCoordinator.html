@@ -1,0 +1,683 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::ExportProgressResultsCoordinator类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1ExportProgressResultsCoordinator.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-static-methods">静态 Private 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::ExportProgressResultsCoordinator类 参考<span class="mlabels"><span class="mlabel">final</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>协调导出结果列表的状态计算、过滤和统计。  
+ <a href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ExportProgressResultsCoordinator_8h_source.html">ExportProgressResultsCoordinator.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::ExportProgressResultsCoordinator 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1ExportProgressResultsCoordinator__coll__graph.svg" width="239" height="291"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a3fef67a974f93c6f6d73a7453a3866ad" id="r_a3fef67a974f93c6f6d73a7453a3866ad"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a3fef67a974f93c6f6d73a7453a3866ad">updateResultsList</a> (<a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner)</td></tr>
+<tr class="memdesc:a3fef67a974f93c6f6d73a7453a3866ad"><td class="mdescLeft">&#160;</td><td class="mdescRight">更新成功和失败结果数量。  <br /></td></tr>
+<tr class="separator:a3fef67a974f93c6f6d73a7453a3866ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02703def57093a4c6c4d215d3edd7f1d" id="r_a02703def57093a4c6c4d215d3edd7f1d"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a02703def57093a4c6c4d215d3edd7f1d">updateFilteredResults</a> (<a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner)</td></tr>
+<tr class="memdesc:a02703def57093a4c6c4d215d3edd7f1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">通知过滤结果列表需要刷新。  <br /></td></tr>
+<tr class="separator:a02703def57093a4c6c4d215d3edd7f1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab13503453b1059fcabf820f6d7bdf9be" id="r_ab13503453b1059fcabf820f6d7bdf9be"><td class="memItemLeft" align="right" valign="top">static QVariantList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#ab13503453b1059fcabf820f6d7bdf9be">filteredResultsList</a> (const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner)</td></tr>
+<tr class="memdesc:ab13503453b1059fcabf820f6d7bdf9be"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回当前过滤模式下的结果列表。  <br /></td></tr>
+<tr class="separator:ab13503453b1059fcabf820f6d7bdf9be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fb2b4d5be54dc3e01a513971a814d9e" id="r_a6fb2b4d5be54dc3e01a513971a814d9e"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a6fb2b4d5be54dc3e01a513971a814d9e">filteredSuccessCount</a> (const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner)</td></tr>
+<tr class="memdesc:a6fb2b4d5be54dc3e01a513971a814d9e"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回当前过滤模式下的成功数量。  <br /></td></tr>
+<tr class="separator:a6fb2b4d5be54dc3e01a513971a814d9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ff3f572ffb03576a36517c23dcb00cb" id="r_a1ff3f572ffb03576a36517c23dcb00cb"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a1ff3f572ffb03576a36517c23dcb00cb">filteredFailedCount</a> (const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner)</td></tr>
+<tr class="memdesc:a1ff3f572ffb03576a36517c23dcb00cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回当前过滤模式下的失败数量。  <br /></td></tr>
+<tr class="separator:a1ff3f572ffb03576a36517c23dcb00cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51cb7b7c665720269f87506dacc2ba90" id="r_a51cb7b7c665720269f87506dacc2ba90"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a51cb7b7c665720269f87506dacc2ba90">filteredPendingCount</a> (const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner)</td></tr>
+<tr class="memdesc:a51cb7b7c665720269f87506dacc2ba90"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回当前过滤模式下的待处理数量。  <br /></td></tr>
+<tr class="separator:a51cb7b7c665720269f87506dacc2ba90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06ba575a68c7013ea6b37bbd1108ade7" id="r_a06ba575a68c7013ea6b37bbd1108ade7"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a06ba575a68c7013ea6b37bbd1108ade7">typeSuccessCount</a> (const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner, const QString &amp;statusKey)</td></tr>
+<tr class="memdesc:a06ba575a68c7013ea6b37bbd1108ade7"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回指定类型的成功数量。  <br /></td></tr>
+<tr class="separator:a06ba575a68c7013ea6b37bbd1108ade7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a415738235bf9c08dc44ee9b256d180e0" id="r_a415738235bf9c08dc44ee9b256d180e0"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a415738235bf9c08dc44ee9b256d180e0">typeStatusKey</a> (const QString &amp;typeName)</td></tr>
+<tr class="memdesc:a415738235bf9c08dc44ee9b256d180e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">将类型名称转换为结果列表中的状态字段名。  <br /></td></tr>
+<tr class="separator:a415738235bf9c08dc44ee9b256d180e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af45c6eb72fa5eee4f36db8d908b287cf" id="r_af45c6eb72fa5eee4f36db8d908b287cf"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#af45c6eb72fa5eee4f36db8d908b287cf">updateOverallItemStatus</a> (const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner, QVariantMap &amp;result)</td></tr>
+<tr class="memdesc:af45c6eb72fa5eee4f36db8d908b287cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">根据各导出类型状态计算元器件总体状态。  <br /></td></tr>
+<tr class="separator:af45c6eb72fa5eee4f36db8d908b287cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8231b58fddd0d54ed3f222fb575a6598" id="r_a8231b58fddd0d54ed3f222fb575a6598"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#a8231b58fddd0d54ed3f222fb575a6598">resetItemForRetry</a> (const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner, QVariantMap &amp;result)</td></tr>
+<tr class="memdesc:a8231b58fddd0d54ed3f222fb575a6598"><td class="mdescLeft">&#160;</td><td class="mdescRight">将结果项重置为当前导出选项对应的待处理状态。  <br /></td></tr>
+<tr class="separator:a8231b58fddd0d54ed3f222fb575a6598"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+静态 Private 成员函数</h2></td></tr>
+<tr class="memitem:aed3d9f1a53ca1fcb935ff0a53271254c" id="r_aed3d9f1a53ca1fcb935ff0a53271254c"><td class="memItemLeft" align="right" valign="top">static int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html#aed3d9f1a53ca1fcb935ff0a53271254c">countItemsWithTypeStatus</a> (const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;owner, const QString &amp;key, const QString &amp;expectedStatus)</td></tr>
+<tr class="memdesc:aed3d9f1a53ca1fcb935ff0a53271254c"><td class="mdescLeft">&#160;</td><td class="mdescRight">统计结果列表中指定字段处于指定状态的项目数。  <br /></td></tr>
+<tr class="separator:aed3d9f1a53ca1fcb935ff0a53271254c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>协调导出结果列表的状态计算、过滤和统计。 </p>
+<p>该类只操作 <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html" title="导出进度视图模型">ExportProgressViewModel</a> 的结果状态，不负责导出服务请求或进度阶段推进。 </p>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8h_source.html">ExportProgressResultsCoordinator.h</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8h_source.html#l00017">17</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="aed3d9f1a53ca1fcb935ff0a53271254c" name="aed3d9f1a53ca1fcb935ff0a53271254c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed3d9f1a53ca1fcb935ff0a53271254c">&#9670;&#160;</a></span>countItemsWithTypeStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::ExportProgressResultsCoordinator::countItemsWithTypeStatus </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>expectedStatus</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>统计结果列表中指定字段处于指定状态的项目数。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+    <tr><td class="paramname">key</td><td>状态字段键。 </td></tr>
+    <tr><td class="paramname">expectedStatus</td><td>期望的状态值。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00219">219</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExportProgressViewModel_8h_source.html#l00322">EasyKiConverter::ExportProgressViewModel::m_resultsList</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00113">typeSuccessCount()</a>.</p>
+
+</div>
+</div>
+<a id="a1ff3f572ffb03576a36517c23dcb00cb" name="a1ff3f572ffb03576a36517c23dcb00cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ff3f572ffb03576a36517c23dcb00cb">&#9670;&#160;</a></span>filteredFailedCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::ExportProgressResultsCoordinator::filteredFailedCount </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回当前过滤模式下的失败数量。 </p>
+<p>根据当前过滤模式返回失败数量。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00084">84</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExportProgressViewModel_8h_source.html#l00320">EasyKiConverter::ExportProgressViewModel::m_failureCount</a> , 以及 <a class="el" href="ExportProgressViewModel_8h_source.html#l00321">EasyKiConverter::ExportProgressViewModel::m_filterMode</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00610">EasyKiConverter::ExportProgressViewModel::filteredFailedCount()</a>.</p>
+
+</div>
+</div>
+<a id="a51cb7b7c665720269f87506dacc2ba90" name="a51cb7b7c665720269f87506dacc2ba90"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a51cb7b7c665720269f87506dacc2ba90">&#9670;&#160;</a></span>filteredPendingCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::ExportProgressResultsCoordinator::filteredPendingCount </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回当前过滤模式下的待处理数量。 </p>
+<p>统计待处理和进行中的结果项。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00095">95</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExportProgressViewModel_8h_source.html#l00322">EasyKiConverter::ExportProgressViewModel::m_resultsList</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00617">EasyKiConverter::ExportProgressViewModel::filteredPendingCount()</a>.</p>
+
+</div>
+</div>
+<a id="ab13503453b1059fcabf820f6d7bdf9be" name="ab13503453b1059fcabf820f6d7bdf9be"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab13503453b1059fcabf820f6d7bdf9be">&#9670;&#160;</a></span>filteredResultsList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QVariantList EasyKiConverter::ExportProgressResultsCoordinator::filteredResultsList </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回当前过滤模式下的结果列表。 </p>
+<p>根据当前过滤模式筛选结果项。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00047">47</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExportProgressViewModel_8h_source.html#l00321">EasyKiConverter::ExportProgressViewModel::m_filterMode</a> , 以及 <a class="el" href="ExportProgressViewModel_8h_source.html#l00322">EasyKiConverter::ExportProgressViewModel::m_resultsList</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00596">EasyKiConverter::ExportProgressViewModel::filteredResultsList()</a>.</p>
+
+</div>
+</div>
+<a id="a6fb2b4d5be54dc3e01a513971a814d9e" name="a6fb2b4d5be54dc3e01a513971a814d9e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6fb2b4d5be54dc3e01a513971a814d9e">&#9670;&#160;</a></span>filteredSuccessCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::ExportProgressResultsCoordinator::filteredSuccessCount </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回当前过滤模式下的成功数量。 </p>
+<p>根据当前过滤模式返回成功数量。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00073">73</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExportProgressViewModel_8h_source.html#l00321">EasyKiConverter::ExportProgressViewModel::m_filterMode</a> , 以及 <a class="el" href="ExportProgressViewModel_8h_source.html#l00319">EasyKiConverter::ExportProgressViewModel::m_successCount</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00603">EasyKiConverter::ExportProgressViewModel::filteredSuccessCount()</a>.</p>
+
+</div>
+</div>
+<a id="a8231b58fddd0d54ed3f222fb575a6598" name="a8231b58fddd0d54ed3f222fb575a6598"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8231b58fddd0d54ed3f222fb575a6598">&#9670;&#160;</a></span>resetItemForRetry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::ExportProgressResultsCoordinator::resetItemForRetry </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QVariantMap &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将结果项重置为当前导出选项对应的待处理状态。 </p>
+<p>按启用的导出类型重置结果项状态。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+    <tr><td class="paramname">result</td><td>待重置的结果项。</td></tr>
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+    <tr><td class="paramname">result</td><td>待更新的导出结果项。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00198">198</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExportProgressViewModel_8h_source.html#l00337">EasyKiConverter::ExportProgressViewModel::m_exportDatasheetEnabled</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00334">EasyKiConverter::ExportProgressViewModel::m_exportFootprintEnabled</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00335">EasyKiConverter::ExportProgressViewModel::m_exportModel3DEnabled</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00336">EasyKiConverter::ExportProgressViewModel::m_exportPreviewEnabled</a> , 以及 <a class="el" href="ExportProgressViewModel_8h_source.html#l00332">EasyKiConverter::ExportProgressViewModel::m_exportSymbolEnabled</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00868">EasyKiConverter::ExportProgressViewModel::resetItemForRetry()</a>.</p>
+
+</div>
+</div>
+<a id="a415738235bf9c08dc44ee9b256d180e0" name="a415738235bf9c08dc44ee9b256d180e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a415738235bf9c08dc44ee9b256d180e0">&#9670;&#160;</a></span>typeStatusKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::ExportProgressResultsCoordinator::typeStatusKey </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>typeName</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将类型名称转换为结果列表中的状态字段名。 </p>
+<p>将导出类型名称映射到结果字段。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">typeName</td><td>导出类型名称。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00121">121</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00852">EasyKiConverter::ExportProgressViewModel::typeStatusKey()</a>.</p>
+
+</div>
+</div>
+<a id="a06ba575a68c7013ea6b37bbd1108ade7" name="a06ba575a68c7013ea6b37bbd1108ade7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06ba575a68c7013ea6b37bbd1108ade7">&#9670;&#160;</a></span>typeSuccessCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::ExportProgressResultsCoordinator::typeSuccessCount </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>statusKey</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回指定类型的成功数量。 </p>
+<p>统计指定类型状态为成功的结果项。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+    <tr><td class="paramname">statusKey</td><td>状态字段名。</td></tr>
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+    <tr><td class="paramname">statusKey</td><td>导出状态字段名。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00113">113</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00219">countItemsWithTypeStatus()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00652">EasyKiConverter::ExportProgressViewModel::datasheetSuccessCount()</a>, <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00631">EasyKiConverter::ExportProgressViewModel::footprintSuccessCount()</a>, <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00638">EasyKiConverter::ExportProgressViewModel::model3DSuccessCount()</a>, <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00645">EasyKiConverter::ExportProgressViewModel::previewSuccessCount()</a> , 以及 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00624">EasyKiConverter::ExportProgressViewModel::symbolSuccessCount()</a>.</p>
+
+</div>
+</div>
+<a id="a02703def57093a4c6c4d215d3edd7f1d" name="a02703def57093a4c6c4d215d3edd7f1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02703def57093a4c6c4d215d3edd7f1d">&#9670;&#160;</a></span>updateFilteredResults()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::ExportProgressResultsCoordinator::updateFilteredResults </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>通知过滤结果列表需要刷新。 </p>
+<p>转发过滤结果列表刷新信号。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00039">39</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html#af4ce3e677e2dbe7bc343d3503dc59df3">EasyKiConverter::ExportProgressViewModel::filteredResultsListChanged()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00589">EasyKiConverter::ExportProgressViewModel::updateFilteredResults()</a>.</p>
+
+</div>
+</div>
+<a id="af45c6eb72fa5eee4f36db8d908b287cf" name="af45c6eb72fa5eee4f36db8d908b287cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af45c6eb72fa5eee4f36db8d908b287cf">&#9670;&#160;</a></span>updateOverallItemStatus()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::ExportProgressResultsCoordinator::updateOverallItemStatus </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QVariantMap &amp;&#160;</td>
+          <td class="paramname"><em>result</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>根据各导出类型状态计算元器件总体状态。 </p>
+<p>根据启用类型和各类型状态更新结果总体状态。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+    <tr><td class="paramname">result</td><td>待更新的结果项。</td></tr>
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+    <tr><td class="paramname">result</td><td>待更新的导出结果项。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00145">145</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExportProgressViewModel_8h_source.html#l00337">EasyKiConverter::ExportProgressViewModel::m_exportDatasheetEnabled</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00334">EasyKiConverter::ExportProgressViewModel::m_exportFootprintEnabled</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00335">EasyKiConverter::ExportProgressViewModel::m_exportModel3DEnabled</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00336">EasyKiConverter::ExportProgressViewModel::m_exportPreviewEnabled</a> , 以及 <a class="el" href="ExportProgressViewModel_8h_source.html#l00332">EasyKiConverter::ExportProgressViewModel::m_exportSymbolEnabled</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00860">EasyKiConverter::ExportProgressViewModel::updateOverallItemStatus()</a>.</p>
+
+</div>
+</div>
+<a id="a3fef67a974f93c6f6d73a7453a3866ad" name="a3fef67a974f93c6f6d73a7453a3866ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fef67a974f93c6f6d73a7453a3866ad">&#9670;&#160;</a></span>updateResultsList()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::ExportProgressResultsCoordinator::updateResultsList </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a> &amp;&#160;</td>
+          <td class="paramname"><em>owner</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>更新成功和失败结果数量。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">owner</td><td>所属导出进度视图模型。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a> 第 <a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html#l00011">11</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a8dc7050f78acb1b4c483c05d5c9c95b7">EasyKiConverter::ExportProgressViewModel::failureCountChanged()</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00320">EasyKiConverter::ExportProgressViewModel::m_failureCount</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00322">EasyKiConverter::ExportProgressViewModel::m_resultsList</a>, <a class="el" href="ExportProgressViewModel_8h_source.html#l00319">EasyKiConverter::ExportProgressViewModel::m_successCount</a> , 以及 <a class="el" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a1f424c68b97edab60f9b2a18c4341b1f">EasyKiConverter::ExportProgressViewModel::successCountChanged()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00582">EasyKiConverter::ExportProgressViewModel::updateResultsList()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>ui/viewmodels/<a class="el" href="ExportProgressResultsCoordinator_8h_source.html">ExportProgressResultsCoordinator.h</a></li>
+<li>ui/viewmodels/<a class="el" href="ExportProgressResultsCoordinator_8cpp_source.html">ExportProgressResultsCoordinator.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1ExportProgressResultsCoordinator.html">ExportProgressResultsCoordinator</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

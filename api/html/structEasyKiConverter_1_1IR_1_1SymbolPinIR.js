@@ -1,0 +1,27 @@
+var structEasyKiConverter_1_1IR_1_1SymbolPinIR =
+[
+    [ "commonToAllParts", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ad901fece7c0cd0910db9f770595123ff", null ],
+    [ "designator", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9d8a3fbef2efebd622c5fe3268de3d3f", null ],
+    [ "direction", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a41c8ccd4d0ab47a9dd6ea5b9e0a885a8", null ],
+    [ "display", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#adf4340fc7c965188a19629b174e555f3", null ],
+    [ "electricalType", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a223f33f935270fc416583d16a4c58fbd", null ],
+    [ "hasClock", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ae8e1699899967454664652acc5fc8a90", null ],
+    [ "hasDot", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a6463388073f5b4b3c577631b609a2f01", null ],
+    [ "hasNamePosition", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a19e4990461743a4b3e0183094829e62b", null ],
+    [ "hasNumberPosition", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#afc946c35861f199527cd8ec8d1ea69f3", null ],
+    [ "length", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9360ee62d449971fea1608b2d2006228", null ],
+    [ "name", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a7bfb9b013305cd36497d99e8cab1fdcf", null ],
+    [ "nameAnchor", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ac7cb0545fb6b7c74d233efbd2eabb12e", null ],
+    [ "nameFontSizeMm", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a9bddcc004201bce69e716592e896e7cf", null ],
+    [ "namePosition", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a08cdb62ebb833fb3062518b882ee8691", null ],
+    [ "nameRotation", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a114e73587888f88343dff58ab01471c5", null ],
+    [ "numberAnchor", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a88c52ed6de2a157a99812d0a3e3f5f89", null ],
+    [ "numberFontSizeMm", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a3de39b789f126f01e2bcae1c1f18b6d1", null ],
+    [ "numberPosition", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ab2972fc5050cd27c0a58746eb9cab97a", null ],
+    [ "numberRotation", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a56a6bc12223ebbe5e732e8efc7a2f8d6", null ],
+    [ "partIndex", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#abf7b51dd934bc2ceefe7e3935109780a", null ],
+    [ "position", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a29dfe6633659854b720b3299db855d1d", null ],
+    [ "showDesignator", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#ab4cdbac99be3b3c308f0455a1332c8bb", null ],
+    [ "showName", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a27c5d63c7a51404a8a00c0b2e53ff112", null ],
+    [ "style", "structEasyKiConverter_1_1IR_1_1SymbolPinIR.html#a76ccf7a99f1389b3a4c15ec6100655cb", null ]
+];

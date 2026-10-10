@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/parser/GeometryTransforms.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('GeometryTransforms_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">GeometryTransforms.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="GeometryTransforms_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="GeometryTransforms_8h.html">GeometryTransforms.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter_1_1Parser.html">EasyKiConverter::Parser</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1UnitConverter.html#abab9a0036e45f58ff791c91ffedd5d9f">   13</a></span><span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1UnitConverter.html#abab9a0036e45f58ff791c91ffedd5d9f">UnitConverter::toMillimeters</a>(<span class="keywordtype">double</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>, <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5">LengthUnit</a> unit) {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="comment">// 按格式声明选择精确的单位比例，未知单位保持原值并由上层诊断。</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordflow">switch</span> (unit) {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5aa1fc7eb146f7f3ea7934e4d247902de0">LengthUnit::Millimeter</a>:</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5a232ae3e4e801bc06c2017d47db4cc892">LengthUnit::Mil</a>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> * 0.0254;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5abee12d309ba5730e1e121733b7b67956">LengthUnit::Inch</a>:</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> * 25.4;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5a88183b946cc5f0e8c96b2e66e1c74a7e">LengthUnit::Unknown</a>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    }</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>}</div>
+</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="}">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1UnitConverter.html#a2a0c4ab548bb83707b0696cbc7353d02">   34</a></span><a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5">LengthUnit</a> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1UnitConverter.html#a2a0c4ab548bb83707b0696cbc7353d02">UnitConverter::parseUnit</a>(<span class="keyword">const</span> QString&amp; text, <a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a>* diagnostics) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">const</span> QString normalized = text.trimmed().toLower();  <span class="comment">// 统一大小写和首尾空白后的单位名称。</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (normalized == QStringLiteral(<span class="stringliteral">&quot;mm&quot;</span>) || normalized == QStringLiteral(<span class="stringliteral">&quot;millimeter&quot;</span>) ||</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        normalized == QStringLiteral(<span class="stringliteral">&quot;millimeters&quot;</span>))</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5aa1fc7eb146f7f3ea7934e4d247902de0">LengthUnit::Millimeter</a>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">if</span> (normalized == QStringLiteral(<span class="stringliteral">&quot;mil&quot;</span>) || normalized == QStringLiteral(<span class="stringliteral">&quot;mils&quot;</span>) ||</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        normalized == QStringLiteral(<span class="stringliteral">&quot;th&quot;</span>))</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5a232ae3e4e801bc06c2017d47db4cc892">LengthUnit::Mil</a>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (normalized == QStringLiteral(<span class="stringliteral">&quot;in&quot;</span>) || normalized == QStringLiteral(<span class="stringliteral">&quot;inch&quot;</span>) ||</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        normalized == QStringLiteral(<span class="stringliteral">&quot;inches&quot;</span>))</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5abee12d309ba5730e1e121733b7b67956">LengthUnit::Inch</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">if</span> (diagnostics)</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        diagnostics-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">add</a>(<a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a0eaadb4fcb48a0a0ed7bc9868be9fbaa">ParseSeverity::Warning</a>,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                         <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda6f16a5f8ff5d75ab84c018adacdfcbb7">ParseScope::Field</a>,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                         QStringLiteral(<span class="stringliteral">&quot;未知长度单位，保留原始数值：%1&quot;</span>).arg(text),</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                         QStringLiteral(<span class="stringliteral">&quot;units&quot;</span>));</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5a88183b946cc5f0e8c96b2e66e1c74a7e">LengthUnit::Unknown</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00062" data-start="{" data-end="}">
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1CoordinateTransform.html#ab374b775d97fa906cd6dcfba99153822">   62</a></span>QPointF <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1CoordinateTransform.html#ab374b775d97fa906cd6dcfba99153822">CoordinateTransform::apply</a>(<span class="keyword">const</span> QPointF&amp; point,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                                   <span class="keyword">const</span> QPointF&amp; origin,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                                   <span class="keywordtype">double</span> rotationDegrees,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                                   <span class="keywordtype">bool</span> mirrorX,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                                   <span class="keywordtype">bool</span> mirrorY) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    QPointF translated = point - origin;  <span class="comment">// 相对变换中心的坐标。</span></div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">if</span> (mirrorX)</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        translated.setX(-translated.x());</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">if</span> (mirrorY)</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        translated.setY(-translated.y());</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keyword">constexpr</span> <span class="keywordtype">double</span> pi = 3.14159265358979323846;  <span class="comment">// 圆周率常量。</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> radians = rotationDegrees * pi / 180.0;  <span class="comment">// 旋转角度的弧度值。</span></div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> cosine = std::cos(radians);  <span class="comment">// 旋转矩阵余弦项。</span></div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> sine = std::sin(radians);  <span class="comment">// 旋转矩阵正弦项。</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">return</span> QPointF(translated.x() * cosine - translated.y() * sine + origin.x(),</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                   translated.x() * sine + translated.y() * cosine + origin.y());</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>}</div>
+</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}  <span class="comment">// namespace EasyKiConverter::Parser</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aGeometryTransforms_8h_html"><div class="ttname"><a href="GeometryTransforms_8h.html">GeometryTransforms.h</a></div><div class="ttdoc">格式解析阶段通用的单位和坐标变换。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1CoordinateTransform_html_ab374b775d97fa906cd6dcfba99153822"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1CoordinateTransform.html#ab374b775d97fa906cd6dcfba99153822">EasyKiConverter::Parser::CoordinateTransform::apply</a></div><div class="ttdeci">static QPointF apply(const QPointF &amp;point, const QPointF &amp;origin, double rotationDegrees, bool mirrorX=false, bool mirrorY=false)</div><div class="ttdoc">将源坐标转换到目标坐标系。</div><div class="ttdef"><b>Definition</b> <a href="GeometryTransforms_8cpp_source.html#l00062">GeometryTransforms.cpp:62</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">EasyKiConverter::Parser::ParseDiagnostics</a></div><div class="ttdoc">收集解析过程中的信息、警告、错误和跳过记录。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00040">ParseDiagnostics.h:40</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_a4996b6b0998692342728cdfe5f388a09"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">EasyKiConverter::Parser::ParseDiagnostics::add</a></div><div class="ttdeci">void add(ParseSeverity severity, ParseScope scope, const QString &amp;message, const QString &amp;entity=QString(), int line=0, int column=0)</div><div class="ttdoc">添加一条解析诊断。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00018">ParseDiagnostics.cpp:18</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1UnitConverter_html_a2a0c4ab548bb83707b0696cbc7353d02"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1UnitConverter.html#a2a0c4ab548bb83707b0696cbc7353d02">EasyKiConverter::Parser::UnitConverter::parseUnit</a></div><div class="ttdeci">static LengthUnit parseUnit(const QString &amp;text, ParseDiagnostics *diagnostics=nullptr)</div><div class="ttdoc">解析单位名称。</div><div class="ttdef"><b>Definition</b> <a href="GeometryTransforms_8cpp_source.html#l00034">GeometryTransforms.cpp:34</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1UnitConverter_html_abab9a0036e45f58ff791c91ffedd5d9f"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1UnitConverter.html#abab9a0036e45f58ff791c91ffedd5d9f">EasyKiConverter::Parser::UnitConverter::toMillimeters</a></div><div class="ttdeci">static double toMillimeters(double value, LengthUnit unit)</div><div class="ttdoc">将指定单位的长度转换为毫米。</div><div class="ttdef"><b>Definition</b> <a href="GeometryTransforms_8cpp_source.html#l00013">GeometryTransforms.cpp:13</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html">EasyKiConverter::Parser</a></div><div class="ttdef"><b>Definition</b> <a href="ArchiveInspector_8cpp_source.html#l00005">ArchiveInspector.cpp:5</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a6533d81d93faebec1da5e154dfe263c5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5">EasyKiConverter::Parser::LengthUnit</a></div><div class="ttdeci">LengthUnit</div><div class="ttdoc">解析源文件中常见的长度单位。</div><div class="ttdef"><b>Definition</b> <a href="GeometryTransforms_8h_source.html#l00017">GeometryTransforms.h:17</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a6533d81d93faebec1da5e154dfe263c5a232ae3e4e801bc06c2017d47db4cc892"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5a232ae3e4e801bc06c2017d47db4cc892">EasyKiConverter::Parser::LengthUnit::Mil</a></div><div class="ttdeci">@ Mil</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a6533d81d93faebec1da5e154dfe263c5a88183b946cc5f0e8c96b2e66e1c74a7e"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5a88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Parser::LengthUnit::Unknown</a></div><div class="ttdeci">@ Unknown</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a6533d81d93faebec1da5e154dfe263c5aa1fc7eb146f7f3ea7934e4d247902de0"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5aa1fc7eb146f7f3ea7934e4d247902de0">EasyKiConverter::Parser::LengthUnit::Millimeter</a></div><div class="ttdeci">@ Millimeter</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a6533d81d93faebec1da5e154dfe263c5abee12d309ba5730e1e121733b7b67956"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5abee12d309ba5730e1e121733b7b67956">EasyKiConverter::Parser::LengthUnit::Inch</a></div><div class="ttdeci">@ Inch</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_aace02efff26e3191e4b633bf59e724cda6f16a5f8ff5d75ab84c018adacdfcbb7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda6f16a5f8ff5d75ab84c018adacdfcbb7">EasyKiConverter::Parser::ParseScope::Field</a></div><div class="ttdeci">@ Field</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_acf6a3468b670ed55eb9200b71e3fd393a0eaadb4fcb48a0a0ed7bc9868be9fbaa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a0eaadb4fcb48a0a0ed7bc9868be9fbaa">EasyKiConverter::Parser::ParseSeverity::Warning</a></div><div class="ttdeci">@ Warning</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_8eceb17de733a8c5303e86d0c9deb6e5.html">parser</a></li><li class="navelem"><a class="el" href="GeometryTransforms_8cpp.html">GeometryTransforms.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

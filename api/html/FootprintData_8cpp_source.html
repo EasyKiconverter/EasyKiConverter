@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: models/FootprintData.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('FootprintData_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">FootprintData.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="FootprintData_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="FootprintData_8h.html">FootprintData.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="FootprintDataSerializer_8h.html">FootprintDataSerializer.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintData.html#a080a50988e9d20f1227327b94699b60d">   10</a></span><a class="code hl_function" href="classEasyKiConverter_1_1FootprintData.html#a080a50988e9d20f1227327b94699b60d">FootprintData::FootprintData</a>() : m_info(), m_bbox() {}</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="}">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintData.html#ad55789f5a2d15db3cb8f1ba674642671">   16</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1FootprintData.html#ad55789f5a2d15db3cb8f1ba674642671">FootprintData::toJson</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintDataSerializer.html#add1b1793c81116aeba5f003f9f9a6483">FootprintDataSerializer::toJson</a>(*<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>}</div>
+</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="}">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintData.html#ad002fcce28df82d27d18944869413e2f">   25</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintData.html#ad002fcce28df82d27d18944869413e2f">FootprintData::fromJson</a>(<span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintDataSerializer.html#af3f3ecd9cbc37bdc4b17f910f5064b40">FootprintDataSerializer::fromJson</a>(*<span class="keyword">this</span>, json);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="foldopen" id="foldopen00033" data-start="{" data-end="}">
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintData.html#a8917d3adf66f141a2f3c58479c86b3a4">   33</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintData.html#a8917d3adf66f141a2f3c58479c86b3a4">FootprintData::isValid</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="comment">// 检查基本信</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a7861dd857703d0b8ad51da8ebb746f7f">m_info</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1FootprintInfo.html#a1527794703dc0a359af26c8ca0e76fa0">name</a>.isEmpty()) {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="comment">// 至少要有一个焊</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a2006669743087322e3ffd29ea55e8255">m_pads</a>.isEmpty()) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="}">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintData.html#af7a6a8f3e458f76bc916c86541358739">   51</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1FootprintData.html#af7a6a8f3e458f76bc916c86541358739">FootprintData::validate</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a7861dd857703d0b8ad51da8ebb746f7f">m_info</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1FootprintInfo.html#a1527794703dc0a359af26c8ca0e76fa0">name</a>.isEmpty()) {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Footprint name is empty&quot;</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a2006669743087322e3ffd29ea55e8255">m_pads</a>.isEmpty()) {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">return</span> <span class="stringliteral">&quot;Footprint must have at least one pad&quot;</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">// 检查焊</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a2006669743087322e3ffd29ea55e8255">m_pads</a>.size(); ++i) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1FootprintPad.html">FootprintPad</a>&amp; pad = <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a2006669743087322e3ffd29ea55e8255">m_pads</a>[i];  </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">if</span> (pad.<a class="code hl_variable" href="structEasyKiConverter_1_1FootprintPad.html#aeb7e57e09822ee424f6ea44874045075">number</a>.isEmpty()) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="keywordflow">return</span> QString(<span class="stringliteral">&quot;Pad %1 has empty number&quot;</span>).arg(i);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> QString();  <span class="comment">// 返回空字符串表示验证通过</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintData.html#a4e3d37dfa0c80aa3d44f5b721acbfc33">   74</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintData.html#a4e3d37dfa0c80aa3d44f5b721acbfc33">FootprintData::clear</a>() {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a7861dd857703d0b8ad51da8ebb746f7f">m_info</a> = <a class="code hl_struct" href="structEasyKiConverter_1_1FootprintInfo.html">FootprintInfo</a>();</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a446e2f34dbdb54bd0ef470c911b12acf">m_bbox</a> = <a class="code hl_struct" href="structEasyKiConverter_1_1FootprintBBox.html">FootprintBBox</a>();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a2006669743087322e3ffd29ea55e8255">m_pads</a>.clear();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#ab2eeee7ac829c87a0a2ffe05f52b1d98">m_tracks</a>.clear();</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a3120d29be50555f1f33b79e142c967e0">m_holes</a>.clear();</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#abc7b923a2acf0e7a529ee2ab5008f68e">m_circles</a>.clear();</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a3beb6316c7c14fb66cd74d5207db6491">m_rectangles</a>.clear();</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#aa4a9304c22191e7a8f5823ea1a175f19">m_arcs</a>.clear();</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#af6c1b101845533f08eb133d683747761">m_texts</a>.clear();</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#ad67c0bebbb28bb9bc50a1d7617e0759e">m_solidRegions</a>.clear();</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#af6662b331fc035a9037c7666baffb8ba">m_outlines</a>.clear();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a44923e7d84c7617298bd340bd46c0409">m_layers</a>.clear();</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#a154ea3d37113480f995fedb629232d10">m_objectVisibilities</a>.clear();</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#af6286e1ad0297b5d1442a29d96634bbf">m_validationErrors</a>.clear();</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintData.html#aad29c085e7356301857adfa36e48c55e">m_model3D</a>.<a class="code hl_function" href="classEasyKiConverter_1_1Model3DData.html#a8714446e339b5ddfd31545cf6c8b28c6">clear</a>();</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
+</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aFootprintDataSerializer_8h_html"><div class="ttname"><a href="FootprintDataSerializer_8h.html">FootprintDataSerializer.h</a></div></div>
+<div class="ttc" id="aFootprintData_8h_html"><div class="ttname"><a href="FootprintData_8h.html">FootprintData.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintDataSerializer_html_add1b1793c81116aeba5f003f9f9a6483"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintDataSerializer.html#add1b1793c81116aeba5f003f9f9a6483">EasyKiConverter::FootprintDataSerializer::toJson</a></div><div class="ttdeci">static QJsonObject toJson(const FootprintData &amp;data)</div><div class="ttdoc">将完整封装数据序列化为 JSON。</div><div class="ttdef"><b>Definition</b> <a href="FootprintDataSerializer_8cpp_source.html#l00109">FootprintDataSerializer.cpp:109</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintDataSerializer_html_af3f3ecd9cbc37bdc4b17f910f5064b40"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintDataSerializer.html#af3f3ecd9cbc37bdc4b17f910f5064b40">EasyKiConverter::FootprintDataSerializer::fromJson</a></div><div class="ttdeci">static bool fromJson(FootprintData &amp;data, const QJsonObject &amp;json)</div><div class="ttdoc">按数据类别逐项恢复完整封装，并保留可诊断的导入错误。</div><div class="ttdef"><b>Definition</b> <a href="FootprintDataSerializer_8cpp_source.html#l00205">FootprintDataSerializer.cpp:205</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a080a50988e9d20f1227327b94699b60d"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a080a50988e9d20f1227327b94699b60d">EasyKiConverter::FootprintData::FootprintData</a></div><div class="ttdeci">FootprintData()</div><div class="ttdoc">初始化封装元数据和边界框，其他图元容器使用默认空状态。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8cpp_source.html#l00010">FootprintData.cpp:10</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a154ea3d37113480f995fedb629232d10"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a154ea3d37113480f995fedb629232d10">EasyKiConverter::FootprintData::m_objectVisibilities</a></div><div class="ttdeci">QList&lt; ObjectVisibility &gt; m_objectVisibilities</div><div class="ttdoc">可见性列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00633">FootprintData.h:633</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a2006669743087322e3ffd29ea55e8255"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a2006669743087322e3ffd29ea55e8255">EasyKiConverter::FootprintData::m_pads</a></div><div class="ttdeci">QList&lt; FootprintPad &gt; m_pads</div><div class="ttdoc">焊盘列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00623">FootprintData.h:623</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a3120d29be50555f1f33b79e142c967e0"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a3120d29be50555f1f33b79e142c967e0">EasyKiConverter::FootprintData::m_holes</a></div><div class="ttdeci">QList&lt; FootprintHole &gt; m_holes</div><div class="ttdoc">孔列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00625">FootprintData.h:625</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a3beb6316c7c14fb66cd74d5207db6491"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a3beb6316c7c14fb66cd74d5207db6491">EasyKiConverter::FootprintData::m_rectangles</a></div><div class="ttdeci">QList&lt; FootprintRectangle &gt; m_rectangles</div><div class="ttdoc">矩形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00627">FootprintData.h:627</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a446e2f34dbdb54bd0ef470c911b12acf"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a446e2f34dbdb54bd0ef470c911b12acf">EasyKiConverter::FootprintData::m_bbox</a></div><div class="ttdeci">FootprintBBox m_bbox</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00622">FootprintData.h:622</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a44923e7d84c7617298bd340bd46c0409"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a44923e7d84c7617298bd340bd46c0409">EasyKiConverter::FootprintData::m_layers</a></div><div class="ttdeci">QList&lt; LayerDefinition &gt; m_layers</div><div class="ttdoc">层定义列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00632">FootprintData.h:632</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a4e3d37dfa0c80aa3d44f5b721acbfc33"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a4e3d37dfa0c80aa3d44f5b721acbfc33">EasyKiConverter::FootprintData::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空封装的元数据、所有图元、层信息和导入诊断。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8cpp_source.html#l00074">FootprintData.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a7861dd857703d0b8ad51da8ebb746f7f"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a7861dd857703d0b8ad51da8ebb746f7f">EasyKiConverter::FootprintData::m_info</a></div><div class="ttdeci">FootprintInfo m_info</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00621">FootprintData.h:621</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_a8917d3adf66f141a2f3c58479c86b3a4"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#a8917d3adf66f141a2f3c58479c86b3a4">EasyKiConverter::FootprintData::isValid</a></div><div class="ttdeci">bool isValid() const</div><div class="ttdoc">检查封装是否具备名称和至少一个焊盘等最小有效数据。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8cpp_source.html#l00033">FootprintData.cpp:33</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_aa4a9304c22191e7a8f5823ea1a175f19"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#aa4a9304c22191e7a8f5823ea1a175f19">EasyKiConverter::FootprintData::m_arcs</a></div><div class="ttdeci">QList&lt; FootprintArc &gt; m_arcs</div><div class="ttdoc">圆弧图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00628">FootprintData.h:628</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_aad29c085e7356301857adfa36e48c55e"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#aad29c085e7356301857adfa36e48c55e">EasyKiConverter::FootprintData::m_model3D</a></div><div class="ttdeci">Model3DData m_model3D</div><div class="ttdoc">三维模型数据。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00634">FootprintData.h:634</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_ab2eeee7ac829c87a0a2ffe05f52b1d98"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#ab2eeee7ac829c87a0a2ffe05f52b1d98">EasyKiConverter::FootprintData::m_tracks</a></div><div class="ttdeci">QList&lt; FootprintTrack &gt; m_tracks</div><div class="ttdoc">铜线路径列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00624">FootprintData.h:624</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_abc7b923a2acf0e7a529ee2ab5008f68e"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#abc7b923a2acf0e7a529ee2ab5008f68e">EasyKiConverter::FootprintData::m_circles</a></div><div class="ttdeci">QList&lt; FootprintCircle &gt; m_circles</div><div class="ttdoc">圆形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00626">FootprintData.h:626</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_ad002fcce28df82d27d18944869413e2f"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#ad002fcce28df82d27d18944869413e2f">EasyKiConverter::FootprintData::fromJson</a></div><div class="ttdeci">bool fromJson(const QJsonObject &amp;json)</div><div class="ttdoc">从 JSON 恢复封装数据，并返回字段校验结果。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8cpp_source.html#l00025">FootprintData.cpp:25</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_ad55789f5a2d15db3cb8f1ba674642671"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#ad55789f5a2d15db3cb8f1ba674642671">EasyKiConverter::FootprintData::toJson</a></div><div class="ttdeci">QJsonObject toJson() const</div><div class="ttdoc">将封装数据交给统一序列化器转换为 JSON。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8cpp_source.html#l00016">FootprintData.cpp:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_ad67c0bebbb28bb9bc50a1d7617e0759e"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#ad67c0bebbb28bb9bc50a1d7617e0759e">EasyKiConverter::FootprintData::m_solidRegions</a></div><div class="ttdeci">QList&lt; FootprintSolidRegion &gt; m_solidRegions</div><div class="ttdoc">实体区域列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00630">FootprintData.h:630</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_af6286e1ad0297b5d1442a29d96634bbf"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#af6286e1ad0297b5d1442a29d96634bbf">EasyKiConverter::FootprintData::m_validationErrors</a></div><div class="ttdeci">QStringList m_validationErrors</div><div class="ttdoc">导入诊断列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00635">FootprintData.h:635</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_af6662b331fc035a9037c7666baffb8ba"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#af6662b331fc035a9037c7666baffb8ba">EasyKiConverter::FootprintData::m_outlines</a></div><div class="ttdeci">QList&lt; FootprintOutline &gt; m_outlines</div><div class="ttdoc">轮廓列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00631">FootprintData.h:631</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_af6c1b101845533f08eb133d683747761"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#af6c1b101845533f08eb133d683747761">EasyKiConverter::FootprintData::m_texts</a></div><div class="ttdeci">QList&lt; FootprintText &gt; m_texts</div><div class="ttdoc">文本图元列表。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00629">FootprintData.h:629</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintData_html_af7a6a8f3e458f76bc916c86541358739"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintData.html#af7a6a8f3e458f76bc916c86541358739">EasyKiConverter::FootprintData::validate</a></div><div class="ttdeci">QString validate() const</div><div class="ttdoc">按固定顺序检查封装元数据和焊盘字段，并返回首个错误。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8cpp_source.html#l00051">FootprintData.cpp:51</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Model3DData_html_a8714446e339b5ddfd31545cf6c8b28c6"><div class="ttname"><a href="classEasyKiConverter_1_1Model3DData.html#a8714446e339b5ddfd31545cf6c8b28c6">EasyKiConverter::Model3DData::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空名称、标识符、原始模型和变换数据。</div><div class="ttdef"><b>Definition</b> <a href="Model3DData_8cpp_source.html#l00177">Model3DData.cpp:177</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintBBox_html"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintBBox.html">EasyKiConverter::FootprintBBox</a></div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00057">FootprintData.h:57</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintInfo_html"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintInfo.html">EasyKiConverter::FootprintInfo</a></div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00017">FootprintData.h:17</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintInfo_html_a1527794703dc0a359af26c8ca0e76fa0"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintInfo.html#a1527794703dc0a359af26c8ca0e76fa0">EasyKiConverter::FootprintInfo::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00018">FootprintData.h:18</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintPad_html"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintPad.html">EasyKiConverter::FootprintPad</a></div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00066">FootprintData.h:66</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintPad_html_aeb7e57e09822ee424f6ea44874045075"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintPad.html#aeb7e57e09822ee424f6ea44874045075">EasyKiConverter::FootprintPad::number</a></div><div class="ttdeci">QString number</div><div class="ttdoc">编号。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00074">FootprintData.h:74</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1ae4179d5e953611aae20c997279e02c.html">models</a></li><li class="navelem"><a class="el" href="FootprintData_8cpp.html">FootprintData.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

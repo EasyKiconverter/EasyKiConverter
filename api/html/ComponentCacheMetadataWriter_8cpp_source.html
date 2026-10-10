@@ -1,0 +1,192 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentCacheMetadataWriter.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentCacheMetadataWriter_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentCacheMetadataWriter.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentCacheMetadataWriter_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheMetadataWriter_8h.html">ComponentCacheMetadataWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="CacheMetadataStore_8h.html">CacheMetadataStore.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheService_8h.html">ComponentCacheService.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheWritePolicy_8h.html">ComponentCacheWritePolicy.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="LogMacros_8h.html">utils/logging/LogMacros.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QMutexLocker&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#accfc2f7a40fd9a0c1f9790993b4edd57">   16</a></span><a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#accfc2f7a40fd9a0c1f9790993b4edd57">ComponentCacheMetadataWriter::ComponentCacheMetadataWriter</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a>&amp; owner) : m_owner(owner) {}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00026" data-start="{" data-end="}">
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#af473e141925f132ea946386bec8966fc">   26</a></span>std::optional&lt;qint64&gt; <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#af473e141925f132ea946386bec8966fc">ComponentCacheMetadataWriter::write</a>(<span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                                                          <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; data,</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                                                          uint64_t expectedGeneration,</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>                                                          <span class="keywordtype">bool</span> replaceModel3DMetadata) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    QJsonObject metadata = <a class="code hl_function" href="classEasyKiConverter_1_1CacheMetadataStore.html#aed7c058794552f238f6c5d6884a5150b">CacheMetadataStore::build</a>(componentId, data);  <span class="comment">// 根据当前数据构建的元数据。</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    qint64 sizeAfterUpdate = 0;  <span class="comment">// 提交后的一级缓存大小。</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="comment">// 旧快照读取、代次校验、合并和双层提交必须保持原子顺序，避免并发更新互相覆盖。</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        QMutexLocker diskLocker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#ac2a03414eab86bcea4dfd28ce7d11d02">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheService.html#ab861793a9520cb2e5ec8c622f55b509e">m_diskWriteMutex</a>);  <span class="comment">// 保护磁盘快照与内存更新的一致性。</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheWritePolicy.html#addc6e4fcae1181630f832d4ce6407458">ComponentCacheWritePolicy::isAllowed</a>(</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#ac2a03414eab86bcea4dfd28ce7d11d02">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheService.html#a7886bb09aecbfaa80f56ad4b90330c17">m_cacheGeneration</a>.load(), expectedGeneration, <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#ac2a03414eab86bcea4dfd28ce7d11d02">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheService.html#aec54f74a49f2eca27abdd15bedebbe3b">m_tombstones</a>, componentId)) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            <a class="code hl_define" href="LogMacros_8h.html#a47d35ec2dff9410795b217444f8631b2">LOG_DEBUG</a>(<a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04fa83168e6cb289d732cc78427b51f93153">LogModule::Core</a>, <span class="stringliteral">&quot;Discarded stale metadata write for {}&quot;</span>, componentId);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">const</span> QJsonObject existingMetadata =  <span class="comment">// 磁盘中已有的元数据快照。</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            <a class="code hl_function" href="classEasyKiConverter_1_1CacheMetadataStore.html#a1dd3383b3874961750f40238bf2c9bb9">CacheMetadataStore::read</a>(<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#ac2a03414eab86bcea4dfd28ce7d11d02">m_owner</a>.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#ac6ce160f9100a192f4a8b3237b2242ba">metadataPath</a>(componentId));</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        metadata = <a class="code hl_function" href="classEasyKiConverter_1_1CacheMetadataStore.html#aa6c749d665e704447fde9ed2a887895b">CacheMetadataStore::merge</a>(existingMetadata, metadata);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">if</span> (replaceModel3DMetadata &amp;&amp; !<a class="code hl_function" href="classEasyKiConverter_1_1CacheMetadataStore.html#ae9b4a2f7bb886691a4349c4a1d997f4b">CacheMetadataStore::hasModel3D</a>(data)) {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            metadata.remove(QStringLiteral(<span class="stringliteral">&quot;model3duuid&quot;</span>));</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            metadata.remove(QStringLiteral(<span class="stringliteral">&quot;model3dName&quot;</span>));</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            metadata.remove(QStringLiteral(<span class="stringliteral">&quot;model3dTranslation&quot;</span>));</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            metadata.remove(QStringLiteral(<span class="stringliteral">&quot;model3dRotation&quot;</span>));</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        sizeAfterUpdate = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#ac2a03414eab86bcea4dfd28ce7d11d02">m_owner</a>.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheService.html#a50330b8d9191b3faed350ee4bc741058">m_memoryCache</a>.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a5d76f06629109863c9ccdf3f6c477d43">saveMetadata</a>(componentId, metadata);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#ac2a03414eab86bcea4dfd28ce7d11d02">m_owner</a>.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#a7bfef311c1977d236ac0f14effa4c3ac">saveMetadata</a>(componentId, metadata);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">return</span> sizeAfterUpdate;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
+</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aCacheMetadataStore_8h_html"><div class="ttname"><a href="CacheMetadataStore_8h.html">CacheMetadataStore.h</a></div></div>
+<div class="ttc" id="aComponentCacheMetadataWriter_8h_html"><div class="ttname"><a href="ComponentCacheMetadataWriter_8h.html">ComponentCacheMetadataWriter.h</a></div></div>
+<div class="ttc" id="aComponentCacheService_8h_html"><div class="ttname"><a href="ComponentCacheService_8h.html">ComponentCacheService.h</a></div></div>
+<div class="ttc" id="aComponentCacheWritePolicy_8h_html"><div class="ttname"><a href="ComponentCacheWritePolicy_8h.html">ComponentCacheWritePolicy.h</a></div></div>
+<div class="ttc" id="aLogMacros_8h_html"><div class="ttname"><a href="LogMacros_8h.html">LogMacros.h</a></div></div>
+<div class="ttc" id="aLogMacros_8h_html_a47d35ec2dff9410795b217444f8631b2"><div class="ttname"><a href="LogMacros_8h.html#a47d35ec2dff9410795b217444f8631b2">LOG_DEBUG</a></div><div class="ttdeci">#define LOG_DEBUG(module,...)</div><div class="ttdoc">调试级别日志</div><div class="ttdef"><b>Definition</b> <a href="LogMacros_8h_source.html#l00048">LogMacros.h:48</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMetadataStore_html_a1dd3383b3874961750f40238bf2c9bb9"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMetadataStore.html#a1dd3383b3874961750f40238bf2c9bb9">EasyKiConverter::CacheMetadataStore::read</a></div><div class="ttdeci">static QJsonObject read(const QString &amp;metadataPath)</div><div class="ttdoc">从磁盘读取元数据 JSON。</div><div class="ttdef"><b>Definition</b> <a href="CacheMetadataStore_8cpp_source.html#l00044">CacheMetadataStore.cpp:44</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMetadataStore_html_aa6c749d665e704447fde9ed2a887895b"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMetadataStore.html#aa6c749d665e704447fde9ed2a887895b">EasyKiConverter::CacheMetadataStore::merge</a></div><div class="ttdeci">static QJsonObject merge(const QJsonObject &amp;existing, const QJsonObject &amp;incoming)</div><div class="ttdoc">合并新旧元数据并保留未被空值覆盖的字段。</div><div class="ttdef"><b>Definition</b> <a href="CacheMetadataStore_8cpp_source.html#l00154">CacheMetadataStore.cpp:154</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMetadataStore_html_ae9b4a2f7bb886691a4349c4a1d997f4b"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMetadataStore.html#ae9b4a2f7bb886691a4349c4a1d997f4b">EasyKiConverter::CacheMetadataStore::hasModel3D</a></div><div class="ttdeci">static bool hasModel3D(const ComponentData &amp;data)</div><div class="ttdoc">判断元器件是否关联可持久化的三维模型。</div><div class="ttdef"><b>Definition</b> <a href="CacheMetadataStore_8cpp_source.html#l00144">CacheMetadataStore.cpp:144</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheMetadataStore_html_aed7c058794552f238f6c5d6884a5150b"><div class="ttname"><a href="classEasyKiConverter_1_1CacheMetadataStore.html#aed7c058794552f238f6c5d6884a5150b">EasyKiConverter::CacheMetadataStore::build</a></div><div class="ttdeci">static QJsonObject build(const QString &amp;componentId, const ComponentData &amp;data)</div><div class="ttdoc">从元器件数据构建可持久化的元数据。</div><div class="ttdef"><b>Definition</b> <a href="CacheMetadataStore_8cpp_source.html#l00105">CacheMetadataStore.cpp:105</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMemoryStore_html_a5d76f06629109863c9ccdf3f6c477d43"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMemoryStore.html#a5d76f06629109863c9ccdf3f6c477d43">EasyKiConverter::ComponentCacheMemoryStore::saveMetadata</a></div><div class="ttdeci">qint64 saveMetadata(const QString &amp;componentId, const QJsonObject &amp;metadata)</div><div class="ttdoc">写入一级缓存中的元数据并返回当前成本。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMemoryStore_8cpp_source.html#l00047">ComponentCacheMemoryStore.cpp:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMetadataWriter_html_ac2a03414eab86bcea4dfd28ce7d11d02"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#ac2a03414eab86bcea4dfd28ce7d11d02">EasyKiConverter::ComponentCacheMetadataWriter::m_owner</a></div><div class="ttdeci">ComponentCacheService &amp; m_owner</div><div class="ttdoc">所属缓存服务。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMetadataWriter_8h_source.html#l00040">ComponentCacheMetadataWriter.h:40</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMetadataWriter_html_accfc2f7a40fd9a0c1f9790993b4edd57"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#accfc2f7a40fd9a0c1f9790993b4edd57">EasyKiConverter::ComponentCacheMetadataWriter::ComponentCacheMetadataWriter</a></div><div class="ttdeci">ComponentCacheMetadataWriter(ComponentCacheService &amp;owner)</div><div class="ttdoc">创建绑定到缓存服务的元数据写入协调器</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMetadataWriter_8cpp_source.html#l00016">ComponentCacheMetadataWriter.cpp:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheMetadataWriter_html_af473e141925f132ea946386bec8966fc"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheMetadataWriter.html#af473e141925f132ea946386bec8966fc">EasyKiConverter::ComponentCacheMetadataWriter::write</a></div><div class="ttdeci">std::optional&lt; qint64 &gt; write(const QString &amp;componentId, const ComponentData &amp;data, uint64_t expectedGeneration, bool replaceModel3DMetadata)</div><div class="ttdoc">合并并提交一份元器件元数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheMetadataWriter_8cpp_source.html#l00026">ComponentCacheMetadataWriter.cpp:26</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html">EasyKiConverter::ComponentCacheService</a></div><div class="ttdoc">元器件缓存服务类（两层缓存架构）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00074">ComponentCacheService.h:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a50330b8d9191b3faed350ee4bc741058"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a50330b8d9191b3faed350ee4bc741058">EasyKiConverter::ComponentCacheService::m_memoryCache</a></div><div class="ttdeci">ComponentCacheMemoryStore m_memoryCache</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00627">ComponentCacheService.h:627</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a7886bb09aecbfaa80f56ad4b90330c17"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a7886bb09aecbfaa80f56ad4b90330c17">EasyKiConverter::ComponentCacheService::m_cacheGeneration</a></div><div class="ttdeci">std::atomic&lt; uint64_t &gt; m_cacheGeneration</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00629">ComponentCacheService.h:629</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a7bfef311c1977d236ac0f14effa4c3ac"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a7bfef311c1977d236ac0f14effa4c3ac">EasyKiConverter::ComponentCacheService::saveMetadata</a></div><div class="ttdeci">void saveMetadata(const QString &amp;lcscId, const QJsonObject &amp;metadata)</div><div class="ttdoc">保存元数据 JSON 到 L2 磁盘缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00708">ComponentCacheService.cpp:708</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_ab861793a9520cb2e5ec8c622f55b509e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#ab861793a9520cb2e5ec8c622f55b509e">EasyKiConverter::ComponentCacheService::m_diskWriteMutex</a></div><div class="ttdeci">QMutex m_diskWriteMutex</div><div class="ttdoc">串行化缓存代次检查与磁盘写入。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00621">ComponentCacheService.h:621</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_ac6ce160f9100a192f4a8b3237b2242ba"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#ac6ce160f9100a192f4a8b3237b2242ba">EasyKiConverter::ComponentCacheService::metadataPath</a></div><div class="ttdeci">QString metadataPath(const QString &amp;lcscId) const</div><div class="ttdoc">获取缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00797">ComponentCacheService.cpp:797</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_aec54f74a49f2eca27abdd15bedebbe3b"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#aec54f74a49f2eca27abdd15bedebbe3b">EasyKiConverter::ComponentCacheService::m_tombstones</a></div><div class="ttdeci">CacheTombstoneRegistry m_tombstones</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00631">ComponentCacheService.h:631</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheWritePolicy_html_addc6e4fcae1181630f832d4ce6407458"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheWritePolicy.html#addc6e4fcae1181630f832d4ce6407458">EasyKiConverter::ComponentCacheWritePolicy::isAllowed</a></div><div class="ttdeci">static bool isAllowed(uint64_t currentGeneration, uint64_t expectedGeneration, const CacheTombstoneRegistry &amp;tombstones, const QString &amp;componentId)</div><div class="ttdoc">校验写入请求是否对应当前缓存上下文。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheWritePolicy_8cpp_source.html#l00013">ComponentCacheWritePolicy.cpp:13</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html">EasyKiConverter::ComponentData</a></div><div class="ttdoc">元件数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00020">ComponentData.h:20</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_aff134bbe6cc1ac962014dd264d0ee04fa83168e6cb289d732cc78427b51f93153"><div class="ttname"><a href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04fa83168e6cb289d732cc78427b51f93153">EasyKiConverter::LogModule::Core</a></div><div class="ttdeci">@ Core</div><div class="ttdoc">核心功能 (main, LanguageManager)</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentCacheMetadataWriter_8cpp.html">ComponentCacheMetadataWriter.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

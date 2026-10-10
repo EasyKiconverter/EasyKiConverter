@@ -1,0 +1,27 @@
+var classEasyKiConverter_1_1FootprintShapeSerializer =
+[
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#ae976e3f674fb8f160dfd0498b1ad0859", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#aa80bda3807650d29a679bd3d1219a8af", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#ae978ee744c795d3a4d699be19a8c7ab6", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a67c06281f38e8607796b43231ada3471", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#acd0b49c99fd50c7dcd0d3f7dc33fa50d", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a17c8689edeb4a88f204c1e8bfc99bc88", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a6088f6c18694b5f7f2a205b61d1037bf", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#ad3556e8e0b4d27aaacb31f863d8aa079", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a4000308943e96247f9d32c2d6277af75", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a729a9e600b3ad98fb1f87aefd059d6bf", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a94a785867ef40924fbef816db77a6b80", null ],
+    [ "fromJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a107220fc1d3a31e2c7e2e6787c7fac9c", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#aacc29df98aa1f00c0dfdbd89bddbedb2", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a4729f0b9a70428ff39f1bf54d746aad8", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a7b3953d82abb373d08689afe5d8e8748", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a48c2e22fdecbe484bd31e57d901b02e1", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a9a65059f35c2cb7dca593aec95a2be41", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#af77bc771c07a3deadb341c5693b2bcbc", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#ac6a113e2f894f5bce80a530ce8360987", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a014c4dbc674d843e5b9caa7415b0818d", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a416155fec4f3a219074e355f80a54b47", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a711a247bad07bf0530d6d27cc587c011", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#ab2cf6acafca919868188654f285389cd", null ],
+    [ "toJson", "classEasyKiConverter_1_1FootprintShapeSerializer.html#a935997d1ddde2fbbca63a26a9f2945a4", null ]
+];

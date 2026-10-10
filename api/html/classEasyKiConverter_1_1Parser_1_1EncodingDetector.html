@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::Parser::EncodingDetector类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1Parser_1_1EncodingDetector.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1Parser_1_1EncodingDetector-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::Parser::EncodingDetector类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>检测 BOM 和 UTF-8 合法性并执行有限回退解码。  
+ <a href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="EncodingDetector_8h_source.html">EncodingDetector.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::Parser::EncodingDetector 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1Parser_1_1EncodingDetector__coll__graph.svg" width="182" height="111"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a91f088afda35bd2d48639ee846b53ea0" id="r_a91f088afda35bd2d48639ee846b53ea0"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html">EncodingDetectionResult</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a91f088afda35bd2d48639ee846b53ea0">detect</a> (const QByteArray &amp;data)</td></tr>
+<tr class="memdesc:a91f088afda35bd2d48639ee846b53ea0"><td class="mdescLeft">&#160;</td><td class="mdescRight">检测输入字节的编码。  <br /></td></tr>
+<tr class="separator:a91f088afda35bd2d48639ee846b53ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65e4a5a7e0c2a0e24a985a84da690edb" id="r_a65e4a5a7e0c2a0e24a985a84da690edb"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html#a65e4a5a7e0c2a0e24a985a84da690edb">decode</a> (const QByteArray &amp;data, <a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a> *diagnostics=nullptr, const QString &amp;filePath=QString())</td></tr>
+<tr class="memdesc:a65e4a5a7e0c2a0e24a985a84da690edb"><td class="mdescLeft">&#160;</td><td class="mdescRight">按检测结果将文本解码为 QString。  <br /></td></tr>
+<tr class="separator:a65e4a5a7e0c2a0e24a985a84da690edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>检测 BOM 和 UTF-8 合法性并执行有限回退解码。 </p>
+<p>不对未知二进制内容强行宣称为 UTF-8，回退到 Latin-1 时会写入警告诊断。 </p>
+
+<p class="definition">在文件 <a class="el" href="EncodingDetector_8h_source.html">EncodingDetector.h</a> 第 <a class="el" href="EncodingDetector_8h_source.html#l00033">33</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a65e4a5a7e0c2a0e24a985a84da690edb" name="a65e4a5a7e0c2a0e24a985a84da690edb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a65e4a5a7e0c2a0e24a985a84da690edb">&#9670;&#160;</a></span>decode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::Parser::EncodingDetector::decode </td>
+          <td>(</td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a> *&#160;</td>
+          <td class="paramname"><em>diagnostics</em> = <code>nullptr</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>按检测结果将文本解码为 QString。 </p>
+<p>按检测结果解码文本并记录回退或错误诊断。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>原始文本字节。 </td></tr>
+    <tr><td class="paramname">diagnostics</td><td>可选诊断接收器。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>可选源文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>解码后的文本；无法识别时返回空字符串。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>原始文本字节。 </td></tr>
+    <tr><td class="paramname">diagnostics</td><td>可选诊断接收器。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>可选源文件路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>解码后的文本。 </dd></dl>
+<p>&lt; 当前输入的编码检测结果。</p>
+<p>&lt; UTF-8 BOM 偏移量。</p>
+
+<p class="definition">在文件 <a class="el" href="EncodingDetector_8cpp_source.html">EncodingDetector.cpp</a> 第 <a class="el" href="EncodingDetector_8cpp_source.html#l00083">83</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00018">EasyKiConverter::Parser::ParseDiagnostics::add()</a>, <a class="el" href="EncodingDetector_8cpp_source.html#l00062">detect()</a>, <a class="el" href="EncodingDetector_8h_source.html#l00024">EasyKiConverter::Parser::EncodingDetectionResult::encoding</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd">EasyKiConverter::Parser::Error</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">EasyKiConverter::Parser::File</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a2ad869afeb953d2aad1cf9fbe870ce7b">EasyKiConverter::Parser::Latin1</a>, <a class="el" href="ParseDiagnostics_8cpp_source.html#l00031">EasyKiConverter::Parser::ParseDiagnostics::setFilePath()</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Parser::Unknown</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a7a185a7525c4893baf0b86145e2140d0">EasyKiConverter::Parser::Utf16BigEndian</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208abed96b975a8a66ca68b21fb4af381189">EasyKiConverter::Parser::Utf16LittleEndian</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a81f91ccd37ce1d232cbfc1520374319d">EasyKiConverter::Parser::Utf8</a>, <a class="el" href="EncodingDetector_8h_source.html#l00025">EasyKiConverter::Parser::EncodingDetectionResult::valid</a> , 以及 <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a0eaadb4fcb48a0a0ed7bc9868be9fbaa">EasyKiConverter::Parser::Warning</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CadstarModel_8cpp_source.html#l00664">EasyKiConverter::Parser::CadstarParser::parseBytes()</a>, <a class="el" href="PcadModel_8cpp_source.html#l00547">EasyKiConverter::Parser::PcadParser::parseBytes()</a>, <a class="el" href="XpeditionHkpReader_8cpp_source.html#l00096">EasyKiConverter::Parser::XpeditionHkpReader::parseBytes()</a> , 以及 <a class="el" href="XpeditionSymbolModel_8cpp_source.html#l00362">EasyKiConverter::Parser::XpeditionSymbolParser::parseBytes()</a>.</p>
+
+</div>
+</div>
+<a id="a91f088afda35bd2d48639ee846b53ea0" name="a91f088afda35bd2d48639ee846b53ea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91f088afda35bd2d48639ee846b53ea0">&#9670;&#160;</a></span>detect()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structEasyKiConverter_1_1Parser_1_1EncodingDetectionResult.html">EncodingDetectionResult</a> EasyKiConverter::Parser::EncodingDetector::detect </td>
+          <td>(</td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>检测输入字节的编码。 </p>
+<p>根据 BOM 和 UTF-8 合法性判断文本编码。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>原始文本字节。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>编码类型、合法性和置信度。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>待检测的文本字节。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>编码类型、有效性和置信度。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="EncodingDetector_8cpp_source.html">EncodingDetector.cpp</a> 第 <a class="el" href="EncodingDetector_8cpp_source.html#l00062">62</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a2ad869afeb953d2aad1cf9fbe870ce7b">EasyKiConverter::Parser::Latin1</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a7a185a7525c4893baf0b86145e2140d0">EasyKiConverter::Parser::Utf16BigEndian</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208abed96b975a8a66ca68b21fb4af381189">EasyKiConverter::Parser::Utf16LittleEndian</a> , 以及 <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#ad5d18dccc58940736580c7a5c3b7d208a81f91ccd37ce1d232cbfc1520374319d">EasyKiConverter::Parser::Utf8</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="EncodingDetector_8cpp_source.html#l00083">decode()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/parser/<a class="el" href="EncodingDetector_8h_source.html">EncodingDetector.h</a></li>
+<li>core/parser/<a class="el" href="EncodingDetector_8cpp_source.html">EncodingDetector.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="namespaceEasyKiConverter_1_1Parser.html">Parser</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1Parser_1_1EncodingDetector.html">EncodingDetector</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: ui/viewmodels/ExportProgressRetryCoordinator.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExportProgressRetryCoordinator_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExportProgressRetryCoordinator.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExportProgressRetryCoordinator_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExportProgressRetryCoordinator_8h.html">ExportProgressRetryCoordinator.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ExportProgressViewModel_8h.html">ExportProgressViewModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportProgressRetryCoordinator.html#a9b70749a6b39370e7254355a94f8e01c">   14</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressRetryCoordinator.html#a9b70749a6b39370e7254355a94f8e01c">ExportProgressRetryCoordinator::retryComponent</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner, <span class="keyword">const</span> QString&amp; componentId) {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Retry requested for component:&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordflow">if</span> (!owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#aabff6918e6dc59335665d000e67be519">m_retrySupported</a>) {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Retry is not supported for the selected target format&quot;</span>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keywordflow">if</span> (!owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a37bef2377cebe43ee902f865da01542b">m_idToIndexMap</a>.contains(componentId)) {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Component not found in results:&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    }</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="comment">// 获取失败元件在结果列表中的索引。</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordtype">int</span> index = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a37bef2377cebe43ee902f865da01542b">m_idToIndexMap</a>[componentId];</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="comment">// 保存待重试元件的结果数据。</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    QVariantMap result = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#ad39e3966d7fe32a03050c27ae1cb8643">m_resultsList</a>[index].toMap();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    owner.<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#af19357c98458b9f1643a5e90bebe12fe">resetItemForRetry</a>(result);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#ad39e3966d7fe32a03050c27ae1cb8643">m_resultsList</a>[index] = result;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="comment">// Update counts and notify UI</span></div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    owner.<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a36da972a14caced27c5f8e2394245d36">markResultsDirty</a>();</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    owner.<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a9eded8835a4fabe9d9daca68deb1f0bb">flushPendingUpdates</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="comment">// Re-trigger export if not currently exporting</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">if</span> (!owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a1f95ce6866654ae576a3800967aaa898">m_isExporting</a> &amp;&amp; owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">m_exportService</a>) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        <span class="comment">// 保存需要重新预加载的元器件编号。</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        QStringList idsToRetry = {componentId};</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="comment">// 复制当前导出选项并启用重试模式。</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> opts = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">m_exportService</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#af04e9cfd22b9eefacbef972c164e99b7">options</a>();</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        opts.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#ab5c705f473ce3c8f2dac6adc1a119ddc">retryMode</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">m_exportService</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#a1740870ae1644105491ba6b92c164d95">setOptions</a>(opts);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        owner.<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a65be58827c8046aae98014123264abe7">beginExportRun</a>(idsToRetry, QStringLiteral(<span class="stringliteral">&quot;Preloading component data...&quot;</span>));</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">m_exportService</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#adc8bf87f7e85eb58363688f44d49e147">startPreload</a>(idsToRetry);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
+</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="foldopen" id="foldopen00056" data-start="{" data-end="}">
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportProgressRetryCoordinator.html#a561e66bc55c4bac2ce14f370360cd273">   56</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressRetryCoordinator.html#a561e66bc55c4bac2ce14f370360cd273">ExportProgressRetryCoordinator::retryFailedComponents</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>&amp; owner) {</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Retry requested for all failed components&quot;</span>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">if</span> (!owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#aabff6918e6dc59335665d000e67be519">m_retrySupported</a>) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Retry is not supported for the selected target format&quot;</span>;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">// Collect all failed component IDs</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="comment">// 保存所有失败元器件的编号。</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    QStringList failedIds;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; item : owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#ad39e3966d7fe32a03050c27ae1cb8643">m_resultsList</a>) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="comment">// 读取单个导出结果。</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        QVariantMap map = item.toMap();</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">if</span> (map.value(<span class="stringliteral">&quot;status&quot;</span>) == <span class="stringliteral">&quot;failed&quot;</span>) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="comment">// 获取失败结果对应的元器件编号。</span></div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            QString <span class="keywordtype">id</span> = map.value(<span class="stringliteral">&quot;componentId&quot;</span>).toString();</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            failedIds.append(<span class="keywordtype">id</span>);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="comment">// Reset status to pending</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            <span class="keywordflow">if</span> (owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a37bef2377cebe43ee902f865da01542b">m_idToIndexMap</a>.contains(<span class="keywordtype">id</span>)) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                <span class="comment">// 获取失败元件在结果列表中的索引。</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                <span class="keywordtype">int</span> index = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a37bef2377cebe43ee902f865da01542b">m_idToIndexMap</a>[id];</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>                <span class="comment">// 保存待重试元件的结果数据。</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>                QVariantMap result = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#ad39e3966d7fe32a03050c27ae1cb8643">m_resultsList</a>[index].toMap();</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                owner.<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#af19357c98458b9f1643a5e90bebe12fe">resetItemForRetry</a>(result);</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#ad39e3966d7fe32a03050c27ae1cb8643">m_resultsList</a>[index] = result;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            }</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordflow">if</span> (failedIds.isEmpty()) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;No failed components to retry&quot;</span>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    }</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Retrying&quot;</span> &lt;&lt; failedIds.size() &lt;&lt; <span class="stringliteral">&quot;failed components&quot;</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="comment">// Update counts and notify UI</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    owner.<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a36da972a14caced27c5f8e2394245d36">markResultsDirty</a>();</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    owner.<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a9eded8835a4fabe9d9daca68deb1f0bb">flushPendingUpdates</a>();</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// Re-trigger export if not currently exporting</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">if</span> (!owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a1f95ce6866654ae576a3800967aaa898">m_isExporting</a> &amp;&amp; owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">m_exportService</a>) {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="comment">// 复制当前导出选项并启用重试模式。</span></div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> opts = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">m_exportService</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#af04e9cfd22b9eefacbef972c164e99b7">options</a>();</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        opts.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#ab5c705f473ce3c8f2dac6adc1a119ddc">retryMode</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">m_exportService</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#a1740870ae1644105491ba6b92c164d95">setOptions</a>(opts);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        owner.<a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a65be58827c8046aae98014123264abe7">beginExportRun</a>(failedIds, QStringLiteral(<span class="stringliteral">&quot;Preloading component data...&quot;</span>));</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">m_exportService</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#adc8bf87f7e85eb58363688f44d49e147">startPreload</a>(failedIds);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>}</div>
+</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aExportProgressRetryCoordinator_8h_html"><div class="ttname"><a href="ExportProgressRetryCoordinator_8h.html">ExportProgressRetryCoordinator.h</a></div></div>
+<div class="ttc" id="aExportProgressViewModel_8h_html"><div class="ttname"><a href="ExportProgressViewModel_8h.html">ExportProgressViewModel.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressRetryCoordinator_html_a561e66bc55c4bac2ce14f370360cd273"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressRetryCoordinator.html#a561e66bc55c4bac2ce14f370360cd273">EasyKiConverter::ExportProgressRetryCoordinator::retryFailedComponents</a></div><div class="ttdeci">static void retryFailedComponents(ExportProgressViewModel &amp;owner)</div><div class="ttdoc">重试当前结果列表中的全部失败元件。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressRetryCoordinator_8cpp_source.html#l00056">ExportProgressRetryCoordinator.cpp:56</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressRetryCoordinator_html_a9b70749a6b39370e7254355a94f8e01c"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressRetryCoordinator.html#a9b70749a6b39370e7254355a94f8e01c">EasyKiConverter::ExportProgressRetryCoordinator::retryComponent</a></div><div class="ttdeci">static void retryComponent(ExportProgressViewModel &amp;owner, const QString &amp;componentId)</div><div class="ttdoc">重试指定元件的失败导出。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressRetryCoordinator_8cpp_source.html#l00014">ExportProgressRetryCoordinator.cpp:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html">EasyKiConverter::ExportProgressViewModel</a></div><div class="ttdoc">导出进度视图模型</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00030">ExportProgressViewModel.h:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_a1f95ce6866654ae576a3800967aaa898"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#a1f95ce6866654ae576a3800967aaa898">EasyKiConverter::ExportProgressViewModel::m_isExporting</a></div><div class="ttdeci">bool m_isExporting</div><div class="ttdoc">是否正在执行导出。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00316">ExportProgressViewModel.h:316</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_a36da972a14caced27c5f8e2394245d36"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#a36da972a14caced27c5f8e2394245d36">EasyKiConverter::ExportProgressViewModel::markResultsDirty</a></div><div class="ttdeci">void markResultsDirty()</div><div class="ttdoc">标记结果列表待刷新并启动节流计时器。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8cpp_source.html#l00875">ExportProgressViewModel.cpp:875</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_a37bef2377cebe43ee902f865da01542b"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#a37bef2377cebe43ee902f865da01542b">EasyKiConverter::ExportProgressViewModel::m_idToIndexMap</a></div><div class="ttdeci">QHash&lt; QString, int &gt; m_idToIndexMap</div><div class="ttdoc">元器件编号到结果索引的映射。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00323">ExportProgressViewModel.h:323</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_a5879aeb8f6020113ea94b3a81390555e"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#a5879aeb8f6020113ea94b3a81390555e">EasyKiConverter::ExportProgressViewModel::m_exportService</a></div><div class="ttdeci">ParallelExportService * m_exportService</div><div class="ttdoc">并行导出服务引用。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00311">ExportProgressViewModel.h:311</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_a65be58827c8046aae98014123264abe7"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#a65be58827c8046aae98014123264abe7">EasyKiConverter::ExportProgressViewModel::beginExportRun</a></div><div class="ttdeci">void beginExportRun(const QStringList &amp;componentIds, const QString &amp;statusText)</div><div class="ttdoc">初始化一轮导出的结果和阶段状态。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8cpp_source.html#l00108">ExportProgressViewModel.cpp:108</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_a9eded8835a4fabe9d9daca68deb1f0bb"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#a9eded8835a4fabe9d9daca68deb1f0bb">EasyKiConverter::ExportProgressViewModel::flushPendingUpdates</a></div><div class="ttdeci">void flushPendingUpdates()</div><div class="ttdoc">刷新节流期间积累的结果列表更新。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8cpp_source.html#l00570">ExportProgressViewModel.cpp:570</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_aabff6918e6dc59335665d000e67be519"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#aabff6918e6dc59335665d000e67be519">EasyKiConverter::ExportProgressViewModel::m_retrySupported</a></div><div class="ttdeci">bool m_retrySupported</div><div class="ttdoc">当前目标是否支持失败项重试。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00331">ExportProgressViewModel.h:331</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_ad39e3966d7fe32a03050c27ae1cb8643"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#ad39e3966d7fe32a03050c27ae1cb8643">EasyKiConverter::ExportProgressViewModel::m_resultsList</a></div><div class="ttdeci">QVariantList m_resultsList</div><div class="ttdoc">全部导出结果列表。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00322">ExportProgressViewModel.h:322</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html_af19357c98458b9f1643a5e90bebe12fe"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html#af19357c98458b9f1643a5e90bebe12fe">EasyKiConverter::ExportProgressViewModel::resetItemForRetry</a></div><div class="ttdeci">void resetItemForRetry(QVariantMap &amp;result) const</div><div class="ttdoc">将结果项重置为可重试的初始状态。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8cpp_source.html#l00868">ExportProgressViewModel.cpp:868</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_a1740870ae1644105491ba6b92c164d95"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#a1740870ae1644105491ba6b92c164d95">EasyKiConverter::ParallelExportService::setOptions</a></div><div class="ttdeci">void setOptions(const ExportOptions &amp;options)</div><div class="ttdoc">设置导出选项</div><div class="ttdef"><b>Definition</b> <a href="ParallelExportService_8cpp_source.html#l00150">ParallelExportService.cpp:150</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_adc8bf87f7e85eb58363688f44d49e147"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#adc8bf87f7e85eb58363688f44d49e147">EasyKiConverter::ParallelExportService::startPreload</a></div><div class="ttdeci">void startPreload(const QStringList &amp;componentIds)</div><div class="ttdoc">开始预加载元器件数据</div><div class="ttdef"><b>Definition</b> <a href="ParallelExportService_8cpp_source.html#l00174">ParallelExportService.cpp:174</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_af04e9cfd22b9eefacbef972c164e99b7"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#af04e9cfd22b9eefacbef972c164e99b7">EasyKiConverter::ParallelExportService::options</a></div><div class="ttdeci">ExportOptions options() const</div><div class="ttdoc">获取当前导出选项</div><div class="ttdef"><b>Definition</b> <a href="ParallelExportService_8h_source.html#l00083">ParallelExportService.h:83</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html_ab5c705f473ce3c8f2dac6adc1a119ddc"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html#ab5c705f473ce3c8f2dac6adc1a119ddc">EasyKiConverter::ExportOptions::retryMode</a></div><div class="ttdeci">bool retryMode</div><div class="ttdoc">重试模式：保留已有库内容，仅更新重试的组件</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00091">ExportProgress.h:91</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1788f8309b1a812dcb800a185471cf6c.html">ui</a></li><li class="navelem"><a class="el" href="dir_fea4d5651ef76d72b143e7607c90e565.html">viewmodels</a></li><li class="navelem"><a class="el" href="ExportProgressRetryCoordinator_8cpp.html">ExportProgressRetryCoordinator.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

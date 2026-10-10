@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/librepcb/ExporterLibrePcbLibrary.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterLibrePcbLibrary_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterLibrePcbLibrary.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterLibrePcbLibrary_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="IFootprintExporter_8h.html">core/interfaces/IFootprintExporter.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="ISymbolExporter_8h.html">core/interfaces/ISymbolExporter.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="};">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html">   20</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html">ExporterLibrePcbLibrary</a> final : <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1IFootprintExporter.html">IFootprintExporter</a>, <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1ISymbolExporter.html">ISymbolExporter</a> {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a630a15b78d3fbac36a806765d74bc291">libraryFileExtension</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a0392f9cf26c1fab76dad4f8fa86a4e19">isDirectoryOutput</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#ad893ea861e2f31382759433aeb5a2b42">exportFootprint</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a>&amp; footprint,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                         <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>                         <span class="keyword">const</span> QString&amp; model3DPath = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a5c5730136056b59a2be9ad4961231230">exportFootprintLibrary</a>(<span class="keyword">const</span> QList&lt;IR::FootprintComponentIR&gt;&amp; footprints,</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>                                <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                                <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                                <span class="keywordtype">bool</span> preferWrl = <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                                <span class="keywordtype">bool</span> exportStep = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                                <span class="keyword">const</span> QString&amp; libraryDescription = QString(),</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                                <span class="keyword">const</span> QString&amp; libraryKeywords = QString(),</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                                <span class="keywordtype">bool</span> useAbsolutePaths = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                                <span class="keyword">const</span> QString&amp; model3DBaseDir = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#ad498d5c696800c9e6790ca6b952055a4">exportSymbolLibrary</a>(<span class="keyword">const</span> QList&lt;IR::SymbolComponentIR&gt;&amp; symbols,</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                             <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                             <span class="keyword">const</span> QString&amp; filePath) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#ad498d5c696800c9e6790ca6b952055a4">exportSymbolLibrary</a>(<span class="keyword">const</span> QList&lt;IR::SymbolComponentIR&gt;&amp; symbols,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                             <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>                             <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                             <span class="keywordtype">bool</span> appendMode,</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>                             <span class="keywordtype">bool</span> updateMode,</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>                             <span class="keyword">const</span> QString&amp; libraryDescription = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a558d95e80b8222d34ce53d801fcc3b6b">exportSymbol</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol, <span class="keyword">const</span> QString&amp; filePath) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a532bf00e4acbe269a1eb7cd211a29a9d">exportComponentLibrary</a>(<span class="keyword">const</span> QList&lt;IR::ComponentIR&gt;&amp; components,</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>                                <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>                                <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>                                <span class="keywordtype">bool</span> exportModel3D = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>                                <span class="keyword">const</span> QString&amp; model3DBaseDir = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    QStringList <a class="code hl_function" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a1f866a2583e2e95523b4c6e42ac289b7">diagnostics</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#af94cd29910f5c1ab0edd899dc221af05">  126</a></span>    QStringList <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#af94cd29910f5c1ab0edd899dc221af05">m_diagnostics</a>;  </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>};</div>
+</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aIFootprintExporter_8h_html"><div class="ttname"><a href="IFootprintExporter_8h.html">IFootprintExporter.h</a></div></div>
+<div class="ttc" id="aISymbolExporter_8h_html"><div class="ttname"><a href="ISymbolExporter_8h.html">ISymbolExporter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html">EasyKiConverter::ExporterLibrePcbLibrary</a></div><div class="ttdoc">将统一 IR 写入 LibrePCB 2.1.x 原生库目录。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8h_source.html#l00020">ExporterLibrePcbLibrary.h:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_a0392f9cf26c1fab76dad4f8fa86a4e19"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a0392f9cf26c1fab76dad4f8fa86a4e19">EasyKiConverter::ExporterLibrePcbLibrary::isDirectoryOutput</a></div><div class="ttdeci">bool isDirectoryOutput() const override</div><div class="ttdoc">LibrePCB 库使用目录输出。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8cpp_source.html#l01755">ExporterLibrePcbLibrary.cpp:1755</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_a1f866a2583e2e95523b4c6e42ac289b7"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a1f866a2583e2e95523b4c6e42ac289b7">EasyKiConverter::ExporterLibrePcbLibrary::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const override</div><div class="ttdoc">返回最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8cpp_source.html#l01913">ExporterLibrePcbLibrary.cpp:1913</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_a532bf00e4acbe269a1eb7cd211a29a9d"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a532bf00e4acbe269a1eb7cd211a29a9d">EasyKiConverter::ExporterLibrePcbLibrary::exportComponentLibrary</a></div><div class="ttdeci">bool exportComponentLibrary(const QList&lt; IR::ComponentIR &gt; &amp;components, const QString &amp;libName, const QString &amp;filePath, bool exportModel3D=false, const QString &amp;model3DBaseDir=QString()) override</div><div class="ttdoc">导出包含符号、封装、器件关联和三维引用的完整库。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8cpp_source.html#l01875">ExporterLibrePcbLibrary.cpp:1875</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_a558d95e80b8222d34ce53d801fcc3b6b"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a558d95e80b8222d34ce53d801fcc3b6b">EasyKiConverter::ExporterLibrePcbLibrary::exportSymbol</a></div><div class="ttdeci">bool exportSymbol(const IR::SymbolComponentIR &amp;symbol, const QString &amp;filePath) override</div><div class="ttdoc">导出单个符号元素。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8cpp_source.html#l01862">ExporterLibrePcbLibrary.cpp:1862</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_a5c5730136056b59a2be9ad4961231230"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a5c5730136056b59a2be9ad4961231230">EasyKiConverter::ExporterLibrePcbLibrary::exportFootprintLibrary</a></div><div class="ttdeci">bool exportFootprintLibrary(const QList&lt; IR::FootprintComponentIR &gt; &amp;footprints, const QString &amp;libName, const QString &amp;filePath, bool preferWrl=true, bool exportStep=false, const QString &amp;libraryDescription=QString(), const QString &amp;libraryKeywords=QString(), bool useAbsolutePaths=false, const QString &amp;model3DBaseDir=QString()) override</div><div class="ttdoc">导出多个封装为 LibrePCB 原生库。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8cpp_source.html#l01790">ExporterLibrePcbLibrary.cpp:1790</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_a630a15b78d3fbac36a806765d74bc291"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a630a15b78d3fbac36a806765d74bc291">EasyKiConverter::ExporterLibrePcbLibrary::libraryFileExtension</a></div><div class="ttdeci">QString libraryFileExtension() const override</div><div class="ttdoc">返回 LibrePCB 库目录后缀。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8cpp_source.html#l01747">ExporterLibrePcbLibrary.cpp:1747</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_ad498d5c696800c9e6790ca6b952055a4"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#ad498d5c696800c9e6790ca6b952055a4">EasyKiConverter::ExporterLibrePcbLibrary::exportSymbolLibrary</a></div><div class="ttdeci">bool exportSymbolLibrary(const QList&lt; IR::SymbolComponentIR &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath) override</div><div class="ttdoc">导出仅包含符号元素的 LibrePCB 原生库。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8cpp_source.html#l01821">ExporterLibrePcbLibrary.cpp:1821</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_ad893ea861e2f31382759433aeb5a2b42"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#ad893ea861e2f31382759433aeb5a2b42">EasyKiConverter::ExporterLibrePcbLibrary::exportFootprint</a></div><div class="ttdeci">bool exportFootprint(const IR::FootprintComponentIR &amp;footprint, const QString &amp;filePath, const QString &amp;model3DPath=QString()) override</div><div class="ttdoc">导出单个封装库元素。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8cpp_source.html#l01766">ExporterLibrePcbLibrary.cpp:1766</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterLibrePcbLibrary_html_af94cd29910f5c1ab0edd899dc221af05"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#af94cd29910f5c1ab0edd899dc221af05">EasyKiConverter::ExporterLibrePcbLibrary::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterLibrePcbLibrary_8h_source.html#l00126">ExporterLibrePcbLibrary.h:126</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IFootprintExporter_html"><div class="ttname"><a href="classEasyKiConverter_1_1IFootprintExporter.html">EasyKiConverter::IFootprintExporter</a></div><div class="ttdoc">封装导出器通用接口</div><div class="ttdef"><b>Definition</b> <a href="IFootprintExporter_8h_source.html#l00016">IFootprintExporter.h:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ISymbolExporter_html"><div class="ttname"><a href="classEasyKiConverter_1_1ISymbolExporter.html">EasyKiConverter::ISymbolExporter</a></div><div class="ttdoc">符号导出器通用接口</div><div class="ttdef"><b>Definition</b> <a href="ISymbolExporter_8h_source.html#l00018">ISymbolExporter.h:18</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">EasyKiConverter::IR::FootprintComponentIR</a></div><div class="ttdoc">通用封装组件</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00196">FootprintIR.h:196</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">EasyKiConverter::IR::SymbolComponentIR</a></div><div class="ttdoc">通用符号组件</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00418">SymbolIR.h:418</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_de710cf5641b8613af4b4e9a2e845172.html">librepcb</a></li><li class="navelem"><a class="el" href="ExporterLibrePcbLibrary_8h.html">ExporterLibrePcbLibrary.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

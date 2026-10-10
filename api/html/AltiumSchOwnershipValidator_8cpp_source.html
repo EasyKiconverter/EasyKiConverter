@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/writers/AltiumSchOwnershipValidator.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumSchOwnershipValidator_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumSchOwnershipValidator.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumSchOwnershipValidator_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSchOwnershipValidator_8h.html">AltiumSchOwnershipValidator.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSchLibWriter_8h.html">AltiumSchLibWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="}">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">   15</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">AltiumSchOwnershipValidator::validate</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumSchLibWriter.html">AltiumSchLibWriter</a>&amp; writer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a>&amp; component) {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keyword">const</span> <span class="keywordtype">int</span> partCount = qMax(1, component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a547ac9740cc703e75b2fd75c7a01fa53">partCount</a>);  <span class="comment">// 组件有效部件数量。</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keyword">const</span> <span class="keyword">auto</span> isOutOfRange = [partCount](<span class="keywordtype">int</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a>) {  <span class="comment">// 判断部件归属是否越界。</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a> &lt; -1 || <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a> &gt; partCount;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    };</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keyword">const</span> <span class="keyword">auto</span> reject = [&amp;writer, &amp;component](<span class="keyword">const</span> QString&amp; context, <span class="keywordtype">int</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a>) {  <span class="comment">// 记录越界归属诊断。</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        writer.<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ab5d3178d00f18bf106448f2288dd1f5a">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;Altium SchLib 组件 %1 的%2 OWNERPARTID=%3 超出部件范围，已拒绝写入&quot;</span>)</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                                        .arg(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#aeccacd4ea7ac67d883a8567963d52775">name</a>, context)</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                                        .arg(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a>));</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;AltiumSchLibWriter:&quot;</span> &lt;&lt; writer.<a class="code hl_variable" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ab5d3178d00f18bf106448f2288dd1f5a">m_diagnostics</a>.constLast();</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    };</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">const</span> <span class="keyword">auto</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a> = [&amp;isOutOfRange, &amp;reject](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; objects, <span class="keyword">const</span> QString&amp; context) {  <span class="comment">// 检查一组图元归属。</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; <span class="keywordtype">object</span> : objects) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>            <span class="keywordflow">if</span> (isOutOfRange(<span class="keywordtype">object</span>.<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a>))</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>                <span class="keywordflow">return</span> reject(context, <span class="keywordtype">object</span>.<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a>);</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        }</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    };</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a13d43aa5c89a15b7a64ec80bc18cd351">pins</a>, QStringLiteral(<span class="stringliteral">&quot;引脚&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a452025084ffa6f498a50c856c14125ef">rectangles</a>, QStringLiteral(<span class="stringliteral">&quot;矩形图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a512ac22a7131d704f2874b5f0562885b">roundRectangles</a>, QStringLiteral(<span class="stringliteral">&quot;圆角矩形图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a1227d6f1cbcbbe20f4fe2005d7af09cb">lines</a>, QStringLiteral(<span class="stringliteral">&quot;线段图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a4b291ba321abfa1c1878d0f56027d113">arcs</a>, QStringLiteral(<span class="stringliteral">&quot;圆弧图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a0273eac10c68b3ed8044948b912a5578">polygons</a>, QStringLiteral(<span class="stringliteral">&quot;多边形图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#ad57756daece79c7021ada7c98ccf9c84">ellipses</a>, QStringLiteral(<span class="stringliteral">&quot;椭圆图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a505800f637c3693d77fa694370ad3bd2">pies</a>, QStringLiteral(<span class="stringliteral">&quot;扇形图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a8e2da029d669281bf39a6b4e777d05bd">ellipticalArcs</a>, QStringLiteral(<span class="stringliteral">&quot;椭圆弧图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a7c6ab9155558319c1b3f2179db6f53e5">polylines</a>, QStringLiteral(<span class="stringliteral">&quot;折线图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a76190bffb21ef8f2132a178b69a5cfb5">paths</a>, QStringLiteral(<span class="stringliteral">&quot;路径图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a794311a650d8b9b218955252b40fbdd8">beziers</a>, QStringLiteral(<span class="stringliteral">&quot;Bézier 图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a8072914fd149fa5feb80f731a0e14c69">ieeeSymbols</a>, QStringLiteral(<span class="stringliteral">&quot;IEEE 图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#ab3249ad56e074fdba48b74505651581c">texts</a>, QStringLiteral(<span class="stringliteral">&quot;文本图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a531be5730292ec419ca4bea3ad7311fd">textFrames</a>, QStringLiteral(<span class="stringliteral">&quot;文本框图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#aa490499d983312f841791c44d83d6e2a">images</a>, QStringLiteral(<span class="stringliteral">&quot;图片图元&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>           <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">validate</a>(component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#aae7186a76e5459d589fcea1236f94216">parameters</a>, QStringLiteral(<span class="stringliteral">&quot;参数&quot;</span>));</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a16c79385988b51dcf82d16943be8774d"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a16c79385988b51dcf82d16943be8774d">ownerPartId</a></div><div class="ttdeci">int ownerPartId</div><div class="ttdoc">所属元件部件编号。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00029">AltiumSchComponentRecordWriter.cpp:29</a></div></div>
+<div class="ttc" id="aAltiumSchLibWriter_8h_html"><div class="ttname"><a href="AltiumSchLibWriter_8h.html">AltiumSchLibWriter.h</a></div></div>
+<div class="ttc" id="aAltiumSchOwnershipValidator_8h_html"><div class="ttname"><a href="AltiumSchOwnershipValidator_8h.html">AltiumSchOwnershipValidator.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchLibWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchLibWriter.html">EasyKiConverter::AltiumSchLibWriter</a></div><div class="ttdoc">Altium SchLib 文件写入器</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchLibWriter_8h_source.html#l00029">AltiumSchLibWriter.h:29</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchLibWriter_html_ab5d3178d00f18bf106448f2288dd1f5a"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchLibWriter.html#ab5d3178d00f18bf106448f2288dd1f5a">EasyKiConverter::AltiumSchLibWriter::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次写入产生的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchLibWriter_8h_source.html#l00114">AltiumSchLibWriter.h:114</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchOwnershipValidator_html_a574618c344da8f17ccc8d349bbaf50d5"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchOwnershipValidator.html#a574618c344da8f17ccc8d349bbaf50d5">EasyKiConverter::AltiumSchOwnershipValidator::validate</a></div><div class="ttdeci">static bool validate(AltiumSchLibWriter &amp;writer, const AltiumSchComponent &amp;component)</div><div class="ttdoc">校验组件中全部可拥有记录的部件归属。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchOwnershipValidator_8cpp_source.html#l00015">AltiumSchOwnershipValidator.cpp:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html">EasyKiConverter::AltiumSchComponent</a></div><div class="ttdoc">Altium 符号元件</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00332">AltiumSchComponent.h:332</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a0273eac10c68b3ed8044948b912a5578"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a0273eac10c68b3ed8044948b912a5578">EasyKiConverter::AltiumSchComponent::polygons</a></div><div class="ttdeci">QList&lt; AltiumSchPolygon &gt; polygons</div><div class="ttdoc">多边形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00356">AltiumSchComponent.h:356</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a1227d6f1cbcbbe20f4fe2005d7af09cb"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a1227d6f1cbcbbe20f4fe2005d7af09cb">EasyKiConverter::AltiumSchComponent::lines</a></div><div class="ttdeci">QList&lt; AltiumSchLine &gt; lines</div><div class="ttdoc">线段图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00354">AltiumSchComponent.h:354</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a13d43aa5c89a15b7a64ec80bc18cd351"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a13d43aa5c89a15b7a64ec80bc18cd351">EasyKiConverter::AltiumSchComponent::pins</a></div><div class="ttdeci">QList&lt; AltiumSchPin &gt; pins</div><div class="ttdoc">符号引脚列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00351">AltiumSchComponent.h:351</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a452025084ffa6f498a50c856c14125ef"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a452025084ffa6f498a50c856c14125ef">EasyKiConverter::AltiumSchComponent::rectangles</a></div><div class="ttdeci">QList&lt; AltiumSchRectangle &gt; rectangles</div><div class="ttdoc">矩形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00352">AltiumSchComponent.h:352</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a4b291ba321abfa1c1878d0f56027d113"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a4b291ba321abfa1c1878d0f56027d113">EasyKiConverter::AltiumSchComponent::arcs</a></div><div class="ttdeci">QList&lt; AltiumSchArc &gt; arcs</div><div class="ttdoc">圆弧图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00355">AltiumSchComponent.h:355</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a505800f637c3693d77fa694370ad3bd2"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a505800f637c3693d77fa694370ad3bd2">EasyKiConverter::AltiumSchComponent::pies</a></div><div class="ttdeci">QList&lt; AltiumSchPie &gt; pies</div><div class="ttdoc">扇形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00358">AltiumSchComponent.h:358</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a512ac22a7131d704f2874b5f0562885b"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a512ac22a7131d704f2874b5f0562885b">EasyKiConverter::AltiumSchComponent::roundRectangles</a></div><div class="ttdeci">QList&lt; AltiumSchRoundRectangle &gt; roundRectangles</div><div class="ttdoc">圆角矩形图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00353">AltiumSchComponent.h:353</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a531be5730292ec419ca4bea3ad7311fd"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a531be5730292ec419ca4bea3ad7311fd">EasyKiConverter::AltiumSchComponent::textFrames</a></div><div class="ttdeci">QList&lt; AltiumSchTextFrame &gt; textFrames</div><div class="ttdoc">文本框图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00365">AltiumSchComponent.h:365</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a547ac9740cc703e75b2fd75c7a01fa53"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a547ac9740cc703e75b2fd75c7a01fa53">EasyKiConverter::AltiumSchComponent::partCount</a></div><div class="ttdeci">int partCount</div><div class="ttdoc">部件数量</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00336">AltiumSchComponent.h:336</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a76190bffb21ef8f2132a178b69a5cfb5"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a76190bffb21ef8f2132a178b69a5cfb5">EasyKiConverter::AltiumSchComponent::paths</a></div><div class="ttdeci">QList&lt; AltiumSchPath &gt; paths</div><div class="ttdoc">路径图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00361">AltiumSchComponent.h:361</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a794311a650d8b9b218955252b40fbdd8"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a794311a650d8b9b218955252b40fbdd8">EasyKiConverter::AltiumSchComponent::beziers</a></div><div class="ttdeci">QList&lt; AltiumSchBezier &gt; beziers</div><div class="ttdoc">三次 Bézier 曲线列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00362">AltiumSchComponent.h:362</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a7c6ab9155558319c1b3f2179db6f53e5"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a7c6ab9155558319c1b3f2179db6f53e5">EasyKiConverter::AltiumSchComponent::polylines</a></div><div class="ttdeci">QList&lt; AltiumSchPolyline &gt; polylines</div><div class="ttdoc">折线图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00360">AltiumSchComponent.h:360</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a8072914fd149fa5feb80f731a0e14c69"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a8072914fd149fa5feb80f731a0e14c69">EasyKiConverter::AltiumSchComponent::ieeeSymbols</a></div><div class="ttdeci">QList&lt; AltiumSchIeee &gt; ieeeSymbols</div><div class="ttdoc">IEEE 图形列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00363">AltiumSchComponent.h:363</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a8e2da029d669281bf39a6b4e777d05bd"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a8e2da029d669281bf39a6b4e777d05bd">EasyKiConverter::AltiumSchComponent::ellipticalArcs</a></div><div class="ttdeci">QList&lt; AltiumSchEllipticalArc &gt; ellipticalArcs</div><div class="ttdoc">椭圆弧图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00359">AltiumSchComponent.h:359</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_aa490499d983312f841791c44d83d6e2a"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#aa490499d983312f841791c44d83d6e2a">EasyKiConverter::AltiumSchComponent::images</a></div><div class="ttdeci">QList&lt; AltiumSchImage &gt; images</div><div class="ttdoc">图片图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00366">AltiumSchComponent.h:366</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_aae7186a76e5459d589fcea1236f94216"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#aae7186a76e5459d589fcea1236f94216">EasyKiConverter::AltiumSchComponent::parameters</a></div><div class="ttdeci">QList&lt; AltiumSchParameter &gt; parameters</div><div class="ttdoc">显式参数字段</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00345">AltiumSchComponent.h:345</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_ab3249ad56e074fdba48b74505651581c"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#ab3249ad56e074fdba48b74505651581c">EasyKiConverter::AltiumSchComponent::texts</a></div><div class="ttdeci">QList&lt; AltiumSchText &gt; texts</div><div class="ttdoc">文本图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00364">AltiumSchComponent.h:364</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_ad57756daece79c7021ada7c98ccf9c84"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#ad57756daece79c7021ada7c98ccf9c84">EasyKiConverter::AltiumSchComponent::ellipses</a></div><div class="ttdeci">QList&lt; AltiumSchEllipse &gt; ellipses</div><div class="ttdoc">椭圆图元列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00357">AltiumSchComponent.h:357</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_aeccacd4ea7ac67d883a8567963d52775"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#aeccacd4ea7ac67d883a8567963d52775">EasyKiConverter::AltiumSchComponent::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">元件名称（LibReference）</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00333">AltiumSchComponent.h:333</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_4b0a7f407ec41a4fc3d6e08c8e7af107.html">writers</a></li><li class="navelem"><a class="el" href="AltiumSchOwnershipValidator_8cpp.html">AltiumSchOwnershipValidator.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

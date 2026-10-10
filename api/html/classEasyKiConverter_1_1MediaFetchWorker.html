@@ -1,0 +1,757 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::MediaFetchWorker类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1MediaFetchWorker.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1MediaFetchWorker-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::MediaFetchWorker类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>媒体数据获取工作线程  
+ <a href="classEasyKiConverter_1_1MediaFetchWorker.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::MediaFetchWorker 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1MediaFetchWorker__inherit__graph.svg" width="216" height="484"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::MediaFetchWorker 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1MediaFetchWorker__coll__graph.svg" width="216" height="484"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a7a6ee71d6b2cc3a2e11e23cf41a08e7d" id="r_a7a6ee71d6b2cc3a2e11e23cf41a08e7d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a7a6ee71d6b2cc3a2e11e23cf41a08e7d">MediaFetchWorker</a> (const QString &amp;componentId, const QStringList &amp;previewImageUrls, const QString &amp;datasheetUrl, QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a7a6ee71d6b2cc3a2e11e23cf41a08e7d"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a7a6ee71d6b2cc3a2e11e23cf41a08e7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3302ec0d08a3f2b507ac38eb19a801a9" id="r_a3302ec0d08a3f2b507ac38eb19a801a9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a3302ec0d08a3f2b507ac38eb19a801a9">~MediaFetchWorker</a> () override</td></tr>
+<tr class="memdesc:a3302ec0d08a3f2b507ac38eb19a801a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a3302ec0d08a3f2b507ac38eb19a801a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b67a2df2bab879f492ce522a6145208" id="r_a0b67a2df2bab879f492ce522a6145208"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a0b67a2df2bab879f492ce522a6145208">run</a> () override</td></tr>
+<tr class="memdesc:a0b67a2df2bab879f492ce522a6145208"><td class="mdescLeft">&#160;</td><td class="mdescRight">执行获取任务  <br /></td></tr>
+<tr class="separator:a0b67a2df2bab879f492ce522a6145208"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae4d6bac3c263d9f8f9c41830d38439b" id="r_aae4d6bac3c263d9f8f9c41830d38439b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#aae4d6bac3c263d9f8f9c41830d38439b">abort</a> ()</td></tr>
+<tr class="memdesc:aae4d6bac3c263d9f8f9c41830d38439b"><td class="mdescLeft">&#160;</td><td class="mdescRight">中断当前正在执行的网络请求  <br /></td></tr>
+<tr class="separator:aae4d6bac3c263d9f8f9c41830d38439b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1512c91c062545e8f15058f6523bca86" id="r_a1512c91c062545e8f15058f6523bca86"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a1512c91c062545e8f15058f6523bca86">fetchCompleted</a> (const QString &amp;componentId, const QList&lt; QByteArray &gt; &amp;previewImageDataList, const QByteArray &amp;datasheetData, const QList&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus_1_1NetworkDiagnostics.html">ComponentExportStatus::NetworkDiagnostics</a> &gt; &amp;diagnostics)</td></tr>
+<tr class="memdesc:a1512c91c062545e8f15058f6523bca86"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取完成信号  <br /></td></tr>
+<tr class="separator:a1512c91c062545e8f15058f6523bca86"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a83250eb9257104a9ea6750797f78d800" id="r_a83250eb9257104a9ea6750797f78d800"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a83250eb9257104a9ea6750797f78d800">startPreviewDownload</a> (int index, <a class="el" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a> *cache)</td></tr>
+<tr class="memdesc:a83250eb9257104a9ea6750797f78d800"><td class="mdescLeft">&#160;</td><td class="mdescRight">开始下载下一个预览图  <br /></td></tr>
+<tr class="separator:a83250eb9257104a9ea6750797f78d800"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54b03d88745407e17989356ec96b778e" id="r_a54b03d88745407e17989356ec96b778e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a54b03d88745407e17989356ec96b778e">startDatasheetDownload</a> (<a class="el" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a> *cache)</td></tr>
+<tr class="memdesc:a54b03d88745407e17989356ec96b778e"><td class="mdescLeft">&#160;</td><td class="mdescRight">开始下载数据手册  <br /></td></tr>
+<tr class="separator:a54b03d88745407e17989356ec96b778e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac996cd765fbcdf0eaad9cc04f7d67d6f" id="r_ac996cd765fbcdf0eaad9cc04f7d67d6f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#ac996cd765fbcdf0eaad9cc04f7d67d6f">finishAllDownloads</a> ()</td></tr>
+<tr class="memdesc:ac996cd765fbcdf0eaad9cc04f7d67d6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">完成所有下载  <br /></td></tr>
+<tr class="separator:ac996cd765fbcdf0eaad9cc04f7d67d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a0d1ab0ec81f49da54120d0832a1100a1" id="r_a0d1ab0ec81f49da54120d0832a1100a1"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a0d1ab0ec81f49da54120d0832a1100a1">m_componentId</a></td></tr>
+<tr class="memdesc:a0d1ab0ec81f49da54120d0832a1100a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前元器件编号。  <br /></td></tr>
+<tr class="separator:a0d1ab0ec81f49da54120d0832a1100a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab11348528dab3051718c725b5cc03547" id="r_ab11348528dab3051718c725b5cc03547"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#ab11348528dab3051718c725b5cc03547">m_previewImageUrls</a></td></tr>
+<tr class="memdesc:ab11348528dab3051718c725b5cc03547"><td class="mdescLeft">&#160;</td><td class="mdescRight">待下载的预览图 URL 列表。  <br /></td></tr>
+<tr class="separator:ab11348528dab3051718c725b5cc03547"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21d7a051b7961f21edb19218d2afb450" id="r_a21d7a051b7961f21edb19218d2afb450"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a21d7a051b7961f21edb19218d2afb450">m_datasheetUrl</a></td></tr>
+<tr class="memdesc:a21d7a051b7961f21edb19218d2afb450"><td class="mdescLeft">&#160;</td><td class="mdescRight">待下载的数据手册 URL。  <br /></td></tr>
+<tr class="separator:a21d7a051b7961f21edb19218d2afb450"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff8df380725a8e2368ab944d675537d2" id="r_aff8df380725a8e2368ab944d675537d2"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#aff8df380725a8e2368ab944d675537d2">m_isAborted</a></td></tr>
+<tr class="memdesc:aff8df380725a8e2368ab944d675537d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前任务是否已请求取消。  <br /></td></tr>
+<tr class="separator:aff8df380725a8e2368ab944d675537d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bf70ad827d4ff631843ecbe366734e2" id="r_a8bf70ad827d4ff631843ecbe366734e2"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a8bf70ad827d4ff631843ecbe366734e2">m_pendingOperations</a></td></tr>
+<tr class="memdesc:a8bf70ad827d4ff631843ecbe366734e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">待完成的异步操作数量。  <br /></td></tr>
+<tr class="separator:a8bf70ad827d4ff631843ecbe366734e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0837e274df2bfde6acaf6dc5abb22284" id="r_a0837e274df2bfde6acaf6dc5abb22284"><td class="memItemLeft" align="right" valign="top">QList&lt; QByteArray &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a0837e274df2bfde6acaf6dc5abb22284">m_previewImageDataList</a></td></tr>
+<tr class="memdesc:a0837e274df2bfde6acaf6dc5abb22284"><td class="mdescLeft">&#160;</td><td class="mdescRight">已完成下载的预览图数据。  <br /></td></tr>
+<tr class="separator:a0837e274df2bfde6acaf6dc5abb22284"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a108e6a8feda065d3b884590b1524bef7" id="r_a108e6a8feda065d3b884590b1524bef7"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a108e6a8feda065d3b884590b1524bef7">m_datasheetData</a></td></tr>
+<tr class="memdesc:a108e6a8feda065d3b884590b1524bef7"><td class="mdescLeft">&#160;</td><td class="mdescRight">已完成下载的数据手册数据。  <br /></td></tr>
+<tr class="separator:a108e6a8feda065d3b884590b1524bef7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1738f62fd90bb0fce8e9f82762594041" id="r_a1738f62fd90bb0fce8e9f82762594041"><td class="memItemLeft" align="right" valign="top">QList&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus_1_1NetworkDiagnostics.html">ComponentExportStatus::NetworkDiagnostics</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a1738f62fd90bb0fce8e9f82762594041">m_diagnostics</a></td></tr>
+<tr class="memdesc:a1738f62fd90bb0fce8e9f82762594041"><td class="mdescLeft">&#160;</td><td class="mdescRight">各媒体请求的网络诊断信息。  <br /></td></tr>
+<tr class="separator:a1738f62fd90bb0fce8e9f82762594041"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>媒体数据获取工作线程 </p>
+<p>负责从缓存或网络下载预览图和手册数据（I/O密集型任务） 优先使用缓存，缓存没有则下载并自动缓存</p>
+<p>使用完全异步架构，支持：</p><ul>
+<li>异步下载，可随时取消</li>
+<li>链式回调，不阻塞线程 </li>
+</ul>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00028">28</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a7a6ee71d6b2cc3a2e11e23cf41a08e7d" name="a7a6ee71d6b2cc3a2e11e23cf41a08e7d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a6ee71d6b2cc3a2e11e23cf41a08e7d">&#9670;&#160;</a></span>MediaFetchWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::MediaFetchWorker::MediaFetchWorker </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QStringList &amp;&#160;</td>
+          <td class="paramname"><em>previewImageUrls</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>datasheetUrl</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元件ID </td></tr>
+    <tr><td class="paramname">previewImageUrls</td><td>预览图URL列表 </td></tr>
+    <tr><td class="paramname">datasheetUrl</td><td>手册URL </td></tr>
+    <tr><td class="paramname">parent</td><td>父对象 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8cpp_source.html">MediaFetchWorker.cpp</a> 第 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00011">11</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a3302ec0d08a3f2b507ac38eb19a801a9" name="a3302ec0d08a3f2b507ac38eb19a801a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3302ec0d08a3f2b507ac38eb19a801a9">&#9670;&#160;</a></span>~MediaFetchWorker()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::MediaFetchWorker::~MediaFetchWorker </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+<p>销毁媒体获取工作对象。 </p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="aae4d6bac3c263d9f8f9c41830d38439b" name="aae4d6bac3c263d9f8f9c41830d38439b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae4d6bac3c263d9f8f9c41830d38439b">&#9670;&#160;</a></span>abort()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::MediaFetchWorker::abort </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>中断当前正在执行的网络请求 </p>
+<p>请求终止当前媒体获取流程。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8cpp_source.html">MediaFetchWorker.cpp</a> 第 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00211">211</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1512c91c062545e8f15058f6523bca86" name="a1512c91c062545e8f15058f6523bca86"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1512c91c062545e8f15058f6523bca86">&#9670;&#160;</a></span>fetchCompleted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::MediaFetchWorker::fetchCompleted </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>componentId</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QList&lt; QByteArray &gt; &amp;&#160;</td>
+          <td class="paramname"><em>previewImageDataList</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>datasheetData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1ComponentExportStatus_1_1NetworkDiagnostics.html">ComponentExportStatus::NetworkDiagnostics</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>diagnostics</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取完成信号 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">componentId</td><td>元件ID </td></tr>
+    <tr><td class="paramname">previewImageDataList</td><td>预览图数据列表 </td></tr>
+    <tr><td class="paramname">datasheetData</td><td>手册数据 </td></tr>
+    <tr><td class="paramname">diagnostics</td><td>网络诊断信息列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a>.</p>
+
+</div>
+</div>
+<a id="ac996cd765fbcdf0eaad9cc04f7d67d6f" name="ac996cd765fbcdf0eaad9cc04f7d67d6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac996cd765fbcdf0eaad9cc04f7d67d6f">&#9670;&#160;</a></span>finishAllDownloads()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::MediaFetchWorker::finishAllDownloads </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>完成所有下载 </p>
+<p>在所有媒体操作完成后发出完成信号。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8cpp_source.html">MediaFetchWorker.cpp</a> 第 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00198">198</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<a id="a0b67a2df2bab879f492ce522a6145208" name="a0b67a2df2bab879f492ce522a6145208"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0b67a2df2bab879f492ce522a6145208">&#9670;&#160;</a></span>run()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::MediaFetchWorker::run </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>执行获取任务 </p>
+<p>初始化并启动预览图与数据手册获取流程。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8cpp_source.html">MediaFetchWorker.cpp</a> 第 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">29</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html#a1512c91c062545e8f15058f6523bca86">fetchCompleted()</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00065">EasyKiConverter::ComponentCacheService::instance()</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00091">m_componentId</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00099">m_datasheetData</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00100">m_diagnostics</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00094">m_isAborted</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00095">m_pendingOperations</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00098">m_previewImageDataList</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00092">m_previewImageUrls</a>, <a class="el" href="MediaFetchWorker_8cpp_source.html#l00138">startDatasheetDownload()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<a id="a54b03d88745407e17989356ec96b778e" name="a54b03d88745407e17989356ec96b778e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a54b03d88745407e17989356ec96b778e">&#9670;&#160;</a></span>startDatasheetDownload()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::MediaFetchWorker::startDatasheetDownload </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a> *&#160;</td>
+          <td class="paramname"><em>cache</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>开始下载数据手册 </p>
+<p>获取数据手册并在媒体流程完成后发出结果。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cache</td><td>组件缓存服务</td></tr>
+    <tr><td class="paramname">cache</td><td>用于读取本地缓存的缓存服务。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8cpp_source.html">MediaFetchWorker.cpp</a> 第 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00138">138</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ComponentExportStatus_8h_source.html#l00098">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::errorString</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00105">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::latencyMs</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00419">EasyKiConverter::ComponentCacheService::loadDatasheet()</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00104">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::retryCount</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00097">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::statusCode</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00096">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::url</a> , 以及 <a class="el" href="ComponentExportStatus_8h_source.html#l00106">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::wasRateLimited</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<a id="a83250eb9257104a9ea6750797f78d800" name="a83250eb9257104a9ea6750797f78d800"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83250eb9257104a9ea6750797f78d800">&#9670;&#160;</a></span>startPreviewDownload()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::MediaFetchWorker::startPreviewDownload </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>index</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a> *&#160;</td>
+          <td class="paramname"><em>cache</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>开始下载下一个预览图 </p>
+<p>获取指定索引的预览图并继续处理后续媒体。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>预览图序号 </td></tr>
+    <tr><td class="paramname">cache</td><td>组件缓存服务</td></tr>
+    <tr><td class="paramname">index</td><td>当前预览图索引。 </td></tr>
+    <tr><td class="paramname">cache</td><td>用于读取本地缓存的缓存服务。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8cpp_source.html">MediaFetchWorker.cpp</a> 第 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">61</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ComponentExportStatus_8h_source.html#l00098">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::errorString</a>, <a class="el" href="CacheRepository_8h_source.html#l00034">EasyKiConverter::CacheRepository::fetchPreviewImageAsync()</a>, <a class="el" href="MediaFetchWorker_8cpp_source.html#l00198">finishAllDownloads()</a>, <a class="el" href="CacheRepository_8h_source.html#l00020">EasyKiConverter::CacheRepository::instance()</a>, <a class="el" href="ConfigService_8cpp_source.html#l00037">EasyKiConverter::ConfigService::instance()</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00105">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::latencyMs</a>, <a class="el" href="ComponentCacheService_8cpp_source.html#l00367">EasyKiConverter::ComponentCacheService::loadPreviewImage()</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00091">m_componentId</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00100">m_diagnostics</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00094">m_isAborted</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00095">m_pendingOperations</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00098">m_previewImageDataList</a>, <a class="el" href="MediaFetchWorker_8h_source.html#l00092">m_previewImageUrls</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00104">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::retryCount</a>, <a class="el" href="MediaFetchWorker_8cpp_source.html#l00138">startDatasheetDownload()</a>, <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00097">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::statusCode</a>, <a class="el" href="ComponentExportStatus_8h_source.html#l00096">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::url</a> , 以及 <a class="el" href="ComponentExportStatus_8h_source.html#l00106">EasyKiConverter::ComponentExportStatus::NetworkDiagnostics::wasRateLimited</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a0d1ab0ec81f49da54120d0832a1100a1" name="a0d1ab0ec81f49da54120d0832a1100a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d1ab0ec81f49da54120d0832a1100a1">&#9670;&#160;</a></span>m_componentId</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::MediaFetchWorker::m_componentId</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前元器件编号。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00091">91</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<a id="a108e6a8feda065d3b884590b1524bef7" name="a108e6a8feda065d3b884590b1524bef7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a108e6a8feda065d3b884590b1524bef7">&#9670;&#160;</a></span>m_datasheetData</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::MediaFetchWorker::m_datasheetData</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>已完成下载的数据手册数据。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00099">99</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a>.</p>
+
+</div>
+</div>
+<a id="a21d7a051b7961f21edb19218d2afb450" name="a21d7a051b7961f21edb19218d2afb450"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a21d7a051b7961f21edb19218d2afb450">&#9670;&#160;</a></span>m_datasheetUrl</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::MediaFetchWorker::m_datasheetUrl</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>待下载的数据手册 URL。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00093">93</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a1738f62fd90bb0fce8e9f82762594041" name="a1738f62fd90bb0fce8e9f82762594041"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1738f62fd90bb0fce8e9f82762594041">&#9670;&#160;</a></span>m_diagnostics</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;<a class="el" href="structEasyKiConverter_1_1ComponentExportStatus_1_1NetworkDiagnostics.html">ComponentExportStatus::NetworkDiagnostics</a>&gt; EasyKiConverter::MediaFetchWorker::m_diagnostics</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>各媒体请求的网络诊断信息。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00100">100</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<a id="aff8df380725a8e2368ab944d675537d2" name="aff8df380725a8e2368ab944d675537d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff8df380725a8e2368ab944d675537d2">&#9670;&#160;</a></span>m_isAborted</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::MediaFetchWorker::m_isAborted</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前任务是否已请求取消。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00094">94</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<a id="a8bf70ad827d4ff631843ecbe366734e2" name="a8bf70ad827d4ff631843ecbe366734e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bf70ad827d4ff631843ecbe366734e2">&#9670;&#160;</a></span>m_pendingOperations</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt EasyKiConverter::MediaFetchWorker::m_pendingOperations</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>待完成的异步操作数量。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00095">95</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<a id="a0837e274df2bfde6acaf6dc5abb22284" name="a0837e274df2bfde6acaf6dc5abb22284"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0837e274df2bfde6acaf6dc5abb22284">&#9670;&#160;</a></span>m_previewImageDataList</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt;QByteArray&gt; EasyKiConverter::MediaFetchWorker::m_previewImageDataList</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>已完成下载的预览图数据。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00098">98</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<a id="ab11348528dab3051718c725b5cc03547" name="ab11348528dab3051718c725b5cc03547"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab11348528dab3051718c725b5cc03547">&#9670;&#160;</a></span>m_previewImageUrls</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::MediaFetchWorker::m_previewImageUrls</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>待下载的预览图 URL 列表。 </p>
+
+<p class="definition">在文件 <a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a> 第 <a class="el" href="MediaFetchWorker_8h_source.html#l00092">92</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00029">run()</a> , 以及 <a class="el" href="MediaFetchWorker_8cpp_source.html#l00061">startPreviewDownload()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>workers/<a class="el" href="MediaFetchWorker_8h_source.html">MediaFetchWorker.h</a></li>
+<li>workers/<a class="el" href="MediaFetchWorker_8cpp_source.html">MediaFetchWorker.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1MediaFetchWorker.html">MediaFetchWorker</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

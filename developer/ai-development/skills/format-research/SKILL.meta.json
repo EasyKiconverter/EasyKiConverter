@@ -1,0 +1,11 @@
+{
+  "id": "format-research",
+  "purpose": "研究 EDA 格式和外部实现，形成可追溯的格式语义与测试证据，不直接复制第三方代码。",
+  "triggers": ["研究 EDA 格式", "分析第三方解析器", "核对格式样本和许可证"],
+  "required_sources": ["docs/developer/ai-development/policy/AI_POLICY.md", "docs/developer/ai-development/PROJECT_CONTEXT.md", "docs/developer/ai-development/eda-capabilities.json"],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md"],
+  "side_effects": ["research-notes", "documentation-files"],
+  "verification": ["source-and-sample-evidence", "fixture-tests", "git-diff-check"],
+  "stop_conditions": ["格式语义或许可证无法确认", "需要商业 EDA 或远端写入"],
+  "evidence_outputs": ["format-facts", "license-and-provenance", "remaining-unknowns"]
+}

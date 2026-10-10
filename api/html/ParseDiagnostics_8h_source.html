@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/parser/ParseDiagnostics.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ParseDiagnostics_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ParseDiagnostics.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ParseDiagnostics_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QList&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter_1_1Parser.html">EasyKiConverter::Parser</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393">   16</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393">ParseSeverity</a> { <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a4059b0251f66a18cb56f544728796875">Info</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a531e2f1164f5afa2cd2b97a0e5e10bd8a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Warning</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd">Error</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a531e2f1164f5afa2cd2b97a0e5e10bd8ad9c8f187972e6320a34e9c40b4cba605">Skipped</a> };</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cd">   21</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cd">ParseScope</a> { <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">File</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda2cb05e4bb7830be982f0922fed86b4cd">Component</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda02c86eb2792f3262c21d030a87e19793">Symbol</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cdad2fd6989d5d304206f29ececd6b72270">Footprint</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda6f16a5f8ff5d75ab84c018adacdfcbb7">Field</a> };</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="};">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html">   27</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html">ParseDiagnostic</a> {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a26ca287538e6f42735f8e8312f994c4c">   28</a></span>    <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393">ParseSeverity</a> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a26ca287538e6f42735f8e8312f994c4c">severity</a> = <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a4059b0251f66a18cb56f544728796875">ParseSeverity::Info</a>;  </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a34871a17f8bc30965b90bcf74320d6d4">   29</a></span>    <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cd">ParseScope</a> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a34871a17f8bc30965b90bcf74320d6d4">scope</a> = <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">ParseScope::File</a>;  </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a9469692866bd61f45d92ad9528f8d970">   30</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a9469692866bd61f45d92ad9528f8d970">filePath</a>;  </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a8e012f26649c0079d93686d9e918b48a">   31</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a8e012f26649c0079d93686d9e918b48a">entity</a>;  </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#ad80a65c7027ca7f014dbb9780edfca87">   32</a></span>    QString <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#ad80a65c7027ca7f014dbb9780edfca87">message</a>;  </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a1ab7a3f067153a820fe6a91c9b97a66c">   33</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a1ab7a3f067153a820fe6a91c9b97a66c">line</a> = 0;  </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a6d90bb135bdd37d20b3c407dae95f5eb">   34</a></span>    <span class="keywordtype">int</span> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a6d90bb135bdd37d20b3c407dae95f5eb">column</a> = 0;  </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>};</div>
+</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="foldopen" id="foldopen00040" data-start="{" data-end="};">
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">   40</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a> {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">add</a>(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393">ParseSeverity</a> severity,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>             <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cd">ParseScope</a> scope,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>             <span class="keyword">const</span> QString&amp; message,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>             <span class="keyword">const</span> QString&amp; entity = QString(),</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>             <span class="keywordtype">int</span> line = 0,</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>             <span class="keywordtype">int</span> column = 0);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aff797940deb0b845979c468bbb9fcf3f">setFilePath</a>(<span class="keyword">const</span> QString&amp; filePath);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keyword">const</span> QList&lt;ParseDiagnostic&gt;&amp; <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aacfb4e54a1c18d19f7d6d7f4ebc91aa0">items</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#ade2256b0b54f0a336f05efb5bc9abbb1">append</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a>&amp; other);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a859d1f36fa5567686ba97443516f8734">hasErrors</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a062a8a6f560410f5e86b48914fcbe90f">isEmpty</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aafe4cc57489dbc52e69b5df54aebbb28">clear</a>();</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a232c4811c9a4bd5ece995beecf226ed7">   91</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a232c4811c9a4bd5ece995beecf226ed7">m_filePath</a>;  </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a76f4d687a427a020cceada6e087d0ee7">   92</a></span>    QList&lt;ParseDiagnostic&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a76f4d687a427a020cceada6e087d0ee7">m_items</a>;  </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>};</div>
+</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="foldopen" id="foldopen00098" data-start="{" data-end="};">
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1StrictNumberParser.html">   98</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1StrictNumberParser.html">StrictNumberParser</a> {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keyword">static</span> <span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1StrictNumberParser.html#ae7876f62620f68496cd58ef97e87140a">parseDouble</a>(<span class="keyword">const</span> QString&amp; text, <a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a>* diagnostics, <span class="keyword">const</span> QString&amp; field, <span class="keywordtype">int</span> line = 0);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keyword">static</span> qint64 <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1StrictNumberParser.html#a19e13eeb9c18e83755945fcedc06d954">parseInteger</a>(<span class="keyword">const</span> QString&amp; text, <a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a>* diagnostics, <span class="keyword">const</span> QString&amp; field, <span class="keywordtype">int</span> line = 0);</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>};</div>
+</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>}  <span class="comment">// namespace EasyKiConverter::Parser</span></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">EasyKiConverter::Parser::ParseDiagnostics</a></div><div class="ttdoc">收集解析过程中的信息、警告、错误和跳过记录。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00040">ParseDiagnostics.h:40</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_a062a8a6f560410f5e86b48914fcbe90f"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a062a8a6f560410f5e86b48914fcbe90f">EasyKiConverter::Parser::ParseDiagnostics::isEmpty</a></div><div class="ttdeci">bool isEmpty() const</div><div class="ttdoc">判断是否为空。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00067">ParseDiagnostics.cpp:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_a232c4811c9a4bd5ece995beecf226ed7"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a232c4811c9a4bd5ece995beecf226ed7">EasyKiConverter::Parser::ParseDiagnostics::m_filePath</a></div><div class="ttdeci">QString m_filePath</div><div class="ttdoc">当前诊断集合关联的源文件路径。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00091">ParseDiagnostics.h:91</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_a4996b6b0998692342728cdfe5f388a09"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a4996b6b0998692342728cdfe5f388a09">EasyKiConverter::Parser::ParseDiagnostics::add</a></div><div class="ttdeci">void add(ParseSeverity severity, ParseScope scope, const QString &amp;message, const QString &amp;entity=QString(), int line=0, int column=0)</div><div class="ttdoc">添加一条解析诊断。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00018">ParseDiagnostics.cpp:18</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_a76f4d687a427a020cceada6e087d0ee7"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a76f4d687a427a020cceada6e087d0ee7">EasyKiConverter::Parser::ParseDiagnostics::m_items</a></div><div class="ttdeci">QList&lt; ParseDiagnostic &gt; m_items</div><div class="ttdoc">按产生顺序保存的诊断条目。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00092">ParseDiagnostics.h:92</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_a859d1f36fa5567686ba97443516f8734"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#a859d1f36fa5567686ba97443516f8734">EasyKiConverter::Parser::ParseDiagnostics::hasErrors</a></div><div class="ttdeci">bool hasErrors() const</div><div class="ttdoc">判断是否存在错误诊断。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00055">ParseDiagnostics.cpp:55</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_aacfb4e54a1c18d19f7d6d7f4ebc91aa0"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aacfb4e54a1c18d19f7d6d7f4ebc91aa0">EasyKiConverter::Parser::ParseDiagnostics::items</a></div><div class="ttdeci">const QList&lt; ParseDiagnostic &gt; &amp; items() const</div><div class="ttdoc">返回全部诊断，顺序与解析发生顺序一致。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00039">ParseDiagnostics.cpp:39</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_aafe4cc57489dbc52e69b5df54aebbb28"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aafe4cc57489dbc52e69b5df54aebbb28">EasyKiConverter::Parser::ParseDiagnostics::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清空当前诊断。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00074">ParseDiagnostics.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_ade2256b0b54f0a336f05efb5bc9abbb1"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#ade2256b0b54f0a336f05efb5bc9abbb1">EasyKiConverter::Parser::ParseDiagnostics::append</a></div><div class="ttdeci">void append(const ParseDiagnostics &amp;other)</div><div class="ttdoc">追加另一阶段的诊断并保留其原始文件和位置。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00047">ParseDiagnostics.cpp:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html_aff797940deb0b845979c468bbb9fcf3f"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html#aff797940deb0b845979c468bbb9fcf3f">EasyKiConverter::Parser::ParseDiagnostics::setFilePath</a></div><div class="ttdeci">void setFilePath(const QString &amp;filePath)</div><div class="ttdoc">设置当前诊断关联的源文件路径。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00031">ParseDiagnostics.cpp:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1StrictNumberParser_html"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1StrictNumberParser.html">EasyKiConverter::Parser::StrictNumberParser</a></div><div class="ttdoc">对数字字段执行严格转换，失败时写入诊断。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00098">ParseDiagnostics.h:98</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1StrictNumberParser_html_a19e13eeb9c18e83755945fcedc06d954"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1StrictNumberParser.html#a19e13eeb9c18e83755945fcedc06d954">EasyKiConverter::Parser::StrictNumberParser::parseInteger</a></div><div class="ttdeci">static qint64 parseInteger(const QString &amp;text, ParseDiagnostics *diagnostics, const QString &amp;field, int line=0)</div><div class="ttdoc">解析整数数值。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00109">ParseDiagnostics.cpp:109</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1StrictNumberParser_html_ae7876f62620f68496cd58ef97e87140a"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1StrictNumberParser.html#ae7876f62620f68496cd58ef97e87140a">EasyKiConverter::Parser::StrictNumberParser::parseDouble</a></div><div class="ttdeci">static double parseDouble(const QString &amp;text, ParseDiagnostics *diagnostics, const QString &amp;field, int line=0)</div><div class="ttdoc">解析有限的双精度数值。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8cpp_source.html#l00086">ParseDiagnostics.cpp:86</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html">EasyKiConverter::Parser</a></div><div class="ttdef"><b>Definition</b> <a href="ArchiveInspector_8cpp_source.html#l00005">ArchiveInspector.cpp:5</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a531e2f1164f5afa2cd2b97a0e5e10bd8a0eaadb4fcb48a0a0ed7bc9868be9fbaa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a531e2f1164f5afa2cd2b97a0e5e10bd8a0eaadb4fcb48a0a0ed7bc9868be9fbaa">EasyKiConverter::Parser::ConversionStatus::Warning</a></div><div class="ttdeci">@ Warning</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a531e2f1164f5afa2cd2b97a0e5e10bd8ad9c8f187972e6320a34e9c40b4cba605"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a531e2f1164f5afa2cd2b97a0e5e10bd8ad9c8f187972e6320a34e9c40b4cba605">EasyKiConverter::Parser::ConversionStatus::Skipped</a></div><div class="ttdeci">@ Skipped</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_aace02efff26e3191e4b633bf59e724cd"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cd">EasyKiConverter::Parser::ParseScope</a></div><div class="ttdeci">ParseScope</div><div class="ttdoc">诊断所关联的对象范围。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00021">ParseDiagnostics.h:21</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_aace02efff26e3191e4b633bf59e724cda02c86eb2792f3262c21d030a87e19793"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda02c86eb2792f3262c21d030a87e19793">EasyKiConverter::Parser::ParseScope::Symbol</a></div><div class="ttdeci">@ Symbol</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">EasyKiConverter::Parser::ParseScope::File</a></div><div class="ttdeci">@ File</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_aace02efff26e3191e4b633bf59e724cda2cb05e4bb7830be982f0922fed86b4cd"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda2cb05e4bb7830be982f0922fed86b4cd">EasyKiConverter::Parser::ParseScope::Component</a></div><div class="ttdeci">@ Component</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_aace02efff26e3191e4b633bf59e724cda6f16a5f8ff5d75ab84c018adacdfcbb7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda6f16a5f8ff5d75ab84c018adacdfcbb7">EasyKiConverter::Parser::ParseScope::Field</a></div><div class="ttdeci">@ Field</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_aace02efff26e3191e4b633bf59e724cdad2fd6989d5d304206f29ececd6b72270"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cdad2fd6989d5d304206f29ececd6b72270">EasyKiConverter::Parser::ParseScope::Footprint</a></div><div class="ttdeci">@ Footprint</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_acf6a3468b670ed55eb9200b71e3fd393"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393">EasyKiConverter::Parser::ParseSeverity</a></div><div class="ttdeci">ParseSeverity</div><div class="ttdoc">解析诊断严重级别。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00016">ParseDiagnostics.h:16</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_acf6a3468b670ed55eb9200b71e3fd393a4059b0251f66a18cb56f544728796875"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a4059b0251f66a18cb56f544728796875">EasyKiConverter::Parser::ParseSeverity::Info</a></div><div class="ttdeci">@ Info</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd">EasyKiConverter::Parser::ParseSeverity::Error</a></div><div class="ttdeci">@ Error</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1ParseDiagnostic_html"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html">EasyKiConverter::Parser::ParseDiagnostic</a></div><div class="ttdoc">一条格式解析诊断。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00027">ParseDiagnostics.h:27</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1ParseDiagnostic_html_a1ab7a3f067153a820fe6a91c9b97a66c"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a1ab7a3f067153a820fe6a91c9b97a66c">EasyKiConverter::Parser::ParseDiagnostic::line</a></div><div class="ttdeci">int line</div><div class="ttdoc">源文件行号。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00033">ParseDiagnostics.h:33</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1ParseDiagnostic_html_a26ca287538e6f42735f8e8312f994c4c"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a26ca287538e6f42735f8e8312f994c4c">EasyKiConverter::Parser::ParseDiagnostic::severity</a></div><div class="ttdeci">ParseSeverity severity</div><div class="ttdoc">诊断严重级别。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00028">ParseDiagnostics.h:28</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1ParseDiagnostic_html_a34871a17f8bc30965b90bcf74320d6d4"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a34871a17f8bc30965b90bcf74320d6d4">EasyKiConverter::Parser::ParseDiagnostic::scope</a></div><div class="ttdeci">ParseScope scope</div><div class="ttdoc">诊断关联的对象范围。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00029">ParseDiagnostics.h:29</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1ParseDiagnostic_html_a6d90bb135bdd37d20b3c407dae95f5eb"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a6d90bb135bdd37d20b3c407dae95f5eb">EasyKiConverter::Parser::ParseDiagnostic::column</a></div><div class="ttdeci">int column</div><div class="ttdoc">源文件列号。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00034">ParseDiagnostics.h:34</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1ParseDiagnostic_html_a8e012f26649c0079d93686d9e918b48a"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a8e012f26649c0079d93686d9e918b48a">EasyKiConverter::Parser::ParseDiagnostic::entity</a></div><div class="ttdeci">QString entity</div><div class="ttdoc">诊断关联的实体标识。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00031">ParseDiagnostics.h:31</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1ParseDiagnostic_html_a9469692866bd61f45d92ad9528f8d970"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#a9469692866bd61f45d92ad9528f8d970">EasyKiConverter::Parser::ParseDiagnostic::filePath</a></div><div class="ttdeci">QString filePath</div><div class="ttdoc">诊断来源文件路径。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00030">ParseDiagnostics.h:30</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1ParseDiagnostic_html_ad80a65c7027ca7f014dbb9780edfca87"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1ParseDiagnostic.html#ad80a65c7027ca7f014dbb9780edfca87">EasyKiConverter::Parser::ParseDiagnostic::message</a></div><div class="ttdeci">QString message</div><div class="ttdoc">面向用户或日志的诊断文本。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00032">ParseDiagnostics.h:32</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_8eceb17de733a8c5303e86d0c9deb6e5.html">parser</a></li><li class="navelem"><a class="el" href="ParseDiagnostics_8h.html">ParseDiagnostics.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

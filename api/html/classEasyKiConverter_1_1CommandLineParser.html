@@ -1,0 +1,2927 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::CommandLineParser类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1CommandLineParser.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1CommandLineParser-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::CommandLineParser类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>命令行参数解析器  
+ <a href="classEasyKiConverter_1_1CommandLineParser.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::CommandLineParser 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1CommandLineParser__coll__graph.svg" width="208" height="531"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a5c902bfa2a7f922a55a692b1e489b5e5" id="r_a5c902bfa2a7f922a55a692b1e489b5e5"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5">CliMode</a> { <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a6adf97f83acf6453d4a6a4b1070f3754">None</a>
+, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a9f755a94f2112c25635d6515df8f0b37">ConvertBom</a>
+, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a343375a949f16c0f9ba4823edce87b98">ConvertComponent</a>
+, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5ab883bca62dae0a6120c96ed9e4df5092">ConvertBatch</a>
+ }</td></tr>
+<tr class="memdesc:a5c902bfa2a7f922a55a692b1e489b5e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">CLI 模式枚举  <a href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5">更多...</a><br /></td></tr>
+<tr class="separator:a5c902bfa2a7f922a55a692b1e489b5e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a8308f418bcc5b201085d82bada0cd458" id="r_a8308f418bcc5b201085d82bada0cd458"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a8308f418bcc5b201085d82bada0cd458">CommandLineParser</a> (int argc, char *argv[])</td></tr>
+<tr class="memdesc:a8308f418bcc5b201085d82bada0cd458"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a8308f418bcc5b201085d82bada0cd458"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71b2a0b4f10539faa78fc68c7386225b" id="r_a71b2a0b4f10539faa78fc68c7386225b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a71b2a0b4f10539faa78fc68c7386225b">parse</a> ()</td></tr>
+<tr class="memdesc:a71b2a0b4f10539faa78fc68c7386225b"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析命令行参数  <br /></td></tr>
+<tr class="separator:a71b2a0b4f10539faa78fc68c7386225b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a262a36db07d8568b02db9b3b9f4336" id="r_a1a262a36db07d8568b02db9b3b9f4336"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a1a262a36db07d8568b02db9b3b9f4336">validate</a> () const</td></tr>
+<tr class="memdesc:a1a262a36db07d8568b02db9b3b9f4336"><td class="mdescLeft">&#160;</td><td class="mdescRight">验证参数值的有效性  <br /></td></tr>
+<tr class="separator:a1a262a36db07d8568b02db9b3b9f4336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac795378e1571440dc9c8eafbe44c494b" id="r_ac795378e1571440dc9c8eafbe44c494b"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ac795378e1571440dc9c8eafbe44c494b">validationError</a> () const</td></tr>
+<tr class="memdesc:ac795378e1571440dc9c8eafbe44c494b"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取验证错误信息  <br /></td></tr>
+<tr class="separator:ac795378e1571440dc9c8eafbe44c494b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c32743b0a6c3475bdbd01ca77538672" id="r_a8c32743b0a6c3475bdbd01ca77538672"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a8c32743b0a6c3475bdbd01ca77538672">isDebugMode</a> () const</td></tr>
+<tr class="memdesc:a8c32743b0a6c3475bdbd01ca77538672"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否启用调试模式  <br /></td></tr>
+<tr class="separator:a8c32743b0a6c3475bdbd01ca77538672"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5432eef61c0f028ee455fb6fe75ca4eb" id="r_a5432eef61c0f028ee455fb6fe75ca4eb"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5432eef61c0f028ee455fb6fe75ca4eb">logLevel</a> () const</td></tr>
+<tr class="memdesc:a5432eef61c0f028ee455fb6fe75ca4eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取日志级别  <br /></td></tr>
+<tr class="separator:a5432eef61c0f028ee455fb6fe75ca4eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0607fc9e3b356fe8034cfcad17faa340" id="r_a0607fc9e3b356fe8034cfcad17faa340"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a0607fc9e3b356fe8034cfcad17faa340">logFile</a> () const</td></tr>
+<tr class="memdesc:a0607fc9e3b356fe8034cfcad17faa340"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取日志文件路径  <br /></td></tr>
+<tr class="separator:a0607fc9e3b356fe8034cfcad17faa340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ec76542671d11083be985f5d6e81d9c" id="r_a2ec76542671d11083be985f5d6e81d9c"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a2ec76542671d11083be985f5d6e81d9c">configFile</a> () const</td></tr>
+<tr class="memdesc:a2ec76542671d11083be985f5d6e81d9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取配置文件路径  <br /></td></tr>
+<tr class="separator:a2ec76542671d11083be985f5d6e81d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2647d59fd1285749a9e78cb669a4297e" id="r_a2647d59fd1285749a9e78cb669a4297e"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a2647d59fd1285749a9e78cb669a4297e">language</a> () const</td></tr>
+<tr class="memdesc:a2647d59fd1285749a9e78cb669a4297e"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取语言设置  <br /></td></tr>
+<tr class="separator:a2647d59fd1285749a9e78cb669a4297e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac72211e5b65eced20ab3c6d0fe0364f6" id="r_ac72211e5b65eced20ab3c6d0fe0364f6"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ac72211e5b65eced20ab3c6d0fe0364f6">theme</a> () const</td></tr>
+<tr class="memdesc:ac72211e5b65eced20ab3c6d0fe0364f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取主题设置  <br /></td></tr>
+<tr class="separator:ac72211e5b65eced20ab3c6d0fe0364f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a890d46dc3973258bd3b004b0f377c7ec" id="r_a890d46dc3973258bd3b004b0f377c7ec"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a890d46dc3973258bd3b004b0f377c7ec">isThemeSet</a> () const</td></tr>
+<tr class="memdesc:a890d46dc3973258bd3b004b0f377c7ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否显式指定了主题参数  <br /></td></tr>
+<tr class="separator:a890d46dc3973258bd3b004b0f377c7ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0af375e1ff507962d206e0c41560d1e6" id="r_a0af375e1ff507962d206e0c41560d1e6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a0af375e1ff507962d206e0c41560d1e6">isPortableMode</a> () const</td></tr>
+<tr class="memdesc:a0af375e1ff507962d206e0c41560d1e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否为便携模式  <br /></td></tr>
+<tr class="separator:a0af375e1ff507962d206e0c41560d1e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a343d74961a3d39da69dbf8b68f0364ae" id="r_a343d74961a3d39da69dbf8b68f0364ae"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a343d74961a3d39da69dbf8b68f0364ae">isSyncLogging</a> () const</td></tr>
+<tr class="memdesc:a343d74961a3d39da69dbf8b68f0364ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否启用同步控制台日志输出  <br /></td></tr>
+<tr class="separator:a343d74961a3d39da69dbf8b68f0364ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90db2bb138ad3fde34da31eddf83a94f" id="r_a90db2bb138ad3fde34da31eddf83a94f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a90db2bb138ad3fde34da31eddf83a94f">isCacheDirSet</a> () const</td></tr>
+<tr class="memdesc:a90db2bb138ad3fde34da31eddf83a94f"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否显式指定了缓存目录  <br /></td></tr>
+<tr class="separator:a90db2bb138ad3fde34da31eddf83a94f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab44daaa96fc92e92edf9e9d66a0789ba" id="r_ab44daaa96fc92e92edf9e9d66a0789ba"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ab44daaa96fc92e92edf9e9d66a0789ba">cacheDir</a> () const</td></tr>
+<tr class="memdesc:ab44daaa96fc92e92edf9e9d66a0789ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取缓存目录  <br /></td></tr>
+<tr class="separator:ab44daaa96fc92e92edf9e9d66a0789ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af03eac2e693109788c3f88849514fbc9" id="r_af03eac2e693109788c3f88849514fbc9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#af03eac2e693109788c3f88849514fbc9">isDiskCacheLimitSet</a> () const</td></tr>
+<tr class="memdesc:af03eac2e693109788c3f88849514fbc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否显式指定了磁盘缓存大小  <br /></td></tr>
+<tr class="separator:af03eac2e693109788c3f88849514fbc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9ea6f7757356af8bb7a0dfe740ba390" id="r_aa9ea6f7757356af8bb7a0dfe740ba390"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aa9ea6f7757356af8bb7a0dfe740ba390">diskCacheLimitMB</a> () const</td></tr>
+<tr class="memdesc:aa9ea6f7757356af8bb7a0dfe740ba390"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取磁盘缓存大小限制  <br /></td></tr>
+<tr class="separator:aa9ea6f7757356af8bb7a0dfe740ba390"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec01d093f7eea242c8bc2ebe34733700" id="r_aec01d093f7eea242c8bc2ebe34733700"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aec01d093f7eea242c8bc2ebe34733700">helpText</a> () const</td></tr>
+<tr class="memdesc:aec01d093f7eea242c8bc2ebe34733700"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取帮助文本  <br /></td></tr>
+<tr class="separator:aec01d093f7eea242c8bc2ebe34733700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af2fe0bd53a969c9bdd17570b85fb58d3" id="r_af2fe0bd53a969c9bdd17570b85fb58d3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#af2fe0bd53a969c9bdd17570b85fb58d3">isHelpRequested</a> () const</td></tr>
+<tr class="memdesc:af2fe0bd53a969c9bdd17570b85fb58d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否显示帮助信息  <br /></td></tr>
+<tr class="separator:af2fe0bd53a969c9bdd17570b85fb58d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeff413a2beb056245ffeaf3aa011bda9" id="r_aeff413a2beb056245ffeaf3aa011bda9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aeff413a2beb056245ffeaf3aa011bda9">isVersionRequested</a> () const</td></tr>
+<tr class="memdesc:aeff413a2beb056245ffeaf3aa011bda9"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否显示版本信息  <br /></td></tr>
+<tr class="separator:aeff413a2beb056245ffeaf3aa011bda9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bb8aa6f8000097c065ae21af0d7b34d" id="r_a8bb8aa6f8000097c065ae21af0d7b34d"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a8bb8aa6f8000097c065ae21af0d7b34d">positionalArguments</a> () const</td></tr>
+<tr class="memdesc:a8bb8aa6f8000097c065ae21af0d7b34d"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取剩余的未解析参数  <br /></td></tr>
+<tr class="separator:a8bb8aa6f8000097c065ae21af0d7b34d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c09cb25fa42e338e4678807e1266a53" id="r_a7c09cb25fa42e338e4678807e1266a53"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a7c09cb25fa42e338e4678807e1266a53">isCliMode</a> () const</td></tr>
+<tr class="memdesc:a7c09cb25fa42e338e4678807e1266a53"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否处于 CLI 模式  <br /></td></tr>
+<tr class="separator:a7c09cb25fa42e338e4678807e1266a53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5245e2bdd7d02f41f826f815fc6686dd" id="r_a5245e2bdd7d02f41f826f815fc6686dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5">CliMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5245e2bdd7d02f41f826f815fc6686dd">cliMode</a> () const</td></tr>
+<tr class="memdesc:a5245e2bdd7d02f41f826f815fc6686dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取 CLI 模式  <br /></td></tr>
+<tr class="separator:a5245e2bdd7d02f41f826f815fc6686dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8edfc5642f3e7ad4dcc8a91ce057884" id="r_ad8edfc5642f3e7ad4dcc8a91ce057884"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ad8edfc5642f3e7ad4dcc8a91ce057884">inputFile</a> () const</td></tr>
+<tr class="memdesc:ad8edfc5642f3e7ad4dcc8a91ce057884"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取输入文件路径（用于 BOM 表和批量转换）  <br /></td></tr>
+<tr class="separator:ad8edfc5642f3e7ad4dcc8a91ce057884"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea4ff37935de46c1b460efa82a42c1b8" id="r_aea4ff37935de46c1b460efa82a42c1b8"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aea4ff37935de46c1b460efa82a42c1b8">outputDir</a> () const</td></tr>
+<tr class="memdesc:aea4ff37935de46c1b460efa82a42c1b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取输出目录路径  <br /></td></tr>
+<tr class="separator:aea4ff37935de46c1b460efa82a42c1b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5be4f5ec88f080dd856cb2ea585c1db7" id="r_a5be4f5ec88f080dd856cb2ea585c1db7"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5be4f5ec88f080dd856cb2ea585c1db7">libName</a> () const</td></tr>
+<tr class="memdesc:a5be4f5ec88f080dd856cb2ea585c1db7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取导出库名称  <br /></td></tr>
+<tr class="separator:a5be4f5ec88f080dd856cb2ea585c1db7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48b165bd6f4d78c3bba3d335d1444f08" id="r_a48b165bd6f4d78c3bba3d335d1444f08"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a48b165bd6f4d78c3bba3d335d1444f08">componentId</a> () const</td></tr>
+<tr class="memdesc:a48b165bd6f4d78c3bba3d335d1444f08"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取 LCSC 元器件编号（用于单个元器件转换）  <br /></td></tr>
+<tr class="separator:a48b165bd6f4d78c3bba3d335d1444f08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac39890a342c537d1f4ffeea44a244fa1" id="r_ac39890a342c537d1f4ffeea44a244fa1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ac39890a342c537d1f4ffeea44a244fa1">exportSymbol</a> () const</td></tr>
+<tr class="memdesc:ac39890a342c537d1f4ffeea44a244fa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否导出符号库  <br /></td></tr>
+<tr class="separator:ac39890a342c537d1f4ffeea44a244fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0503ae577b57d9ab4b51c5d611b1b44b" id="r_a0503ae577b57d9ab4b51c5d611b1b44b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a0503ae577b57d9ab4b51c5d611b1b44b">exportFootprint</a> () const</td></tr>
+<tr class="memdesc:a0503ae577b57d9ab4b51c5d611b1b44b"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否导出封装库  <br /></td></tr>
+<tr class="separator:a0503ae577b57d9ab4b51c5d611b1b44b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff4eab7672b65e12d40bf23d1bfe942c" id="r_aff4eab7672b65e12d40bf23d1bfe942c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aff4eab7672b65e12d40bf23d1bfe942c">export3DModel</a> () const</td></tr>
+<tr class="memdesc:aff4eab7672b65e12d40bf23d1bfe942c"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否导出 3D 模型  <br /></td></tr>
+<tr class="separator:aff4eab7672b65e12d40bf23d1bfe942c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6ca6abd9d64fa01a7a6cbb3e4e749f2" id="r_ad6ca6abd9d64fa01a7a6cbb3e4e749f2"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ad6ca6abd9d64fa01a7a6cbb3e4e749f2">model3DFormat</a> () const</td></tr>
+<tr class="memdesc:ad6ca6abd9d64fa01a7a6cbb3e4e749f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取 3D 模型导出格式  <br /></td></tr>
+<tr class="separator:ad6ca6abd9d64fa01a7a6cbb3e4e749f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad241182ffccdee7f8ac4ca4d999ebe9a" id="r_ad241182ffccdee7f8ac4ca4d999ebe9a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ad241182ffccdee7f8ac4ca4d999ebe9a">exportDatasheet</a> () const</td></tr>
+<tr class="memdesc:ad241182ffccdee7f8ac4ca4d999ebe9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否导出数据手册  <br /></td></tr>
+<tr class="separator:ad241182ffccdee7f8ac4ca4d999ebe9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a116eaae3c4c5a314ba8e8368ef51150b" id="r_a116eaae3c4c5a314ba8e8368ef51150b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a116eaae3c4c5a314ba8e8368ef51150b">exportPreview</a> () const</td></tr>
+<tr class="memdesc:a116eaae3c4c5a314ba8e8368ef51150b"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否导出预览图  <br /></td></tr>
+<tr class="separator:a116eaae3c4c5a314ba8e8368ef51150b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5221d9560b13ede8fd15937e807e01af" id="r_a5221d9560b13ede8fd15937e807e01af"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5221d9560b13ede8fd15937e807e01af">showProgress</a> () const</td></tr>
+<tr class="memdesc:a5221d9560b13ede8fd15937e807e01af"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否显示进度条  <br /></td></tr>
+<tr class="separator:a5221d9560b13ede8fd15937e807e01af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca3a7861cd9b9531c36bf9d92a103ff5" id="r_aca3a7861cd9b9531c36bf9d92a103ff5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aca3a7861cd9b9531c36bf9d92a103ff5">isQuietMode</a> () const</td></tr>
+<tr class="memdesc:aca3a7861cd9b9531c36bf9d92a103ff5"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否为安静模式  <br /></td></tr>
+<tr class="separator:aca3a7861cd9b9531c36bf9d92a103ff5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9ab1c43cc17adad855684ae5027fcc00" id="r_a9ab1c43cc17adad855684ae5027fcc00"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a9ab1c43cc17adad855684ae5027fcc00">weakNetworkSupport</a> () const</td></tr>
+<tr class="memdesc:a9ab1c43cc17adad855684ae5027fcc00"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否启用弱网模式  <br /></td></tr>
+<tr class="separator:a9ab1c43cc17adad855684ae5027fcc00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95709bee5b5829aa98bc36cbab0d6fb8" id="r_a95709bee5b5829aa98bc36cbab0d6fb8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a95709bee5b5829aa98bc36cbab0d6fb8">updateMode</a> () const</td></tr>
+<tr class="memdesc:a95709bee5b5829aa98bc36cbab0d6fb8"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否启用更新模式（仅导出缺失或已更改的文件）  <br /></td></tr>
+<tr class="separator:a95709bee5b5829aa98bc36cbab0d6fb8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08f13e697592700d555360b1d1cb8302" id="r_a08f13e697592700d555360b1d1cb8302"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a08f13e697592700d555360b1d1cb8302">model3DPathMode</a> () const</td></tr>
+<tr class="memdesc:a08f13e697592700d555360b1d1cb8302"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取 3D 模型路径模式  <br /></td></tr>
+<tr class="separator:a08f13e697592700d555360b1d1cb8302"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa159197b5ac79f85c3a245d9a090a3d4" id="r_aa159197b5ac79f85c3a245d9a090a3d4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aa159197b5ac79f85c3a245d9a090a3d4">overwriteExistingFiles</a> () const</td></tr>
+<tr class="memdesc:aa159197b5ac79f85c3a245d9a090a3d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否覆盖已存在的文件（默认 true，&ndash;no-overwrite 禁用）  <br /></td></tr>
+<tr class="separator:aa159197b5ac79f85c3a245d9a090a3d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77377a4aad33082c85e5d5d34b7f401d" id="r_a77377a4aad33082c85e5d5d34b7f401d"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a77377a4aad33082c85e5d5d34b7f401d">symbolDescription</a> () const</td></tr>
+<tr class="memdesc:a77377a4aad33082c85e5d5d34b7f401d"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取符号库描述文本  <br /></td></tr>
+<tr class="separator:a77377a4aad33082c85e5d5d34b7f401d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817a705133f5b6ab86aab743574152a7" id="r_a817a705133f5b6ab86aab743574152a7"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a817a705133f5b6ab86aab743574152a7">footprintDescription</a> () const</td></tr>
+<tr class="memdesc:a817a705133f5b6ab86aab743574152a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取封装库描述文本  <br /></td></tr>
+<tr class="separator:a817a705133f5b6ab86aab743574152a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4e8ecfbd61b23c346f9cc4b191847d6" id="r_aa4e8ecfbd61b23c346f9cc4b191847d6"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aa4e8ecfbd61b23c346f9cc4b191847d6">targetFormat</a> () const</td></tr>
+<tr class="memdesc:aa4e8ecfbd61b23c346f9cc4b191847d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取目标 EDA 格式  <br /></td></tr>
+<tr class="separator:aa4e8ecfbd61b23c346f9cc4b191847d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9570aaa33ad1f5f49973f8ce0a0f2a48" id="r_a9570aaa33ad1f5f49973f8ce0a0f2a48"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a9570aaa33ad1f5f49973f8ce0a0f2a48">cliHelpText</a> () const</td></tr>
+<tr class="memdesc:a9570aaa33ad1f5f49973f8ce0a0f2a48"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取 CLI 帮助文本  <br /></td></tr>
+<tr class="separator:a9570aaa33ad1f5f49973f8ce0a0f2a48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76d7466e151ab4f942cb949d25383f96" id="r_a76d7466e151ab4f942cb949d25383f96"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a76d7466e151ab4f942cb949d25383f96">isCompletionRequested</a> () const</td></tr>
+<tr class="memdesc:a76d7466e151ab4f942cb949d25383f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否请求生成补全脚本  <br /></td></tr>
+<tr class="separator:a76d7466e151ab4f942cb949d25383f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88b19be3fcade9182efbd5c6aef2a8e4" id="r_a88b19be3fcade9182efbd5c6aef2a8e4"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a88b19be3fcade9182efbd5c6aef2a8e4">completionShell</a> () const</td></tr>
+<tr class="memdesc:a88b19be3fcade9182efbd5c6aef2a8e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取补全脚本类型 (bash/zsh/fish)  <br /></td></tr>
+<tr class="separator:a88b19be3fcade9182efbd5c6aef2a8e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fba9a9f881d15106a0e9b776c8de9fd" id="r_a7fba9a9f881d15106a0e9b776c8de9fd"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a7fba9a9f881d15106a0e9b776c8de9fd">isCompleteRequested</a> () const</td></tr>
+<tr class="memdesc:a7fba9a9f881d15106a0e9b776c8de9fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否请求动态补全数据  <br /></td></tr>
+<tr class="separator:a7fba9a9f881d15106a0e9b776c8de9fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a588c1173ae27d167fe86a8f3a00246ec" id="r_a588c1173ae27d167fe86a8f3a00246ec"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a588c1173ae27d167fe86a8f3a00246ec">completeType</a> () const</td></tr>
+<tr class="memdesc:a588c1173ae27d167fe86a8f3a00246ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取动态补全类型  <br /></td></tr>
+<tr class="separator:a588c1173ae27d167fe86a8f3a00246ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f53e456a6b3da3501dc318ec2095ab5" id="r_a5f53e456a6b3da3501dc318ec2095ab5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5f53e456a6b3da3501dc318ec2095ab5">hasConvertCommand</a> () const</td></tr>
+<tr class="memdesc:a5f53e456a6b3da3501dc318ec2095ab5"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否包含 convert 命令（无论子命令是否有效）  <br /></td></tr>
+<tr class="separator:a5f53e456a6b3da3501dc318ec2095ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:a4d7e51041ab0e882413001ba7f117172" id="r_a4d7e51041ab0e882413001ba7f117172"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a4d7e51041ab0e882413001ba7f117172">setupOptions</a> ()</td></tr>
+<tr class="memdesc:a4d7e51041ab0e882413001ba7f117172"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册通用应用选项。  <br /></td></tr>
+<tr class="separator:a4d7e51041ab0e882413001ba7f117172"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb51d22ff34a27a20a9a881ef30436ef" id="r_acb51d22ff34a27a20a9a881ef30436ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#acb51d22ff34a27a20a9a881ef30436ef">setupCliOptions</a> ()</td></tr>
+<tr class="memdesc:acb51d22ff34a27a20a9a881ef30436ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">注册 CLI 转换相关选项。  <br /></td></tr>
+<tr class="separator:acb51d22ff34a27a20a9a881ef30436ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a3a7c41610d4d87134a21b7a75168af2e" id="r_a3a7c41610d4d87134a21b7a75168af2e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a3a7c41610d4d87134a21b7a75168af2e">m_argc</a> = 0</td></tr>
+<tr class="memdesc:a3a7c41610d4d87134a21b7a75168af2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">保存初始化阶段传入的命令行参数数量。  <br /></td></tr>
+<tr class="separator:a3a7c41610d4d87134a21b7a75168af2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77332b691c001edee23964901408882c" id="r_a77332b691c001edee23964901408882c"><td class="memItemLeft" align="right" valign="top">char **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a77332b691c001edee23964901408882c">m_argv</a> = nullptr</td></tr>
+<tr class="memdesc:a77332b691c001edee23964901408882c"><td class="mdescLeft">&#160;</td><td class="mdescRight">保存初始化阶段传入的命令行参数数组。  <br /></td></tr>
+<tr class="separator:a77332b691c001edee23964901408882c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd497048f7ab1d509cf8e52c2511eb15" id="r_acd497048f7ab1d509cf8e52c2511eb15"><td class="memItemLeft" align="right" valign="top">QCommandLineParser&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#acd497048f7ab1d509cf8e52c2511eb15">m_parser</a></td></tr>
+<tr class="memdesc:acd497048f7ab1d509cf8e52c2511eb15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Qt 命令行参数解析器。  <br /></td></tr>
+<tr class="separator:acd497048f7ab1d509cf8e52c2511eb15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a20e82359102100a3652c897f7ecc91" id="r_a2a20e82359102100a3652c897f7ecc91"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a2a20e82359102100a3652c897f7ecc91">m_debugOption</a></td></tr>
+<tr class="memdesc:a2a20e82359102100a3652c897f7ecc91"><td class="mdescLeft">&#160;</td><td class="mdescRight">调试模式选项。  <br /></td></tr>
+<tr class="separator:a2a20e82359102100a3652c897f7ecc91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35f59ab1a4ecb12e32317cd7241215cf" id="r_a35f59ab1a4ecb12e32317cd7241215cf"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a35f59ab1a4ecb12e32317cd7241215cf">m_logLevelOption</a></td></tr>
+<tr class="memdesc:a35f59ab1a4ecb12e32317cd7241215cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">日志级别选项。  <br /></td></tr>
+<tr class="separator:a35f59ab1a4ecb12e32317cd7241215cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb5402d1babb1949b81556347b52458c" id="r_aeb5402d1babb1949b81556347b52458c"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aeb5402d1babb1949b81556347b52458c">m_logFileOption</a></td></tr>
+<tr class="memdesc:aeb5402d1babb1949b81556347b52458c"><td class="mdescLeft">&#160;</td><td class="mdescRight">日志文件路径选项。  <br /></td></tr>
+<tr class="separator:aeb5402d1babb1949b81556347b52458c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b59c4717723e12d36a3b48b8fa22ee0" id="r_a7b59c4717723e12d36a3b48b8fa22ee0"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a7b59c4717723e12d36a3b48b8fa22ee0">m_configOption</a></td></tr>
+<tr class="memdesc:a7b59c4717723e12d36a3b48b8fa22ee0"><td class="mdescLeft">&#160;</td><td class="mdescRight">配置文件路径选项。  <br /></td></tr>
+<tr class="separator:a7b59c4717723e12d36a3b48b8fa22ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1860161d10510a6eef16e7be6e81a98" id="r_ad1860161d10510a6eef16e7be6e81a98"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ad1860161d10510a6eef16e7be6e81a98">m_languageOption</a></td></tr>
+<tr class="memdesc:ad1860161d10510a6eef16e7be6e81a98"><td class="mdescLeft">&#160;</td><td class="mdescRight">界面语言选项。  <br /></td></tr>
+<tr class="separator:ad1860161d10510a6eef16e7be6e81a98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a941ae89c21b3b0c95b8cc3b2127f0389" id="r_a941ae89c21b3b0c95b8cc3b2127f0389"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a941ae89c21b3b0c95b8cc3b2127f0389">m_themeOption</a></td></tr>
+<tr class="memdesc:a941ae89c21b3b0c95b8cc3b2127f0389"><td class="mdescLeft">&#160;</td><td class="mdescRight">界面主题选项。  <br /></td></tr>
+<tr class="separator:a941ae89c21b3b0c95b8cc3b2127f0389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15d3be948c4a66b7d5f1126142b480c3" id="r_a15d3be948c4a66b7d5f1126142b480c3"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a15d3be948c4a66b7d5f1126142b480c3">m_portableOption</a></td></tr>
+<tr class="memdesc:a15d3be948c4a66b7d5f1126142b480c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">便携模式选项。  <br /></td></tr>
+<tr class="separator:a15d3be948c4a66b7d5f1126142b480c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8a3f36e703bc3b39309c69bea747c17" id="r_ac8a3f36e703bc3b39309c69bea747c17"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ac8a3f36e703bc3b39309c69bea747c17">m_syncLoggingOption</a></td></tr>
+<tr class="memdesc:ac8a3f36e703bc3b39309c69bea747c17"><td class="mdescLeft">&#160;</td><td class="mdescRight">同步日志选项。  <br /></td></tr>
+<tr class="separator:ac8a3f36e703bc3b39309c69bea747c17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad41e359a2e95997e42938dc4e3e40a33" id="r_ad41e359a2e95997e42938dc4e3e40a33"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ad41e359a2e95997e42938dc4e3e40a33">m_cacheDirOption</a></td></tr>
+<tr class="memdesc:ad41e359a2e95997e42938dc4e3e40a33"><td class="mdescLeft">&#160;</td><td class="mdescRight">缓存目录选项。  <br /></td></tr>
+<tr class="separator:ad41e359a2e95997e42938dc4e3e40a33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35bff199b429dc04a6472b7e00e9661d" id="r_a35bff199b429dc04a6472b7e00e9661d"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a35bff199b429dc04a6472b7e00e9661d">m_diskCacheLimitOption</a></td></tr>
+<tr class="memdesc:a35bff199b429dc04a6472b7e00e9661d"><td class="mdescLeft">&#160;</td><td class="mdescRight">磁盘缓存上限选项。  <br /></td></tr>
+<tr class="separator:a35bff199b429dc04a6472b7e00e9661d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a328a4a1394718bc5256deec074197165" id="r_a328a4a1394718bc5256deec074197165"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a328a4a1394718bc5256deec074197165">m_inputOption</a></td></tr>
+<tr class="memdesc:a328a4a1394718bc5256deec074197165"><td class="mdescLeft">&#160;</td><td class="mdescRight">输入文件或数据源选项。  <br /></td></tr>
+<tr class="separator:a328a4a1394718bc5256deec074197165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a863532dc3e1a77858f8a8d7720e01e0b" id="r_a863532dc3e1a77858f8a8d7720e01e0b"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a863532dc3e1a77858f8a8d7720e01e0b">m_outputOption</a></td></tr>
+<tr class="memdesc:a863532dc3e1a77858f8a8d7720e01e0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">输出目录选项。  <br /></td></tr>
+<tr class="separator:a863532dc3e1a77858f8a8d7720e01e0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f46e34f94dcfe2727718e6bf8450e5b" id="r_a9f46e34f94dcfe2727718e6bf8450e5b"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a9f46e34f94dcfe2727718e6bf8450e5b">m_libNameOption</a></td></tr>
+<tr class="memdesc:a9f46e34f94dcfe2727718e6bf8450e5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">库名称选项。  <br /></td></tr>
+<tr class="separator:a9f46e34f94dcfe2727718e6bf8450e5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae641368ffb0aac614f4e7de5d3a0d236" id="r_ae641368ffb0aac614f4e7de5d3a0d236"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ae641368ffb0aac614f4e7de5d3a0d236">m_componentOption</a></td></tr>
+<tr class="memdesc:ae641368ffb0aac614f4e7de5d3a0d236"><td class="mdescLeft">&#160;</td><td class="mdescRight">元器件编号列表选项。  <br /></td></tr>
+<tr class="separator:ae641368ffb0aac614f4e7de5d3a0d236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09cda0614040f948a1a340ad8b771880" id="r_a09cda0614040f948a1a340ad8b771880"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a09cda0614040f948a1a340ad8b771880">m_symbolOption</a></td></tr>
+<tr class="memdesc:a09cda0614040f948a1a340ad8b771880"><td class="mdescLeft">&#160;</td><td class="mdescRight">符号库导出选项。  <br /></td></tr>
+<tr class="separator:a09cda0614040f948a1a340ad8b771880"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34ba8115ff71e9528114e03c6ef2476a" id="r_a34ba8115ff71e9528114e03c6ef2476a"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a34ba8115ff71e9528114e03c6ef2476a">m_footprintOption</a></td></tr>
+<tr class="memdesc:a34ba8115ff71e9528114e03c6ef2476a"><td class="mdescLeft">&#160;</td><td class="mdescRight">封装库导出选项。  <br /></td></tr>
+<tr class="separator:a34ba8115ff71e9528114e03c6ef2476a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6d6008870ec349e4a575e5ab0b2a373" id="r_ad6d6008870ec349e4a575e5ab0b2a373"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ad6d6008870ec349e4a575e5ab0b2a373">m_3dModelOption</a></td></tr>
+<tr class="memdesc:ad6d6008870ec349e4a575e5ab0b2a373"><td class="mdescLeft">&#160;</td><td class="mdescRight">三维模型导出选项。  <br /></td></tr>
+<tr class="separator:ad6d6008870ec349e4a575e5ab0b2a373"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a957f61ba27ac68c2bac9733e57e791b4" id="r_a957f61ba27ac68c2bac9733e57e791b4"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a957f61ba27ac68c2bac9733e57e791b4">m_3dModelFormatOption</a></td></tr>
+<tr class="memdesc:a957f61ba27ac68c2bac9733e57e791b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">三维模型格式选项。  <br /></td></tr>
+<tr class="separator:a957f61ba27ac68c2bac9733e57e791b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c4acceeb778d48d12d5fba94781b56e" id="r_a2c4acceeb778d48d12d5fba94781b56e"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a2c4acceeb778d48d12d5fba94781b56e">m_datasheetOption</a></td></tr>
+<tr class="memdesc:a2c4acceeb778d48d12d5fba94781b56e"><td class="mdescLeft">&#160;</td><td class="mdescRight">数据手册导出选项。  <br /></td></tr>
+<tr class="separator:a2c4acceeb778d48d12d5fba94781b56e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e5531fa7116dcd44fb38a5e24c099b4" id="r_a2e5531fa7116dcd44fb38a5e24c099b4"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a2e5531fa7116dcd44fb38a5e24c099b4">m_previewOption</a></td></tr>
+<tr class="memdesc:a2e5531fa7116dcd44fb38a5e24c099b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">预览图导出选项。  <br /></td></tr>
+<tr class="separator:a2e5531fa7116dcd44fb38a5e24c099b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4197247e5b26974b4641f3b923d5f40e" id="r_a4197247e5b26974b4641f3b923d5f40e"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a4197247e5b26974b4641f3b923d5f40e">m_progressOption</a></td></tr>
+<tr class="memdesc:a4197247e5b26974b4641f3b923d5f40e"><td class="mdescLeft">&#160;</td><td class="mdescRight">进度输出选项。  <br /></td></tr>
+<tr class="separator:a4197247e5b26974b4641f3b923d5f40e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74f1e89f716a4a5570930bbca275d8bd" id="r_a74f1e89f716a4a5570930bbca275d8bd"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a74f1e89f716a4a5570930bbca275d8bd">m_quietOption</a></td></tr>
+<tr class="memdesc:a74f1e89f716a4a5570930bbca275d8bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">静默输出选项。  <br /></td></tr>
+<tr class="separator:a74f1e89f716a4a5570930bbca275d8bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac35f525f875adf218e19f8b7d5344f81" id="r_ac35f525f875adf218e19f8b7d5344f81"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ac35f525f875adf218e19f8b7d5344f81">m_weakNetworkOption</a></td></tr>
+<tr class="memdesc:ac35f525f875adf218e19f8b7d5344f81"><td class="mdescLeft">&#160;</td><td class="mdescRight">弱网络策略选项。  <br /></td></tr>
+<tr class="separator:ac35f525f875adf218e19f8b7d5344f81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac97d12fe469e0cb1a4db0f2e46f7d2f0" id="r_ac97d12fe469e0cb1a4db0f2e46f7d2f0"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ac97d12fe469e0cb1a4db0f2e46f7d2f0">m_updateModeOption</a></td></tr>
+<tr class="memdesc:ac97d12fe469e0cb1a4db0f2e46f7d2f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出更新模式选项。  <br /></td></tr>
+<tr class="separator:ac97d12fe469e0cb1a4db0f2e46f7d2f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa5950206a2fcbf15a3b25d0ce4e2f9a9" id="r_aa5950206a2fcbf15a3b25d0ce4e2f9a9"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aa5950206a2fcbf15a3b25d0ce4e2f9a9">m_3dPathModeOption</a></td></tr>
+<tr class="memdesc:aa5950206a2fcbf15a3b25d0ce4e2f9a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">三维模型路径模式选项。  <br /></td></tr>
+<tr class="separator:aa5950206a2fcbf15a3b25d0ce4e2f9a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37910c78c5d05aac4392c88985f7bf47" id="r_a37910c78c5d05aac4392c88985f7bf47"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a37910c78c5d05aac4392c88985f7bf47">m_overwriteOption</a></td></tr>
+<tr class="memdesc:a37910c78c5d05aac4392c88985f7bf47"><td class="mdescLeft">&#160;</td><td class="mdescRight">覆盖已有文件选项。  <br /></td></tr>
+<tr class="separator:a37910c78c5d05aac4392c88985f7bf47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0489c3ccfee207a67abe6dbb7e13109" id="r_ad0489c3ccfee207a67abe6dbb7e13109"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ad0489c3ccfee207a67abe6dbb7e13109">m_symbolDescriptionOption</a></td></tr>
+<tr class="memdesc:ad0489c3ccfee207a67abe6dbb7e13109"><td class="mdescLeft">&#160;</td><td class="mdescRight">符号库描述选项。  <br /></td></tr>
+<tr class="separator:ad0489c3ccfee207a67abe6dbb7e13109"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa5ca570aa2b7e2e88339890419341c3" id="r_aaa5ca570aa2b7e2e88339890419341c3"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aaa5ca570aa2b7e2e88339890419341c3">m_footprintDescriptionOption</a></td></tr>
+<tr class="memdesc:aaa5ca570aa2b7e2e88339890419341c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">封装库描述选项。  <br /></td></tr>
+<tr class="separator:aaa5ca570aa2b7e2e88339890419341c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa187685e35eb711c7e38ea35e46710f1" id="r_aa187685e35eb711c7e38ea35e46710f1"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#aa187685e35eb711c7e38ea35e46710f1">m_targetFormatOption</a></td></tr>
+<tr class="memdesc:aa187685e35eb711c7e38ea35e46710f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">目标格式选项。  <br /></td></tr>
+<tr class="separator:aa187685e35eb711c7e38ea35e46710f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a296cec30802bd1d6efde66fda3738ce5" id="r_a296cec30802bd1d6efde66fda3738ce5"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a296cec30802bd1d6efde66fda3738ce5">m_completionOption</a></td></tr>
+<tr class="memdesc:a296cec30802bd1d6efde66fda3738ce5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Shell 补全脚本生成选项。  <br /></td></tr>
+<tr class="separator:a296cec30802bd1d6efde66fda3738ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a885d3f40fd48d31f2d81aa3c2a6aa3c7" id="r_a885d3f40fd48d31f2d81aa3c2a6aa3c7"><td class="memItemLeft" align="right" valign="top">QCommandLineOption&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a885d3f40fd48d31f2d81aa3c2a6aa3c7">m_completeOption</a></td></tr>
+<tr class="memdesc:a885d3f40fd48d31f2d81aa3c2a6aa3c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">动态补全数据请求选项。  <br /></td></tr>
+<tr class="separator:a885d3f40fd48d31f2d81aa3c2a6aa3c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a292c542986f5a02dbea38033c578287e" id="r_a292c542986f5a02dbea38033c578287e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5">CliMode</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a292c542986f5a02dbea38033c578287e">m_cliMode</a> = <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a6adf97f83acf6453d4a6a4b1070f3754">CliMode::None</a></td></tr>
+<tr class="memdesc:a292c542986f5a02dbea38033c578287e"><td class="mdescLeft">&#160;</td><td class="mdescRight">当前解析得到的 CLI 模式。  <br /></td></tr>
+<tr class="separator:a292c542986f5a02dbea38033c578287e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3511c1c64c23ee8c0589e11909838746" id="r_a3511c1c64c23ee8c0589e11909838746"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a3511c1c64c23ee8c0589e11909838746">m_hasConvertCommand</a> = false</td></tr>
+<tr class="memdesc:a3511c1c64c23ee8c0589e11909838746"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否出现 convert 命令。  <br /></td></tr>
+<tr class="separator:a3511c1c64c23ee8c0589e11909838746"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55198ff2e58c813319c089b34f0ec825" id="r_a55198ff2e58c813319c089b34f0ec825"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a55198ff2e58c813319c089b34f0ec825">m_hasBomSubcommand</a> = false</td></tr>
+<tr class="memdesc:a55198ff2e58c813319c089b34f0ec825"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否出现 BOM 子命令。  <br /></td></tr>
+<tr class="separator:a55198ff2e58c813319c089b34f0ec825"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a33ca7a70f0168087a84c2fc87f22b977" id="r_a33ca7a70f0168087a84c2fc87f22b977"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a33ca7a70f0168087a84c2fc87f22b977">m_hasComponentSubcommand</a> = false</td></tr>
+<tr class="memdesc:a33ca7a70f0168087a84c2fc87f22b977"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否出现 component 子命令。  <br /></td></tr>
+<tr class="separator:a33ca7a70f0168087a84c2fc87f22b977"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8c414471ea14979821d46ef7df89ae3" id="r_ad8c414471ea14979821d46ef7df89ae3"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#ad8c414471ea14979821d46ef7df89ae3">m_hasBatchSubcommand</a> = false</td></tr>
+<tr class="memdesc:ad8c414471ea14979821d46ef7df89ae3"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否出现 batch 子命令。  <br /></td></tr>
+<tr class="separator:ad8c414471ea14979821d46ef7df89ae3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>命令行参数解析器 </p>
+<p>提供命令行参数解析功能，支持以下参数：</p><ul>
+<li>&ndash;debug, -d: 启用调试模式</li>
+<li>&ndash;log-level: 设置日志级别 (trace/debug/info/warn/error/fatal)</li>
+<li>&ndash;log-file: 指定日志文件路径</li>
+<li>&ndash;config: 指定配置文件路径</li>
+<li>&ndash;language: 设置语言 (zh_CN/en)</li>
+<li>&ndash;theme: 设置主题 (dark/light)</li>
+<li>&ndash;help, -h: 显示帮助信息</li>
+<li>&ndash;version, -v: 显示版本信息</li>
+<li>&ndash;portable: 便携模式（配置文件保存在程序目录）</li>
+<li>&ndash;sync-logging: 启用同步控制台日志输出（确保彩色日志显示，方便调试）</li>
+</ul>
+<p>CLI 模式子命令：</p><ul>
+<li>convert bom: 转换 BOM 表</li>
+<li>convert component: 转换单个元器件</li>
+<li>convert batch: 批量转换 </li>
+</ul>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00031">31</a> 行定义.</p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a5c902bfa2a7f922a55a692b1e489b5e5" name="a5c902bfa2a7f922a55a692b1e489b5e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c902bfa2a7f922a55a692b1e489b5e5">&#9670;&#160;</a></span>CliMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5">EasyKiConverter::CommandLineParser::CliMode</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>CLI 模式枚举 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a5c902bfa2a7f922a55a692b1e489b5e5a6adf97f83acf6453d4a6a4b1070f3754" name="a5c902bfa2a7f922a55a692b1e489b5e5a6adf97f83acf6453d4a6a4b1070f3754"></a>None&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c902bfa2a7f922a55a692b1e489b5e5a9f755a94f2112c25635d6515df8f0b37" name="a5c902bfa2a7f922a55a692b1e489b5e5a9f755a94f2112c25635d6515df8f0b37"></a>ConvertBom&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c902bfa2a7f922a55a692b1e489b5e5a343375a949f16c0f9ba4823edce87b98" name="a5c902bfa2a7f922a55a692b1e489b5e5a343375a949f16c0f9ba4823edce87b98"></a>ConvertComponent&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a5c902bfa2a7f922a55a692b1e489b5e5ab883bca62dae0a6120c96ed9e4df5092" name="a5c902bfa2a7f922a55a692b1e489b5e5ab883bca62dae0a6120c96ed9e4df5092"></a>ConvertBatch&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00036">36</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a8308f418bcc5b201085d82bada0cd458" name="a8308f418bcc5b201085d82bada0cd458"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8308f418bcc5b201085d82bada0cd458">&#9670;&#160;</a></span>CommandLineParser()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::CommandLineParser::CommandLineParser </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>argc</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>argv</em>[]&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argc</td><td>参数数量 </td></tr>
+    <tr><td class="paramname">argv</td><td>参数列表 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00013">13</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00341">m_argc</a>, <a class="el" href="CommandLineParser_8h_source.html#l00342">m_argv</a>, <a class="el" href="CommandLineParser_8h_source.html#l00379">m_completeOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00378">m_completionOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ab44daaa96fc92e92edf9e9d66a0789ba" name="ab44daaa96fc92e92edf9e9d66a0789ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab44daaa96fc92e92edf9e9d66a0789ba">&#9670;&#160;</a></span>cacheDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::cacheDir </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取缓存目录 </p>
+<p>返回命令行指定的缓存目录。</p>
+<dl class="section return"><dt>返回</dt><dd>缓存目录路径 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00240">240</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00353">m_cacheDirOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a9570aaa33ad1f5f49973f8ce0a0f2a48" name="a9570aaa33ad1f5f49973f8ce0a0f2a48"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9570aaa33ad1f5f49973f8ce0a0f2a48">&#9670;&#160;</a></span>cliHelpText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::cliHelpText </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取 CLI 帮助文本 </p>
+<p>生成 CLI 子命令、选项和示例的帮助文本。</p>
+<dl class="section return"><dt>返回</dt><dd>CLI 帮助文本 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00641">641</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a5245e2bdd7d02f41f826f815fc6686dd" name="a5245e2bdd7d02f41f826f815fc6686dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5245e2bdd7d02f41f826f815fc6686dd">&#9670;&#160;</a></span>cliMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5">CommandLineParser::CliMode</a> EasyKiConverter::CommandLineParser::cliMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取 CLI 模式 </p>
+<p>返回已识别的 CLI 转换模式。</p>
+<dl class="section return"><dt>返回</dt><dd>CLI 模式枚举 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00497">497</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00381">m_cliMode</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliConverter_8cpp_source.html#l00038">EasyKiConverter::CliConverter::execute()</a>.</p>
+
+</div>
+</div>
+<a id="a588c1173ae27d167fe86a8f3a00246ec" name="a588c1173ae27d167fe86a8f3a00246ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a588c1173ae27d167fe86a8f3a00246ec">&#9670;&#160;</a></span>completeType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::completeType </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取动态补全类型 </p>
+<p>返回补全查询类型。</p>
+<dl class="section return"><dt>返回</dt><dd>补全类型字符串 (如 "lcsc-id") </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00731">731</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00379">m_completeOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a88b19be3fcade9182efbd5c6aef2a8e4" name="a88b19be3fcade9182efbd5c6aef2a8e4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88b19be3fcade9182efbd5c6aef2a8e4">&#9670;&#160;</a></span>completionShell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::completionShell </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取补全脚本类型 (bash/zsh/fish) </p>
+<p>返回规范化后的补全 Shell 类型。</p>
+<dl class="section return"><dt>返回</dt><dd>Shell 类型字符串 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00717">717</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00378">m_completionOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a48b165bd6f4d78c3bba3d335d1444f08" name="a48b165bd6f4d78c3bba3d335d1444f08"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a48b165bd6f4d78c3bba3d335d1444f08">&#9670;&#160;</a></span>componentId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::componentId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取 LCSC 元器件编号（用于单个元器件转换） </p>
+<p>返回 CLI 指定的元器件编号。</p>
+<dl class="section return"><dt>返回</dt><dd>LCSC 编号 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00525">525</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00360">m_componentOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentConverter_8cpp_source.html#l00024">EasyKiConverter::ComponentConverter::execute()</a>.</p>
+
+</div>
+</div>
+<a id="a2ec76542671d11083be985f5d6e81d9c" name="a2ec76542671d11083be985f5d6e81d9c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ec76542671d11083be985f5d6e81d9c">&#9670;&#160;</a></span>configFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::configFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取配置文件路径 </p>
+<p>返回配置文件路径。</p>
+<dl class="section return"><dt>返回</dt><dd>配置文件路径 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00191">191</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00348">m_configOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="aa9ea6f7757356af8bb7a0dfe740ba390" name="aa9ea6f7757356af8bb7a0dfe740ba390"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa9ea6f7757356af8bb7a0dfe740ba390">&#9670;&#160;</a></span>diskCacheLimitMB()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::CommandLineParser::diskCacheLimitMB </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取磁盘缓存大小限制 </p>
+<p>返回磁盘缓存上限，单位为 MB。</p>
+<dl class="section return"><dt>返回</dt><dd>缓存大小限制（MB） </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00254">254</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00354">m_diskCacheLimitOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+</div>
+</div>
+<a id="aff4eab7672b65e12d40bf23d1bfe942c" name="aff4eab7672b65e12d40bf23d1bfe942c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff4eab7672b65e12d40bf23d1bfe942c">&#9670;&#160;</a></span>export3DModel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::export3DModel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否导出 3D 模型 </p>
+<p>返回三维模型导出开关。</p>
+<dl class="section return"><dt>返回</dt><dd>导出返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00548">548</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00363">m_3dModelOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="ad241182ffccdee7f8ac4ca4d999ebe9a" name="ad241182ffccdee7f8ac4ca4d999ebe9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad241182ffccdee7f8ac4ca4d999ebe9a">&#9670;&#160;</a></span>exportDatasheet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::exportDatasheet </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否导出数据手册 </p>
+<p>返回数据手册导出开关。</p>
+<dl class="section return"><dt>返回</dt><dd>导出返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00563">563</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00365">m_datasheetOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a0503ae577b57d9ab4b51c5d611b1b44b" name="a0503ae577b57d9ab4b51c5d611b1b44b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0503ae577b57d9ab4b51c5d611b1b44b">&#9670;&#160;</a></span>exportFootprint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::exportFootprint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否导出封装库 </p>
+<p>返回封装导出开关，未设置时默认开启。</p>
+<dl class="section return"><dt>返回</dt><dd>导出返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00540">540</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00362">m_footprintOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a116eaae3c4c5a314ba8e8368ef51150b" name="a116eaae3c4c5a314ba8e8368ef51150b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a116eaae3c4c5a314ba8e8368ef51150b">&#9670;&#160;</a></span>exportPreview()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::exportPreview </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否导出预览图 </p>
+<p>返回预览图导出开关。</p>
+<dl class="section return"><dt>返回</dt><dd>导出返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00570">570</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00366">m_previewOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="ac39890a342c537d1f4ffeea44a244fa1" name="ac39890a342c537d1f4ffeea44a244fa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac39890a342c537d1f4ffeea44a244fa1">&#9670;&#160;</a></span>exportSymbol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::exportSymbol </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否导出符号库 </p>
+<p>返回符号导出开关，未设置时默认开启。</p>
+<dl class="section return"><dt>返回</dt><dd>导出返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00532">532</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00361">m_symbolOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a817a705133f5b6ab86aab743574152a7" name="a817a705133f5b6ab86aab743574152a7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a817a705133f5b6ab86aab743574152a7">&#9670;&#160;</a></span>footprintDescription()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::footprintDescription </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取封装库描述文本 </p>
+<p>返回封装库描述文本。</p>
+<dl class="section return"><dt>返回</dt><dd>描述文本 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00627">627</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00374">m_footprintDescriptionOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a5f53e456a6b3da3501dc318ec2095ab5" name="a5f53e456a6b3da3501dc318ec2095ab5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f53e456a6b3da3501dc318ec2095ab5">&#9670;&#160;</a></span>hasConvertCommand()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::hasConvertCommand </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否包含 convert 命令（无论子命令是否有效） </p>
+<p>判断命令行是否包含 convert 主命令。</p>
+<dl class="section return"><dt>返回</dt><dd>convert 命令存在返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00738">738</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00382">m_hasConvertCommand</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="aec01d093f7eea242c8bc2ebe34733700" name="aec01d093f7eea242c8bc2ebe34733700"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec01d093f7eea242c8bc2ebe34733700">&#9670;&#160;</a></span>helpText()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::helpText </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取帮助文本 </p>
+<p>返回通用命令行帮助文本。</p>
+<dl class="section return"><dt>返回</dt><dd>帮助文本 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00261">261</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="ad8edfc5642f3e7ad4dcc8a91ce057884" name="ad8edfc5642f3e7ad4dcc8a91ce057884"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8edfc5642f3e7ad4dcc8a91ce057884">&#9670;&#160;</a></span>inputFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::inputFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取输入文件路径（用于 BOM 表和批量转换） </p>
+<p>返回 CLI 输入文件路径。</p>
+<dl class="section return"><dt>返回</dt><dd>输入文件路径 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00504">504</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00357">m_inputOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+</div>
+</div>
+<a id="a90db2bb138ad3fde34da31eddf83a94f" name="a90db2bb138ad3fde34da31eddf83a94f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90db2bb138ad3fde34da31eddf83a94f">&#9670;&#160;</a></span>isCacheDirSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isCacheDirSet </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否显式指定了缓存目录 </p>
+<p>判断是否显式设置了缓存目录。</p>
+<dl class="section return"><dt>返回</dt><dd>指定返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00233">233</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00353">m_cacheDirOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+</div>
+</div>
+<a id="a7c09cb25fa42e338e4678807e1266a53" name="a7c09cb25fa42e338e4678807e1266a53"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7c09cb25fa42e338e4678807e1266a53">&#9670;&#160;</a></span>isCliMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isCliMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否处于 CLI 模式 </p>
+<p>判断当前是否进入 CLI 转换模式。</p>
+<dl class="section return"><dt>返回</dt><dd>CLI 模式返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00490">490</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00381">m_cliMode</a> , 以及 <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a6adf97f83acf6453d4a6a4b1070f3754">None</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a7fba9a9f881d15106a0e9b776c8de9fd" name="a7fba9a9f881d15106a0e9b776c8de9fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7fba9a9f881d15106a0e9b776c8de9fd">&#9670;&#160;</a></span>isCompleteRequested()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isCompleteRequested </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否请求动态补全数据 </p>
+<p>判断是否请求执行补全查询。</p>
+<dl class="section return"><dt>返回</dt><dd>请求返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00724">724</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00379">m_completeOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a76d7466e151ab4f942cb949d25383f96" name="a76d7466e151ab4f942cb949d25383f96"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a76d7466e151ab4f942cb949d25383f96">&#9670;&#160;</a></span>isCompletionRequested()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isCompletionRequested </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否请求生成补全脚本 </p>
+<p>判断是否请求生成补全脚本。</p>
+<dl class="section return"><dt>返回</dt><dd>请求返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00710">710</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00378">m_completionOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a8c32743b0a6c3475bdbd01ca77538672" name="a8c32743b0a6c3475bdbd01ca77538672"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8c32743b0a6c3475bdbd01ca77538672">&#9670;&#160;</a></span>isDebugMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isDebugMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否启用调试模式 </p>
+<p>返回是否启用了调试模式选项。</p>
+<dl class="section return"><dt>返回</dt><dd>启用返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00170">170</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00345">m_debugOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a> , 以及 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="af03eac2e693109788c3f88849514fbc9" name="af03eac2e693109788c3f88849514fbc9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af03eac2e693109788c3f88849514fbc9">&#9670;&#160;</a></span>isDiskCacheLimitSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isDiskCacheLimitSet </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否显式指定了磁盘缓存大小 </p>
+<p>判断是否显式设置了磁盘缓存上限。</p>
+<dl class="section return"><dt>返回</dt><dd>指定返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00247">247</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00354">m_diskCacheLimitOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+</div>
+</div>
+<a id="af2fe0bd53a969c9bdd17570b85fb58d3" name="af2fe0bd53a969c9bdd17570b85fb58d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2fe0bd53a969c9bdd17570b85fb58d3">&#9670;&#160;</a></span>isHelpRequested()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isHelpRequested </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否显示帮助信息 </p>
+<p>判断是否请求显示帮助。</p>
+<dl class="section return"><dt>返回</dt><dd>显示返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00268">268</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+</div>
+</div>
+<a id="a0af375e1ff507962d206e0c41560d1e6" name="a0af375e1ff507962d206e0c41560d1e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0af375e1ff507962d206e0c41560d1e6">&#9670;&#160;</a></span>isPortableMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isPortableMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否为便携模式 </p>
+<p>判断是否启用了便携模式。</p>
+<dl class="section return"><dt>返回</dt><dd>便携模式返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00219">219</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00351">m_portableOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="aca3a7861cd9b9531c36bf9d92a103ff5" name="aca3a7861cd9b9531c36bf9d92a103ff5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca3a7861cd9b9531c36bf9d92a103ff5">&#9670;&#160;</a></span>isQuietMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isQuietMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否为安静模式 </p>
+<p>返回安静模式开关。</p>
+<dl class="section return"><dt>返回</dt><dd>安静模式返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00584">584</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00368">m_quietOption</a>.</p>
+
+</div>
+</div>
+<a id="a343d74961a3d39da69dbf8b68f0364ae" name="a343d74961a3d39da69dbf8b68f0364ae"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a343d74961a3d39da69dbf8b68f0364ae">&#9670;&#160;</a></span>isSyncLogging()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isSyncLogging </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否启用同步控制台日志输出 </p>
+<p>判断是否启用了同步日志。</p>
+<dl class="section return"><dt>返回</dt><dd>启用返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00226">226</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00352">m_syncLoggingOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a890d46dc3973258bd3b004b0f377c7ec" name="a890d46dc3973258bd3b004b0f377c7ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a890d46dc3973258bd3b004b0f377c7ec">&#9670;&#160;</a></span>isThemeSet()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isThemeSet </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否显式指定了主题参数 </p>
+<p>判断是否显式设置了主题。</p>
+<dl class="section return"><dt>返回</dt><dd>用户指定了 &ndash;theme 参数返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00212">212</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00350">m_themeOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="aeff413a2beb056245ffeaf3aa011bda9" name="aeff413a2beb056245ffeaf3aa011bda9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeff413a2beb056245ffeaf3aa011bda9">&#9670;&#160;</a></span>isVersionRequested()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::isVersionRequested </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否显示版本信息 </p>
+<p>判断是否请求显示版本。</p>
+<dl class="section return"><dt>返回</dt><dd>显示返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00277">277</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+</div>
+</div>
+<a id="a2647d59fd1285749a9e78cb669a4297e" name="a2647d59fd1285749a9e78cb669a4297e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2647d59fd1285749a9e78cb669a4297e">&#9670;&#160;</a></span>language()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::language </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取语言设置 </p>
+<p>返回命令行指定的语言。</p>
+<dl class="section return"><dt>返回</dt><dd>语言代码 (zh_CN/en) </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00198">198</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00349">m_languageOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a5be4f5ec88f080dd856cb2ea585c1db7" name="a5be4f5ec88f080dd856cb2ea585c1db7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5be4f5ec88f080dd856cb2ea585c1db7">&#9670;&#160;</a></span>libName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::libName </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取导出库名称 </p>
+<p>返回 CLI 导出库名称。</p>
+<dl class="section return"><dt>返回</dt><dd>库名称 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00518">518</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00359">m_libNameOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a0607fc9e3b356fe8034cfcad17faa340" name="a0607fc9e3b356fe8034cfcad17faa340"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0607fc9e3b356fe8034cfcad17faa340">&#9670;&#160;</a></span>logFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::logFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取日志文件路径 </p>
+<p>返回日志文件路径。</p>
+<dl class="section return"><dt>返回</dt><dd>日志文件路径 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00184">184</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00347">m_logFileOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a5432eef61c0f028ee455fb6fe75ca4eb" name="a5432eef61c0f028ee455fb6fe75ca4eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5432eef61c0f028ee455fb6fe75ca4eb">&#9670;&#160;</a></span>logLevel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::logLevel </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取日志级别 </p>
+<p>返回规范化后的日志级别。</p>
+<dl class="section return"><dt>返回</dt><dd>日志级别字符串 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00177">177</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00346">m_logLevelOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="ad6ca6abd9d64fa01a7a6cbb3e4e749f2" name="ad6ca6abd9d64fa01a7a6cbb3e4e749f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6ca6abd9d64fa01a7a6cbb3e4e749f2">&#9670;&#160;</a></span>model3DFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::model3DFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取 3D 模型导出格式 </p>
+<p>返回规范化后的三维模型格式。</p>
+<dl class="section return"><dt>返回</dt><dd>格式名称 (wrl/step/both) </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00556">556</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00364">m_3dModelFormatOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a08f13e697592700d555360b1d1cb8302" name="a08f13e697592700d555360b1d1cb8302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08f13e697592700d555360b1d1cb8302">&#9670;&#160;</a></span>model3DPathMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::model3DPathMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取 3D 模型路径模式 </p>
+<p>返回规范化后的三维模型路径模式。</p>
+<dl class="section return"><dt>返回</dt><dd>路径模式名称 (relative/absolute) </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00605">605</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00371">m_3dPathModeOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="aea4ff37935de46c1b460efa82a42c1b8" name="aea4ff37935de46c1b460efa82a42c1b8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea4ff37935de46c1b460efa82a42c1b8">&#9670;&#160;</a></span>outputDir()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::outputDir </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取输出目录路径 </p>
+<p>返回 CLI 输出目录路径。</p>
+<dl class="section return"><dt>返回</dt><dd>输出目录路径 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00511">511</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00358">m_outputOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="aa159197b5ac79f85c3a245d9a090a3d4" name="aa159197b5ac79f85c3a245d9a090a3d4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa159197b5ac79f85c3a245d9a090a3d4">&#9670;&#160;</a></span>overwriteExistingFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::overwriteExistingFiles </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否覆盖已存在的文件（默认 true，&ndash;no-overwrite 禁用） </p>
+<p>返回是否允许覆盖已有文件。</p>
+<dl class="section return"><dt>返回</dt><dd>覆盖返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00612">612</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00372">m_overwriteOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a71b2a0b4f10539faa78fc68c7386225b" name="a71b2a0b4f10539faa78fc68c7386225b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71b2a0b4f10539faa78fc68c7386225b">&#9670;&#160;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::parse </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>解析命令行参数 </p>
+<p>解析保存的命令行参数并识别转换子命令。</p>
+<dl class="section return"><dt>返回</dt><dd>解析成功返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00120">120</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5ab883bca62dae0a6120c96ed9e4df5092">ConvertBatch</a>, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a9f755a94f2112c25635d6515df8f0b37">ConvertBom</a>, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a343375a949f16c0f9ba4823edce87b98">ConvertComponent</a>, <a class="el" href="CommandLineParser_8h_source.html#l00341">m_argc</a>, <a class="el" href="CommandLineParser_8h_source.html#l00342">m_argv</a>, <a class="el" href="CommandLineParser_8h_source.html#l00381">m_cliMode</a>, <a class="el" href="CommandLineParser_8h_source.html#l00385">m_hasBatchSubcommand</a>, <a class="el" href="CommandLineParser_8h_source.html#l00383">m_hasBomSubcommand</a>, <a class="el" href="CommandLineParser_8h_source.html#l00384">m_hasComponentSubcommand</a>, <a class="el" href="CommandLineParser_8h_source.html#l00382">m_hasConvertCommand</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a8bb8aa6f8000097c065ae21af0d7b34d" name="a8bb8aa6f8000097c065ae21af0d7b34d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8bb8aa6f8000097c065ae21af0d7b34d">&#9670;&#160;</a></span>positionalArguments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::CommandLineParser::positionalArguments </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取剩余的未解析参数 </p>
+<p>返回未被选项消费的位置参数。</p>
+<dl class="section return"><dt>返回</dt><dd>未解析参数列表 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00286">286</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>.</p>
+
+</div>
+</div>
+<a id="acb51d22ff34a27a20a9a881ef30436ef" name="acb51d22ff34a27a20a9a881ef30436ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb51d22ff34a27a20a9a881ef30436ef">&#9670;&#160;</a></span>setupCliOptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::CommandLineParser::setupCliOptions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>注册 CLI 转换相关选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">95</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00364">m_3dModelFormatOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00363">m_3dModelOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00371">m_3dPathModeOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00360">m_componentOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00365">m_datasheetOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00374">m_footprintDescriptionOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00362">m_footprintOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00357">m_inputOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00359">m_libNameOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00358">m_outputOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00372">m_overwriteOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>, <a class="el" href="CommandLineParser_8h_source.html#l00366">m_previewOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00367">m_progressOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00368">m_quietOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00373">m_symbolDescriptionOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00361">m_symbolOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00375">m_targetFormatOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00370">m_updateModeOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00369">m_weakNetworkOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00013">CommandLineParser()</a>.</p>
+
+</div>
+</div>
+<a id="a4d7e51041ab0e882413001ba7f117172" name="a4d7e51041ab0e882413001ba7f117172"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4d7e51041ab0e882413001ba7f117172">&#9670;&#160;</a></span>setupOptions()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::CommandLineParser::setupOptions </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>注册通用应用选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00078">78</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00353">m_cacheDirOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00348">m_configOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00345">m_debugOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00354">m_diskCacheLimitOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00349">m_languageOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00347">m_logFileOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00346">m_logLevelOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>, <a class="el" href="CommandLineParser_8h_source.html#l00351">m_portableOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00352">m_syncLoggingOption</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00350">m_themeOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00013">CommandLineParser()</a>.</p>
+
+</div>
+</div>
+<a id="a5221d9560b13ede8fd15937e807e01af" name="a5221d9560b13ede8fd15937e807e01af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5221d9560b13ede8fd15937e807e01af">&#9670;&#160;</a></span>showProgress()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::showProgress </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否显示进度条 </p>
+<p>返回进度显示开关。</p>
+<dl class="section return"><dt>返回</dt><dd>显示返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00577">577</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00367">m_progressOption</a>.</p>
+
+</div>
+</div>
+<a id="a77377a4aad33082c85e5d5d34b7f401d" name="a77377a4aad33082c85e5d5d34b7f401d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77377a4aad33082c85e5d5d34b7f401d">&#9670;&#160;</a></span>symbolDescription()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::symbolDescription </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取符号库描述文本 </p>
+<p>返回符号库描述文本。</p>
+<dl class="section return"><dt>返回</dt><dd>描述文本 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00620">620</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00373">m_symbolDescriptionOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="aa4e8ecfbd61b23c346f9cc4b191847d6" name="aa4e8ecfbd61b23c346f9cc4b191847d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4e8ecfbd61b23c346f9cc4b191847d6">&#9670;&#160;</a></span>targetFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::targetFormat </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取目标 EDA 格式 </p>
+<p>返回规范化后的目标 EDA 格式。</p>
+<dl class="section return"><dt>返回</dt><dd>格式字符串（"kicad" 或 "altium"），默认 "kicad" </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00634">634</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00375">m_targetFormatOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="ac72211e5b65eced20ab3c6d0fe0364f6" name="ac72211e5b65eced20ab3c6d0fe0364f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac72211e5b65eced20ab3c6d0fe0364f6">&#9670;&#160;</a></span>theme()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::theme </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取主题设置 </p>
+<p>返回规范化后的主题名称。</p>
+<dl class="section return"><dt>返回</dt><dd>主题名称 (dark/light) </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00205">205</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00350">m_themeOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a95709bee5b5829aa98bc36cbab0d6fb8" name="a95709bee5b5829aa98bc36cbab0d6fb8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95709bee5b5829aa98bc36cbab0d6fb8">&#9670;&#160;</a></span>updateMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::updateMode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否启用更新模式（仅导出缺失或已更改的文件） </p>
+<p>返回更新导出模式开关。</p>
+<dl class="section return"><dt>返回</dt><dd>启用返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00598">598</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00370">m_updateModeOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a1a262a36db07d8568b02db9b3b9f4336" name="a1a262a36db07d8568b02db9b3b9f4336"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a262a36db07d8568b02db9b3b9f4336">&#9670;&#160;</a></span>validate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::validate </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>验证参数值的有效性 </p>
+<p>校验通用选项和 CLI 转换选项的组合是否合法。</p>
+<dl class="section return"><dt>返回</dt><dd>所有参数有效返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00293">293</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8cpp_source.html#l00240">cacheDir()</a>, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5ab883bca62dae0a6120c96ed9e4df5092">ConvertBatch</a>, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a9f755a94f2112c25635d6515df8f0b37">ConvertBom</a>, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a343375a949f16c0f9ba4823edce87b98">ConvertComponent</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00490">isCliMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00198">language()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00177">logLevel()</a>, <a class="el" href="CommandLineParser_8h_source.html#l00364">m_3dModelFormatOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00371">m_3dPathModeOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00353">m_cacheDirOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00381">m_cliMode</a>, <a class="el" href="CommandLineParser_8h_source.html#l00360">m_componentOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00354">m_diskCacheLimitOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00357">m_inputOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00349">m_languageOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00346">m_logLevelOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00358">m_outputOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>, <a class="el" href="CommandLineParser_8h_source.html#l00350">m_themeOption</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00556">model3DFormat()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00605">model3DPathMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00205">theme()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00009">EasyKiConverter::VALID_3D_MODEL_FORMATS</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00011">EasyKiConverter::VALID_3D_PATH_MODES</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="ac795378e1571440dc9c8eafbe44c494b" name="ac795378e1571440dc9c8eafbe44c494b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac795378e1571440dc9c8eafbe44c494b">&#9670;&#160;</a></span>validationError()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::CommandLineParser::validationError </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取验证错误信息 </p>
+<p>汇总命令行参数校验错误，供 CLI 调用方展示。</p>
+<dl class="section return"><dt>返回</dt><dd>错误信息字符串 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">383</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8cpp_source.html#l00240">cacheDir()</a>, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5ab883bca62dae0a6120c96ed9e4df5092">ConvertBatch</a>, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a9f755a94f2112c25635d6515df8f0b37">ConvertBom</a>, <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a343375a949f16c0f9ba4823edce87b98">ConvertComponent</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00490">isCliMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00198">language()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00177">logLevel()</a>, <a class="el" href="CommandLineParser_8h_source.html#l00364">m_3dModelFormatOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00371">m_3dPathModeOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00353">m_cacheDirOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00381">m_cliMode</a>, <a class="el" href="CommandLineParser_8h_source.html#l00360">m_componentOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00354">m_diskCacheLimitOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00357">m_inputOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00349">m_languageOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00346">m_logLevelOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00358">m_outputOption</a>, <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a>, <a class="el" href="CommandLineParser_8h_source.html#l00350">m_themeOption</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00556">model3DFormat()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00605">model3DPathMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00205">theme()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00009">EasyKiConverter::VALID_3D_MODEL_FORMATS</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00011">EasyKiConverter::VALID_3D_PATH_MODES</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="main_8cpp_source.html#l00436">main()</a>.</p>
+
+</div>
+</div>
+<a id="a9ab1c43cc17adad855684ae5027fcc00" name="a9ab1c43cc17adad855684ae5027fcc00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9ab1c43cc17adad855684ae5027fcc00">&#9670;&#160;</a></span>weakNetworkSupport()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::weakNetworkSupport </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否启用弱网模式 </p>
+<p>返回弱网络适配开关。</p>
+<dl class="section return"><dt>返回</dt><dd>启用返回 true，否则返回 false </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a> 第 <a class="el" href="CommandLineParser_8cpp_source.html#l00591">591</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CommandLineParser_8h_source.html#l00344">m_parser</a> , 以及 <a class="el" href="CommandLineParser_8h_source.html#l00369">m_weakNetworkOption</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CliContext_8cpp_source.html#l00054">EasyKiConverter::CliContext::createExportOptions()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a957f61ba27ac68c2bac9733e57e791b4" name="a957f61ba27ac68c2bac9733e57e791b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a957f61ba27ac68c2bac9733e57e791b4">&#9670;&#160;</a></span>m_3dModelFormatOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_3dModelFormatOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>三维模型格式选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00364">364</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00556">model3DFormat()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="ad6d6008870ec349e4a575e5ab0b2a373" name="ad6d6008870ec349e4a575e5ab0b2a373"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad6d6008870ec349e4a575e5ab0b2a373">&#9670;&#160;</a></span>m_3dModelOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_3dModelOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>三维模型导出选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00363">363</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00548">export3DModel()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="aa5950206a2fcbf15a3b25d0ce4e2f9a9" name="aa5950206a2fcbf15a3b25d0ce4e2f9a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5950206a2fcbf15a3b25d0ce4e2f9a9">&#9670;&#160;</a></span>m_3dPathModeOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_3dPathModeOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>三维模型路径模式选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00371">371</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00605">model3DPathMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a3a7c41610d4d87134a21b7a75168af2e" name="a3a7c41610d4d87134a21b7a75168af2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a7c41610d4d87134a21b7a75168af2e">&#9670;&#160;</a></span>m_argc</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::CommandLineParser::m_argc = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保存初始化阶段传入的命令行参数数量。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00341">341</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00013">CommandLineParser()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00120">parse()</a>.</p>
+
+</div>
+</div>
+<a id="a77332b691c001edee23964901408882c" name="a77332b691c001edee23964901408882c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77332b691c001edee23964901408882c">&#9670;&#160;</a></span>m_argv</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">char** EasyKiConverter::CommandLineParser::m_argv = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保存初始化阶段传入的命令行参数数组。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00342">342</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00013">CommandLineParser()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00120">parse()</a>.</p>
+
+</div>
+</div>
+<a id="ad41e359a2e95997e42938dc4e3e40a33" name="ad41e359a2e95997e42938dc4e3e40a33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad41e359a2e95997e42938dc4e3e40a33">&#9670;&#160;</a></span>m_cacheDirOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_cacheDirOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>缓存目录选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00353">353</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00240">cacheDir()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00233">isCacheDirSet()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a292c542986f5a02dbea38033c578287e" name="a292c542986f5a02dbea38033c578287e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a292c542986f5a02dbea38033c578287e">&#9670;&#160;</a></span>m_cliMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5">CliMode</a> EasyKiConverter::CommandLineParser::m_cliMode = <a class="el" href="classEasyKiConverter_1_1CommandLineParser.html#a5c902bfa2a7f922a55a692b1e489b5e5a6adf97f83acf6453d4a6a4b1070f3754">CliMode::None</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>当前解析得到的 CLI 模式。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00381">381</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00497">cliMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00490">isCliMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00120">parse()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a885d3f40fd48d31f2d81aa3c2a6aa3c7" name="a885d3f40fd48d31f2d81aa3c2a6aa3c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a885d3f40fd48d31f2d81aa3c2a6aa3c7">&#9670;&#160;</a></span>m_completeOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_completeOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>动态补全数据请求选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00379">379</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00013">CommandLineParser()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00731">completeType()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00724">isCompleteRequested()</a>.</p>
+
+</div>
+</div>
+<a id="a296cec30802bd1d6efde66fda3738ce5" name="a296cec30802bd1d6efde66fda3738ce5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a296cec30802bd1d6efde66fda3738ce5">&#9670;&#160;</a></span>m_completionOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_completionOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Shell 补全脚本生成选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00378">378</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00013">CommandLineParser()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00717">completionShell()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00710">isCompletionRequested()</a>.</p>
+
+</div>
+</div>
+<a id="ae641368ffb0aac614f4e7de5d3a0d236" name="ae641368ffb0aac614f4e7de5d3a0d236"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae641368ffb0aac614f4e7de5d3a0d236">&#9670;&#160;</a></span>m_componentOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_componentOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>元器件编号列表选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00360">360</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00525">componentId()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a7b59c4717723e12d36a3b48b8fa22ee0" name="a7b59c4717723e12d36a3b48b8fa22ee0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b59c4717723e12d36a3b48b8fa22ee0">&#9670;&#160;</a></span>m_configOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_configOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>配置文件路径选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00348">348</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00191">configFile()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a2c4acceeb778d48d12d5fba94781b56e" name="a2c4acceeb778d48d12d5fba94781b56e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c4acceeb778d48d12d5fba94781b56e">&#9670;&#160;</a></span>m_datasheetOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_datasheetOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>数据手册导出选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00365">365</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00563">exportDatasheet()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a2a20e82359102100a3652c897f7ecc91" name="a2a20e82359102100a3652c897f7ecc91"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2a20e82359102100a3652c897f7ecc91">&#9670;&#160;</a></span>m_debugOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_debugOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>调试模式选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00345">345</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00170">isDebugMode()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a35bff199b429dc04a6472b7e00e9661d" name="a35bff199b429dc04a6472b7e00e9661d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35bff199b429dc04a6472b7e00e9661d">&#9670;&#160;</a></span>m_diskCacheLimitOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_diskCacheLimitOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>磁盘缓存上限选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00354">354</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00254">diskCacheLimitMB()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00247">isDiskCacheLimitSet()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="aaa5ca570aa2b7e2e88339890419341c3" name="aaa5ca570aa2b7e2e88339890419341c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa5ca570aa2b7e2e88339890419341c3">&#9670;&#160;</a></span>m_footprintDescriptionOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_footprintDescriptionOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>封装库描述选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00374">374</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00627">footprintDescription()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a34ba8115ff71e9528114e03c6ef2476a" name="a34ba8115ff71e9528114e03c6ef2476a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34ba8115ff71e9528114e03c6ef2476a">&#9670;&#160;</a></span>m_footprintOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_footprintOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>封装库导出选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00362">362</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00540">exportFootprint()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="ad8c414471ea14979821d46ef7df89ae3" name="ad8c414471ea14979821d46ef7df89ae3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8c414471ea14979821d46ef7df89ae3">&#9670;&#160;</a></span>m_hasBatchSubcommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::m_hasBatchSubcommand = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否出现 batch 子命令。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00385">385</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00120">parse()</a>.</p>
+
+</div>
+</div>
+<a id="a55198ff2e58c813319c089b34f0ec825" name="a55198ff2e58c813319c089b34f0ec825"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55198ff2e58c813319c089b34f0ec825">&#9670;&#160;</a></span>m_hasBomSubcommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::m_hasBomSubcommand = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否出现 BOM 子命令。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00383">383</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00120">parse()</a>.</p>
+
+</div>
+</div>
+<a id="a33ca7a70f0168087a84c2fc87f22b977" name="a33ca7a70f0168087a84c2fc87f22b977"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a33ca7a70f0168087a84c2fc87f22b977">&#9670;&#160;</a></span>m_hasComponentSubcommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::m_hasComponentSubcommand = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否出现 component 子命令。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00384">384</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00120">parse()</a>.</p>
+
+</div>
+</div>
+<a id="a3511c1c64c23ee8c0589e11909838746" name="a3511c1c64c23ee8c0589e11909838746"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3511c1c64c23ee8c0589e11909838746">&#9670;&#160;</a></span>m_hasConvertCommand</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CommandLineParser::m_hasConvertCommand = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>是否出现 convert 命令。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00382">382</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00738">hasConvertCommand()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00120">parse()</a>.</p>
+
+</div>
+</div>
+<a id="a328a4a1394718bc5256deec074197165" name="a328a4a1394718bc5256deec074197165"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a328a4a1394718bc5256deec074197165">&#9670;&#160;</a></span>m_inputOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_inputOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>输入文件或数据源选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00357">357</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00504">inputFile()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="ad1860161d10510a6eef16e7be6e81a98" name="ad1860161d10510a6eef16e7be6e81a98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1860161d10510a6eef16e7be6e81a98">&#9670;&#160;</a></span>m_languageOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_languageOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>界面语言选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00349">349</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00198">language()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a9f46e34f94dcfe2727718e6bf8450e5b" name="a9f46e34f94dcfe2727718e6bf8450e5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f46e34f94dcfe2727718e6bf8450e5b">&#9670;&#160;</a></span>m_libNameOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_libNameOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>库名称选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00359">359</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00518">libName()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="aeb5402d1babb1949b81556347b52458c" name="aeb5402d1babb1949b81556347b52458c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb5402d1babb1949b81556347b52458c">&#9670;&#160;</a></span>m_logFileOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_logFileOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>日志文件路径选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00347">347</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00184">logFile()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a35f59ab1a4ecb12e32317cd7241215cf" name="a35f59ab1a4ecb12e32317cd7241215cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35f59ab1a4ecb12e32317cd7241215cf">&#9670;&#160;</a></span>m_logLevelOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_logLevelOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>日志级别选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00346">346</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00177">logLevel()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a863532dc3e1a77858f8a8d7720e01e0b" name="a863532dc3e1a77858f8a8d7720e01e0b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a863532dc3e1a77858f8a8d7720e01e0b">&#9670;&#160;</a></span>m_outputOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_outputOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>输出目录选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00358">358</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00511">outputDir()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="a37910c78c5d05aac4392c88985f7bf47" name="a37910c78c5d05aac4392c88985f7bf47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37910c78c5d05aac4392c88985f7bf47">&#9670;&#160;</a></span>m_overwriteOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_overwriteOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>覆盖已有文件选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00372">372</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00612">overwriteExistingFiles()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="acd497048f7ab1d509cf8e52c2511eb15" name="acd497048f7ab1d509cf8e52c2511eb15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd497048f7ab1d509cf8e52c2511eb15">&#9670;&#160;</a></span>m_parser</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineParser EasyKiConverter::CommandLineParser::m_parser</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Qt 命令行参数解析器。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00344">344</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00013">CommandLineParser()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00240">cacheDir()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00731">completeType()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00717">completionShell()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00525">componentId()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00191">configFile()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00254">diskCacheLimitMB()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00548">export3DModel()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00563">exportDatasheet()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00540">exportFootprint()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00570">exportPreview()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00532">exportSymbol()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00627">footprintDescription()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00261">helpText()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00504">inputFile()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00233">isCacheDirSet()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00724">isCompleteRequested()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00710">isCompletionRequested()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00170">isDebugMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00247">isDiskCacheLimitSet()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00268">isHelpRequested()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00219">isPortableMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00584">isQuietMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00226">isSyncLogging()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00212">isThemeSet()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00277">isVersionRequested()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00198">language()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00518">libName()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00184">logFile()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00177">logLevel()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00556">model3DFormat()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00605">model3DPathMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00511">outputDir()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00612">overwriteExistingFiles()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00120">parse()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00286">positionalArguments()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00577">showProgress()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00620">symbolDescription()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00634">targetFormat()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00205">theme()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00598">updateMode()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00591">weakNetworkSupport()</a>.</p>
+
+</div>
+</div>
+<a id="a15d3be948c4a66b7d5f1126142b480c3" name="a15d3be948c4a66b7d5f1126142b480c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15d3be948c4a66b7d5f1126142b480c3">&#9670;&#160;</a></span>m_portableOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_portableOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>便携模式选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00351">351</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00219">isPortableMode()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a2e5531fa7116dcd44fb38a5e24c099b4" name="a2e5531fa7116dcd44fb38a5e24c099b4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e5531fa7116dcd44fb38a5e24c099b4">&#9670;&#160;</a></span>m_previewOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_previewOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>预览图导出选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00366">366</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00570">exportPreview()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="a4197247e5b26974b4641f3b923d5f40e" name="a4197247e5b26974b4641f3b923d5f40e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4197247e5b26974b4641f3b923d5f40e">&#9670;&#160;</a></span>m_progressOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_progressOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>进度输出选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00367">367</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00577">showProgress()</a>.</p>
+
+</div>
+</div>
+<a id="a74f1e89f716a4a5570930bbca275d8bd" name="a74f1e89f716a4a5570930bbca275d8bd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74f1e89f716a4a5570930bbca275d8bd">&#9670;&#160;</a></span>m_quietOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_quietOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>静默输出选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00368">368</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00584">isQuietMode()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="ad0489c3ccfee207a67abe6dbb7e13109" name="ad0489c3ccfee207a67abe6dbb7e13109"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0489c3ccfee207a67abe6dbb7e13109">&#9670;&#160;</a></span>m_symbolDescriptionOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_symbolDescriptionOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>符号库描述选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00373">373</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00620">symbolDescription()</a>.</p>
+
+</div>
+</div>
+<a id="a09cda0614040f948a1a340ad8b771880" name="a09cda0614040f948a1a340ad8b771880"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09cda0614040f948a1a340ad8b771880">&#9670;&#160;</a></span>m_symbolOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_symbolOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>符号库导出选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00361">361</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00532">exportSymbol()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a>.</p>
+
+</div>
+</div>
+<a id="ac8a3f36e703bc3b39309c69bea747c17" name="ac8a3f36e703bc3b39309c69bea747c17"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8a3f36e703bc3b39309c69bea747c17">&#9670;&#160;</a></span>m_syncLoggingOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_syncLoggingOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>同步日志选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00352">352</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00226">isSyncLogging()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>.</p>
+
+</div>
+</div>
+<a id="aa187685e35eb711c7e38ea35e46710f1" name="aa187685e35eb711c7e38ea35e46710f1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa187685e35eb711c7e38ea35e46710f1">&#9670;&#160;</a></span>m_targetFormatOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_targetFormatOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>目标格式选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00375">375</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00634">targetFormat()</a>.</p>
+
+</div>
+</div>
+<a id="a941ae89c21b3b0c95b8cc3b2127f0389" name="a941ae89c21b3b0c95b8cc3b2127f0389"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a941ae89c21b3b0c95b8cc3b2127f0389">&#9670;&#160;</a></span>m_themeOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_themeOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>界面主题选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00350">350</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00212">isThemeSet()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00078">setupOptions()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00205">theme()</a>, <a class="el" href="CommandLineParser_8cpp_source.html#l00293">validate()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00383">validationError()</a>.</p>
+
+</div>
+</div>
+<a id="ac97d12fe469e0cb1a4db0f2e46f7d2f0" name="ac97d12fe469e0cb1a4db0f2e46f7d2f0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac97d12fe469e0cb1a4db0f2e46f7d2f0">&#9670;&#160;</a></span>m_updateModeOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_updateModeOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出更新模式选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00370">370</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00598">updateMode()</a>.</p>
+
+</div>
+</div>
+<a id="ac35f525f875adf218e19f8b7d5344f81" name="ac35f525f875adf218e19f8b7d5344f81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac35f525f875adf218e19f8b7d5344f81">&#9670;&#160;</a></span>m_weakNetworkOption</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCommandLineOption EasyKiConverter::CommandLineParser::m_weakNetworkOption</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>弱网络策略选项。 </p>
+
+<p class="definition">在文件 <a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a> 第 <a class="el" href="CommandLineParser_8h_source.html#l00369">369</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CommandLineParser_8cpp_source.html#l00095">setupCliOptions()</a> , 以及 <a class="el" href="CommandLineParser_8cpp_source.html#l00591">weakNetworkSupport()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>utils/<a class="el" href="CommandLineParser_8h_source.html">CommandLineParser.h</a></li>
+<li>utils/<a class="el" href="CommandLineParser_8cpp_source.html">CommandLineParser.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1CommandLineParser.html">CommandLineParser</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

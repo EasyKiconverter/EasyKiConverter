@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/CacheComponentDataReader.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('CacheComponentDataReader_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">CacheComponentDataReader.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="CacheComponentDataReader_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="CacheComponentDataReader_8h.html">CacheComponentDataReader.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="UrlUtils_8h.html">core/utils/UrlUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QJsonArray&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter.html#a1cdaf4362fc9ee36ea2f22538c459316">   14</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceEasyKiConverter.html#a1cdaf4362fc9ee36ea2f22538c459316">readBasicFields</a>(<span class="keyword">const</span> QJsonObject&amp; metadata, <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; componentData) {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a92b9ae41cc163bebcc02de80e88ea388">setName</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>)).toString());</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a5d30f196434f1d1e41c220343a2ba0bd">setPrefix</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;prefix&quot;</span>)).toString());</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a6c520de6381d7e73168ccf47c65c160d">setPackage</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;package&quot;</span>)).toString());</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a6516880a7a378b49b4910ffdb6f88490">setManufacturer</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;manufacturer&quot;</span>)).toString());</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a266a8ec65c8dc5d297faf3f9cb7cd83a">setManufacturerPart</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;manufacturerPart&quot;</span>)).toString());</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#ac16167660a4580e56506bd5651b1ca87">setDatasheet</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;datasheet&quot;</span>)).toString());</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a15dd9c5ccc408c1cb2f1f7acd5ba6e9e">setDatasheetFormat</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;datasheetFormat&quot;</span>)).toString());</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
+</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00029" data-start="{" data-end="}">
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter.html#a09ddc5f992e5759d850a92af2c2ce934">   29</a></span><span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="namespaceEasyKiConverter.html#a09ddc5f992e5759d850a92af2c2ce934">readPreviewUrls</a>(<span class="keyword">const</span> QJsonObject&amp; metadata, <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; componentData) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">const</span> QJsonArray previewUrls =</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        metadata.value(QStringLiteral(<span class="stringliteral">&quot;previewImages&quot;</span>)).toArray();  <span class="comment">// 缓存中的预览图地址数组。</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    QStringList normalizedUrls;  <span class="comment">// 通过 URL 规范化后可继续使用的地址列表。</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QJsonValue&amp; <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> : previewUrls) {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keyword">const</span> QString normalizedUrl = <a class="code hl_function" href="namespaceEasyKiConverter_1_1UrlUtils.html#aab4f5ab95ce7cae0d5b66944cbd5621a">UrlUtils::normalizePreviewImageUrl</a>(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.toString());  <span class="comment">// 当前地址的规范化结果。</span></div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">if</span> (!normalizedUrl.isEmpty()) {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            normalizedUrls.append(normalizedUrl);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        }</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a41f0d37a5d952cf3d207a2e4071de2e9">setPreviewImages</a>(normalizedUrls);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00048" data-start="{" data-end="}">
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter.html#adc3148a74aed374cb3a04bc86ed2af39">   48</a></span><span class="keyword">static</span> <span class="keywordtype">bool</span> <a class="code hl_function" href="namespaceEasyKiConverter.html#adc3148a74aed374cb3a04bc86ed2af39">readModel3D</a>(<span class="keyword">const</span> QJsonObject&amp; metadata, <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; componentData) {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordflow">if</span> (!metadata.contains(QStringLiteral(<span class="stringliteral">&quot;model3duuid&quot;</span>))) {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">auto</span> model3DData = QSharedPointer&lt;Model3DData&gt;::create();  <span class="comment">// 还原后的三维模型数据对象。</span></div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    model3DData-&gt;setUuid(metadata.value(QStringLiteral(<span class="stringliteral">&quot;model3duuid&quot;</span>)).toString());</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    model3DData-&gt;setName(metadata.value(QStringLiteral(<span class="stringliteral">&quot;model3dName&quot;</span>)).toString());</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">if</span> (metadata.contains(QStringLiteral(<span class="stringliteral">&quot;model3dTranslation&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        metadata.value(QStringLiteral(<span class="stringliteral">&quot;model3dTranslation&quot;</span>)).isObject()) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1Model3DBase.html">Model3DBase</a> translation;  <span class="comment">// 三维模型平移变换。</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">if</span> (!translation.<a class="code hl_function" href="structEasyKiConverter_1_1Model3DBase.html#a818f418bf8525a8362850a4e5e166d71">fromJson</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;model3dTranslation&quot;</span>)).toObject())) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        model3DData-&gt;setTranslation(translation);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordflow">if</span> (metadata.contains(QStringLiteral(<span class="stringliteral">&quot;model3dRotation&quot;</span>)) &amp;&amp;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        metadata.value(QStringLiteral(<span class="stringliteral">&quot;model3dRotation&quot;</span>)).isObject()) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1Model3DBase.html">Model3DBase</a> rotation;  <span class="comment">// 三维模型旋转变换。</span></div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keywordflow">if</span> (!rotation.<a class="code hl_function" href="structEasyKiConverter_1_1Model3DBase.html#a818f418bf8525a8362850a4e5e166d71">fromJson</a>(metadata.value(QStringLiteral(<span class="stringliteral">&quot;model3dRotation&quot;</span>)).toObject())) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        model3DData-&gt;setRotation(rotation);</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    componentData.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a6a0c37c3799dd509fb5568bdb025657b">setModel3DData</a>(model3DData);</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>}</div>
+</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CacheComponentDataReader.html#a8ed4d266b7d2778039fd4a4323a13ec2">   85</a></span>QSharedPointer&lt;ComponentData&gt; <a class="code hl_function" href="classEasyKiConverter_1_1CacheComponentDataReader.html#a8ed4d266b7d2778039fd4a4323a13ec2">CacheComponentDataReader::read</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QJsonObject&amp; metadata) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keyword">auto</span> componentData = QSharedPointer&lt;ComponentData&gt;::create();  <span class="comment">// 由缓存元数据构造的组件数据对象。</span></div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    componentData-&gt;setLcscId(componentId);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <a class="code hl_function" href="namespaceEasyKiConverter.html#a1cdaf4362fc9ee36ea2f22538c459316">readBasicFields</a>(metadata, *componentData);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <a class="code hl_function" href="namespaceEasyKiConverter.html#a09ddc5f992e5759d850a92af2c2ce934">readPreviewUrls</a>(metadata, *componentData);</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="namespaceEasyKiConverter.html#adc3148a74aed374cb3a04bc86ed2af39">readModel3D</a>(metadata, *componentData)) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">return</span> componentData;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>}</div>
+</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aCacheComponentDataReader_8h_html"><div class="ttname"><a href="CacheComponentDataReader_8h.html">CacheComponentDataReader.h</a></div></div>
+<div class="ttc" id="aUrlUtils_8h_html"><div class="ttname"><a href="UrlUtils_8h.html">UrlUtils.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheComponentDataReader_html_a8ed4d266b7d2778039fd4a4323a13ec2"><div class="ttname"><a href="classEasyKiConverter_1_1CacheComponentDataReader.html#a8ed4d266b7d2778039fd4a4323a13ec2">EasyKiConverter::CacheComponentDataReader::read</a></div><div class="ttdeci">static QSharedPointer&lt; ComponentData &gt; read(const QString &amp;componentId, const QJsonObject &amp;metadata)</div><div class="ttdoc">从元数据对象构造组件数据。</div><div class="ttdef"><b>Definition</b> <a href="CacheComponentDataReader_8cpp_source.html#l00085">CacheComponentDataReader.cpp:85</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html">EasyKiConverter::ComponentData</a></div><div class="ttdoc">元件数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00020">ComponentData.h:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a15dd9c5ccc408c1cb2f1f7acd5ba6e9e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a15dd9c5ccc408c1cb2f1f7acd5ba6e9e">EasyKiConverter::ComponentData::setDatasheetFormat</a></div><div class="ttdeci">void setDatasheetFormat(const QString &amp;format)</div><div class="ttdoc">设置数据手册格式。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00246">ComponentData.h:246</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a266a8ec65c8dc5d297faf3f9cb7cd83a"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a266a8ec65c8dc5d297faf3f9cb7cd83a">EasyKiConverter::ComponentData::setManufacturerPart</a></div><div class="ttdeci">void setManufacturerPart(const QString &amp;manufacturerPart)</div><div class="ttdoc">设置制造商部件号。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00118">ComponentData.h:118</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a41f0d37a5d952cf3d207a2e4071de2e9"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a41f0d37a5d952cf3d207a2e4071de2e9">EasyKiConverter::ComponentData::setPreviewImages</a></div><div class="ttdeci">void setPreviewImages(const QStringList &amp;images)</div><div class="ttdoc">设置预览图链接列表。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00150">ComponentData.h:150</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a5d30f196434f1d1e41c220343a2ba0bd"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a5d30f196434f1d1e41c220343a2ba0bd">EasyKiConverter::ComponentData::setPrefix</a></div><div class="ttdeci">void setPrefix(const QString &amp;prefix)</div><div class="ttdoc">设置元件参考标识前缀。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00070">ComponentData.h:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a6516880a7a378b49b4910ffdb6f88490"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a6516880a7a378b49b4910ffdb6f88490">EasyKiConverter::ComponentData::setManufacturer</a></div><div class="ttdeci">void setManufacturer(const QString &amp;manufacturer)</div><div class="ttdoc">设置制造商名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00102">ComponentData.h:102</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a6a0c37c3799dd509fb5568bdb025657b"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a6a0c37c3799dd509fb5568bdb025657b">EasyKiConverter::ComponentData::setModel3DData</a></div><div class="ttdeci">void setModel3DData(const QSharedPointer&lt; Model3DData &gt; &amp;data)</div><div class="ttdoc">设置独立的三维模型数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00294">ComponentData.h:294</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a6c520de6381d7e73168ccf47c65c160d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a6c520de6381d7e73168ccf47c65c160d">EasyKiConverter::ComponentData::setPackage</a></div><div class="ttdeci">void setPackage(const QString &amp;package)</div><div class="ttdoc">设置封装名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00086">ComponentData.h:86</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a92b9ae41cc163bebcc02de80e88ea388"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a92b9ae41cc163bebcc02de80e88ea388">EasyKiConverter::ComponentData::setName</a></div><div class="ttdeci">void setName(const QString &amp;name)</div><div class="ttdoc">设置元件名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00054">ComponentData.h:54</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_ac16167660a4580e56506bd5651b1ca87"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#ac16167660a4580e56506bd5651b1ca87">EasyKiConverter::ComponentData::setDatasheet</a></div><div class="ttdeci">void setDatasheet(const QString &amp;datasheet)</div><div class="ttdoc">设置数据手册链接。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00134">ComponentData.h:134</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1UrlUtils_html_aab4f5ab95ce7cae0d5b66944cbd5621a"><div class="ttname"><a href="namespaceEasyKiConverter_1_1UrlUtils.html#aab4f5ab95ce7cae0d5b66944cbd5621a">EasyKiConverter::UrlUtils::normalizePreviewImageUrl</a></div><div class="ttdeci">QString normalizePreviewImageUrl(const QString &amp;imageUrl)</div><div class="ttdoc">规范化 EasyEDA 预览图 URL。</div><div class="ttdef"><b>Definition</b> <a href="UrlUtils_8cpp_source.html#l00127">UrlUtils.cpp:127</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a09ddc5f992e5759d850a92af2c2ce934"><div class="ttname"><a href="namespaceEasyKiConverter.html#a09ddc5f992e5759d850a92af2c2ce934">EasyKiConverter::readPreviewUrls</a></div><div class="ttdeci">static void readPreviewUrls(const QJsonObject &amp;metadata, ComponentData &amp;componentData)</div><div class="ttdoc">只保留通过 URL 规范化的预览图链接，避免缓存中的错误地址继续传播。</div><div class="ttdef"><b>Definition</b> <a href="CacheComponentDataReader_8cpp_source.html#l00029">CacheComponentDataReader.cpp:29</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_a1cdaf4362fc9ee36ea2f22538c459316"><div class="ttname"><a href="namespaceEasyKiConverter.html#a1cdaf4362fc9ee36ea2f22538c459316">EasyKiConverter::readBasicFields</a></div><div class="ttdeci">static void readBasicFields(const QJsonObject &amp;metadata, ComponentData &amp;componentData)</div><div class="ttdoc">将缓存元数据中的基础字段复制到组件数据对象。</div><div class="ttdef"><b>Definition</b> <a href="CacheComponentDataReader_8cpp_source.html#l00014">CacheComponentDataReader.cpp:14</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_adc3148a74aed374cb3a04bc86ed2af39"><div class="ttname"><a href="namespaceEasyKiConverter.html#adc3148a74aed374cb3a04bc86ed2af39">EasyKiConverter::readModel3D</a></div><div class="ttdeci">static bool readModel3D(const QJsonObject &amp;metadata, ComponentData &amp;componentData)</div><div class="ttdoc">读取独立三维模型及其可选的平移、旋转变换。</div><div class="ttdef"><b>Definition</b> <a href="CacheComponentDataReader_8cpp_source.html#l00048">CacheComponentDataReader.cpp:48</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Model3DBase_html"><div class="ttname"><a href="structEasyKiConverter_1_1Model3DBase.html">EasyKiConverter::Model3DBase</a></div><div class="ttdoc">表示三维模型的毫米坐标或旋转角度。</div><div class="ttdef"><b>Definition</b> <a href="Model3DData_8h_source.html#l00022">Model3DData.h:22</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Model3DBase_html_a818f418bf8525a8362850a4e5e166d71"><div class="ttname"><a href="structEasyKiConverter_1_1Model3DBase.html#a818f418bf8525a8362850a4e5e166d71">EasyKiConverter::Model3DBase::fromJson</a></div><div class="ttdeci">bool fromJson(const QJsonObject &amp;json)</div><div class="ttdoc">从 JSON 对象恢复坐标值。</div><div class="ttdef"><b>Definition</b> <a href="Model3DData_8cpp_source.html#l00026">Model3DData.cpp:26</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="CacheComponentDataReader_8cpp.html">CacheComponentDataReader.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

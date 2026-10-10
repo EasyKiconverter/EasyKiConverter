@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::Parser::DelimitedSectionParser类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1Parser_1_1DelimitedSectionParser.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1Parser_1_1DelimitedSectionParser-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::Parser::DelimitedSectionParser类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>解析 Cadstar 等 END* 终止符分段格式。  
+ <a href="classEasyKiConverter_1_1Parser_1_1DelimitedSectionParser.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="TextParsers_8h_source.html">TextParsers.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::Parser::DelimitedSectionParser 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1Parser_1_1DelimitedSectionParser__coll__graph.svg" width="186" height="91"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:ae9737d8402241e4c060b7f5b9487874d" id="r_ae9737d8402241e4c060b7f5b9487874d"><td class="memItemLeft" align="right" valign="top">static QList&lt; <a class="el" href="structEasyKiConverter_1_1Parser_1_1DelimitedSectionNode.html">DelimitedSectionNode</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1Parser_1_1DelimitedSectionParser.html#ae9737d8402241e4c060b7f5b9487874d">parse</a> (const QString &amp;content, const QStringList &amp;leafKeywords={}, <a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a> *diagnostics=nullptr)</td></tr>
+<tr class="memdesc:ae9737d8402241e4c060b7f5b9487874d"><td class="mdescLeft">&#160;</td><td class="mdescRight">解析带显式结束标记的分段文本。  <br /></td></tr>
+<tr class="separator:ae9737d8402241e4c060b7f5b9487874d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>解析 Cadstar 等 END* 终止符分段格式。 </p>
+<p>叶节点由调用方提供，未知字段仍保留在树中，未闭合节点会产生错误诊断。 </p>
+
+<p class="definition">在文件 <a class="el" href="TextParsers_8h_source.html">TextParsers.h</a> 第 <a class="el" href="TextParsers_8h_source.html#l00082">82</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="ae9737d8402241e4c060b7f5b9487874d" name="ae9737d8402241e4c060b7f5b9487874d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae9737d8402241e4c060b7f5b9487874d">&#9670;&#160;</a></span>parse()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QList&lt; <a class="el" href="structEasyKiConverter_1_1Parser_1_1DelimitedSectionNode.html">DelimitedSectionNode</a> &gt; EasyKiConverter::Parser::DelimitedSectionParser::parse </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>content</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QStringList &amp;&#160;</td>
+          <td class="paramname"><em>leafKeywords</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a> *&#160;</td>
+          <td class="paramname"><em>diagnostics</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>解析带显式结束标记的分段文本。 </p>
+<p>根据显式 END* 标记建立 Cadstar 风格的分段树。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">content</td><td>UTF-8 文本。 </td></tr>
+    <tr><td class="paramname">leafKeywords</td><td>不带 END 前缀的叶节点关键字。 </td></tr>
+    <tr><td class="paramname">diagnostics</td><td>诊断接收器，可为空。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>分段节点树。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">content</td><td>输入文本。 </td></tr>
+    <tr><td class="paramname">leafKeywords</td><td>叶节点关键字列表。 </td></tr>
+    <tr><td class="paramname">diagnostics</td><td>诊断接收器，可为空。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>根分段节点列表。 </dd></dl>
+<p>&lt; 叶节点关键字集合。</p>
+<p>&lt; 根分段节点列表。</p>
+<p>&lt; 当前未闭合分段栈。</p>
+<p>&lt; 按源文件行拆分的文本。</p>
+<p>&lt; 文件中实际出现的结束关键字。</p>
+<p>&lt; 当前行的字段列表。</p>
+<p>&lt; 当前源文件行号。</p>
+<p>&lt; 去除首尾空白后的当前行。</p>
+<p>&lt; 当前行的字段列表。</p>
+<p>&lt; 当前分段关键字。</p>
+<p>&lt; 当前待闭合分段。</p>
+<p>&lt; 期望的结束关键字。</p>
+<p>&lt; 当前新建的分段节点。</p>
+<p>&lt; 新节点指针。</p>
+<p>&lt; 当前关键字是否属于嵌套引用而非容器。</p>
+<p>&lt; 未闭合的分段节点。</p>
+
+<p class="definition">在文件 <a class="el" href="TextParsers_8cpp_source.html">TextParsers.cpp</a> 第 <a class="el" href="TextParsers_8cpp_source.html#l00237">237</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ParseDiagnostics_8cpp_source.html#l00018">EasyKiConverter::Parser::ParseDiagnostics::add()</a>, <a class="el" href="TextParsers_8h_source.html#l00057">EasyKiConverter::Parser::DelimitedSectionNode::arguments</a>, <a class="el" href="TextParsers_8h_source.html#l00058">EasyKiConverter::Parser::DelimitedSectionNode::children</a>, <a class="el" href="TextParsers_8h_source.html#l00060">EasyKiConverter::Parser::DelimitedSectionNode::closed</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a902b0d55fddef6f8d651fe1035b7d4bd">EasyKiConverter::Parser::Error</a>, <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#aace02efff26e3191e4b633bf59e724cda0b27918290ff5323bea1e3b78a9cf04e">EasyKiConverter::Parser::File</a>, <a class="el" href="TextParsers_8h_source.html#l00056">EasyKiConverter::Parser::DelimitedSectionNode::keyword</a>, <a class="el" href="TextParsers_8h_source.html#l00059">EasyKiConverter::Parser::DelimitedSectionNode::line</a> , 以及 <a class="el" href="namespaceEasyKiConverter_1_1Parser.html#acf6a3468b670ed55eb9200b71e3fd393a0eaadb4fcb48a0a0ed7bc9868be9fbaa">EasyKiConverter::Parser::Warning</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CadstarModel_8cpp_source.html#l00429">EasyKiConverter::Parser::CadstarParser::parse()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/parser/<a class="el" href="TextParsers_8h_source.html">TextParsers.h</a></li>
+<li>core/parser/<a class="el" href="TextParsers_8cpp_source.html">TextParsers.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="namespaceEasyKiConverter_1_1Parser.html">Parser</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1Parser_1_1DelimitedSectionParser.html">DelimitedSectionParser</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

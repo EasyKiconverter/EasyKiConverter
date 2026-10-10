@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1BoundedThreadSafeQueue.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1BoundedThreadSafeQueue-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt; 模板类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>有界线程安全队列  
+ <a href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt; 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1BoundedThreadSafeQueue__coll__graph.svg" width="234" height="371"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:af302a3e659662f58f9dc16acf084fd4c" id="r_af302a3e659662f58f9dc16acf084fd4c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#af302a3e659662f58f9dc16acf084fd4c">BoundedThreadSafeQueue</a> (size_t maxSize=0)</td></tr>
+<tr class="memdesc:af302a3e659662f58f9dc16acf084fd4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:af302a3e659662f58f9dc16acf084fd4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8b6d320142fe6bc82e47805f3eb87a5" id="r_ac8b6d320142fe6bc82e47805f3eb87a5"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#ac8b6d320142fe6bc82e47805f3eb87a5">~BoundedThreadSafeQueue</a> ()</td></tr>
+<tr class="memdesc:ac8b6d320142fe6bc82e47805f3eb87a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:ac8b6d320142fe6bc82e47805f3eb87a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a206664682837830f77cb1dd8d2e9ab14" id="r_a206664682837830f77cb1dd8d2e9ab14"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a206664682837830f77cb1dd8d2e9ab14">tryPush</a> (const T &amp;item)</td></tr>
+<tr class="memdesc:a206664682837830f77cb1dd8d2e9ab14"><td class="mdescLeft">&#160;</td><td class="mdescRight">非阻塞push  <br /></td></tr>
+<tr class="separator:a206664682837830f77cb1dd8d2e9ab14"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b8ad4c900c75016a566d2e887be2cc5" id="r_a7b8ad4c900c75016a566d2e887be2cc5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a7b8ad4c900c75016a566d2e887be2cc5">push</a> (const T &amp;item, int timeoutMs=0)</td></tr>
+<tr class="memdesc:a7b8ad4c900c75016a566d2e887be2cc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">阻塞push  <br /></td></tr>
+<tr class="separator:a7b8ad4c900c75016a566d2e887be2cc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed43b88becaab3b3e7e159d8ff8a292e" id="r_aed43b88becaab3b3e7e159d8ff8a292e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#aed43b88becaab3b3e7e159d8ff8a292e">tryPop</a> (T &amp;item)</td></tr>
+<tr class="memdesc:aed43b88becaab3b3e7e159d8ff8a292e"><td class="mdescLeft">&#160;</td><td class="mdescRight">非阻塞tryPop  <br /></td></tr>
+<tr class="separator:aed43b88becaab3b3e7e159d8ff8a292e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a357e6ea1c7ca1e87b76ea264dd8ed8e2" id="r_a357e6ea1c7ca1e87b76ea264dd8ed8e2"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a357e6ea1c7ca1e87b76ea264dd8ed8e2">pop</a> (T &amp;item, int timeoutMs=0)</td></tr>
+<tr class="memdesc:a357e6ea1c7ca1e87b76ea264dd8ed8e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">阻塞pop  <br /></td></tr>
+<tr class="separator:a357e6ea1c7ca1e87b76ea264dd8ed8e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac51b2d4c0ff1c1055808ca4a40fddf41" id="r_ac51b2d4c0ff1c1055808ca4a40fddf41"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#ac51b2d4c0ff1c1055808ca4a40fddf41">close</a> ()</td></tr>
+<tr class="memdesc:ac51b2d4c0ff1c1055808ca4a40fddf41"><td class="mdescLeft">&#160;</td><td class="mdescRight">关闭队列  <br /></td></tr>
+<tr class="separator:ac51b2d4c0ff1c1055808ca4a40fddf41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2809ebdafb4f60318776c80cf38f3efe" id="r_a2809ebdafb4f60318776c80cf38f3efe"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a2809ebdafb4f60318776c80cf38f3efe">isClosed</a> () const</td></tr>
+<tr class="memdesc:a2809ebdafb4f60318776c80cf38f3efe"><td class="mdescLeft">&#160;</td><td class="mdescRight">是否已关闭  <br /></td></tr>
+<tr class="separator:a2809ebdafb4f60318776c80cf38f3efe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08c47af15687ffde4e0cc3c268331e23" id="r_a08c47af15687ffde4e0cc3c268331e23"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a08c47af15687ffde4e0cc3c268331e23">size</a> () const</td></tr>
+<tr class="memdesc:a08c47af15687ffde4e0cc3c268331e23"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取队列大小  <br /></td></tr>
+<tr class="separator:a08c47af15687ffde4e0cc3c268331e23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17706d597025347291a7366a71e885f8" id="r_a17706d597025347291a7366a71e885f8"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a17706d597025347291a7366a71e885f8">isEmpty</a> () const</td></tr>
+<tr class="memdesc:a17706d597025347291a7366a71e885f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">队列是否为空  <br /></td></tr>
+<tr class="separator:a17706d597025347291a7366a71e885f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a3d2c67444d017274f34b0c4565f0259e" id="r_a3d2c67444d017274f34b0c4565f0259e"><td class="memItemLeft" align="right" valign="top">QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a3d2c67444d017274f34b0c4565f0259e">m_mutex</a></td></tr>
+<tr class="memdesc:a3d2c67444d017274f34b0c4565f0259e"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护队列、容量和关闭状态的互斥锁。  <br /></td></tr>
+<tr class="separator:a3d2c67444d017274f34b0c4565f0259e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff993eeb818f04d800fd2a557363393d" id="r_aff993eeb818f04d800fd2a557363393d"><td class="memItemLeft" align="right" valign="top">QWaitCondition&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#aff993eeb818f04d800fd2a557363393d">m_notEmpty</a></td></tr>
+<tr class="memdesc:aff993eeb818f04d800fd2a557363393d"><td class="mdescLeft">&#160;</td><td class="mdescRight">等待队列变为非空的条件变量。  <br /></td></tr>
+<tr class="separator:aff993eeb818f04d800fd2a557363393d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c713667faae6c69d5545b06b12795b5" id="r_a3c713667faae6c69d5545b06b12795b5"><td class="memItemLeft" align="right" valign="top">QWaitCondition&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a3c713667faae6c69d5545b06b12795b5">m_notFull</a></td></tr>
+<tr class="memdesc:a3c713667faae6c69d5545b06b12795b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">等待队列出现空闲容量的条件变量。  <br /></td></tr>
+<tr class="separator:a3c713667faae6c69d5545b06b12795b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3638a121bb78cdd9827ba9a551bd794" id="r_ad3638a121bb78cdd9827ba9a551bd794"><td class="memItemLeft" align="right" valign="top">QQueue&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#ad3638a121bb78cdd9827ba9a551bd794">m_queue</a></td></tr>
+<tr class="memdesc:ad3638a121bb78cdd9827ba9a551bd794"><td class="mdescLeft">&#160;</td><td class="mdescRight">保存队列中的元素。  <br /></td></tr>
+<tr class="separator:ad3638a121bb78cdd9827ba9a551bd794"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac428ed752d74bb6d7fde73ada52455ef" id="r_ac428ed752d74bb6d7fde73ada52455ef"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#ac428ed752d74bb6d7fde73ada52455ef">m_maxSize</a></td></tr>
+<tr class="memdesc:ac428ed752d74bb6d7fde73ada52455ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">队列最大容量，零表示不限制容量。  <br /></td></tr>
+<tr class="separator:ac428ed752d74bb6d7fde73ada52455ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bb9c1e5c19ce5b2fdad44dae9cfd25c" id="r_a7bb9c1e5c19ce5b2fdad44dae9cfd25c"><td class="memItemLeft" align="right" valign="top">QAtomicInt&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html#a7bb9c1e5c19ce5b2fdad44dae9cfd25c">m_closed</a></td></tr>
+<tr class="memdesc:a7bb9c1e5c19ce5b2fdad44dae9cfd25c"><td class="mdescLeft">&#160;</td><td class="mdescRight">标记队列是否已关闭。  <br /></td></tr>
+<tr class="separator:a7bb9c1e5c19ce5b2fdad44dae9cfd25c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><div class="compoundTemplParams">template&lt;typename T&gt;<br />
+class EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;</div><p>有界线程安全队列 </p>
+<p>支持阻塞和非阻塞操作，用于连接流水线的各个阶段 </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00017">17</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="af302a3e659662f58f9dc16acf084fd4c" name="af302a3e659662f58f9dc16acf084fd4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af302a3e659662f58f9dc16acf084fd4c">&#9670;&#160;</a></span>BoundedThreadSafeQueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::BoundedThreadSafeQueue </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>maxSize</em> = <code>0</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxSize</td><td>最大容量（0表示无限制） </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00023">23</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ac8b6d320142fe6bc82e47805f3eb87a5" name="ac8b6d320142fe6bc82e47805f3eb87a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac8b6d320142fe6bc82e47805f3eb87a5">&#9670;&#160;</a></span>~BoundedThreadSafeQueue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::~<a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">BoundedThreadSafeQueue</a> </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00028">28</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00130">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::close()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="ac51b2d4c0ff1c1055808ca4a40fddf41" name="ac51b2d4c0ff1c1055808ca4a40fddf41"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac51b2d4c0ff1c1055808ca4a40fddf41">&#9670;&#160;</a></span>close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::close </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>关闭队列 </p>
+<p>关闭后，所有阻塞的push/pop操作都会返回false </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00130">130</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00176">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_closed</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_mutex</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00168">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_notEmpty</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00170">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_notFull</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00028">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::~BoundedThreadSafeQueue()</a>.</p>
+
+</div>
+</div>
+<a id="a2809ebdafb4f60318776c80cf38f3efe" name="a2809ebdafb4f60318776c80cf38f3efe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2809ebdafb4f60318776c80cf38f3efe">&#9670;&#160;</a></span>isClosed()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::isClosed </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>是否已关闭 </p>
+<dl class="section return"><dt>返回</dt><dd>bool </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00141">141</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00176">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_closed</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_mutex</a>.</p>
+
+</div>
+</div>
+<a id="a17706d597025347291a7366a71e885f8" name="a17706d597025347291a7366a71e885f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17706d597025347291a7366a71e885f8">&#9670;&#160;</a></span>isEmpty()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::isEmpty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>队列是否为空 </p>
+<dl class="section return"><dt>返回</dt><dd>bool </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00159">159</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_mutex</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00172">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_queue</a>.</p>
+
+</div>
+</div>
+<a id="a357e6ea1c7ca1e87b76ea264dd8ed8e2" name="a357e6ea1c7ca1e87b76ea264dd8ed8e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a357e6ea1c7ca1e87b76ea264dd8ed8e2">&#9670;&#160;</a></span>pop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::pop </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeoutMs</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>阻塞pop </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>输出参数，存储取出的元素 </td></tr>
+    <tr><td class="paramname">timeoutMs</td><td>超时时间（毫秒，0表示无限等待） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否成功（超时或已关闭且队列为空返回false） </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00107">107</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00176">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_closed</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_mutex</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00168">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_notEmpty</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00170">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_notFull</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00172">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_queue</a>.</p>
+
+</div>
+</div>
+<a id="a7b8ad4c900c75016a566d2e887be2cc5" name="a7b8ad4c900c75016a566d2e887be2cc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b8ad4c900c75016a566d2e887be2cc5">&#9670;&#160;</a></span>push()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::push </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>item</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>timeoutMs</em> = <code>0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>阻塞push </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>要添加的元素 </td></tr>
+    <tr><td class="paramname">timeoutMs</td><td>超时时间（毫秒，0表示无限等待） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否成功（超时或已关闭返回false） </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00061">61</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00176">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_closed</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00174">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_maxSize</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_mutex</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00168">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_notEmpty</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00170">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_notFull</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00172">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_queue</a>.</p>
+
+</div>
+</div>
+<a id="a08c47af15687ffde4e0cc3c268331e23" name="a08c47af15687ffde4e0cc3c268331e23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08c47af15687ffde4e0cc3c268331e23">&#9670;&#160;</a></span>size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::size </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取队列大小 </p>
+<dl class="section return"><dt>返回</dt><dd>size_t </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00150">150</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_mutex</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00172">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_queue</a>.</p>
+
+</div>
+</div>
+<a id="aed43b88becaab3b3e7e159d8ff8a292e" name="aed43b88becaab3b3e7e159d8ff8a292e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed43b88becaab3b3e7e159d8ff8a292e">&#9670;&#160;</a></span>tryPop()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::tryPop </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>非阻塞tryPop </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>输出参数，存储取出的元素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否成功（队列为空或已关闭返回false） </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00084">84</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00176">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_closed</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_mutex</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00170">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_notFull</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00172">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_queue</a>.</p>
+
+</div>
+</div>
+<a id="a206664682837830f77cb1dd8d2e9ab14" name="a206664682837830f77cb1dd8d2e9ab14"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a206664682837830f77cb1dd8d2e9ab14">&#9670;&#160;</a></span>tryPush()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::tryPush </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>item</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>非阻塞push </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">item</td><td>要添加的元素 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否成功（队列已满或已关闭返回false） </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00037">37</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00176">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_closed</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00174">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_maxSize</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_mutex</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00168">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_notEmpty</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00172">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::m_queue</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a7bb9c1e5c19ce5b2fdad44dae9cfd25c" name="a7bb9c1e5c19ce5b2fdad44dae9cfd25c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bb9c1e5c19ce5b2fdad44dae9cfd25c">&#9670;&#160;</a></span>m_closed</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QAtomicInt <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::m_closed</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>标记队列是否已关闭。 </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00176">176</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00130">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::close()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00141">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::isClosed()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00107">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::pop()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00061">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::push()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00084">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPop()</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00037">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPush()</a>.</p>
+
+</div>
+</div>
+<a id="ac428ed752d74bb6d7fde73ada52455ef" name="ac428ed752d74bb6d7fde73ada52455ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac428ed752d74bb6d7fde73ada52455ef">&#9670;&#160;</a></span>m_maxSize</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::m_maxSize</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>队列最大容量，零表示不限制容量。 </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00174">174</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00061">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::push()</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00037">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPush()</a>.</p>
+
+</div>
+</div>
+<a id="a3d2c67444d017274f34b0c4565f0259e" name="a3d2c67444d017274f34b0c4565f0259e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d2c67444d017274f34b0c4565f0259e">&#9670;&#160;</a></span>m_mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::m_mutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护队列、容量和关闭状态的互斥锁。 </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00166">166</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00130">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::close()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00141">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::isClosed()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00159">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::isEmpty()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00107">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::pop()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00061">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::push()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00150">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::size()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00084">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPop()</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00037">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPush()</a>.</p>
+
+</div>
+</div>
+<a id="aff993eeb818f04d800fd2a557363393d" name="aff993eeb818f04d800fd2a557363393d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff993eeb818f04d800fd2a557363393d">&#9670;&#160;</a></span>m_notEmpty</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWaitCondition <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::m_notEmpty</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>等待队列变为非空的条件变量。 </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00168">168</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00130">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::close()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00107">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::pop()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00061">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::push()</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00037">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPush()</a>.</p>
+
+</div>
+</div>
+<a id="a3c713667faae6c69d5545b06b12795b5" name="a3c713667faae6c69d5545b06b12795b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c713667faae6c69d5545b06b12795b5">&#9670;&#160;</a></span>m_notFull</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QWaitCondition <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::m_notFull</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>等待队列出现空闲容量的条件变量。 </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00170">170</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00130">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::close()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00107">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::pop()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00061">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::push()</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00084">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPop()</a>.</p>
+
+</div>
+</div>
+<a id="ad3638a121bb78cdd9827ba9a551bd794" name="ad3638a121bb78cdd9827ba9a551bd794"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad3638a121bb78cdd9827ba9a551bd794">&#9670;&#160;</a></span>m_queue</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QQueue&lt;T&gt; <a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">EasyKiConverter::BoundedThreadSafeQueue</a>&lt; T &gt;::m_queue</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保存队列中的元素。 </p>
+
+<p class="definition">在文件 <a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a> 第 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00172">172</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00159">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::isEmpty()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00107">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::pop()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00061">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::push()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00150">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::size()</a>, <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00084">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPop()</a> , 以及 <a class="el" href="BoundedThreadSafeQueue_8h_source.html#l00037">EasyKiConverter::BoundedThreadSafeQueue&lt; T &gt;::tryPush()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>utils/<a class="el" href="BoundedThreadSafeQueue_8h_source.html">BoundedThreadSafeQueue.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1BoundedThreadSafeQueue.html">BoundedThreadSafeQueue</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/ExporterAltiumFootprint.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterAltiumFootprint_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterAltiumFootprint.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterAltiumFootprint_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="IFootprintExporter_8h.html">core/interfaces/IFootprintExporter.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="FootprintIR_8h.html">core/ir/FootprintIR.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumPcbComponent_8h.html">models/AltiumPcbComponent.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumPcbLibWriter_8h.html">writers/AltiumPcbLibWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="};">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html">   14</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html">ExporterAltiumFootprint</a> : <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1IFootprintExporter.html">IFootprintExporter</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a6587c8b00dd2fce92b3f9d677aeaa496">   20</a></span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a6587c8b00dd2fce92b3f9d677aeaa496">libraryFileExtension</a>()<span class="keyword"> const override </span>{</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;.PcbLib&quot;</span>);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    }</div>
+</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#aec1db7364b703ad4e3f336cddbff4574">   28</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#aec1db7364b703ad4e3f336cddbff4574">isDirectoryOutput</a>()<span class="keyword"> const override </span>{</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
+</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a37dbfd8ac2050510962944099fb2f9f5">   35</a></span>    QStringList <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a37dbfd8ac2050510962944099fb2f9f5">diagnostics</a>()<span class="keyword"> const override </span>{</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a724c2ffd891949b7f84f307a60a31789">m_diagnostics</a>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    }</div>
+</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a37f3ef525ffcda76dc4346ce20bb96fd">exportFootprint</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a>&amp; footprint,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                         <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>                         <span class="keyword">const</span> QString&amp; model3DPath = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a38128672a17195fd8e14fc7e5f4030d8">exportFootprintLibrary</a>(<span class="keyword">const</span> QList&lt;IR::FootprintComponentIR&gt;&amp; footprints,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                                <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                                <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                                <span class="keywordtype">bool</span> preferWrl = <span class="keyword">true</span>,</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                                <span class="keywordtype">bool</span> exportStep = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>                                <span class="keyword">const</span> QString&amp; libraryDescription = QString(),</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>                                <span class="keyword">const</span> QString&amp; libraryKeywords = QString(),</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>                                <span class="keywordtype">bool</span> useAbsolutePaths = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>                                <span class="keyword">const</span> QString&amp; model3DBaseDir = QString()) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a86d9fea82b30d0b3c837cd30e633145e">convertFootprint</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a>&amp; data, <span class="keyword">const</span> QString&amp; model3DPath = QString());</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbPad.html">AltiumPcbPad</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a5c11888a0f8dfef8e2f80539d0b86297">convertPad</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintPadIR.html">IR::FootprintPadIR</a>&amp; pad);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbTrack.html">AltiumPcbTrack</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#accaab4a65d4adf3953843b4e6689f581">convertTrack</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintTrackIR.html">IR::FootprintTrackIR</a>&amp; track);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbArc.html">AltiumPcbArc</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a8f323cd5aabd3aca3730dba7799c77af">convertCircle</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintCircleIR.html">IR::FootprintCircleIR</a>&amp; circle);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbArc.html">AltiumPcbArc</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a0890112148d359981214e28ecb3efbcb">convertArc</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintArcIR.html">IR::FootprintArcIR</a>&amp; arc);</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbFill.html">AltiumPcbFill</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a237c8db47d6a7d07a6acda1dec681cee">convertRectangle</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintRectangleIR.html">IR::FootprintRectangleIR</a>&amp; rect);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbText.html">AltiumPcbText</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#af08a3d79cab1136c20583f6442283f96">convertText</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintTextIR.html">IR::FootprintTextIR</a>&amp; text);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbRegion.html">AltiumPcbRegion</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a3a5c8c14dfc1f3755c0961e2c2cfb532">convertSolidRegion</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1FootprintRegionIR.html">IR::FootprintRegionIR</a>&amp; region);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span> </div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#ad089082aaa978df2c208b90aa4dc9776">loadStepData</a>(<span class="keyword">const</span> QString&amp; stepPath);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a4e816f86f4a0f424acd680d0380fcbef">centerComponent</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component);</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a195976b8ec4677059448e5b57a369cb6">generateComponentBody</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a70dfc780c93d56d6f0a440f7d750abb2">  150</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html">AltiumPcbLibWriter</a> <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a70dfc780c93d56d6f0a440f7d750abb2">m_writer</a>;  </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a724c2ffd891949b7f84f307a60a31789">  151</a></span>    QStringList <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a724c2ffd891949b7f84f307a60a31789">m_diagnostics</a>;  </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>};</div>
+</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumPcbComponent_8h_html"><div class="ttname"><a href="AltiumPcbComponent_8h.html">AltiumPcbComponent.h</a></div></div>
+<div class="ttc" id="aAltiumPcbLibWriter_8h_html"><div class="ttname"><a href="AltiumPcbLibWriter_8h.html">AltiumPcbLibWriter.h</a></div></div>
+<div class="ttc" id="aFootprintIR_8h_html"><div class="ttname"><a href="FootprintIR_8h.html">FootprintIR.h</a></div><div class="ttdoc">PCB 封装的通用中间表示</div></div>
+<div class="ttc" id="aIFootprintExporter_8h_html"><div class="ttname"><a href="IFootprintExporter_8h.html">IFootprintExporter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html">EasyKiConverter::AltiumPcbLibWriter</a></div><div class="ttdoc">Altium PcbLib 文件写入器</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8h_source.html#l00021">AltiumPcbLibWriter.h:21</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html">EasyKiConverter::ExporterAltiumFootprint</a></div><div class="ttdoc">Altium 封装导出器</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8h_source.html#l00014">ExporterAltiumFootprint.h:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a0890112148d359981214e28ecb3efbcb"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a0890112148d359981214e28ecb3efbcb">EasyKiConverter::ExporterAltiumFootprint::convertArc</a></div><div class="ttdeci">AltiumPcbArc convertArc(const IR::FootprintArcIR &amp;arc)</div><div class="ttdoc">将 FootprintArcIR 转换为 AltiumPcbArc。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00306">ExporterAltiumFootprint.cpp:306</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a195976b8ec4677059448e5b57a369cb6"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a195976b8ec4677059448e5b57a369cb6">EasyKiConverter::ExporterAltiumFootprint::generateComponentBody</a></div><div class="ttdeci">void generateComponentBody(AltiumPcbComponent &amp;component)</div><div class="ttdoc">从封装包围盒和 3D 模型生成 ComponentBody。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00407">ExporterAltiumFootprint.cpp:407</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a237c8db47d6a7d07a6acda1dec681cee"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a237c8db47d6a7d07a6acda1dec681cee">EasyKiConverter::ExporterAltiumFootprint::convertRectangle</a></div><div class="ttdeci">AltiumPcbFill convertRectangle(const IR::FootprintRectangleIR &amp;rect)</div><div class="ttdoc">将 FootprintRectangleIR 转换为 AltiumPcbFill。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00323">ExporterAltiumFootprint.cpp:323</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a37dbfd8ac2050510962944099fb2f9f5"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a37dbfd8ac2050510962944099fb2f9f5">EasyKiConverter::ExporterAltiumFootprint::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const override</div><div class="ttdoc">获取最近一次 PcbLib 导出的非致命诊断</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8h_source.html#l00035">ExporterAltiumFootprint.h:35</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a37f3ef525ffcda76dc4346ce20bb96fd"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a37f3ef525ffcda76dc4346ce20bb96fd">EasyKiConverter::ExporterAltiumFootprint::exportFootprint</a></div><div class="ttdeci">bool exportFootprint(const IR::FootprintComponentIR &amp;footprint, const QString &amp;filePath, const QString &amp;model3DPath=QString()) override</div><div class="ttdoc">导出单个封装到 PcbLib 文件。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00020">ExporterAltiumFootprint.cpp:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a38128672a17195fd8e14fc7e5f4030d8"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a38128672a17195fd8e14fc7e5f4030d8">EasyKiConverter::ExporterAltiumFootprint::exportFootprintLibrary</a></div><div class="ttdeci">bool exportFootprintLibrary(const QList&lt; IR::FootprintComponentIR &gt; &amp;footprints, const QString &amp;libName, const QString &amp;filePath, bool preferWrl=true, bool exportStep=false, const QString &amp;libraryDescription=QString(), const QString &amp;libraryKeywords=QString(), bool useAbsolutePaths=false, const QString &amp;model3DBaseDir=QString()) override</div><div class="ttdoc">导出封装库（多个封装）。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00047">ExporterAltiumFootprint.cpp:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a3a5c8c14dfc1f3755c0961e2c2cfb532"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a3a5c8c14dfc1f3755c0961e2c2cfb532">EasyKiConverter::ExporterAltiumFootprint::convertSolidRegion</a></div><div class="ttdeci">AltiumPcbRegion convertSolidRegion(const IR::FootprintRegionIR &amp;region)</div><div class="ttdoc">将 FootprintRegionIR 转换为 AltiumPcbRegion。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00356">ExporterAltiumFootprint.cpp:356</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a4e816f86f4a0f424acd680d0380fcbef"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a4e816f86f4a0f424acd680d0380fcbef">EasyKiConverter::ExporterAltiumFootprint::centerComponent</a></div><div class="ttdeci">void centerComponent(AltiumPcbComponent &amp;component)</div><div class="ttdoc">将封装图元坐标居中到原点附近。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00391">ExporterAltiumFootprint.cpp:391</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a5c11888a0f8dfef8e2f80539d0b86297"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a5c11888a0f8dfef8e2f80539d0b86297">EasyKiConverter::ExporterAltiumFootprint::convertPad</a></div><div class="ttdeci">AltiumPcbPad convertPad(const IR::FootprintPadIR &amp;pad)</div><div class="ttdoc">将 FootprintPadIR 转换为 AltiumPcbPad。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00207">ExporterAltiumFootprint.cpp:207</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a6587c8b00dd2fce92b3f9d677aeaa496"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a6587c8b00dd2fce92b3f9d677aeaa496">EasyKiConverter::ExporterAltiumFootprint::libraryFileExtension</a></div><div class="ttdeci">QString libraryFileExtension() const override</div><div class="ttdoc">获取封装库文件扩展名</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8h_source.html#l00020">ExporterAltiumFootprint.h:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a70dfc780c93d56d6f0a440f7d750abb2"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a70dfc780c93d56d6f0a440f7d750abb2">EasyKiConverter::ExporterAltiumFootprint::m_writer</a></div><div class="ttdeci">AltiumPcbLibWriter m_writer</div><div class="ttdoc">Altium PcbLib 文件写入器。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8h_source.html#l00150">ExporterAltiumFootprint.h:150</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a724c2ffd891949b7f84f307a60a31789"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a724c2ffd891949b7f84f307a60a31789">EasyKiConverter::ExporterAltiumFootprint::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次导出的非致命诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8h_source.html#l00151">ExporterAltiumFootprint.h:151</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a86d9fea82b30d0b3c837cd30e633145e"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a86d9fea82b30d0b3c837cd30e633145e">EasyKiConverter::ExporterAltiumFootprint::convertFootprint</a></div><div class="ttdeci">AltiumPcbComponent convertFootprint(const IR::FootprintComponentIR &amp;data, const QString &amp;model3DPath=QString())</div><div class="ttdoc">将 FootprintComponentIR 转换为 AltiumPcbComponent。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00076">ExporterAltiumFootprint.cpp:76</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_a8f323cd5aabd3aca3730dba7799c77af"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#a8f323cd5aabd3aca3730dba7799c77af">EasyKiConverter::ExporterAltiumFootprint::convertCircle</a></div><div class="ttdeci">AltiumPcbArc convertCircle(const IR::FootprintCircleIR &amp;circle)</div><div class="ttdoc">将 FootprintCircleIR 转换为 AltiumPcbArc。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00289">ExporterAltiumFootprint.cpp:289</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_accaab4a65d4adf3953843b4e6689f581"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#accaab4a65d4adf3953843b4e6689f581">EasyKiConverter::ExporterAltiumFootprint::convertTrack</a></div><div class="ttdeci">AltiumPcbTrack convertTrack(const IR::FootprintTrackIR &amp;track)</div><div class="ttdoc">将 FootprintTrackIR 转换为 AltiumPcbTrack。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00268">ExporterAltiumFootprint.cpp:268</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_ad089082aaa978df2c208b90aa4dc9776"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#ad089082aaa978df2c208b90aa4dc9776">EasyKiConverter::ExporterAltiumFootprint::loadStepData</a></div><div class="ttdeci">QByteArray loadStepData(const QString &amp;stepPath)</div><div class="ttdoc">加载 STEP 文件数据。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00376">ExporterAltiumFootprint.cpp:376</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_aec1db7364b703ad4e3f336cddbff4574"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#aec1db7364b703ad4e3f336cddbff4574">EasyKiConverter::ExporterAltiumFootprint::isDirectoryOutput</a></div><div class="ttdeci">bool isDirectoryOutput() const override</div><div class="ttdoc">输出是否为目录结构</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8h_source.html#l00028">ExporterAltiumFootprint.h:28</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumFootprint_html_af08a3d79cab1136c20583f6442283f96"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumFootprint.html#af08a3d79cab1136c20583f6442283f96">EasyKiConverter::ExporterAltiumFootprint::convertText</a></div><div class="ttdeci">AltiumPcbText convertText(const IR::FootprintTextIR &amp;text)</div><div class="ttdoc">将 FootprintTextIR 转换为 AltiumPcbText。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumFootprint_8cpp_source.html#l00338">ExporterAltiumFootprint.cpp:338</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IFootprintExporter_html"><div class="ttname"><a href="classEasyKiConverter_1_1IFootprintExporter.html">EasyKiConverter::IFootprintExporter</a></div><div class="ttdoc">封装导出器通用接口</div><div class="ttdef"><b>Definition</b> <a href="IFootprintExporter_8h_source.html#l00016">IFootprintExporter.h:16</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbArc_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbArc.html">EasyKiConverter::AltiumPcbArc</a></div><div class="ttdoc">Altium PCB 弧线</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbComponent_8h_source.html#l00068">AltiumPcbComponent.h:68</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbComponent_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbComponent.html">EasyKiConverter::AltiumPcbComponent</a></div><div class="ttdoc">Altium PCB 封装元件</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbComponent_8h_source.html#l00163">AltiumPcbComponent.h:163</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbFill_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbFill.html">EasyKiConverter::AltiumPcbFill</a></div><div class="ttdoc">Altium PCB 填充</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbComponent_8h_source.html#l00093">AltiumPcbComponent.h:93</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbPad_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbPad.html">EasyKiConverter::AltiumPcbPad</a></div><div class="ttdoc">Altium PCB 焊盘</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbComponent_8h_source.html#l00016">AltiumPcbComponent.h:16</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbRegion_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbRegion.html">EasyKiConverter::AltiumPcbRegion</a></div><div class="ttdoc">Altium PCB 区域</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbComponent_8h_source.html#l00104">AltiumPcbComponent.h:104</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbText_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbText.html">EasyKiConverter::AltiumPcbText</a></div><div class="ttdoc">Altium PCB 文本</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbComponent_8h_source.html#l00080">AltiumPcbComponent.h:80</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbTrack_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbTrack.html">EasyKiConverter::AltiumPcbTrack</a></div><div class="ttdoc">Altium PCB 走线</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbComponent_8h_source.html#l00057">AltiumPcbComponent.h:57</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintArcIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintArcIR.html">EasyKiConverter::IR::FootprintArcIR</a></div><div class="ttdoc">通用圆弧</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00128">FootprintIR.h:128</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintCircleIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintCircleIR.html">EasyKiConverter::IR::FootprintCircleIR</a></div><div class="ttdoc">通用圆</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00102">FootprintIR.h:102</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">EasyKiConverter::IR::FootprintComponentIR</a></div><div class="ttdoc">通用封装组件</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00196">FootprintIR.h:196</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintPadIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintPadIR.html">EasyKiConverter::IR::FootprintPadIR</a></div><div class="ttdoc">通用焊盘</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00037">FootprintIR.h:37</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintRectangleIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintRectangleIR.html">EasyKiConverter::IR::FootprintRectangleIR</a></div><div class="ttdoc">通用填充矩形</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00113">FootprintIR.h:113</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintRegionIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintRegionIR.html">EasyKiConverter::IR::FootprintRegionIR</a></div><div class="ttdoc">通用实心区域</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00173">FootprintIR.h:173</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintTextIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintTextIR.html">EasyKiConverter::IR::FootprintTextIR</a></div><div class="ttdoc">通用文本</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00147">FootprintIR.h:147</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1FootprintTrackIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1FootprintTrackIR.html">EasyKiConverter::IR::FootprintTrackIR</a></div><div class="ttdoc">通用走线</div><div class="ttdef"><b>Definition</b> <a href="FootprintIR_8h_source.html#l00082">FootprintIR.h:82</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="ExporterAltiumFootprint_8h.html">ExporterAltiumFootprint.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

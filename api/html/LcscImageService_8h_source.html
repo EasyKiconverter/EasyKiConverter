@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/LcscImageService.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('LcscImageService_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">LcscImageService.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="LcscImageService_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef LCSCIMAGESERVICE_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define LCSCIMAGESERVICE_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheService_8h.html">ComponentCacheService.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="AsyncNetworkRequest_8h.html">core/network/AsyncNetworkRequest.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QAtomicInt&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QFutureWatcher&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QMap&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QPointer&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="};">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html">   24</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1LcscImageService.html">LcscImageService</a> : <span class="keyword">public</span> QObject {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    Q_OBJECT</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1LcscImageService.html">LcscImageService</a>(QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a67ac08694ffc9ec1105146b5a949bfc8">fetchPreviewImages</a>(<span class="keyword">const</span> QString&amp; componentId);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a03b4f2d38bc452311be15f8061cdbd7e">fetchBatchPreviewImages</a>(<span class="keyword">const</span> QStringList&amp; componentIds);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a65b9c622db9b94e0e64bd571f290211a">clearCache</a>();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a82c2d180b2bd7655b7064476bb6efc9b">cancelAll</a>();</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#ad630bcc0fd68c87e109f8fbffffab0f3">cancelRequestForComponent</a>(<span class="keyword">const</span> QString&amp; componentId);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a7b5c5fc622442a83501aa0dc166aa5bc">fetchDatasheet</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QString&amp; datasheetUrl);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>signals:</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a166d3ca007d721f46e076bf5cd3b8462">   84</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a166d3ca007d721f46e076bf5cd3b8462">imageReady</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QByteArray&amp; imageData, <span class="keywordtype">int</span> imageIndex);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a5646b13cc45b63d842d67acd8df2f832">   92</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a5646b13cc45b63d842d67acd8df2f832">allImagesReady</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QStringList&amp; imagePaths);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a44ccd5f3b1f1b5e6b52f170d0fe0bcce">  102</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a44ccd5f3b1f1b5e6b52f170d0fe0bcce">lcscDataReady</a>(<span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>                       <span class="keyword">const</span> QString&amp; manufacturerPart,</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>                       <span class="keyword">const</span> QString&amp; datasheetUrl,</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                       <span class="keyword">const</span> QStringList&amp; imageUrls);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#aa49c52ee2edc61c7c476c9698334182d">  113</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#aa49c52ee2edc61c7c476c9698334182d">datasheetReady</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QByteArray&amp; datasheetData);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a4fa9f8b696d2b4dbafaf0a7e14584798">  120</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a4fa9f8b696d2b4dbafaf0a7e14584798">error</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QString&amp; errorMessage);</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a989f043854e1139e2ef7afe7bf8c4a1c">tryLoadCachedPreviewImages</a>(<span class="keyword">const</span> QString&amp; componentId);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a2ac86ab5b67a4ddf638510111f29af1a">loadCachedPreviewImagesAsync</a>(<span class="keyword">const</span> QString&amp; componentId, <a class="code hl_class" href="classEasyKiConverter_1_1ComponentCacheService.html">ComponentCacheService</a>* cache, quint64 requestToken);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#ab4c68ba10dc28c130d30e238246cc381">startPreviewImageDownloads</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QStringList&amp; imageUrls, quint64 requestToken);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a2fb0b2c98b71dbf21964544158570913">performApiSearch</a>(<span class="keyword">const</span> QString&amp; componentId, quint64 requestToken);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a2e019f6c047aece223906505eff178dc">performDownload</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QString&amp; imageUrl, <span class="keywordtype">int</span> imageIndex, quint64 requestToken);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#afa4f73f13b1fd97f59853e4fb179c60f">performDatasheetDownload</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> QString&amp; datasheetUrl, quint64 requestToken);</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a2988f53d647929c816b9013c851204b2">checkDownloadCompletion</a>(<span class="keyword">const</span> QString&amp; componentId, quint64 requestToken);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#adbf2b0e78093d26454ba8170ad9dc189">emitAllImagesReady</a>(<span class="keyword">const</span> QString&amp; componentId, quint64 requestToken);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    quint64 <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a20bba8a8650fdbab11881fa69dd9a39d">beginRequest</a>(<span class="keyword">const</span> QString&amp; componentId);</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a25c75c654fadb9ac2e0374203e0b2996">isCurrentRequest</a>(<span class="keyword">const</span> QString&amp; componentId, quint64 requestToken) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>    quint64 <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a806202080ca8320fe7d186478fe6bdfe">beginDatasheetRequest</a>(<span class="keyword">const</span> QString&amp; componentId);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a20dc3be09d1d61e306a7e085d7b98b5e">isCurrentDatasheetRequest</a>(<span class="keyword">const</span> QString&amp; componentId, quint64 requestToken) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#a5ed644a01fe0f5cb3f0bd3489ccd0c8c">trackAsyncRequest</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>* request);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LcscImageService.html#ac85d64335895e287ef1622627b768e87">untrackAsyncRequest</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>* request);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a9ca911712f4c77629c85f3ac67acbf06">  138</a></span>    QThreadPool* <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a9ca911712f4c77629c85f3ac67acbf06">m_cacheThreadPool</a>;  <span class="comment">// 缓存加载专用线程池</span></div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#adc51f760a9746d2c28036598f3616fc7">  139</a></span>    QSet&lt;QString&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#adc51f760a9746d2c28036598f3616fc7">m_requestedComponents</a>;  <span class="comment">// 已经请求过的组件（防止重复请求）</span></div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a55cff1a5574fbdd97b21a8812050d9d6">  140</a></span>    QMap&lt;QString, quint64&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a55cff1a5574fbdd97b21a8812050d9d6">m_requestTokens</a>;  <span class="comment">// componentId -&gt; 当前请求令牌</span></div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#aa150fb0e2189fbfc48b4a5f73afc209d">  141</a></span>    QMap&lt;QString, quint64&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#aa150fb0e2189fbfc48b4a5f73afc209d">m_datasheetTokens</a>;  <span class="comment">// componentId -&gt; 当前数据手册请求令牌</span></div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a1824a8146d94337b5085d1a5f09f5641">  142</a></span>    quint64 <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a1824a8146d94337b5085d1a5f09f5641">m_nextRequestToken</a> = 0;  <span class="comment">// 单调递增的请求令牌</span></div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    <span class="comment">// 跟踪下载状态（只存计数，不存实际数据）</span></div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a717cc49620f3e58011483783b5036d7c">  145</a></span>    QMap&lt;QString, int&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a717cc49620f3e58011483783b5036d7c">m_downloadCounts</a>;  <span class="comment">// componentId -&gt; downloaded count</span></div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a167dd1751ca88c2df9896e2dbde75718">  146</a></span>    QMap&lt;QString, int&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a167dd1751ca88c2df9896e2dbde75718">m_expectedCounts</a>;  <span class="comment">// componentId -&gt; expected count</span></div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    <span class="comment">// 跟踪异步加载的 watcher，用于非阻塞预览图加载</span></div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a6735fddb34a7676349398c95575fdbad">  149</a></span>    QList&lt;QFutureWatcher&lt;QByteArray&gt;*&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a6735fddb34a7676349398c95575fdbad">m_pendingImageWatchers</a>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#ab3eba8c9a4da617942831edcfc910d33">  150</a></span>    QList&lt;QPointer&lt;AsyncNetworkRequest&gt;&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#ab3eba8c9a4da617942831edcfc910d33">m_activeAsyncRequests</a>;  </div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span> </div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a4c770de4f37f116ac009af147dfce016">  152</a></span>    QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a4c770de4f37f116ac009af147dfce016">m_isCancelled</a>;  <span class="comment">// 取消标志，防止 cancelAll() 后 pending 回调继续执行</span></div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#acfc3891faf43db071f661235e4f6ad52">  153</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#acfc3891faf43db071f661235e4f6ad52">MAX_CONCURRENT_REQUESTS</a> = 10;  </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a87e2b6b314ccbfffbff165fcd18d9e3e">  154</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a87e2b6b314ccbfffbff165fcd18d9e3e">MAX_IMAGES_PER_COMPONENT</a> = 3;  </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LcscImageService.html#a6fe75daebbac848ada02d30b86c0ae18">  155</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1LcscImageService.html#a6fe75daebbac848ada02d30b86c0ae18">MAX_RETRY_COUNT</a> = 3;  </div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>};</div>
+</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span> </div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span><span class="preprocessor">#endif  </span><span class="comment">// LCSCIMAGESERVICE_H</span></div>
+<div class="ttc" id="aAsyncNetworkRequest_8h_html"><div class="ttname"><a href="AsyncNetworkRequest_8h.html">AsyncNetworkRequest.h</a></div></div>
+<div class="ttc" id="aComponentCacheService_8h_html"><div class="ttname"><a href="ComponentCacheService_8h.html">ComponentCacheService.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html">EasyKiConverter::AsyncNetworkRequest</a></div><div class="ttdoc">异步网络请求，支持取消</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00045">AsyncNetworkRequest.h:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html">EasyKiConverter::ComponentCacheService</a></div><div class="ttdoc">元器件缓存服务类（两层缓存架构）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00074">ComponentCacheService.h:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html">EasyKiConverter::LcscImageService</a></div><div class="ttdoc">LCSC 图片服务类</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00024">LcscImageService.h:24</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a03b4f2d38bc452311be15f8061cdbd7e"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a03b4f2d38bc452311be15f8061cdbd7e">EasyKiConverter::LcscImageService::fetchBatchPreviewImages</a></div><div class="ttdeci">void fetchBatchPreviewImages(const QStringList &amp;componentIds)</div><div class="ttdoc">批量获取多个元件的预览图</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00076">LcscImageService.cpp:76</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a166d3ca007d721f46e076bf5cd3b8462"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a166d3ca007d721f46e076bf5cd3b8462">EasyKiConverter::LcscImageService::imageReady</a></div><div class="ttdeci">void imageReady(const QString &amp;componentId, const QByteArray &amp;imageData, int imageIndex)</div><div class="ttdoc">单张图片下载成功信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a167dd1751ca88c2df9896e2dbde75718"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a167dd1751ca88c2df9896e2dbde75718">EasyKiConverter::LcscImageService::m_expectedCounts</a></div><div class="ttdeci">QMap&lt; QString, int &gt; m_expectedCounts</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00146">LcscImageService.h:146</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a1824a8146d94337b5085d1a5f09f5641"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a1824a8146d94337b5085d1a5f09f5641">EasyKiConverter::LcscImageService::m_nextRequestToken</a></div><div class="ttdeci">quint64 m_nextRequestToken</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00142">LcscImageService.h:142</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a20bba8a8650fdbab11881fa69dd9a39d"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a20bba8a8650fdbab11881fa69dd9a39d">EasyKiConverter::LcscImageService::beginRequest</a></div><div class="ttdeci">quint64 beginRequest(const QString &amp;componentId)</div><div class="ttdoc">为新的组件媒体请求分配单调递增令牌。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00645">LcscImageService.cpp:645</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a20dc3be09d1d61e306a7e085d7b98b5e"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a20dc3be09d1d61e306a7e085d7b98b5e">EasyKiConverter::LcscImageService::isCurrentDatasheetRequest</a></div><div class="ttdeci">bool isCurrentDatasheetRequest(const QString &amp;componentId, quint64 requestToken) const</div><div class="ttdoc">判断数据手册异步回调是否仍属于当前请求。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00680">LcscImageService.cpp:680</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a25c75c654fadb9ac2e0374203e0b2996"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a25c75c654fadb9ac2e0374203e0b2996">EasyKiConverter::LcscImageService::isCurrentRequest</a></div><div class="ttdeci">bool isCurrentRequest(const QString &amp;componentId, quint64 requestToken) const</div><div class="ttdoc">判断异步回调是否仍属于当前组件请求。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00658">LcscImageService.cpp:658</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a2988f53d647929c816b9013c851204b2"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a2988f53d647929c816b9013c851204b2">EasyKiConverter::LcscImageService::checkDownloadCompletion</a></div><div class="ttdeci">void checkDownloadCompletion(const QString &amp;componentId, quint64 requestToken)</div><div class="ttdoc">检查当前元器件的预览图下载任务是否全部结束。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00500">LcscImageService.cpp:500</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a2ac86ab5b67a4ddf638510111f29af1a"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a2ac86ab5b67a4ddf638510111f29af1a">EasyKiConverter::LcscImageService::loadCachedPreviewImagesAsync</a></div><div class="ttdeci">void loadCachedPreviewImagesAsync(const QString &amp;componentId, ComponentCacheService *cache, quint64 requestToken)</div><div class="ttdoc">在后台线程读取预览图缓存，并在全部读取结束后统一处理。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00226">LcscImageService.cpp:226</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a2e019f6c047aece223906505eff178dc"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a2e019f6c047aece223906505eff178dc">EasyKiConverter::LcscImageService::performDownload</a></div><div class="ttdeci">void performDownload(const QString &amp;componentId, const QString &amp;imageUrl, int imageIndex, quint64 requestToken)</div><div class="ttdoc">下载单张预览图并写入经过校验的磁盘缓存。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00430">LcscImageService.cpp:430</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a2fb0b2c98b71dbf21964544158570913"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a2fb0b2c98b71dbf21964544158570913">EasyKiConverter::LcscImageService::performApiSearch</a></div><div class="ttdeci">void performApiSearch(const QString &amp;componentId, quint64 requestToken)</div><div class="ttdoc">向产品搜索接口发起请求并解析匹配产品信息。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00337">LcscImageService.cpp:337</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a44ccd5f3b1f1b5e6b52f170d0fe0bcce"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a44ccd5f3b1f1b5e6b52f170d0fe0bcce">EasyKiConverter::LcscImageService::lcscDataReady</a></div><div class="ttdeci">void lcscDataReady(const QString &amp;componentId, const QString &amp;manufacturerPart, const QString &amp;datasheetUrl, const QStringList &amp;imageUrls)</div><div class="ttdoc">LCSC API 数据获取成功信号（包含数据手册和预览图 URL）</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a4c770de4f37f116ac009af147dfce016"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a4c770de4f37f116ac009af147dfce016">EasyKiConverter::LcscImageService::m_isCancelled</a></div><div class="ttdeci">QAtomicInt m_isCancelled</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00152">LcscImageService.h:152</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a4fa9f8b696d2b4dbafaf0a7e14584798"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a4fa9f8b696d2b4dbafaf0a7e14584798">EasyKiConverter::LcscImageService::error</a></div><div class="ttdeci">void error(const QString &amp;componentId, const QString &amp;errorMessage)</div><div class="ttdoc">错误信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a55cff1a5574fbdd97b21a8812050d9d6"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a55cff1a5574fbdd97b21a8812050d9d6">EasyKiConverter::LcscImageService::m_requestTokens</a></div><div class="ttdeci">QMap&lt; QString, quint64 &gt; m_requestTokens</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00140">LcscImageService.h:140</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a5646b13cc45b63d842d67acd8df2f832"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a5646b13cc45b63d842d67acd8df2f832">EasyKiConverter::LcscImageService::allImagesReady</a></div><div class="ttdeci">void allImagesReady(const QString &amp;componentId, const QStringList &amp;imagePaths)</div><div class="ttdoc">所有图片下载完成信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a5ed644a01fe0f5cb3f0bd3489ccd0c8c"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a5ed644a01fe0f5cb3f0bd3489ccd0c8c">EasyKiConverter::LcscImageService::trackAsyncRequest</a></div><div class="ttdeci">void trackAsyncRequest(AsyncNetworkRequest *request)</div><div class="ttdoc">跟踪尚未完成的异步网络请求。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00625">LcscImageService.cpp:625</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a65b9c622db9b94e0e64bd571f290211a"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a65b9c622db9b94e0e64bd571f290211a">EasyKiConverter::LcscImageService::clearCache</a></div><div class="ttdeci">void clearCache()</div><div class="ttdoc">清空所有缓存数据</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00108">LcscImageService.cpp:108</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a6735fddb34a7676349398c95575fdbad"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a6735fddb34a7676349398c95575fdbad">EasyKiConverter::LcscImageService::m_pendingImageWatchers</a></div><div class="ttdeci">QList&lt; QFutureWatcher&lt; QByteArray &gt; * &gt; m_pendingImageWatchers</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00149">LcscImageService.h:149</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a67ac08694ffc9ec1105146b5a949bfc8"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a67ac08694ffc9ec1105146b5a949bfc8">EasyKiConverter::LcscImageService::fetchPreviewImages</a></div><div class="ttdeci">void fetchPreviewImages(const QString &amp;componentId)</div><div class="ttdoc">请求获取元件预览图（支持多张）</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00045">LcscImageService.cpp:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a6fe75daebbac848ada02d30b86c0ae18"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a6fe75daebbac848ada02d30b86c0ae18">EasyKiConverter::LcscImageService::MAX_RETRY_COUNT</a></div><div class="ttdeci">static const int MAX_RETRY_COUNT</div><div class="ttdoc">预览图下载失败时的最大重试次数。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00155">LcscImageService.h:155</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a717cc49620f3e58011483783b5036d7c"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a717cc49620f3e58011483783b5036d7c">EasyKiConverter::LcscImageService::m_downloadCounts</a></div><div class="ttdeci">QMap&lt; QString, int &gt; m_downloadCounts</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00145">LcscImageService.h:145</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a7b5c5fc622442a83501aa0dc166aa5bc"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a7b5c5fc622442a83501aa0dc166aa5bc">EasyKiConverter::LcscImageService::fetchDatasheet</a></div><div class="ttdeci">void fetchDatasheet(const QString &amp;componentId, const QString &amp;datasheetUrl)</div><div class="ttdoc">下载数据手册</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00171">LcscImageService.cpp:171</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a806202080ca8320fe7d186478fe6bdfe"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a806202080ca8320fe7d186478fe6bdfe">EasyKiConverter::LcscImageService::beginDatasheetRequest</a></div><div class="ttdeci">quint64 beginDatasheetRequest(const QString &amp;componentId)</div><div class="ttdoc">为新的数据手册请求分配单调递增令牌。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00667">LcscImageService.cpp:667</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a82c2d180b2bd7655b7064476bb6efc9b"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a82c2d180b2bd7655b7064476bb6efc9b">EasyKiConverter::LcscImageService::cancelAll</a></div><div class="ttdeci">void cancelAll()</div><div class="ttdoc">取消所有正在进行的预览图获取操作</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00123">LcscImageService.cpp:123</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a87e2b6b314ccbfffbff165fcd18d9e3e"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a87e2b6b314ccbfffbff165fcd18d9e3e">EasyKiConverter::LcscImageService::MAX_IMAGES_PER_COMPONENT</a></div><div class="ttdeci">static const int MAX_IMAGES_PER_COMPONENT</div><div class="ttdoc">每个组件允许下载的预览图数量上限。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00154">LcscImageService.h:154</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a989f043854e1139e2ef7afe7bf8c4a1c"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a989f043854e1139e2ef7afe7bf8c4a1c">EasyKiConverter::LcscImageService::tryLoadCachedPreviewImages</a></div><div class="ttdeci">bool tryLoadCachedPreviewImages(const QString &amp;componentId)</div><div class="ttdoc">检查指定元器件是否存在预览图缓存，并安排异步读取。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00192">LcscImageService.cpp:192</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_a9ca911712f4c77629c85f3ac67acbf06"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#a9ca911712f4c77629c85f3ac67acbf06">EasyKiConverter::LcscImageService::m_cacheThreadPool</a></div><div class="ttdeci">QThreadPool * m_cacheThreadPool</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00138">LcscImageService.h:138</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_aa150fb0e2189fbfc48b4a5f73afc209d"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#aa150fb0e2189fbfc48b4a5f73afc209d">EasyKiConverter::LcscImageService::m_datasheetTokens</a></div><div class="ttdeci">QMap&lt; QString, quint64 &gt; m_datasheetTokens</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00141">LcscImageService.h:141</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_aa49c52ee2edc61c7c476c9698334182d"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#aa49c52ee2edc61c7c476c9698334182d">EasyKiConverter::LcscImageService::datasheetReady</a></div><div class="ttdeci">void datasheetReady(const QString &amp;componentId, const QByteArray &amp;datasheetData)</div><div class="ttdoc">数据手册下载成功信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_ab3eba8c9a4da617942831edcfc910d33"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#ab3eba8c9a4da617942831edcfc910d33">EasyKiConverter::LcscImageService::m_activeAsyncRequests</a></div><div class="ttdeci">QList&lt; QPointer&lt; AsyncNetworkRequest &gt; &gt; m_activeAsyncRequests</div><div class="ttdoc">活动异步请求列表。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00150">LcscImageService.h:150</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_ab4c68ba10dc28c130d30e238246cc381"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#ab4c68ba10dc28c130d30e238246cc381">EasyKiConverter::LcscImageService::startPreviewImageDownloads</a></div><div class="ttdeci">void startPreviewImageDownloads(const QString &amp;componentId, const QStringList &amp;imageUrls, quint64 requestToken)</div><div class="ttdoc">根据规范化后的地址启动预览图下载任务。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00309">LcscImageService.cpp:309</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_ac85d64335895e287ef1622627b768e87"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#ac85d64335895e287ef1622627b768e87">EasyKiConverter::LcscImageService::untrackAsyncRequest</a></div><div class="ttdeci">void untrackAsyncRequest(AsyncNetworkRequest *request)</div><div class="ttdoc">移除已经完成或取消的异步网络请求。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00636">LcscImageService.cpp:636</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_acfc3891faf43db071f661235e4f6ad52"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#acfc3891faf43db071f661235e4f6ad52">EasyKiConverter::LcscImageService::MAX_CONCURRENT_REQUESTS</a></div><div class="ttdeci">static const int MAX_CONCURRENT_REQUESTS</div><div class="ttdoc">缓存加载的最大并发下载数。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00153">LcscImageService.h:153</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_ad630bcc0fd68c87e109f8fbffffab0f3"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#ad630bcc0fd68c87e109f8fbffffab0f3">EasyKiConverter::LcscImageService::cancelRequestForComponent</a></div><div class="ttdeci">void cancelRequestForComponent(const QString &amp;componentId)</div><div class="ttdoc">取消特定元件的预览图获取操作</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00147">LcscImageService.cpp:147</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_adbf2b0e78093d26454ba8170ad9dc189"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#adbf2b0e78093d26454ba8170ad9dc189">EasyKiConverter::LcscImageService::emitAllImagesReady</a></div><div class="ttdeci">void emitAllImagesReady(const QString &amp;componentId, quint64 requestToken)</div><div class="ttdoc">汇总并校验预览图缓存，然后发出完成或失败信号。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00523">LcscImageService.cpp:523</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_adc51f760a9746d2c28036598f3616fc7"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#adc51f760a9746d2c28036598f3616fc7">EasyKiConverter::LcscImageService::m_requestedComponents</a></div><div class="ttdeci">QSet&lt; QString &gt; m_requestedComponents</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8h_source.html#l00139">LcscImageService.h:139</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LcscImageService_html_afa4f73f13b1fd97f59853e4fb179c60f"><div class="ttname"><a href="classEasyKiConverter_1_1LcscImageService.html#afa4f73f13b1fd97f59853e4fb179c60f">EasyKiConverter::LcscImageService::performDatasheetDownload</a></div><div class="ttdeci">void performDatasheetDownload(const QString &amp;componentId, const QString &amp;datasheetUrl, quint64 requestToken)</div><div class="ttdoc">下载数据手册并将有效内容写入缓存。</div><div class="ttdef"><b>Definition</b> <a href="LcscImageService_8cpp_source.html#l00558">LcscImageService.cpp:558</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="LcscImageService_8h.html">LcscImageService.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

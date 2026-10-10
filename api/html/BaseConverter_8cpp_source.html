@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/cli/BaseConverter.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('BaseConverter_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">BaseConverter.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="BaseConverter_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="BaseConverter_8h.html">BaseConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="CliContext_8h.html">CliContext.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="CliExportWaiter_8h.html">CliExportWaiter.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="CliPrinter_8h.html">CliPrinter.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="ParallelExportService_8h.html">services/export/ParallelExportService.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="}">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BaseConverter.html#a04de215f17b1912bd8607bbc287b4834">   15</a></span><a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a04de215f17b1912bd8607bbc287b4834">BaseConverter::BaseConverter</a>(<a class="code hl_class" href="classEasyKiConverter_1_1CliContext.html">CliContext</a>* context, QObject* parent)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="comment">// 初始化上下文和打印器，后续共享流程依赖这两个对象。</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    : QObject(parent), m_context(context), m_printer(new <a class="code hl_class" href="classEasyKiConverter_1_1CliPrinter.html">CliPrinter</a>(context-&gt;parser().isQuietMode())) {}</div>
+</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="}">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">   23</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">BaseConverter::printMessage</a>(<span class="keyword">const</span> QString&amp; message)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a2d9f34fc025e44e02f9b556f7318dc48">m_printer</a>) {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a2d9f34fc025e44e02f9b556f7318dc48">m_printer</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1CliPrinter.html#abedaefb9fd77744fa191480e0f942adb">println</a>(message);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="foldopen" id="foldopen00033" data-start="{" data-end="}">
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BaseConverter.html#a3b41f35e9d347a83fb64fc4c5ce64cba">   33</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a3b41f35e9d347a83fb64fc4c5ce64cba">BaseConverter::printProgressBar</a>(<span class="keywordtype">int</span> progress)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a2d9f34fc025e44e02f9b556f7318dc48">m_printer</a>) {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a2d9f34fc025e44e02f9b556f7318dc48">m_printer</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1CliPrinter.html#ab11f5c824880d62dfdf0c92edc3cdc3b">printProgressBar</a>(progress);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}</div>
+</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BaseConverter.html#a79123889ca92520469040f7e140b4da9">   44</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a79123889ca92520469040f7e140b4da9">BaseConverter::runExport</a>(<span class="keyword">const</span> QStringList&amp; componentIds) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">printMessage</a>(QCoreApplication::translate(<span class="stringliteral">&quot;CliConverter&quot;</span>, <span class="stringliteral">&quot;找到 %1 个元器件&quot;</span>).arg(componentIds.size()));</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="comment">// 创建当前 CLI 请求的导出选项。</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> options = <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a559cb7fd17665c52b65f12272d510c4b">context</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a9f671c4d589170f22e1e61f246f1ac17">createExportOptions</a>();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="comment">// 获取负责预加载和导出的共享服务。</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <a class="code hl_class" href="classEasyKiConverter_1_1ParallelExportService.html">ParallelExportService</a>* exportService = <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a559cb7fd17665c52b65f12272d510c4b">context</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a3acac21fb4d67d4cff02aeca83fd4fd4">exportService</a>();</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    exportService-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#a1740870ae1644105491ba6b92c164d95">setOptions</a>(options);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    exportService-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#aad70c9091ab130d02998d1ffb6c7e393">setOutputPath</a>(<a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a559cb7fd17665c52b65f12272d510c4b">context</a>()-&gt;parser().outputDir());</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    connect(exportService, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#a898c80d25eda21b1e09e38e0645816fa">ParallelExportService::preloadCompleted</a>, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a62fd501365b838dcd54398b2519bb7ca">BaseConverter::onPreloadCompleted</a>);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    connect(exportService, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#a86d4e05424e829e91e0976e3d90eee37">ParallelExportService::progressChanged</a>, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a4403b9365a7d0ccee6a3aa00c20f4444">BaseConverter::onProgressChanged</a>);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    connect(exportService, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#a0bb299a95eac5bdaf4fd957caeec0c32">ParallelExportService::completed</a>, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#aa285beebd1dc9e49999efa5229b3c7d5">BaseConverter::onExportCompleted</a>);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    connect(exportService, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelExportService.html#a24616297ca69d3cc2aeefcd48837d97b">ParallelExportService::failed</a>, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a7f3c566a5fb53a099729a39bd58e32ed">BaseConverter::onExportFailed</a>);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <a class="code hl_function" href="classEasyKiConverter_1_1CliExportWaiter.html#adf8988d3100fc2f6814667dce25161f3">CliExportWaiter::waitForPreload</a>(exportService, componentIds);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a44a614299082a77b851e36870e0acf72">errorMessage</a>().isEmpty()) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">printMessage</a>(QCoreApplication::translate(<span class="stringliteral">&quot;CliConverter&quot;</span>, <span class="stringliteral">&quot;预加载完成，开始导出...&quot;</span>));</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <a class="code hl_function" href="classEasyKiConverter_1_1CliExportWaiter.html#ac59fc559ecdb063b64faac6b1d0dfe80">CliExportWaiter::waitForExport</a>(exportService);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">printMessage</a>(QCoreApplication::translate(<span class="stringliteral">&quot;CliConverter&quot;</span>, <span class="stringliteral">&quot;\n转换完成: 成功 %1, 失败 %2&quot;</span>)</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                     .arg(<a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#af40b9c38942f877d63ae8c546b4c0b53">m_successCount</a>)</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                     .arg(<a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a643a41a3934d5e8ef33f533a3121c5b1">m_failedCount</a>));</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a2f2184e63df4f07c531ac693c695f097">m_exportSuccess</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
+</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="foldopen" id="foldopen00076" data-start="{" data-end="}">
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BaseConverter.html#a62fd501365b838dcd54398b2519bb7ca">   76</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a62fd501365b838dcd54398b2519bb7ca">BaseConverter::onPreloadCompleted</a>(<span class="keywordtype">int</span> successCount, <span class="keywordtype">int</span> failedCount) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">printMessage</a>(</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        QCoreApplication::translate(<span class="stringliteral">&quot;CliConverter&quot;</span>, <span class="stringliteral">&quot;预加载完成: 成功 %1, 失败 %2&quot;</span>).arg(successCount).arg(failedCount));</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}</div>
+</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="foldopen" id="foldopen00085" data-start="{" data-end="}">
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BaseConverter.html#a4403b9365a7d0ccee6a3aa00c20f4444">   85</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a4403b9365a7d0ccee6a3aa00c20f4444">BaseConverter::onProgressChanged</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOverallProgress.html">ExportOverallProgress</a>&amp; progress) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    <span class="keywordflow">if</span> (<a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a559cb7fd17665c52b65f12272d510c4b">context</a>()-&gt;parser().showProgress()) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a3b41f35e9d347a83fb64fc4c5ce64cba">printProgressBar</a>(progress.<a class="code hl_function" href="structEasyKiConverter_1_1ExportOverallProgress.html#a658dd516bafcb48be656c0d0bf3f732a">overallPercentage</a>());</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportTypeProgress.html">ExportTypeProgress</a>&amp; typeProgress : progress.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOverallProgress.html#ae572cf5cfcc896824522455ec8d55953">exportTypeProgress</a>) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; diagnostic : typeProgress.diagnostics) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a8b264412ffc489ff18e088598002d728">m_reportedDiagnostics</a>.contains(diagnostic))</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a8b264412ffc489ff18e088598002d728">m_reportedDiagnostics</a>.append(diagnostic);</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">printMessage</a>(QCoreApplication::translate(<span class="stringliteral">&quot;CliConverter&quot;</span>, <span class="stringliteral">&quot;导出诊断: %1&quot;</span>).arg(diagnostic));</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BaseConverter.html#aa285beebd1dc9e49999efa5229b3c7d5">  104</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#aa285beebd1dc9e49999efa5229b3c7d5">BaseConverter::onExportCompleted</a>(<span class="keywordtype">int</span> successCount, <span class="keywordtype">int</span> failedCount) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#af40b9c38942f877d63ae8c546b4c0b53">m_successCount</a> = successCount;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a643a41a3934d5e8ef33f533a3121c5b1">m_failedCount</a> = failedCount;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a2f2184e63df4f07c531ac693c695f097">m_exportSuccess</a> = failedCount == 0;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}</div>
+</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="foldopen" id="foldopen00114" data-start="{" data-end="}">
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1BaseConverter.html#a7f3c566a5fb53a099729a39bd58e32ed">  114</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a7f3c566a5fb53a099729a39bd58e32ed">BaseConverter::onExportFailed</a>(<span class="keyword">const</span> QString&amp; error) {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <a class="code hl_function" href="classEasyKiConverter_1_1BaseConverter.html#a663245162eed89de1df25a2492ab2ea9">setError</a>(error);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1BaseConverter.html#a2f2184e63df4f07c531ac693c695f097">m_exportSuccess</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
+</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span> </div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aBaseConverter_8h_html"><div class="ttname"><a href="BaseConverter_8h.html">BaseConverter.h</a></div></div>
+<div class="ttc" id="aCliContext_8h_html"><div class="ttname"><a href="CliContext_8h.html">CliContext.h</a></div></div>
+<div class="ttc" id="aCliExportWaiter_8h_html"><div class="ttname"><a href="CliExportWaiter_8h.html">CliExportWaiter.h</a></div></div>
+<div class="ttc" id="aCliPrinter_8h_html"><div class="ttname"><a href="CliPrinter_8h.html">CliPrinter.h</a></div></div>
+<div class="ttc" id="aParallelExportService_8h_html"><div class="ttname"><a href="ParallelExportService_8h.html">ParallelExportService.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a04de215f17b1912bd8607bbc287b4834"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a04de215f17b1912bd8607bbc287b4834">EasyKiConverter::BaseConverter::BaseConverter</a></div><div class="ttdeci">BaseConverter(CliContext *context, QObject *parent=nullptr)</div><div class="ttdoc">构造函数</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00015">BaseConverter.cpp:15</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a2d9f34fc025e44e02f9b556f7318dc48"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a2d9f34fc025e44e02f9b556f7318dc48">EasyKiConverter::BaseConverter::m_printer</a></div><div class="ttdeci">CliPrinter * m_printer</div><div class="ttdoc">保存 CLI 输出打印器。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00139">BaseConverter.h:139</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a2f2184e63df4f07c531ac693c695f097"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a2f2184e63df4f07c531ac693c695f097">EasyKiConverter::BaseConverter::m_exportSuccess</a></div><div class="ttdeci">bool m_exportSuccess</div><div class="ttdoc">标记最近一次导出是否全部成功。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00141">BaseConverter.h:141</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a3b41f35e9d347a83fb64fc4c5ce64cba"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a3b41f35e9d347a83fb64fc4c5ce64cba">EasyKiConverter::BaseConverter::printProgressBar</a></div><div class="ttdeci">void printProgressBar(int progress) const</div><div class="ttdoc">输出进度条</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00033">BaseConverter.cpp:33</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a4403b9365a7d0ccee6a3aa00c20f4444"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a4403b9365a7d0ccee6a3aa00c20f4444">EasyKiConverter::BaseConverter::onProgressChanged</a></div><div class="ttdeci">void onProgressChanged(const ExportOverallProgress &amp;progress)</div><div class="ttdoc">根据 CLI 选项输出导出进度。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00085">BaseConverter.cpp:85</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a44a614299082a77b851e36870e0acf72"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a44a614299082a77b851e36870e0acf72">EasyKiConverter::BaseConverter::errorMessage</a></div><div class="ttdeci">QString errorMessage() const</div><div class="ttdoc">获取错误信息</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00047">BaseConverter.h:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a559cb7fd17665c52b65f12272d510c4b"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a559cb7fd17665c52b65f12272d510c4b">EasyKiConverter::BaseConverter::context</a></div><div class="ttdeci">CliContext * context() const</div><div class="ttdoc">获取 CLI 上下文</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00078">BaseConverter.h:78</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a62fd501365b838dcd54398b2519bb7ca"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a62fd501365b838dcd54398b2519bb7ca">EasyKiConverter::BaseConverter::onPreloadCompleted</a></div><div class="ttdeci">void onPreloadCompleted(int successCount, int failedCount)</div><div class="ttdoc">输出预加载阶段的成功和失败数量。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00076">BaseConverter.cpp:76</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a643a41a3934d5e8ef33f533a3121c5b1"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a643a41a3934d5e8ef33f533a3121c5b1">EasyKiConverter::BaseConverter::m_failedCount</a></div><div class="ttdeci">int m_failedCount</div><div class="ttdoc">保存导出失败的元器件数量。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00143">BaseConverter.h:143</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a663245162eed89de1df25a2492ab2ea9"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a663245162eed89de1df25a2492ab2ea9">EasyKiConverter::BaseConverter::setError</a></div><div class="ttdeci">void setError(const QString &amp;message)</div><div class="ttdoc">设置错误信息</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00094">BaseConverter.h:94</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a783fd66ca41172e288016bb1fa65eb5b"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a783fd66ca41172e288016bb1fa65eb5b">EasyKiConverter::BaseConverter::printMessage</a></div><div class="ttdeci">void printMessage(const QString &amp;message) const</div><div class="ttdoc">输出消息</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00023">BaseConverter.cpp:23</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a79123889ca92520469040f7e140b4da9"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a79123889ca92520469040f7e140b4da9">EasyKiConverter::BaseConverter::runExport</a></div><div class="ttdeci">bool runExport(const QStringList &amp;componentIds)</div><div class="ttdoc">执行 CLI 共用的预加载和导出流程。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00044">BaseConverter.cpp:44</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a7f3c566a5fb53a099729a39bd58e32ed"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a7f3c566a5fb53a099729a39bd58e32ed">EasyKiConverter::BaseConverter::onExportFailed</a></div><div class="ttdeci">void onExportFailed(const QString &amp;error)</div><div class="ttdoc">保存导出失败信息并终止成功状态。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00114">BaseConverter.cpp:114</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_a8b264412ffc489ff18e088598002d728"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#a8b264412ffc489ff18e088598002d728">EasyKiConverter::BaseConverter::m_reportedDiagnostics</a></div><div class="ttdeci">QStringList m_reportedDiagnostics</div><div class="ttdoc">保存已经输出过的诊断消息，避免重复显示。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00144">BaseConverter.h:144</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_aa285beebd1dc9e49999efa5229b3c7d5"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#aa285beebd1dc9e49999efa5229b3c7d5">EasyKiConverter::BaseConverter::onExportCompleted</a></div><div class="ttdeci">void onExportCompleted(int successCount, int failedCount)</div><div class="ttdoc">保存导出完成统计并更新最终成功状态。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8cpp_source.html#l00104">BaseConverter.cpp:104</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseConverter_html_af40b9c38942f877d63ae8c546b4c0b53"><div class="ttname"><a href="classEasyKiConverter_1_1BaseConverter.html#af40b9c38942f877d63ae8c546b4c0b53">EasyKiConverter::BaseConverter::m_successCount</a></div><div class="ttdeci">int m_successCount</div><div class="ttdoc">保存成功导出的元器件数量。</div><div class="ttdef"><b>Definition</b> <a href="BaseConverter_8h_source.html#l00142">BaseConverter.h:142</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html">EasyKiConverter::CliContext</a></div><div class="ttdoc">CLI 上下文</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00019">CliContext.h:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a3acac21fb4d67d4cff02aeca83fd4fd4"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a3acac21fb4d67d4cff02aeca83fd4fd4">EasyKiConverter::CliContext::exportService</a></div><div class="ttdeci">ParallelExportService * exportService() const</div><div class="ttdoc">获取导出服务</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00057">CliContext.h:57</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a9f671c4d589170f22e1e61f246f1ac17"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a9f671c4d589170f22e1e61f246f1ac17">EasyKiConverter::CliContext::createExportOptions</a></div><div class="ttdeci">ExportOptions createExportOptions() const</div><div class="ttdoc">创建导出选项</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8cpp_source.html#l00054">CliContext.cpp:54</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliExportWaiter_html_ac59fc559ecdb063b64faac6b1d0dfe80"><div class="ttname"><a href="classEasyKiConverter_1_1CliExportWaiter.html#ac59fc559ecdb063b64faac6b1d0dfe80">EasyKiConverter::CliExportWaiter::waitForExport</a></div><div class="ttdeci">static void waitForExport(ParallelExportService *service)</div><div class="ttdoc">启动导出并等待完成或失败信号。</div><div class="ttdef"><b>Definition</b> <a href="CliExportWaiter_8cpp_source.html#l00030">CliExportWaiter.cpp:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliExportWaiter_html_adf8988d3100fc2f6814667dce25161f3"><div class="ttname"><a href="classEasyKiConverter_1_1CliExportWaiter.html#adf8988d3100fc2f6814667dce25161f3">EasyKiConverter::CliExportWaiter::waitForPreload</a></div><div class="ttdeci">static void waitForPreload(ParallelExportService *service, const QStringList &amp;componentIds)</div><div class="ttdoc">启动预加载并等待完成或失败信号。</div><div class="ttdef"><b>Definition</b> <a href="CliExportWaiter_8cpp_source.html#l00014">CliExportWaiter.cpp:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html">EasyKiConverter::CliPrinter</a></div><div class="ttdoc">CLI 输出工具</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8h_source.html#l00013">CliPrinter.h:13</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_ab11f5c824880d62dfdf0c92edc3cdc3b"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#ab11f5c824880d62dfdf0c92edc3cdc3b">EasyKiConverter::CliPrinter::printProgressBar</a></div><div class="ttdeci">void printProgressBar(int progress) const</div><div class="ttdoc">输出进度条</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8cpp_source.html#l00045">CliPrinter.cpp:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_abedaefb9fd77744fa191480e0f942adb"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#abedaefb9fd77744fa191480e0f942adb">EasyKiConverter::CliPrinter::println</a></div><div class="ttdeci">void println(const QString &amp;message) const</div><div class="ttdoc">输出消息并换行</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8cpp_source.html#l00027">CliPrinter.cpp:27</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html">EasyKiConverter::ParallelExportService</a></div><div class="ttdoc">并行导出服务</div><div class="ttdef"><b>Definition</b> <a href="ParallelExportService_8h_source.html#l00053">ParallelExportService.h:53</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_a0bb299a95eac5bdaf4fd957caeec0c32"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#a0bb299a95eac5bdaf4fd957caeec0c32">EasyKiConverter::ParallelExportService::completed</a></div><div class="ttdeci">void completed(int successCount, int failedCount)</div><div class="ttdoc">整体导出完成</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_a1740870ae1644105491ba6b92c164d95"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#a1740870ae1644105491ba6b92c164d95">EasyKiConverter::ParallelExportService::setOptions</a></div><div class="ttdeci">void setOptions(const ExportOptions &amp;options)</div><div class="ttdoc">设置导出选项</div><div class="ttdef"><b>Definition</b> <a href="ParallelExportService_8cpp_source.html#l00150">ParallelExportService.cpp:150</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_a24616297ca69d3cc2aeefcd48837d97b"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#a24616297ca69d3cc2aeefcd48837d97b">EasyKiConverter::ParallelExportService::failed</a></div><div class="ttdeci">void failed(const QString &amp;error)</div><div class="ttdoc">导出失败</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_a86d4e05424e829e91e0976e3d90eee37"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#a86d4e05424e829e91e0976e3d90eee37">EasyKiConverter::ParallelExportService::progressChanged</a></div><div class="ttdeci">void progressChanged(const ExportOverallProgress &amp;progress)</div><div class="ttdoc">导出进度更新</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_a898c80d25eda21b1e09e38e0645816fa"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#a898c80d25eda21b1e09e38e0645816fa">EasyKiConverter::ParallelExportService::preloadCompleted</a></div><div class="ttdeci">void preloadCompleted(int successCount, int failedCount)</div><div class="ttdoc">预加载完成</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html_aad70c9091ab130d02998d1ffb6c7e393"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html#aad70c9091ab130d02998d1ffb6c7e393">EasyKiConverter::ParallelExportService::setOutputPath</a></div><div class="ttdeci">void setOutputPath(const QString &amp;path)</div><div class="ttdoc">设置输出目录</div><div class="ttdef"><b>Definition</b> <a href="ParallelExportService_8cpp_source.html#l00158">ParallelExportService.cpp:158</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOverallProgress_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOverallProgress.html">EasyKiConverter::ExportOverallProgress</a></div><div class="ttdoc">整体导出进度</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00256">ExportProgress.h:256</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOverallProgress_html_a658dd516bafcb48be656c0d0bf3f732a"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOverallProgress.html#a658dd516bafcb48be656c0d0bf3f732a">EasyKiConverter::ExportOverallProgress::overallPercentage</a></div><div class="ttdeci">int overallPercentage() const</div><div class="ttdoc">计算整体导出进度百分比</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00330">ExportProgress.h:330</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOverallProgress_html_ae572cf5cfcc896824522455ec8d55953"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOverallProgress.html#ae572cf5cfcc896824522455ec8d55953">EasyKiConverter::ExportOverallProgress::exportTypeProgress</a></div><div class="ttdeci">QMap&lt; QString, ExportTypeProgress &gt; exportTypeProgress</div><div class="ttdoc">各导出类型的进度（key为类型名）</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00272">ExportProgress.h:272</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTypeProgress_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTypeProgress.html">EasyKiConverter::ExportTypeProgress</a></div><div class="ttdoc">单个导出类型的总体进度</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00182">ExportProgress.h:182</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="dir_c802a52f71a9867085062b6c590fa632.html">cli</a></li><li class="navelem"><a class="el" href="BaseConverter_8cpp.html">BaseConverter.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

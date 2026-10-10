@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/writers/AltiumPcbLibWriter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumPcbLibWriter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumPcbLibWriter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumPcbLibWriter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="OLECompoundWriter_8h.html">compound/OLECompoundWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumPcbComponent_8h.html">models/AltiumPcbComponent.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumBinaryWriter_8h.html">utils/AltiumBinaryWriter.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QList&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>AltiumPcbPrimitiveWriter;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>AltiumPcbInputValidator;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html">AltiumPcbLibWriter</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a9e2020ebff06b691a88ee1cc122bda95">write</a>(<span class="keyword">const</span> QList&lt;AltiumPcbComponent&gt;&amp; components,</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>               <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>               <span class="keyword">const</span> QString&amp; libraryName = QString());</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="}">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a7f2e501afc3d879b7e25af505054d7eb">   38</a></span>    QStringList <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a7f2e501afc3d879b7e25af505054d7eb">diagnostics</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a01075863b4e02dfff9c7638a9097d028">m_diagnostics</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="comment">// ---- 文件级写入 ----</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a49cb0a3d822dd4a7ab555af409848ba0">writeFileHeader</a>(<a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a>&amp; ole);</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a385bb951e77e48db4deae8f6084a7ca7">writeSectionKeys</a>(<a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a>&amp; ole,</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>                          <span class="keyword">const</span> QList&lt;AltiumPcbComponent&gt;&amp; components,</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>                          <span class="keyword">const</span> QStringList&amp; sectionKeys);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a726ae14f329b918199fdc10f04fac3a6">writeLibraryStorage</a>(<a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a>&amp; ole,</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                             <span class="keyword">const</span> QList&lt;AltiumPcbComponent&gt;&amp; components,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                             <span class="keyword">const</span> QString&amp; filePath);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a868fa4f516833095bf8bfa3b195b1648">writeLibraryData</a>(QByteArray&amp; buffer, <span class="keyword">const</span> QList&lt;AltiumPcbComponent&gt;&amp; components, <span class="keyword">const</span> QString&amp; filePath);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#adff0935f1a29ee9b35358831a9d269d7">writeModelsStorage</a>(<a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a>&amp; ole, <span class="keyword">const</span> QList&lt;AltiumPcbComponent&gt;&amp; components);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="comment">// ---- 封装级写入 ----</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#ae630a6e2fb91a5d5d2f56917885ddcb0">writeFootprintStorage</a>(<a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundWriter.html">OLECompoundWriter</a>&amp; ole, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component, <span class="keyword">const</span> QString&amp; sectionKey);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a339b92adae71e110fc793642c82c98e8">writeFootprintParameters</a>(QByteArray&amp; buffer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component);</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a322696cc7a5fa54acdf96aa7cba37308">writeFootprintData</a>(QByteArray&amp; buffer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#ac3d3ac9e75f3595225602c22dbde90cb">writeWideStrings</a>(QByteArray&amp; buffer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">// ---- 辅助 ----</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a37855695c961bab07aea3c74200935d5">writeCommonPrimitiveHeader</a>(<a class="code hl_class" href="classEasyKiConverter_1_1AltiumBinaryWriter.html">AltiumBinaryWriter</a>&amp; writer, uint8_t layer, uint16_t flags);</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">static</span> uint16_t <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#aec8544be737a74775f34a211363ddc11">encodePrimitiveFlags</a>(<span class="keywordtype">bool</span> isLocked, <span class="keywordtype">bool</span> isTentingTop, <span class="keywordtype">bool</span> isTentingBottom, <span class="keywordtype">bool</span> isKeepout);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#ae1c0ee73446e14489083679fbdb8bc01">writeUniqueIdPrimitiveInformation</a>(QByteArray&amp; buffer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component);</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a3c8b70addcdb3079bcf39044926a003a">writeExtendedPrimitiveInformation</a>(QByteArray&amp; buffer, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component);</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    uint32_t <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#afa43baf726f2235ca95119155444b1ec">toV7LayerId</a>(uint8_t layer) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordtype">double</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a9effda9f64ab3af2c7adee61f3b87ff3">normalizeFiniteValue</a>(<span class="keywordtype">double</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>, <span class="keywordtype">double</span> fallback, <span class="keyword">const</span> QString&amp; context);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#aa215ea150edf0b8cd5a3c7556c06ef6f">validateComponents</a>(<span class="keyword">const</span> QList&lt;AltiumPcbComponent&gt;&amp; components, <span class="keyword">const</span> QString&amp; filePath);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a4056922eddcc76973bfff612c4252182">countPrimitives</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumPcbComponent.html">AltiumPcbComponent</a>&amp; component) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a33356bded2f106a6b37e650c47c26947">buildLibraryMetadata</a>(<span class="keyword">const</span> QString&amp; filePath) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#ab168298118600f2d13da8465ea65300a">   74</a></span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1AltiumPcbPrimitiveWriter.html">AltiumPcbPrimitiveWriter</a>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#ae41997b79af09a497506eaf483d0653d">   75</a></span>    <span class="keyword">friend</span> <span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1AltiumPcbInputValidator.html">AltiumPcbInputValidator</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="comment">// 广字符串管理</span></div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a6a0def534ca635f9c9291a3b844847ec">addWideString</a>(<span class="keyword">const</span> QString&amp; text);</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a09d6db60fdea14e8bcfecd9d98750403">   79</a></span>    QStringList <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a09d6db60fdea14e8bcfecd9d98750403">m_wideStrings</a>;  </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a01075863b4e02dfff9c7638a9097d028">   80</a></span>    QStringList <a class="code hl_variable" href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a01075863b4e02dfff9c7638a9097d028">m_diagnostics</a>;  </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>};</div>
+</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumBinaryWriter_8h_html"><div class="ttname"><a href="AltiumBinaryWriter_8h.html">AltiumBinaryWriter.h</a></div></div>
+<div class="ttc" id="aAltiumPcbComponent_8h_html"><div class="ttname"><a href="AltiumPcbComponent_8h.html">AltiumPcbComponent.h</a></div></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aOLECompoundWriter_8h_html"><div class="ttname"><a href="OLECompoundWriter_8h.html">OLECompoundWriter.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumBinaryWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumBinaryWriter.html">EasyKiConverter::AltiumBinaryWriter</a></div><div class="ttdoc">Altium 二进制格式写入器</div><div class="ttdef"><b>Definition</b> <a href="AltiumBinaryWriter_8h_source.html#l00019">AltiumBinaryWriter.h:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbInputValidator_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbInputValidator.html">EasyKiConverter::AltiumPcbInputValidator</a></div><div class="ttdoc">校验 PcbLib 写入前的封装输入。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbInputValidator_8h_source.html#l00013">AltiumPcbInputValidator.h:13</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html">EasyKiConverter::AltiumPcbLibWriter</a></div><div class="ttdoc">Altium PcbLib 文件写入器</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8h_source.html#l00021">AltiumPcbLibWriter.h:21</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a01075863b4e02dfff9c7638a9097d028"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a01075863b4e02dfff9c7638a9097d028">EasyKiConverter::AltiumPcbLibWriter::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次写入产生的非致命诊断列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8h_source.html#l00080">AltiumPcbLibWriter.h:80</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a09d6db60fdea14e8bcfecd9d98750403"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a09d6db60fdea14e8bcfecd9d98750403">EasyKiConverter::AltiumPcbLibWriter::m_wideStrings</a></div><div class="ttdeci">QStringList m_wideStrings</div><div class="ttdoc">当前库待写入的宽字符串列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8h_source.html#l00079">AltiumPcbLibWriter.h:79</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a322696cc7a5fa54acdf96aa7cba37308"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a322696cc7a5fa54acdf96aa7cba37308">EasyKiConverter::AltiumPcbLibWriter::writeFootprintData</a></div><div class="ttdeci">void writeFootprintData(QByteArray &amp;buffer, const AltiumPcbComponent &amp;component)</div><div class="ttdoc">写入封装数据（二进制图元）</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00509">AltiumPcbLibWriter.cpp:509</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a33356bded2f106a6b37e650c47c26947"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a33356bded2f106a6b37e650c47c26947">EasyKiConverter::AltiumPcbLibWriter::buildLibraryMetadata</a></div><div class="ttdeci">QString buildLibraryMetadata(const QString &amp;filePath) const</div><div class="ttdoc">构建 Library/Data 流使用的参数元数据，并清理参数分隔符</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00256">AltiumPcbLibWriter.cpp:256</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a339b92adae71e110fc793642c82c98e8"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a339b92adae71e110fc793642c82c98e8">EasyKiConverter::AltiumPcbLibWriter::writeFootprintParameters</a></div><div class="ttdeci">void writeFootprintParameters(QByteArray &amp;buffer, const AltiumPcbComponent &amp;component)</div><div class="ttdoc">写入封装参数</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00489">AltiumPcbLibWriter.cpp:489</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a37855695c961bab07aea3c74200935d5"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a37855695c961bab07aea3c74200935d5">EasyKiConverter::AltiumPcbLibWriter::writeCommonPrimitiveHeader</a></div><div class="ttdeci">void writeCommonPrimitiveHeader(AltiumBinaryWriter &amp;writer, uint8_t layer, uint16_t flags)</div><div class="ttdoc">写入通用图元头部（13 字节）</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00575">AltiumPcbLibWriter.cpp:575</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a385bb951e77e48db4deae8f6084a7ca7"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a385bb951e77e48db4deae8f6084a7ca7">EasyKiConverter::AltiumPcbLibWriter::writeSectionKeys</a></div><div class="ttdeci">void writeSectionKeys(OLECompoundWriter &amp;ole, const QList&lt; AltiumPcbComponent &gt; &amp;components, const QStringList &amp;sectionKeys)</div><div class="ttdoc">写入 SectionKeys 流</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00152">AltiumPcbLibWriter.cpp:152</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a3c8b70addcdb3079bcf39044926a003a"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a3c8b70addcdb3079bcf39044926a003a">EasyKiConverter::AltiumPcbLibWriter::writeExtendedPrimitiveInformation</a></div><div class="ttdeci">void writeExtendedPrimitiveInformation(QByteArray &amp;buffer, const AltiumPcbComponent &amp;component)</div><div class="ttdoc">写入图元扩展信息</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00652">AltiumPcbLibWriter.cpp:652</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a4056922eddcc76973bfff612c4252182"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a4056922eddcc76973bfff612c4252182">EasyKiConverter::AltiumPcbLibWriter::countPrimitives</a></div><div class="ttdeci">int countPrimitives(const AltiumPcbComponent &amp;component) const</div><div class="ttdoc">统计封装中的图元数量</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00023">AltiumPcbLibWriter.cpp:23</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a49cb0a3d822dd4a7ab555af409848ba0"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a49cb0a3d822dd4a7ab555af409848ba0">EasyKiConverter::AltiumPcbLibWriter::writeFileHeader</a></div><div class="ttdeci">void writeFileHeader(OLECompoundWriter &amp;ole)</div><div class="ttdoc">写入 PcbLib v6 FileHeader 流</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00133">AltiumPcbLibWriter.cpp:133</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a6a0def534ca635f9c9291a3b844847ec"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a6a0def534ca635f9c9291a3b844847ec">EasyKiConverter::AltiumPcbLibWriter::addWideString</a></div><div class="ttdeci">int addWideString(const QString &amp;text)</div><div class="ttdoc">添加宽字符串并返回索引</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00032">AltiumPcbLibWriter.cpp:32</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a726ae14f329b918199fdc10f04fac3a6"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a726ae14f329b918199fdc10f04fac3a6">EasyKiConverter::AltiumPcbLibWriter::writeLibraryStorage</a></div><div class="ttdeci">void writeLibraryStorage(OLECompoundWriter &amp;ole, const QList&lt; AltiumPcbComponent &gt; &amp;components, const QString &amp;filePath)</div><div class="ttdoc">写入 Library 存储</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00185">AltiumPcbLibWriter.cpp:185</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a7f2e501afc3d879b7e25af505054d7eb"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a7f2e501afc3d879b7e25af505054d7eb">EasyKiConverter::AltiumPcbLibWriter::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const</div><div class="ttdoc">获取最近一次写入产生的非致命诊断</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8h_source.html#l00038">AltiumPcbLibWriter.h:38</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a868fa4f516833095bf8bfa3b195b1648"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a868fa4f516833095bf8bfa3b195b1648">EasyKiConverter::AltiumPcbLibWriter::writeLibraryData</a></div><div class="ttdeci">void writeLibraryData(QByteArray &amp;buffer, const QList&lt; AltiumPcbComponent &gt; &amp;components, const QString &amp;filePath)</div><div class="ttdoc">写入 Library/Data 流</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00231">AltiumPcbLibWriter.cpp:231</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a9e2020ebff06b691a88ee1cc122bda95"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a9e2020ebff06b691a88ee1cc122bda95">EasyKiConverter::AltiumPcbLibWriter::write</a></div><div class="ttdeci">bool write(const QList&lt; AltiumPcbComponent &gt; &amp;components, const QString &amp;filePath, const QString &amp;libraryName=QString())</div><div class="ttdoc">写入 PcbLib 文件</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00085">AltiumPcbLibWriter.cpp:85</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_a9effda9f64ab3af2c7adee61f3b87ff3"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#a9effda9f64ab3af2c7adee61f3b87ff3">EasyKiConverter::AltiumPcbLibWriter::normalizeFiniteValue</a></div><div class="ttdeci">double normalizeFiniteValue(double value, double fallback, const QString &amp;context)</div><div class="ttdoc">将非有限浮点值回退为可写入数值，并记录诊断信息</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00057">AltiumPcbLibWriter.cpp:57</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_aa215ea150edf0b8cd5a3c7556c06ef6f"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#aa215ea150edf0b8cd5a3c7556c06ef6f">EasyKiConverter::AltiumPcbLibWriter::validateComponents</a></div><div class="ttdeci">bool validateComponents(const QList&lt; AltiumPcbComponent &gt; &amp;components, const QString &amp;filePath)</div><div class="ttdoc">委托独立校验器检查封装输入和输出路径</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00074">AltiumPcbLibWriter.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_ac3d3ac9e75f3595225602c22dbde90cb"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#ac3d3ac9e75f3595225602c22dbde90cb">EasyKiConverter::AltiumPcbLibWriter::writeWideStrings</a></div><div class="ttdeci">void writeWideStrings(QByteArray &amp;buffer, const AltiumPcbComponent &amp;component)</div><div class="ttdoc">写入宽字符串流</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00545">AltiumPcbLibWriter.cpp:545</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_adff0935f1a29ee9b35358831a9d269d7"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#adff0935f1a29ee9b35358831a9d269d7">EasyKiConverter::AltiumPcbLibWriter::writeModelsStorage</a></div><div class="ttdeci">void writeModelsStorage(OLECompoundWriter &amp;ole, const QList&lt; AltiumPcbComponent &gt; &amp;components)</div><div class="ttdoc">写入 Models 存储</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00372">AltiumPcbLibWriter.cpp:372</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_ae1c0ee73446e14489083679fbdb8bc01"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#ae1c0ee73446e14489083679fbdb8bc01">EasyKiConverter::AltiumPcbLibWriter::writeUniqueIdPrimitiveInformation</a></div><div class="ttdeci">void writeUniqueIdPrimitiveInformation(QByteArray &amp;buffer, const AltiumPcbComponent &amp;component)</div><div class="ttdoc">写入元件图元的唯一标识索引表</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00616">AltiumPcbLibWriter.cpp:616</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_ae630a6e2fb91a5d5d2f56917885ddcb0"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#ae630a6e2fb91a5d5d2f56917885ddcb0">EasyKiConverter::AltiumPcbLibWriter::writeFootprintStorage</a></div><div class="ttdeci">void writeFootprintStorage(OLECompoundWriter &amp;ole, const AltiumPcbComponent &amp;component, const QString &amp;sectionKey)</div><div class="ttdoc">写入封装存储</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00432">AltiumPcbLibWriter.cpp:432</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_aec8544be737a74775f34a211363ddc11"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#aec8544be737a74775f34a211363ddc11">EasyKiConverter::AltiumPcbLibWriter::encodePrimitiveFlags</a></div><div class="ttdeci">static uint16_t encodePrimitiveFlags(bool isLocked, bool isTentingTop, bool isTentingBottom, bool isKeepout)</div><div class="ttdoc">编码图元标志位</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00591">AltiumPcbLibWriter.cpp:591</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbLibWriter_html_afa43baf726f2235ca95119155444b1ec"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbLibWriter.html#afa43baf726f2235ca95119155444b1ec">EasyKiConverter::AltiumPcbLibWriter::toV7LayerId</a></div><div class="ttdeci">uint32_t toV7LayerId(uint8_t layer) const</div><div class="ttdoc">V7 Layer ID 转换</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbLibWriter_8cpp_source.html#l00046">AltiumPcbLibWriter.cpp:46</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumPcbPrimitiveWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumPcbPrimitiveWriter.html">EasyKiConverter::AltiumPcbPrimitiveWriter</a></div><div class="ttdoc">写入 PcbLib 封装中的各类二进制图元记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbPrimitiveWriter_8h_source.html#l00017">AltiumPcbPrimitiveWriter.h:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundWriter.html">EasyKiConverter::OLECompoundWriter</a></div><div class="ttdoc">OLE 复合文档 V3 写入器</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundWriter_8h_source.html#l00020">OLECompoundWriter.h:20</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumPcbComponent_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumPcbComponent.html">EasyKiConverter::AltiumPcbComponent</a></div><div class="ttdoc">Altium PCB 封装元件</div><div class="ttdef"><b>Definition</b> <a href="AltiumPcbComponent_8h_source.html#l00163">AltiumPcbComponent.h:163</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_4b0a7f407ec41a4fc3d6e08c8e7af107.html">writers</a></li><li class="navelem"><a class="el" href="AltiumPcbLibWriter_8h.html">AltiumPcbLibWriter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+var structEasyKiConverter_1_1ExportStatistics =
+[
+    [ "getSuccessRate", "structEasyKiConverter_1_1ExportStatistics.html#a911da81e0825b875b7847df64a49787f", null ],
+    [ "getSummary", "structEasyKiConverter_1_1ExportStatistics.html#a4c5ac2edc5f9ef07f0e056421396e058", null ],
+    [ "avgFetchTimeMs", "structEasyKiConverter_1_1ExportStatistics.html#a34dcb77b79f0fb055dd8bf37d4c2fb25", null ],
+    [ "avgNetworkLatencyMs", "structEasyKiConverter_1_1ExportStatistics.html#a37904cf95a1fdc0e61a7f9055ecff43b", null ],
+    [ "avgProcessTimeMs", "structEasyKiConverter_1_1ExportStatistics.html#a167ce9f5c5c0d075cea4af3254f0faae", null ],
+    [ "avgWriteTimeMs", "structEasyKiConverter_1_1ExportStatistics.html#ac4446003602690889753034027ab60a9", null ],
+    [ "failed", "structEasyKiConverter_1_1ExportStatistics.html#a551eeae3c5d24e75e87fb60cfc9c6dbd", null ],
+    [ "failureReasons", "structEasyKiConverter_1_1ExportStatistics.html#ace666d41cef1b5a12978fe0b4523ad2f", null ],
+    [ "peakMemoryUsage", "structEasyKiConverter_1_1ExportStatistics.html#a6b1524e4f8cd8c56a600b60ccb420132", null ],
+    [ "rateLimitHitCount", "structEasyKiConverter_1_1ExportStatistics.html#a99ff7ff20a27a71256c630c2d7ce2822", null ],
+    [ "stageFailures", "structEasyKiConverter_1_1ExportStatistics.html#a7ea6c9230cfe6dd59d830d22b5c16a27", null ],
+    [ "statusCodeDistribution", "structEasyKiConverter_1_1ExportStatistics.html#abeb5f4620ab46d1b81be535f1e473f96", null ],
+    [ "success", "structEasyKiConverter_1_1ExportStatistics.html#a3ba96316a9e4cc1e88e33731daed6f07", null ],
+    [ "successDatasheet", "structEasyKiConverter_1_1ExportStatistics.html#ae0698ff6e7d8e036d5caf3b4320bc1c6", null ],
+    [ "successFootprint", "structEasyKiConverter_1_1ExportStatistics.html#a21d682c9fd26b3c56aa72ad18f624a56", null ],
+    [ "successModel3D", "structEasyKiConverter_1_1ExportStatistics.html#a6f4c2c858b551638fdd6c4712ce170e3", null ],
+    [ "successPreviewImage", "structEasyKiConverter_1_1ExportStatistics.html#a3dfec862078aa31c3b3a8a0c6014c97d", null ],
+    [ "successSymbol", "structEasyKiConverter_1_1ExportStatistics.html#aea51460d5d52707e336880698a7888bc", null ],
+    [ "total", "structEasyKiConverter_1_1ExportStatistics.html#aeb8315b7c2c90393b3598e19bbe21611", null ],
+    [ "totalDurationMs", "structEasyKiConverter_1_1ExportStatistics.html#a247808e2db628258cd4cb0f7cdbfa7d2", null ],
+    [ "totalNetworkRequests", "structEasyKiConverter_1_1ExportStatistics.html#abb23f9ec690f02142fdc82ac9b978889", null ],
+    [ "totalRetries", "structEasyKiConverter_1_1ExportStatistics.html#ac4af3a74c23e2360e117eef246db5e10", null ]
+];

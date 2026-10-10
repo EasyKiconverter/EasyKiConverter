@@ -1,0 +1,233 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/ir/ComponentDataConverter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentDataConverter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentDataConverter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentDataConverter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentIR_8h.html">ComponentIR.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="FootprintDataConverter_8h.html">FootprintDataConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="Model3DDataConverter_8h.html">Model3DDataConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="SymbolDataConverter_8h.html">SymbolDataConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentData_8h.html">models/ComponentData.h</a>&quot;</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">namespace </span>IR {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="foldopen" id="foldopen00024" data-start="{" data-end="}">
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR.html#ad085918fe808c920e4b42cedd25c4e9f">   24</a></span><span class="keyword">inline</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html">ComponentIR</a> <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#ad085918fe808c920e4b42cedd25c4e9f">toComponentIR</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; data) {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html">ComponentIR</a> ir;  <span class="comment">// 待填充的完整组件 IR。</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <span class="comment">// 通用元数据</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#a98efb2f4bb50a9a4c334aaa74f750109">name</a> = data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#ad9f5477c261e7367c0f2871443021e68">name</a>();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#af850a7e5b0a8c304f7143f5c1694e89b">description</a> = data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#ab46b464ef6ce4de8dcffc84dd3b7491b">symbolData</a>() ? data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#ab46b464ef6ce4de8dcffc84dd3b7491b">symbolData</a>()-&gt;info().description : QString();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#a4e4cefac82af21fe6f852b545c30f80f">prefix</a> = data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#aecf55a0400df8892429c66fae9ccca8e">prefix</a>();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#aa600417b2324baa3c3fa6c01c88a577f">package</a> = data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a8afb853593279cfae88424d9cec30c78">package</a>();</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#ac3ef15d47d304378fdb28c7e4ec9b789">manufacturer</a> = data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#ac6496d57334d5b8085cf5333bb29d11d">manufacturer</a>();</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#a29af29c0a4ad1c68156e8a26183d4896">manufacturerPart</a> = data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#af6236912a2f918ecf3f5ecd4904aca87">manufacturerPart</a>();</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#acf3ab4413c4ef3af90ca059a9b17a884">datasheet</a> = data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a10a42ba5b0cb85e51217b2195d98450f">datasheet</a>();</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="comment">// 转换符号</span></div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">if</span> (data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#ab46b464ef6ce4de8dcffc84dd3b7491b">symbolData</a>()) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#a151e4ac33b2931a0c8f0a11cd309df9c">symbol</a> = <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#ab1014a56782120d89fac392e89de2daf">toSymbolIR</a>(*data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#ab46b464ef6ce4de8dcffc84dd3b7491b">symbolData</a>());</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="comment">// 转换封装</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a1b095da965e77132bca0accee4d185f9">footprintData</a>()) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#ac966727e5d432f49024314fa804d8754">footprint</a> = <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#ac666a79533ddd969d4cb6fb9cfbdbbb9">toFootprintIR</a>(*data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a1b095da965e77132bca0accee4d185f9">footprintData</a>());</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="comment">// 转换 3D 模型（独立的，不依赖 FootprintData 内嵌的）</span></div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    <span class="keywordflow">if</span> (data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a84819ceb7b38a7c9c5f34d97a14e5662">model3DData</a>()) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        ir.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#acb30e28ce51101097b4569fcc7f49e79">model3D</a> = <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#a2159caa7318ff68a432ac728ef1e3b0a">toModel3DIR</a>(*data.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentData.html#a84819ceb7b38a7c9c5f34d97a14e5662">model3DData</a>());</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">return</span> ir;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
+</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR.html#acd57396ce9b81cec03bd6ac494c404e5">   59</a></span><span class="keyword">inline</span> QMap&lt;QString, ComponentIR&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#acd57396ce9b81cec03bd6ac494c404e5">toComponentIRMap</a>(<span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; dataMap) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    QMap&lt;QString, ComponentIR&gt; irMap;  <span class="comment">// 按组件编号索引的转换结果。</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">if</span> (it.value()) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            irMap.insert(it.key(), <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#ad085918fe808c920e4b42cedd25c4e9f">toComponentIR</a>(*it.value()));</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordflow">return</span> irMap;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR.html#aef82b372fedf54e0ae8bf2b8a6c24fa7">   74</a></span><span class="keyword">inline</span> QList&lt;SymbolComponentIR&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#aef82b372fedf54e0ae8bf2b8a6c24fa7">extractSymbolIRList</a>(<span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; dataMap) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    QList&lt;SymbolComponentIR&gt; list;  <span class="comment">// 可用于库级导出的符号 IR 列表。</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keywordflow">if</span> (it.value() &amp;&amp; it.value()-&gt;symbolData()) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>            list.append(<a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#ab1014a56782120d89fac392e89de2daf">toSymbolIR</a>(*it.value()-&gt;symbolData()));</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>}</div>
+</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="foldopen" id="foldopen00089" data-start="{" data-end="}">
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1IR.html#a6a693643ce223c05bf9d3704354995f3">   89</a></span><span class="keyword">inline</span> QList&lt;FootprintComponentIR&gt; <a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#a6a693643ce223c05bf9d3704354995f3">extractFootprintIRList</a>(<span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; dataMap) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    QList&lt;FootprintComponentIR&gt; list;  <span class="comment">// 可用于库级导出的封装 IR 列表。</span></div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = dataMap.constBegin(); it != dataMap.constEnd(); ++it) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        <span class="keywordflow">if</span> (it.value() &amp;&amp; it.value()-&gt;footprintData()) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            list.append(<a class="code hl_function" href="namespaceEasyKiConverter_1_1IR.html#ac666a79533ddd969d4cb6fb9cfbdbbb9">toFootprintIR</a>(*it.value()-&gt;footprintData()));</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">return</span> list;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>}  <span class="comment">// namespace IR</span></div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentData_8h_html"><div class="ttname"><a href="ComponentData_8h.html">ComponentData.h</a></div></div>
+<div class="ttc" id="aComponentIR_8h_html"><div class="ttname"><a href="ComponentIR_8h.html">ComponentIR.h</a></div><div class="ttdoc">顶层组件聚合结构体</div></div>
+<div class="ttc" id="aFootprintDataConverter_8h_html"><div class="ttname"><a href="FootprintDataConverter_8h.html">FootprintDataConverter.h</a></div><div class="ttdoc">FootprintData -&gt; FootprintComponentIR 转换桥接</div></div>
+<div class="ttc" id="aModel3DDataConverter_8h_html"><div class="ttname"><a href="Model3DDataConverter_8h.html">Model3DDataConverter.h</a></div><div class="ttdoc">Model3DData -&gt; Model3DIR 转换桥接</div></div>
+<div class="ttc" id="aSymbolDataConverter_8h_html"><div class="ttname"><a href="SymbolDataConverter_8h.html">SymbolDataConverter.h</a></div><div class="ttdoc">SymbolData -&gt; SymbolComponentIR 转换桥接（薄包装层）</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html">EasyKiConverter::ComponentData</a></div><div class="ttdoc">元件数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00020">ComponentData.h:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a10a42ba5b0cb85e51217b2195d98450f"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a10a42ba5b0cb85e51217b2195d98450f">EasyKiConverter::ComponentData::datasheet</a></div><div class="ttdeci">QString datasheet() const</div><div class="ttdoc">返回数据手册链接。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00126">ComponentData.h:126</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a1b095da965e77132bca0accee4d185f9"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a1b095da965e77132bca0accee4d185f9">EasyKiConverter::ComponentData::footprintData</a></div><div class="ttdeci">QSharedPointer&lt; FootprintData &gt; footprintData() const</div><div class="ttdoc">返回封装数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00270">ComponentData.h:270</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a84819ceb7b38a7c9c5f34d97a14e5662"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a84819ceb7b38a7c9c5f34d97a14e5662">EasyKiConverter::ComponentData::model3DData</a></div><div class="ttdeci">QSharedPointer&lt; Model3DData &gt; model3DData() const</div><div class="ttdoc">返回独立的三维模型数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00286">ComponentData.h:286</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_a8afb853593279cfae88424d9cec30c78"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#a8afb853593279cfae88424d9cec30c78">EasyKiConverter::ComponentData::package</a></div><div class="ttdeci">QString package() const</div><div class="ttdoc">返回封装名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00078">ComponentData.h:78</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_ab46b464ef6ce4de8dcffc84dd3b7491b"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#ab46b464ef6ce4de8dcffc84dd3b7491b">EasyKiConverter::ComponentData::symbolData</a></div><div class="ttdeci">QSharedPointer&lt; SymbolData &gt; symbolData() const</div><div class="ttdoc">返回符号数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00254">ComponentData.h:254</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_ac6496d57334d5b8085cf5333bb29d11d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#ac6496d57334d5b8085cf5333bb29d11d">EasyKiConverter::ComponentData::manufacturer</a></div><div class="ttdeci">QString manufacturer() const</div><div class="ttdoc">返回制造商名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00094">ComponentData.h:94</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_ad9f5477c261e7367c0f2871443021e68"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#ad9f5477c261e7367c0f2871443021e68">EasyKiConverter::ComponentData::name</a></div><div class="ttdeci">QString name() const</div><div class="ttdoc">返回元件名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00046">ComponentData.h:46</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_aecf55a0400df8892429c66fae9ccca8e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#aecf55a0400df8892429c66fae9ccca8e">EasyKiConverter::ComponentData::prefix</a></div><div class="ttdeci">QString prefix() const</div><div class="ttdoc">返回元件参考标识前缀。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00062">ComponentData.h:62</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html_af6236912a2f918ecf3f5ecd4904aca87"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html#af6236912a2f918ecf3f5ecd4904aca87">EasyKiConverter::ComponentData::manufacturerPart</a></div><div class="ttdeci">QString manufacturerPart() const</div><div class="ttdoc">返回制造商部件号。</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00110">ComponentData.h:110</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a2159caa7318ff68a432ac728ef1e3b0a"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a2159caa7318ff68a432ac728ef1e3b0a">EasyKiConverter::IR::toModel3DIR</a></div><div class="ttdeci">Model3DIR toModel3DIR(const Model3DData &amp;data)</div><div class="ttdoc">Model3DData -&gt; Model3DIR 转换</div><div class="ttdef"><b>Definition</b> <a href="Model3DDataConverter_8h_source.html#l00032">Model3DDataConverter.h:32</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a6a693643ce223c05bf9d3704354995f3"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a6a693643ce223c05bf9d3704354995f3">EasyKiConverter::IR::extractFootprintIRList</a></div><div class="ttdeci">QList&lt; FootprintComponentIR &gt; extractFootprintIRList(const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;dataMap)</div><div class="ttdoc">批量提取封装 IR 列表</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataConverter_8h_source.html#l00089">ComponentDataConverter.h:89</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab1014a56782120d89fac392e89de2daf"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab1014a56782120d89fac392e89de2daf">EasyKiConverter::IR::toSymbolIR</a></div><div class="ttdeci">SymbolComponentIR toSymbolIR(const SymbolData &amp;data)</div><div class="ttdoc">SymbolData -&gt; SymbolComponentIR 转换</div><div class="ttdef"><b>Definition</b> <a href="IrBuilder_8h_source.html#l00037">IrBuilder.h:37</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ac666a79533ddd969d4cb6fb9cfbdbbb9"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ac666a79533ddd969d4cb6fb9cfbdbbb9">EasyKiConverter::IR::toFootprintIR</a></div><div class="ttdeci">FootprintComponentIR toFootprintIR(const FootprintData &amp;data)</div><div class="ttdoc">FootprintData -&gt; FootprintComponentIR 转换</div><div class="ttdef"><b>Definition</b> <a href="FootprintDataConverter_8h_source.html#l00182">FootprintDataConverter.h:182</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_acd57396ce9b81cec03bd6ac494c404e5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#acd57396ce9b81cec03bd6ac494c404e5">EasyKiConverter::IR::toComponentIRMap</a></div><div class="ttdeci">QMap&lt; QString, ComponentIR &gt; toComponentIRMap(const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;dataMap)</div><div class="ttdoc">批量转换 ComponentData 到 ComponentIR</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataConverter_8h_source.html#l00059">ComponentDataConverter.h:59</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ad085918fe808c920e4b42cedd25c4e9f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ad085918fe808c920e4b42cedd25c4e9f">EasyKiConverter::IR::toComponentIR</a></div><div class="ttdeci">ComponentIR toComponentIR(const ComponentData &amp;data)</div><div class="ttdoc">ComponentData -&gt; ComponentIR 转换</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataConverter_8h_source.html#l00024">ComponentDataConverter.h:24</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_aef82b372fedf54e0ae8bf2b8a6c24fa7"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#aef82b372fedf54e0ae8bf2b8a6c24fa7">EasyKiConverter::IR::extractSymbolIRList</a></div><div class="ttdeci">QList&lt; SymbolComponentIR &gt; extractSymbolIRList(const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;dataMap)</div><div class="ttdoc">批量提取符号 IR 列表</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataConverter_8h_source.html#l00074">ComponentDataConverter.h:74</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html">EasyKiConverter::IR::ComponentIR</a></div><div class="ttdoc">通用组件（顶层聚合）</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00030">ComponentIR.h:30</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_a151e4ac33b2931a0c8f0a11cd309df9c"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#a151e4ac33b2931a0c8f0a11cd309df9c">EasyKiConverter::IR::ComponentIR::symbol</a></div><div class="ttdeci">SymbolComponentIR symbol</div><div class="ttdoc">原理图符号</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00060">ComponentIR.h:60</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_a29af29c0a4ad1c68156e8a26183d4896"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#a29af29c0a4ad1c68156e8a26183d4896">EasyKiConverter::IR::ComponentIR::manufacturerPart</a></div><div class="ttdeci">QString manufacturerPart</div><div class="ttdoc">制造商料号</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00037">ComponentIR.h:37</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_a4e4cefac82af21fe6f852b545c30f80f"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#a4e4cefac82af21fe6f852b545c30f80f">EasyKiConverter::IR::ComponentIR::prefix</a></div><div class="ttdeci">QString prefix</div><div class="ttdoc">位号前缀（&quot;U&quot;, &quot;R&quot;, &quot;C&quot; 等）</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00034">ComponentIR.h:34</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_a98efb2f4bb50a9a4c334aaa74f750109"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#a98efb2f4bb50a9a4c334aaa74f750109">EasyKiConverter::IR::ComponentIR::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">组件名称</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00032">ComponentIR.h:32</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_aa600417b2324baa3c3fa6c01c88a577f"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#aa600417b2324baa3c3fa6c01c88a577f">EasyKiConverter::IR::ComponentIR::package</a></div><div class="ttdeci">QString package</div><div class="ttdoc">封装名称</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00035">ComponentIR.h:35</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_ac3ef15d47d304378fdb28c7e4ec9b789"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#ac3ef15d47d304378fdb28c7e4ec9b789">EasyKiConverter::IR::ComponentIR::manufacturer</a></div><div class="ttdeci">QString manufacturer</div><div class="ttdoc">制造商</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00036">ComponentIR.h:36</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_ac966727e5d432f49024314fa804d8754"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#ac966727e5d432f49024314fa804d8754">EasyKiConverter::IR::ComponentIR::footprint</a></div><div class="ttdeci">FootprintComponentIR footprint</div><div class="ttdoc">PCB 封装</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00061">ComponentIR.h:61</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_acb30e28ce51101097b4569fcc7f49e79"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#acb30e28ce51101097b4569fcc7f49e79">EasyKiConverter::IR::ComponentIR::model3D</a></div><div class="ttdeci">Model3DIR model3D</div><div class="ttdoc">3D 模型</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00062">ComponentIR.h:62</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_acf3ab4413c4ef3af90ca059a9b17a884"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#acf3ab4413c4ef3af90ca059a9b17a884">EasyKiConverter::IR::ComponentIR::datasheet</a></div><div class="ttdeci">QString datasheet</div><div class="ttdoc">数据手册 URL</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00038">ComponentIR.h:38</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1ComponentIR_html_af850a7e5b0a8c304f7143f5c1694e89b"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1ComponentIR.html#af850a7e5b0a8c304f7143f5c1694e89b">EasyKiConverter::IR::ComponentIR::description</a></div><div class="ttdeci">QString description</div><div class="ttdoc">组件描述</div><div class="ttdef"><b>Definition</b> <a href="ComponentIR_8h_source.html#l00033">ComponentIR.h:33</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_f90f91cbf7b973d2ec9d8c4dc24c1c5f.html">ir</a></li><li class="navelem"><a class="el" href="ComponentDataConverter_8h.html">ComponentDataConverter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

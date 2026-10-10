@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentCadFetchCoordinator.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentCadFetchCoordinator_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentCadFetchCoordinator.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentCadFetchCoordinator_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCadFetchCoordinator_8h.html">ComponentCadFetchCoordinator.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheService_8h.html">ComponentCacheService.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentService_8h.html">ComponentService.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QFutureWatcher&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QJsonDocument&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QMutexLocker&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QtConcurrent&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCadFetchCoordinator.html#ab9f5c5658922e1c604192995aae5d596">   20</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCadFetchCoordinator.html#ab9f5c5658922e1c604192995aae5d596">ComponentCadFetchCoordinator::handleDataFetched</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; service,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                                                     <span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>                                                     <span class="keyword">const</span> QJsonObject&amp; data) {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    uint64_t generation = 0;  <span class="comment">// 当前请求的缓存代次。</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        QMutexLocker locker(&amp;service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">m_fetchingComponentsMutex</a>);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keyword">const</span> <span class="keyword">auto</span> it = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.find(componentId.toUpper());  <span class="comment">// 活动请求状态。</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordflow">if</span> (it != service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.end()) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            generation = it-&gt;cacheGeneration;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">if</span> (generation == 0) {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        <span class="comment">// 找不到请求状态时，说明回调已经晚于请求生命周期，不能再写入缓存。</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;handleCadDataFetched: No FetchingComponent for&quot;</span> &lt;&lt; componentId &lt;&lt; <span class="stringliteral">&quot;, discarding stale callback&quot;</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">auto</span> future =  <span class="comment">// 后台 CAD 解析任务。</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        QtConcurrent::run([componentId, data]() { <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1CadDataLoader.html#aa4dc1dcc2e01cb4d8d497d2637b12819">CadDataLoader::parseCadPayload</a>(componentId, data); });</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">auto</span>* watcher = <span class="keyword">new</span> QFutureWatcher&lt;CadParseResult&gt;(&amp;service);  <span class="comment">// 解析任务完成监听器。</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    QObject::connect(watcher, &amp;QFutureWatcher&lt;CadParseResult&gt;::finished, &amp;service, [&amp;service, watcher, generation]() {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1CadParseResult.html">CadParseResult</a> parsed = watcher-&gt;result();  <span class="comment">// CAD 解析结果。</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        watcher-&gt;deleteLater();</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1CadFetchTaskResult.html">CadFetchTaskResult</a> result;  <span class="comment">// 转交服务层的 CAD 任务结果。</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a> = parsed.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#af6a365cb310ca8b892e4120213c0a406">componentId</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a366bbd5a9bcda91fc485f13c5a005a71">parsed</a> = parsed;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#ad68c814417178878f9573bf4d1b04f42">errorMessage</a> = parsed.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#a2c33f0fee75e86fed478c4961e006f09">errorMessage</a>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#ac4357e51d9f9f6cea4f31f5f1d6300c1">success</a> = parsed.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#a9a6967ae48450a9e0136dd9890864af3">success</a>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCadFetchCoordinator.html#a2e1c03acd8ce6c2107e503a1efb8df80">ComponentCadFetchCoordinator::handleFetchResult</a>(service, result, generation);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    });</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    watcher-&gt;setFuture(future);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>}</div>
+</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentCadFetchCoordinator.html#a2e1c03acd8ce6c2107e503a1efb8df80">   61</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCadFetchCoordinator.html#a2e1c03acd8ce6c2107e503a1efb8df80">ComponentCadFetchCoordinator::handleFetchResult</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; service,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                                                     <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1CadFetchTaskResult.html">CadFetchTaskResult</a>&amp; result,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                                                     uint64_t expectedGeneration) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        QMutexLocker locker(&amp;service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">m_fetchingComponentsMutex</a>);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keyword">const</span> <span class="keyword">auto</span> it = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.find(result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>);  <span class="comment">// 待校验的活动请求。</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">if</span> (it == service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.end() || it-&gt;cacheGeneration != expectedGeneration) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentService: Discarding stale CAD result for&quot;</span> &lt;&lt; result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    }</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">if</span> (!result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#ac4357e51d9f9f6cea4f31f5f1d6300c1">success</a>) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        service.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#a5b22bfd98b4bdc786c2bdd91a2cab0f3">emitFetchErrorAndClearState</a>(result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>, result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#ad68c814417178878f9573bf4d1b04f42">errorMessage</a>, expectedGeneration);</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        QMutexLocker locker(&amp;service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">m_fetchingComponentsMutex</a>);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keyword">auto</span> it = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.find(result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>);  <span class="comment">// 待更新的活动请求。</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordflow">if</span> (it == service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.end() || it-&gt;cacheGeneration != expectedGeneration) {</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentService: Discarding stale CAD result for&quot;</span> &lt;&lt; result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        it-&gt;data = result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a366bbd5a9bcda91fc485f13c5a005a71">parsed</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#a0305610564c19b6813577eb3c8797be8">componentData</a>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        it-&gt;hasCadData = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        it-&gt;requestActive = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    service.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#af2b6c3a6c0ccf49d689e623d806b38c6">updateComponentCache</a>(result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>, result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a366bbd5a9bcda91fc485f13c5a005a71">parsed</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#a0305610564c19b6813577eb3c8797be8">componentData</a>);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    emit service.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#a60a56f00f8f1c77c18e61e11b1c14d40">cadDataReady</a>(result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>, result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a366bbd5a9bcda91fc485f13c5a005a71">parsed</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#a0305610564c19b6813577eb3c8797be8">componentData</a>);</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="comment">// 使用异步保存，不阻塞 UI。</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">ComponentCacheService::instance</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#adc090193db1590e9fe3c2bef04b60831">saveComponentMetadataAsync</a>(</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>, result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a366bbd5a9bcda91fc485f13c5a005a71">parsed</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#a0305610564c19b6813577eb3c8797be8">componentData</a>, expectedGeneration, <span class="comment">/*replaceModel3DMetadata=*/</span><span class="keyword">true</span>);</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">ComponentCacheService::instance</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#a3f47ca554540abf0935e23b69371a61f">saveCadDataJson</a>(</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>, QJsonDocument(result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a366bbd5a9bcda91fc485f13c5a005a71">parsed</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#aff2adf7659be120921748fba788356a4">resultData</a>).toJson(QJsonDocument::Compact), expectedGeneration);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">if</span> (service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a> != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        service.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#a7d0f80b3723736167d80fab40df00d4e">handleParallelDataCollected</a>(result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">componentId</a>, result.<a class="code hl_variable" href="structEasyKiConverter_1_1CadFetchTaskResult.html#a366bbd5a9bcda91fc485f13c5a005a71">parsed</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1CadParseResult.html#a0305610564c19b6813577eb3c8797be8">componentData</a>);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    }</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>}</div>
+</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentCacheService_8h_html"><div class="ttname"><a href="ComponentCacheService_8h.html">ComponentCacheService.h</a></div></div>
+<div class="ttc" id="aComponentCadFetchCoordinator_8h_html"><div class="ttname"><a href="ComponentCadFetchCoordinator_8h.html">ComponentCadFetchCoordinator.h</a></div></div>
+<div class="ttc" id="aComponentService_8h_html"><div class="ttname"><a href="ComponentService_8h.html">ComponentService.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CadDataLoader_html_aa4dc1dcc2e01cb4d8d497d2637b12819"><div class="ttname"><a href="classEasyKiConverter_1_1CadDataLoader.html#aa4dc1dcc2e01cb4d8d497d2637b12819">EasyKiConverter::CadDataLoader::parseCadPayload</a></div><div class="ttdeci">static CadParseResult parseCadPayload(const QString &amp;componentId, const QJsonObject &amp;rawData)</div><div class="ttdoc">解析 CAD 响应中的元器件数据。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8cpp_source.html#l00030">CadDataLoader.cpp:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a3f47ca554540abf0935e23b69371a61f"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a3f47ca554540abf0935e23b69371a61f">EasyKiConverter::ComponentCacheService::saveCadDataJson</a></div><div class="ttdeci">void saveCadDataJson(const QString &amp;lcscId, const QByteArray &amp;cadData, uint64_t expectedGeneration=0)</div><div class="ttdoc">保存完整的CAD数据JSON到缓存（包含符号和封装）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00339">ComponentCacheService.cpp:339</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_adc090193db1590e9fe3c2bef04b60831"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#adc090193db1590e9fe3c2bef04b60831">EasyKiConverter::ComponentCacheService::saveComponentMetadataAsync</a></div><div class="ttdeci">void saveComponentMetadataAsync(const QString &amp;componentId, const ComponentData &amp;data, uint64_t expectedGeneration=0, bool replaceModel3DMetadata=false)</div><div class="ttdoc">异步保存元器件元数据到L2磁盘缓存（不阻塞UI）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00274">ComponentCacheService.cpp:274</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_afdee40a5120d2cf1f93c4dbe50146e34"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">EasyKiConverter::ComponentCacheService::instance</a></div><div class="ttdeci">static ComponentCacheService * instance()</div><div class="ttdoc">获取单例实例</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00065">ComponentCacheService.cpp:65</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCadFetchCoordinator_html_a2e1c03acd8ce6c2107e503a1efb8df80"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCadFetchCoordinator.html#a2e1c03acd8ce6c2107e503a1efb8df80">EasyKiConverter::ComponentCadFetchCoordinator::handleFetchResult</a></div><div class="ttdeci">static void handleFetchResult(ComponentService &amp;service, const CadFetchTaskResult &amp;result, uint64_t expectedGeneration)</div><div class="ttdoc">校验代次并提交 CAD 解析结果。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCadFetchCoordinator_8cpp_source.html#l00061">ComponentCadFetchCoordinator.cpp:61</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCadFetchCoordinator_html_ab9f5c5658922e1c604192995aae5d596"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCadFetchCoordinator.html#ab9f5c5658922e1c604192995aae5d596">EasyKiConverter::ComponentCadFetchCoordinator::handleDataFetched</a></div><div class="ttdeci">static void handleDataFetched(ComponentService &amp;service, const QString &amp;componentId, const QJsonObject &amp;data)</div><div class="ttdoc">启动 CAD 响应的后台解析任务。</div><div class="ttdef"><b>Definition</b> <a href="ComponentCadFetchCoordinator_8cpp_source.html#l00020">ComponentCadFetchCoordinator.cpp:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html">EasyKiConverter::ComponentService</a></div><div class="ttdoc">元件服务类</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00042">ComponentService.h:42</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a5b22bfd98b4bdc786c2bdd91a2cab0f3"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a5b22bfd98b4bdc786c2bdd91a2cab0f3">EasyKiConverter::ComponentService::emitFetchErrorAndClearState</a></div><div class="ttdeci">void emitFetchErrorAndClearState(const QString &amp;componentId, const QString &amp;error, uint64_t expectedGeneration=0)</div><div class="ttdoc">处理获取错误</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8cpp_source.html#l00495">ComponentService.cpp:495</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a60a56f00f8f1c77c18e61e11b1c14d40"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a60a56f00f8f1c77c18e61e11b1c14d40">EasyKiConverter::ComponentService::cadDataReady</a></div><div class="ttdeci">void cadDataReady(const QString &amp;componentId, const ComponentData &amp;data)</div><div class="ttdoc">CAD数据获取成功信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a7d0f80b3723736167d80fab40df00d4e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a7d0f80b3723736167d80fab40df00d4e">EasyKiConverter::ComponentService::handleParallelDataCollected</a></div><div class="ttdeci">void handleParallelDataCollected(const QString &amp;componentId, const ComponentData &amp;data)</div><div class="ttdoc">处理并行数据收集完成</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8cpp_source.html#l00375">ComponentService.cpp:375</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a826dd469280d397146b77a94711be4a6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">EasyKiConverter::ComponentService::m_fetchingComponents</a></div><div class="ttdeci">QMap&lt; QString, FetchingComponent &gt; m_fetchingComponents</div><div class="ttdoc">按元件编号索引的活动请求状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00498">ComponentService.h:498</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_ab9d210a3d5b9f3d12b0981c0f2de41e3"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">EasyKiConverter::ComponentService::m_parallelContext</a></div><div class="ttdeci">ParallelFetchContext * m_parallelContext</div><div class="ttdoc">当前并行数据收集上下文。</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00504">ComponentService.h:504</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_acc15c69ce1e5289491e7c5e5bc09bd17"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">EasyKiConverter::ComponentService::m_fetchingComponentsMutex</a></div><div class="ttdeci">QMutex m_fetchingComponentsMutex</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00478">ComponentService.h:478</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_af2b6c3a6c0ccf49d689e623d806b38c6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#af2b6c3a6c0ccf49d689e623d806b38c6">EasyKiConverter::ComponentService::updateComponentCache</a></div><div class="ttdeci">void updateComponentCache(const QString &amp;componentId, const ComponentData &amp;data)</div><div class="ttdoc">更新元件缓存</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8cpp_source.html#l00431">ComponentService.cpp:431</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadFetchTaskResult_html"><div class="ttname"><a href="structEasyKiConverter_1_1CadFetchTaskResult.html">EasyKiConverter::CadFetchTaskResult</a></div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00023">CadDataLoader.h:23</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadFetchTaskResult_html_a2959f1e8518cf0b41cb814a56d89ce95"><div class="ttname"><a href="structEasyKiConverter_1_1CadFetchTaskResult.html#a2959f1e8518cf0b41cb814a56d89ce95">EasyKiConverter::CadFetchTaskResult::componentId</a></div><div class="ttdeci">QString componentId</div><div class="ttdoc">获取任务对应的元器件编号。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00024">CadDataLoader.h:24</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadFetchTaskResult_html_a366bbd5a9bcda91fc485f13c5a005a71"><div class="ttname"><a href="structEasyKiConverter_1_1CadFetchTaskResult.html#a366bbd5a9bcda91fc485f13c5a005a71">EasyKiConverter::CadFetchTaskResult::parsed</a></div><div class="ttdeci">CadParseResult parsed</div><div class="ttdoc">网络响应解析结果。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00025">CadDataLoader.h:25</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadFetchTaskResult_html_ac4357e51d9f9f6cea4f31f5f1d6300c1"><div class="ttname"><a href="structEasyKiConverter_1_1CadFetchTaskResult.html#ac4357e51d9f9f6cea4f31f5f1d6300c1">EasyKiConverter::CadFetchTaskResult::success</a></div><div class="ttdeci">bool success</div><div class="ttdoc">获取和解析是否均成功。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00027">CadDataLoader.h:27</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadFetchTaskResult_html_ad68c814417178878f9573bf4d1b04f42"><div class="ttname"><a href="structEasyKiConverter_1_1CadFetchTaskResult.html#ad68c814417178878f9573bf4d1b04f42">EasyKiConverter::CadFetchTaskResult::errorMessage</a></div><div class="ttdeci">QString errorMessage</div><div class="ttdoc">获取或解析失败时的可读错误信息。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00026">CadDataLoader.h:26</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadParseResult_html"><div class="ttname"><a href="structEasyKiConverter_1_1CadParseResult.html">EasyKiConverter::CadParseResult</a></div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00015">CadDataLoader.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadParseResult_html_a0305610564c19b6813577eb3c8797be8"><div class="ttname"><a href="structEasyKiConverter_1_1CadParseResult.html#a0305610564c19b6813577eb3c8797be8">EasyKiConverter::CadParseResult::componentData</a></div><div class="ttdeci">ComponentData componentData</div><div class="ttdoc">解析得到的元器件数据。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00018">CadDataLoader.h:18</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadParseResult_html_a2c33f0fee75e86fed478c4961e006f09"><div class="ttname"><a href="structEasyKiConverter_1_1CadParseResult.html#a2c33f0fee75e86fed478c4961e006f09">EasyKiConverter::CadParseResult::errorMessage</a></div><div class="ttdeci">QString errorMessage</div><div class="ttdoc">解析失败时的可读错误信息。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00019">CadDataLoader.h:19</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadParseResult_html_a9a6967ae48450a9e0136dd9890864af3"><div class="ttname"><a href="structEasyKiConverter_1_1CadParseResult.html#a9a6967ae48450a9e0136dd9890864af3">EasyKiConverter::CadParseResult::success</a></div><div class="ttdeci">bool success</div><div class="ttdoc">解析是否成功。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00020">CadDataLoader.h:20</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadParseResult_html_af6a365cb310ca8b892e4120213c0a406"><div class="ttname"><a href="structEasyKiConverter_1_1CadParseResult.html#af6a365cb310ca8b892e4120213c0a406">EasyKiConverter::CadParseResult::componentId</a></div><div class="ttdeci">QString componentId</div><div class="ttdoc">解析请求对应的元器件编号。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00016">CadDataLoader.h:16</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1CadParseResult_html_aff2adf7659be120921748fba788356a4"><div class="ttname"><a href="structEasyKiConverter_1_1CadParseResult.html#aff2adf7659be120921748fba788356a4">EasyKiConverter::CadParseResult::resultData</a></div><div class="ttdeci">QJsonObject resultData</div><div class="ttdoc">原始 CAD 响应中的结果对象。</div><div class="ttdef"><b>Definition</b> <a href="CadDataLoader_8h_source.html#l00017">CadDataLoader.h:17</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentCadFetchCoordinator_8cpp.html">ComponentCadFetchCoordinator.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

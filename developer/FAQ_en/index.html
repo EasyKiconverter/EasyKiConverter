@@ -1,0 +1,2702 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for EasyKiConverter - LCSC and EasyEDA component converter for KiCad, Altium, and Xpedition libraries">
+      
+      
+        <meta name="author" content="tangsangsimida">
+      
+      
+        <link rel="canonical" href="https://easykiconverter.github.io/EasyKiConverter/developer/FAQ_en/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>FAQ for Developers - EasyKiConverter Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#faq-for-developers" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="EasyKiConverter Documentation" class="md-header__button md-logo" aria-label="EasyKiConverter Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EasyKiConverter Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              FAQ for Developers
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-purple"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-purple"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/EasyKiconverter/EasyKiConverter" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user/GETTING_STARTED/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  用户指南
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ai-development/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  开发者指南
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../project/ROADMAP/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  项目信息
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API 参考
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EasyKiConverter Documentation" class="md-nav__button md-logo" aria-label="EasyKiConverter Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EasyKiConverter Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/EasyKiconverter/EasyKiConverter" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    用户指南
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            用户指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/GETTING_STARTED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    快速入门
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/USER_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    用户手册
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/FEATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    功能特性
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/DEBUG_MODE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    调试模式
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/PRIVACY_POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    隐私政策
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/INSTALLATION_CODES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    安装程序返回代码
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    开发者指南
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            开发者指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../ai-development/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    AI 协作开发
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            AI 协作开发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/PROJECT_CONTEXT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    项目上下文
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/DEVELOPMENT_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    开发工作流
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/TESTING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    测试选择指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/SKILLS_CATALOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Skills 目录
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/policy/AI_POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI 协作政策
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/EVIDENCE_REPORT_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence Report 模板
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/AGENT_EVAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Agent 回归评测
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/ADAPTERS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent 适配层说明
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ai-development/AGENT_TOOLS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent JSON 工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    贡献指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CACHE_SAFETY_ACCEPTANCE_3.1.13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.1.13 缓存安全验收
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    架构设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PARSER_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    格式解析架构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ALLEGRO_NATIVE_FORMAT_RESEARCH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Allegro Native 格式研究
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PADS_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PADS 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EAGLE_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Eagle 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LIBREPCB_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LibrePCB 原生库导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PCAD_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    P-CAD 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ORCAD_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OrCAD Capture XML 符号导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BUILD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    构建指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VSCODE_SETUP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VS Code 配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CODING_STYLE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    代码风格
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TESTING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    测试指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOM_PARSING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BOM 解析指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    开发者常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_18" id="__nav_3_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    变更日志
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_18">
+            <span class="md-nav__icon md-icon"></span>
+            变更日志
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    变更日志
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/3.1.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.1.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/3.0.14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/2.0.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v2.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/1.0.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v1.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    项目信息
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            项目信息
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    路线图
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project/LOGGING_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    日志架构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    API 参考
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API 参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#preview-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      Preview Images
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Preview Images">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-why-does-importing-a-cached-bom-file-block-the-ui-while-without-cache-theres-no-obvious-stuttering" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Why does importing a cached BOM file block the UI, while without cache there's no obvious stuttering?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-preview-images-appear-in-the-wrong-directory-or-use-wrong-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Preview images appear in the wrong directory or use wrong images
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-after-deleting-cache-when-exporting-a-component-without-preview-images-preview-images-appear-in-the-root-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: After deleting cache, when exporting a component without preview images, preview images appear in the root directory
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-preview-image-download-fails-with-image-blocked-403-error" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Preview image download fails with "Image blocked (403)" error
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#export-and-window-lifecycle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Export and Window Lifecycle
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Export and Window Lifecycle">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-why-cant-i-see-new-symbols-in-kicad-after-appending-new-components-to-the-same-kicad_sym-file-for-the-second-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Why can't I see new symbols in KiCad after appending new components to the same .kicad_sym file for the second time?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-why-does-clicking-stop-export-and-then-immediately-clicking-retry-all-failed-items-cause-unresponsive-behavior-and-even-the-closeforce-quit-process-becomes-abnormal" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Why does clicking "Stop Export" and then immediately clicking "Retry All Failed Items" cause unresponsive behavior, and even the close/force quit process becomes abnormal?
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-after-retrying-failed-components-the-exported-footprint-library-only-contains-retried-components-previously-successful-components-are-lost" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: After retrying failed components, the exported footprint library only contains retried components, previously successful components are lost
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3d-model-related" class="md-nav__link">
+    <span class="md-ellipsis">
+      3D Model Related
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3D Model Related">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-3d-model-selection-uses-cyclic-switching-logic-instead-of-independent-toggle" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: 3D model selection uses cyclic switching logic instead of independent toggle
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-unchecking-3d-model-doesnt-hide-sub-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Unchecking 3D model doesn't hide sub-options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-selected-a-single-3d-model-format-wrl-or-step-but-both-formats-were-exported" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Selected a single 3D model format (WRL or STEP), but both formats were exported
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-exporting-3d-models-with-cache-still-still-makes-network-requests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Exporting 3D models with cache still发起网络请求 (still makes network requests)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-exported-3d-model-filename-doesnt-match-the-3d-model-path-recorded-in-the-footprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Exported 3D model filename doesn't match the 3D model path recorded in the footprint
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-related" class="md-nav__link">
+    <span class="md-ellipsis">
+      Network Related
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Network Related">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-high-export-failure-rate-in-weak-network-environments" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: High export failure rate in weak network environments
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-non-existent-components-are-incorrectly-marked-as-verification-success-and-error-responses-are-cached" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Non-existent components are incorrectly marked as verification success, and error responses are cached
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-requests-not-marked-as-verification-failure-when-cancelled" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Requests not marked as verification failure when cancelled
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#q-network-requests-not-cancelled-when-deleting-components-causing-cache-to-be-saved" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Network requests not cancelled when deleting components, causing cache to be saved
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-related" class="md-nav__link">
+    <span class="md-ellipsis">
+      Build Related
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Build Related">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-cmake-configuration-fails-with-mismatched-generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: CMake configuration fails with mismatched generator
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#window-qml-startup-related" class="md-nav__link">
+    <span class="md-ellipsis">
+      Window / QML Startup Related
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Window / QML Startup Related">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-application-process-starts-normally-but-main-window-doesnt-display-no-taskbar-entry" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Application process starts normally but main window doesn't display, no taskbar entry
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ui-scroll-position-related" class="md-nav__link">
+    <span class="md-ellipsis">
+      UI Scroll Position Related
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UI Scroll Position Related">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#q-export-results-list-automatically-scrolls-back-to-top-after-updates-during-conversion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Q: Export results list automatically scrolls back to top after updates during conversion
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#regression-test-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      Regression Test Checklist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-contribute" class="md-nav__link">
+    <span class="md-ellipsis">
+      How to Contribute
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter/edit/master/docs/developer/FAQ_en.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter/raw/master/docs/developer/FAQ_en.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+    </a>
+  
+
+
+<h1 id="faq-for-developers">FAQ for Developers<a class="headerlink" href="#faq-for-developers" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>This document records common development issues, root cause analysis, fixes, and regression prevention notes. For user-facing FAQ, see ../user/FAQ_en.md</p>
+</blockquote>
+<hr />
+<h2 id="preview-images">Preview Images<a class="headerlink" href="#preview-images" title="Permanent link">&para;</a></h2>
+<h3 id="q-why-does-importing-a-cached-bom-file-block-the-ui-while-without-cache-theres-no-obvious-stuttering">Q: Why does importing a cached BOM file block the UI, while without cache there's no obvious stuttering?<a class="headerlink" href="#q-why-does-importing-a-cached-bom-file-block-the-ui-while-without-cache-theres-no-obvious-stuttering" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When users import a BOM file, if the related components hit the local cache, the UI blocks for several seconds; after deleting the cache and re-importing, the blocking phenomenon is less noticeable.</p>
+<p><strong>Root Cause</strong>:
+This is a typical "cache hit path degrades to main thread heavy work" issue:</p>
+<ol>
+<li>After cache hit, <code>ComponentService::loadComponentDataFromCacheAsync()</code> used to perform preview image Base64 encoding on the main thread.</li>
+<li><code>LcscImageService::loadCachedPreviewImagesAsync()</code> used to send <code>imageReady</code> one by one, causing the UI layer to repeatedly process images and trigger multiple refreshes.</li>
+<li>If <code>ComponentListViewModel</code>'s <code>m_bomImportComplete</code> is not reset before the next import/refresh/retry, the subsequent state machine goes astray, amplifying UI update costs.</li>
+</ol>
+<p><strong>Fix</strong>:
+- Move reading and Base64 encoding of cached preview images to the background thread.
+- After cached images are loaded, only use batch <code>previewImagesReady</code>,，不再逐张回放 <code>imageReady</code> (stop playing back <code>imageReady</code> one by one).
+- Reset BOM import status uniformly during single item addition, batch import, list clearing, refresh, retry, and verification finalization.</p>
+<p><strong>Regression Prevention</strong>:
+- Do not move post-processing logic back to the main thread just because of "cache hit".
+- Cache path should preferentially use batch signals, avoid per-item UI refresh.
+- When modifying <code>ComponentListViewModel</code>'s BOM import state machine, must simultaneously check:
+  - <code>m_bomImportMode</code>
+  - <code>m_listUpdatePending</code>
+  - <code>m_bomImportComplete</code></p>
+<p><strong>Related Files</strong>:
+- <code>src/services/ComponentService.cpp</code>
+- <code>src/services/LcscImageService.cpp</code>
+- <code>src/ui/viewmodels/ComponentListViewModel.cpp</code>
+- <code>src/services/ComponentCacheService.cpp</code></p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-19)</p>
+<hr />
+<h3 id="q-preview-images-appear-in-the-wrong-directory-or-use-wrong-images">Q: Preview images appear in the wrong directory or use wrong images<a class="headerlink" href="#q-preview-images-appear-in-the-wrong-directory-or-use-wrong-images" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+After export, preview image files appear in the root directory of the output directory, but these preview images are not the correct images for the components.</p>
+<p><strong>Root Cause</strong>:
+There are multiple fallback mechanisms in <code>LcscImageService</code> that may fetch preview images from the wrong source:</p>
+<ol>
+<li><code>performFallback()</code> function - fetches images from <code>lcsc.com</code> HTML search page</li>
+<li><code>selectBestProductForComponent()</code> - when there's no exact match, returns the first product from the list</li>
+<li>Image URL extraction logic - when the matched product has no image, iterates through all products to get the first image</li>
+</ol>
+<p><strong>Solution</strong>:
+- Remove <code>performFallback()</code> function and its declaration
+- Modify <code>selectBestProductForComponent()</code> - if no exact match, return empty object, do not use the first product
+- Modify image URL extraction logic - if matched product has no image, report error directly, do not fetch from other products</p>
+<p><strong>Related Files</strong>:
+- <code>src/services/LcscImageService.cpp</code> - remove all fallback logic
+- <code>src/services/LcscImageService.h</code> - remove performFallback function declaration</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-17)</p>
+<hr />
+<h3 id="q-after-deleting-cache-when-exporting-a-component-without-preview-images-preview-images-appear-in-the-root-directory">Q: After deleting cache, when exporting a component without preview images, preview images appear in the root directory<a class="headerlink" href="#q-after-deleting-cache-when-exporting-a-component-without-preview-images-preview-images-appear-in-the-root-directory" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+After deleting cache, exporting a component that has no preview image, the preview image file appears in the export root directory instead of the <code>.preview</code> subdirectory.</p>
+<p><strong>Root Cause</strong>:
+When <code>PreviewImagesExportWorker</code> has no preview image data (<code>previewCount &lt;= 0</code>), <code>createTempPathsForComponent</code> returns an empty map, causing <code>setTempPaths</code> not to be called. At this point, <code>m_options.outputPath</code> is still the root directory, not the <code>.preview</code> subdirectory. Files are written directly to the root directory.</p>
+<p><strong>Solution</strong>:
+Modify <code>PreviewImagesExportWorker::run()</code> to construct the correct <code>.preview</code> subdirectory path when not using temporary paths.</p>
+<p><strong>Related Files</strong>:
+- <code>src/services/export/PreviewImagesExportWorker.cpp</code> - fix output directory path logic</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-17)</p>
+<hr />
+<h3 id="q-preview-image-download-fails-with-image-blocked-403-error">Q: Preview image download fails with "Image blocked (403)" error<a class="headerlink" href="#q-preview-image-download-fails-with-image-blocked-403-error" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When downloading preview images, a 403 error is received and the image is blocked by the server.</p>
+<p><strong>Possible Causes</strong>:
+- Server detected crawler behavior
+- Request frequency too high
+- Image URL has expired</p>
+<p><strong>Solution</strong>:
+Use cached preview images (if available), or wait a while and retry.</p>
+<hr />
+<h2 id="export-and-window-lifecycle">Export and Window Lifecycle<a class="headerlink" href="#export-and-window-lifecycle" title="Permanent link">&para;</a></h2>
+<h3 id="q-why-cant-i-see-new-symbols-in-kicad-after-appending-new-components-to-the-same-kicad_sym-file-for-the-second-time">Q: Why can't I see new symbols in KiCad after appending new components to the same <code>.kicad_sym</code> file for the second time?<a class="headerlink" href="#q-why-cant-i-see-new-symbols-in-kicad-after-appending-new-components-to-the-same-kicad_sym-file-for-the-second-time" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+After the first export, the symbol library file already exists. The user then selects new components and continues exporting to the same symbol library directory. The export process shows success, but when reopening the <code>.kicad_sym</code> in KiCad, the newly appended symbols are not visible.</p>
+<p><strong>Root Cause</strong>:
+This is a regression caused by the symbol library "append export" path being broken:</p>
+<ol>
+<li><code>SymbolExportStage</code> used to directly skip the entire library when the target <code>.kicad_sym</code> already existed and <code>overwriteExistingFiles == false</code>, without entering the append logic at all.</li>
+<li>Even if <code>ExporterSymbol::exportSymbolLibrary(..., appendMode, updateMode)</code> was subsequently called, it operated on a brand new temporary file, not a copy of the existing library file.</li>
+<li>As a result, the append/update logic was not based on merging with the existing library content. The final written content could not contain the correct combination of "old library + new symbols".</li>
+</ol>
+<p><strong>Fix</strong>:
+- Remove the "exit early for entire library if file exists and overwrite is disabled" logic.
+- In append/update mode, first copy the existing <code>.kicad_sym</code> to a temporary file.
+- Execute the merge logic of <code>ExporterSymbol::exportSymbolLibrary()</code> on this temporary file.
+- After merge is complete, use the temporary file to commit and overwrite the final library file.</p>
+<p><strong>Regression Prevention</strong>:
+- Any export logic that "appends to an existing library" cannot just check if the final file exists and skip directly.
+- If the merge logic depends on reading existing file content, the target must be "a copy of the existing file" rather than a blank temporary file.
+- When modifying <code>SymbolExportStage</code>, <code>TempFileManager</code>, or <code>ExporterSymbol</code>, must verify:
+  - First export to an empty directory
+  - Second append new symbols to the same <code>.kicad_sym</code>
+  - Update existing symbols in the same <code>.kicad_sym</code></p>
+<p><strong>Related Files</strong>:
+- <code>src/services/export/SymbolExportStage.cpp</code>
+- <code>src/core/kicad/ExporterSymbol.cpp</code>
+- <code>src/services/export/TempFileManager.cpp</code></p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-20)</p>
+<hr />
+<h3 id="q-why-does-clicking-stop-export-and-then-immediately-clicking-retry-all-failed-items-cause-unresponsive-behavior-and-even-the-closeforce-quit-process-becomes-abnormal">Q: Why does clicking "Stop Export" and then immediately clicking "Retry All Failed Items" cause unresponsive behavior, and even the close/force quit process becomes abnormal?<a class="headerlink" href="#q-why-does-clicking-stop-export-and-then-immediately-clicking-retry-all-failed-items-cause-unresponsive-behavior-and-even-the-closeforce-quit-process-becomes-abnormal" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+During export, the user clicks "Stop Export" and the UI immediately recovers; but if the user immediately clicks "Retry All Failed Items", the program becomes unresponsive. Related symptoms may also include:</p>
+<ul>
+<li>During export, clicking close, after selecting "Continue Export", the title bar buttons become unresponsive</li>
+<li>During export, selecting "Force Exit" and the program doesn't fully end</li>
+</ul>
+<p><strong>Root Cause</strong>:
+This is a regression caused by incomplete export session lifecycle management:</p>
+<ol>
+<li>When stopping export, the old export session's stages/workers may still be wrapping up in the background.</li>
+<li>If a new round of retry starts immediately, incorrect cleanup logic will prematurely destroy these "still running old stages", leading to dangling objects, event loop freezes, or unresponsiveness.</li>
+<li>Window close and force exit flows reuse the same set of export states; once the export session enters an inconsistent state, window control will also be affected.</li>
+</ol>
+<p><strong>Fix</strong>:
+- When stopping export, immediately end the <strong>current UI session</strong>, but old background tasks are only isolated, not allowed to write back to the current session.
+- Use export session generation (generation) to isolate late callbacks. Old session's <code>itemStatusChanged/progressChanged/completed</code> must be discarded.
+- <code>cleanupExportStages()</code> cannot prematurely destroy old stages that are still running, can only remove them from the current session mapping, and wait for natural completion before safe recycling.
+- The title bar close button cannot directly reuse <code>window.close()</code> as a normal close entry, must go through the unified <code>WindowController</code> close decision logic.
+- Force exit must explicitly clean up the network singleton and background threads, avoiding the situation where the window is closed but the process hasn't exited.</p>
+<p><strong>Regression Prevention</strong>:
+- When modifying export cancellation logic, do not synchronously wait for worker cleanup on the UI thread.
+- When modifying retry logic, do not assume that "clicking stop" equals "all stages have completely exited".
+- When modifying stage cleanup logic, must distinguish:
+  - Active stages of the current session
+  - Old stages still wrapping up in the background from previous sessions
+- When modifying window close logic, must verify:
+  - Retry immediately after stopping export
+  - Close during export and select "Continue Export"
+  - Select "Force Exit" during export</p>
+<p><strong>Related Files</strong>:
+- <code>src/services/export/ParallelExportService.cpp</code>
+- <code>src/services/export/ParallelExportService.h</code>
+- <code>src/services/export/ExportTypeStage.cpp</code>
+- <code>src/ui/qml/components/WindowController.qml</code>
+- <code>src/ui/qml/Main.qml</code>
+- <code>src/main.cpp</code></p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-19)</p>
+<hr />
+<h3 id="q-after-retrying-failed-components-the-exported-footprint-library-only-contains-retried-components-previously-successful-components-are-lost">Q: After retrying failed components, the exported footprint library only contains retried components, previously successful components are lost<a class="headerlink" href="#q-after-retrying-failed-components-the-exported-footprint-library-only-contains-retried-components-previously-successful-components-are-lost" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+After exporting a BOM, some components failed. Clicking "Retry Failed Components" results in the exported KiCad library only containing retried components, all previously successfully exported components are lost.</p>
+<p><strong>Root Cause</strong>:
+The retry process passes <strong>only failed component IDs</strong> to the entire export pipeline. Library-level export stages (Symbol, Footprint) only process these IDs, generating output containing only retried components, then replacing the existing library file on disk.</p>
+<p><strong>Footprint Loss Path</strong>:
+1. <code>retryFailedComponents()</code> passes failed IDs to <code>startPreload()</code> — <code>ExportProgressViewModel.cpp:728</code>
+2. <code>ParallelExportService::startPreload()</code> overwrites <code>m_componentIds</code> with the subset — <code>ParallelExportService.cpp:79</code>
+3. <code>startExport()</code> only passes these IDs to <code>FootprintExportStage::start()</code> — <code>ParallelExportService.cpp:326</code>
+4. <code>FootprintExportStage::doLibraryExport()</code> creates a new empty temporary directory, only writes retried footprints — <code>FootprintExportStage.cpp:428,448</code>
+5. <code>TempFileManager::commitDirectory()</code> deletes the entire existing <code>.pretty</code> directory (<code>removeRecursively()</code>), replaces with temporary directory containing only retried footprints — <code>TempFileManager.cpp:205</code></p>
+<p><strong>Symbol Loss Path</strong>:
+- When <code>overwriteExistingFiles=true</code>, the temporary file starts from empty, only writes retried symbols, all existing symbols are lost — <code>SymbolExportStage.cpp:223</code></p>
+<p><strong>Unaffected Types</strong>:
+- 3D models (<code>.wrl</code>, <code>.step</code>), preview images, datasheets: each component is an independent file, only replaces retried component files.</p>
+<p><strong>Fix</strong>:
+Add <code>retryMode</code> flag in <code>ExportOptions</code> to inform library-level export stages to preserve existing output during retry.</p>
+<ol>
+<li><code>ExportProgress.h</code> — add <code>bool retryMode = false</code></li>
+<li><code>ExportProgressViewModel.cpp</code> — set <code>retryMode = true</code> in <code>retryComponent()</code> and <code>retryFailedComponents()</code></li>
+<li><code>FootprintExportStage.cpp</code> — in retry mode, first copy existing <code>.kicad_mod</code> to temporary directory, then perform export</li>
+<li><code>SymbolExportStage.cpp</code> — in retry mode, always copy existing <code>.kicad_sym</code> to temporary file</li>
+<li><code>ParallelExportService.cpp</code> — reset <code>retryMode = false</code> after export starts</li>
+</ol>
+<p><strong>Key Trap</strong>:
+<code>TempFileManager::createTempDirectoryPath()</code> only returns a path string, <strong>does not create the directory on disk</strong>. Must first call <code>QDir().mkpath(tempDirPath)</code> to create the directory, otherwise <code>QFile::copy()</code> will silently fail because the target directory doesn't exist.</p>
+<p><strong>Regression Prevention</strong>:
+When modifying the following files, must verify retry scenarios:
+- <code>FootprintExportStage.cpp</code> — footprint library write logic
+- <code>SymbolExportStage.cpp</code> — symbol library write logic
+- <code>TempFileManager.cpp</code> — temporary directory commit/replace logic
+- <code>ParallelExportService.cpp</code> — export pipeline orchestration
+- <code>ExportProgressViewModel.cpp</code> — retry entry points</p>
+<p><strong>Related Files</strong>:
+- <code>src/services/export/ExportProgress.h</code> — add retryMode field
+- <code>src/ui/viewmodels/ExportProgressViewModel.cpp</code> — retry entry sets flag
+- <code>src/services/export/FootprintExportStage.cpp</code> — copy existing footprints to temp directory
+- <code>src/services/export/SymbolExportStage.cpp</code> — copy existing symbol library to temp file
+- <code>src/services/export/ParallelExportService.cpp</code> — reset flag
+- <code>src/services/export/TempFileManager.cpp</code> — temp directory commit logic</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-05-08)</p>
+<hr />
+<h2 id="3d-model-related">3D Model Related<a class="headerlink" href="#3d-model-related" title="Permanent link">&para;</a></h2>
+<h3 id="q-3d-model-selection-uses-cyclic-switching-logic-instead-of-independent-toggle">Q: 3D model selection uses cyclic switching logic instead of independent toggle<a class="headerlink" href="#q-3d-model-selection-uses-cyclic-switching-logic-instead-of-independent-toggle" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When the user clicks the WRL button, they want to only toggle WRL's selected state without affecting STEP's selected state.</p>
+<p><strong>Solution</strong>:
+Use bitmask to manage format selection:
+- <code>1</code> (bit 0) = WRL
+- <code>2</code> (bit 1) = STEP
+- <code>3</code> = Both
+- <code>0</code> = None</p>
+<p>Clicking each button only toggles the corresponding bit, without affecting other bits.</p>
+<p><strong>Related Files</strong>:
+- <code>src/services/export/ExportProgress.h</code> - define <code>MODEL_3D_FORMAT_*</code> constants and helper methods
+- <code>src/ui/qml/components/ExportSettingsCard.qml</code> - implement independent toggle logic</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-17)</p>
+<hr />
+<h3 id="q-unchecking-3d-model-doesnt-hide-sub-options">Q: Unchecking 3D model doesn't hide sub-options<a class="headerlink" href="#q-unchecking-3d-model-doesnt-hide-sub-options" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When the user unchecks the "3D Model" main checkbox, the WRL/STEP sub-options are still displayed.</p>
+<p><strong>Solution</strong>:
+Set the <code>visible</code> property of the WRL/STEP button group to <code>model3dCheckbox.checked</code>, ensuring parent checkbox state linkage.</p>
+<p><strong>Related Files</strong>:
+- <code>src/ui/qml/components/ExportSettingsCard.qml</code></p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-17)</p>
+<h3 id="q-selected-a-single-3d-model-format-wrl-or-step-but-both-formats-were-exported">Q: Selected a single 3D model format (WRL or STEP), but both formats were exported<a class="headerlink" href="#q-selected-a-single-3d-model-format-wrl-or-step-but-both-formats-were-exported" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+The user selected to export only WRL format in export settings, but actually both WRL and STEP formats were exported.</p>
+<p><strong>Root Cause</strong>:
+<code>ExportProgressViewModel::startExport()</code> method creates <code>ExportOptions</code> without setting the <code>exportModel3DFormat</code> parameter, causing the parameter to keep its default value of 3 (Both).</p>
+<p>Call chain analysis:
+1. User selects format in QML → <code>ExportSettingsViewModel::setExportModel3DFormat()</code> correctly saves it
+2. Click export button → <code>ExportButtonsSection.qml</code> calls <code>progressController.startExport()</code>
+3. <strong>Problem</strong>: <code>startExport()</code> signature lacks <code>exportModel3DFormat</code> parameter, the field uses default value when creating options</p>
+<p><strong>Solution</strong>:
+1. Add <code>exportModel3DFormat</code> parameter to <code>ExportProgressViewModel::startExport()</code>
+2. Pass the parameter to <code>ExportOptions</code> inside the method
+3. At the QML call site, pass <code>settingsController.exportModel3DFormat</code></p>
+<p><strong>Related Files</strong>:
+- <code>src/ui/viewmodels/ExportProgressViewModel.h</code> - add parameter declaration
+- <code>src/ui/viewmodels/ExportProgressViewModel.cpp</code> - pass format value to options
+- <code>src/ui/qml/components/ExportButtonsSection.qml</code> - pass format parameter</p>
+<p><strong>Debug Method</strong>:
+After enabling debug mode, <code>Model3DExportWorker::run()</code> will output in logs:
+- Correct case (WRL selected): <code>exportModel3DFormat: 1 needWrl: true needStep: false</code>
+- Incorrect case: <code>exportModel3DFormat: 3 needWrl: true needStep: true</code></p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-19)</p>
+<hr />
+<h3 id="q-exporting-3d-models-with-cache-still-still-makes-network-requests">Q: Exporting 3D models with cache still发起网络请求 (still makes network requests)<a class="headerlink" href="#q-exporting-3d-models-with-cache-still-still-makes-network-requests" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+During batch export, even if all 3D models (STEP/OBJ) are cached to local disk, the export process still发起大量网络请求 (still makes a large number of network requests), causing slow exports or timeout failures in weak network environments.</p>
+<p><strong>Root Cause</strong>:
+There are multiple design flaws in 3D model cache reuse:</p>
+<ol>
+<li>
+<p><strong>STEP export prioritizes network over cache</strong> (most severe): In <code>Model3DExportWorker::run()</code>, STEP processing order first calls <code>downloadStepDataSync()</code> to make network requests, only checks disk cache after network failure. When batch exporting 100 components, even if all STEPs are cached, 100 network requests are still发起 (still made).</p>
+</li>
+<li>
+<p><strong>Preload doesn't load OBJ binary data</strong>: <code>ComponentService::loadComponentDataFromCacheAsync()</code> loads symbol, footprint, preview, datasheet, but doesn't load OBJ binary data, causing <code>m_data-&gt;model3DObjRaw()</code> to always be empty, requiring the export stage to re-read from disk or download from network.</p>
+</li>
+<li>
+<p><strong>Incomplete cache validation</strong>: <code>ComponentCacheService::hasModel3DCached()</code> only checks if file exists, doesn't verify if file size is greater than 0, may incorrectly treat corrupted empty files as valid cache.</p>
+</li>
+</ol>
+<p><strong>Fix</strong>:</p>
+<ol>
+<li>
+<p><strong>STEP cache priority</strong>: Modify <code>Model3DExportWorker.cpp</code>, change STEP export logic from "network first then cache" to "cache first then network":
+   <div class="highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Before: downloadStepDataSync() → check cache only after failure
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>After: cache-&gt;loadModel3D(uuid, "step") → only downloadStepDataSync() when no cache
+</span></code></pre></div></p>
+</li>
+<li>
+<p><strong>Preload OBJ data</strong>: Add OBJ binary data loading in <code>ComponentService::loadComponentDataFromCacheAsync()</code>, set to <code>ComponentData::model3DObjRaw</code>, to avoid duplicate disk I/O in export stage.</p>
+</li>
+<li>
+<p><strong>Cache integrity check</strong>: Enhance <code>hasModel3DCached()</code> to check both file exists and size &gt; 0.</p>
+</li>
+</ol>
+<p><strong>Regression Prevention</strong>:
+- When adding new cache usage logic, must follow "cache first then network" priority order
+- Preload stage should load all required data into memory as much as possible, reduce I/O in export stage
+- Footprint stage calculating STEP offset must not depend on parallel 3D model export stage writing cache first; when STEP data is missing, must obtain via "memory → disk cache → network download and save to cache"
+- Cache existence check should include basic integrity verification (file size &gt; 0)
+- When modifying <code>Model3DExportWorker</code> cache logic, must verify:
+  - No network request when cache exists
+  - Normal download and save to cache when no cache
+  - Cache as fallback when network fails
+- When modifying <code>FootprintExportStage</code> STEP offset logic, must verify:
+  - First export and STEP not cached can still calculate Z offset
+  - When 3D model export stage and footprint export stage run in parallel, footprint stage doesn't depend on the former's completion order</p>
+<p><strong>Related Files</strong>:
+- <code>src/services/export/Model3DExportWorker.cpp</code> - STEP cache priority logic
+- <code>src/services/export/FootprintExportStage.cpp</code> - STEP offset calculation data acquisition logic
+- <code>src/services/ComponentService.cpp</code> - preload OBJ data
+- <code>src/services/ComponentService.h</code> - CacheLoadResult adds objData field
+- <code>src/services/ComponentCacheService.cpp</code> - cache integrity verification</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-05-08), with supplementary footprint stage STEP offset regression fix (2026-05-09)</p>
+<hr />
+<h3 id="q-exported-3d-model-filename-doesnt-match-the-3d-model-path-recorded-in-the-footprint">Q: Exported 3D model filename doesn't match the 3D model path recorded in the footprint<a class="headerlink" href="#q-exported-3d-model-filename-doesnt-match-the-3d-model-path-recorded-in-the-footprint" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+The exported 3D model filename is <code>C0603.step</code>, but the 3D model path recorded in the footprint is <code>../lib.3dmodels/C0603_L1.6-W0.8-H0.8.step</code>, causing KiCad to fail to find the corresponding 3D model file.</p>
+<p><strong>Root Cause</strong>:
+The <code>name</code> field in the <code>Model3DData</code> object was accidentally lost during data flow transmission, caused by two independent bugs:</p>
+<p><strong>Bug 1 - ProcessWorker reconstructing Model3DData loses attributes</strong>:
+When <code>ProcessWorker::parse3DModelData()</code> receives 3D model OBJ data, it <strong>recreates</strong> the <code>Model3DData</code> object to store the raw data, but the old code only restored <code>uuid</code>, while <code>name</code>, <code>translation</code>, <code>rotation</code> were all lost.</p>
+<p><strong>Bug 2 - ComponentService cache loading overwrites existing model3DData</strong>:
+<code>ComponentCacheService::loadComponentData()</code> has already correctly loaded the complete <code>model3DData</code> with <code>name</code> from <code>metadata.json</code>, but <code>ComponentService::loadComponentDataFromCacheAsync()</code> <strong>recreates a model3DData with only UUID</strong>, and uses <code>setModel3DData()</code> to overwrite the existing complete data.</p>
+<p><strong>Data Flow Analysis</strong>:
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>EasyEDA API -&gt; FootprintData.model3D().name() = "C0603_L1.6-W0.8-H0.8"
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                   |
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>              【Bug 2】Cache loading -&gt; model3DData()-&gt;name() gets overwritten to empty
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                   |
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>              3D model export -&gt; fallback to footprint name -&gt; C0603.step
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>              Footprint export -&gt; uses original name -&gt; C0603_L1.6-W0.8-H0.8.step (path)
+</span></code></pre></div></p>
+<p><strong>Fix</strong>:
+1. <code>ProcessWorker::parse3DModelData()</code>: Before reconstructing <code>Model3DData</code>, first save and restore <code>name</code>, <code>translation</code>, <code>rotation</code>
+2. <code>ComponentService::loadComponentDataFromCacheAsync()</code>: Only create/supplement when <code>cachedData-&gt;model3DData()</code> doesn't exist or UUID is missing, no longer call <code>setModel3DData()</code> to overwrite existing data</p>
+<p><strong>Regression Prevention</strong>:
+- When reconstructing objects, must backup all attributes of the old object, do not assume the new object only needs partial fields
+- Cache loading path should not re-parse/overwrite, supplement logic should be "only supplement when missing", not "unconditionally reconstruct"
+- When testing cache scenarios, must verify both: first acquisition (no cache) and cache hit, the behavior should be completely consistent</p>
+<p><strong>Related Files</strong>:
+- <code>src/workers/ProcessWorker.cpp</code> - restore Model3DData complete attributes
+- <code>src/services/ComponentService.cpp</code> - no longer overwrite existing model3DData</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-29)</p>
+<hr />
+<h2 id="network-related">Network Related<a class="headerlink" href="#network-related" title="Permanent link">&para;</a></h2>
+<h3 id="q-high-export-failure-rate-in-weak-network-environments">Q: High export failure rate in weak network environments<a class="headerlink" href="#q-high-export-failure-rate-in-weak-network-environments" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When the network is unstable, many component exports fail.</p>
+<p><strong>Solution</strong>:
+Enable "Weak Network Support" option (<code>weakNetworkSupport</code>), which can:
+- Reduce concurrency
+- Increase retry count
+- Extend timeout</p>
+<p><strong>Related Configuration</strong>:
+- <code>src/services/ConfigService.cpp</code> - <code>getWeakNetworkSupport()</code> / <code>setWeakNetworkSupport()</code></p>
+<hr />
+<h3 id="q-non-existent-components-are-incorrectly-marked-as-verification-success-and-error-responses-are-cached">Q: Non-existent components are incorrectly marked as verification success, and error responses are cached<a class="headerlink" href="#q-non-existent-components-are-incorrectly-marked-as-verification-success-and-error-responses-are-cached" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When requesting a non-existent component (such as C2041), the EasyEDA API returns a business-level 404 error:
+<div class="highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span><span class="nt">"code"</span><span class="p">:</span><span class="mi">404</span><span class="p">,</span><span class="nt">"message"</span><span class="p">:</span><span class="s2">"Component not found"</span><span class="p">,</span><span class="nt">"success"</span><span class="p">:</span><span class="kc">false</span><span class="p">}</span>
+</span></code></pre></div></p>
+<p>But the system incorrectly treats this response as verification success, causing:
+- Component displays as "verification successful" but has no preview image
+- Error response is cached to local disk
+- Subsequent requests load from cache, continuously showing as success</p>
+<p><strong>Root Cause</strong>:
+<code>src/services/CadDataLoader.cpp:fetchAndParseCadData()</code> only checks:
+- Whether HTTP/network layer succeeded
+- Whether JSON can be parsed</p>
+<p>But doesn't check business-level error markers in the response body:
+- <code>success: false</code>
+- <code>code: 404</code>
+- <code>result</code> missing or empty</p>
+<p><strong>Fix</strong>:
+Add business-level error check in <code>CadDataLoader::fetchAndParseCadData()</code>:
+1. Check <code>success == false</code> → return error (return "Component does not exist (404)" on 404)
+2. Check <code>result</code> missing or null → return error
+3. Check <code>result</code> is empty object → return error</p>
+<p><strong>Regression Prevention</strong>:
+- Any code that parses API responses must check business-level <code>success</code> field
+- Do not assume business success just because HTTP succeeds
+- When <code>result</code> field is missing or empty, must treat as failure</p>
+<p><strong>Related Files</strong>:
+- <code>src/services/CadDataLoader.cpp:117</code> - fetchAndParseCadData()
+- <code>src/workers/FetchWorker.cpp:203</code> - reference implementation (already has correct judgment)</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-21)</p>
+<hr />
+<h3 id="q-requests-not-marked-as-verification-failure-when-cancelled">Q: Requests not marked as verification failure when cancelled<a class="headerlink" href="#q-requests-not-marked-as-verification-failure-when-cancelled" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When network requests are cancelled (such as when user deletes a component), the system doesn't mark this as verification failure.</p>
+<p><strong>Root Cause</strong>:
+<code>isCadDataFailure</code> check in <code>handleFetchError()</code> doesn't include "Request cancelled" error message.</p>
+<p><strong>Fix</strong>:
+Add <code>error.contains("Request cancelled")</code> to <code>isCadDataFailure</code> check.</p>
+<p><strong>Related Files</strong>:
+- <code>src/ui/viewmodels/ComponentListViewModel.cpp:850</code> - isCadDataFailure check</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-21)</p>
+<hr />
+<h3 id="q-network-requests-not-cancelled-when-deleting-components-causing-cache-to-be-saved">Q: Network requests not cancelled when deleting components, causing cache to be saved<a class="headerlink" href="#q-network-requests-not-cancelled-when-deleting-components-causing-cache-to-be-saved" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When deleting components, the network requests for those components are not cancelled, causing requests to complete and data to be cached.</p>
+<p><strong>Fix</strong>:
+1. Add <code>cancelRequestForComponent()</code> method in <code>ComponentService</code>
+2. Add <code>cancelRequestForComponent()</code> method in <code>LcscImageService</code>
+3. Call <code>cancelRequestForComponent()</code> in <code>ComponentListViewModel::removeComponent()</code></p>
+<p><strong>Related Files</strong>:
+- <code>src/services/ComponentService.cpp</code> - cancelRequestForComponent()
+- <code>src/services/LcscImageService.cpp</code> - cancelRequestForComponent()
+- <code>src/ui/viewmodels/ComponentListViewModel.cpp:340</code> - removeComponent() call</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-21)</p>
+<hr />
+<h2 id="build-related">Build Related<a class="headerlink" href="#build-related" title="Permanent link">&para;</a></h2>
+<h3 id="q-cmake-configuration-fails-with-mismatched-generator">Q: CMake configuration fails with mismatched generator<a class="headerlink" href="#q-cmake-configuration-fails-with-mismatched-generator" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+When running <code>cmake --build</code>, error:
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>CMake Error: generator Ninja Does not match the generator used previously: Unix Makefiles
+</span></code></pre></div></p>
+<p><strong>Solution</strong>:
+Clean build directory and reconfigure:
+<div class="highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>rm<span class="w"> </span>-rf<span class="w"> </span>build
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>python<span class="w"> </span>tools/python/build_project.py
+</span></code></pre></div></p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-17)</p>
+<hr />
+<h2 id="window-qml-startup-related">Window / QML Startup Related<a class="headerlink" href="#window-qml-startup-related" title="Permanent link">&para;</a></h2>
+<h3 id="q-application-process-starts-normally-but-main-window-doesnt-display-no-taskbar-entry">Q: Application process starts normally but main window doesn't display, no taskbar entry<a class="headerlink" href="#q-application-process-starts-normally-but-main-window-doesnt-display-no-taskbar-entry" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+After startup, logs show QML has loaded, icon has been set, event loop continues, even update check starts executing, but there's no main window on the desktop and no taskbar entry visible.</p>
+<p>Typical symptoms:
+- <code>QQmlApplicationEngine</code> reports no error
+- <code>rootObjects()</code> is not empty
+- Logs show "QML loaded, starting icon setup"
+- Application doesn't exit immediately, but window isn't truly mapped to desktop</p>
+<p><strong>Root Cause</strong>:
+This is a regression after splitting window startup responsibilities, triggered by the combination of the following factors:</p>
+<ol>
+<li>The main window is <code>ApplicationWindow</code> and uses <code>Qt.FramelessWindowHint</code></li>
+<li>During startup, window display logic is completely handed over to QML's <code>WindowStartupManager</code></li>
+<li><code>Main.qml</code> binds <code>visible</code> to a constant or startup gate value (e.g., <code>visible: false</code> / <code>visible: startupReady</code>)</li>
+<li>QML side tries to display the window at runtime via <code>show()</code> / <code>visible = true</code></li>
+</ol>
+<p>In this situation, <code>visible</code> binding and runtime display calls may override each other. Result:
+- QML/Qt objects exist
+- Application logic continues
+- But the top-level native window isn't stably mapped to the desktop environment</p>
+<p>Additionally, this split exposed two high-risk points:</p>
+<ol>
+<li>New QML components added without simultaneously updating <code>CMakeLists.txt</code> and <code>tests/ui/CMakeLists.txt</code> will cause "compilation passes but runtime QML component not found" issues</li>
+<li>New components declaring <code>required property ApplicationWindow window</code> must explicitly import <code>QtQuick.Controls</code></li>
+</ol>
+<p><strong>Solution</strong>:</p>
+<ol>
+<li>Do not completely bind main window display to QML constant properties</li>
+<li>Allow QML to set geometry and state during startup phase, but provide one-time visibility fallback from C++ after engine loads</li>
+<li>If root window is still hidden after startup, execute <code>show()</code> / <code>raise()</code> / <code>requestActivate()</code> from <code>main.cpp</code></li>
+<li>All new QML components must simultaneously update:</li>
+<li><code>src/ui/qml/components/qmldir</code></li>
+<li><code>QML_FILES</code> in root <code>CMakeLists.txt</code></li>
+<li><code>QML_FILES</code> in <code>tests/ui/CMakeLists.txt</code></li>
+<li>When using <code>ApplicationWindow</code> as type, QML file must import <code>QtQuick.Controls</code></li>
+</ol>
+<p><strong>Related Files</strong>:
+- <code>src/main.cpp</code> - root window visibility fallback after loading
+- <code>src/ui/qml/Main.qml</code> - main window initial visibility strategy
+- <code>src/ui/qml/components/WindowController.qml</code> - startup/runtime window orchestration
+- <code>src/ui/qml/components/WindowStartupManager.qml</code> - startup phase window restoration
+- <code>src/ui/qml/components/WindowPersistenceManager.qml</code> - runtime window state persistence
+- <code>CMakeLists.txt</code> - application QML resource manifest
+- <code>tests/ui/CMakeLists.txt</code> - UI test QML manifest</p>
+<p><strong>Anti-Regression Rules</strong>:
+- Do not use hybrid control of "constant <code>visible</code> binding + runtime <code>show()</code>" for the main window
+- <code>FramelessWindowHint</code> main window's first mapping must have C++ side fallback
+- When splitting QML components, resource registration, <code>qmldir</code> registration, and test manifest must all be changed together
+- Startup restoration and runtime persistence can be split into modules, but the final responsibility for "first display" must be clear, cannot be managed half in QML and half in C++</p>
+<p><strong>Recommended Regression Tests</strong>:
+- Normal window startup should immediately appear on desktop and taskbar
+- After maximizing and closing, restart should restore to maximized state
+- From maximized, clicking to windowed should restore to last normal geometry
+- After deleting window configuration and restarting, should display centered with default size
+- Verify main window truly maps on both Linux/X11 and Linux/Wayland</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-19)</p>
+<hr />
+<h2 id="ui-scroll-position-related">UI Scroll Position Related<a class="headerlink" href="#ui-scroll-position-related" title="Permanent link">&para;</a></h2>
+<h3 id="q-export-results-list-automatically-scrolls-back-to-top-after-updates-during-conversion">Q: Export results list automatically scrolls back to top after updates during conversion<a class="headerlink" href="#q-export-results-list-automatically-scrolls-back-to-top-after-updates-during-conversion" title="Permanent link">&para;</a></h3>
+<p><strong>Problem Description</strong>:
+During export, the user scrolls down the results list to view progress, but whenever a component status updates (such as from "exporting" to "success"), the list automatically scrolls back to the top, making it difficult for the user to continuously track components at the bottom.</p>
+<p><strong>Root Cause</strong>:
+<code>ExportResultsCard.qml</code>'s GridView is directly bound to the <code>filteredResultsList</code> property, and the getter method of this property returns a new <code>QVariantList</code> on each call:</p>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">QVariantList</span><span class="w"> </span><span class="nf">ExportProgressViewModel::filteredResultsList</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="c1">// Creates new list each time</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">QVariantList</span><span class="w"> </span><span class="n">filtered</span><span class="p">;</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">auto</span><span class="o">&amp;</span><span class="w"> </span><span class="n">item</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">m_resultsList</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="c1">// filtering logic...</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="n">filtered</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">);</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">filtered</span><span class="p">;</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>Each time <code>filteredResultsListChanged()</code> signal triggers:
+1. QML calls getter to get new list
+2. GridView receives a brand new list object
+3. Scroll position resets to top</p>
+<p>Component list uses <code>DelegateModel</code> bound to the original model, controlling display/hide through <code>DelegateModelGroup</code>'s <code>inDisplay</code> property, avoiding position reset.</p>
+<p><strong>Solution</strong>:
+Reference <code>ComponentListCard.qml</code>'s implementation, use <code>DelegateModel</code> instead of direct binding:</p>
+<ol>
+<li>Add <code>DelegateModel</code> bound to original <code>resultsList</code></li>
+<li>Use <code>DelegateModelGroup</code> to control display/hide</li>
+<li>Add debounce timer (50ms) to avoid frequent filtering</li>
+<li>Listen to <code>filterModeChanged</code> and <code>resultsListChanged</code> signals to trigger filtering</li>
+<li>In <code>updateFilter()</code> function, control each item's display through <code>item.inDisplay</code></li>
+</ol>
+<div class="highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nx">DelegateModel</span> <span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    <span class="kd">id: visualModel</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">model:</span> <span class="nx">resultsLoader</span><span class="p">.</span><span class="nx">exportProgressController</span><span class="p">.</span><span class="nx">resultsList</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    <span class="k">groups:</span> <span class="p">[</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="nx">DelegateModelGroup</span> <span class="p">{</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>            <span class="kd">id: displayGroup</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>            <span class="k">includeByDefault:</span> <span class="kc">true</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>            <span class="k">name:</span> <span class="s2">"display"</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>        <span class="p">}</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>    <span class="p">]</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>    <span class="k">filterOnGroup:</span> <span class="s2">"display"</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="k">delegate:</span> <span class="nx">ResultListItem</span> <span class="p">{</span> <span class="p">...</span> <span class="p">}</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>    <span class="kd">function</span> <span class="nx">updateFilter</span><span class="p">()</span> <span class="p">{</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">items</span><span class="p">.</span><span class="nx">count</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>            <span class="kd">var</span> <span class="nx">item</span> <span class="o">=</span> <span class="nx">items</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>            <span class="kd">var</span> <span class="nx">dataObj</span> <span class="o">=</span> <span class="nx">item</span><span class="p">.</span><span class="nx">model</span><span class="p">.</span><span class="nx">modelData</span> <span class="o">||</span> <span class="nx">item</span><span class="p">.</span><span class="nx">model</span><span class="p">;</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>            <span class="kd">var</span> <span class="nx">status</span> <span class="o">=</span> <span class="nx">dataObj</span><span class="p">.</span><span class="nx">status</span> <span class="o">||</span> <span class="s2">"pending"</span><span class="p">;</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>            <span class="kd">var</span> <span class="nx">passFilter</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>            <span class="c1">// filtering logic...</span>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>            <span class="nx">item</span><span class="p">.</span><span class="nx">inDisplay</span> <span class="o">=</span> <span class="nx">passFilter</span><span class="p">;</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>        <span class="p">}</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>    <span class="p">}</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="p">}</span>
+</span></code></pre></div>
+<p><strong>Regression Prevention</strong>:
+- Any new list view that needs to update data at runtime while maintaining scroll position must use <code>DelegateModel</code>
+- Do not directly bind to properties that return new objects each time
+- List filtering must be controlled through <code>DelegateModelGroup</code>'s <code>inDisplay</code> property, not by recreating the list
+- Use <code>cacheBuffer: 500</code> and <code>reuseItems: true</code> to enable virtualization and Item recycling</p>
+<p><strong>Related Files</strong>:
+- <code>src/ui/qml/components/ExportResultsCard.qml</code> - use DelegateModel instead of direct binding
+- <code>src/ui/qml/components/ComponentListCard.qml</code> - reference implementation</p>
+<p><strong>Status</strong>: ✅ Fixed (2026-04-19)</p>
+<hr />
+<h2 id="regression-test-checklist">Regression Test Checklist<a class="headerlink" href="#regression-test-checklist" title="Permanent link">&para;</a></h2>
+<p>Please confirm the following work correctly before each release:</p>
+<ul>
+<li>[ ] 3D model format selection (WRL/STEP/Both)</li>
+<li>[ ] 3D model main checkbox and sub-options linkage</li>
+<li>[ ] After selecting 3D model format, export actually only exports selected format (not Both)</li>
+<li>[ ] Preview images only fetched from fixed API location</li>
+<li>[ ] Export success rate in weak network mode</li>
+<li>[ ] Symbol library, footprint library export functionality</li>
+<li>[ ] After appending new symbols to existing <code>.kicad_sym</code>, new symbols visible in KiCad</li>
+<li>[ ] Main window visible after startup, appears in taskbar</li>
+<li>[ ] Maximized after closing and restarting</li>
+<li>[ ] Restores to windowed from maximized, retains last normal geometry</li>
+<li>[ ] When adding new QML components, <code>qmldir</code>, CMake resource manifest, UI test manifest are synchronized</li>
+<li>[ ] Export results list maintains scroll position during conversion, doesn't automatically return to top</li>
+<li>[ ] Exporting 3D models with cache doesn't发起网络请求 (don't make network requests) (STEP cache priority)</li>
+<li>[ ] After retrying failed components, exported library contains both successful and retried items</li>
+<li>[ ] After retrying failed components, existing footprints/symbols are not lost</li>
+</ul>
+<hr />
+<h2 id="how-to-contribute">How to Contribute<a class="headerlink" href="#how-to-contribute" title="Permanent link">&para;</a></h2>
+<p>If you discover new common problems and find solutions, please update this document.</p>
+<p>Format requirements:
+1. Problem description (clearly describe symptoms)
+2. Root cause
+3. Solution
+4. Related files and status
+5. Update date</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.footer", "content.code.copy", "content.action.edit", "content.action.view", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": "3.1.13"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>

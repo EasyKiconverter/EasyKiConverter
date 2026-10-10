@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/DatasheetExporter.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('DatasheetExporter_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">DatasheetExporter.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="DatasheetExporter_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="DatasheetExporter_8h.html">DatasheetExporter.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="NetworkClient_8h.html">core/network/NetworkClient.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1DatasheetExporter.html#a57a6b04ef92c8c64df8c85e63dfddf02">   16</a></span><a class="code hl_function" href="classEasyKiConverter_1_1DatasheetExporter.html#a57a6b04ef92c8c64df8c85e63dfddf02">DatasheetExporter::DatasheetExporter</a>(QObject* parent) : QObject(parent) {}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><a class="code hl_function" href="classEasyKiConverter_1_1DatasheetExporter.html#a5ff535e8418dfeb262bfebc4a55008a5">DatasheetExporter::~DatasheetExporter</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1DatasheetExporter.html#a8c86a0b82f1fbb4587fa391347aebfc7">   27</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1DatasheetExporter.html#a8c86a0b82f1fbb4587fa391347aebfc7">DatasheetExporter::setOptions</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1DatasheetExporter.html#afe2fbc11d68fe34abc1c80d0b1e44903">m_options</a> = options;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="}">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1DatasheetExporter.html#a8b07f838dae698eb52f1a8d7c301cfbd">   38</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1DatasheetExporter.html#a8b07f838dae698eb52f1a8d7c301cfbd">DatasheetExporter::exportDatasheet</a>(<span class="keyword">const</span> QString&amp; datasheetUrl,</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                                        <span class="keyword">const</span> QString&amp; outputPath,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                                        <span class="keyword">const</span> QString&amp; componentName) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">if</span> (datasheetUrl.isEmpty()) {</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    QString datasheetDirPath = QString(<span class="stringliteral">&quot;%1/%2.datasheet&quot;</span>).arg(outputPath, <a class="code hl_variable" href="classEasyKiConverter_1_1DatasheetExporter.html#afe2fbc11d68fe34abc1c80d0b1e44903">m_options</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#a37b6e25e2e8a105952358019348c3fc4">libName</a>);  <span class="comment">// 数据手册目录。</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">if</span> (!<a class="code hl_function" href="classEasyKiConverter_1_1DatasheetExporter.html#a77a8c7a0dc9f98727f3b96451c04398c">createDatasheetDirectory</a>(datasheetDirPath)) {</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to create datasheet directory:&quot;</span> &lt;&lt; datasheetDirPath;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    QString fileExtension = <span class="stringliteral">&quot;pdf&quot;</span>;  <span class="comment">// 默认文件扩展名。</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    QFileInfo urlInfo(datasheetUrl);  <span class="comment">// URL 路径信息。</span></div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">if</span> (!urlInfo.suffix().isEmpty()) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        fileExtension = urlInfo.suffix();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    QString fileName = QString(<span class="stringliteral">&quot;%1.%2&quot;</span>).arg(componentName, fileExtension);  <span class="comment">// 输出文件名。</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    QString datasheetPath = QString(<span class="stringliteral">&quot;%1/%2&quot;</span>).arg(datasheetDirPath, fileName);  <span class="comment">// 输出文件完整路径。</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1DatasheetExporter.html#afe2fbc11d68fe34abc1c80d0b1e44903">m_options</a>.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportOptions.html#ac920adcf9ebcdfe6dd8cf8d6e0a0c544">overwriteExistingFiles</a> &amp;&amp; QFile::exists(datasheetPath)) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Datasheet already exists:&quot;</span> &lt;&lt; datasheetPath;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="comment">// 使用统一网络客户端的默认重试策略下载数据手册。</span></div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1NetworkResult.html">NetworkResult</a> result = <a class="code hl_function" href="classEasyKiConverter_1_1TestableSingleton.html#af28de3896a6a360384a795e1303ad333">NetworkClient::instance</a>().<a class="code hl_function" href="classEasyKiConverter_1_1NetworkClient.html#abba59b9291b3c3eba97a9ddee2124d83">get</a>(QUrl(datasheetUrl), <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a62a1fdff42f13778e2055fdc87c50fcb">ResourceType::Datasheet</a>);  <span class="comment">// 下载结果。</span></div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">if</span> (result.<a class="code hl_variable" href="structEasyKiConverter_1_1NetworkResult.html#ad6f1daa93f2f0c89a0e12e332c34f58f">success</a>) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        QFile file(datasheetPath);  <span class="comment">// 数据手册输出文件。</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">if</span> (file.open(QIODevice::WriteOnly)) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            file.write(result.<a class="code hl_variable" href="structEasyKiConverter_1_1NetworkResult.html#a344a35d8adf3b083ed8cbe80663880f0">data</a>);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            file.close();</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;Datasheet exported successfully:&quot;</span> &lt;&lt; datasheetPath;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>            <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>            qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to open file for writing:&quot;</span> &lt;&lt; datasheetPath;</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Failed to download datasheet:&quot;</span> &lt;&lt; datasheetUrl &lt;&lt; result.<a class="code hl_variable" href="structEasyKiConverter_1_1NetworkResult.html#a2dc8b0f66c0e20631ca5f8203a740512">error</a>;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>}</div>
+</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="foldopen" id="foldopen00090" data-start="{" data-end="}">
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1DatasheetExporter.html#a77a8c7a0dc9f98727f3b96451c04398c">   90</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1DatasheetExporter.html#a77a8c7a0dc9f98727f3b96451c04398c">DatasheetExporter::createDatasheetDirectory</a>(<span class="keyword">const</span> QString&amp; dirPath) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    QDir dir;  <span class="comment">// 用于创建目录的目录对象。</span></div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">if</span> (dir.exists(dirPath)) {</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">return</span> dir.mkpath(dirPath);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>}</div>
+</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aDatasheetExporter_8h_html"><div class="ttname"><a href="DatasheetExporter_8h.html">DatasheetExporter.h</a></div></div>
+<div class="ttc" id="aNetworkClient_8h_html"><div class="ttname"><a href="NetworkClient_8h.html">NetworkClient.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1DatasheetExporter_html_a57a6b04ef92c8c64df8c85e63dfddf02"><div class="ttname"><a href="classEasyKiConverter_1_1DatasheetExporter.html#a57a6b04ef92c8c64df8c85e63dfddf02">EasyKiConverter::DatasheetExporter::DatasheetExporter</a></div><div class="ttdeci">DatasheetExporter(QObject *parent=nullptr)</div><div class="ttdoc">创建数据手册导出器。</div><div class="ttdef"><b>Definition</b> <a href="DatasheetExporter_8cpp_source.html#l00016">DatasheetExporter.cpp:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1DatasheetExporter_html_a5ff535e8418dfeb262bfebc4a55008a5"><div class="ttname"><a href="classEasyKiConverter_1_1DatasheetExporter.html#a5ff535e8418dfeb262bfebc4a55008a5">EasyKiConverter::DatasheetExporter::~DatasheetExporter</a></div><div class="ttdeci">~DatasheetExporter() override</div><div class="ttdoc">销毁数据手册导出器。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1DatasheetExporter_html_a77a8c7a0dc9f98727f3b96451c04398c"><div class="ttname"><a href="classEasyKiConverter_1_1DatasheetExporter.html#a77a8c7a0dc9f98727f3b96451c04398c">EasyKiConverter::DatasheetExporter::createDatasheetDirectory</a></div><div class="ttdeci">bool createDatasheetDirectory(const QString &amp;dirPath)</div><div class="ttdoc">创建数据手册输出目录。</div><div class="ttdef"><b>Definition</b> <a href="DatasheetExporter_8cpp_source.html#l00090">DatasheetExporter.cpp:90</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1DatasheetExporter_html_a8b07f838dae698eb52f1a8d7c301cfbd"><div class="ttname"><a href="classEasyKiConverter_1_1DatasheetExporter.html#a8b07f838dae698eb52f1a8d7c301cfbd">EasyKiConverter::DatasheetExporter::exportDatasheet</a></div><div class="ttdeci">bool exportDatasheet(const QString &amp;datasheetUrl, const QString &amp;outputPath, const QString &amp;componentName)</div><div class="ttdoc">下载并导出指定数据手册。</div><div class="ttdef"><b>Definition</b> <a href="DatasheetExporter_8cpp_source.html#l00038">DatasheetExporter.cpp:38</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1DatasheetExporter_html_a8c86a0b82f1fbb4587fa391347aebfc7"><div class="ttname"><a href="classEasyKiConverter_1_1DatasheetExporter.html#a8c86a0b82f1fbb4587fa391347aebfc7">EasyKiConverter::DatasheetExporter::setOptions</a></div><div class="ttdeci">void setOptions(const ExportOptions &amp;options)</div><div class="ttdoc">设置数据手册导出的运行选项。</div><div class="ttdef"><b>Definition</b> <a href="DatasheetExporter_8cpp_source.html#l00027">DatasheetExporter.cpp:27</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1DatasheetExporter_html_afe2fbc11d68fe34abc1c80d0b1e44903"><div class="ttname"><a href="classEasyKiConverter_1_1DatasheetExporter.html#afe2fbc11d68fe34abc1c80d0b1e44903">EasyKiConverter::DatasheetExporter::m_options</a></div><div class="ttdeci">ExportOptions m_options</div><div class="ttdoc">当前数据手册导出选项。</div><div class="ttdef"><b>Definition</b> <a href="DatasheetExporter_8h_source.html#l00055">DatasheetExporter.h:55</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1NetworkClient_html_abba59b9291b3c3eba97a9ddee2124d83"><div class="ttname"><a href="classEasyKiConverter_1_1NetworkClient.html#abba59b9291b3c3eba97a9ddee2124d83">EasyKiConverter::NetworkClient::get</a></div><div class="ttdeci">NetworkResult get(const QUrl &amp;url, const RetryPolicy &amp;policy={}) override</div><div class="ttdoc">发送 HTTP GET 请求（同步，阻塞直到完成）</div><div class="ttdef"><b>Definition</b> <a href="NetworkClient_8cpp_source.html#l00072">NetworkClient.cpp:72</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TestableSingleton_html_af28de3896a6a360384a795e1303ad333"><div class="ttname"><a href="classEasyKiConverter_1_1TestableSingleton.html#af28de3896a6a360384a795e1303ad333">EasyKiConverter::TestableSingleton&lt; NetworkClient &gt;::instance</a></div><div class="ttdeci">static NetworkClient &amp; instance()</div><div class="ttdoc">返回测试可替换的单例实例。</div><div class="ttdef"><b>Definition</b> <a href="TestableSingleton_8h_source.html#l00032">TestableSingleton.h:32</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_ab181dbbf82acb26de2e9a29a77e21a66a62a1fdff42f13778e2055fdc87c50fcb"><div class="ttname"><a href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66a62a1fdff42f13778e2055fdc87c50fcb">EasyKiConverter::ResourceType::Datasheet</a></div><div class="ttdeci">@ Datasheet</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html_a37b6e25e2e8a105952358019348c3fc4"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html#a37b6e25e2e8a105952358019348c3fc4">EasyKiConverter::ExportOptions::libName</a></div><div class="ttdeci">QString libName</div><div class="ttdoc">库名称（用于构建子目录路径）</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00081">ExportProgress.h:81</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html_ac920adcf9ebcdfe6dd8cf8d6e0a0c544"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html#ac920adcf9ebcdfe6dd8cf8d6e0a0c544">EasyKiConverter::ExportOptions::overwriteExistingFiles</a></div><div class="ttdeci">bool overwriteExistingFiles</div><div class="ttdoc">是否覆盖已存在的文件</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00090">ExportProgress.h:90</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1NetworkResult_html"><div class="ttname"><a href="structEasyKiConverter_1_1NetworkResult.html">EasyKiConverter::NetworkResult</a></div><div class="ttdoc">网络请求结果</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00414">INetworkClient.h:414</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1NetworkResult_html_a2dc8b0f66c0e20631ca5f8203a740512"><div class="ttname"><a href="structEasyKiConverter_1_1NetworkResult.html#a2dc8b0f66c0e20631ca5f8203a740512">EasyKiConverter::NetworkResult::error</a></div><div class="ttdeci">QString error</div><div class="ttdoc">请求失败时的错误文本。</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00417">INetworkClient.h:417</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1NetworkResult_html_a344a35d8adf3b083ed8cbe80663880f0"><div class="ttname"><a href="structEasyKiConverter_1_1NetworkResult.html#a344a35d8adf3b083ed8cbe80663880f0">EasyKiConverter::NetworkResult::data</a></div><div class="ttdeci">QByteArray data</div><div class="ttdoc">请求成功时返回的响应数据。</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00415">INetworkClient.h:415</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1NetworkResult_html_ad6f1daa93f2f0c89a0e12e332c34f58f"><div class="ttname"><a href="structEasyKiConverter_1_1NetworkResult.html#ad6f1daa93f2f0c89a0e12e332c34f58f">EasyKiConverter::NetworkResult::success</a></div><div class="ttdeci">bool success</div><div class="ttdoc">请求是否成功。</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00420">INetworkClient.h:420</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="DatasheetExporter_8cpp.html">DatasheetExporter.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

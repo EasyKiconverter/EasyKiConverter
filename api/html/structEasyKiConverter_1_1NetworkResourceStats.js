@@ -1,0 +1,25 @@
+var structEasyKiConverter_1_1NetworkResourceStats =
+[
+    [ "activeRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#a0296653801c32e980908ad8f8f83b383", null ],
+    [ "averageLatencyMs", "structEasyKiConverter_1_1NetworkResourceStats.html#a4ffaec6321f0b9d5ca68a2583c528327", null ],
+    [ "averageQueueDelayMs", "structEasyKiConverter_1_1NetworkResourceStats.html#a376e1d16fc5fd34f2bdc291841994a17", null ],
+    [ "backpressureEvents", "structEasyKiConverter_1_1NetworkResourceStats.html#a40fef04c62dcdd27dcf5388ed8f6498f", null ],
+    [ "cancelledRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#a9b00ad44c39034f3e35aadfe90fb1362", null ],
+    [ "completedRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#a389bf652e18b7d839dd8bb096ae0b6f6", null ],
+    [ "failedRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#a3d9d737d88de762b6551e4871a190bdb", null ],
+    [ "lastLatencyMs", "structEasyKiConverter_1_1NetworkResourceStats.html#af60177ea4a12dd55b947c23ce84994ac", null ],
+    [ "lastQueueDelayMs", "structEasyKiConverter_1_1NetworkResourceStats.html#ab9b70be0b76396063e90af42e7a0e491", null ],
+    [ "maxConcurrent", "structEasyKiConverter_1_1NetworkResourceStats.html#a3a13fc43c9d3f756fbbd97627a2daf0d", null ],
+    [ "maxLatencyMs", "structEasyKiConverter_1_1NetworkResourceStats.html#a587ae03187209dec53ee49d9d7d389b3", null ],
+    [ "maxQueueDelayMs", "structEasyKiConverter_1_1NetworkResourceStats.html#ae2a6bc785d5092399ded8eaa406294c5", null ],
+    [ "peakActiveRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#ae7c909e58b203f7f7bd6dc539fdc270f", null ],
+    [ "peakQueuedRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#aa29cd76b723e52582faccde3907201f2", null ],
+    [ "profileName", "structEasyKiConverter_1_1NetworkResourceStats.html#a7d2e19f09c466f973d6c5492b2d7d710", null ],
+    [ "queuedRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#a36a0b4731bc0ceddba999539c9ccdb22", null ],
+    [ "rateLimitedRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#aa9844ace69eda5134556a8d802b35557", null ],
+    [ "resourceType", "structEasyKiConverter_1_1NetworkResourceStats.html#aaa87362b92e0cb0caf6870cf7e0546fa", null ],
+    [ "retryAttempts", "structEasyKiConverter_1_1NetworkResourceStats.html#aceea3478afcc64df7407195192efb8f5", null ],
+    [ "startedRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#aacad87180e52885240d3580dbe1749b9", null ],
+    [ "succeededRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#a4b59db105f2d9e7c9ef4c39266cdfa50", null ],
+    [ "timeoutRequests", "structEasyKiConverter_1_1NetworkResourceStats.html#a9d7cec2cba21d5f28c3e9d6a18ac3742", null ]
+];

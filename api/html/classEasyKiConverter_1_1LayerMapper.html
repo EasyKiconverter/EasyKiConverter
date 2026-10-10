@@ -1,0 +1,1207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::LayerMapper类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1LayerMapper.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1LayerMapper-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::LayerMapper类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>图层映射器类  
+ <a href="classEasyKiConverter_1_1LayerMapper.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="LayerMapper_8h_source.html">LayerMapper.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::LayerMapper 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1LayerMapper__coll__graph.svg" width="226" height="456"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a6e666e5fa2d07a6e30b1dcbbfc6507df" id="r_a6e666e5fa2d07a6e30b1dcbbfc6507df"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507df">KiCadLayer</a> { <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa6bd299f532726b84f8c132c5b5efc08a">F_Cu</a> = 0
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa405e4ad42fc59548cc1755544843ff78">In1_Cu</a> = 1
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfad965cac0596ba8a9f8fc6e42638251df">In2_Cu</a> = 2
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa9228d183b9874f4a796345be4a60fab9">In3_Cu</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa74181ecdd1dcf981d35a812c9a65ba45">In4_Cu</a> = 4
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfac5f51ea367d2d7a54194b0e2d9aa52b3">In5_Cu</a> = 5
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa4494a69bff1c730ba467abe4f5b5fe88">In6_Cu</a> = 6
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfafa5d75c1459f01fd4d452a8c9c9a2ee7">In7_Cu</a> = 7
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa17ca01fe81b456325302a44a90ccb2f6">In8_Cu</a> = 8
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa8a127c55b57b3c5a633a888b61239189">In9_Cu</a> = 9
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa13b529d2748de4a59b8674c01a38c579">In10_Cu</a> = 10
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfabf6bb8fe763c116b900c4d63beb0e5e2">In11_Cu</a> = 11
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa0d226e444c25187dab94733daa5f8f7c">In12_Cu</a> = 12
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfaf031e5a107ad1d12f95d43076f14333d">In13_Cu</a> = 13
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfaf8af81c45b782c3b40a0f4e90a904415">In14_Cu</a> = 14
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa7b9a7b18ef3c2d379f57343116fba963">In15_Cu</a> = 15
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa7e08eadb272e30f8654a2cee6dd22ccc">In16_Cu</a> = 16
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa5a76e05aaa778a54de8454b4f617e64c">In17_Cu</a> = 17
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa2c700ecf4041fdb7df2aa093573f52dd">In18_Cu</a> = 18
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfacf8e8d10f0b809e2124c63245e20d95c">In19_Cu</a> = 19
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfad43618c93ad0f7c5c3bd0875aafcab16">In20_Cu</a> = 20
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa90bbe0b2dd32097fbd27c3735e7f4017">In21_Cu</a> = 21
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa54f851f690dc0c0366f3a3e1ed2f6a42">In22_Cu</a> = 22
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa5b75aea8c13f7a3f64f91e37f262e1ce">In23_Cu</a> = 23
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa6038fcff5b7feb50d9f7d866b8f44ff3">In24_Cu</a> = 24
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa53cb4cb9f426394f2a50372ab3f3f41c">In25_Cu</a> = 25
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfacb1264e0e6e50d9a96f2db16ec8dc7f3">In26_Cu</a> = 26
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfab36e24cddeda0c6218da0db1b11d8057">In27_Cu</a> = 27
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfab5aaa2328ede1b40f4e146f4b4f142e6">In28_Cu</a> = 28
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa2a182b1f6d74562104b7466bfee593c6">In29_Cu</a> = 29
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfab8ff3a3515ab5c56b6c24f958c93de27">In30_Cu</a> = 30
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa1248e0a91d7fa0e0c394fa6d73a8ea5f">B_Cu</a> = 31
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa9d05214a903c55f465e5789e29942302">F_SilkS</a> = 32
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa2e852e106483fdf4ddbf339bea911594">B_SilkS</a> = 33
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfafe3c47dde25e4092456a1ad24f4f2350">F_Mask</a> = 34
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfadb321e768a1c27089d3e98a1c97f9047">B_Mask</a> = 35
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa78b058ee3dfbe011b63183099c210506">F_Paste</a> = 36
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfaa0992146a880fd07e7a70e51c5f696ea">B_Paste</a> = 37
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa71d5ab0fe3b760d2ff070de8af1e72aa">F_Adhes</a> = 38
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfac7b8d2f987183de5ec8883e1293cfde0">B_Adhes</a> = 39
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa4427294fb8908b381338e1a1b39cd771">Edge_Cuts</a> = 44
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfaf96c9d57f85c236c199a2738de525fd8">F_CrtYd</a> = 45
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa6985ada4630a531505f3de1fff7df8f8">B_CrtYd</a> = 46
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa9f15c8f3c2e98249c0576e1791e26539">F_Fab</a> = 47
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfacddb52a594546f3e6d0672287b09652d">B_Fab</a> = 48
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa56d0b9a1dbf9ba1b9b6b3409e2f793b6">Dwgs_User</a> = 49
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa3a728b9b0ea22848bff85d0a615ce561">Cmts_User</a> = 50
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfaa9118bd45332d8fdf744f268e0e876dc">Eco1_User</a> = 51
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa6b8551d7fceaa80553e09eb8cfc69579">Eco2_User</a> = 52
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfaaa7f6127e5b3a389b12910480e130931">Margin</a> = 53
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa80a0a2d23a4f8b3b377c09f9bde2d904">User_1</a> = 54
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfaefce648cf17a73b909713104ea0d1e22">User_2</a> = 55
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa56efce8bfa243b620a93a6fa10994f4d">User_3</a> = 56
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa8ec800dcab806e0f83ab11ab032f6b0f">User_4</a> = 57
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa5fa1f15493257134ae89b94a5cf48486">User_5</a> = 58
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa1f7c241ea6b0dc5bf5f5a2c4763a1939">User_6</a> = 59
+, <br />
+&#160;&#160;<a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa68342caee348f2480da4172281721750">User_7</a> = 60
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa1acc7b4f8524a2ea984ba77c367f8656">User_8</a> = 61
+, <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507dfa2a2594f599ebe9ebfdda1d3a92fa0aeb">User_9</a> = 62
+<br />
+ }</td></tr>
+<tr class="memdesc:a6e666e5fa2d07a6e30b1dcbbfc6507df"><td class="mdescLeft">&#160;</td><td class="mdescRight">KiCad 图层枚举  <a href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507df">更多...</a><br /></td></tr>
+<tr class="separator:a6e666e5fa2d07a6e30b1dcbbfc6507df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a90d7605b87e181aaf8b7163a75cbd11b" id="r_a90d7605b87e181aaf8b7163a75cbd11b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a90d7605b87e181aaf8b7163a75cbd11b">LayerMapper</a> ()</td></tr>
+<tr class="memdesc:a90d7605b87e181aaf8b7163a75cbd11b"><td class="mdescLeft">&#160;</td><td class="mdescRight">构造函数  <br /></td></tr>
+<tr class="separator:a90d7605b87e181aaf8b7163a75cbd11b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1262b5a2e57548de360ff68c76eb4b2f" id="r_a1262b5a2e57548de360ff68c76eb4b2f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a1262b5a2e57548de360ff68c76eb4b2f">~LayerMapper</a> ()</td></tr>
+<tr class="memdesc:a1262b5a2e57548de360ff68c76eb4b2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">析构函数  <br /></td></tr>
+<tr class="separator:a1262b5a2e57548de360ff68c76eb4b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8eb5d5dc5b28ac770a2e4825b982d39" id="r_af8eb5d5dc5b28ac770a2e4825b982d39"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#af8eb5d5dc5b28ac770a2e4825b982d39">mapToKiCadLayer</a> (int easyedaLayerId) const</td></tr>
+<tr class="memdesc:af8eb5d5dc5b28ac770a2e4825b982d39"><td class="mdescLeft">&#160;</td><td class="mdescRight">将嘉立创 EDA 图层 ID 映射KiCad 图层  <br /></td></tr>
+<tr class="separator:af8eb5d5dc5b28ac770a2e4825b982d39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a7a9993ed8da5488e2be14745b59a5c" id="r_a6a7a9993ed8da5488e2be14745b59a5c"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6a7a9993ed8da5488e2be14745b59a5c">mapToKiCadLayer</a> (const QString &amp;easyedaLayerName) const</td></tr>
+<tr class="memdesc:a6a7a9993ed8da5488e2be14745b59a5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">将嘉立创 EDA 图层名称映射KiCad 图层  <br /></td></tr>
+<tr class="separator:a6a7a9993ed8da5488e2be14745b59a5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12dc8f44df0e8b59a86f4da6c9e187aa" id="r_a12dc8f44df0e8b59a86f4da6c9e187aa"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a12dc8f44df0e8b59a86f4da6c9e187aa">getKiCadLayerName</a> (int kicadLayerId) const</td></tr>
+<tr class="memdesc:a12dc8f44df0e8b59a86f4da6c9e187aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取 KiCad 图层名称  <br /></td></tr>
+<tr class="separator:a12dc8f44df0e8b59a86f4da6c9e187aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7160ff10addd38c029860bb3d98d1983" id="r_a7160ff10addd38c029860bb3d98d1983"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a7160ff10addd38c029860bb3d98d1983">getMappingDescription</a> () const</td></tr>
+<tr class="memdesc:a7160ff10addd38c029860bb3d98d1983"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取图层映射说明  <br /></td></tr>
+<tr class="separator:a7160ff10addd38c029860bb3d98d1983"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:a5ef70e20336d657018f55e259585118e" id="r_a5ef70e20336d657018f55e259585118e"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a5ef70e20336d657018f55e259585118e">milToMm</a> (double milValue)</td></tr>
+<tr class="memdesc:a5ef70e20336d657018f55e259585118e"><td class="mdescLeft">&#160;</td><td class="mdescRight">将 mil 转换为 mm  <br /></td></tr>
+<tr class="separator:a5ef70e20336d657018f55e259585118e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7a672497b304398f4a08912c8a912ed3" id="r_a7a672497b304398f4a08912c8a912ed3"><td class="memItemLeft" align="right" valign="top">static double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a7a672497b304398f4a08912c8a912ed3">mmToMil</a> (double mmValue)</td></tr>
+<tr class="memdesc:a7a672497b304398f4a08912c8a912ed3"><td class="mdescLeft">&#160;</td><td class="mdescRight">将 mm 转换为 mil  <br /></td></tr>
+<tr class="separator:a7a672497b304398f4a08912c8a912ed3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17caf70fc40f2beec468e69e0040ff9d" id="r_a17caf70fc40f2beec468e69e0040ff9d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a17caf70fc40f2beec468e69e0040ff9d">isSignalLayer</a> (int kicadLayerId)</td></tr>
+<tr class="memdesc:a17caf70fc40f2beec468e69e0040ff9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断图层是否为信号层  <br /></td></tr>
+<tr class="separator:a17caf70fc40f2beec468e69e0040ff9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a885536b3bb4148055624c8373483993f" id="r_a885536b3bb4148055624c8373483993f"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a885536b3bb4148055624c8373483993f">isSilkLayer</a> (int kicadLayerId)</td></tr>
+<tr class="memdesc:a885536b3bb4148055624c8373483993f"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断图层是否为丝印层  <br /></td></tr>
+<tr class="separator:a885536b3bb4148055624c8373483993f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3574e2e511fec2e8365f89494cf67d15" id="r_a3574e2e511fec2e8365f89494cf67d15"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a3574e2e511fec2e8365f89494cf67d15">isMaskLayer</a> (int kicadLayerId)</td></tr>
+<tr class="memdesc:a3574e2e511fec2e8365f89494cf67d15"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断图层是否为阻焊层  <br /></td></tr>
+<tr class="separator:a3574e2e511fec2e8365f89494cf67d15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8339ec4d8a7eb5c9e9b86db5a67beb2d" id="r_a8339ec4d8a7eb5c9e9b86db5a67beb2d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a8339ec4d8a7eb5c9e9b86db5a67beb2d">isPasteLayer</a> (int kicadLayerId)</td></tr>
+<tr class="memdesc:a8339ec4d8a7eb5c9e9b86db5a67beb2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断图层是否为助焊层  <br /></td></tr>
+<tr class="separator:a8339ec4d8a7eb5c9e9b86db5a67beb2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90064b9697052a84916404e58595574d" id="r_a90064b9697052a84916404e58595574d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a90064b9697052a84916404e58595574d">isMechanicalLayer</a> (int kicadLayerId)</td></tr>
+<tr class="memdesc:a90064b9697052a84916404e58595574d"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断图层是否为机械层  <br /></td></tr>
+<tr class="separator:a90064b9697052a84916404e58595574d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad3db781bbf8dd35f4dd702243bd0da2" id="r_aad3db781bbf8dd35f4dd702243bd0da2"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#aad3db781bbf8dd35f4dd702243bd0da2">isCourtYardLayer</a> (int easyedaLayerId)</td></tr>
+<tr class="memdesc:aad3db781bbf8dd35f4dd702243bd0da2"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否为元件外形层（边界层  <br /></td></tr>
+<tr class="separator:aad3db781bbf8dd35f4dd702243bd0da2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85f9ca4a939fff741ab4e9fa6493975e" id="r_a85f9ca4a939fff741ab4e9fa6493975e"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a85f9ca4a939fff741ab4e9fa6493975e">isInnerLayer</a> (int easyedaLayerId)</td></tr>
+<tr class="memdesc:a85f9ca4a939fff741ab4e9fa6493975e"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否为内  <br /></td></tr>
+<tr class="separator:a85f9ca4a939fff741ab4e9fa6493975e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35e40c44ceedd7796a524ff15d1363b6" id="r_a35e40c44ceedd7796a524ff15d1363b6"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a35e40c44ceedd7796a524ff15d1363b6">isPadLayer</a> (int easyedaLayerId)</td></tr>
+<tr class="memdesc:a35e40c44ceedd7796a524ff15d1363b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断是否为焊盘层  <br /></td></tr>
+<tr class="separator:a35e40c44ceedd7796a524ff15d1363b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f28133a6245a9888cc331588e61d8e7" id="r_a5f28133a6245a9888cc331588e61d8e7"><td class="memItemLeft" align="right" valign="top">static QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a5f28133a6245a9888cc331588e61d8e7">getCourtYardLayerName</a> (int easyedaLayerId)</td></tr>
+<tr class="memdesc:a5f28133a6245a9888cc331588e61d8e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取元件外形层对应的 KiCad 图层  <br /></td></tr>
+<tr class="separator:a5f28133a6245a9888cc331588e61d8e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ae1e8340c4437a785b44fb6e863ec4b01" id="r_ae1e8340c4437a785b44fb6e863ec4b01"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#ae1e8340c4437a785b44fb6e863ec4b01">initializeLayerMapping</a> ()</td></tr>
+<tr class="memdesc:ae1e8340c4437a785b44fb6e863ec4b01"><td class="mdescLeft">&#160;</td><td class="mdescRight">初始化图层映射表  <br /></td></tr>
+<tr class="separator:ae1e8340c4437a785b44fb6e863ec4b01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:a2e70c4354c7b8dcc148aa167cb06c334" id="r_a2e70c4354c7b8dcc148aa167cb06c334"><td class="memItemLeft" align="right" valign="top">QMap&lt; int, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a2e70c4354c7b8dcc148aa167cb06c334">m_layerIdMapping</a></td></tr>
+<tr class="memdesc:a2e70c4354c7b8dcc148aa167cb06c334"><td class="mdescLeft">&#160;</td><td class="mdescRight">嘉立创图层 ID 到 KiCad 图层 ID 的映射。  <br /></td></tr>
+<tr class="separator:a2e70c4354c7b8dcc148aa167cb06c334"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad1fb8f9f5c2d5bda9e60663e339e0bd9" id="r_ad1fb8f9f5c2d5bda9e60663e339e0bd9"><td class="memItemLeft" align="right" valign="top">QMap&lt; QString, int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#ad1fb8f9f5c2d5bda9e60663e339e0bd9">m_layerNameMapping</a></td></tr>
+<tr class="memdesc:ad1fb8f9f5c2d5bda9e60663e339e0bd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">嘉立创图层名称到 KiCad 图层 ID 的映射。  <br /></td></tr>
+<tr class="separator:ad1fb8f9f5c2d5bda9e60663e339e0bd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12f918e5786d1da3dff7bd97d7bd2ff1" id="r_a12f918e5786d1da3dff7bd97d7bd2ff1"><td class="memItemLeft" align="right" valign="top">QMap&lt; int, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a12f918e5786d1da3dff7bd97d7bd2ff1">m_kicadLayerNames</a></td></tr>
+<tr class="memdesc:a12f918e5786d1da3dff7bd97d7bd2ff1"><td class="mdescLeft">&#160;</td><td class="mdescRight">KiCad 图层 ID 到标准名称的映射。  <br /></td></tr>
+<tr class="separator:a12f918e5786d1da3dff7bd97d7bd2ff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>图层映射器类 </p>
+<p>用于将嘉立创 EDA 图层映射KiCad 图层，并处理单位转换 </p>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8h_source.html">LayerMapper.h</a> 第 <a class="el" href="LayerMapper_8h_source.html#l00015">15</a> 行定义.</p>
+</div><h2 class="groupheader">成员枚举类型说明</h2>
+<a id="a6e666e5fa2d07a6e30b1dcbbfc6507df" name="a6e666e5fa2d07a6e30b1dcbbfc6507df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e666e5fa2d07a6e30b1dcbbfc6507df">&#9670;&#160;</a></span>KiCadLayer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classEasyKiConverter_1_1LayerMapper.html#a6e666e5fa2d07a6e30b1dcbbfc6507df">EasyKiConverter::LayerMapper::KiCadLayer</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>KiCad 图层枚举 </p>
+<table class="fieldtable">
+<tr><th colspan="2">枚举值</th></tr><tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa6bd299f532726b84f8c132c5b5efc08a" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa6bd299f532726b84f8c132c5b5efc08a"></a>F_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa405e4ad42fc59548cc1755544843ff78" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa405e4ad42fc59548cc1755544843ff78"></a>In1_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfad965cac0596ba8a9f8fc6e42638251df" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfad965cac0596ba8a9f8fc6e42638251df"></a>In2_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa9228d183b9874f4a796345be4a60fab9" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa9228d183b9874f4a796345be4a60fab9"></a>In3_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa74181ecdd1dcf981d35a812c9a65ba45" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa74181ecdd1dcf981d35a812c9a65ba45"></a>In4_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfac5f51ea367d2d7a54194b0e2d9aa52b3" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfac5f51ea367d2d7a54194b0e2d9aa52b3"></a>In5_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa4494a69bff1c730ba467abe4f5b5fe88" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa4494a69bff1c730ba467abe4f5b5fe88"></a>In6_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfafa5d75c1459f01fd4d452a8c9c9a2ee7" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfafa5d75c1459f01fd4d452a8c9c9a2ee7"></a>In7_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa17ca01fe81b456325302a44a90ccb2f6" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa17ca01fe81b456325302a44a90ccb2f6"></a>In8_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa8a127c55b57b3c5a633a888b61239189" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa8a127c55b57b3c5a633a888b61239189"></a>In9_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa13b529d2748de4a59b8674c01a38c579" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa13b529d2748de4a59b8674c01a38c579"></a>In10_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfabf6bb8fe763c116b900c4d63beb0e5e2" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfabf6bb8fe763c116b900c4d63beb0e5e2"></a>In11_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa0d226e444c25187dab94733daa5f8f7c" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa0d226e444c25187dab94733daa5f8f7c"></a>In12_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfaf031e5a107ad1d12f95d43076f14333d" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfaf031e5a107ad1d12f95d43076f14333d"></a>In13_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfaf8af81c45b782c3b40a0f4e90a904415" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfaf8af81c45b782c3b40a0f4e90a904415"></a>In14_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa7b9a7b18ef3c2d379f57343116fba963" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa7b9a7b18ef3c2d379f57343116fba963"></a>In15_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa7e08eadb272e30f8654a2cee6dd22ccc" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa7e08eadb272e30f8654a2cee6dd22ccc"></a>In16_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa5a76e05aaa778a54de8454b4f617e64c" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa5a76e05aaa778a54de8454b4f617e64c"></a>In17_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa2c700ecf4041fdb7df2aa093573f52dd" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa2c700ecf4041fdb7df2aa093573f52dd"></a>In18_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfacf8e8d10f0b809e2124c63245e20d95c" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfacf8e8d10f0b809e2124c63245e20d95c"></a>In19_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfad43618c93ad0f7c5c3bd0875aafcab16" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfad43618c93ad0f7c5c3bd0875aafcab16"></a>In20_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa90bbe0b2dd32097fbd27c3735e7f4017" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa90bbe0b2dd32097fbd27c3735e7f4017"></a>In21_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa54f851f690dc0c0366f3a3e1ed2f6a42" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa54f851f690dc0c0366f3a3e1ed2f6a42"></a>In22_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa5b75aea8c13f7a3f64f91e37f262e1ce" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa5b75aea8c13f7a3f64f91e37f262e1ce"></a>In23_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa6038fcff5b7feb50d9f7d866b8f44ff3" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa6038fcff5b7feb50d9f7d866b8f44ff3"></a>In24_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa53cb4cb9f426394f2a50372ab3f3f41c" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa53cb4cb9f426394f2a50372ab3f3f41c"></a>In25_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfacb1264e0e6e50d9a96f2db16ec8dc7f3" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfacb1264e0e6e50d9a96f2db16ec8dc7f3"></a>In26_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfab36e24cddeda0c6218da0db1b11d8057" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfab36e24cddeda0c6218da0db1b11d8057"></a>In27_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfab5aaa2328ede1b40f4e146f4b4f142e6" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfab5aaa2328ede1b40f4e146f4b4f142e6"></a>In28_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa2a182b1f6d74562104b7466bfee593c6" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa2a182b1f6d74562104b7466bfee593c6"></a>In29_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfab8ff3a3515ab5c56b6c24f958c93de27" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfab8ff3a3515ab5c56b6c24f958c93de27"></a>In30_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa1248e0a91d7fa0e0c394fa6d73a8ea5f" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa1248e0a91d7fa0e0c394fa6d73a8ea5f"></a>B_Cu&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa9d05214a903c55f465e5789e29942302" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa9d05214a903c55f465e5789e29942302"></a>F_SilkS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa2e852e106483fdf4ddbf339bea911594" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa2e852e106483fdf4ddbf339bea911594"></a>B_SilkS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfafe3c47dde25e4092456a1ad24f4f2350" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfafe3c47dde25e4092456a1ad24f4f2350"></a>F_Mask&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfadb321e768a1c27089d3e98a1c97f9047" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfadb321e768a1c27089d3e98a1c97f9047"></a>B_Mask&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa78b058ee3dfbe011b63183099c210506" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa78b058ee3dfbe011b63183099c210506"></a>F_Paste&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfaa0992146a880fd07e7a70e51c5f696ea" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfaa0992146a880fd07e7a70e51c5f696ea"></a>B_Paste&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa71d5ab0fe3b760d2ff070de8af1e72aa" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa71d5ab0fe3b760d2ff070de8af1e72aa"></a>F_Adhes&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfac7b8d2f987183de5ec8883e1293cfde0" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfac7b8d2f987183de5ec8883e1293cfde0"></a>B_Adhes&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa4427294fb8908b381338e1a1b39cd771" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa4427294fb8908b381338e1a1b39cd771"></a>Edge_Cuts&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfaf96c9d57f85c236c199a2738de525fd8" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfaf96c9d57f85c236c199a2738de525fd8"></a>F_CrtYd&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa6985ada4630a531505f3de1fff7df8f8" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa6985ada4630a531505f3de1fff7df8f8"></a>B_CrtYd&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa9f15c8f3c2e98249c0576e1791e26539" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa9f15c8f3c2e98249c0576e1791e26539"></a>F_Fab&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfacddb52a594546f3e6d0672287b09652d" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfacddb52a594546f3e6d0672287b09652d"></a>B_Fab&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa56d0b9a1dbf9ba1b9b6b3409e2f793b6" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa56d0b9a1dbf9ba1b9b6b3409e2f793b6"></a>Dwgs_User&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa3a728b9b0ea22848bff85d0a615ce561" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa3a728b9b0ea22848bff85d0a615ce561"></a>Cmts_User&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfaa9118bd45332d8fdf744f268e0e876dc" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfaa9118bd45332d8fdf744f268e0e876dc"></a>Eco1_User&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa6b8551d7fceaa80553e09eb8cfc69579" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa6b8551d7fceaa80553e09eb8cfc69579"></a>Eco2_User&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfaaa7f6127e5b3a389b12910480e130931" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfaaa7f6127e5b3a389b12910480e130931"></a>Margin&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa80a0a2d23a4f8b3b377c09f9bde2d904" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa80a0a2d23a4f8b3b377c09f9bde2d904"></a>User_1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfaefce648cf17a73b909713104ea0d1e22" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfaefce648cf17a73b909713104ea0d1e22"></a>User_2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa56efce8bfa243b620a93a6fa10994f4d" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa56efce8bfa243b620a93a6fa10994f4d"></a>User_3&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa8ec800dcab806e0f83ab11ab032f6b0f" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa8ec800dcab806e0f83ab11ab032f6b0f"></a>User_4&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa5fa1f15493257134ae89b94a5cf48486" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa5fa1f15493257134ae89b94a5cf48486"></a>User_5&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa1f7c241ea6b0dc5bf5f5a2c4763a1939" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa1f7c241ea6b0dc5bf5f5a2c4763a1939"></a>User_6&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa68342caee348f2480da4172281721750" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa68342caee348f2480da4172281721750"></a>User_7&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa1acc7b4f8524a2ea984ba77c367f8656" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa1acc7b4f8524a2ea984ba77c367f8656"></a>User_8&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a6e666e5fa2d07a6e30b1dcbbfc6507dfa2a2594f599ebe9ebfdda1d3a92fa0aeb" name="a6e666e5fa2d07a6e30b1dcbbfc6507dfa2a2594f599ebe9ebfdda1d3a92fa0aeb"></a>User_9&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8h_source.html">LayerMapper.h</a> 第 <a class="el" href="LayerMapper_8h_source.html#l00020">20</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a90d7605b87e181aaf8b7163a75cbd11b" name="a90d7605b87e181aaf8b7163a75cbd11b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90d7605b87e181aaf8b7163a75cbd11b">&#9670;&#160;</a></span>LayerMapper()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::LayerMapper::LayerMapper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>构造函数 </p>
+<p>构造图层映射器并初始化双向映射表。 </p>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00014">14</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8cpp_source.html#l00026">initializeLayerMapping()</a>.</p>
+
+</div>
+</div>
+<a id="a1262b5a2e57548de360ff68c76eb4b2f" name="a1262b5a2e57548de360ff68c76eb4b2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1262b5a2e57548de360ff68c76eb4b2f">&#9670;&#160;</a></span>~LayerMapper()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::LayerMapper::~LayerMapper </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>析构函数 </p>
+<p>析构图层映射器。 </p>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00021">21</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a5f28133a6245a9888cc331588e61d8e7" name="a5f28133a6245a9888cc331588e61d8e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f28133a6245a9888cc331588e61d8e7">&#9670;&#160;</a></span>getCourtYardLayerName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::LayerMapper::getCourtYardLayerName </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>easyedaLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>获取元件外形层对应的 KiCad 图层 </p>
+<p>获取元件外形层对应的 KiCad 图层名称。</p>
+<p>元件外形层应映射F.CrtYd（顶层）或 B.CrtYd（底层） 元件外形层用于布局避让，并映射到正面边界层。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>嘉立EDA 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QString KiCad 图层名称，如果不是元件外形层则返回空字符串</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>EasyEDA 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>对应的 KiCad 图层名称；不属于外形层时返回空字符串。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00334">334</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8cpp_source.html#l00300">isCourtYardLayer()</a>.</p>
+
+</div>
+</div>
+<a id="a12dc8f44df0e8b59a86f4da6c9e187aa" name="a12dc8f44df0e8b59a86f4da6c9e187aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12dc8f44df0e8b59a86f4da6c9e187aa">&#9670;&#160;</a></span>getKiCadLayerName()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::LayerMapper::getKiCadLayerName </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>kicadLayerId</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取 KiCad 图层名称 </p>
+<p>根据 KiCad 图层编号获取标准图层名称。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>QString KiCad 图层名称</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>标准图层名称。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00162">162</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00247">m_kicadLayerNames</a>.</p>
+
+</div>
+</div>
+<a id="a7160ff10addd38c029860bb3d98d1983" name="a7160ff10addd38c029860bb3d98d1983"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7160ff10addd38c029860bb3d98d1983">&#9670;&#160;</a></span>getMappingDescription()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::LayerMapper::getMappingDescription </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>获取图层映射说明 </p>
+<p>生成供诊断和界面展示使用的图层映射说明。</p>
+<dl class="section return"><dt>返回</dt><dd>QString 映射说明</dd>
+<dd>
+图层映射说明文本。 </dd></dl>
+<p>&lt; 图层映射说明文本。</p>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00243">243</a> 行定义.</p>
+
+</div>
+</div>
+<a id="ae1e8340c4437a785b44fb6e863ec4b01" name="ae1e8340c4437a785b44fb6e863ec4b01"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae1e8340c4437a785b44fb6e863ec4b01">&#9670;&#160;</a></span>initializeLayerMapping()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::LayerMapper::initializeLayerMapping </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>初始化图层映射表 </p>
+<p>初始化 EasyEDA 图层编号、名称与 KiCad 图层的双向映射。 </p>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00026">26</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00069">B_Adhes</a>, <a class="el" href="LayerMapper_8h_source.html#l00076">B_CrtYd</a>, <a class="el" href="LayerMapper_8h_source.html#l00053">B_Cu</a>, <a class="el" href="LayerMapper_8h_source.html#l00080">B_Fab</a>, <a class="el" href="LayerMapper_8h_source.html#l00061">B_Mask</a>, <a class="el" href="LayerMapper_8h_source.html#l00065">B_Paste</a>, <a class="el" href="LayerMapper_8h_source.html#l00057">B_SilkS</a>, <a class="el" href="LayerMapper_8h_source.html#l00084">Cmts_User</a>, <a class="el" href="LayerMapper_8h_source.html#l00083">Dwgs_User</a>, <a class="el" href="LayerMapper_8h_source.html#l00085">Eco1_User</a>, <a class="el" href="LayerMapper_8h_source.html#l00086">Eco2_User</a>, <a class="el" href="LayerMapper_8h_source.html#l00072">Edge_Cuts</a>, <a class="el" href="LayerMapper_8h_source.html#l00068">F_Adhes</a>, <a class="el" href="LayerMapper_8h_source.html#l00075">F_CrtYd</a>, <a class="el" href="LayerMapper_8h_source.html#l00022">F_Cu</a>, <a class="el" href="LayerMapper_8h_source.html#l00079">F_Fab</a>, <a class="el" href="LayerMapper_8h_source.html#l00060">F_Mask</a>, <a class="el" href="LayerMapper_8h_source.html#l00064">F_Paste</a>, <a class="el" href="LayerMapper_8h_source.html#l00056">F_SilkS</a>, <a class="el" href="LayerMapper_8h_source.html#l00023">In1_Cu</a>, <a class="el" href="LayerMapper_8h_source.html#l00247">m_kicadLayerNames</a>, <a class="el" href="LayerMapper_8h_source.html#l00245">m_layerIdMapping</a>, <a class="el" href="LayerMapper_8h_source.html#l00246">m_layerNameMapping</a>, <a class="el" href="LayerMapper_8h_source.html#l00089">Margin</a> , 以及 <a class="el" href="LayerMapper_8h_source.html#l00092">User_1</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="LayerMapper_8cpp_source.html#l00014">LayerMapper()</a>.</p>
+
+</div>
+</div>
+<a id="aad3db781bbf8dd35f4dd702243bd0da2" name="aad3db781bbf8dd35f4dd702243bd0da2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad3db781bbf8dd35f4dd702243bd0da2">&#9670;&#160;</a></span>isCourtYardLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::LayerMapper::isCourtYardLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>easyedaLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断是否为元件外形层（边界层 </p>
+<p>判断指定 EasyEDA 图层是否为元件外形层。</p>
+<p>元件外形层用于布局避让，应映射F.CrtYd 或 B.CrtYd EasyEDA 元件外形层用于布局避让。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>嘉立EDA 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否为元件外形层</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>EasyEDA 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>属于元件外形层时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00300">300</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="LayerMapper_8cpp_source.html#l00334">getCourtYardLayerName()</a>.</p>
+
+</div>
+</div>
+<a id="a85f9ca4a939fff741ab4e9fa6493975e" name="a85f9ca4a939fff741ab4e9fa6493975e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a85f9ca4a939fff741ab4e9fa6493975e">&#9670;&#160;</a></span>isInnerLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::LayerMapper::isInnerLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>easyedaLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断是否为内 </p>
+<p>根据 EasyEDA 内层编号范围判断是否为内部铜层。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>嘉立EDA 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否为内</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>EasyEDA 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>属于内部铜层时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00310">310</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="LayerMapper_8cpp_source.html#l00320">isPadLayer()</a>.</p>
+
+</div>
+</div>
+<a id="a3574e2e511fec2e8365f89494cf67d15" name="a3574e2e511fec2e8365f89494cf67d15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3574e2e511fec2e8365f89494cf67d15">&#9670;&#160;</a></span>isMaskLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::LayerMapper::isMaskLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>kicadLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断图层是否为阻焊层 </p>
+<p>判断 KiCad 图层编号是否属于阻焊层。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否为阻焊层</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>属于阻焊层时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00213">213</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00061">B_Mask</a> , 以及 <a class="el" href="LayerMapper_8h_source.html#l00060">F_Mask</a>.</p>
+
+</div>
+</div>
+<a id="a90064b9697052a84916404e58595574d" name="a90064b9697052a84916404e58595574d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90064b9697052a84916404e58595574d">&#9670;&#160;</a></span>isMechanicalLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::LayerMapper::isMechanicalLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>kicadLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断图层是否为机械层 </p>
+<p>判断 KiCad 图层编号是否属于机械或用户层。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否为机械层</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>属于机械或用户层时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00233">233</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00072">Edge_Cuts</a>, <a class="el" href="LayerMapper_8h_source.html#l00089">Margin</a>, <a class="el" href="LayerMapper_8h_source.html#l00092">User_1</a> , 以及 <a class="el" href="LayerMapper_8h_source.html#l00100">User_9</a>.</p>
+
+</div>
+</div>
+<a id="a35e40c44ceedd7796a524ff15d1363b6" name="a35e40c44ceedd7796a524ff15d1363b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35e40c44ceedd7796a524ff15d1363b6">&#9670;&#160;</a></span>isPadLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::LayerMapper::isPadLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>easyedaLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断是否为焊盘层 </p>
+<p>判断 EasyEDA 图层是否可用于焊盘。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>嘉立EDA 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否为焊盘层</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>EasyEDA 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>可用于焊盘时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00320">320</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8cpp_source.html#l00310">isInnerLayer()</a>.</p>
+
+</div>
+</div>
+<a id="a8339ec4d8a7eb5c9e9b86db5a67beb2d" name="a8339ec4d8a7eb5c9e9b86db5a67beb2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8339ec4d8a7eb5c9e9b86db5a67beb2d">&#9670;&#160;</a></span>isPasteLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::LayerMapper::isPasteLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>kicadLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断图层是否为助焊层 </p>
+<p>判断 KiCad 图层编号是否属于锡膏层。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否为助焊层</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>属于锡膏层时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00223">223</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00065">B_Paste</a> , 以及 <a class="el" href="LayerMapper_8h_source.html#l00064">F_Paste</a>.</p>
+
+</div>
+</div>
+<a id="a17caf70fc40f2beec468e69e0040ff9d" name="a17caf70fc40f2beec468e69e0040ff9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a17caf70fc40f2beec468e69e0040ff9d">&#9670;&#160;</a></span>isSignalLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::LayerMapper::isSignalLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>kicadLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断图层是否为信号层 </p>
+<p>判断 KiCad 图层编号是否属于信号层。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否为信号层</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>属于信号层时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00193">193</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00053">B_Cu</a>, <a class="el" href="LayerMapper_8h_source.html#l00022">F_Cu</a>, <a class="el" href="LayerMapper_8h_source.html#l00023">In1_Cu</a> , 以及 <a class="el" href="LayerMapper_8h_source.html#l00052">In30_Cu</a>.</p>
+
+</div>
+</div>
+<a id="a885536b3bb4148055624c8373483993f" name="a885536b3bb4148055624c8373483993f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a885536b3bb4148055624c8373483993f">&#9670;&#160;</a></span>isSilkLayer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::LayerMapper::isSilkLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>kicadLayerId</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>判断图层是否为丝印层 </p>
+<p>判断 KiCad 图层编号是否属于丝印层。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>bool 是否为丝印层</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">kicadLayerId</td><td>KiCad 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>属于丝印层时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00203">203</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00057">B_SilkS</a> , 以及 <a class="el" href="LayerMapper_8h_source.html#l00056">F_SilkS</a>.</p>
+
+</div>
+</div>
+<a id="a6a7a9993ed8da5488e2be14745b59a5c" name="a6a7a9993ed8da5488e2be14745b59a5c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a7a9993ed8da5488e2be14745b59a5c">&#9670;&#160;</a></span>mapToKiCadLayer() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::LayerMapper::mapToKiCadLayer </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>easyedaLayerName</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将嘉立创 EDA 图层名称映射KiCad 图层 </p>
+<p>根据 EasyEDA 图层名称获取对应的 KiCad 图层编号。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerName</td><td>嘉立EDA 图层名称 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>int KiCad 图层 ID，如果无法映射则返回 -1</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerName</td><td>EasyEDA 图层名称。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>对应的 KiCad 图层编号。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00148">148</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00083">Dwgs_User</a> , 以及 <a class="el" href="LayerMapper_8h_source.html#l00246">m_layerNameMapping</a>.</p>
+
+</div>
+</div>
+<a id="af8eb5d5dc5b28ac770a2e4825b982d39" name="af8eb5d5dc5b28ac770a2e4825b982d39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8eb5d5dc5b28ac770a2e4825b982d39">&#9670;&#160;</a></span>mapToKiCadLayer() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::LayerMapper::mapToKiCadLayer </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>easyedaLayerId</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将嘉立创 EDA 图层 ID 映射KiCad 图层 </p>
+<p>根据 EasyEDA 图层编号获取对应的 KiCad 图层编号。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>嘉立EDA 图层 ID </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>int KiCad 图层 ID，如果无法映射则返回 -1</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">easyedaLayerId</td><td>EasyEDA 图层编号。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>对应的 KiCad 图层编号。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00134">134</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8h_source.html#l00083">Dwgs_User</a> , 以及 <a class="el" href="LayerMapper_8h_source.html#l00245">m_layerIdMapping</a>.</p>
+
+</div>
+</div>
+<a id="a5ef70e20336d657018f55e259585118e" name="a5ef70e20336d657018f55e259585118e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ef70e20336d657018f55e259585118e">&#9670;&#160;</a></span>milToMm()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double EasyKiConverter::LayerMapper::milToMm </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>milValue</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将 mil 转换为 mm </p>
+<p>将 mil 长度转换为毫米。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">milValue</td><td>mil 值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>double mm 值</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">milValue</td><td>mil 长度。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>毫米长度。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00175">175</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8cpp_source.html#l00008">EasyKiConverter::MIL_TO_MM</a>.</p>
+
+</div>
+</div>
+<a id="a7a672497b304398f4a08912c8a912ed3" name="a7a672497b304398f4a08912c8a912ed3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a672497b304398f4a08912c8a912ed3">&#9670;&#160;</a></span>mmToMil()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double EasyKiConverter::LayerMapper::mmToMil </td>
+          <td>(</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>mmValue</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将 mm 转换为 mil </p>
+<p>将毫米长度转换为 mil。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mmValue</td><td>mm 值 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>double mil 值</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mmValue</td><td>毫米长度。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>mil 长度。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a> 第 <a class="el" href="LayerMapper_8cpp_source.html#l00184">184</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="LayerMapper_8cpp_source.html#l00009">EasyKiConverter::MM_TO_MIL</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="a12f918e5786d1da3dff7bd97d7bd2ff1" name="a12f918e5786d1da3dff7bd97d7bd2ff1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12f918e5786d1da3dff7bd97d7bd2ff1">&#9670;&#160;</a></span>m_kicadLayerNames</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt;int, QString&gt; EasyKiConverter::LayerMapper::m_kicadLayerNames</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>KiCad 图层 ID 到标准名称的映射。 </p>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8h_source.html">LayerMapper.h</a> 第 <a class="el" href="LayerMapper_8h_source.html#l00247">247</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="LayerMapper_8cpp_source.html#l00162">getKiCadLayerName()</a> , 以及 <a class="el" href="LayerMapper_8cpp_source.html#l00026">initializeLayerMapping()</a>.</p>
+
+</div>
+</div>
+<a id="a2e70c4354c7b8dcc148aa167cb06c334" name="a2e70c4354c7b8dcc148aa167cb06c334"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e70c4354c7b8dcc148aa167cb06c334">&#9670;&#160;</a></span>m_layerIdMapping</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt;int, int&gt; EasyKiConverter::LayerMapper::m_layerIdMapping</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>嘉立创图层 ID 到 KiCad 图层 ID 的映射。 </p>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8h_source.html">LayerMapper.h</a> 第 <a class="el" href="LayerMapper_8h_source.html#l00245">245</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="LayerMapper_8cpp_source.html#l00026">initializeLayerMapping()</a> , 以及 <a class="el" href="LayerMapper_8cpp_source.html#l00134">mapToKiCadLayer()</a>.</p>
+
+</div>
+</div>
+<a id="ad1fb8f9f5c2d5bda9e60663e339e0bd9" name="ad1fb8f9f5c2d5bda9e60663e339e0bd9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad1fb8f9f5c2d5bda9e60663e339e0bd9">&#9670;&#160;</a></span>m_layerNameMapping</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMap&lt;QString, int&gt; EasyKiConverter::LayerMapper::m_layerNameMapping</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>嘉立创图层名称到 KiCad 图层 ID 的映射。 </p>
+
+<p class="definition">在文件 <a class="el" href="LayerMapper_8h_source.html">LayerMapper.h</a> 第 <a class="el" href="LayerMapper_8h_source.html#l00246">246</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="LayerMapper_8cpp_source.html#l00026">initializeLayerMapping()</a> , 以及 <a class="el" href="LayerMapper_8cpp_source.html#l00148">mapToKiCadLayer()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/utils/<a class="el" href="LayerMapper_8h_source.html">LayerMapper.h</a></li>
+<li>core/utils/<a class="el" href="LayerMapper_8cpp_source.html">LayerMapper.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1LayerMapper.html">LayerMapper</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

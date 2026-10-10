@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: models/SymbolDataShapeCompatibility.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('SymbolDataShapeCompatibility_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">SymbolDataShapeCompatibility.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="SymbolDataShapeCompatibility_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="SymbolDataSerializer_8h.html">SymbolDataSerializer.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &quot;<a class="code" href="SymbolShapeSerializer_8h.html">SymbolShapeSerializer.h</a>&quot;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="foldopen" id="foldopen00010" data-start="{" data-end="}">
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a8202f553b38b767fa4f667ce21e21114">   10</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolBBox.html">SymbolBBox</a>&amp; bbox) {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(bbox);</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>}</div>
+</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#abff14761b53b727dc73ca3c24a1b9884">   19</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolBBox.html">SymbolBBox</a>&amp; bbox, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(bbox, json);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>}</div>
+</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ad9dd2f01df3cfaf587924c91a4a72f4e">   27</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolRectangle.html">SymbolRectangle</a>&amp; rect) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(rect);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
+</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a5077316b2f5909cd7c7b2c2a827023ee">   36</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolRectangle.html">SymbolRectangle</a>&amp; rect, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(rect, json);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>}</div>
+</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#aa55748ef9ab90067d643fc20492407e1">   44</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolCircle.html">SymbolCircle</a>&amp; circle) {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(circle);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
+</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="foldopen" id="foldopen00053" data-start="{" data-end="}">
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a4f453f8e433847b56848f5f8db5f043e">   53</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolCircle.html">SymbolCircle</a>&amp; circle, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(circle, json);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#afea45832a028bc080ed54ceed222789e">   61</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolArc.html">SymbolArc</a>&amp; arc) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(arc);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}</div>
+</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="foldopen" id="foldopen00070" data-start="{" data-end="}">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#aea952266e49483deff16a7c61a177200">   70</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolArc.html">SymbolArc</a>&amp; arc, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(arc, json);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
+</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="foldopen" id="foldopen00078" data-start="{" data-end="}">
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a57a4327e30d47d3a78e6fcdb1b92e326">   78</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolEllipse.html">SymbolEllipse</a>&amp; ellipse) {</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(ellipse);</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
+</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a7d4a3caa9ff0544b6f28f8d48d7760dc">   87</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolEllipse.html">SymbolEllipse</a>&amp; ellipse, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(ellipse, json);</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>}</div>
+</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="foldopen" id="foldopen00095" data-start="{" data-end="}">
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a47c194668ef2c45b52fe1496695caa70">   95</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPolyline.html">SymbolPolyline</a>&amp; polyline) {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(polyline);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a834fd0768fe99c7127ab6618e7ae7cb2">  104</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPolyline.html">SymbolPolyline</a>&amp; polyline, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(polyline, json);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
+</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="foldopen" id="foldopen00112" data-start="{" data-end="}">
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ac942ccc86524cffdce7c25d7a7c12724">  112</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPolygon.html">SymbolPolygon</a>&amp; polygon) {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(polygon);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>}</div>
+</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span> </div>
+<div class="foldopen" id="foldopen00121" data-start="{" data-end="}">
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#aebc2230ccff84e2fe1f8a324a2113ecf">  121</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPolygon.html">SymbolPolygon</a>&amp; polygon, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(polygon, json);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>}</div>
+</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="foldopen" id="foldopen00129" data-start="{" data-end="}">
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a3a7cd8436828b3c742b6389c6d885d93">  129</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPath.html">SymbolPath</a>&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) {</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
+</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
+<div class="foldopen" id="foldopen00138" data-start="{" data-end="}">
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ad148f6328e3c0b115feaeda14109c382">  138</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPath.html">SymbolPath</a>&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, json);</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>}</div>
+</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span> </div>
+<div class="foldopen" id="foldopen00146" data-start="{" data-end="}">
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ac2f4df876323d02621d1948df4d694e6">  146</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolImage.html">SymbolImage</a>&amp; image) {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(image);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>}</div>
+</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="foldopen" id="foldopen00155" data-start="{" data-end="}">
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a66a1ad9a38e2aca125ded5bcc48f6436">  155</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolImage.html">SymbolImage</a>&amp; image, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(image, json);</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>}</div>
+</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="foldopen" id="foldopen00163" data-start="{" data-end="}">
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#aac5452c10882ee632f97c1d17e80f52a">  163</a></span>QJsonObject <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">SymbolDataSerializer::toJson</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolText.html">SymbolText</a>&amp; text) {</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">SymbolShapeSerializer::toJson</a>(text);</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>}</div>
+</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="foldopen" id="foldopen00172" data-start="{" data-end="}">
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1SymbolDataSerializer.html#a596d3338ac999815180e7a990a2de764">  172</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">SymbolDataSerializer::fromJson</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1SymbolText.html">SymbolText</a>&amp; text, <span class="keyword">const</span> QJsonObject&amp; json) {</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">SymbolShapeSerializer::fromJson</a>(text, json);</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>}</div>
+</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aSymbolDataSerializer_8h_html"><div class="ttname"><a href="SymbolDataSerializer_8h.html">SymbolDataSerializer.h</a></div></div>
+<div class="ttc" id="aSymbolShapeSerializer_8h_html"><div class="ttname"><a href="SymbolShapeSerializer_8h.html">SymbolShapeSerializer.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SymbolDataSerializer_html_a745b2a2f8ac9c30136e0bbb20fa9e288"><div class="ttname"><a href="classEasyKiConverter_1_1SymbolDataSerializer.html#a745b2a2f8ac9c30136e0bbb20fa9e288">EasyKiConverter::SymbolDataSerializer::toJson</a></div><div class="ttdeci">static QJsonObject toJson(const SymbolData &amp;data)</div><div class="ttdoc">将完整符号数据序列化为 JSON。</div><div class="ttdef"><b>Definition</b> <a href="SymbolDataSerializer_8cpp_source.html#l00511">SymbolDataSerializer.cpp:511</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SymbolDataSerializer_html_ab6d8723a51c9f5cc080f573cb4885503"><div class="ttname"><a href="classEasyKiConverter_1_1SymbolDataSerializer.html#ab6d8723a51c9f5cc080f573cb4885503">EasyKiConverter::SymbolDataSerializer::fromJson</a></div><div class="ttdeci">static bool fromJson(SymbolData &amp;data, const QJsonObject &amp;json)</div><div class="ttdoc">按数据类别恢复完整符号，并保留各类图元的结构关系。</div><div class="ttdef"><b>Definition</b> <a href="SymbolDataSerializer_8cpp_source.html#l00595">SymbolDataSerializer.cpp:595</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SymbolShapeSerializer_html_a7a2a6d4c8f2378d2932fe3001aea6a4e"><div class="ttname"><a href="classEasyKiConverter_1_1SymbolShapeSerializer.html#a7a2a6d4c8f2378d2932fe3001aea6a4e">EasyKiConverter::SymbolShapeSerializer::fromJson</a></div><div class="ttdeci">static bool fromJson(SymbolBBox &amp;bbox, const QJsonObject &amp;json)</div><div class="ttdoc">从 JSON 恢复符号边界框。</div><div class="ttdef"><b>Definition</b> <a href="SymbolShapeSerializer_8cpp_source.html#l00031">SymbolShapeSerializer.cpp:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1SymbolShapeSerializer_html_adcdc8106f8b0de0a7293c82f312c39c5"><div class="ttname"><a href="classEasyKiConverter_1_1SymbolShapeSerializer.html#adcdc8106f8b0de0a7293c82f312c39c5">EasyKiConverter::SymbolShapeSerializer::toJson</a></div><div class="ttdeci">static QJsonObject toJson(const SymbolBBox &amp;bbox)</div><div class="ttdoc">将符号边界框序列化为 JSON。</div><div class="ttdef"><b>Definition</b> <a href="SymbolShapeSerializer_8cpp_source.html#l00013">SymbolShapeSerializer.cpp:13</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolArc_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolArc.html">EasyKiConverter::SymbolArc</a></div><div class="ttdoc">圆弧</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00206">SymbolData.h:206</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolBBox_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolBBox.html">EasyKiConverter::SymbolBBox</a></div><div class="ttdoc">边界</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00082">SymbolData.h:82</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolCircle_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolCircle.html">EasyKiConverter::SymbolCircle</a></div><div class="ttdoc">符号部分数据</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00191">SymbolData.h:191</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolEllipse_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolEllipse.html">EasyKiConverter::SymbolEllipse</a></div><div class="ttdoc">椭圆</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00220">SymbolData.h:220</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolImage_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolImage.html">EasyKiConverter::SymbolImage</a></div><div class="ttdoc">EasyEDA 符号图片</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00276">SymbolData.h:276</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolPath_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolPath.html">EasyKiConverter::SymbolPath</a></div><div class="ttdoc">路径</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00262">SymbolData.h:262</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolPolygon_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolPolygon.html">EasyKiConverter::SymbolPolygon</a></div><div class="ttdoc">多边</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00249">SymbolData.h:249</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolPolyline_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolPolyline.html">EasyKiConverter::SymbolPolyline</a></div><div class="ttdoc">多段</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00236">SymbolData.h:236</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolRectangle_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolRectangle.html">EasyKiConverter::SymbolRectangle</a></div><div class="ttdoc">矩形</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00173">SymbolData.h:173</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolText_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolText.html">EasyKiConverter::SymbolText</a></div><div class="ttdoc">文本</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00291">SymbolData.h:291</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1ae4179d5e953611aae20c997279e02c.html">models</a></li><li class="navelem"><a class="el" href="SymbolDataShapeCompatibility_8cpp.html">SymbolDataShapeCompatibility.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

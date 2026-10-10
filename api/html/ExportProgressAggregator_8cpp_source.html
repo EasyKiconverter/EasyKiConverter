@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/export/ExportProgressAggregator.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExportProgressAggregator_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExportProgressAggregator.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExportProgressAggregator_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExportProgressAggregator_8h.html">ExportProgressAggregator.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ExportWorkerHelpers_8h.html">ExportWorkerHelpers.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="}">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportProgressAggregator.html#a7a59ae6771d8723adfcd919d76147748">   13</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressAggregator.html#a7a59ae6771d8723adfcd919d76147748">ExportProgressAggregator::mergeItemStatus</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1ExportTypeProgress.html">ExportTypeProgress</a>&amp; progress,</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>                                               <span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>                                               <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportItemStatus.html">ExportItemStatus</a>&amp; status) {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1ExportItemStatus.html">ExportItemStatus</a> mergedStatus = status;  </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keyword">const</span> <span class="keyword">auto</span> previousStatus = progress.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTypeProgress.html#a3f8a5ddc713dd3f13c4c5068ab331ade">itemStatus</a>.constFind(componentId);  </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">if</span> (previousStatus != progress.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTypeProgress.html#a3f8a5ddc713dd3f13c4c5068ab331ade">itemStatus</a>.cend()) {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; diagnostic : previousStatus-&gt;diagnostics) {  </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            <span class="keywordflow">if</span> (!mergedStatus.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportItemStatus.html#ae4d565df7f23ea91656bc1dc4b8fa9f3">diagnostics</a>.contains(diagnostic)) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                mergedStatus.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportItemStatus.html#ae4d565df7f23ea91656bc1dc4b8fa9f3">diagnostics</a>.append(diagnostic);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            }</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        }</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    }</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    progress.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTypeProgress.html#a3f8a5ddc713dd3f13c4c5068ab331ade">itemStatus</a>[componentId] = mergedStatus;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ExportWorkerHelpers.html#a991dd353eb20fe1e0f62564164dec942">ExportWorkerHelpers::recomputeTypeProgressCounts</a>(progress);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportProgressAggregator.html#a374c56339108011e799e9170b1381add">   35</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressAggregator.html#a374c56339108011e799e9170b1381add">ExportProgressAggregator::finalizeTypeProgress</a>(<a class="code hl_struct" href="structEasyKiConverter_1_1ExportTypeProgress.html">ExportTypeProgress</a>&amp; progress,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                                                    <span class="keyword">const</span> QString&amp; typeName,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                                                    <span class="keywordtype">int</span> totalCount) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    progress.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTypeProgress.html#a910eac26dc52cecd64ca94c891f262f9">typeName</a> = typeName;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    progress.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTypeProgress.html#ae3e4ee01ffc90ce723e1381f29acc767">totalCount</a> = totalCount;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    progress.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportTypeProgress.html#a9442b9f2fb53434ca8b90aa280a40433">inProgressCount</a> = 0;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ExportWorkerHelpers.html#a991dd353eb20fe1e0f62564164dec942">ExportWorkerHelpers::recomputeTypeProgressCounts</a>(progress);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00050" data-start="{" data-end="}">
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExportProgressAggregator.html#acb8ea71b2b1a02220fd9d21b0ec4e015">   50</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1ExportCompletionTotals.html">ExportCompletionTotals</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExportProgressAggregator.html#acb8ea71b2b1a02220fd9d21b0ec4e015">ExportProgressAggregator::countCompletedComponents</a>(</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">const</span> QStringList&amp; componentIds,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">const</span> QMap&lt;QString, ExportTypeProgress&gt;&amp; typeProgress) {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1ExportCompletionTotals.html">ExportCompletionTotals</a> totals;  </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; componentId : componentIds) {  </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordtype">bool</span> anyFailed = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keywordtype">bool</span> allDone = <span class="keyword">true</span>;  </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = typeProgress.cbegin(); it != typeProgress.cend(); ++it) {  </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>            <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportItemStatus.html">ExportItemStatus</a> itemStatus =</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>                it.value().itemStatus.value(componentId, <a class="code hl_struct" href="structEasyKiConverter_1_1ExportItemStatus.html">ExportItemStatus</a>{<a class="code hl_enumvalue" href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8a2d13df6f8b5e4c5af9f87e0dc39df69d">ExportItemStatus::Status::Pending</a>});</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordflow">if</span> (itemStatus.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportItemStatus.html#a40902e11bbf85d2399e28c129f7927af">status</a> == <a class="code hl_enumvalue" href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8ad7c8c85bf79bbe1b7188497c32c3b0ca">ExportItemStatus::Status::Failed</a>) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                anyFailed = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>            }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            <span class="keywordflow">if</span> (itemStatus.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportItemStatus.html#a40902e11bbf85d2399e28c129f7927af">status</a> != <a class="code hl_enumvalue" href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8a505a83f220c02df2f85c3810cd9ceb38">ExportItemStatus::Status::Success</a> &amp;&amp;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                itemStatus.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportItemStatus.html#a40902e11bbf85d2399e28c129f7927af">status</a> != <a class="code hl_enumvalue" href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8ad7c8c85bf79bbe1b7188497c32c3b0ca">ExportItemStatus::Status::Failed</a> &amp;&amp;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                itemStatus.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportItemStatus.html#a40902e11bbf85d2399e28c129f7927af">status</a> != <a class="code hl_enumvalue" href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8ad9c8f187972e6320a34e9c40b4cba605">ExportItemStatus::Status::Skipped</a>) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>                allDone = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">if</span> (!allDone) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">if</span> (anyFailed) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            totals.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportCompletionTotals.html#ad93c6b8b3f17f714758357439bb7ac2f">failedCount</a>++;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            totals.<a class="code hl_variable" href="structEasyKiConverter_1_1ExportCompletionTotals.html#acfb887154e4590e1c3c8b7b1a0a81e31">successCount</a>++;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">return</span> totals;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}</div>
+</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aExportProgressAggregator_8h_html"><div class="ttname"><a href="ExportProgressAggregator_8h.html">ExportProgressAggregator.h</a></div></div>
+<div class="ttc" id="aExportWorkerHelpers_8h_html"><div class="ttname"><a href="ExportWorkerHelpers_8h.html">ExportWorkerHelpers.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressAggregator_html_a374c56339108011e799e9170b1381add"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressAggregator.html#a374c56339108011e799e9170b1381add">EasyKiConverter::ExportProgressAggregator::finalizeTypeProgress</a></div><div class="ttdeci">static void finalizeTypeProgress(ExportTypeProgress &amp;progress, const QString &amp;typeName, int totalCount)</div><div class="ttdoc">结束阶段进度并根据逐项状态重新计算统计。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressAggregator_8cpp_source.html#l00035">ExportProgressAggregator.cpp:35</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressAggregator_html_a7a59ae6771d8723adfcd919d76147748"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressAggregator.html#a7a59ae6771d8723adfcd919d76147748">EasyKiConverter::ExportProgressAggregator::mergeItemStatus</a></div><div class="ttdeci">static void mergeItemStatus(ExportTypeProgress &amp;progress, const QString &amp;componentId, const ExportItemStatus &amp;status)</div><div class="ttdoc">合并一个元件的阶段状态并重新计算计数。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressAggregator_8cpp_source.html#l00013">ExportProgressAggregator.cpp:13</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressAggregator_html_acb8ea71b2b1a02220fd9d21b0ec4e015"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressAggregator.html#acb8ea71b2b1a02220fd9d21b0ec4e015">EasyKiConverter::ExportProgressAggregator::countCompletedComponents</a></div><div class="ttdeci">static ExportCompletionTotals countCompletedComponents(const QStringList &amp;componentIds, const QMap&lt; QString, ExportTypeProgress &gt; &amp;typeProgress)</div><div class="ttdoc">根据所有阶段的逐项状态统计最终成功和失败元件数。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressAggregator_8cpp_source.html#l00050">ExportProgressAggregator.cpp:50</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportWorkerHelpers_html_a991dd353eb20fe1e0f62564164dec942"><div class="ttname"><a href="classEasyKiConverter_1_1ExportWorkerHelpers.html#a991dd353eb20fe1e0f62564164dec942">EasyKiConverter::ExportWorkerHelpers::recomputeTypeProgressCounts</a></div><div class="ttdeci">static void recomputeTypeProgressCounts(ExportTypeProgress &amp;progress)</div><div class="ttdoc">根据itemStatus重新计算各状态计数</div><div class="ttdef"><b>Definition</b> <a href="ExportWorkerHelpers_8cpp_source.html#l00213">ExportWorkerHelpers.cpp:213</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportCompletionTotals_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportCompletionTotals.html">EasyKiConverter::ExportCompletionTotals</a></div><div class="ttdoc">汇总一次导出运行的最终元件结果。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressAggregator_8h_source.html#l00013">ExportProgressAggregator.h:13</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportCompletionTotals_html_acfb887154e4590e1c3c8b7b1a0a81e31"><div class="ttname"><a href="structEasyKiConverter_1_1ExportCompletionTotals.html#acfb887154e4590e1c3c8b7b1a0a81e31">EasyKiConverter::ExportCompletionTotals::successCount</a></div><div class="ttdeci">int successCount</div><div class="ttdoc">所有导出类型均成功的元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressAggregator_8h_source.html#l00014">ExportProgressAggregator.h:14</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportCompletionTotals_html_ad93c6b8b3f17f714758357439bb7ac2f"><div class="ttname"><a href="structEasyKiConverter_1_1ExportCompletionTotals.html#ad93c6b8b3f17f714758357439bb7ac2f">EasyKiConverter::ExportCompletionTotals::failedCount</a></div><div class="ttdeci">int failedCount</div><div class="ttdoc">至少一个导出类型失败的元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressAggregator_8h_source.html#l00015">ExportProgressAggregator.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportItemStatus_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportItemStatus.html">EasyKiConverter::ExportItemStatus</a></div><div class="ttdoc">单个导出项的状态信息</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00115">ExportProgress.h:115</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportItemStatus_html_a40902e11bbf85d2399e28c129f7927af"><div class="ttname"><a href="structEasyKiConverter_1_1ExportItemStatus.html#a40902e11bbf85d2399e28c129f7927af">EasyKiConverter::ExportItemStatus::status</a></div><div class="ttdeci">Status status</div><div class="ttdoc">当前状态</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00127">ExportProgress.h:127</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportItemStatus_html_a760395f6f596146bd6582acf79ae16c8a2d13df6f8b5e4c5af9f87e0dc39df69d"><div class="ttname"><a href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8a2d13df6f8b5e4c5af9f87e0dc39df69d">EasyKiConverter::ExportItemStatus::Status::Pending</a></div><div class="ttdeci">@ Pending</div><div class="ttdoc">等待中 - 尚未开始处理</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportItemStatus_html_a760395f6f596146bd6582acf79ae16c8a505a83f220c02df2f85c3810cd9ceb38"><div class="ttname"><a href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8a505a83f220c02df2f85c3810cd9ceb38">EasyKiConverter::ExportItemStatus::Status::Success</a></div><div class="ttdeci">@ Success</div><div class="ttdoc">成功 - 导出完成且成功</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportItemStatus_html_a760395f6f596146bd6582acf79ae16c8ad7c8c85bf79bbe1b7188497c32c3b0ca"><div class="ttname"><a href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8ad7c8c85bf79bbe1b7188497c32c3b0ca">EasyKiConverter::ExportItemStatus::Status::Failed</a></div><div class="ttdeci">@ Failed</div><div class="ttdoc">失败 - 导出过程中发生错误</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportItemStatus_html_a760395f6f596146bd6582acf79ae16c8ad9c8f187972e6320a34e9c40b4cba605"><div class="ttname"><a href="structEasyKiConverter_1_1ExportItemStatus.html#a760395f6f596146bd6582acf79ae16c8ad9c8f187972e6320a34e9c40b4cba605">EasyKiConverter::ExportItemStatus::Status::Skipped</a></div><div class="ttdeci">@ Skipped</div><div class="ttdoc">跳过 - 因条件不满足而跳过（如文件已存在且未启用覆盖）</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportItemStatus_html_ae4d565df7f23ea91656bc1dc4b8fa9f3"><div class="ttname"><a href="structEasyKiConverter_1_1ExportItemStatus.html#ae4d565df7f23ea91656bc1dc4b8fa9f3">EasyKiConverter::ExportItemStatus::diagnostics</a></div><div class="ttdeci">QStringList diagnostics</div><div class="ttdoc">非致命输入诊断（不阻断导出）</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00129">ExportProgress.h:129</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTypeProgress_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTypeProgress.html">EasyKiConverter::ExportTypeProgress</a></div><div class="ttdoc">单个导出类型的总体进度</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00182">ExportProgress.h:182</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTypeProgress_html_a3f8a5ddc713dd3f13c4c5068ab331ade"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTypeProgress.html#a3f8a5ddc713dd3f13c4c5068ab331ade">EasyKiConverter::ExportTypeProgress::itemStatus</a></div><div class="ttdeci">QMap&lt; QString, ExportItemStatus &gt; itemStatus</div><div class="ttdoc">所有元器件的导出状态映射</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00190">ExportProgress.h:190</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTypeProgress_html_a910eac26dc52cecd64ca94c891f262f9"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTypeProgress.html#a910eac26dc52cecd64ca94c891f262f9">EasyKiConverter::ExportTypeProgress::typeName</a></div><div class="ttdeci">QString typeName</div><div class="ttdoc">导出类型名称（如 &quot;Symbol&quot;, &quot;Footprint&quot;, &quot;Model3D&quot;）</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00183">ExportProgress.h:183</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTypeProgress_html_a9442b9f2fb53434ca8b90aa280a40433"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTypeProgress.html#a9442b9f2fb53434ca8b90aa280a40433">EasyKiConverter::ExportTypeProgress::inProgressCount</a></div><div class="ttdeci">int inProgressCount</div><div class="ttdoc">当前正在导出的元器件数量</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00189">ExportProgress.h:189</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportTypeProgress_html_ae3e4ee01ffc90ce723e1381f29acc767"><div class="ttname"><a href="structEasyKiConverter_1_1ExportTypeProgress.html#ae3e4ee01ffc90ce723e1381f29acc767">EasyKiConverter::ExportTypeProgress::totalCount</a></div><div class="ttdeci">int totalCount</div><div class="ttdoc">需要导出的元器件总数</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00184">ExportProgress.h:184</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="dir_a384dc2a66e9a2b9e112fff859fd4142.html">export</a></li><li class="navelem"><a class="el" href="ExportProgressAggregator_8cpp.html">ExportProgressAggregator.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,436 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/pcad/ExporterPcadSymbol.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterPcadSymbol_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterPcadSymbol.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterPcadSymbol_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterPcadSymbol_8h.html">ExporterPcadSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QTextStream&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">constexpr</span> <span class="keywordtype">double</span> kMillimetersPerMil = 0.0254;  </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>QString quote(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    QString escaped = <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>;  <span class="comment">// 可修改的字段副本。</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    escaped.replace(QChar(<span class="charliteral">&#39;\\&#39;</span>), QStringLiteral(<span class="stringliteral">&quot;\\\\&quot;</span>));</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    escaped.replace(QChar(<span class="charliteral">&#39;&quot;&#39;</span>), QStringLiteral(<span class="stringliteral">&quot;\\\&quot;&quot;</span>));</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;\&quot;%1\&quot;&quot;</span>).arg(escaped);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>}</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>QString number(<span class="keywordtype">double</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">return</span> QString::number(<a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> / kMillimetersPerMil, <span class="charliteral">&#39;f&#39;</span>, 6);</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>QString safeName(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    QString result;  <span class="comment">// 清洗后的名称。</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QChar character : <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {  <span class="comment">// 逐字符处理原始名称。</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keyword">const</span> ushort code = character.unicode();  <span class="comment">// 当前字符编码。</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="keywordflow">if</span> ((code &gt;= <span class="charliteral">&#39;A&#39;</span> &amp;&amp; code &lt;= <span class="charliteral">&#39;Z&#39;</span>) || (code &gt;= <span class="charliteral">&#39;a&#39;</span> &amp;&amp; code &lt;= <span class="charliteral">&#39;z&#39;</span>) || (code &gt;= <span class="charliteral">&#39;0&#39;</span> &amp;&amp; code &lt;= <span class="charliteral">&#39;9&#39;</span>) ||</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            character == QChar(<span class="charliteral">&#39;_&#39;</span>) || character == QChar(<span class="charliteral">&#39;-&#39;</span>))</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            result.append(character);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            result.append(QChar(<span class="charliteral">&#39;_&#39;</span>));</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    }</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> result.left(64);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keywordtype">bool</span> isAscii(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> <span class="keywordtype">byte</span> : <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>.toUtf8()) {</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">if</span> (<span class="keywordtype">byte</span> &gt;= 0x80)</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    }</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>}</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="keywordtype">double</span> pinRotation(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065cae">IR::PinDirection</a> direction) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="comment">// 方向映射保持引脚连接端朝向，不能用绝对坐标重新猜测旋转。</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordflow">switch</span> (direction) {</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">IR::PinDirection::Right</a>:</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">IR::PinDirection::Up</a>:</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="keywordflow">return</span> 90.0;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">IR::PinDirection::Left</a>:</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <span class="keywordflow">return</span> 180.0;</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">IR::PinDirection::Down</a>:</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <span class="keywordflow">return</span> 270.0;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    }</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">return</span> 0.0;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>}</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>QString pinType(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714">IR::PinElectricalType</a> <a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="comment">// 未指定类型按无源处理，避免把不确定语义误报为输入或输出。</span></div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">switch</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5">IR::PinElectricalType::Input</a>:</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;Input&quot;</span>);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54">IR::PinElectricalType::Output</a>:</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;Output&quot;</span>);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40">IR::PinElectricalType::Bidirectional</a>:</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;Bidirectional&quot;</span>);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de">IR::PinElectricalType::Power</a>:</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;Power&quot;</span>);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c">IR::PinElectricalType::OpenCollector</a>:</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;OpenH&quot;</span>);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90">IR::PinElectricalType::OpenEmitter</a>:</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;OpenL&quot;</span>);</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85">IR::PinElectricalType::Passive</a>:</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5">IR::PinElectricalType::Unspecified</a>:</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        <span class="keywordflow">default</span>:</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;Passive&quot;</span>);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    }</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span><span class="keywordtype">bool</span> finitePoint(<span class="keyword">const</span> QPointF&amp; point) {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">return</span> std::isfinite(point.x()) &amp;&amp; std::isfinite(point.y());</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span> </div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span><span class="keywordtype">bool</span> writePoly(QTextStream&amp; stream, <span class="keyword">const</span> QList&lt;QPointF&gt;&amp; points) {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>    <span class="keywordflow">if</span> (points.size() &lt; 2)</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    stream &lt;&lt; <span class="stringliteral">&quot;        (poly\n&quot;</span>;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QPointF&amp; point : points)</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        stream &lt;&lt; <span class="stringliteral">&quot;          (pt &quot;</span> &lt;&lt; number(point.x()) &lt;&lt; <span class="stringliteral">&#39; &#39;</span> &lt;&lt; number(-point.y()) &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span>;</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    stream &lt;&lt; <span class="stringliteral">&quot;        )\n&quot;</span>;</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordflow">return</span> stream.status() == QTextStream::Ok;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>}</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span><span class="keywordtype">bool</span> validateSymbol(<span class="keyword">const</span> IR::SymbolComponentIR&amp; symbol, QStringList&amp; diagnostics) {</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    <span class="keywordflow">if</span> (safeName(symbol.name).isEmpty()) {</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号名称清洗后为空：%1&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    }</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <span class="keywordflow">if</span> (!isAscii(symbol.name) || !isAscii(symbol.designatorPrefix)) {</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号名称和位号前缀必须是 ASCII：%1&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordflow">if</span> (symbol.partCount &lt; 1) {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号 %1 的部件数量无效&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    }</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    <span class="keywordflow">if</span> (!symbol.arcs.isEmpty() || !symbol.circles.isEmpty() || !symbol.ellipses.isEmpty() || !symbol.pies.isEmpty() ||</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        !symbol.ellipticalArcs.isEmpty() || !symbol.paths.isEmpty() || !symbol.beziers.isEmpty() ||</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        !symbol.ieeeSymbols.isEmpty() || !symbol.texts.isEmpty() || !symbol.textFrames.isEmpty() ||</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        !symbol.images.isEmpty()) {</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号 %1 含当前 ASCII writer 无法无损表达的图元&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    }</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPinIR&amp; pin : symbol.pins) {</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordflow">if</span> (pin.designator.isEmpty() || !isAscii(pin.designator) || !isAscii(pin.name) || !finitePoint(pin.position) ||</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            !std::isfinite(pin.length) || pin.length &lt; 0.0 || pin.partIndex &lt; 0 || pin.partIndex &gt;= symbol.partCount) {</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>            diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号 %1 的引脚字段无效：%2&quot;</span>).arg(symbol.name, pin.designator));</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        }</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    }</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>}</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span><span class="keywordtype">bool</span> writeSymbolDef(QTextStream&amp; stream,</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>                    <span class="keyword">const</span> IR::SymbolComponentIR&amp; symbol,</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>                    <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>,</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>                    <span class="keywordtype">int</span> part,</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>                    QStringList&amp; diagnostics) {</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    stream &lt;&lt; <span class="stringliteral">&quot;    (symbolDef &quot;</span> &lt;&lt; quote(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>           &lt;&lt; <span class="stringliteral">&quot;      (originalName &quot;</span> &lt;&lt; quote(symbol.name) &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span>;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPinIR&amp; pin : symbol.pins) {</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        <span class="keywordflow">if</span> (pin.partIndex != part &amp;&amp; !pin.commonToAllParts)</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        stream &lt;&lt; <span class="stringliteral">&quot;      (pin &quot;</span> &lt;&lt; quote(pin.designator) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>               &lt;&lt; <span class="stringliteral">&quot;        (pt &quot;</span> &lt;&lt; number(pin.position.x()) &lt;&lt; <span class="charliteral">&#39; &#39;</span> &lt;&lt; number(-pin.position.y()) &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>               &lt;&lt; <span class="stringliteral">&quot;        (rotation &quot;</span> &lt;&lt; QString::number(pinRotation(pin.direction), <span class="charliteral">&#39;f&#39;</span>, 3) &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>               &lt;&lt; <span class="stringliteral">&quot;        (pinLength &quot;</span> &lt;&lt; number(pin.length) &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>               &lt;&lt; <span class="stringliteral">&quot;        (pinDisplay (dispPinDes &quot;</span> &lt;&lt; (pin.display.showDesignator ? <span class="stringliteral">&quot;True&quot;</span> : <span class="stringliteral">&quot;False&quot;</span>)</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>               &lt;&lt; <span class="stringliteral">&quot;) (dispPinName &quot;</span> &lt;&lt; (pin.display.showName ? <span class="stringliteral">&quot;True&quot;</span> : <span class="stringliteral">&quot;False&quot;</span>) &lt;&lt; <span class="stringliteral">&quot;))\n&quot;</span></div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>               &lt;&lt; <span class="stringliteral">&quot;      )\n&quot;</span>;</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    }</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolRectangleIR&amp; rectangle : symbol.rectangles) {</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keywordflow">if</span> (rectangle.partIndex != part)</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        <span class="keywordflow">if</span> (!finitePoint(QPointF(rectangle.x0, rectangle.y0)) || !finitePoint(QPointF(rectangle.x1, rectangle.y1)) ||</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>            !std::isfinite(rectangle.strokeWidth) || rectangle.strokeWidth &lt; 0.0 || rectangle.cornerRadiusX != 0.0 ||</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>            rectangle.cornerRadiusY != 0.0) {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号 %1 的矩形包含无法无损写入的值&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        }</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        <span class="keywordflow">if</span> (!writePoly(stream,</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>                       {{rectangle.x0, rectangle.y0},</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>                        {rectangle.x1, rectangle.y0},</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>                        {rectangle.x1, rectangle.y1},</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>                        {rectangle.x0, rectangle.y1},</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>                        {rectangle.x0, rectangle.y0}}))</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    }</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPolylineIR&amp; polyline : symbol.polylines) {</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        <span class="keywordflow">if</span> (polyline.partIndex == part &amp;&amp; !writePoly(stream, polyline.points)) {</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>            diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号 %1 的折线点数不足&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        }</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    }</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPolygonIR&amp; polygon : symbol.polygons) {</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>        <span class="keywordflow">if</span> (polygon.partIndex == part &amp;&amp; (polygon.points.size() &lt; 3 || !writePoly(stream, polygon.points))) {</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号 %1 的多边形点数不足&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        }</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    }</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    stream &lt;&lt; <span class="stringliteral">&quot;    )\n&quot;</span>;</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordflow">return</span> stream.status() == QTextStream::Ok;</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>}</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span> </div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span><span class="keywordtype">bool</span> writeComponentDef(QTextStream&amp; stream,</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>                       <span class="keyword">const</span> IR::SymbolComponentIR&amp; symbol,</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>                       <span class="keyword">const</span> QString&amp; componentName,</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>                       <span class="keyword">const</span> QList&lt;QString&gt;&amp; partNames,</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>                       QStringList&amp; diagnostics) {</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    QSet&lt;QString&gt; pinNumbers;  <span class="comment">// 已出现的引脚编号集合。</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    stream &lt;&lt; <span class="stringliteral">&quot;    (compDef &quot;</span> &lt;&lt; quote(componentName) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>           &lt;&lt; <span class="stringliteral">&quot;      (originalName &quot;</span> &lt;&lt; quote(symbol.name) &lt;&lt; <span class="stringliteral">&quot;)\n&quot;</span></div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>           &lt;&lt; <span class="stringliteral">&quot;      (compHeader (compType Normal) (numPins &quot;</span> &lt;&lt; symbol.pins.size() &lt;&lt; <span class="stringliteral">&quot;) (numParts &quot;</span></div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>           &lt;&lt; symbol.partCount &lt;&lt; <span class="stringliteral">&quot;) (composition &quot;</span> &lt;&lt; (symbol.partCount &gt; 1 ? <span class="stringliteral">&quot;Heterogeneous&quot;</span> : <span class="stringliteral">&quot;Homogeneous&quot;</span>)</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>           &lt;&lt; <span class="stringliteral">&quot;) (refDesPrefix &quot;</span></div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>           &lt;&lt; quote(symbol.designatorPrefix.isEmpty() ? QStringLiteral(<span class="stringliteral">&quot;U&quot;</span>) : symbol.designatorPrefix)</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>           &lt;&lt; <span class="stringliteral">&quot;) (numType Alpha))\n&quot;</span>;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPinIR&amp; pin : symbol.pins) {</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        <span class="keywordflow">if</span> (pinNumbers.contains(pin.designator.toLower())) {</div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>            diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号 %1 存在重复引脚编号：%2&quot;</span>).arg(symbol.name, pin.designator));</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        }</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>        pinNumbers.insert(pin.designator.toLower());</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        stream &lt;&lt; <span class="stringliteral">&quot;      (compPin &quot;</span> &lt;&lt; quote(pin.designator) &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; quote(pin.name) &lt;&lt; <span class="stringliteral">&quot; (partNum &quot;</span></div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>               &lt;&lt; (pin.commonToAllParts ? 0 : pin.partIndex + 1) &lt;&lt; <span class="stringliteral">&quot;) (symPinNum &quot;</span> &lt;&lt; quote(pin.designator)</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>               &lt;&lt; <span class="stringliteral">&quot;) (gateEq 0) (pinEq 0) (pinType &quot;</span> &lt;&lt; pinType(pin.electricalType) &lt;&lt; <span class="stringliteral">&quot;))\n&quot;</span>;</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    }</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> part = 0; part &lt; partNames.size(); ++part)</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        stream &lt;&lt; <span class="stringliteral">&quot;      (attachedSymbol (partNum &quot;</span> &lt;&lt; part + 1 &lt;&lt; <span class="stringliteral">&quot;) (altType Normal) (symbolName &quot;</span></div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>               &lt;&lt; quote(partNames.at(part)) &lt;&lt; <span class="stringliteral">&quot;))\n&quot;</span>;</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keyword">const</span> QString footprintName = safeName(symbol.footprintName);  <span class="comment">// 清洗后的封装名称。</span></div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>    <span class="keywordflow">if</span> (!symbol.footprintName.isEmpty() &amp;&amp; !footprintName.isEmpty())</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        stream &lt;&lt; <span class="stringliteral">&quot;      (attachedPattern (patternNum 1) (patternName &quot;</span> &lt;&lt; quote(footprintName) &lt;&lt; <span class="stringliteral">&quot;))\n&quot;</span>;</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号 %1 没有封装关联，已输出独立符号&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>    stream &lt;&lt; <span class="stringliteral">&quot;    )\n&quot;</span>;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="keywordflow">return</span> stream.status() == QTextStream::Ok;</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>}</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span> </div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span> </div>
+<div class="foldopen" id="foldopen00284" data-start="{" data-end="}">
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#adf948b084c2545aa81d732c4ed748a8f">  284</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#adf948b084c2545aa81d732c4ed748a8f">ExporterPcadSymbol::libraryFileExtension</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;_PCAD_SCH.lia&quot;</span>);</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>}</div>
+</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span> </div>
+<div class="foldopen" id="foldopen00294" data-start="{" data-end="}">
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a84657b339f674af68659e736e7de0bf0">  294</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a84657b339f674af68659e736e7de0bf0">ExporterPcadSymbol::exportSymbol</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol, <span class="keyword">const</span> QString&amp; filePath) {</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#af1defdcbb826f17b7885006e2d7be6b4">exportSymbolLibrary</a>({symbol}, symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">name</a>, filePath, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>}</div>
+</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span> </div>
+<div class="foldopen" id="foldopen00308" data-start="{" data-end="}">
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#af1defdcbb826f17b7885006e2d7be6b4">  308</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#af1defdcbb826f17b7885006e2d7be6b4">ExporterPcadSymbol::exportSymbolLibrary</a>(<span class="keyword">const</span> QList&lt;IR::SymbolComponentIR&gt;&amp; symbols,</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>                                             <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>                                             <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>                                             <span class="keywordtype">bool</span> appendMode,</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>                                             <span class="keywordtype">bool</span> updateMode,</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>                                             <span class="keyword">const</span> QString&amp;) {</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>.clear();</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    <span class="keywordflow">if</span> (appendMode || updateMode) {</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD 原理图库当前只支持完整重写，不支持追加或更新模式&quot;</span>));</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    }</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>    <span class="keywordflow">if</span> (symbols.isEmpty()) {</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 没有可导出的符号&quot;</span>));</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>    }</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    QFile file(filePath);</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    <span class="keywordflow">if</span> (!file.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text)) {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 无法写入符号库：%1&quot;</span>).arg(filePath));</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    }</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>    QTextStream stream(&amp;file);</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>    stream.setEncoding(QStringConverter::Utf8);</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>    stream &lt;&lt; <span class="stringliteral">&quot;(ACCEL_ASCII &quot;</span> &lt;&lt; quote(libName.isEmpty() ? QStringLiteral(<span class="stringliteral">&quot;EasyKiConverter&quot;</span>) : libName) &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>           &lt;&lt; <span class="stringliteral">&quot;  (asciiHeader\n    (asciiVersion 4 0)\n    (fileUnits MM)\n  )\n&quot;</span></div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>           &lt;&lt; <span class="stringliteral">&quot;  (library\n&quot;</span>;</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>    QSet&lt;QString&gt; usedNames;  <span class="comment">// 已使用的组件名称。</span></div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol : symbols) {</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>        <span class="keywordflow">if</span> (!validateSymbol(symbol, <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>))</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>        <span class="keyword">const</span> QString componentName = safeName(symbol.name);  <span class="comment">// 当前清洗后的组件名称。</span></div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>        <span class="keywordflow">if</span> (usedNames.contains(componentName.toLower())) {</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 符号名称清洗后冲突：%1&quot;</span>).arg(symbol.name));</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>        }</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>        usedNames.insert(componentName.toLower());</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>        QList&lt;QString&gt; partNames;  <span class="comment">// 当前组件部件名称列表。</span></div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> part = 0; part &lt; symbol.partCount; ++part) {</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>            <span class="keyword">const</span> QString partName =  <span class="comment">// 当前部件名称。</span></div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>                symbol.partCount == 1 ? componentName : componentName + QStringLiteral(<span class="stringliteral">&quot;_P%1&quot;</span>).arg(part + 1);</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>            partNames.append(partName);</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>            <span class="keywordflow">if</span> (!writeSymbolDef(stream, symbol, partName, part, <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>))</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        }</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>        <span class="keywordflow">if</span> (!writeComponentDef(stream, symbol, componentName, partNames, <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>))</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    }</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    stream &lt;&lt; <span class="stringliteral">&quot;  )\n)\n&quot;</span>;</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    stream.flush();</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>    <span class="keywordflow">if</span> (stream.status() != QTextStream::Ok) {</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;P-CAD: 写入符号库时发生 I/O 错误&quot;</span>));</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    }</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>.append(</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>        QStringLiteral(<span class="stringliteral">&quot;P-CAD: 已输出 %1 个符号及其器件关联；封装和 3D 文件由独立阶段生成&quot;</span>).arg(symbols.size()));</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>}</div>
+</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span> </div>
+<div class="foldopen" id="foldopen00369" data-start="{" data-end="}">
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a3a8816a5e825492c29a8ca0e07da1511">  369</a></span>QStringList <a class="code hl_function" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a3a8816a5e825492c29a8ca0e07da1511">ExporterPcadSymbol::diagnostics</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">m_diagnostics</a>;</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>}</div>
+</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aExporterPcadSymbol_8h_html"><div class="ttname"><a href="ExporterPcadSymbol_8h.html">ExporterPcadSymbol.h</a></div><div class="ttdoc">P-CAD ASCII 原理图符号库导出器。</div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_a515c02d1ed2c32753cd4e2cd7140acdd"><div class="ttname"><a href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a></div><div class="ttdeci">quint8 type</div><div class="ttdoc">类型。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00064">OLECompoundReader.cpp:64</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterPcadSymbol_html_a3a8816a5e825492c29a8ca0e07da1511"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a3a8816a5e825492c29a8ca0e07da1511">EasyKiConverter::ExporterPcadSymbol::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const override</div><div class="ttdoc">返回最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterPcadSymbol_8cpp_source.html#l00369">ExporterPcadSymbol.cpp:369</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterPcadSymbol_html_a84657b339f674af68659e736e7de0bf0"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a84657b339f674af68659e736e7de0bf0">EasyKiConverter::ExporterPcadSymbol::exportSymbol</a></div><div class="ttdeci">bool exportSymbol(const IR::SymbolComponentIR &amp;symbol, const QString &amp;filePath) override</div><div class="ttdoc">导出单个 P-CAD 原理图符号。</div><div class="ttdef"><b>Definition</b> <a href="ExporterPcadSymbol_8cpp_source.html#l00294">ExporterPcadSymbol.cpp:294</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterPcadSymbol_html_a90a56bf5c39cd5b4cde6069be7000366"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterPcadSymbol.html#a90a56bf5c39cd5b4cde6069be7000366">EasyKiConverter::ExporterPcadSymbol::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterPcadSymbol_8h_source.html#l00055">ExporterPcadSymbol.h:55</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterPcadSymbol_html_adf948b084c2545aa81d732c4ed748a8f"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterPcadSymbol.html#adf948b084c2545aa81d732c4ed748a8f">EasyKiConverter::ExporterPcadSymbol::libraryFileExtension</a></div><div class="ttdeci">QString libraryFileExtension() const override</div><div class="ttdoc">返回 P-CAD 原理图库文件扩展名。</div><div class="ttdef"><b>Definition</b> <a href="ExporterPcadSymbol_8cpp_source.html#l00284">ExporterPcadSymbol.cpp:284</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterPcadSymbol_html_af1defdcbb826f17b7885006e2d7be6b4"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterPcadSymbol.html#af1defdcbb826f17b7885006e2d7be6b4">EasyKiConverter::ExporterPcadSymbol::exportSymbolLibrary</a></div><div class="ttdeci">bool exportSymbolLibrary(const QList&lt; IR::SymbolComponentIR &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath, bool appendMode=true, bool updateMode=false, const QString &amp;libraryDescription=QString()) override</div><div class="ttdoc">导出包含符号定义和器件关联的 P-CAD ASCII 原理图库。</div><div class="ttdef"><b>Definition</b> <a href="ExporterPcadSymbol_8cpp_source.html#l00308">ExporterPcadSymbol.cpp:308</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714">EasyKiConverter::IR::PinElectricalType</a></div><div class="ttdeci">PinElectricalType</div><div class="ttdoc">引脚电气类型枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00055">IRTypes.h:55</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54">EasyKiConverter::IR::PinElectricalType::Output</a></div><div class="ttdeci">@ Output</div><div class="ttdoc">输出</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5">EasyKiConverter::IR::PinElectricalType::Input</a></div><div class="ttdeci">@ Input</div><div class="ttdoc">输入</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c">EasyKiConverter::IR::PinElectricalType::OpenCollector</a></div><div class="ttdeci">@ OpenCollector</div><div class="ttdoc">集电极开路</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5">EasyKiConverter::IR::PinElectricalType::Unspecified</a></div><div class="ttdeci">@ Unspecified</div><div class="ttdoc">未指定</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40">EasyKiConverter::IR::PinElectricalType::Bidirectional</a></div><div class="ttdeci">@ Bidirectional</div><div class="ttdoc">双向</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de">EasyKiConverter::IR::PinElectricalType::Power</a></div><div class="ttdeci">@ Power</div><div class="ttdoc">电源引脚</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90">EasyKiConverter::IR::PinElectricalType::OpenEmitter</a></div><div class="ttdeci">@ OpenEmitter</div><div class="ttdoc">发射极开路</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85">EasyKiConverter::IR::PinElectricalType::Passive</a></div><div class="ttdeci">@ Passive</div><div class="ttdoc">无源（电阻、电容等）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065cae"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065cae">EasyKiConverter::IR::PinDirection</a></div><div class="ttdeci">PinDirection</div><div class="ttdoc">引脚方向枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00070">IRTypes.h:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">EasyKiConverter::IR::PinDirection::Down</a></div><div class="ttdeci">@ Down</div><div class="ttdoc">向下</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">EasyKiConverter::IR::PinDirection::Up</a></div><div class="ttdeci">@ Up</div><div class="ttdoc">向上</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">EasyKiConverter::IR::PinDirection::Right</a></div><div class="ttdeci">@ Right</div><div class="ttdoc">向右</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">EasyKiConverter::IR::PinDirection::Left</a></div><div class="ttdeci">@ Left</div><div class="ttdoc">向左</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">EasyKiConverter::IR::SymbolComponentIR</a></div><div class="ttdoc">通用符号组件</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00418">SymbolIR.h:418</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_aa71be9bd1e94d77e9816289f4b867689"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">EasyKiConverter::IR::SymbolComponentIR::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">组件名称</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00419">SymbolIR.h:419</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_2f4391cbcf3f84fd3f052b4b7fcd9950.html">pcad</a></li><li class="navelem"><a class="el" href="ExporterPcadSymbol_8cpp.html">ExporterPcadSymbol.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,11 @@
+{
+  "id": "documentation",
+  "purpose": "维护双语项目文档、导航、链接和 Mermaid 内容的一致性。",
+  "triggers": ["新增文档", "同步中英文文档", "修复文档链接或导航"],
+  "required_sources": ["docs/README.md", "docs/README_en.md", "docs/developer/DOCUMENTATION_MAINTENANCE.md", "mkdocs.yml", "docs/developer/ai-development/policy/AI_POLICY.md"],
+  "optional_sources": ["AGENTS.md", "CLAUDE.md", "PROJECT_INSTRUCTIONS.md"],
+  "side_effects": ["documentation-files", "build-artifacts"],
+  "verification": ["ai-consistency-check", "mkdocs-build", "bilingual-link-check"],
+  "stop_conditions": ["能力或版本无法由当前仓库确认", "需要修改应用身份或远端 Pages 设置"],
+  "evidence_outputs": ["changed-docs", "link-and-build-results", "unverified-claims"]
+}

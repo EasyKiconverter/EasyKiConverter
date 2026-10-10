@@ -1,0 +1,582 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::FileUtils类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1FileUtils.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-methods">Private 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1FileUtils-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::FileUtils类 参考</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>文件操作工具类  
+ <a href="classEasyKiConverter_1_1FileUtils.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="FileUtils_8h_source.html">FileUtils.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::FileUtils 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1FileUtils__inherit__graph.svg" width="199" height="370"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::FileUtils 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1FileUtils__coll__graph.svg" width="199" height="370"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a8baa01d5ccf3d77a24310c22ef0c9dc0" id="r_a8baa01d5ccf3d77a24310c22ef0c9dc0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#a8baa01d5ccf3d77a24310c22ef0c9dc0">FileUtils</a> (QObject *parent=nullptr)</td></tr>
+<tr class="memdesc:a8baa01d5ccf3d77a24310c22ef0c9dc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建文件夹操作辅助对象。  <br /></td></tr>
+<tr class="separator:a8baa01d5ccf3d77a24310c22ef0c9dc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f9832ea618c264f22f959ef2db1ca44" id="r_a6f9832ea618c264f22f959ef2db1ca44"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#a6f9832ea618c264f22f959ef2db1ca44">~FileUtils</a> ()=default</td></tr>
+<tr class="separator:a6f9832ea618c264f22f959ef2db1ca44"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0533f6454fb4b28d1cc0a1b75adc2cb9" id="r_a0533f6454fb4b28d1cc0a1b75adc2cb9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#a0533f6454fb4b28d1cc0a1b75adc2cb9">openFolder</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:a0533f6454fb4b28d1cc0a1b75adc2cb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">打开文件夹（跨平台）  <br /></td></tr>
+<tr class="separator:a0533f6454fb4b28d1cc0a1b75adc2cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd3cce2cb33c4dda15458b2261522916" id="r_abd3cce2cb33c4dda15458b2261522916"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#abd3cce2cb33c4dda15458b2261522916">toAbsolutePath</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:abd3cce2cb33c4dda15458b2261522916"><td class="mdescLeft">&#160;</td><td class="mdescRight">将相对路径转换为绝对路径  <br /></td></tr>
+<tr class="separator:abd3cce2cb33c4dda15458b2261522916"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20df0c6ba980898ad7a3a5ddfee5842a" id="r_a20df0c6ba980898ad7a3a5ddfee5842a"><td class="memItemLeft" align="right" valign="top">QUrl&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#a20df0c6ba980898ad7a3a5ddfee5842a">localPathToFileUrl</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) const</td></tr>
+<tr class="memdesc:a20df0c6ba980898ad7a3a5ddfee5842a"><td class="mdescLeft">&#160;</td><td class="mdescRight">将本地路径转换为完整编码的 file URL  <br /></td></tr>
+<tr class="separator:a20df0c6ba980898ad7a3a5ddfee5842a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92dbb542587eff135470def3d39254cf" id="r_a92dbb542587eff135470def3d39254cf"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#a92dbb542587eff135470def3d39254cf">urlToLocalPath</a> (const QUrl &amp;url) const</td></tr>
+<tr class="memdesc:a92dbb542587eff135470def3d39254cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">将 file URL 转换为本地路径  <br /></td></tr>
+<tr class="separator:a92dbb542587eff135470def3d39254cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38a2cd4cf2bf8d2fb885529b5dfb2b65" id="r_a38a2cd4cf2bf8d2fb885529b5dfb2b65"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#a38a2cd4cf2bf8d2fb885529b5dfb2b65">pathExists</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>)</td></tr>
+<tr class="memdesc:a38a2cd4cf2bf8d2fb885529b5dfb2b65"><td class="mdescLeft">&#160;</td><td class="mdescRight">检查路径是否存在  <br /></td></tr>
+<tr class="separator:a38a2cd4cf2bf8d2fb885529b5dfb2b65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
+Private 成员函数</h2></td></tr>
+<tr class="memitem:ad44e87d04c07163d27b8fb3dea18c059" id="r_ad44e87d04c07163d27b8fb3dea18c059"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#ad44e87d04c07163d27b8fb3dea18c059">openFolderOnWindows</a> (const QString &amp;absolutePath)</td></tr>
+<tr class="memdesc:ad44e87d04c07163d27b8fb3dea18c059"><td class="mdescLeft">&#160;</td><td class="mdescRight">在 Windows 上打开文件夹  <br /></td></tr>
+<tr class="separator:ad44e87d04c07163d27b8fb3dea18c059"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34f3d0a3b45f67e56083b15c81e03120" id="r_a34f3d0a3b45f67e56083b15c81e03120"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#a34f3d0a3b45f67e56083b15c81e03120">openFolderOnLinux</a> (const QString &amp;absolutePath)</td></tr>
+<tr class="memdesc:a34f3d0a3b45f67e56083b15c81e03120"><td class="mdescLeft">&#160;</td><td class="mdescRight">在 Linux 上打开文件夹  <br /></td></tr>
+<tr class="separator:a34f3d0a3b45f67e56083b15c81e03120"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81d4cb5d3384af20d6cfa54117828f36" id="r_a81d4cb5d3384af20d6cfa54117828f36"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1FileUtils.html#a81d4cb5d3384af20d6cfa54117828f36">openFolderOnMacOS</a> (const QString &amp;absolutePath)</td></tr>
+<tr class="memdesc:a81d4cb5d3384af20d6cfa54117828f36"><td class="mdescLeft">&#160;</td><td class="mdescRight">在 macOS 上打开文件夹  <br /></td></tr>
+<tr class="separator:a81d4cb5d3384af20d6cfa54117828f36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>文件操作工具类 </p>
+<p>提供跨平台的文件操作功能，包括打开文件夹、路径转换等 </p>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8h_source.html">FileUtils.h</a> 第 <a class="el" href="FileUtils_8h_source.html#l00016">16</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a8baa01d5ccf3d77a24310c22ef0c9dc0" name="a8baa01d5ccf3d77a24310c22ef0c9dc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8baa01d5ccf3d77a24310c22ef0c9dc0">&#9670;&#160;</a></span>FileUtils()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::FileUtils::FileUtils </td>
+          <td>(</td>
+          <td class="paramtype">QObject *&#160;</td>
+          <td class="paramname"><em>parent</em> = <code>nullptr</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建文件夹操作辅助对象。 </p>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00023">23</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a6f9832ea618c264f22f959ef2db1ca44" name="a6f9832ea618c264f22f959ef2db1ca44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6f9832ea618c264f22f959ef2db1ca44">&#9670;&#160;</a></span>~FileUtils()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::FileUtils::~FileUtils </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="reference">引用了 <a class="el" href="FileUtils_8cpp_source.html#l00109">pathExists()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a20df0c6ba980898ad7a3a5ddfee5842a" name="a20df0c6ba980898ad7a3a5ddfee5842a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20df0c6ba980898ad7a3a5ddfee5842a">&#9670;&#160;</a></span>localPathToFileUrl()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QUrl EasyKiConverter::FileUtils::localPathToFileUrl </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将本地路径转换为完整编码的 file URL </p>
+<p>将本地路径转换为文件 URL。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>本地文件或文件夹路径，支持 Windows UNC 路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>可供 Qt Quick 对话框使用的 file URL</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>目标路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 输入内容按 URL 解析后的结果。</p>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00083">83</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+</div>
+</div>
+<a id="a0533f6454fb4b28d1cc0a1b75adc2cb9" name="a0533f6454fb4b28d1cc0a1b75adc2cb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0533f6454fb4b28d1cc0a1b75adc2cb9">&#9670;&#160;</a></span>openFolder()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileUtils::openFolder </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>打开文件夹（跨平台） </p>
+<p>将路径规范化后打开对应目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>文件夹路径（可以是相对路径） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果成功打开则返回 true</dd></dl>
+<p>平台支持：</p><ul>
+<li>Windows: 使用 explorer 命令</li>
+<li>Linux: 使用 xdg-open 命令</li>
+<li>macOS: 使用 open 命令</li>
+</ul>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>目标路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 待打开目录的规范化绝对路径。</p>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00029">29</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FileUtils_8cpp_source.html#l00151">openFolderOnLinux()</a>, <a class="el" href="FileUtils_8cpp_source.html#l00180">openFolderOnMacOS()</a>, <a class="el" href="FileUtils_8cpp_source.html#l00122">openFolderOnWindows()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>, <a class="el" href="FileUtils_8cpp_source.html#l00109">pathExists()</a> , 以及 <a class="el" href="FileUtils_8cpp_source.html#l00062">toAbsolutePath()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExportProgressViewModel_8cpp_source.html#l00681">EasyKiConverter::ExportProgressViewModel::openLastExportedFolder()</a> , 以及 <a class="el" href="ExportSettingsViewModel_8cpp_source.html#l00564">EasyKiConverter::ExportSettingsViewModel::openOutputFolder()</a>.</p>
+
+</div>
+</div>
+<a id="a34f3d0a3b45f67e56083b15c81e03120" name="a34f3d0a3b45f67e56083b15c81e03120"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34f3d0a3b45f67e56083b15c81e03120">&#9670;&#160;</a></span>openFolderOnLinux()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileUtils::openFolderOnLinux </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>absolutePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 Linux 上打开文件夹 </p>
+<p>使用 Linux xdg-open 打开目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">absolutePath</td><td>绝对路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果成功则返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">absolutePath</td><td>待处理的 absolutePath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00151">151</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileUtils_8cpp_source.html#l00029">openFolder()</a>.</p>
+
+</div>
+</div>
+<a id="a81d4cb5d3384af20d6cfa54117828f36" name="a81d4cb5d3384af20d6cfa54117828f36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81d4cb5d3384af20d6cfa54117828f36">&#9670;&#160;</a></span>openFolderOnMacOS()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileUtils::openFolderOnMacOS </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>absolutePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 macOS 上打开文件夹 </p>
+<p>使用 macOS open 命令打开目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">absolutePath</td><td>绝对路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果成功则返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">absolutePath</td><td>待处理的 absolutePath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00180">180</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileUtils_8cpp_source.html#l00029">openFolder()</a>.</p>
+
+</div>
+</div>
+<a id="ad44e87d04c07163d27b8fb3dea18c059" name="ad44e87d04c07163d27b8fb3dea18c059"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad44e87d04c07163d27b8fb3dea18c059">&#9670;&#160;</a></span>openFolderOnWindows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileUtils::openFolderOnWindows </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>absolutePath</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>在 Windows 上打开文件夹 </p>
+<p>使用 Windows Explorer 打开目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">absolutePath</td><td>绝对路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果成功则返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">absolutePath</td><td>待处理的 absolutePath。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00122">122</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileUtils_8cpp_source.html#l00029">openFolder()</a>.</p>
+
+</div>
+</div>
+<a id="a38a2cd4cf2bf8d2fb885529b5dfb2b65" name="a38a2cd4cf2bf8d2fb885529b5dfb2b65"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38a2cd4cf2bf8d2fb885529b5dfb2b65">&#9670;&#160;</a></span>pathExists()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::FileUtils::pathExists </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>检查路径是否存在 </p>
+<p>检查目录路径是否存在。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>文件或文件夹路径 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>如果存在则返回 true</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>目标路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 输入路径对应的目录对象。</p>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00109">109</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="classEasyKiConverter_1_1FileUtils.html#a6f9832ea618c264f22f959ef2db1ca44">~FileUtils()</a> , 以及 <a class="el" href="FileUtils_8cpp_source.html#l00029">openFolder()</a>.</p>
+
+</div>
+</div>
+<a id="abd3cce2cb33c4dda15458b2261522916" name="abd3cce2cb33c4dda15458b2261522916"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd3cce2cb33c4dda15458b2261522916">&#9670;&#160;</a></span>toAbsolutePath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileUtils::toAbsolutePath </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>path</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将相对路径转换为绝对路径 </p>
+<p>将路径转换为规范化绝对路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>输入路径（可以是相对路径或绝对路径） </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>绝对路径</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">path</td><td>目标路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<p>&lt; 用于判断和规范化输入路径的目录对象。</p>
+<p>&lt; 输入相对路径对应的绝对路径。</p>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00062">62</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00023">path</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="FileUtils_8cpp_source.html#l00029">openFolder()</a>.</p>
+
+</div>
+</div>
+<a id="a92dbb542587eff135470def3d39254cf" name="a92dbb542587eff135470def3d39254cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92dbb542587eff135470def3d39254cf">&#9670;&#160;</a></span>urlToLocalPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::FileUtils::urlToLocalPath </td>
+          <td>(</td>
+          <td class="paramtype">const QUrl &amp;&#160;</td>
+          <td class="paramname"><em>url</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>将 file URL 转换为本地路径 </p>
+<p>将文件 URL 转换为本地路径。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>文件 URL </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>本地文件或文件夹路径，支持 Windows UNC 路径</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">url</td><td>资源 URL。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a> 第 <a class="el" href="FileUtils_8cpp_source.html#l00098">98</a> 行定义.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>utils/<a class="el" href="FileUtils_8h_source.html">FileUtils.h</a></li>
+<li>utils/<a class="el" href="FileUtils_8cpp_source.html">FileUtils.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1FileUtils.html">FileUtils</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

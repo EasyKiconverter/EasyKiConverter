@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/PipelineCompletionHandler.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('PipelineCompletionHandler_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">PipelineCompletionHandler.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="PipelineCompletionHandler_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef PIPELINECOMPLETIONHANDLER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define PIPELINECOMPLETIONHANDLER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ExportProgress_8h.html">export/ExportProgress.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QRegularExpression&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">class </span>ComponentData;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">class </span>ComponentListViewModel;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html">   15</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1PipelineCompletionHandler.html">PipelineCompletionHandler</a> : <span class="keyword">public</span> QObject {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    Q_OBJECT</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1PipelineCompletionHandler.html">PipelineCompletionHandler</a>(QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a042237b22f11b8d2990314ce89f26ad9">   26</a></span>    <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a042237b22f11b8d2990314ce89f26ad9">~PipelineCompletionHandler</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a9f9f11184515672c408000fac06ccd6c">exportPreviewImages</a>(<span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; preloadedData,</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>                             <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#aea184299002eb9617edeb51b57eefff3">exportDatasheets</a>(<span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; preloadedData,</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>                          <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a94cb637d36fb145d359f24a6383cea09">exportPreviewImagesFromViewModel</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentListViewModel.html">ComponentListViewModel</a>* componentListViewModel,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                                          <span class="keyword">class</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>* progressViewModel,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                                          <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a56e4d66a2a79326b0d0969e565f9c386">exportDatasheetsFromViewModel</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentListViewModel.html">ComponentListViewModel</a>* componentListViewModel,</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>                                       <span class="keyword">class</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportProgressViewModel.html">ExportProgressViewModel</a>* progressViewModel,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                                       <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>signals:</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab20c18950366a29d1ca0e8031ded2fe7">   65</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab20c18950366a29d1ca0e8031ded2fe7">previewImagesExported</a>(<span class="keywordtype">int</span> successCount);</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a66a6c63d0d3e6c5ea8ae6639f00c8d3d">   66</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a66a6c63d0d3e6c5ea8ae6639f00c8d3d">datasheetsExported</a>(<span class="keywordtype">int</span> successCount);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#acafc660363ceb0f07405e3b8821dac6a">exportPreviewImagesFromMemory</a>(<span class="keyword">const</span> QList&lt;QByteArray&gt;&amp; imageDataList,</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>                                       <span class="keyword">const</span> QString&amp; outputPath,</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>                                       <span class="keyword">const</span> QString&amp; componentName);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab9e1fc85fef1b103ba5446eca5c5cecc">exportDatasheetFromMemory</a>(<span class="keyword">const</span> QByteArray&amp; datasheetData,</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                                   <span class="keyword">const</span> QString&amp; outputPath,</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>                                   <span class="keyword">const</span> QString&amp; componentName,</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>                                   <span class="keyword">const</span> QString&amp; format);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#afed9c6365a83d8c0340526bcdc535d52">   91</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> QRegularExpression <a class="code hl_variable" href="classEasyKiConverter_1_1PipelineCompletionHandler.html#afed9c6365a83d8c0340526bcdc535d52">INVALID_FILENAME_CHARS</a>;  </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>};</div>
+</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="preprocessor">#endif  </span><span class="comment">// PIPELINECOMPLETIONHANDLER_H</span></div>
+<div class="ttc" id="aExportProgress_8h_html"><div class="ttname"><a href="ExportProgress_8h.html">ExportProgress.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html">EasyKiConverter::ComponentListViewModel</a></div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00031">ComponentListViewModel.h:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportProgressViewModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExportProgressViewModel.html">EasyKiConverter::ExportProgressViewModel</a></div><div class="ttdoc">导出进度视图模型</div><div class="ttdef"><b>Definition</b> <a href="ExportProgressViewModel_8h_source.html#l00030">ExportProgressViewModel.h:30</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html">EasyKiConverter::PipelineCompletionHandler</a></div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8h_source.html#l00015">PipelineCompletionHandler.h:15</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a042237b22f11b8d2990314ce89f26ad9"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a042237b22f11b8d2990314ce89f26ad9">EasyKiConverter::PipelineCompletionHandler::~PipelineCompletionHandler</a></div><div class="ttdeci">~PipelineCompletionHandler() override</div><div class="ttdoc">销毁导出流水线完成处理器。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a56e4d66a2a79326b0d0969e565f9c386"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a56e4d66a2a79326b0d0969e565f9c386">EasyKiConverter::PipelineCompletionHandler::exportDatasheetsFromViewModel</a></div><div class="ttdeci">void exportDatasheetsFromViewModel(ComponentListViewModel *componentListViewModel, class ExportProgressViewModel *progressViewModel, const ExportOptions &amp;options)</div><div class="ttdoc">使用组件列表视图模型导出数据手册。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00264">PipelineCompletionHandler.cpp:264</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a66a6c63d0d3e6c5ea8ae6639f00c8d3d"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a66a6c63d0d3e6c5ea8ae6639f00c8d3d">EasyKiConverter::PipelineCompletionHandler::datasheetsExported</a></div><div class="ttdeci">void datasheetsExported(int successCount)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a94cb637d36fb145d359f24a6383cea09"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a94cb637d36fb145d359f24a6383cea09">EasyKiConverter::PipelineCompletionHandler::exportPreviewImagesFromViewModel</a></div><div class="ttdeci">void exportPreviewImagesFromViewModel(ComponentListViewModel *componentListViewModel, class ExportProgressViewModel *progressViewModel, const ExportOptions &amp;options)</div><div class="ttdoc">使用组件列表视图模型导出预览图。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00185">PipelineCompletionHandler.cpp:185</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_a9f9f11184515672c408000fac06ccd6c"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#a9f9f11184515672c408000fac06ccd6c">EasyKiConverter::PipelineCompletionHandler::exportPreviewImages</a></div><div class="ttdeci">void exportPreviewImages(const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;preloadedData, const ExportOptions &amp;options)</div><div class="ttdoc">从预加载数据导出预览图。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00034">PipelineCompletionHandler.cpp:34</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_ab20c18950366a29d1ca0e8031ded2fe7"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab20c18950366a29d1ca0e8031ded2fe7">EasyKiConverter::PipelineCompletionHandler::previewImagesExported</a></div><div class="ttdeci">void previewImagesExported(int successCount)</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_ab9e1fc85fef1b103ba5446eca5c5cecc"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#ab9e1fc85fef1b103ba5446eca5c5cecc">EasyKiConverter::PipelineCompletionHandler::exportDatasheetFromMemory</a></div><div class="ttdeci">bool exportDatasheetFromMemory(const QByteArray &amp;datasheetData, const QString &amp;outputPath, const QString &amp;componentName, const QString &amp;format)</div><div class="ttdoc">从内存中的数据手册数据写出文件。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00146">PipelineCompletionHandler.cpp:146</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_acafc660363ceb0f07405e3b8821dac6a"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#acafc660363ceb0f07405e3b8821dac6a">EasyKiConverter::PipelineCompletionHandler::exportPreviewImagesFromMemory</a></div><div class="ttdeci">bool exportPreviewImagesFromMemory(const QList&lt; QByteArray &gt; &amp;imageDataList, const QString &amp;outputPath, const QString &amp;componentName)</div><div class="ttdoc">从内存中的预览图数据写出文件。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00099">PipelineCompletionHandler.cpp:99</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_aea184299002eb9617edeb51b57eefff3"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#aea184299002eb9617edeb51b57eefff3">EasyKiConverter::PipelineCompletionHandler::exportDatasheets</a></div><div class="ttdeci">void exportDatasheets(const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;preloadedData, const ExportOptions &amp;options)</div><div class="ttdoc">从预加载数据导出数据手册。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8cpp_source.html#l00067">PipelineCompletionHandler.cpp:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1PipelineCompletionHandler_html_afed9c6365a83d8c0340526bcdc535d52"><div class="ttname"><a href="classEasyKiConverter_1_1PipelineCompletionHandler.html#afed9c6365a83d8c0340526bcdc535d52">EasyKiConverter::PipelineCompletionHandler::INVALID_FILENAME_CHARS</a></div><div class="ttdeci">static const QRegularExpression INVALID_FILENAME_CHARS</div><div class="ttdoc">用于过滤输出文件名非法字符的正则表达式。</div><div class="ttdef"><b>Definition</b> <a href="PipelineCompletionHandler_8h_source.html#l00091">PipelineCompletionHandler.h:91</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="PipelineCompletionHandler_8h.html">PipelineCompletionHandler.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

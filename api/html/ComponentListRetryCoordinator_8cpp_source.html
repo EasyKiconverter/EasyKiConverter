@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: ui/viewmodels/ComponentListRetryCoordinator.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentListRetryCoordinator_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentListRetryCoordinator.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentListRetryCoordinator_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentListRetryCoordinator_8h.html">ComponentListRetryCoordinator.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentListViewModel_8h.html">ComponentListViewModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ValidationStateManager_8h.html">ValidationStateManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QMutexLocker&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListRetryCoordinator.html#ae1b3f869ef0006317fae75c2aeee647d">   14</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListRetryCoordinator.html#ae1b3f869ef0006317fae75c2aeee647d">ComponentListRetryCoordinator::retryAllInvalid</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentListViewModel.html">ComponentListViewModel</a>&amp; owner) {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    owner.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#ac0229b1436b22f887f191dbd33045eef">clearAttentionHints</a>();</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="comment">// 先收集需要重试的组件 ID，避免在持有列表锁时触发网络请求。</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    QStringList idsToRetry;  <span class="comment">// 可安全重新请求的元器件编号。</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        QMutexLocker locker(&amp;owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a4aaddc39718eb088558ae207a653d0d1">m_listMutex</a>);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>* item : owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a38125d10134b4878b616940486386dda">m_componentList</a>) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keywordflow">if</span> (item &amp;&amp; !item-&gt;isValid() &amp;&amp; !item-&gt;isFetching() &amp;&amp; item-&gt;retryable()) {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>                idsToRetry.append(item-&gt;componentId());</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            }</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        }</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="comment">// 在锁外重置列表项状态并执行重试操作。</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; <span class="keywordtype">id</span> : idsToRetry) {</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">auto</span>* item = owner.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#a3b9f4f277e231e599ecba69fdf6ceaa6">findItemData</a>(<span class="keywordtype">id</span>);  <span class="comment">// 待重试的列表项。</span></div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">if</span> (item) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a8131ffc390fc546b6aa46fbf3a502d61">m_bomImportComplete</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>            item-&gt;setFetching(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            item-&gt;setValid(<span class="keyword">false</span>);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>            item-&gt;setRetryable(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>            item-&gt;setValidationPhase(<span class="stringliteral">&quot;validating&quot;</span>);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>            item-&gt;setErrorMessage(<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a774db8d9491ffb91aa2cfd557699f68a">m_service</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#a66837ee351c51a665a4b19c058c1971e">fetchComponentData</a>(<span class="keywordtype">id</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        }</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">if</span> (!idsToRetry.isEmpty()) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListViewModel.html#a40f5f68757fce29b9de83aa7bc3d6090">m_validationStateManager</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ValidationStateManager.html#ae2c6c5b338c620b1b643156ca6d978a3">startValidation</a>(idsToRetry.count());</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    }</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    emit owner.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListViewModel.html#a22d3b9157fe6da8866052dc6403b9043">filteredCountChanged</a>();</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
+</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentListRetryCoordinator_8h_html"><div class="ttname"><a href="ComponentListRetryCoordinator_8h.html">ComponentListRetryCoordinator.h</a></div></div>
+<div class="ttc" id="aComponentListViewModel_8h_html"><div class="ttname"><a href="ComponentListViewModel_8h.html">ComponentListViewModel.h</a></div></div>
+<div class="ttc" id="aValidationStateManager_8h_html"><div class="ttname"><a href="ValidationStateManager_8h.html">ValidationStateManager.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListRetryCoordinator_html_ae1b3f869ef0006317fae75c2aeee647d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListRetryCoordinator.html#ae1b3f869ef0006317fae75c2aeee647d">EasyKiConverter::ComponentListRetryCoordinator::retryAllInvalid</a></div><div class="ttdeci">static void retryAllInvalid(ComponentListViewModel &amp;owner)</div><div class="ttdoc">重新请求所有当前未处理且允许重试的失败元件。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListRetryCoordinator_8cpp_source.html#l00014">ComponentListRetryCoordinator.cpp:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html">EasyKiConverter::ComponentListViewModel</a></div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00031">ComponentListViewModel.h:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a22d3b9157fe6da8866052dc6403b9043"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a22d3b9157fe6da8866052dc6403b9043">EasyKiConverter::ComponentListViewModel::filteredCountChanged</a></div><div class="ttdeci">void filteredCountChanged()</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a38125d10134b4878b616940486386dda"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a38125d10134b4878b616940486386dda">EasyKiConverter::ComponentListViewModel::m_componentList</a></div><div class="ttdeci">QList&lt; ComponentListItemData * &gt; m_componentList</div><div class="ttdoc">当前列表项集合。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00222">ComponentListViewModel.h:222</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a3b9f4f277e231e599ecba69fdf6ceaa6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a3b9f4f277e231e599ecba69fdf6ceaa6">EasyKiConverter::ComponentListViewModel::findItemData</a></div><div class="ttdeci">ComponentListItemData * findItemData(const QString &amp;componentId) const</div><div class="ttdoc">根据元件编号查找对应的列表项。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8cpp_source.html#l00249">ComponentListViewModel.cpp:249</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a40f5f68757fce29b9de83aa7bc3d6090"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a40f5f68757fce29b9de83aa7bc3d6090">EasyKiConverter::ComponentListViewModel::m_validationStateManager</a></div><div class="ttdeci">ValidationStateManager * m_validationStateManager</div><div class="ttdoc">验证状态管理器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00230">ComponentListViewModel.h:230</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a4aaddc39718eb088558ae207a653d0d1"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a4aaddc39718eb088558ae207a653d0d1">EasyKiConverter::ComponentListViewModel::m_listMutex</a></div><div class="ttdeci">QMutex m_listMutex</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00224">ComponentListViewModel.h:224</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a774db8d9491ffb91aa2cfd557699f68a"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a774db8d9491ffb91aa2cfd557699f68a">EasyKiConverter::ComponentListViewModel::m_service</a></div><div class="ttdeci">ComponentService * m_service</div><div class="ttdoc">组件数据服务引用。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00221">ComponentListViewModel.h:221</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_a8131ffc390fc546b6aa46fbf3a502d61"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#a8131ffc390fc546b6aa46fbf3a502d61">EasyKiConverter::ComponentListViewModel::m_bomImportComplete</a></div><div class="ttdeci">bool m_bomImportComplete</div><div class="ttdoc">是否已为所有 BOM 元件启动验证。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8h_source.html#l00266">ComponentListViewModel.h:266</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListViewModel_html_ac0229b1436b22f887f191dbd33045eef"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListViewModel.html#ac0229b1436b22f887f191dbd33045eef">EasyKiConverter::ComponentListViewModel::clearAttentionHints</a></div><div class="ttdeci">void clearAttentionHints()</div><div class="ttdoc">清空验证完成和预览图完成提示状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListViewModel_8cpp_source.html#l00514">ComponentListViewModel.cpp:514</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a66837ee351c51a665a4b19c058c1971e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a66837ee351c51a665a4b19c058c1971e">EasyKiConverter::ComponentService::fetchComponentData</a></div><div class="ttdeci">void fetchComponentData(const QString &amp;componentId, bool fetch3DModel=true)</div><div class="ttdoc">获取元件数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8cpp_source.html#l00139">ComponentService.cpp:139</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ValidationStateManager_html_ae2c6c5b338c620b1b643156ca6d978a3"><div class="ttname"><a href="classEasyKiConverter_1_1ValidationStateManager.html#ae2c6c5b338c620b1b643156ca6d978a3">EasyKiConverter::ValidationStateManager::startValidation</a></div><div class="ttdeci">void startValidation(int count)</div><div class="ttdoc">开始一轮元器件验证。</div><div class="ttdef"><b>Definition</b> <a href="ValidationStateManager_8cpp_source.html#l00023">ValidationStateManager.cpp:23</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1788f8309b1a812dcb800a185471cf6c.html">ui</a></li><li class="navelem"><a class="el" href="dir_fea4d5651ef76d72b143e7607c90e565.html">viewmodels</a></li><li class="navelem"><a class="el" href="ComponentListRetryCoordinator_8cpp.html">ComponentListRetryCoordinator.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

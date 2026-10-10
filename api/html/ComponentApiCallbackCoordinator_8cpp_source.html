@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentApiCallbackCoordinator.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentApiCallbackCoordinator_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentApiCallbackCoordinator.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentApiCallbackCoordinator_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentApiCallbackCoordinator_8h.html">ComponentApiCallbackCoordinator.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentCacheService_8h.html">ComponentCacheService.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentParallelFetchCoordinator_8h.html">ComponentParallelFetchCoordinator.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentService_8h.html">ComponentService.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentInfoParser_8h.html">services/ComponentInfoParser.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QMutexLocker&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="}">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a97ee1b5beb63cfda05f973ef4229fefc">   19</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a97ee1b5beb63cfda05f973ef4229fefc">ComponentApiCallbackCoordinator::handleComponentInfoFetched</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; owner,</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                                                                 <span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>                                                                 <span class="keyword">const</span> QJsonObject&amp; data) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">const</span> QString normalizedId = componentId.toUpper();  <span class="comment">// 规范化后的元器件编号。</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        QMutexLocker locker(&amp;owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">m_fetchingComponentsMutex</a>);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">const</span> <span class="keyword">auto</span> it = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.find(normalizedId);  <span class="comment">// 当前请求状态。</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">if</span> (it == owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.end() ||</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            it-&gt;cacheGeneration != <a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">ComponentCacheService::instance</a>()-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentCacheService.html#a8adb39bb2ccf81464ece3cdc95f2c8dd">currentGeneration</a>()) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>            qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentService: Discarding stale component info callback for&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> componentData = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentInfoParser.html#ab091e5b514fa01e0793cf67fb8bdc9c0">ComponentInfoParser::parse</a>(normalizedId, data);  <span class="comment">// 解析后的基础信息。</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    emit owner.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#a4648acaef5d2b1722d097e023f431d56">componentInfoReady</a>(normalizedId, componentData);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>}</div>
+</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="foldopen" id="foldopen00042" data-start="{" data-end="}">
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a798ad8e4a5adf04835b7562574057c22">   42</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a798ad8e4a5adf04835b7562574057c22">ComponentApiCallbackCoordinator::handleFetchError</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; owner, <span class="keyword">const</span> QString&amp; errorMessage) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a08216a6069f19be0fe7548aaaf3fef5c">emitFetchErrorAndClearState</a>(owner, owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ac14dd8f0c1a3cf68e5763fd552af246c">m_currentComponentId</a>, errorMessage);</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}</div>
+</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a549a74f8a9dc22e186bbc27370ef37ca">   52</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a549a74f8a9dc22e186bbc27370ef37ca">ComponentApiCallbackCoordinator::handleFetchErrorWithId</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; owner,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                                                             <span class="keyword">const</span> QString&amp; idOrUuid,</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>                                                             <span class="keyword">const</span> QString&amp; error) {</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    QString componentId = idOrUuid;  <span class="comment">// 当前错误对应的元器件编号。</span></div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="comment">// 并行模式下，CAD 请求错误可能只携带模型 UUID，需要从活动状态反查组件编号。</span></div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">if</span> (owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a> != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        QMutexLocker locker(&amp;owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">m_fetchingComponentsMutex</a>);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span> it = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.begin(); it != owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.end();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>             ++it) {  <span class="comment">// 反查活动请求。</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>            <span class="keywordflow">if</span> (it.value().data.model3DData() &amp;&amp; it.value().data.model3DData()-&gt;uuid() == idOrUuid) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                componentId = it.key();</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                qDebug() &lt;&lt; <span class="stringliteral">&quot;Resolved UUID&quot;</span> &lt;&lt; idOrUuid &lt;&lt; <span class="stringliteral">&quot;to component ID&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>            }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    }</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a08216a6069f19be0fe7548aaaf3fef5c">emitFetchErrorAndClearState</a>(owner, componentId, error);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>}</div>
+</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span> </div>
+<div class="foldopen" id="foldopen00080" data-start="{" data-end="}">
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a08216a6069f19be0fe7548aaaf3fef5c">   80</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a08216a6069f19be0fe7548aaaf3fef5c">ComponentApiCallbackCoordinator::emitFetchErrorAndClearState</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; owner,</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>                                                                  <span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>                                                                  <span class="keyword">const</span> QString&amp; error,</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>                                                                  uint64_t expectedGeneration) {</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    qWarning() &lt;&lt; <span class="stringliteral">&quot;Fetch error for component&quot;</span> &lt;&lt; componentId &lt;&lt; <span class="stringliteral">&quot;:&quot;</span> &lt;&lt; error;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        QMutexLocker locker(&amp;owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">m_fetchingComponentsMutex</a>);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        <span class="keyword">const</span> <span class="keyword">auto</span> it = owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.find(componentId.toUpper());  <span class="comment">// 当前请求状态。</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        <span class="keywordflow">if</span> (it == owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.end() ||</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            (expectedGeneration != 0 &amp;&amp; it-&gt;cacheGeneration != expectedGeneration)) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            <span class="keywordflow">if</span> (expectedGeneration != 0) {</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>                qDebug() &lt;&lt; <span class="stringliteral">&quot;ComponentService: Discarding stale error for&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            }</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        }</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.erase(it);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    owner.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#abadaf49e04e458cfb9dcd79ff55af6e1">m_componentCache</a>.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a53e3f8e4b87299f82ecf80532de5199f">removeIfInvalid</a>(componentId.toUpper());</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a631bde6b771ce187a15fc48c6f762f65">ComponentParallelFetchCoordinator::handleFetchError</a>(owner, componentId, error);</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    <span class="comment">// fetchError 必须最后发送，因为连接的槽函数可能会删除服务对象。</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    emit owner.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#adab0217e58a19f5e842cc7e1ac4fa468">fetchError</a>(componentId, error);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
+</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentApiCallbackCoordinator_8h_html"><div class="ttname"><a href="ComponentApiCallbackCoordinator_8h.html">ComponentApiCallbackCoordinator.h</a></div></div>
+<div class="ttc" id="aComponentCacheService_8h_html"><div class="ttname"><a href="ComponentCacheService_8h.html">ComponentCacheService.h</a></div></div>
+<div class="ttc" id="aComponentInfoParser_8h_html"><div class="ttname"><a href="ComponentInfoParser_8h.html">ComponentInfoParser.h</a></div></div>
+<div class="ttc" id="aComponentParallelFetchCoordinator_8h_html"><div class="ttname"><a href="ComponentParallelFetchCoordinator_8h.html">ComponentParallelFetchCoordinator.h</a></div></div>
+<div class="ttc" id="aComponentService_8h_html"><div class="ttname"><a href="ComponentService_8h.html">ComponentService.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentApiCallbackCoordinator_html_a08216a6069f19be0fe7548aaaf3fef5c"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a08216a6069f19be0fe7548aaaf3fef5c">EasyKiConverter::ComponentApiCallbackCoordinator::emitFetchErrorAndClearState</a></div><div class="ttdeci">static void emitFetchErrorAndClearState(ComponentService &amp;owner, const QString &amp;componentId, const QString &amp;error, uint64_t expectedGeneration=0)</div><div class="ttdoc">清理失败请求状态并发送错误信号。</div><div class="ttdef"><b>Definition</b> <a href="ComponentApiCallbackCoordinator_8cpp_source.html#l00080">ComponentApiCallbackCoordinator.cpp:80</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentApiCallbackCoordinator_html_a549a74f8a9dc22e186bbc27370ef37ca"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a549a74f8a9dc22e186bbc27370ef37ca">EasyKiConverter::ComponentApiCallbackCoordinator::handleFetchErrorWithId</a></div><div class="ttdeci">static void handleFetchErrorWithId(ComponentService &amp;owner, const QString &amp;idOrUuid, const QString &amp;error)</div><div class="ttdoc">处理携带元器件编号或模型 UUID 的请求错误。</div><div class="ttdef"><b>Definition</b> <a href="ComponentApiCallbackCoordinator_8cpp_source.html#l00052">ComponentApiCallbackCoordinator.cpp:52</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentApiCallbackCoordinator_html_a798ad8e4a5adf04835b7562574057c22"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a798ad8e4a5adf04835b7562574057c22">EasyKiConverter::ComponentApiCallbackCoordinator::handleFetchError</a></div><div class="ttdeci">static void handleFetchError(ComponentService &amp;owner, const QString &amp;errorMessage)</div><div class="ttdoc">处理未携带元器件编号的请求错误。</div><div class="ttdef"><b>Definition</b> <a href="ComponentApiCallbackCoordinator_8cpp_source.html#l00042">ComponentApiCallbackCoordinator.cpp:42</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentApiCallbackCoordinator_html_a97ee1b5beb63cfda05f973ef4229fefc"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentApiCallbackCoordinator.html#a97ee1b5beb63cfda05f973ef4229fefc">EasyKiConverter::ComponentApiCallbackCoordinator::handleComponentInfoFetched</a></div><div class="ttdeci">static void handleComponentInfoFetched(ComponentService &amp;owner, const QString &amp;componentId, const QJsonObject &amp;data)</div><div class="ttdoc">处理元器件基础信息响应。</div><div class="ttdef"><b>Definition</b> <a href="ComponentApiCallbackCoordinator_8cpp_source.html#l00019">ComponentApiCallbackCoordinator.cpp:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_a8adb39bb2ccf81464ece3cdc95f2c8dd"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#a8adb39bb2ccf81464ece3cdc95f2c8dd">EasyKiConverter::ComponentCacheService::currentGeneration</a></div><div class="ttdeci">uint64_t currentGeneration() const</div><div class="ttdoc">获取当前缓存代次（供调用方在请求创建时捕获）</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8h_source.html#l00422">ComponentCacheService.h:422</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentCacheService_html_afdee40a5120d2cf1f93c4dbe50146e34"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentCacheService.html#afdee40a5120d2cf1f93c4dbe50146e34">EasyKiConverter::ComponentCacheService::instance</a></div><div class="ttdeci">static ComponentCacheService * instance()</div><div class="ttdoc">获取单例实例</div><div class="ttdef"><b>Definition</b> <a href="ComponentCacheService_8cpp_source.html#l00065">ComponentCacheService.cpp:65</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentDataMemoryStore_html_a53e3f8e4b87299f82ecf80532de5199f"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentDataMemoryStore.html#a53e3f8e4b87299f82ecf80532de5199f">EasyKiConverter::ComponentDataMemoryStore::removeIfInvalid</a></div><div class="ttdeci">void removeIfInvalid(const QString &amp;normalizedId)</div><div class="ttdoc">删除指定编号对应的无效缓存项。</div><div class="ttdef"><b>Definition</b> <a href="ComponentDataMemoryStore_8cpp_source.html#l00091">ComponentDataMemoryStore.cpp:91</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html">EasyKiConverter::ComponentData</a></div><div class="ttdoc">元件数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00020">ComponentData.h:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentInfoParser_html_ab091e5b514fa01e0793cf67fb8bdc9c0"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentInfoParser.html#ab091e5b514fa01e0793cf67fb8bdc9c0">EasyKiConverter::ComponentInfoParser::parse</a></div><div class="ttdeci">static ComponentData parse(const QString &amp;componentId, const QJsonObject &amp;response)</div><div class="ttdoc">解析元器件基础信息。</div><div class="ttdef"><b>Definition</b> <a href="ComponentInfoParser_8cpp_source.html#l00011">ComponentInfoParser.cpp:11</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentParallelFetchCoordinator_html_a631bde6b771ce187a15fc48c6f762f65"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a631bde6b771ce187a15fc48c6f762f65">EasyKiConverter::ComponentParallelFetchCoordinator::handleFetchError</a></div><div class="ttdeci">static void handleFetchError(ComponentService &amp;service, const QString &amp;componentId, const QString &amp;error)</div><div class="ttdoc">记录失败结果并释放一个并行请求槽位。</div><div class="ttdef"><b>Definition</b> <a href="ComponentParallelFetchCoordinator_8cpp_source.html#l00051">ComponentParallelFetchCoordinator.cpp:51</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html">EasyKiConverter::ComponentService</a></div><div class="ttdoc">元件服务类</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00042">ComponentService.h:42</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a4648acaef5d2b1722d097e023f431d56"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a4648acaef5d2b1722d097e023f431d56">EasyKiConverter::ComponentService::componentInfoReady</a></div><div class="ttdeci">void componentInfoReady(const QString &amp;componentId, const ComponentData &amp;data)</div><div class="ttdoc">元件信息获取成功信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a826dd469280d397146b77a94711be4a6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">EasyKiConverter::ComponentService::m_fetchingComponents</a></div><div class="ttdeci">QMap&lt; QString, FetchingComponent &gt; m_fetchingComponents</div><div class="ttdoc">按元件编号索引的活动请求状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00498">ComponentService.h:498</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_ab9d210a3d5b9f3d12b0981c0f2de41e3"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">EasyKiConverter::ComponentService::m_parallelContext</a></div><div class="ttdeci">ParallelFetchContext * m_parallelContext</div><div class="ttdoc">当前并行数据收集上下文。</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00504">ComponentService.h:504</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_abadaf49e04e458cfb9dcd79ff55af6e1"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#abadaf49e04e458cfb9dcd79ff55af6e1">EasyKiConverter::ComponentService::m_componentCache</a></div><div class="ttdeci">ComponentDataMemoryStore m_componentCache</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00482">ComponentService.h:482</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_ac14dd8f0c1a3cf68e5763fd552af246c"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#ac14dd8f0c1a3cf68e5763fd552af246c">EasyKiConverter::ComponentService::m_currentComponentId</a></div><div class="ttdeci">QString m_currentComponentId</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00501">ComponentService.h:501</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_acc15c69ce1e5289491e7c5e5bc09bd17"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">EasyKiConverter::ComponentService::m_fetchingComponentsMutex</a></div><div class="ttdeci">QMutex m_fetchingComponentsMutex</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00478">ComponentService.h:478</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_adab0217e58a19f5e842cc7e1ac4fa468"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#adab0217e58a19f5e842cc7e1ac4fa468">EasyKiConverter::ComponentService::fetchError</a></div><div class="ttdeci">void fetchError(const QString &amp;componentId, const QString &amp;error)</div><div class="ttdoc">获取错误信号</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentApiCallbackCoordinator_8cpp.html">ComponentApiCallbackCoordinator.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

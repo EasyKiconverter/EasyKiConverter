@@ -1,0 +1,533 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: models/ComponentListItemData.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentListItemData_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentListItemData.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentListItemData_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentListItemData_8h.html">ComponentListItemData.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QBuffer&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="comment">// 静态成员初始化</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#ac180aae7579a0dc12fa520185574db11">ComponentListItemData::s_holdPreviewImageNotifications</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6f5f9b7319b237b9991a9a4de6192435">ComponentListItemData::s_previewImageMutex</a>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00016" data-start="{" data-end="}">
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a7139458e5955818691b735f894141a95">   16</a></span><a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a7139458e5955818691b735f894141a95">ComponentListItemData::ComponentListItemData</a>(<span class="keyword">const</span> QString&amp; componentId, QObject* parent)</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    : QObject(parent)</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    , m_componentId(componentId)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    , m_isValid(true)  <span class="comment">// 默认为 true，直到验证失败</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    , m_isFetching(false)</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    , m_validationPhase(<span class="stringliteral">&quot;idle&quot;</span>) {}</div>
+</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="foldopen" id="foldopen00027" data-start="{" data-end="}">
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a47d1ca204e44c167d10c1741a673e109">   27</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a47d1ca204e44c167d10c1741a673e109">ComponentListItemData::setName</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) {</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6217f7be47e648568f5e1f4d92666014">m_name</a> != <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a50a28b9c5486d751dce6258936407faa">name</a>) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6217f7be47e648568f5e1f4d92666014">m_name</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a50a28b9c5486d751dce6258936407faa">name</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a6468d75fc1c0f1c38c1c093174dba59c">dataChanged</a>();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
+</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="foldopen" id="foldopen00038" data-start="{" data-end="}">
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#aed874d08aa05dce2df2eb54a59f03cc6">   38</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#aed874d08aa05dce2df2eb54a59f03cc6">ComponentListItemData::setPackage</a>(<span class="keyword">const</span> QString&amp; package) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a49e32142351a6db2b083f1df4301ca78">m_package</a> != <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a2a98bcff5e90bcefddf97a6bab0fb1a2">package</a>) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a49e32142351a6db2b083f1df4301ca78">m_package</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a2a98bcff5e90bcefddf97a6bab0fb1a2">package</a>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a6468d75fc1c0f1c38c1c093174dba59c">dataChanged</a>();</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
+</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#af703168809b31972853eb97592ab6b43">   49</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#af703168809b31972853eb97592ab6b43">ComponentListItemData::setDescription</a>(<span class="keyword">const</span> QString&amp; description) {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6ac6af3733f24451a85210cc080761f6">m_descriptionEdited</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a2b384d79facfac0b2d8423b4e7fba568">m_description</a> != <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#af60810c643418937be9fef5b323c2df8">description</a>) {</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a2b384d79facfac0b2d8423b4e7fba568">m_description</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#af60810c643418937be9fef5b323c2df8">description</a>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#aa250dc7b78c48f2ea42f730755390818">applyDescriptionToComponentData</a>();</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a6468d75fc1c0f1c38c1c093174dba59c">dataChanged</a>();</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#aa250dc7b78c48f2ea42f730755390818">applyDescriptionToComponentData</a>();</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="foldopen" id="foldopen00064" data-start="{" data-end="}">
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#af4d56b69940d24b032ae4b756eaa415d">   64</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#af4d56b69940d24b032ae4b756eaa415d">ComponentListItemData::setNameSilent</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) {</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6217f7be47e648568f5e1f4d92666014">m_name</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a50a28b9c5486d751dce6258936407faa">name</a>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>}</div>
+</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="foldopen" id="foldopen00072" data-start="{" data-end="}">
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a9b97e70ddf5022a95d79ca94d4bd85aa">   72</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9b97e70ddf5022a95d79ca94d4bd85aa">ComponentListItemData::setPackageSilent</a>(<span class="keyword">const</span> QString&amp; package) {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a49e32142351a6db2b083f1df4301ca78">m_package</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a2a98bcff5e90bcefddf97a6bab0fb1a2">package</a>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>}</div>
+</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="foldopen" id="foldopen00080" data-start="{" data-end="}">
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a4d98dd9945c45725847895a7a57ea338">   80</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a4d98dd9945c45725847895a7a57ea338">ComponentListItemData::setComponentData</a>(<span class="keyword">const</span> QSharedPointer&lt;ComponentData&gt;&amp; data) {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a> = data;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordflow">if</span> (data) {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        <span class="keywordflow">if</span> (!data-&gt;name().isEmpty())</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a47d1ca204e44c167d10c1741a673e109">setName</a>(data-&gt;name());</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">if</span> (!data-&gt;package().isEmpty())</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#aed874d08aa05dce2df2eb54a59f03cc6">setPackage</a>(data-&gt;package());</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6ac6af3733f24451a85210cc080761f6">m_descriptionEdited</a>) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a2b384d79facfac0b2d8423b4e7fba568">m_description</a> = data-&gt;name();</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#aa250dc7b78c48f2ea42f730755390818">applyDescriptionToComponentData</a>();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a6468d75fc1c0f1c38c1c093174dba59c">dataChanged</a>();</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}</div>
+</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="foldopen" id="foldopen00098" data-start="{" data-end="}">
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#aa250dc7b78c48f2ea42f730755390818">   98</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#aa250dc7b78c48f2ea42f730755390818">ComponentListItemData::applyDescriptionToComponentData</a>() {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>) {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>-&gt;symbolData()) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolInfo.html">SymbolInfo</a> info = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>-&gt;symbolData()-&gt;info();  <span class="comment">// 当前符号基本信息副本。</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        info.<a class="code hl_variable" href="structEasyKiConverter_1_1SymbolInfo.html#a32b542ea40a5b8086e6698d070e6709b">description</a> = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a2b384d79facfac0b2d8423b4e7fba568">m_description</a>;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>-&gt;symbolData()-&gt;setInfo(info);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>-&gt;footprintData()) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <a class="code hl_struct" href="structEasyKiConverter_1_1FootprintInfo.html">FootprintInfo</a> info = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>-&gt;footprintData()-&gt;info();  <span class="comment">// 当前封装基本信息副本。</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        info.<a class="code hl_variable" href="structEasyKiConverter_1_1FootprintInfo.html#a3180e1057eb9291b9dd22d7e300ecff6">description</a> = <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a2b384d79facfac0b2d8423b4e7fba568">m_description</a>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>-&gt;footprintData()-&gt;setInfo(info);</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
+</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="foldopen" id="foldopen00119" data-start="{" data-end="}">
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a67b8b172ab3f32ee47eb20037752cb73">  119</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a67b8b172ab3f32ee47eb20037752cb73">ComponentListItemData::setValid</a>(<span class="keywordtype">bool</span> <a class="code hl_variable" href="SvgPathParser_8cpp.html#a28e3c179a86f337095088b3ca02a2b2a">valid</a>) {</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#ae460bf9dcfe67e612805054a22c90101">m_isValid</a> != <a class="code hl_variable" href="SvgPathParser_8cpp.html#a28e3c179a86f337095088b3ca02a2b2a">valid</a>) {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#ae460bf9dcfe67e612805054a22c90101">m_isValid</a> = <a class="code hl_variable" href="SvgPathParser_8cpp.html#a28e3c179a86f337095088b3ca02a2b2a">valid</a>;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a70bd07fc1bc3ec9c11dd9db5bc767490">validationStatusChanged</a>();</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    }</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>}</div>
+</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
+<div class="foldopen" id="foldopen00130" data-start="{" data-end="}">
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#af067d83d8c0e23612aae65d1283c3e7d">  130</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#af067d83d8c0e23612aae65d1283c3e7d">ComponentListItemData::setFetching</a>(<span class="keywordtype">bool</span> fetching) {</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a69682503a28f65b47e86a37b7cca1c4f">m_isFetching</a> != fetching) {</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a69682503a28f65b47e86a37b7cca1c4f">m_isFetching</a> = fetching;</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#aaee05f9f3904947c501360f4f1489ac5">fetchingStatusChanged</a>();</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    }</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>}</div>
+</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>
+<div class="foldopen" id="foldopen00141" data-start="{" data-end="}">
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#ad5a874b12e9d3d0b2957d57005e7980b">  141</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#ad5a874b12e9d3d0b2957d57005e7980b">ComponentListItemData::setValidationPhase</a>(<span class="keyword">const</span> QString&amp; phase) {</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a9e7affa621c77c41fa6263178aae0e1d">m_validationPhase</a> != phase) {</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a9e7affa621c77c41fa6263178aae0e1d">m_validationPhase</a> = phase;</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#ae80639eec43fb93bd9d67dbaf301f176">validationPhaseChanged</a>();</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    }</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>}</div>
+</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span> </div>
+<div class="foldopen" id="foldopen00152" data-start="{" data-end="}">
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a9e10df657d15a6b52f9f55aef2d9a328">  152</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9e10df657d15a6b52f9f55aef2d9a328">ComponentListItemData::setErrorMessage</a>(<span class="keyword">const</span> QString&amp; error) {</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#ab9dcb14c6fc41b507be8a683c37869a5">m_errorMessage</a> != error) {</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#ab9dcb14c6fc41b507be8a683c37869a5">m_errorMessage</a> = error;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a70bd07fc1bc3ec9c11dd9db5bc767490">validationStatusChanged</a>();</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    }</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>}</div>
+</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
+<div class="foldopen" id="foldopen00163" data-start="{" data-end="}">
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a9a397a92fa798bbf84219183fa97ff8a">  163</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9a397a92fa798bbf84219183fa97ff8a">ComponentListItemData::setRetryable</a>(<span class="keywordtype">bool</span> retryable) {</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a194f68376602fe15666b7ab26cd89bdc">m_retryable</a> != <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a55b3ac7a1dedb34cd1e01df227ffcf16">retryable</a>) {</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a194f68376602fe15666b7ab26cd89bdc">m_retryable</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a55b3ac7a1dedb34cd1e01df227ffcf16">retryable</a>;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a70bd07fc1bc3ec9c11dd9db5bc767490">validationStatusChanged</a>();</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    }</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>}</div>
+</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
+<div class="foldopen" id="foldopen00174" data-start="{" data-end="}">
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#abfcd70533977c2c582fe268900e96290">  174</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#abfcd70533977c2c582fe268900e96290">ComponentListItemData::setPreviewImageExported</a>(<span class="keywordtype">bool</span> exported) {</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a29add09f72a7346ce11a0f60fbf545c4">m_previewImageExported</a> != exported) {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a29add09f72a7346ce11a0f60fbf545c4">m_previewImageExported</a> = exported;</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#ae8a5dc6be328dfb5d649d31397ee6a5b">exportStatusChanged</a>();</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    }</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>}</div>
+</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span> </div>
+<div class="foldopen" id="foldopen00185" data-start="{" data-end="}">
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a1bb713a594e11ca0e52f56bde4b8ec00">  185</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a1bb713a594e11ca0e52f56bde4b8ec00">ComponentListItemData::setDatasheetExported</a>(<span class="keywordtype">bool</span> exported) {</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a695de07cfa04359da7621dcbd3cb5697">m_datasheetExported</a> != exported) {</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a695de07cfa04359da7621dcbd3cb5697">m_datasheetExported</a> = exported;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#ae8a5dc6be328dfb5d649d31397ee6a5b">exportStatusChanged</a>();</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    }</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>}</div>
+</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="foldopen" id="foldopen00195" data-start="{" data-end="}">
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a1f9defa9c083c03539727af6a6f88f49">  195</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a1f9defa9c083c03539727af6a6f88f49">ComponentListItemData::updatePreviewImagesCache</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.clear();</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QImage&amp; image : <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>) {</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        <span class="keywordflow">if</span> (image.isNull()) {</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(QVariant());</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        }</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        QByteArray byteArray;  <span class="comment">// 当前预览图的 PNG 编码字节。</span></div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        QBuffer buffer(&amp;byteArray);</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        buffer.open(QIODevice::WriteOnly);</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        image.save(&amp;buffer, <span class="stringliteral">&quot;PNG&quot;</span>);</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(QString::fromLatin1(byteArray.toBase64().data()));</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    }</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>}</div>
+</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span> </div>
+<div class="foldopen" id="foldopen00214" data-start="{" data-end="}">
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#ac34138934ab4fc6bfd597f32715be505">  214</a></span>QVariantList <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#ac34138934ab4fc6bfd597f32715be505">ComponentListItemData::previewImages</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.isEmpty() &amp;&amp; !<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>.isEmpty()) {</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a1f9defa9c083c03539727af6a6f88f49">updatePreviewImagesCache</a>();</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    }</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>}</div>
+</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="foldopen" id="foldopen00225" data-start="{" data-end="}">
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#abbae9c60873b3274d4450004fd313514">  225</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#abbae9c60873b3274d4450004fd313514">ComponentListItemData::previewImageCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keywordtype">int</span> cacheCount = 0;  <span class="comment">// 编码缓存中的有效预览图数量。</span></div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QVariant&amp; cached : <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>) {</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        <span class="keywordflow">if</span> (cached.isValid() &amp;&amp; !cached.toString().isEmpty()) {</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>            ++cacheCount;</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>        }</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    }</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span> </div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    <span class="keywordtype">int</span> rawCount = 0;  <span class="comment">// 原始图像列表中的有效预览图数量。</span></div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QImage&amp; image : <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>) {</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>        <span class="keywordflow">if</span> (!image.isNull()) {</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>            ++rawCount;</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        }</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    }</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span> </div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    <span class="keywordflow">return</span> qMax(cacheCount, rawCount);</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>}</div>
+</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span> </div>
+<div class="foldopen" id="foldopen00247" data-start="{" data-end="}">
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#aab5dfda890402e9d2930e13f0f3bb6f0">  247</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#aab5dfda890402e9d2930e13f0f3bb6f0">ComponentListItemData::addPreviewImage</a>(<span class="keyword">const</span> QImage&amp; image) {</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keywordflow">if</span> (!image.isNull()) {</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>.append(image);</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.clear();</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9667a4c1bf26543102200ba3eceae6e5">previewImagesChanged</a>();</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    }</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>}</div>
+</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span> </div>
+<div class="foldopen" id="foldopen00260" data-start="{" data-end="}">
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#afa8b7f0578c5a9f398450d66f2d364d9">  260</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#afa8b7f0578c5a9f398450d66f2d364d9">ComponentListItemData::insertPreviewImage</a>(<span class="keyword">const</span> QImage&amp; image, <span class="keywordtype">int</span> index) {</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    <span class="keywordflow">if</span> (image.isNull()) {</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    }</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span> </div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>    <span class="keywordflow">while</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>.size() &lt;= index) {</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>.append(QImage());</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>    }</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span> </div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>[index].isNull()) {</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>[index] = image;</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;Inserted preview image at index:&quot;</span> &lt;&lt; index;</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a>[index] = image;</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        qDebug() &lt;&lt; <span class="stringliteral">&quot;Replaced preview image at index:&quot;</span> &lt;&lt; index;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    }</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.clear();</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9667a4c1bf26543102200ba3eceae6e5">previewImagesChanged</a>();</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>}</div>
+</div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
+<div class="foldopen" id="foldopen00285" data-start="{" data-end="}">
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#ad8723af786a66630e2ac6729f2e53334">  285</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#ad8723af786a66630e2ac6729f2e53334">ComponentListItemData::setEncodedPreviewImages</a>(<span class="keyword">const</span> QStringList&amp; encodedImages) {</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.clear();</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; encoded : encodedImages) {</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>        <span class="keywordflow">if</span> (encoded.isEmpty()) {</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(QVariant());</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(encoded);</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>        }</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    }</div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9667a4c1bf26543102200ba3eceae6e5">previewImagesChanged</a>();</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>}</div>
+</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
+<div class="foldopen" id="foldopen00303" data-start="{" data-end="}">
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a08000d0823a497a75444f28458229091">  303</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a08000d0823a497a75444f28458229091">ComponentListItemData::setEncodedPreviewImageAt</a>(<span class="keyword">const</span> QString&amp; encodedImage, <span class="keywordtype">int</span> index, <span class="keywordtype">bool</span> notify) {</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    <span class="keywordflow">if</span> (index &lt; 0) {</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>    }</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span> </div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>    <span class="keywordflow">while</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.size() &lt;= index) {</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(QVariant());</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>    }</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span> </div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>    <span class="keywordflow">if</span> (encodedImage.isEmpty()) {</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>[index] = QVariant();</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>[index] = encodedImage;</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    }</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span> </div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>    <span class="keywordflow">if</span> (notify) {</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9667a4c1bf26543102200ba3eceae6e5">previewImagesChanged</a>();</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>    }</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>}</div>
+</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span> </div>
+<div class="foldopen" id="foldopen00326" data-start="{" data-end="}">
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#ab2c71edabca00633614ab538096f84be">  326</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#ab2c71edabca00633614ab538096f84be">ComponentListItemData::notifyPreviewImagesChanged</a>() {</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9667a4c1bf26543102200ba3eceae6e5">previewImagesChanged</a>();</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>}</div>
+</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span> </div>
+<div class="foldopen" id="foldopen00334" data-start="{" data-end="}">
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a1867a131be4d174fe1932576a6894180">  334</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a1867a131be4d174fe1932576a6894180">ComponentListItemData::setPreviewImages</a>(<span class="keyword">const</span> QList&lt;QImage&gt;&amp; images) {</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">m_previewImages</a> = images;</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.clear();</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9667a4c1bf26543102200ba3eceae6e5">previewImagesChanged</a>();</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>}</div>
+</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
+<div class="foldopen" id="foldopen00344" data-start="{" data-end="}">
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a9ae1506891eaa152fc7af281c593d506">  344</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9ae1506891eaa152fc7af281c593d506">ComponentListItemData::datasheetUrl</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>) {</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">m_componentData</a>-&gt;datasheet();</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    }</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    <span class="keywordflow">return</span> QString();</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>}</div>
+</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span> </div>
+<div class="foldopen" id="foldopen00355" data-start="{" data-end="}">
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a43f6bbea52e791e50ba97c6a130cda8e">  355</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a43f6bbea52e791e50ba97c6a130cda8e">ComponentListItemData::setEncodedPreviewImagesHoldNotify</a>(<span class="keyword">const</span> QStringList&amp; encodedImages) {</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.clear();</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; encoded : encodedImages) {</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        <span class="keywordflow">if</span> (encoded.isEmpty()) {</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(QVariant());</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(encoded);</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        }</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    }</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>    <span class="comment">// 如果没有暂停通知，则发射信号</span></div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>    <span class="keywordtype">bool</span> shouldNotify = <span class="keyword">false</span>;  <span class="comment">// 当前是否需要发送预览图变更通知。</span></div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    {</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>        QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6f5f9b7319b237b9991a9a4de6192435">s_previewImageMutex</a>);</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        shouldNotify = !<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#ac180aae7579a0dc12fa520185574db11">s_holdPreviewImageNotifications</a>;</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    }</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>    <span class="keywordflow">if</span> (shouldNotify) {</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        emit <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a9667a4c1bf26543102200ba3eceae6e5">previewImagesChanged</a>();</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>    }</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>}</div>
+</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span> </div>
+<div class="foldopen" id="foldopen00379" data-start="{" data-end="}">
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#ae8c91f97f5bb665fe4db57409043de6d">  379</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#ae8c91f97f5bb665fe4db57409043de6d">ComponentListItemData::setEncodedPreviewImagesSilent</a>(<span class="keyword">const</span> QStringList&amp; encodedImages) {</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.clear();</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; encoded : encodedImages) {</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>        <span class="keywordflow">if</span> (encoded.isEmpty()) {</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(QVariant());</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">m_previewImagesCache</a>.append(encoded);</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>        }</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>    }</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>    <span class="comment">// 不发射信号，由其他更新触发 UI 刷新</span></div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>}</div>
+</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span> </div>
+<div class="foldopen" id="foldopen00394" data-start="{" data-end="}">
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#a6753d5d0875c8c6b18a71b09d2515bbb">  394</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#a6753d5d0875c8c6b18a71b09d2515bbb">ComponentListItemData::holdPreviewImageNotifications</a>() {</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6f5f9b7319b237b9991a9a4de6192435">s_previewImageMutex</a>);</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#ac180aae7579a0dc12fa520185574db11">s_holdPreviewImageNotifications</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>}</div>
+</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span> </div>
+<div class="foldopen" id="foldopen00402" data-start="{" data-end="}">
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListItemData.html#adb8042c5ba286a9df8045d3db85b8444">  402</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListItemData.html#adb8042c5ba286a9df8045d3db85b8444">ComponentListItemData::flushPreviewImageNotifications</a>() {</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>    <span class="comment">// 静态方法无法发射实例信号，改为发射所有待更新项的信号</span></div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>    <span class="comment">// 使用锁保护确保线程安全</span></div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>    QMutexLocker locker(&amp;<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#a6f5f9b7319b237b9991a9a4de6192435">s_previewImageMutex</a>);</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListItemData.html#ac180aae7579a0dc12fa520185574db11">s_holdPreviewImageNotifications</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>}</div>
+</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span> </div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentListItemData_8h_html"><div class="ttname"><a href="ComponentListItemData_8h.html">ComponentListItemData.h</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aSvgPathParser_8cpp_html_a28e3c179a86f337095088b3ca02a2b2a"><div class="ttname"><a href="SvgPathParser_8cpp.html#a28e3c179a86f337095088b3ca02a2b2a">valid</a></div><div class="ttdeci">bool valid</div><div class="ttdoc">圆弧几何参数是否有效。</div><div class="ttdef"><b>Definition</b> <a href="SvgPathParser_8cpp_source.html#l00019">SvgPathParser.cpp:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a08000d0823a497a75444f28458229091"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a08000d0823a497a75444f28458229091">EasyKiConverter::ComponentListItemData::setEncodedPreviewImageAt</a></div><div class="ttdeci">void setEncodedPreviewImageAt(const QString &amp;encodedImage, int index, bool notify=true)</div><div class="ttdoc">设置指定位置的编码预览图。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00303">ComponentListItemData.cpp:303</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a17c2a593270b6ade4cf3d7f78e00040a"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a17c2a593270b6ade4cf3d7f78e00040a">EasyKiConverter::ComponentListItemData::m_previewImages</a></div><div class="ttdeci">QList&lt; QImage &gt; m_previewImages</div><div class="ttdoc">原始预览图列表。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00286">ComponentListItemData.h:286</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a1867a131be4d174fe1932576a6894180"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a1867a131be4d174fe1932576a6894180">EasyKiConverter::ComponentListItemData::setPreviewImages</a></div><div class="ttdeci">void setPreviewImages(const QList&lt; QImage &gt; &amp;images)</div><div class="ttdoc">替换全部原始预览图。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00334">ComponentListItemData.cpp:334</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a194f68376602fe15666b7ab26cd89bdc"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a194f68376602fe15666b7ab26cd89bdc">EasyKiConverter::ComponentListItemData::m_retryable</a></div><div class="ttdeci">bool m_retryable</div><div class="ttdoc">失败后是否允许重试。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00292">ComponentListItemData.h:292</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a1bb713a594e11ca0e52f56bde4b8ec00"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a1bb713a594e11ca0e52f56bde4b8ec00">EasyKiConverter::ComponentListItemData::setDatasheetExported</a></div><div class="ttdeci">void setDatasheetExported(bool exported)</div><div class="ttdoc">设置数据手册导出状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00185">ComponentListItemData.cpp:185</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a1f9defa9c083c03539727af6a6f88f49"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a1f9defa9c083c03539727af6a6f88f49">EasyKiConverter::ComponentListItemData::updatePreviewImagesCache</a></div><div class="ttdeci">void updatePreviewImagesCache() const</div><div class="ttdoc">将原始预览图编码并刷新 QML 缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00195">ComponentListItemData.cpp:195</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a29add09f72a7346ce11a0f60fbf545c4"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a29add09f72a7346ce11a0f60fbf545c4">EasyKiConverter::ComponentListItemData::m_previewImageExported</a></div><div class="ttdeci">bool m_previewImageExported</div><div class="ttdoc">预览图是否已经导出。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00294">ComponentListItemData.h:294</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a2a98bcff5e90bcefddf97a6bab0fb1a2"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a2a98bcff5e90bcefddf97a6bab0fb1a2">EasyKiConverter::ComponentListItemData::package</a></div><div class="ttdeci">QString package() const</div><div class="ttdoc">返回封装名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00078">ComponentListItemData.h:78</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a2b384d79facfac0b2d8423b4e7fba568"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a2b384d79facfac0b2d8423b4e7fba568">EasyKiConverter::ComponentListItemData::m_description</a></div><div class="ttdeci">QString m_description</div><div class="ttdoc">元器件描述。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00284">ComponentListItemData.h:284</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a43f6bbea52e791e50ba97c6a130cda8e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a43f6bbea52e791e50ba97c6a130cda8e">EasyKiConverter::ComponentListItemData::setEncodedPreviewImagesHoldNotify</a></div><div class="ttdeci">void setEncodedPreviewImagesHoldNotify(const QStringList &amp;encodedImages)</div><div class="ttdoc">批量更新预览图并按需延迟通知。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00355">ComponentListItemData.cpp:355</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a47d1ca204e44c167d10c1741a673e109"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a47d1ca204e44c167d10c1741a673e109">EasyKiConverter::ComponentListItemData::setName</a></div><div class="ttdeci">void setName(const QString &amp;name)</div><div class="ttdoc">设置元器件名称并通知界面。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00027">ComponentListItemData.cpp:27</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a49e32142351a6db2b083f1df4301ca78"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a49e32142351a6db2b083f1df4301ca78">EasyKiConverter::ComponentListItemData::m_package</a></div><div class="ttdeci">QString m_package</div><div class="ttdoc">封装名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00283">ComponentListItemData.h:283</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a4d98dd9945c45725847895a7a57ea338"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a4d98dd9945c45725847895a7a57ea338">EasyKiConverter::ComponentListItemData::setComponentData</a></div><div class="ttdeci">void setComponentData(const QSharedPointer&lt; ComponentData &gt; &amp;data)</div><div class="ttdoc">设置关联的元器件详细数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00080">ComponentListItemData.cpp:80</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a50a28b9c5486d751dce6258936407faa"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a50a28b9c5486d751dce6258936407faa">EasyKiConverter::ComponentListItemData::name</a></div><div class="ttdeci">QString name() const</div><div class="ttdoc">返回元器件名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00070">ComponentListItemData.h:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a55b3ac7a1dedb34cd1e01df227ffcf16"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a55b3ac7a1dedb34cd1e01df227ffcf16">EasyKiConverter::ComponentListItemData::retryable</a></div><div class="ttdeci">bool retryable() const</div><div class="ttdoc">返回失败后是否允许重试。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00136">ComponentListItemData.h:136</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a6217f7be47e648568f5e1f4d92666014"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a6217f7be47e648568f5e1f4d92666014">EasyKiConverter::ComponentListItemData::m_name</a></div><div class="ttdeci">QString m_name</div><div class="ttdoc">元器件名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00282">ComponentListItemData.h:282</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a6468d75fc1c0f1c38c1c093174dba59c"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a6468d75fc1c0f1c38c1c093174dba59c">EasyKiConverter::ComponentListItemData::dataChanged</a></div><div class="ttdeci">void dataChanged()</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a6753d5d0875c8c6b18a71b09d2515bbb"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a6753d5d0875c8c6b18a71b09d2515bbb">EasyKiConverter::ComponentListItemData::holdPreviewImageNotifications</a></div><div class="ttdeci">static void holdPreviewImageNotifications()</div><div class="ttdoc">暂停所有列表项的预览图通知。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00394">ComponentListItemData.cpp:394</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a67b8b172ab3f32ee47eb20037752cb73"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a67b8b172ab3f32ee47eb20037752cb73">EasyKiConverter::ComponentListItemData::setValid</a></div><div class="ttdeci">void setValid(bool valid)</div><div class="ttdoc">设置验证状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00119">ComponentListItemData.cpp:119</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a695de07cfa04359da7621dcbd3cb5697"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a695de07cfa04359da7621dcbd3cb5697">EasyKiConverter::ComponentListItemData::m_datasheetExported</a></div><div class="ttdeci">bool m_datasheetExported</div><div class="ttdoc">数据手册是否已经导出。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00295">ComponentListItemData.h:295</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a69682503a28f65b47e86a37b7cca1c4f"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a69682503a28f65b47e86a37b7cca1c4f">EasyKiConverter::ComponentListItemData::m_isFetching</a></div><div class="ttdeci">bool m_isFetching</div><div class="ttdoc">当前元器件是否正在获取数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00289">ComponentListItemData.h:289</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a6ac6af3733f24451a85210cc080761f6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a6ac6af3733f24451a85210cc080761f6">EasyKiConverter::ComponentListItemData::m_descriptionEdited</a></div><div class="ttdeci">bool m_descriptionEdited</div><div class="ttdoc">描述是否被用户编辑过。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00285">ComponentListItemData.h:285</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a6f5f9b7319b237b9991a9a4de6192435"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a6f5f9b7319b237b9991a9a4de6192435">EasyKiConverter::ComponentListItemData::s_previewImageMutex</a></div><div class="ttdeci">static QMutex s_previewImageMutex</div><div class="ttdoc">保护静态预览图通知状态的互斥锁。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00300">ComponentListItemData.h:300</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a70bd07fc1bc3ec9c11dd9db5bc767490"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a70bd07fc1bc3ec9c11dd9db5bc767490">EasyKiConverter::ComponentListItemData::validationStatusChanged</a></div><div class="ttdeci">void validationStatusChanged()</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a7139458e5955818691b735f894141a95"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a7139458e5955818691b735f894141a95">EasyKiConverter::ComponentListItemData::ComponentListItemData</a></div><div class="ttdeci">ComponentListItemData(const QString &amp;componentId, QObject *parent=nullptr)</div><div class="ttdoc">创建元器件列表项并初始化验证状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00016">ComponentListItemData.cpp:16</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a9667a4c1bf26543102200ba3eceae6e5"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a9667a4c1bf26543102200ba3eceae6e5">EasyKiConverter::ComponentListItemData::previewImagesChanged</a></div><div class="ttdeci">void previewImagesChanged()</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a9a397a92fa798bbf84219183fa97ff8a"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a9a397a92fa798bbf84219183fa97ff8a">EasyKiConverter::ComponentListItemData::setRetryable</a></div><div class="ttdeci">void setRetryable(bool retryable)</div><div class="ttdoc">设置是否允许重试。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00163">ComponentListItemData.cpp:163</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a9ae1506891eaa152fc7af281c593d506"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a9ae1506891eaa152fc7af281c593d506">EasyKiConverter::ComponentListItemData::datasheetUrl</a></div><div class="ttdeci">QString datasheetUrl() const</div><div class="ttdoc">返回数据手册地址。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00344">ComponentListItemData.cpp:344</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a9b97e70ddf5022a95d79ca94d4bd85aa"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a9b97e70ddf5022a95d79ca94d4bd85aa">EasyKiConverter::ComponentListItemData::setPackageSilent</a></div><div class="ttdeci">void setPackageSilent(const QString &amp;package)</div><div class="ttdoc">静默设置封装名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00072">ComponentListItemData.cpp:72</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a9e10df657d15a6b52f9f55aef2d9a328"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a9e10df657d15a6b52f9f55aef2d9a328">EasyKiConverter::ComponentListItemData::setErrorMessage</a></div><div class="ttdeci">void setErrorMessage(const QString &amp;error)</div><div class="ttdoc">设置错误信息。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00152">ComponentListItemData.cpp:152</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_a9e7affa621c77c41fa6263178aae0e1d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#a9e7affa621c77c41fa6263178aae0e1d">EasyKiConverter::ComponentListItemData::m_validationPhase</a></div><div class="ttdeci">QString m_validationPhase</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00290">ComponentListItemData.h:290</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_aa250dc7b78c48f2ea42f730755390818"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#aa250dc7b78c48f2ea42f730755390818">EasyKiConverter::ComponentListItemData::applyDescriptionToComponentData</a></div><div class="ttdeci">void applyDescriptionToComponentData()</div><div class="ttdoc">将列表项描述同步到符号和封装数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00098">ComponentListItemData.cpp:98</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_aaa61cd8907764d41db8b92fcc91a8836"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#aaa61cd8907764d41db8b92fcc91a8836">EasyKiConverter::ComponentListItemData::m_componentData</a></div><div class="ttdeci">QSharedPointer&lt; ComponentData &gt; m_componentData</div><div class="ttdoc">关联的元器件详细数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00293">ComponentListItemData.h:293</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_aab5dfda890402e9d2930e13f0f3bb6f0"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#aab5dfda890402e9d2930e13f0f3bb6f0">EasyKiConverter::ComponentListItemData::addPreviewImage</a></div><div class="ttdeci">void addPreviewImage(const QImage &amp;image)</div><div class="ttdoc">追加一张预览图。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00247">ComponentListItemData.cpp:247</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_aaee05f9f3904947c501360f4f1489ac5"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#aaee05f9f3904947c501360f4f1489ac5">EasyKiConverter::ComponentListItemData::fetchingStatusChanged</a></div><div class="ttdeci">void fetchingStatusChanged()</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ab2c71edabca00633614ab538096f84be"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ab2c71edabca00633614ab538096f84be">EasyKiConverter::ComponentListItemData::notifyPreviewImagesChanged</a></div><div class="ttdeci">void notifyPreviewImagesChanged()</div><div class="ttdoc">通知界面预览图内容已变化。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00326">ComponentListItemData.cpp:326</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ab9dcb14c6fc41b507be8a683c37869a5"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ab9dcb14c6fc41b507be8a683c37869a5">EasyKiConverter::ComponentListItemData::m_errorMessage</a></div><div class="ttdeci">QString m_errorMessage</div><div class="ttdoc">最近一次错误信息。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00291">ComponentListItemData.h:291</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_abbae9c60873b3274d4450004fd313514"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#abbae9c60873b3274d4450004fd313514">EasyKiConverter::ComponentListItemData::previewImageCount</a></div><div class="ttdeci">int previewImageCount() const</div><div class="ttdoc">返回有效预览图数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00225">ComponentListItemData.cpp:225</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_abfb41fc3e1589bb432fcfa4958bec0d2"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#abfb41fc3e1589bb432fcfa4958bec0d2">EasyKiConverter::ComponentListItemData::m_previewImagesCache</a></div><div class="ttdeci">QVariantList m_previewImagesCache</div><div class="ttdoc">面向 QML 的编码预览图缓存。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00287">ComponentListItemData.h:287</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_abfcd70533977c2c582fe268900e96290"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#abfcd70533977c2c582fe268900e96290">EasyKiConverter::ComponentListItemData::setPreviewImageExported</a></div><div class="ttdeci">void setPreviewImageExported(bool exported)</div><div class="ttdoc">设置预览图导出状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00174">ComponentListItemData.cpp:174</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ac180aae7579a0dc12fa520185574db11"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ac180aae7579a0dc12fa520185574db11">EasyKiConverter::ComponentListItemData::s_holdPreviewImageNotifications</a></div><div class="ttdeci">static bool s_holdPreviewImageNotifications</div><div class="ttdoc">是否暂停预览图通知。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00299">ComponentListItemData.h:299</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ac34138934ab4fc6bfd597f32715be505"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ac34138934ab4fc6bfd597f32715be505">EasyKiConverter::ComponentListItemData::previewImages</a></div><div class="ttdeci">QVariantList previewImages() const</div><div class="ttdoc">返回供 QML 使用的预览图列表。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00214">ComponentListItemData.cpp:214</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ad5a874b12e9d3d0b2957d57005e7980b"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ad5a874b12e9d3d0b2957d57005e7980b">EasyKiConverter::ComponentListItemData::setValidationPhase</a></div><div class="ttdeci">void setValidationPhase(const QString &amp;phase)</div><div class="ttdoc">设置验证阶段。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00141">ComponentListItemData.cpp:141</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ad8723af786a66630e2ac6729f2e53334"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ad8723af786a66630e2ac6729f2e53334">EasyKiConverter::ComponentListItemData::setEncodedPreviewImages</a></div><div class="ttdeci">void setEncodedPreviewImages(const QStringList &amp;encodedImages)</div><div class="ttdoc">设置已经编码的全部预览图。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00285">ComponentListItemData.cpp:285</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_adb8042c5ba286a9df8045d3db85b8444"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#adb8042c5ba286a9df8045d3db85b8444">EasyKiConverter::ComponentListItemData::flushPreviewImageNotifications</a></div><div class="ttdeci">static void flushPreviewImageNotifications()</div><div class="ttdoc">恢复列表项的预览图通知。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00402">ComponentListItemData.cpp:402</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ae460bf9dcfe67e612805054a22c90101"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ae460bf9dcfe67e612805054a22c90101">EasyKiConverter::ComponentListItemData::m_isValid</a></div><div class="ttdeci">bool m_isValid</div><div class="ttdoc">当前元器件是否验证有效。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00288">ComponentListItemData.h:288</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ae80639eec43fb93bd9d67dbaf301f176"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ae80639eec43fb93bd9d67dbaf301f176">EasyKiConverter::ComponentListItemData::validationPhaseChanged</a></div><div class="ttdeci">void validationPhaseChanged()</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ae8a5dc6be328dfb5d649d31397ee6a5b"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ae8a5dc6be328dfb5d649d31397ee6a5b">EasyKiConverter::ComponentListItemData::exportStatusChanged</a></div><div class="ttdeci">void exportStatusChanged()</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_ae8c91f97f5bb665fe4db57409043de6d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#ae8c91f97f5bb665fe4db57409043de6d">EasyKiConverter::ComponentListItemData::setEncodedPreviewImagesSilent</a></div><div class="ttdeci">void setEncodedPreviewImagesSilent(const QStringList &amp;encodedImages)</div><div class="ttdoc">批量更新预览图但不发出通知。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00379">ComponentListItemData.cpp:379</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_aed874d08aa05dce2df2eb54a59f03cc6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#aed874d08aa05dce2df2eb54a59f03cc6">EasyKiConverter::ComponentListItemData::setPackage</a></div><div class="ttdeci">void setPackage(const QString &amp;package)</div><div class="ttdoc">设置封装名称并通知界面。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00038">ComponentListItemData.cpp:38</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_af067d83d8c0e23612aae65d1283c3e7d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#af067d83d8c0e23612aae65d1283c3e7d">EasyKiConverter::ComponentListItemData::setFetching</a></div><div class="ttdeci">void setFetching(bool fetching)</div><div class="ttdoc">设置数据获取状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00130">ComponentListItemData.cpp:130</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_af4d56b69940d24b032ae4b756eaa415d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#af4d56b69940d24b032ae4b756eaa415d">EasyKiConverter::ComponentListItemData::setNameSilent</a></div><div class="ttdeci">void setNameSilent(const QString &amp;name)</div><div class="ttdoc">静默设置元器件名称。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00064">ComponentListItemData.cpp:64</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_af60810c643418937be9fef5b323c2df8"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#af60810c643418937be9fef5b323c2df8">EasyKiConverter::ComponentListItemData::description</a></div><div class="ttdeci">QString description() const</div><div class="ttdoc">返回元器件描述。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00086">ComponentListItemData.h:86</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_af703168809b31972853eb97592ab6b43"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#af703168809b31972853eb97592ab6b43">EasyKiConverter::ComponentListItemData::setDescription</a></div><div class="ttdeci">void setDescription(const QString &amp;description)</div><div class="ttdoc">设置描述并同步到符号和封装数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00049">ComponentListItemData.cpp:49</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html_afa8b7f0578c5a9f398450d66f2d364d9"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html#afa8b7f0578c5a9f398450d66f2d364d9">EasyKiConverter::ComponentListItemData::insertPreviewImage</a></div><div class="ttdeci">void insertPreviewImage(const QImage &amp;image, int index)</div><div class="ttdoc">在指定位置插入预览图。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8cpp_source.html#l00260">ComponentListItemData.cpp:260</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintInfo_html"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintInfo.html">EasyKiConverter::FootprintInfo</a></div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00017">FootprintData.h:17</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1FootprintInfo_html_a3180e1057eb9291b9dd22d7e300ecff6"><div class="ttname"><a href="structEasyKiConverter_1_1FootprintInfo.html#a3180e1057eb9291b9dd22d7e300ecff6">EasyKiConverter::FootprintInfo::description</a></div><div class="ttdeci">QString description</div><div class="ttdoc">封装描述。</div><div class="ttdef"><b>Definition</b> <a href="FootprintData_8h_source.html#l00021">FootprintData.h:21</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolInfo_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolInfo.html">EasyKiConverter::SymbolInfo</a></div><div class="ttdoc">符号信息</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00031">SymbolData.h:31</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolInfo_html_a32b542ea40a5b8086e6698d070e6709b"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolInfo.html#a32b542ea40a5b8086e6698d070e6709b">EasyKiConverter::SymbolInfo::description</a></div><div class="ttdeci">QString description</div><div class="ttdoc">符号描述。</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00036">SymbolData.h:36</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1ae4179d5e953611aae20c997279e02c.html">models</a></li><li class="navelem"><a class="el" href="ComponentListItemData_8cpp.html">ComponentListItemData.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

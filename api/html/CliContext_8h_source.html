@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/cli/CliContext.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('CliContext_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">CliContext.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="CliContext_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CLICONTEXT_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define CLICONTEXT_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ExportProgress_8h.html">services/export/ExportProgress.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="CommandLineParser_8h.html">utils/CommandLineParser.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">class </span>ComponentService;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">class </span>ParallelExportService;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00019" data-start="{" data-end="};">
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html">   19</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1CliContext.html">CliContext</a> {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1CliContext.html">CliContext</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1CommandLineParser.html">CommandLineParser</a>&amp; <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a8d44e7ed098a9cd7902aacf431aa0b12">parser</a>);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a58d1b9273d517af63330038827a92fcf">~CliContext</a>();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="comment">// 禁用拷贝</span></div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#ab099781239b4bb7e6be8e207c2a46bbf">   33</a></span>    <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#ab099781239b4bb7e6be8e207c2a46bbf">CliContext</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1CliContext.html">CliContext</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#a72522968c6d72d31eef7c85c5550f635">   35</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1CliContext.html">CliContext</a>&amp; <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a72522968c6d72d31eef7c85c5550f635">operator=</a>(<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1CliContext.html">CliContext</a>&amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="foldopen" id="foldopen00041" data-start="{" data-end="}">
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#a8d44e7ed098a9cd7902aacf431aa0b12">   41</a></span>    <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1CommandLineParser.html">CommandLineParser</a>&amp; <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a8d44e7ed098a9cd7902aacf431aa0b12">parser</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#a3ff783126a1a2bd06ba1dff8b731c148">m_parser</a>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    }</div>
+</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#a7c823c11cad0c6aeabfd3325c05afd5b">   49</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>* <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a7c823c11cad0c6aeabfd3325c05afd5b">componentService</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#a2527472f5e716d2a4c8fe05308407a40">m_componentService</a>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    }</div>
+</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="foldopen" id="foldopen00057" data-start="{" data-end="}">
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#a3acac21fb4d67d4cff02aeca83fd4fd4">   57</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1ParallelExportService.html">ParallelExportService</a>* <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a3acac21fb4d67d4cff02aeca83fd4fd4">exportService</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#a5b25d7498b0f8b3c6917b5eb8035253c">m_exportService</a>;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#a9f671c4d589170f22e1e61f246f1ac17">createExportOptions</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="foldopen" id="foldopen00071" data-start="{" data-end="}">
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#ad0274ccfe5e87c458a5d840178c67663">   71</a></span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#ad0274ccfe5e87c458a5d840178c67663">errorMessage</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#abd5775b0d4f98415be3aaa9c9101c74d">m_errorMessage</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
+</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="foldopen" id="foldopen00079" data-start="{" data-end="}">
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#ab76aa4159f0289e7447568de6666bf6d">   79</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1CliContext.html#ab76aa4159f0289e7447568de6666bf6d">setErrorMessage</a>(<span class="keyword">const</span> QString&amp; message) {</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#abd5775b0d4f98415be3aaa9c9101c74d">m_errorMessage</a> = message;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    }</div>
+</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#a3ff783126a1a2bd06ba1dff8b731c148">   85</a></span>    <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1CommandLineParser.html">CommandLineParser</a>&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#a3ff783126a1a2bd06ba1dff8b731c148">m_parser</a>;</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#a2527472f5e716d2a4c8fe05308407a40">   87</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>* <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#a2527472f5e716d2a4c8fe05308407a40">m_componentService</a>{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#a5b25d7498b0f8b3c6917b5eb8035253c">   89</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1ParallelExportService.html">ParallelExportService</a>* <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#a5b25d7498b0f8b3c6917b5eb8035253c">m_exportService</a>{<span class="keyword">nullptr</span>};</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliContext.html#abd5775b0d4f98415be3aaa9c9101c74d">   90</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1CliContext.html#abd5775b0d4f98415be3aaa9c9101c74d">m_errorMessage</a>;  </div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>};</div>
+</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="preprocessor">#endif  </span><span class="comment">// CLICONTEXT_H</span></div>
+<div class="ttc" id="aCommandLineParser_8h_html"><div class="ttname"><a href="CommandLineParser_8h.html">CommandLineParser.h</a></div></div>
+<div class="ttc" id="aExportProgress_8h_html"><div class="ttname"><a href="ExportProgress_8h.html">ExportProgress.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html">EasyKiConverter::CliContext</a></div><div class="ttdoc">CLI 上下文</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00019">CliContext.h:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a2527472f5e716d2a4c8fe05308407a40"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a2527472f5e716d2a4c8fe05308407a40">EasyKiConverter::CliContext::m_componentService</a></div><div class="ttdeci">ComponentService * m_componentService</div><div class="ttdoc">管理元器件数据获取的服务。</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00087">CliContext.h:87</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a3acac21fb4d67d4cff02aeca83fd4fd4"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a3acac21fb4d67d4cff02aeca83fd4fd4">EasyKiConverter::CliContext::exportService</a></div><div class="ttdeci">ParallelExportService * exportService() const</div><div class="ttdoc">获取导出服务</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00057">CliContext.h:57</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a3ff783126a1a2bd06ba1dff8b731c148"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a3ff783126a1a2bd06ba1dff8b731c148">EasyKiConverter::CliContext::m_parser</a></div><div class="ttdeci">const CommandLineParser &amp; m_parser</div><div class="ttdoc">保存外部提供的命令行解析器引用。</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00085">CliContext.h:85</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a58d1b9273d517af63330038827a92fcf"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a58d1b9273d517af63330038827a92fcf">EasyKiConverter::CliContext::~CliContext</a></div><div class="ttdeci">~CliContext()</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8cpp_source.html#l00040">CliContext.cpp:40</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a5b25d7498b0f8b3c6917b5eb8035253c"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a5b25d7498b0f8b3c6917b5eb8035253c">EasyKiConverter::CliContext::m_exportService</a></div><div class="ttdeci">ParallelExportService * m_exportService</div><div class="ttdoc">管理预加载和导出任务的服务。</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00089">CliContext.h:89</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a72522968c6d72d31eef7c85c5550f635"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a72522968c6d72d31eef7c85c5550f635">EasyKiConverter::CliContext::operator=</a></div><div class="ttdeci">CliContext &amp; operator=(const CliContext &amp;)=delete</div><div class="ttdoc">禁止通过赋值复制 CLI 上下文。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a7c823c11cad0c6aeabfd3325c05afd5b"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a7c823c11cad0c6aeabfd3325c05afd5b">EasyKiConverter::CliContext::componentService</a></div><div class="ttdeci">ComponentService * componentService() const</div><div class="ttdoc">获取元器件服务</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00049">CliContext.h:49</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a8d44e7ed098a9cd7902aacf431aa0b12"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a8d44e7ed098a9cd7902aacf431aa0b12">EasyKiConverter::CliContext::parser</a></div><div class="ttdeci">const CommandLineParser &amp; parser() const</div><div class="ttdoc">获取命令行解析器</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00041">CliContext.h:41</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_a9f671c4d589170f22e1e61f246f1ac17"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#a9f671c4d589170f22e1e61f246f1ac17">EasyKiConverter::CliContext::createExportOptions</a></div><div class="ttdeci">ExportOptions createExportOptions() const</div><div class="ttdoc">创建导出选项</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8cpp_source.html#l00054">CliContext.cpp:54</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_ab099781239b4bb7e6be8e207c2a46bbf"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#ab099781239b4bb7e6be8e207c2a46bbf">EasyKiConverter::CliContext::CliContext</a></div><div class="ttdeci">CliContext(const CliContext &amp;)=delete</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_ab76aa4159f0289e7447568de6666bf6d"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#ab76aa4159f0289e7447568de6666bf6d">EasyKiConverter::CliContext::setErrorMessage</a></div><div class="ttdeci">void setErrorMessage(const QString &amp;message)</div><div class="ttdoc">设置错误信息</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00079">CliContext.h:79</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_abd5775b0d4f98415be3aaa9c9101c74d"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#abd5775b0d4f98415be3aaa9c9101c74d">EasyKiConverter::CliContext::m_errorMessage</a></div><div class="ttdeci">QString m_errorMessage</div><div class="ttdoc">保存 CLI 执行过程中最近一次错误信息。</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00090">CliContext.h:90</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliContext_html_ad0274ccfe5e87c458a5d840178c67663"><div class="ttname"><a href="classEasyKiConverter_1_1CliContext.html#ad0274ccfe5e87c458a5d840178c67663">EasyKiConverter::CliContext::errorMessage</a></div><div class="ttdeci">QString errorMessage() const</div><div class="ttdoc">获取错误信息</div><div class="ttdef"><b>Definition</b> <a href="CliContext_8h_source.html#l00071">CliContext.h:71</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CommandLineParser_html"><div class="ttname"><a href="classEasyKiConverter_1_1CommandLineParser.html">EasyKiConverter::CommandLineParser</a></div><div class="ttdoc">命令行参数解析器</div><div class="ttdef"><b>Definition</b> <a href="CommandLineParser_8h_source.html#l00031">CommandLineParser.h:31</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html">EasyKiConverter::ComponentService</a></div><div class="ttdoc">元件服务类</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00042">ComponentService.h:42</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelExportService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelExportService.html">EasyKiConverter::ParallelExportService</a></div><div class="ttdoc">并行导出服务</div><div class="ttdef"><b>Definition</b> <a href="ParallelExportService_8h_source.html#l00053">ParallelExportService.h:53</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="dir_c802a52f71a9867085062b6c590fa632.html">cli</a></li><li class="navelem"><a class="el" href="CliContext_8h.html">CliContext.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

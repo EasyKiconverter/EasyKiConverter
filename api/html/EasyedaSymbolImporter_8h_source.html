@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/easyeda/EasyedaSymbolImporter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('EasyedaSymbolImporter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">EasyedaSymbolImporter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="EasyedaSymbolImporter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef EASYEDASYMBOLIMPORTER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define EASYEDASYMBOLIMPORTER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="SymbolData_8h.html">models/SymbolData.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QJsonObject&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QSharedPointer&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html">   12</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html">EasyedaSymbolImporter</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a771878839dda19e21d957d0e45ba48d9">EasyedaSymbolImporter</a>();</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    QSharedPointer&lt;SymbolData&gt; <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a8f9424d5e8e7ff12b74519b6aa3c3ae7">importSymbolData</a>(<span class="keyword">const</span> QJsonObject&amp; cadData);</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPin.html">SymbolPin</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a980d233a2e45f34f1ceb2232512dc31a">importPinData</a>(<span class="keyword">const</span> QString&amp; pinData);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolRectangle.html">SymbolRectangle</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ab8c43de292bc87656858c223d4f53894">importRectangleData</a>(<span class="keyword">const</span> QString&amp; rectangleData);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolCircle.html">SymbolCircle</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a222c770afa1007632a641ae2d3658f22">importCircleData</a>(<span class="keyword">const</span> QString&amp; circleData);</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolArc.html">SymbolArc</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a221f37d0b96f4f9dbdb1591bfd5bf88a">importArcData</a>(<span class="keyword">const</span> QString&amp; arcData);</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolEllipse.html">SymbolEllipse</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ad1a6c76fbf112d22b94d7df8ab500904">importEllipseData</a>(<span class="keyword">const</span> QString&amp; ellipseData);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPolyline.html">SymbolPolyline</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ae62a52a453ed3dc3beb1c840460e51ae">importPolylineData</a>(<span class="keyword">const</span> QString&amp; polylineData);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPolygon.html">SymbolPolygon</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ad4103b991f5e800fff65ef60edb3a1a9">importPolygonData</a>(<span class="keyword">const</span> QString&amp; polygonData);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolPath.html">SymbolPath</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a7282024b81bc6f840bcc180f6f8a08b1">importPathData</a>(<span class="keyword">const</span> QString&amp; pathData);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolImage.html">SymbolImage</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a1c9ebbced51ef591a913e046f526c75c">importImageData</a>(<span class="keyword">const</span> QString&amp; imageData);</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1SymbolText.html">SymbolText</a> <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a231b5c65ece95d739a4cd71e1c62d5f8">importTextData</a>(<span class="keyword">const</span> QString&amp; textData);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    QList&lt;QStringList&gt; <a class="code hl_function" href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ac47f18670152dee1541fa620adccdc39">parsePinDataString</a>(<span class="keyword">const</span> QString&amp; pinData) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>};</div>
+</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span><span class="preprocessor">#endif  </span><span class="comment">// EASYEDASYMBOLIMPORTER_H</span></div>
+<div class="ttc" id="aSymbolData_8h_html"><div class="ttname"><a href="SymbolData_8h.html">SymbolData.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html">EasyKiConverter::EasyedaSymbolImporter</a></div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8h_source.html#l00012">EasyedaSymbolImporter.h:12</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_a1c9ebbced51ef591a913e046f526c75c"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a1c9ebbced51ef591a913e046f526c75c">EasyKiConverter::EasyedaSymbolImporter::importImageData</a></div><div class="ttdeci">SymbolImage importImageData(const QString &amp;imageData)</div><div class="ttdoc">解析符号图片图元的位置、边界、数据 URL 和显示属性。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00603">EasyedaSymbolImporter.cpp:603</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_a221f37d0b96f4f9dbdb1591bfd5bf88a"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a221f37d0b96f4f9dbdb1591bfd5bf88a">EasyKiConverter::EasyedaSymbolImporter::importArcData</a></div><div class="ttdeci">SymbolArc importArcData(const QString &amp;arcData)</div><div class="ttdoc">解析符号弧线图元的圆心、半径、角度和绘制属性。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00479">EasyedaSymbolImporter.cpp:479</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_a222c770afa1007632a641ae2d3658f22"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a222c770afa1007632a641ae2d3658f22">EasyKiConverter::EasyedaSymbolImporter::importCircleData</a></div><div class="ttdeci">SymbolCircle importCircleData(const QString &amp;circleData)</div><div class="ttdoc">解析符号圆形图元的圆心、半径和绘制属性。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00455">EasyedaSymbolImporter.cpp:455</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_a231b5c65ece95d739a4cd71e1c62d5f8"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a231b5c65ece95d739a4cd71e1c62d5f8">EasyKiConverter::EasyedaSymbolImporter::importTextData</a></div><div class="ttdeci">SymbolText importTextData(const QString &amp;textData)</div><div class="ttdoc">解析符号文本图元的内容、字体、位置、方向和显示属性。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00649">EasyedaSymbolImporter.cpp:649</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_a7282024b81bc6f840bcc180f6f8a08b1"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a7282024b81bc6f840bcc180f6f8a08b1">EasyKiConverter::EasyedaSymbolImporter::importPathData</a></div><div class="ttdeci">SymbolPath importPathData(const QString &amp;pathData)</div><div class="ttdoc">解析 SVG 路径图元并保留其原始路径字符串和绘制属性。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00581">EasyedaSymbolImporter.cpp:581</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_a771878839dda19e21d957d0e45ba48d9"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a771878839dda19e21d957d0e45ba48d9">EasyKiConverter::EasyedaSymbolImporter::EasyedaSymbolImporter</a></div><div class="ttdeci">EasyedaSymbolImporter()</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00017">EasyedaSymbolImporter.cpp:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_a8f9424d5e8e7ff12b74519b6aa3c3ae7"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a8f9424d5e8e7ff12b74519b6aa3c3ae7">EasyKiConverter::EasyedaSymbolImporter::importSymbolData</a></div><div class="ttdeci">QSharedPointer&lt; SymbolData &gt; importSymbolData(const QJsonObject &amp;cadData)</div><div class="ttdoc">从 EasyEDA CAD JSON 导入符号元数据、单部分或多部分图元及原始顺序。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00024">EasyedaSymbolImporter.cpp:24</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_a980d233a2e45f34f1ceb2232512dc31a"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#a980d233a2e45f34f1ceb2232512dc31a">EasyKiConverter::EasyedaSymbolImporter::importPinData</a></div><div class="ttdeci">SymbolPin importPinData(const QString &amp;pinData)</div><div class="ttdoc">解析引脚记录中的名称、编号、方向、电气类型和显示属性。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00348">EasyedaSymbolImporter.cpp:348</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_ab8c43de292bc87656858c223d4f53894"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ab8c43de292bc87656858c223d4f53894">EasyKiConverter::EasyedaSymbolImporter::importRectangleData</a></div><div class="ttdeci">SymbolRectangle importRectangleData(const QString &amp;rectangleData)</div><div class="ttdoc">解析符号矩形图元的边界、线宽、填充和部件归属。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00428">EasyedaSymbolImporter.cpp:428</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_ac47f18670152dee1541fa620adccdc39"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ac47f18670152dee1541fa620adccdc39">EasyKiConverter::EasyedaSymbolImporter::parsePinDataString</a></div><div class="ttdeci">QList&lt; QStringList &gt; parsePinDataString(const QString &amp;pinData) const</div><div class="ttdoc">将引脚复合字段拆分为可独立读取的键值列表，并保留字段顺序。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00683">EasyedaSymbolImporter.cpp:683</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_ad1a6c76fbf112d22b94d7df8ab500904"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ad1a6c76fbf112d22b94d7df8ab500904">EasyKiConverter::EasyedaSymbolImporter::importEllipseData</a></div><div class="ttdeci">SymbolEllipse importEllipseData(const QString &amp;ellipseData)</div><div class="ttdoc">解析符号椭圆图元的中心、半径、角度和部件归属。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00512">EasyedaSymbolImporter.cpp:512</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_ad4103b991f5e800fff65ef60edb3a1a9"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ad4103b991f5e800fff65ef60edb3a1a9">EasyKiConverter::EasyedaSymbolImporter::importPolygonData</a></div><div class="ttdeci">SymbolPolygon importPolygonData(const QString &amp;polygonData)</div><div class="ttdoc">解析符号多边形图元的顶点、线型、颜色和部件归属。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00559">EasyedaSymbolImporter.cpp:559</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1EasyedaSymbolImporter_html_ae62a52a453ed3dc3beb1c840460e51ae"><div class="ttname"><a href="classEasyKiConverter_1_1EasyedaSymbolImporter.html#ae62a52a453ed3dc3beb1c840460e51ae">EasyKiConverter::EasyedaSymbolImporter::importPolylineData</a></div><div class="ttdeci">SymbolPolyline importPolylineData(const QString &amp;polylineData)</div><div class="ttdoc">解析符号折线图元的顶点、线宽、样式和填充属性。</div><div class="ttdef"><b>Definition</b> <a href="EasyedaSymbolImporter_8cpp_source.html#l00537">EasyedaSymbolImporter.cpp:537</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolArc_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolArc.html">EasyKiConverter::SymbolArc</a></div><div class="ttdoc">圆弧</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00206">SymbolData.h:206</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolCircle_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolCircle.html">EasyKiConverter::SymbolCircle</a></div><div class="ttdoc">符号部分数据</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00191">SymbolData.h:191</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolEllipse_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolEllipse.html">EasyKiConverter::SymbolEllipse</a></div><div class="ttdoc">椭圆</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00220">SymbolData.h:220</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolImage_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolImage.html">EasyKiConverter::SymbolImage</a></div><div class="ttdoc">EasyEDA 符号图片</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00276">SymbolData.h:276</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolPath_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolPath.html">EasyKiConverter::SymbolPath</a></div><div class="ttdoc">路径</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00262">SymbolData.h:262</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolPin_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolPin.html">EasyKiConverter::SymbolPin</a></div><div class="ttdoc">引脚</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00158">SymbolData.h:158</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolPolygon_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolPolygon.html">EasyKiConverter::SymbolPolygon</a></div><div class="ttdoc">多边</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00249">SymbolData.h:249</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolPolyline_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolPolyline.html">EasyKiConverter::SymbolPolyline</a></div><div class="ttdoc">多段</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00236">SymbolData.h:236</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolRectangle_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolRectangle.html">EasyKiConverter::SymbolRectangle</a></div><div class="ttdoc">矩形</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00173">SymbolData.h:173</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1SymbolText_html"><div class="ttname"><a href="structEasyKiConverter_1_1SymbolText.html">EasyKiConverter::SymbolText</a></div><div class="ttdoc">文本</div><div class="ttdef"><b>Definition</b> <a href="SymbolData_8h_source.html#l00291">SymbolData.h:291</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_0eb87cc7e55f2d1b240c9327aae69f5c.html">easyeda</a></li><li class="navelem"><a class="el" href="EasyedaSymbolImporter_8h.html">EasyedaSymbolImporter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

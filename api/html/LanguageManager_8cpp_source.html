@@ -1,0 +1,320 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/LanguageManager.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('LanguageManager_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">LanguageManager.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="LanguageManager_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="LanguageManager_8h.html">LanguageManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ConfigService_8h.html">services/ConfigService.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QCoreApplication&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QTimer&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QTranslator&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>LanguageManager* <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a96f99e68eeb5447b4c4c9a899fe7fbdf">LanguageManager::s_instance</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#ac17acc5965b9cb0df4874b944a2a7e08">   14</a></span><a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#ac17acc5965b9cb0df4874b944a2a7e08">LanguageManager::LanguageManager</a>(QObject* parent)</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    : QObject(parent)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    , m_currentLanguage(<span class="stringliteral">&quot;en&quot;</span>)</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    , m_translator(nullptr)</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    , m_isInitializing(true)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    , m_loadedFromConfig(false) {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a22b35e7b9f1e383f748d6464857e9850">loadLanguageSettings</a>();</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="comment">// 延迟重置初始化标志，给 QML 组件时间完成加载</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    QTimer::singleShot(500, <span class="keyword">this</span>, [<span class="keyword">this</span>]() {</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a028933d1eb66f2fee40b503cfd4b1503">m_isInitializing</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Initialization protection period ended&quot;</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    });</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
+</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#a5302a1a259c935c801e6b0f942637f4b">   29</a></span><a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a5302a1a259c935c801e6b0f942637f4b">LanguageManager::~LanguageManager</a>() {}</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="foldopen" id="foldopen00035" data-start="{" data-end="}">
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#ab650d241826e35a82098569f66f0323d">   35</a></span><a class="code hl_class" href="classEasyKiConverter_1_1LanguageManager.html">LanguageManager</a>* <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#ab650d241826e35a82098569f66f0323d">LanguageManager::instance</a>() {</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a96f99e68eeb5447b4c4c9a899fe7fbdf">s_instance</a>) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a96f99e68eeb5447b4c4c9a899fe7fbdf">s_instance</a> = <span class="keyword">new</span> <a class="code hl_class" href="classEasyKiConverter_1_1LanguageManager.html">LanguageManager</a>();</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a96f99e68eeb5447b4c4c9a899fe7fbdf">s_instance</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>}</div>
+</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="foldopen" id="foldopen00047" data-start="{" data-end="}">
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#ac11f67d0cf6b9b9e060454654ce16d1f">   47</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#ac11f67d0cf6b9b9e060454654ce16d1f">LanguageManager::setLanguage</a>(<span class="keyword">const</span> QString&amp; languageCode, <span class="keywordtype">bool</span> force) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] setLanguage() called with:&quot;</span> &lt;&lt; languageCode &lt;&lt; <span class="stringliteral">&quot; (current:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            &lt;&lt; <span class="stringliteral">&quot;, initializing:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a028933d1eb66f2fee40b503cfd4b1503">m_isInitializing</a> &lt;&lt; <span class="stringliteral">&quot;, loadedFromConfig:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#ac8192e48d7bc1f244f44dfe9b83feda0">m_loadedFromConfig</a></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            &lt;&lt; <span class="stringliteral">&quot;, force:&quot;</span> &lt;&lt; force &lt;&lt; <span class="stringliteral">&quot;)&quot;</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a> == languageCode) {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Language unchanged, returning&quot;</span>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="comment">// 如果正在初始化且已经从配置加载了语言，则拒绝覆盖（除非 force=true）</span></div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="comment">// 这样可以防止 QML 组件在初始化时覆盖配置文件的语言设置</span></div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a028933d1eb66f2fee40b503cfd4b1503">m_isInitializing</a> &amp;&amp; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#ac8192e48d7bc1f244f44dfe9b83feda0">m_loadedFromConfig</a> &amp;&amp; !force) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Refusing to override language during initialization after loading from &quot;</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                      <span class="stringliteral">&quot;config. Requested:&quot;</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                   &lt;&lt; languageCode &lt;&lt; <span class="stringliteral">&quot;, Keeping:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    }</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a> = languageCode;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Language changed to&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="comment">// 只在非初始化期间保存设置</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">if</span> (!<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a028933d1eb66f2fee40b503cfd4b1503">m_isInitializing</a>) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a6989d88a90c9912ce1a56e62b5e19835">saveLanguageSettings</a>();</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Skipping save during initialization&quot;</span>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// 安装新的翻译器</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a480f103fb4fa771d0265aacd634cd413">installTranslator</a>(languageCode);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a13440ad730502553806a5538123ace55">languageChanged</a>(languageCode);</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    emit <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#af4f34d48f31cb2ba57e562f6918f183f">refreshRequired</a>();</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Language changed signal emitted:&quot;</span> &lt;&lt; languageCode;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>}</div>
+</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="foldopen" id="foldopen00096" data-start="{" data-end="}">
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#ae5dc62e66168def7b68c8cbd755b4fe8">   96</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#ae5dc62e66168def7b68c8cbd755b4fe8">LanguageManager::currentLanguage</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>}</div>
+</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
+<div class="foldopen" id="foldopen00104" data-start="{" data-end="}">
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#a1fa4fc4af43a1195c0a26b29975aac5f">  104</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a1fa4fc4af43a1195c0a26b29975aac5f">LanguageManager::detectSystemLanguage</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="comment">// 不再使用系统语言检测，直接返回英文</span></div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordflow">return</span> <span class="stringliteral">&quot;en&quot;</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>}</div>
+</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="foldopen" id="foldopen00112" data-start="{" data-end="}">
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#a22b35e7b9f1e383f748d6464857e9850">  112</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a22b35e7b9f1e383f748d6464857e9850">LanguageManager::loadLanguageSettings</a>() {</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="comment">// 从 ConfigService 加载语言设置</span></div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keyword">auto</span>* configService = <a class="code hl_function" href="classEasyKiConverter_1_1ConfigService.html#a906164be213712863bc564ad0a3151f2">ConfigService::instance</a>();</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keywordflow">if</span> (configService) {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a> = configService-&gt;getLanguage();</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Loaded language settings from ConfigService:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a>;</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] ConfigService not available, using default language: en&quot;</span>;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a> = <span class="stringliteral">&quot;en&quot;</span>;</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    }</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#ac8192e48d7bc1f244f44dfe9b83feda0">m_loadedFromConfig</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <span class="comment">// 安装翻译器</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Installing translator for language:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a>;</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a480f103fb4fa771d0265aacd634cd413">installTranslator</a>(<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a>);</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>}</div>
+</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span> </div>
+<div class="foldopen" id="foldopen00133" data-start="{" data-end="}">
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#a6989d88a90c9912ce1a56e62b5e19835">  133</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a6989d88a90c9912ce1a56e62b5e19835">LanguageManager::saveLanguageSettings</a>() {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    <span class="comment">// 保存到 ConfigService</span></div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keyword">auto</span>* configService = <a class="code hl_function" href="classEasyKiConverter_1_1ConfigService.html#a906164be213712863bc564ad0a3151f2">ConfigService::instance</a>();</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <span class="keywordflow">if</span> (configService) {</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        configService-&gt;setLanguage(<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a>);</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Saved language settings to ConfigService:&quot;</span> &lt;&lt; <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">m_currentLanguage</a>;</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] ConfigService not available, failed to save language settings&quot;</span>;</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    }</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>}</div>
+</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span> </div>
+<div class="foldopen" id="foldopen00148" data-start="{" data-end="}">
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1LanguageManager.html#a480f103fb4fa771d0265aacd634cd413">  148</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1LanguageManager.html#a480f103fb4fa771d0265aacd634cd413">LanguageManager::installTranslator</a>(<span class="keyword">const</span> QString&amp; languageCode) {</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    QCoreApplication* app = QCoreApplication::instance();  <span class="comment">// 当前 Qt 应用实例。</span></div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">if</span> (!app) {</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] QCoreApplication instance not available&quot;</span>;</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    }</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="comment">// 移除旧翻译器</span></div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a>) {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>        app-&gt;removeTranslator(<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a>);</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a>-&gt;deleteLater();</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    }</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="comment">// Qt 资源系统中的翻译文件路径</span></div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    <span class="comment">// 由 qt_add_translations 自动生成并注册到资源系统</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    <span class="comment">// qt_add_translations 默认使用 /i18n 前缀</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    QString resourcePath = QString(<span class="stringliteral">&quot;:/i18n/translations_easykiconverter_%1.qm&quot;</span>).arg(languageCode);</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span> </div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a> = <span class="keyword">new</span> QTranslator(<span class="keyword">this</span>);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    <span class="comment">// 尝试从 Qt 资源系统加载</span></div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a>-&gt;load(resourcePath)) {</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        app-&gt;installTranslator(<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a>);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>        qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] [OK] Loaded translator from resource:&quot;</span> &lt;&lt; resourcePath;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    }</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    <span class="comment">// 如果资源文件不存在，尝试从文件系统加载（开发时可能有用）</span></div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    QString localPath = QString(<span class="stringliteral">&quot;resources/translations/translations_easykiconverter_%1.qm&quot;</span>).arg(languageCode);</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a>-&gt;load(localPath)) {</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        app-&gt;installTranslator(<a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a>);</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>        qInfo() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] [OK] Loaded translator from filesystem:&quot;</span> &lt;&lt; localPath;</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    }</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span> </div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    qWarning() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] [FAIL] Cannot load translation:&quot;</span> &lt;&lt; languageCode;</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    qWarning() &lt;&lt; <span class="stringliteral">&quot;[LanguageManager] Tried paths:&quot;</span>;</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    qWarning() &lt;&lt; <span class="stringliteral">&quot;  1. Resource path:&quot;</span> &lt;&lt; resourcePath;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    qWarning() &lt;&lt; <span class="stringliteral">&quot;  2. File system path:&quot;</span> &lt;&lt; localPath;</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a>-&gt;deleteLater();</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">m_translator</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>}</div>
+</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span> </div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aConfigService_8h_html"><div class="ttname"><a href="ConfigService_8h.html">ConfigService.h</a></div></div>
+<div class="ttc" id="aLanguageManager_8h_html"><div class="ttname"><a href="LanguageManager_8h.html">LanguageManager.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ConfigService_html_a906164be213712863bc564ad0a3151f2"><div class="ttname"><a href="classEasyKiConverter_1_1ConfigService.html#a906164be213712863bc564ad0a3151f2">EasyKiConverter::ConfigService::instance</a></div><div class="ttdeci">static ConfigService * instance()</div><div class="ttdoc">获取单例实例</div><div class="ttdef"><b>Definition</b> <a href="ConfigService_8cpp_source.html#l00037">ConfigService.cpp:37</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html">EasyKiConverter::LanguageManager</a></div><div class="ttdoc">语言管理器</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8h_source.html#l00018">LanguageManager.h:18</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a028933d1eb66f2fee40b503cfd4b1503"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a028933d1eb66f2fee40b503cfd4b1503">EasyKiConverter::LanguageManager::m_isInitializing</a></div><div class="ttdeci">bool m_isInitializing</div><div class="ttdoc">是否处于初始化保护阶段。</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8h_source.html#l00073">LanguageManager.h:73</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a13440ad730502553806a5538123ace55"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a13440ad730502553806a5538123ace55">EasyKiConverter::LanguageManager::languageChanged</a></div><div class="ttdeci">void languageChanged(const QString &amp;language)</div><div class="ttdoc">语言改变信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a1fa4fc4af43a1195c0a26b29975aac5f"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a1fa4fc4af43a1195c0a26b29975aac5f">EasyKiConverter::LanguageManager::detectSystemLanguage</a></div><div class="ttdeci">QString detectSystemLanguage() const</div><div class="ttdoc">检测系统语言（已禁用，直接返回英文）</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00104">LanguageManager.cpp:104</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a22b35e7b9f1e383f748d6464857e9850"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a22b35e7b9f1e383f748d6464857e9850">EasyKiConverter::LanguageManager::loadLanguageSettings</a></div><div class="ttdeci">void loadLanguageSettings()</div><div class="ttdoc">从配置服务加载语言设置并安装翻译器。</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00112">LanguageManager.cpp:112</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a480f103fb4fa771d0265aacd634cd413"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a480f103fb4fa771d0265aacd634cd413">EasyKiConverter::LanguageManager::installTranslator</a></div><div class="ttdeci">void installTranslator(const QString &amp;languageCode)</div><div class="ttdoc">加载并安装指定语言的 Qt 翻译器。</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00148">LanguageManager.cpp:148</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a5302a1a259c935c801e6b0f942637f4b"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a5302a1a259c935c801e6b0f942637f4b">EasyKiConverter::LanguageManager::~LanguageManager</a></div><div class="ttdeci">~LanguageManager() override</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00029">LanguageManager.cpp:29</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a6989d88a90c9912ce1a56e62b5e19835"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a6989d88a90c9912ce1a56e62b5e19835">EasyKiConverter::LanguageManager::saveLanguageSettings</a></div><div class="ttdeci">void saveLanguageSettings()</div><div class="ttdoc">将当前语言设置保存到配置服务。</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00133">LanguageManager.cpp:133</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a96f99e68eeb5447b4c4c9a899fe7fbdf"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a96f99e68eeb5447b4c4c9a899fe7fbdf">EasyKiConverter::LanguageManager::s_instance</a></div><div class="ttdeci">static LanguageManager * s_instance</div><div class="ttdoc">语言管理器的全局实例指针。</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8h_source.html#l00070">LanguageManager.h:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_a9cb301bf96607a4e0047435f3d1616bf"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#a9cb301bf96607a4e0047435f3d1616bf">EasyKiConverter::LanguageManager::m_translator</a></div><div class="ttdeci">QTranslator * m_translator</div><div class="ttdoc">当前安装的 Qt 翻译器。</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8h_source.html#l00072">LanguageManager.h:72</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_ab650d241826e35a82098569f66f0323d"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#ab650d241826e35a82098569f66f0323d">EasyKiConverter::LanguageManager::instance</a></div><div class="ttdeci">static LanguageManager * instance()</div><div class="ttdoc">获取单例实例</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00035">LanguageManager.cpp:35</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_ac11f67d0cf6b9b9e060454654ce16d1f"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#ac11f67d0cf6b9b9e060454654ce16d1f">EasyKiConverter::LanguageManager::setLanguage</a></div><div class="ttdeci">void setLanguage(const QString &amp;languageCode, bool force=false)</div><div class="ttdoc">设置语言</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00047">LanguageManager.cpp:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_ac17acc5965b9cb0df4874b944a2a7e08"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#ac17acc5965b9cb0df4874b944a2a7e08">EasyKiConverter::LanguageManager::LanguageManager</a></div><div class="ttdeci">LanguageManager(QObject *parent=nullptr)</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00014">LanguageManager.cpp:14</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_ac8192e48d7bc1f244f44dfe9b83feda0"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#ac8192e48d7bc1f244f44dfe9b83feda0">EasyKiConverter::LanguageManager::m_loadedFromConfig</a></div><div class="ttdeci">bool m_loadedFromConfig</div><div class="ttdoc">是否已从配置加载语言设置。</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8h_source.html#l00074">LanguageManager.h:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_adef72565edb5116c8c5155ff7e931844"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#adef72565edb5116c8c5155ff7e931844">EasyKiConverter::LanguageManager::m_currentLanguage</a></div><div class="ttdeci">QString m_currentLanguage</div><div class="ttdoc">当前生效的语言代码。</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8h_source.html#l00071">LanguageManager.h:71</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_ae5dc62e66168def7b68c8cbd755b4fe8"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#ae5dc62e66168def7b68c8cbd755b4fe8">EasyKiConverter::LanguageManager::currentLanguage</a></div><div class="ttdeci">QString currentLanguage() const</div><div class="ttdoc">获取当前语言代码</div><div class="ttdef"><b>Definition</b> <a href="LanguageManager_8cpp_source.html#l00096">LanguageManager.cpp:96</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1LanguageManager_html_af4f34d48f31cb2ba57e562f6918f183f"><div class="ttname"><a href="classEasyKiConverter_1_1LanguageManager.html#af4f34d48f31cb2ba57e562f6918f183f">EasyKiConverter::LanguageManager::refreshRequired</a></div><div class="ttdeci">void refreshRequired()</div><div class="ttdoc">请求刷新界面信号</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="LanguageManager_8cpp.html">LanguageManager.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

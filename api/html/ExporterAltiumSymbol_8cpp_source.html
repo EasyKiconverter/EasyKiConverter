@@ -1,0 +1,688 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/ExporterAltiumSymbol.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterAltiumSymbol_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterAltiumSymbol.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterAltiumSymbol_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterAltiumSymbol_8h.html">ExporterAltiumSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSchSymbolGeometryNormalizer_8h.html">AltiumSchSymbolGeometryNormalizer.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolAnnotationConverter_8h.html">AltiumSymbolAnnotationConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolCurveConverter_8h.html">AltiumSymbolCurveConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolImplementationConverter_8h.html">AltiumSymbolImplementationConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolParameterConverter_8h.html">AltiumSymbolParameterConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolPathConverter_8h.html">AltiumSymbolPathConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolPinConverter_8h.html">AltiumSymbolPinConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolPinTextConverter_8h.html">AltiumSymbolPinTextConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolPrimitiveConverter_8h.html">AltiumSymbolPrimitiveConverter.h</a>&quot;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumCoord_8h.html">utils/AltiumCoord.h</a>&quot;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSymbolConversionUtils_8h.html">utils/AltiumSymbolConversionUtils.h</a>&quot;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#include &lt;climits&gt;</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">using </span><a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a093f1b508293013cdf05bb03a79ba026">AltiumSymbolConversionUtils::toAltiumColor</a>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">using </span><a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a1650b3f7e0e5cdeda915d1ffcfe4346b">AltiumSymbolConversionUtils::toAltiumLineStyle</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="keyword">using </span><a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a65a469f2c2deeb77b9377eb1fec3d5a0">AltiumSymbolConversionUtils::toAltiumOrientation</a>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="keyword">using </span><a class="code hl_function" href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#ad28339a54a94c2688fad571052d48979">AltiumSymbolConversionUtils::toAltiumOwnerPartId</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a8233cc0c333dc03fad95b96ba3477545">   39</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a8233cc0c333dc03fad95b96ba3477545">ExporterAltiumSymbol::exportSymbol</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol, <span class="keyword">const</span> QString&amp; filePath) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a499a513b04f5efd730e0ef8dbfd67723">m_diagnostics</a>.clear();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    QList&lt;AltiumSchComponent&gt; components;  <span class="comment">// 待写入单个符号文件的组件列表。</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    components.append(<a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a58a60b0f43ffc27971ca0fc550425127">convertSymbol</a>(symbol));</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">bool</span> ok = <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#aad5ec10afd0e94b72451f62f5b69a7f2">m_writer</a>.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a32eeceab5b16dbb1d05040723655151d">write</a>(components, filePath);  <span class="comment">// SchLib 写入结果。</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a499a513b04f5efd730e0ef8dbfd67723">m_diagnostics</a>.append(<a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#aad5ec10afd0e94b72451f62f5b69a7f2">m_writer</a>.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a7e3accb142bbc6590ae6d96ca92ca8d3">diagnostics</a>());</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="keywordflow">if</span> (!ok) {</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;ExporterAltiumSymbol: Failed to write symbol to&quot;</span> &lt;&lt; filePath;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    }</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">return</span> ok;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>}</div>
+</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a8360863b7361b12bdf332278af16164d">   61</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a8360863b7361b12bdf332278af16164d">ExporterAltiumSymbol::exportSymbolLibrary</a>(<span class="keyword">const</span> QList&lt;IR::SymbolComponentIR&gt;&amp; symbols,</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>                                               <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>                                               <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>                                               <span class="keywordtype">bool</span> appendMode,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>                                               <span class="keywordtype">bool</span> updateMode,</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>                                               <span class="keyword">const</span> QString&amp; libraryDescription) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a499a513b04f5efd730e0ef8dbfd67723">m_diagnostics</a>.clear();</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">if</span> ((appendMode || updateMode) &amp;&amp; QFile::exists(filePath)) {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="keyword">const</span> QString diagnostic =</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>            QStringLiteral(<span class="stringliteral">&quot;Altium SchLib 暂不支持在已有库上追加或更新，已拒绝覆盖: %1&quot;</span>).arg(filePath);</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a499a513b04f5efd730e0ef8dbfd67723">m_diagnostics</a>.append(diagnostic);</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;ExporterAltiumSymbol:&quot;</span> &lt;&lt; diagnostic;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    QList&lt;AltiumSchComponent&gt; components;  <span class="comment">// 待写入符号库的组件列表。</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol : symbols) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        components.append(<a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a58a60b0f43ffc27971ca0fc550425127">convertSymbol</a>(symbol));</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordtype">bool</span> ok = <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#aad5ec10afd0e94b72451f62f5b69a7f2">m_writer</a>.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a32eeceab5b16dbb1d05040723655151d">write</a>(components, filePath, libName);  <span class="comment">// SchLib 写入结果。</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a499a513b04f5efd730e0ef8dbfd67723">m_diagnostics</a>.append(<a class="code hl_variable" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#aad5ec10afd0e94b72451f62f5b69a7f2">m_writer</a>.<a class="code hl_function" href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a7e3accb142bbc6590ae6d96ca92ca8d3">diagnostics</a>());</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    <span class="keywordflow">if</span> (!ok) {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;ExporterAltiumSymbol: Failed to write symbol library to&quot;</span> &lt;&lt; filePath;</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    }</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">return</span> ok;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>}</div>
+</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="foldopen" id="foldopen00093" data-start="{" data-end="}">
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a58a60b0f43ffc27971ca0fc550425127">   93</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a58a60b0f43ffc27971ca0fc550425127">ExporterAltiumSymbol::convertSymbol</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; data) {</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a> component;  <span class="comment">// 转换后的 Altium 符号组件。</span></div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#aeccacd4ea7ac67d883a8567963d52775">name</a> = data.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">name</a>;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a9dc99d9dbf08373ae970ee89806185a5">description</a> = data.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a85a264cd1c4f7c593e84b7115f64628a">description</a>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#ad3aedec7f55c94bde2f630ec747e5d11">designatorPrefix</a> = data.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#adaaa5f15d75cbcfe9f6ecaf502b5cc23">designatorPrefix</a>;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a547ac9740cc703e75b2fd75c7a01fa53">partCount</a> = data.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a8e3686526a6a22cc2972b73d438a3b54">partCount</a>;</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a26faa6f5735d80a90903c49ff73d4fa0">sourceMetadata</a> = data.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#ac001ae66f2ef03a8d05b603147e1e480">sourceMetadata</a>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#a03a0adb961ab188c9fad2a2a9ffe66f4">aliases</a> = data.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#af97ca3e5f718f5691e49117ea69cffd7">aliases</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolGraphicOrderIR.html">IR::SymbolGraphicOrderIR</a>&amp; order : data.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a70baca525326dcf31e430355792cdee6">graphicOrder</a>)</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        component.<a class="code hl_variable" href="structEasyKiConverter_1_1AltiumSchComponent.html#adf96f9b50e15e8c33bb03e3ee4c4c15c">graphicOrder</a>.append({order.type, order.index, order.partIndex});</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="keyword">const</span> <span class="keyword">auto</span> sourceIndexForPart = [](<span class="keyword">const</span> <span class="keyword">auto</span>&amp; values, <span class="keywordtype">int</span> index, <span class="keywordtype">int</span> partIndex) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordtype">int</span> localIndex = 0;  <span class="comment">// 当前部件内已遍历图元数量。</span></div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; index; ++i) {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keywordflow">if</span> (values.at(i).partIndex == partIndex)</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                ++localIndex;</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        <span class="keywordflow">return</span> localIndex;</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    };</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keyword">const</span> <span class="keyword">auto</span> isFinitePoint = [](<span class="keyword">const</span> QPointF&amp; point) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        <span class="keywordflow">return</span> std::isfinite(point.x()) &amp;&amp; std::isfinite(point.y());</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    };</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keyword">const</span> <span class="keyword">auto</span> hasFinitePoints = [&amp;](<span class="keyword">const</span> QList&lt;QPointF&gt;&amp; points, <span class="keywordtype">int</span> minimum) {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        <span class="keywordflow">if</span> (points.size() &lt; minimum)</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keywordflow">return</span> std::all_of(points.cbegin(), points.cend(), isFinitePoint);</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    };</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keyword">const</span> <span class="keyword">auto</span> isValidStrokeWidth = [](<span class="keywordtype">double</span> width) { <span class="keywordflow">return</span> std::isfinite(width) &amp;&amp; width &gt;= 0.0; };</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keyword">const</span> <span class="keyword">auto</span> isValidBounds = [](<span class="keywordtype">double</span> x0, <span class="keywordtype">double</span> y0, <span class="keywordtype">double</span> x1, <span class="keywordtype">double</span> y1) {</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        <span class="keywordflow">return</span> std::isfinite(x0) &amp;&amp; std::isfinite(y0) &amp;&amp; std::isfinite(x1) &amp;&amp; std::isfinite(y1) &amp;&amp; x0 != x1 &amp;&amp; y0 != y1;</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    };</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keyword">const</span> <span class="keyword">auto</span> normalizeTextAnchor = [<span class="keyword">this</span>, &amp;data](<span class="keyword">const</span> QString&amp; anchor, <span class="keyword">const</span> QString&amp; context) {</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        <span class="keyword">const</span> QString normalized = anchor.trimmed().toLower();  <span class="comment">// 规范化后的文本锚点。</span></div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>        <span class="keywordflow">if</span> (normalized.isEmpty())</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;middle&quot;</span>);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>        <span class="keywordflow">if</span> (!QStringList{QStringLiteral(<span class="stringliteral">&quot;start&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;middle&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;end&quot;</span>)}.contains(</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>                normalized)) {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 %2 的对齐锚点无效: %3，已回退为 middle&quot;</span>)</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>                                     .arg(data.name)</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>                                     .arg(context)</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>                                     .arg(anchor));</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>            <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;middle&quot;</span>);</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        }</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keywordflow">return</span> normalized;</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    };</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span> </div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolParameterIR&amp; parameter : data.parameters) {</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>        <span class="keywordflow">if</span> (!isFinitePoint(parameter.position) || !std::isfinite(parameter.rotation) ||</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>            parameter.name.trimmed().isEmpty()) {</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 参数 %2 的位置、旋转角度或名称无效，已跳过&quot;</span>)</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                                     .arg(data.name)</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                                     .arg(parameter.name));</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>        }</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>        <span class="keywordflow">if</span> (!std::isfinite(parameter.fontSizeMm) || parameter.fontSizeMm &lt; 0.0) {</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>            m_diagnostics.append(</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>                QStringLiteral(<span class="stringliteral">&quot;符号 %1 参数 %2 的字体大小无效，已跳过&quot;</span>).arg(data.name).arg(parameter.name));</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>        }</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>        component.parameters.append(<a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolParameterConverter.html#a0442d80823071f172b17f5b9fae1fc6b">AltiumSymbolParameterConverter::convert</a>(parameter));</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    }</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span> </div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span>    <span class="comment">// 转换引脚</span></div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> IR::SymbolPinIR&amp; pin : data.pins) {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>        <span class="keywordflow">if</span> (!isFinitePoint(pin.position) || !std::isfinite(pin.length)) {</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>            m_diagnostics.append(</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>                QStringLiteral(<span class="stringliteral">&quot;符号 %1 引脚 %2 的位置或长度无效，已跳过&quot;</span>).arg(data.name).arg(pin.designator));</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        }</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>        component.pins.append(convertPin(pin));</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>        QList&lt;AltiumSchText&gt; pinTexts =</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>            <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolPinTextConverter.html#abd111ab9b762ced822005a28595f050a">AltiumSymbolPinTextConverter::convert</a>(pin, data.name, &amp;m_diagnostics);  <span class="comment">// 当前引脚生成的文本。</span></div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> sourcePinIndex = component.pins.size() - 1;  <span class="comment">// 当前引脚在组件列表中的索引。</span></div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>        <span class="keywordflow">for</span> (AltiumSchText&amp; pinText : pinTexts) {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>            <span class="keywordflow">if</span> (pinText.isPinLabel)</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>                pinText.sourcePinIndex = sourcePinIndex;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>        }</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>        component.texts.append(pinTexts);</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    }</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span> </div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="comment">// 转换图形元素</span></div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.rectangles.size(); ++i) {</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>        <span class="keyword">const</span> IR::SymbolRectangleIR&amp; r = data.rectangles.at(i);  <span class="comment">// 当前源矩形图元。</span></div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>        <span class="keywordflow">if</span> (!isValidBounds(r.x0, r.y0, r.x1, r.y1)) {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 矩形图元 %2 的边界无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>        }</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>        <span class="keywordflow">if</span> (!std::isfinite(r.cornerRadiusX) || !std::isfinite(r.cornerRadiusY) || r.cornerRadiusX &lt; 0.0 ||</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>            r.cornerRadiusY &lt; 0.0) {</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>            m_diagnostics.append(</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>                QStringLiteral(<span class="stringliteral">&quot;符号 %1 矩形图元 %2 的圆角半径无效，已钳制为非负值&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>        }</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>        <span class="keywordflow">if</span> (!isValidStrokeWidth(r.strokeWidth)) {</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 矩形图元 %2 的线宽无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>        }</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>        <span class="keywordflow">if</span> (r.cornerRadiusX &gt; 0.0 || r.cornerRadiusY &gt; 0.0) {</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>            AltiumSchRoundRectangle rectangle = convertRoundRectangle(r);  <span class="comment">// 转换后的圆角矩形记录。</span></div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            rectangle.sourceGraphicIndex = sourceIndexForPart(data.rectangles, i, r.partIndex);</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>            rectangle.sourcePartIndex = r.partIndex;</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>            component.roundRectangles.append(rectangle);</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>            AltiumSchRectangle rectangle = convertRectangle(r);  <span class="comment">// 转换后的矩形记录。</span></div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>            rectangle.sourceGraphicIndex = sourceIndexForPart(data.rectangles, i, r.partIndex);</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>            rectangle.sourcePartIndex = r.partIndex;</div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span>            component.rectangles.append(rectangle);</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>        }</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    }</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.circles.size(); ++i) {</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        <span class="keyword">const</span> IR::SymbolCircleIR&amp; circle = data.circles.at(i);  <span class="comment">// 当前源圆图元。</span></div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        <span class="keywordflow">if</span> (!isFinitePoint(circle.center) || !isValidStrokeWidth(circle.strokeWidth)) {</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 圆图元 %2 的中心或线宽无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        }</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        <span class="keywordflow">if</span> (!std::isfinite(circle.radius) || circle.radius &lt; 0.0) {</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 圆图元 %2 的半径无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        }</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>        AltiumSchEllipse ellipse = convertCircle(circle);  <span class="comment">// 转换后的圆形记录。</span></div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        <span class="keywordflow">if</span> (ellipse.radiusX &lt;= 0 || ellipse.radiusY &lt;= 0) {</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 圆图元 %2 半径量化后无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>        }</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        ellipse.sourceGraphicType = QStringLiteral(<span class="stringliteral">&quot;C&quot;</span>);</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>        ellipse.sourceGraphicIndex = sourceIndexForPart(data.circles, i, data.circles.at(i).partIndex);</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>        ellipse.sourcePartIndex = data.circles.at(i).partIndex;</div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>        component.ellipses.append(ellipse);</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>    }</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.arcs.size(); ++i) {</div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>        <span class="keyword">const</span> IR::SymbolArcIR&amp; sourceArc = data.arcs.at(i);  <span class="comment">// 当前源圆弧图元。</span></div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        <span class="keywordflow">if</span> (!isFinitePoint(sourceArc.startPoint) || !isFinitePoint(sourceArc.midPoint) ||</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>            !isFinitePoint(sourceArc.endPoint) || !std::isfinite(sourceArc.strokeWidth) ||</div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>            sourceArc.strokeWidth &lt; 0.0) {</div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 圆弧图元 %2 的点列或线宽无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>        }</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>        <span class="keyword">const</span> <span class="keywordtype">double</span> determinant =</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>            2.0 *</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>            (sourceArc.startPoint.x() * (sourceArc.midPoint.y() - sourceArc.endPoint.y()) +</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>             sourceArc.midPoint.x() * (sourceArc.endPoint.y() - sourceArc.startPoint.y()) +</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>             sourceArc.endPoint.x() * (sourceArc.startPoint.y() - sourceArc.midPoint.y()));  <span class="comment">// 三点圆心方程行列式。</span></div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>        <span class="keywordflow">if</span> (!std::isfinite(determinant) || std::abs(determinant) &lt;= 1e-12) {</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>            m_diagnostics.append(</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>                QStringLiteral(<span class="stringliteral">&quot;符号 %1 圆弧图元 %2 三点退化，已使用安全回退圆心&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>        }</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>        AltiumSchArc arc = convertArc(sourceArc);  <span class="comment">// 转换后的圆弧记录。</span></div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>        <span class="keywordflow">if</span> (arc.radius &lt;= 0) {</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 圆弧图元 %2 半径量化后无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        }</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        arc.sourceGraphicType = QStringLiteral(<span class="stringliteral">&quot;A&quot;</span>);</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        arc.sourceGraphicIndex = sourceIndexForPart(data.arcs, i, data.arcs.at(i).partIndex);</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>        arc.sourcePartIndex = data.arcs.at(i).partIndex;</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>        component.arcs.append(arc);</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    }</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.polygons.size(); ++i) {</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>        <span class="keyword">const</span> IR::SymbolPolygonIR&amp; sourcePolygon = data.polygons.at(i);  <span class="comment">// 当前源多边形图元。</span></div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>        <span class="keywordflow">if</span> (!hasFinitePoints(sourcePolygon.points, 3)) {</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 多边形图元 %2 的点列无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>        }</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>        <span class="keywordflow">if</span> (!isValidStrokeWidth(sourcePolygon.strokeWidth)) {</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 多边形图元 %2 的线宽无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>        }</div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span>        AltiumSchPolygon polygon = convertPolygon(sourcePolygon);  <span class="comment">// 转换后的多边形记录。</span></div>
+<div class="line"><a id="l00258" name="l00258"></a><span class="lineno">  258</span>        polygon.sourceGraphicIndex = sourceIndexForPart(data.polygons, i, sourcePolygon.partIndex);</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno">  259</span>        polygon.sourcePartIndex = sourcePolygon.partIndex;</div>
+<div class="line"><a id="l00260" name="l00260"></a><span class="lineno">  260</span>        component.polygons.append(polygon);</div>
+<div class="line"><a id="l00261" name="l00261"></a><span class="lineno">  261</span>    }</div>
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno">  262</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.polylines.size(); ++i) {</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>        <span class="keyword">const</span> IR::SymbolPolylineIR&amp; sourcePolyline = data.polylines.at(i);  <span class="comment">// 当前源折线图元。</span></div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>        <span class="keywordflow">if</span> (!hasFinitePoints(sourcePolyline.points, 2)) {</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 折线图元 %2 的点列无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00266" name="l00266"></a><span class="lineno">  266</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00267" name="l00267"></a><span class="lineno">  267</span>        }</div>
+<div class="line"><a id="l00268" name="l00268"></a><span class="lineno">  268</span>        <span class="keywordflow">if</span> (!isValidStrokeWidth(sourcePolyline.strokeWidth)) {</div>
+<div class="line"><a id="l00269" name="l00269"></a><span class="lineno">  269</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 折线图元 %2 的线宽无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00270" name="l00270"></a><span class="lineno">  270</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00271" name="l00271"></a><span class="lineno">  271</span>        }</div>
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno">  272</span>        AltiumSchPolyline polyline = convertPolyline(sourcePolyline);  <span class="comment">// 转换后的折线记录。</span></div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>        polyline.sourceGraphicIndex = sourceIndexForPart(data.polylines, i, sourcePolyline.partIndex);</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>        polyline.sourcePartIndex = sourcePolyline.partIndex;</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>        component.polylines.append(polyline);</div>
+<div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span>    }</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolPathConverter.html#a7238321709ac099a346c634412fe3563">AltiumSymbolPathConverter::append</a>(data, component, m_diagnostics);</div>
+<div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> bezierIndex = 0; bezierIndex &lt; data.beziers.size(); ++bezierIndex) {</div>
+<div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>        <span class="keyword">const</span> IR::SymbolBezierIR&amp; b = data.beziers.at(bezierIndex);  <span class="comment">// 当前 Bézier 图元。</span></div>
+<div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span>        <span class="keywordflow">if</span> (b.controlPoints.size() == 4 &amp;&amp; hasFinitePoints(b.controlPoints, 4) &amp;&amp; isValidStrokeWidth(b.strokeWidth)) {</div>
+<div class="line"><a id="l00281" name="l00281"></a><span class="lineno">  281</span>            component.beziers.append(convertBezier(b));</div>
+<div class="line"><a id="l00282" name="l00282"></a><span class="lineno">  282</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (b.controlPoints.size() != 4 || !hasFinitePoints(b.controlPoints, 4)) {</div>
+<div class="line"><a id="l00283" name="l00283"></a><span class="lineno">  283</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 Bézier 图元 %2 的控制点参数无效（数量为 %3），已跳过&quot;</span>)</div>
+<div class="line"><a id="l00284" name="l00284"></a><span class="lineno">  284</span>                                     .arg(data.name)</div>
+<div class="line"><a id="l00285" name="l00285"></a><span class="lineno">  285</span>                                     .arg(bezierIndex)</div>
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno">  286</span>                                     .arg(b.controlPoints.size()));</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>            m_diagnostics.append(</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>                QStringLiteral(<span class="stringliteral">&quot;符号 %1 Bézier 图元 %2 的线宽无效，已跳过&quot;</span>).arg(data.name).arg(bezierIndex));</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>        }</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>    }</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.ieeeSymbols.size(); ++i) {</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>        <span class="keyword">const</span> IR::SymbolIeeeIR&amp; ieee = data.ieeeSymbols.at(i);  <span class="comment">// 当前 IEEE 图元。</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>        <span class="keywordflow">if</span> (!isFinitePoint(ieee.position)) {</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 IEEE 图形 %2 的位置无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        }</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>        component.ieeeSymbols.append(convertIeee(ieee));</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    }</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.texts.size(); ++i) {</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        <span class="keyword">const</span> IR::SymbolTextIR&amp; sourceText = data.texts.at(i);  <span class="comment">// 当前源文本图元。</span></div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>        <span class="keywordflow">if</span> (sourceText.text.trimmed().isEmpty() || !isFinitePoint(sourceText.position) ||</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>            !std::isfinite(sourceText.rotation) ||</div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>            (sourceText.visible &amp;&amp; (!std::isfinite(sourceText.fontSizeMm) || sourceText.fontSizeMm &lt; 0.0))) {</div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>            m_diagnostics.append(</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>                QStringLiteral(<span class="stringliteral">&quot;符号 %1 文本图元 %2 的内容或几何参数无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>        }</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>        AltiumSchText text = convertText(sourceText);  <span class="comment">// 转换后的 Altium 文本记录。</span></div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>        text.anchor = normalizeTextAnchor(sourceText.anchor, QStringLiteral(<span class="stringliteral">&quot;文本图元 %1&quot;</span>).arg(i));</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>        text.sourceGraphicIndex = sourceIndexForPart(data.texts, i, sourceText.partIndex);</div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>        text.sourcePartIndex = sourceText.partIndex;</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>        component.texts.append(text);</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>    }</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.textFrames.size(); ++i) {</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        <span class="keyword">const</span> IR::SymbolTextFrameIR&amp; frame = data.textFrames.at(i);  <span class="comment">// 当前源文本框图元。</span></div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        <span class="keywordflow">if</span> (!isValidBounds(frame.x0, frame.y0, frame.x1, frame.y1) || !std::isfinite(frame.textMargin) ||</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>            frame.textMargin &lt; 0.0 || !isValidStrokeWidth(frame.strokeWidth)) {</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 文本框图元 %2 的几何参数无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>        }</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        component.textFrames.append(convertTextFrame(frame));</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>    }</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.images.size(); ++i) {</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        <span class="keyword">const</span> IR::SymbolImageIR&amp; image = data.images.at(i);  <span class="comment">// 当前源图片图元。</span></div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>        <span class="comment">// 图片必须具有有限且非退化的矩形边界。</span></div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> validBounds = std::isfinite(image.x0) &amp;&amp; std::isfinite(image.y0) &amp;&amp; std::isfinite(image.x1) &amp;&amp;</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>                                 std::isfinite(image.y1) &amp;&amp; image.x0 != image.x1 &amp;&amp; image.y0 != image.y1;</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>        <span class="keyword">const</span> QString imageSource = image.fileName.trimmed();  <span class="comment">// 图片文件名或来源 URL。</span></div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasSource = !imageSource.isEmpty() || !image.data.isEmpty();  <span class="comment">// 是否存在图片来源。</span></div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>        <span class="keyword">const</span> <span class="keywordtype">bool</span> hasUnparsedDataUrl =</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>            imageSource.startsWith(QStringLiteral(<span class="stringliteral">&quot;data:&quot;</span>), Qt::CaseInsensitive);  <span class="comment">// 是否仍为未解析的 data URL。</span></div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>        <span class="keywordflow">if</span> (!validBounds || !hasSource || hasUnparsedDataUrl || !std::isfinite(image.rotation) ||</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>            !std::isfinite(image.strokeWidth) || image.strokeWidth &lt; 0.0) {</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>            <span class="keywordflow">if</span> (hasUnparsedDataUrl) {</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                m_diagnostics.append(</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>                    QStringLiteral(<span class="stringliteral">&quot;符号 %1 图片图元 %2 包含未解析的 data URL，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>                m_diagnostics.append(</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>                    QStringLiteral(<span class="stringliteral">&quot;符号 %1 图片图元 %2 的边界、线宽或资源无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>            }</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>        }</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>        AltiumSchImage altiumImage = convertImage(image);  <span class="comment">// 转换后的 Altium 图片记录。</span></div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>        altiumImage.sourceGraphicIndex = sourceIndexForPart(data.images, i, image.partIndex);</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>        altiumImage.sourcePartIndex = image.partIndex;</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>        component.images.append(altiumImage);</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>    }</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.ellipses.size(); ++i) {</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>        <span class="keyword">const</span> IR::SymbolEllipseIR&amp; sourceEllipse = data.ellipses.at(i);  <span class="comment">// 当前源椭圆图元。</span></div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>        <span class="keywordflow">if</span> (!isFinitePoint(sourceEllipse.center) || !std::isfinite(sourceEllipse.radiusX) ||</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>            !std::isfinite(sourceEllipse.radiusY) || sourceEllipse.radiusX &lt;= 0.0 || sourceEllipse.radiusY &lt;= 0.0 ||</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>            !isValidStrokeWidth(sourceEllipse.strokeWidth)) {</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 椭圆图元 %2 的几何参数无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>        }</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>        AltiumSchEllipse ellipse = convertEllipse(sourceEllipse);  <span class="comment">// 转换后的 Altium 椭圆记录。</span></div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>        <span class="keywordflow">if</span> (ellipse.radiusX &lt;= 0 || ellipse.radiusY &lt;= 0) {</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 椭圆图元 %2 半径量化后无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>        }</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span>        ellipse.sourceGraphicType = QStringLiteral(<span class="stringliteral">&quot;E&quot;</span>);</div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>        ellipse.sourceGraphicIndex = sourceIndexForPart(data.ellipses, i, sourceEllipse.partIndex);</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>        ellipse.sourcePartIndex = sourceEllipse.partIndex;</div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        component.ellipses.append(ellipse);</div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>    }</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.pies.size(); ++i) {</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        <span class="keyword">const</span> IR::SymbolPieIR&amp; sourcePie = data.pies.at(i);  <span class="comment">// 当前源扇形图元。</span></div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        <span class="keywordflow">if</span> (!isFinitePoint(sourcePie.center) || !std::isfinite(sourcePie.radius) || sourcePie.radius &lt;= 0.0 ||</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>            !std::isfinite(sourcePie.startAngle) || !std::isfinite(sourcePie.endAngle) ||</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>            !isValidStrokeWidth(sourcePie.strokeWidth)) {</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 扇形图元 %2 的几何参数无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>        }</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>        AltiumSchPie pie = convertPie(sourcePie);  <span class="comment">// 转换后的 Altium 扇形记录。</span></div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>        <span class="keywordflow">if</span> (pie.radius &lt;= 0) {</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 扇形图元 %2 半径量化后无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        }</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        component.pies.append(pie);</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>    }</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; data.ellipticalArcs.size(); ++i) {</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>        <span class="keyword">const</span> IR::SymbolEllipticalArcIR&amp; sourceArc = data.ellipticalArcs.at(i);  <span class="comment">// 当前源椭圆弧图元。</span></div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>        <span class="keywordflow">if</span> (!isFinitePoint(sourceArc.center) || !std::isfinite(sourceArc.radiusX) ||</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>            !std::isfinite(sourceArc.radiusY) || sourceArc.radiusX &lt;= 0.0 || sourceArc.radiusY &lt;= 0.0 ||</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>            !std::isfinite(sourceArc.startAngle) || !std::isfinite(sourceArc.endAngle) ||</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>            !isValidStrokeWidth(sourceArc.strokeWidth)) {</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 椭圆弧图元 %2 的几何参数无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>        }</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>        AltiumSchEllipticalArc ellipticalArc = convertEllipticalArc(sourceArc);  <span class="comment">// 转换后的椭圆弧记录。</span></div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>        <span class="keywordflow">if</span> (ellipticalArc.radiusX &lt;= 0 || ellipticalArc.radiusY &lt;= 0) {</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>            m_diagnostics.append(QStringLiteral(<span class="stringliteral">&quot;符号 %1 椭圆弧图元 %2 半径量化后无效，已跳过&quot;</span>).arg(data.name).arg(i));</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        }</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>        component.ellipticalArcs.append(ellipticalArc);</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>    }</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span> </div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>    component.implementations = <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolImplementationConverter.html#a918c54798c54d9a9a1dddd5bdd036281">AltiumSymbolImplementationConverter::convert</a>(data);</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span> </div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>    <span class="comment">// 坐标归一化：将符号中心移到原点</span></div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>    centerComponent(component);</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span> </div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>    <span class="keywordflow">return</span> component;</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>}</div>
+</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span> </div>
+<div class="foldopen" id="foldopen00412" data-start="{" data-end="}">
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a4fa6787c5ace825d05838d825a58489c">  412</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPin.html">AltiumSchPin</a> ExporterAltiumSymbol::convertPin(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html">IR::SymbolPinIR</a>&amp; pin) {</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>    <span class="keywordflow">return</span> AltiumSymbolPinConverter::convert(pin);</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>}</div>
+</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span> </div>
+<div class="foldopen" id="foldopen00421" data-start="{" data-end="}">
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a1501fce993b5e75a5e8eb22492bf1b42">  421</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchRectangle.html">AltiumSchRectangle</a> ExporterAltiumSymbol::convertRectangle(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html">IR::SymbolRectangleIR</a>&amp; rect) {</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>    <span class="keywordflow">return</span> AltiumSymbolPrimitiveConverter::convertRectangle(rect);</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>}</div>
+</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span> </div>
+<div class="foldopen" id="foldopen00430" data-start="{" data-end="}">
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#ac589859b1c872ef3461c9ddc9fd1c592">  430</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchRoundRectangle.html">AltiumSchRoundRectangle</a> ExporterAltiumSymbol::convertRoundRectangle(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html">IR::SymbolRectangleIR</a>&amp; rect) {</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>    <span class="keywordflow">return</span> AltiumSymbolPrimitiveConverter::convertRoundRectangle(rect);</div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>}</div>
+</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span> </div>
+<div class="foldopen" id="foldopen00439" data-start="{" data-end="}">
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#aa9b19dcf493527e97f609f2623101e46">  439</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchEllipse.html">AltiumSchEllipse</a> ExporterAltiumSymbol::convertCircle(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolCircleIR.html">IR::SymbolCircleIR</a>&amp; circle) {</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>    <span class="keywordflow">return</span> AltiumSymbolPrimitiveConverter::convertCircle(circle);</div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>}</div>
+</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span> </div>
+<div class="foldopen" id="foldopen00448" data-start="{" data-end="}">
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#aa695dd91bc542edf354568e38cee52f9">  448</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchArc.html">AltiumSchArc</a> ExporterAltiumSymbol::convertArc(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolArcIR.html">IR::SymbolArcIR</a>&amp; arc) {</div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>    <span class="keywordflow">return</span> AltiumSymbolCurveConverter::convertArc(arc);</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>}</div>
+</div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span> </div>
+<div class="foldopen" id="foldopen00457" data-start="{" data-end="}">
+<div class="line"><a id="l00457" name="l00457"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a06ebed0d564ff4c66beaad60b2605270">  457</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPolygon.html">AltiumSchPolygon</a> ExporterAltiumSymbol::convertPolygon(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPolygonIR.html">IR::SymbolPolygonIR</a>&amp; polygon) {</div>
+<div class="line"><a id="l00458" name="l00458"></a><span class="lineno">  458</span>    <span class="keywordflow">return</span> AltiumSymbolCurveConverter::convertPolygon(polygon);</div>
+<div class="line"><a id="l00459" name="l00459"></a><span class="lineno">  459</span>}</div>
+</div>
+<div class="line"><a id="l00460" name="l00460"></a><span class="lineno">  460</span> </div>
+<div class="foldopen" id="foldopen00466" data-start="{" data-end="}">
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a4c3fd508a2a52d4e894e81f927c40603">  466</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPolyline.html">AltiumSchPolyline</a> ExporterAltiumSymbol::convertPolyline(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPolylineIR.html">IR::SymbolPolylineIR</a>&amp; polyline) {</div>
+<div class="line"><a id="l00467" name="l00467"></a><span class="lineno">  467</span>    <span class="keywordflow">return</span> AltiumSymbolCurveConverter::convertPolyline(polyline);</div>
+<div class="line"><a id="l00468" name="l00468"></a><span class="lineno">  468</span>}</div>
+</div>
+<div class="line"><a id="l00469" name="l00469"></a><span class="lineno">  469</span> </div>
+<div class="foldopen" id="foldopen00475" data-start="{" data-end="}">
+<div class="line"><a id="l00475" name="l00475"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a2dbb0c3344d5e1ae52083fbbf95c090d">  475</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPath.html">AltiumSchPath</a> ExporterAltiumSymbol::convertPath(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPathIR.html">IR::SymbolPathIR</a>&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>) {</div>
+<div class="line"><a id="l00476" name="l00476"></a><span class="lineno">  476</span>    <span class="keywordflow">return</span> AltiumSymbolCurveConverter::convertPath(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);</div>
+<div class="line"><a id="l00477" name="l00477"></a><span class="lineno">  477</span>}</div>
+</div>
+<div class="line"><a id="l00478" name="l00478"></a><span class="lineno">  478</span> </div>
+<div class="foldopen" id="foldopen00484" data-start="{" data-end="}">
+<div class="line"><a id="l00484" name="l00484"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a1867461456687d02360b8c1fa6cf07de">  484</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchBezier.html">AltiumSchBezier</a> ExporterAltiumSymbol::convertBezier(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolBezierIR.html">IR::SymbolBezierIR</a>&amp; bezier) {</div>
+<div class="line"><a id="l00485" name="l00485"></a><span class="lineno">  485</span>    <span class="keywordflow">return</span> AltiumSymbolCurveConverter::convertBezier(bezier);</div>
+<div class="line"><a id="l00486" name="l00486"></a><span class="lineno">  486</span>}</div>
+</div>
+<div class="line"><a id="l00487" name="l00487"></a><span class="lineno">  487</span> </div>
+<div class="foldopen" id="foldopen00493" data-start="{" data-end="}">
+<div class="line"><a id="l00493" name="l00493"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a5b8960bcd64c16ad40ce4266a0103063">  493</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchIeee.html">AltiumSchIeee</a> ExporterAltiumSymbol::convertIeee(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolIeeeIR.html">IR::SymbolIeeeIR</a>&amp; ieee) {</div>
+<div class="line"><a id="l00494" name="l00494"></a><span class="lineno">  494</span>    <span class="keywordflow">return</span> AltiumSymbolPrimitiveConverter::convertIeee(ieee);</div>
+<div class="line"><a id="l00495" name="l00495"></a><span class="lineno">  495</span>}</div>
+</div>
+<div class="line"><a id="l00496" name="l00496"></a><span class="lineno">  496</span> </div>
+<div class="foldopen" id="foldopen00502" data-start="{" data-end="}">
+<div class="line"><a id="l00502" name="l00502"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a50f397a451fd30ad6d352155679b32d7">  502</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchText.html">AltiumSchText</a> ExporterAltiumSymbol::convertText(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolTextIR.html">IR::SymbolTextIR</a>&amp; text) {</div>
+<div class="line"><a id="l00503" name="l00503"></a><span class="lineno">  503</span>    <span class="keywordflow">return</span> AltiumSymbolAnnotationConverter::convertText(text);</div>
+<div class="line"><a id="l00504" name="l00504"></a><span class="lineno">  504</span>}</div>
+</div>
+<div class="line"><a id="l00505" name="l00505"></a><span class="lineno">  505</span> </div>
+<div class="foldopen" id="foldopen00511" data-start="{" data-end="}">
+<div class="line"><a id="l00511" name="l00511"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a2e105694530a2ed13561ec7e1b239f95">  511</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchTextFrame.html">AltiumSchTextFrame</a> ExporterAltiumSymbol::convertTextFrame(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html">IR::SymbolTextFrameIR</a>&amp; frame) {</div>
+<div class="line"><a id="l00512" name="l00512"></a><span class="lineno">  512</span>    <span class="keywordflow">return</span> AltiumSymbolAnnotationConverter::convertTextFrame(frame);</div>
+<div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span>}</div>
+</div>
+<div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span> </div>
+<div class="foldopen" id="foldopen00520" data-start="{" data-end="}">
+<div class="line"><a id="l00520" name="l00520"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a3cf4fcec6353fab4a8c29e60a83d5941">  520</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchImage.html">AltiumSchImage</a> ExporterAltiumSymbol::convertImage(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolImageIR.html">IR::SymbolImageIR</a>&amp; image) {</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>    <span class="keywordflow">return</span> AltiumSymbolAnnotationConverter::convertImage(image);</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>}</div>
+</div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span> </div>
+<div class="foldopen" id="foldopen00529" data-start="{" data-end="}">
+<div class="line"><a id="l00529" name="l00529"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#abd9d96868cbe2a2ba974f7655a9baa73">  529</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchEllipse.html">AltiumSchEllipse</a> ExporterAltiumSymbol::convertEllipse(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolEllipseIR.html">IR::SymbolEllipseIR</a>&amp; ellipse) {</div>
+<div class="line"><a id="l00530" name="l00530"></a><span class="lineno">  530</span>    <span class="keywordflow">return</span> AltiumSymbolCurveConverter::convertEllipse(ellipse);</div>
+<div class="line"><a id="l00531" name="l00531"></a><span class="lineno">  531</span>}</div>
+</div>
+<div class="line"><a id="l00532" name="l00532"></a><span class="lineno">  532</span> </div>
+<div class="foldopen" id="foldopen00538" data-start="{" data-end="}">
+<div class="line"><a id="l00538" name="l00538"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#ae67e3b6a83670bf7e66f3fb98bf94cb8">  538</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchPie.html">AltiumSchPie</a> ExporterAltiumSymbol::convertPie(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolPieIR.html">IR::SymbolPieIR</a>&amp; pie) {</div>
+<div class="line"><a id="l00539" name="l00539"></a><span class="lineno">  539</span>    <span class="keywordflow">return</span> AltiumSymbolCurveConverter::convertPie(pie);</div>
+<div class="line"><a id="l00540" name="l00540"></a><span class="lineno">  540</span>}</div>
+</div>
+<div class="line"><a id="l00541" name="l00541"></a><span class="lineno">  541</span> </div>
+<div class="foldopen" id="foldopen00547" data-start="{" data-end="}">
+<div class="line"><a id="l00547" name="l00547"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a105859ecb765e77fdbc5de6553a8df25">  547</a></span><a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchEllipticalArc.html">AltiumSchEllipticalArc</a> ExporterAltiumSymbol::convertEllipticalArc(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolEllipticalArcIR.html">IR::SymbolEllipticalArcIR</a>&amp; arc) {</div>
+<div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span>    <span class="keywordflow">return</span> AltiumSymbolCurveConverter::convertEllipticalArc(arc);</div>
+<div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>}</div>
+</div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno">  550</span> </div>
+<div class="foldopen" id="foldopen00555" data-start="{" data-end="}">
+<div class="line"><a id="l00555" name="l00555"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a9d7984c2ccbce3019c66af387368823f">  555</a></span><span class="keywordtype">void</span> ExporterAltiumSymbol::centerComponent(<a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchComponent.html">AltiumSchComponent</a>&amp; component) {</div>
+<div class="line"><a id="l00556" name="l00556"></a><span class="lineno">  556</span>    AltiumSchSymbolGeometryNormalizer::normalize(component);</div>
+<div class="line"><a id="l00557" name="l00557"></a><span class="lineno">  557</span>}</div>
+</div>
+<div class="line"><a id="l00558" name="l00558"></a><span class="lineno">  558</span> </div>
+<div class="line"><a id="l00559" name="l00559"></a><span class="lineno">  559</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumCoord_8h_html"><div class="ttname"><a href="AltiumCoord_8h.html">AltiumCoord.h</a></div></div>
+<div class="ttc" id="aAltiumSchSymbolGeometryNormalizer_8h_html"><div class="ttname"><a href="AltiumSchSymbolGeometryNormalizer_8h.html">AltiumSchSymbolGeometryNormalizer.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolAnnotationConverter_8h_html"><div class="ttname"><a href="AltiumSymbolAnnotationConverter_8h.html">AltiumSymbolAnnotationConverter.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolConversionUtils_8h_html"><div class="ttname"><a href="AltiumSymbolConversionUtils_8h.html">AltiumSymbolConversionUtils.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolCurveConverter_8h_html"><div class="ttname"><a href="AltiumSymbolCurveConverter_8h.html">AltiumSymbolCurveConverter.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolImplementationConverter_8h_html"><div class="ttname"><a href="AltiumSymbolImplementationConverter_8h.html">AltiumSymbolImplementationConverter.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolParameterConverter_8h_html"><div class="ttname"><a href="AltiumSymbolParameterConverter_8h.html">AltiumSymbolParameterConverter.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolPathConverter_8h_html"><div class="ttname"><a href="AltiumSymbolPathConverter_8h.html">AltiumSymbolPathConverter.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolPinConverter_8h_html"><div class="ttname"><a href="AltiumSymbolPinConverter_8h.html">AltiumSymbolPinConverter.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolPinTextConverter_8h_html"><div class="ttname"><a href="AltiumSymbolPinTextConverter_8h.html">AltiumSymbolPinTextConverter.h</a></div></div>
+<div class="ttc" id="aAltiumSymbolPrimitiveConverter_8h_html"><div class="ttname"><a href="AltiumSymbolPrimitiveConverter_8h.html">AltiumSymbolPrimitiveConverter.h</a></div></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aExporterAltiumSymbol_8h_html"><div class="ttname"><a href="ExporterAltiumSymbol_8h.html">ExporterAltiumSymbol.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchLibWriter_html_a32eeceab5b16dbb1d05040723655151d"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a32eeceab5b16dbb1d05040723655151d">EasyKiConverter::AltiumSchLibWriter::write</a></div><div class="ttdeci">bool write(const QList&lt; AltiumSchComponent &gt; &amp;components, const QString &amp;filePath, const QString &amp;libraryName=QString())</div><div class="ttdoc">写入 SchLib 文件</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchLibWriter_8cpp_source.html#l00081">AltiumSchLibWriter.cpp:81</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSchLibWriter_html_a7e3accb142bbc6590ae6d96ca92ca8d3"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSchLibWriter.html#a7e3accb142bbc6590ae6d96ca92ca8d3">EasyKiConverter::AltiumSchLibWriter::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const</div><div class="ttdoc">获取最近一次写入产生的非致命诊断</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchLibWriter_8h_source.html#l00046">AltiumSchLibWriter.h:46</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolImplementationConverter_html_a918c54798c54d9a9a1dddd5bdd036281"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolImplementationConverter.html#a918c54798c54d9a9a1dddd5bdd036281">EasyKiConverter::AltiumSymbolImplementationConverter::convert</a></div><div class="ttdeci">static QList&lt; AltiumSchComponent::Implementation &gt; convert(const IR::SymbolComponentIR &amp;symbol)</div><div class="ttdoc">根据符号 IR 构造去重后的封装和模型实现列表。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolImplementationConverter_8cpp_source.html#l00012">AltiumSymbolImplementationConverter.cpp:12</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolParameterConverter_html_a0442d80823071f172b17f5b9fae1fc6b"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolParameterConverter.html#a0442d80823071f172b17f5b9fae1fc6b">EasyKiConverter::AltiumSymbolParameterConverter::convert</a></div><div class="ttdeci">static AltiumSchParameter convert(const IR::SymbolParameterIR &amp;parameter)</div><div class="ttdoc">转换单个符号参数。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolParameterConverter_8cpp_source.html#l00013">AltiumSymbolParameterConverter.cpp:13</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolPathConverter_html_a7238321709ac099a346c634412fe3563"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolPathConverter.html#a7238321709ac099a346c634412fe3563">EasyKiConverter::AltiumSymbolPathConverter::append</a></div><div class="ttdeci">static void append(const IR::SymbolComponentIR &amp;symbol, AltiumSchComponent &amp;component, QStringList &amp;diagnostics)</div><div class="ttdoc">将符号中的所有路径追加到目标组件并记录诊断。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolPathConverter_8cpp_source.html#l00075">AltiumSymbolPathConverter.cpp:75</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolPinTextConverter_html_abd111ab9b762ced822005a28595f050a"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolPinTextConverter.html#abd111ab9b762ced822005a28595f050a">EasyKiConverter::AltiumSymbolPinTextConverter::convert</a></div><div class="ttdeci">static QList&lt; AltiumSchText &gt; convert(const IR::SymbolPinIR &amp;pin, const QString &amp;symbolName, QStringList *diagnostics)</div><div class="ttdoc">转换一个引脚上声明的名称和编号文本。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolPinTextConverter_8cpp_source.html#l00091">AltiumSymbolPinTextConverter.cpp:91</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumSymbol_html_a499a513b04f5efd730e0ef8dbfd67723"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a499a513b04f5efd730e0ef8dbfd67723">EasyKiConverter::ExporterAltiumSymbol::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次导出的非致命诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumSymbol_8h_source.html#l00183">ExporterAltiumSymbol.h:183</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumSymbol_html_a58a60b0f43ffc27971ca0fc550425127"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a58a60b0f43ffc27971ca0fc550425127">EasyKiConverter::ExporterAltiumSymbol::convertSymbol</a></div><div class="ttdeci">AltiumSchComponent convertSymbol(const IR::SymbolComponentIR &amp;data)</div><div class="ttdoc">将 SymbolComponentIR 转换为 AltiumSchComponent。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumSymbol_8cpp_source.html#l00093">ExporterAltiumSymbol.cpp:93</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumSymbol_html_a8233cc0c333dc03fad95b96ba3477545"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a8233cc0c333dc03fad95b96ba3477545">EasyKiConverter::ExporterAltiumSymbol::exportSymbol</a></div><div class="ttdeci">bool exportSymbol(const IR::SymbolComponentIR &amp;symbol, const QString &amp;filePath) override</div><div class="ttdoc">导出单个符号到 SchLib 文件。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumSymbol_8cpp_source.html#l00039">ExporterAltiumSymbol.cpp:39</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumSymbol_html_a8360863b7361b12bdf332278af16164d"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#a8360863b7361b12bdf332278af16164d">EasyKiConverter::ExporterAltiumSymbol::exportSymbolLibrary</a></div><div class="ttdeci">bool exportSymbolLibrary(const QList&lt; IR::SymbolComponentIR &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath, bool appendMode=true, bool updateMode=false, const QString &amp;libraryDescription=QString()) override</div><div class="ttdoc">导出符号库（多个符号合并到一个 SchLib 文件）。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumSymbol_8cpp_source.html#l00061">ExporterAltiumSymbol.cpp:61</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterAltiumSymbol_html_aad5ec10afd0e94b72451f62f5b69a7f2"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterAltiumSymbol.html#aad5ec10afd0e94b72451f62f5b69a7f2">EasyKiConverter::ExporterAltiumSymbol::m_writer</a></div><div class="ttdeci">AltiumSchLibWriter m_writer</div><div class="ttdoc">Altium SchLib 文件写入器。</div><div class="ttdef"><b>Definition</b> <a href="ExporterAltiumSymbol_8h_source.html#l00182">ExporterAltiumSymbol.h:182</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_a093f1b508293013cdf05bb03a79ba026"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a093f1b508293013cdf05bb03a79ba026">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumColor</a></div><div class="ttdeci">uint32_t toAltiumColor(const QColor &amp;color)</div><div class="ttdoc">将 Qt 颜色转换为 Altium 使用的 0x00BBGGRR 编码。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00071">AltiumSymbolConversionUtils.h:71</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_a1650b3f7e0e5cdeda915d1ffcfe4346b"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a1650b3f7e0e5cdeda915d1ffcfe4346b">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumLineStyle</a></div><div class="ttdeci">int toAltiumLineStyle(IR::StrokeStyle style)</div><div class="ttdoc">将 IR 线型映射为 Altium SchLib 的线型编号。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00052">AltiumSymbolConversionUtils.h:52</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_a65a469f2c2deeb77b9377eb1fec3d5a0"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#a65a469f2c2deeb77b9377eb1fec3d5a0">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumOrientation</a></div><div class="ttdeci">int toAltiumOrientation(double rotation)</div><div class="ttdoc">将任意角度归一化为 Altium 的四向文字方向。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00034">AltiumSymbolConversionUtils.h:34</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1AltiumSymbolConversionUtils_html_ad28339a54a94c2688fad571052d48979"><div class="ttname"><a href="namespaceEasyKiConverter_1_1AltiumSymbolConversionUtils.html#ad28339a54a94c2688fad571052d48979">EasyKiConverter::AltiumSymbolConversionUtils::toAltiumOwnerPartId</a></div><div class="ttdeci">int toAltiumOwnerPartId(int partIndex)</div><div class="ttdoc">将 IR 部件索引转换为 Altium 的部件 ID。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolConversionUtils_8h_source.html#l00019">AltiumSymbolConversionUtils.h:19</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchArc_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchArc.html">EasyKiConverter::AltiumSchArc</a></div><div class="ttdoc">Altium 符号弧线</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00085">AltiumSchComponent.h:85</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchBezier_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchBezier.html">EasyKiConverter::AltiumSchBezier</a></div><div class="ttdoc">Altium 符号三次 Bézier 曲线</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00199">AltiumSchComponent.h:199</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html">EasyKiConverter::AltiumSchComponent</a></div><div class="ttdoc">Altium 符号元件</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00332">AltiumSchComponent.h:332</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a03a0adb961ab188c9fad2a2a9ffe66f4"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a03a0adb961ab188c9fad2a2a9ffe66f4">EasyKiConverter::AltiumSchComponent::aliases</a></div><div class="ttdeci">QStringList aliases</div><div class="ttdoc">符号别名</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00349">AltiumSchComponent.h:349</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a26faa6f5735d80a90903c49ff73d4fa0"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a26faa6f5735d80a90903c49ff73d4fa0">EasyKiConverter::AltiumSchComponent::sourceMetadata</a></div><div class="ttdeci">QMap&lt; QString, QString &gt; sourceMetadata</div><div class="ttdoc">符号参数（如制造商、料号、Datasheet 和来源元数据）</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00341">AltiumSchComponent.h:341</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a547ac9740cc703e75b2fd75c7a01fa53"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a547ac9740cc703e75b2fd75c7a01fa53">EasyKiConverter::AltiumSchComponent::partCount</a></div><div class="ttdeci">int partCount</div><div class="ttdoc">部件数量</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00336">AltiumSchComponent.h:336</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_a9dc99d9dbf08373ae970ee89806185a5"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#a9dc99d9dbf08373ae970ee89806185a5">EasyKiConverter::AltiumSchComponent::description</a></div><div class="ttdeci">QString description</div><div class="ttdoc">元件描述</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00334">AltiumSchComponent.h:334</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_ad3aedec7f55c94bde2f630ec747e5d11"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#ad3aedec7f55c94bde2f630ec747e5d11">EasyKiConverter::AltiumSchComponent::designatorPrefix</a></div><div class="ttdeci">QString designatorPrefix</div><div class="ttdoc">位号前缀（如 &quot;R&quot;, &quot;C&quot;, &quot;U&quot;）</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00335">AltiumSchComponent.h:335</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_adf96f9b50e15e8c33bb03e3ee4c4c15c"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#adf96f9b50e15e8c33bb03e3ee4c4c15c">EasyKiConverter::AltiumSchComponent::graphicOrder</a></div><div class="ttdeci">QList&lt; AltiumSchGraphicOrder &gt; graphicOrder</div><div class="ttdoc">原始图元绘制顺序。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00367">AltiumSchComponent.h:367</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchComponent_html_aeccacd4ea7ac67d883a8567963d52775"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchComponent.html#aeccacd4ea7ac67d883a8567963d52775">EasyKiConverter::AltiumSchComponent::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">元件名称（LibReference）</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00333">AltiumSchComponent.h:333</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchEllipse_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchEllipse.html">EasyKiConverter::AltiumSchEllipse</a></div><div class="ttdoc">Altium 符号椭圆/圆</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00118">AltiumSchComponent.h:118</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchEllipticalArc_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchEllipticalArc.html">EasyKiConverter::AltiumSchEllipticalArc</a></div><div class="ttdoc">Altium 符号椭圆弧</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00151">AltiumSchComponent.h:151</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchIeee_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchIeee.html">EasyKiConverter::AltiumSchIeee</a></div><div class="ttdoc">Altium 符号 IEEE 图形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00214">AltiumSchComponent.h:214</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchImage_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchImage.html">EasyKiConverter::AltiumSchImage</a></div><div class="ttdoc">Altium 符号图片</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00290">AltiumSchComponent.h:290</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPath_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPath.html">EasyKiConverter::AltiumSchPath</a></div><div class="ttdoc">Altium 符号路径</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00183">AltiumSchComponent.h:183</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPie_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPie.html">EasyKiConverter::AltiumSchPie</a></div><div class="ttdoc">Altium 符号扇形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00135">AltiumSchComponent.h:135</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPin_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPin.html">EasyKiConverter::AltiumSchPin</a></div><div class="ttdoc">Altium 符号引脚</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00017">AltiumSchComponent.h:17</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPolygon_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPolygon.html">EasyKiConverter::AltiumSchPolygon</a></div><div class="ttdoc">Altium 符号多边形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00103">AltiumSchComponent.h:103</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchPolyline_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchPolyline.html">EasyKiConverter::AltiumSchPolyline</a></div><div class="ttdoc">Altium 符号折线</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00170">AltiumSchComponent.h:170</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchRectangle_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchRectangle.html">EasyKiConverter::AltiumSchRectangle</a></div><div class="ttdoc">Altium 符号矩形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00040">AltiumSchComponent.h:40</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchRoundRectangle_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchRoundRectangle.html">EasyKiConverter::AltiumSchRoundRectangle</a></div><div class="ttdoc">Altium 符号圆角矩形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00056">AltiumSchComponent.h:56</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchTextFrame_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchTextFrame.html">EasyKiConverter::AltiumSchTextFrame</a></div><div class="ttdoc">Altium 符号文本框</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00262">AltiumSchComponent.h:262</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchText_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchText.html">EasyKiConverter::AltiumSchText</a></div><div class="ttdoc">Altium 符号文本</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00228">AltiumSchComponent.h:228</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolArcIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolArcIR.html">EasyKiConverter::IR::SymbolArcIR</a></div><div class="ttdoc">通用符号圆弧</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00152">SymbolIR.h:152</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolBezierIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolBezierIR.html">EasyKiConverter::IR::SymbolBezierIR</a></div><div class="ttdoc">通用符号三次 Bézier 曲线</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00282">SymbolIR.h:282</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolCircleIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolCircleIR.html">EasyKiConverter::IR::SymbolCircleIR</a></div><div class="ttdoc">通用符号圆形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00135">SymbolIR.h:135</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">EasyKiConverter::IR::SymbolComponentIR</a></div><div class="ttdoc">通用符号组件</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00418">SymbolIR.h:418</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_a70baca525326dcf31e430355792cdee6"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a70baca525326dcf31e430355792cdee6">EasyKiConverter::IR::SymbolComponentIR::graphicOrder</a></div><div class="ttdeci">QList&lt; SymbolGraphicOrderIR &gt; graphicOrder</div><div class="ttdoc">图元原始顺序列表。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00444">SymbolIR.h:444</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_a85a264cd1c4f7c593e84b7115f64628a"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a85a264cd1c4f7c593e84b7115f64628a">EasyKiConverter::IR::SymbolComponentIR::description</a></div><div class="ttdeci">QString description</div><div class="ttdoc">组件描述</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00420">SymbolIR.h:420</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_a8e3686526a6a22cc2972b73d438a3b54"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#a8e3686526a6a22cc2972b73d438a3b54">EasyKiConverter::IR::SymbolComponentIR::partCount</a></div><div class="ttdeci">int partCount</div><div class="ttdoc">部件数（多部件符号）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00422">SymbolIR.h:422</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_aa71be9bd1e94d77e9816289f4b867689"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">EasyKiConverter::IR::SymbolComponentIR::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">组件名称</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00419">SymbolIR.h:419</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_ac001ae66f2ef03a8d05b603147e1e480"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#ac001ae66f2ef03a8d05b603147e1e480">EasyKiConverter::IR::SymbolComponentIR::sourceMetadata</a></div><div class="ttdeci">QMap&lt; QString, QString &gt; sourceMetadata</div><div class="ttdoc">来源平台特有元数据。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00449">SymbolIR.h:449</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_adaaa5f15d75cbcfe9f6ecaf502b5cc23"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#adaaa5f15d75cbcfe9f6ecaf502b5cc23">EasyKiConverter::IR::SymbolComponentIR::designatorPrefix</a></div><div class="ttdeci">QString designatorPrefix</div><div class="ttdoc">位号前缀（&quot;U&quot;, &quot;R&quot;, &quot;C&quot; 等）</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00421">SymbolIR.h:421</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_af97ca3e5f718f5691e49117ea69cffd7"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#af97ca3e5f718f5691e49117ea69cffd7">EasyKiConverter::IR::SymbolComponentIR::aliases</a></div><div class="ttdeci">QStringList aliases</div><div class="ttdoc">符号别名列表。</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00448">SymbolIR.h:448</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolEllipseIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolEllipseIR.html">EasyKiConverter::IR::SymbolEllipseIR</a></div><div class="ttdoc">通用符号椭圆</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00167">SymbolIR.h:167</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolEllipticalArcIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolEllipticalArcIR.html">EasyKiConverter::IR::SymbolEllipticalArcIR</a></div><div class="ttdoc">通用符号椭圆弧</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00200">SymbolIR.h:200</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolGraphicOrderIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolGraphicOrderIR.html">EasyKiConverter::IR::SymbolGraphicOrderIR</a></div><div class="ttdoc">IR 中的符号图元顺序引用</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00406">SymbolIR.h:406</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolIeeeIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolIeeeIR.html">EasyKiConverter::IR::SymbolIeeeIR</a></div><div class="ttdoc">通用 Altium IEEE 图形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00294">SymbolIR.h:294</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolImageIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolImageIR.html">EasyKiConverter::IR::SymbolImageIR</a></div><div class="ttdoc">通用符号图片</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00355">SymbolIR.h:355</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPathIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPathIR.html">EasyKiConverter::IR::SymbolPathIR</a></div><div class="ttdoc">通用符号路径</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00267">SymbolIR.h:267</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPieIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPieIR.html">EasyKiConverter::IR::SymbolPieIR</a></div><div class="ttdoc">通用符号扇形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00183">SymbolIR.h:183</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPinIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPinIR.html">EasyKiConverter::IR::SymbolPinIR</a></div><div class="ttdoc">通用符号引脚</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00077">SymbolIR.h:77</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPolygonIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPolygonIR.html">EasyKiConverter::IR::SymbolPolygonIR</a></div><div class="ttdoc">通用符号多边形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00232">SymbolIR.h:232</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolPolylineIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolPolylineIR.html">EasyKiConverter::IR::SymbolPolylineIR</a></div><div class="ttdoc">通用符号折线</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00218">SymbolIR.h:218</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolRectangleIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html">EasyKiConverter::IR::SymbolRectangleIR</a></div><div class="ttdoc">通用符号矩形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00117">SymbolIR.h:117</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolTextFrameIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolTextFrameIR.html">EasyKiConverter::IR::SymbolTextFrameIR</a></div><div class="ttdoc">通用符号文本框</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00326">SymbolIR.h:326</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolTextIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolTextIR.html">EasyKiConverter::IR::SymbolTextIR</a></div><div class="ttdoc">通用符号文本</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00308">SymbolIR.h:308</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="ExporterAltiumSymbol_8cpp.html">ExporterAltiumSymbol.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

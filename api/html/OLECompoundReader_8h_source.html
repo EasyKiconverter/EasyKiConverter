@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/compound/OLECompoundReader.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('OLECompoundReader_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">OLECompoundReader.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="OLECompoundReader_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QHash&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QStringList&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="};">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundReader.html">   17</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1OLECompoundReader.html">OLECompoundReader</a> {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundReader.html#a60e229bd11455942393c44038bcc9089">   22</a></span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a60e229bd11455942393c44038bcc9089">OLECompoundReader</a>();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundReader.html#a0790ae1bf80e7de148a55b99250141c0">   27</a></span>    <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a0790ae1bf80e7de148a55b99250141c0">~OLECompoundReader</a>();</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a77debcc67a42b8b3ecb8eef00f5e71b3">open</a>(<span class="keyword">const</span> QString&amp; filePath);</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a6a3792a601090db7aa64a3f56a08c0cc">hasError</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    QString <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#ac47fce96aa6cce35f6cff269a97fe572">errorString</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    QStringList <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a86c6dcc0ee756a1521e1c2947ce9ab52">streamPaths</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#af20f43b9cbf7a70d5c6e283ddf128abe">containsStream</a>(<span class="keyword">const</span> QString&amp; streamPath) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#a91c32f8c4fe1ebccc050abeb7cc2404c">readStream</a>(<span class="keyword">const</span> QString&amp; streamPath, QByteArray* data) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#ad92ff7fd665ce5f13b9a4301a0e9c185">clear</a>();</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1OLECompoundReader.html#abd7c911ad00d7fd37501795c790f27c7">fail</a>(<span class="keyword">const</span> QString&amp; message);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundReader.html#a3cb42f4c9bcd7b0100726d00c37aa0e9">   82</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundReader.html#a3cb42f4c9bcd7b0100726d00c37aa0e9">m_opened</a> = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundReader.html#ae186706589b53f0fc94abccf264ce7ae">   83</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundReader.html#ae186706589b53f0fc94abccf264ce7ae">m_errorMessage</a>;  </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1OLECompoundReader.html#ac1bd70190e6d967dfcb72fedea5a7fa4">   84</a></span>    QHash&lt;QString, QByteArray&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1OLECompoundReader.html#ac1bd70190e6d967dfcb72fedea5a7fa4">m_streams</a>;  </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>};</div>
+</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html">EasyKiConverter::OLECompoundReader</a></div><div class="ttdoc">OLE 复合文档 V3 只读解析器</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8h_source.html#l00017">OLECompoundReader.h:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a0790ae1bf80e7de148a55b99250141c0"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a0790ae1bf80e7de148a55b99250141c0">EasyKiConverter::OLECompoundReader::~OLECompoundReader</a></div><div class="ttdeci">~OLECompoundReader()</div><div class="ttdoc">释放 OLE 复合文档解析器资源。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a3cb42f4c9bcd7b0100726d00c37aa0e9"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a3cb42f4c9bcd7b0100726d00c37aa0e9">EasyKiConverter::OLECompoundReader::m_opened</a></div><div class="ttdeci">bool m_opened</div><div class="ttdoc">当前是否已经成功打开 OLE 容器。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8h_source.html#l00082">OLECompoundReader.h:82</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a60e229bd11455942393c44038bcc9089"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a60e229bd11455942393c44038bcc9089">EasyKiConverter::OLECompoundReader::OLECompoundReader</a></div><div class="ttdeci">OLECompoundReader()</div><div class="ttdoc">构造 OLE 复合文档只读解析器。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a6a3792a601090db7aa64a3f56a08c0cc"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a6a3792a601090db7aa64a3f56a08c0cc">EasyKiConverter::OLECompoundReader::hasError</a></div><div class="ttdeci">bool hasError() const</div><div class="ttdoc">获取读取过程中是否发生错误</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00333">OLECompoundReader.cpp:333</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a77debcc67a42b8b3ecb8eef00f5e71b3"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a77debcc67a42b8b3ecb8eef00f5e71b3">EasyKiConverter::OLECompoundReader::open</a></div><div class="ttdeci">bool open(const QString &amp;filePath)</div><div class="ttdoc">从文件加载 OLE 复合文档</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00104">OLECompoundReader.cpp:104</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a86c6dcc0ee756a1521e1c2947ce9ab52"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a86c6dcc0ee756a1521e1c2947ce9ab52">EasyKiConverter::OLECompoundReader::streamPaths</a></div><div class="ttdeci">QStringList streamPaths() const</div><div class="ttdoc">获取文件中的全部流路径</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00349">OLECompoundReader.cpp:349</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_a91c32f8c4fe1ebccc050abeb7cc2404c"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#a91c32f8c4fe1ebccc050abeb7cc2404c">EasyKiConverter::OLECompoundReader::readStream</a></div><div class="ttdeci">bool readStream(const QString &amp;streamPath, QByteArray *data) const</div><div class="ttdoc">读取指定流</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00370">OLECompoundReader.cpp:370</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_abd7c911ad00d7fd37501795c790f27c7"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#abd7c911ad00d7fd37501795c790f27c7">EasyKiConverter::OLECompoundReader::fail</a></div><div class="ttdeci">bool fail(const QString &amp;message)</div><div class="ttdoc">记录解析失败并回滚当前状态。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00093">OLECompoundReader.cpp:93</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_ac1bd70190e6d967dfcb72fedea5a7fa4"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#ac1bd70190e6d967dfcb72fedea5a7fa4">EasyKiConverter::OLECompoundReader::m_streams</a></div><div class="ttdeci">QHash&lt; QString, QByteArray &gt; m_streams</div><div class="ttdoc">已建立索引的流路径及内容。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8h_source.html#l00084">OLECompoundReader.h:84</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_ac47fce96aa6cce35f6cff269a97fe572"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#ac47fce96aa6cce35f6cff269a97fe572">EasyKiConverter::OLECompoundReader::errorString</a></div><div class="ttdeci">QString errorString() const</div><div class="ttdoc">获取最近一次错误说明</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00341">OLECompoundReader.cpp:341</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_ad92ff7fd665ce5f13b9a4301a0e9c185"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#ad92ff7fd665ce5f13b9a4301a0e9c185">EasyKiConverter::OLECompoundReader::clear</a></div><div class="ttdeci">void clear()</div><div class="ttdoc">清除当前解析状态和流索引。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00082">OLECompoundReader.cpp:82</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_ae186706589b53f0fc94abccf264ce7ae"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#ae186706589b53f0fc94abccf264ce7ae">EasyKiConverter::OLECompoundReader::m_errorMessage</a></div><div class="ttdeci">QString m_errorMessage</div><div class="ttdoc">最近一次解析错误信息。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8h_source.html#l00083">OLECompoundReader.h:83</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1OLECompoundReader_html_af20f43b9cbf7a70d5c6e283ddf128abe"><div class="ttname"><a href="classEasyKiConverter_1_1OLECompoundReader.html#af20f43b9cbf7a70d5c6e283ddf128abe">EasyKiConverter::OLECompoundReader::containsStream</a></div><div class="ttdeci">bool containsStream(const QString &amp;streamPath) const</div><div class="ttdoc">判断指定流是否存在</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00360">OLECompoundReader.cpp:360</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="dir_10cc05afe08788a169b8a286b8397029.html">compound</a></li><li class="navelem"><a class="el" href="OLECompoundReader_8h.html">OLECompoundReader.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

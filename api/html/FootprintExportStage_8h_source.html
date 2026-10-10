@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/export/FootprintExportStage.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('FootprintExportStage_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">FootprintExportStage.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="FootprintExportStage_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ExportProgress_8h.html">ExportProgress.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ExportTypeStage_8h.html">ExportTypeStage.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="TempFileManager_8h.html">TempFileManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QThread&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00033" data-start="{" data-end="};">
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintExportStage.html">   33</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1FootprintExportStage.html">FootprintExportStage</a> : <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1ExportTypeStage.html">ExportTypeStage</a> {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    Q_OBJECT</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1FootprintExportStage.html">FootprintExportStage</a>(QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#a9857aca67627ea6b9ca5f21a61902ce6">~FootprintExportStage</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintExportStage.html#a96f36da2b912697ea03c853eab93e090">   52</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#a96f36da2b912697ea03c853eab93e090">setOptions</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options) {</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintExportStage.html#a1bb31b6327ea03712464f3b21c62fede">m_options</a> = options;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    }</div>
+</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#a776eff37ed3097f68e3caf26fe9d6cca">start</a>(<span class="keyword">const</span> QStringList&amp; componentIds,</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>               <span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; cachedData) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#aadc857a116f0d9c53b1302e766d8a4d0">cancel</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#a4180cd51adf14509bfbba975a19e9c47">waitForFinished</a>(<span class="keywordtype">int</span> timeoutMs = 5000) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>signals:</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintExportStage.html#a59c95de61d8ee5d78e86413e88280ce7">   80</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#a59c95de61d8ee5d78e86413e88280ce7">embeddedModel3DStatusChanged</a>(<span class="keyword">const</span> QString&amp; componentId, <span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportItemStatus.html">ExportItemStatus</a>&amp; status);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="comment">// 以下方法覆盖基类纯虚函数，但在此实现中不使用</span></div>
+<div class="foldopen" id="foldopen00084" data-start="{" data-end="}">
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintExportStage.html#aa2951f5bb1f73e61227019967b37c573">   84</a></span>    QObject* <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#aa2951f5bb1f73e61227019967b37c573">createWorker</a>()<span class="keyword"> override </span>{</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
+</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintExportStage.html#a3e187803cd259f897202542d82b16b50">   88</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#a3e187803cd259f897202542d82b16b50">startWorker</a>(QObject*, <span class="keyword">const</span> QString&amp;, <span class="keyword">const</span> QSharedPointer&lt;ComponentData&gt;&amp;)<span class="keyword"> override </span>{}</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FootprintExportStage.html#a3b1a9f821572f9617d52aa03b1385286">doLibraryExport</a>(<span class="keyword">const</span> QStringList&amp; componentIds,</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>                         <span class="keyword">const</span> QMap&lt;QString, QSharedPointer&lt;ComponentData&gt;&gt;&amp; cachedData);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintExportStage.html#a1bb31b6327ea03712464f3b21c62fede">   97</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a> <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintExportStage.html#a1bb31b6327ea03712464f3b21c62fede">m_options</a>;  </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintExportStage.html#ae89ce35a1c5142be18cb54c49038bd5a">   98</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1TempFileManager.html">TempFileManager</a> <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintExportStage.html#ae89ce35a1c5142be18cb54c49038bd5a">m_tempManager</a>;  </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FootprintExportStage.html#aa611e65e1f9551351d02efb65b1af8fc">   99</a></span>    QThread* <a class="code hl_variable" href="classEasyKiConverter_1_1FootprintExportStage.html#aa611e65e1f9551351d02efb65b1af8fc">m_workerThread</a> = <span class="keyword">nullptr</span>;  </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>};</div>
+</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aExportProgress_8h_html"><div class="ttname"><a href="ExportProgress_8h.html">ExportProgress.h</a></div></div>
+<div class="ttc" id="aExportTypeStage_8h_html"><div class="ttname"><a href="ExportTypeStage_8h.html">ExportTypeStage.h</a></div></div>
+<div class="ttc" id="aTempFileManager_8h_html"><div class="ttname"><a href="TempFileManager_8h.html">TempFileManager.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExportTypeStage_html"><div class="ttname"><a href="classEasyKiConverter_1_1ExportTypeStage.html">EasyKiConverter::ExportTypeStage</a></div><div class="ttdoc">导出类型阶段基类</div><div class="ttdef"><b>Definition</b> <a href="ExportTypeStage_8h_source.html#l00051">ExportTypeStage.h:51</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html">EasyKiConverter::FootprintExportStage</a></div><div class="ttdoc">封装库导出阶段</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8h_source.html#l00033">FootprintExportStage.h:33</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_a1bb31b6327ea03712464f3b21c62fede"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#a1bb31b6327ea03712464f3b21c62fede">EasyKiConverter::FootprintExportStage::m_options</a></div><div class="ttdeci">struct ExportOptions m_options</div><div class="ttdoc">导出选项（库级别）</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8h_source.html#l00097">FootprintExportStage.h:97</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_a3b1a9f821572f9617d52aa03b1385286"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#a3b1a9f821572f9617d52aa03b1385286">EasyKiConverter::FootprintExportStage::doLibraryExport</a></div><div class="ttdeci">void doLibraryExport(const QStringList &amp;componentIds, const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;cachedData)</div><div class="ttdoc">在工作线程中执行库级别的导出</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8cpp_source.html#l00240">FootprintExportStage.cpp:240</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_a3e187803cd259f897202542d82b16b50"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#a3e187803cd259f897202542d82b16b50">EasyKiConverter::FootprintExportStage::startWorker</a></div><div class="ttdeci">void startWorker(QObject *, const QString &amp;, const QSharedPointer&lt; ComponentData &gt; &amp;) override</div><div class="ttdoc">启动worker执行导出任务</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8h_source.html#l00088">FootprintExportStage.h:88</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_a4180cd51adf14509bfbba975a19e9c47"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#a4180cd51adf14509bfbba975a19e9c47">EasyKiConverter::FootprintExportStage::waitForFinished</a></div><div class="ttdeci">bool waitForFinished(int timeoutMs=5000) override</div><div class="ttdoc">等待封装导出线程结束，并同步阶段运行状态。</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8cpp_source.html#l00226">FootprintExportStage.cpp:226</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_a59c95de61d8ee5d78e86413e88280ce7"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#a59c95de61d8ee5d78e86413e88280ce7">EasyKiConverter::FootprintExportStage::embeddedModel3DStatusChanged</a></div><div class="ttdeci">void embeddedModel3DStatusChanged(const QString &amp;componentId, const ExportItemStatus &amp;status)</div><div class="ttdoc">通知 Altium 封装中嵌入的 3D 模型结果</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_a776eff37ed3097f68e3caf26fe9d6cca"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#a776eff37ed3097f68e3caf26fe9d6cca">EasyKiConverter::FootprintExportStage::start</a></div><div class="ttdeci">void start(const QStringList &amp;componentIds, const QMap&lt; QString, QSharedPointer&lt; ComponentData &gt; &gt; &amp;cachedData) override</div><div class="ttdoc">开始封装库导出</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8cpp_source.html#l00160">FootprintExportStage.cpp:160</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_a96f36da2b912697ea03c853eab93e090"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#a96f36da2b912697ea03c853eab93e090">EasyKiConverter::FootprintExportStage::setOptions</a></div><div class="ttdeci">void setOptions(const ExportOptions &amp;options)</div><div class="ttdoc">设置导出选项</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8h_source.html#l00052">FootprintExportStage.h:52</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_a9857aca67627ea6b9ca5f21a61902ce6"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#a9857aca67627ea6b9ca5f21a61902ce6">EasyKiConverter::FootprintExportStage::~FootprintExportStage</a></div><div class="ttdeci">~FootprintExportStage() override</div><div class="ttdoc">析构函数</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8cpp_source.html#l00151">FootprintExportStage.cpp:151</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_aa2951f5bb1f73e61227019967b37c573"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#aa2951f5bb1f73e61227019967b37c573">EasyKiConverter::FootprintExportStage::createWorker</a></div><div class="ttdeci">QObject * createWorker() override</div><div class="ttdoc">创建导出worker实例</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8h_source.html#l00084">FootprintExportStage.h:84</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_aa611e65e1f9551351d02efb65b1af8fc"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#aa611e65e1f9551351d02efb65b1af8fc">EasyKiConverter::FootprintExportStage::m_workerThread</a></div><div class="ttdeci">QThread * m_workerThread</div><div class="ttdoc">工作线程指针</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8h_source.html#l00099">FootprintExportStage.h:99</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_aadc857a116f0d9c53b1302e766d8a4d0"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#aadc857a116f0d9c53b1302e766d8a4d0">EasyKiConverter::FootprintExportStage::cancel</a></div><div class="ttdeci">void cancel() override</div><div class="ttdoc">取消导出</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8cpp_source.html#l00207">FootprintExportStage.cpp:207</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FootprintExportStage_html_ae89ce35a1c5142be18cb54c49038bd5a"><div class="ttname"><a href="classEasyKiConverter_1_1FootprintExportStage.html#ae89ce35a1c5142be18cb54c49038bd5a">EasyKiConverter::FootprintExportStage::m_tempManager</a></div><div class="ttdeci">TempFileManager m_tempManager</div><div class="ttdoc">临时文件管理器</div><div class="ttdef"><b>Definition</b> <a href="FootprintExportStage_8h_source.html#l00098">FootprintExportStage.h:98</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1TempFileManager_html"><div class="ttname"><a href="classEasyKiConverter_1_1TempFileManager.html">EasyKiConverter::TempFileManager</a></div><div class="ttdoc">临时文件管理器</div><div class="ttdef"><b>Definition</b> <a href="TempFileManager_8h_source.html#l00020">TempFileManager.h:20</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportItemStatus_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportItemStatus.html">EasyKiConverter::ExportItemStatus</a></div><div class="ttdoc">单个导出项的状态信息</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00115">ExportProgress.h:115</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="dir_a384dc2a66e9a2b9e112fff859fd4142.html">export</a></li><li class="navelem"><a class="el" href="FootprintExportStage_8h.html">FootprintExportStage.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

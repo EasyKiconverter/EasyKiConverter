@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: utils/cli/CliPrinter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('CliPrinter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">CliPrinter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="CliPrinter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef CLIPRINTER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define CLIPRINTER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="foldopen" id="foldopen00013" data-start="{" data-end="};">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliPrinter.html">   13</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1CliPrinter.html">CliPrinter</a> {</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1CliPrinter.html">CliPrinter</a>(<span class="keywordtype">bool</span> quiet = <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1CliPrinter.html#a4fb29222c233a82311db0f1b168987c8">print</a>(<span class="keyword">const</span> QString&amp; message) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1CliPrinter.html#abedaefb9fd77744fa191480e0f942adb">println</a>(<span class="keyword">const</span> QString&amp; message) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1CliPrinter.html#aeb12b41e79e1739c42f543a277462671">printError</a>(<span class="keyword">const</span> QString&amp; message) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1CliPrinter.html#ab11f5c824880d62dfdf0c92edc3cdc3b">printProgressBar</a>(<span class="keywordtype">int</span> progress) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1CliPrinter.html#a729f51be61c7c077d43f914beb7ca645">clearLine</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="foldopen" id="foldopen00054" data-start="{" data-end="}">
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliPrinter.html#a3720744022b7b6cd1a360edcb6d187d8">   54</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1CliPrinter.html#a3720744022b7b6cd1a360edcb6d187d8">isQuiet</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1CliPrinter.html#a93910aafeb560f0674f6d7e517cc2c7c">m_quiet</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
+</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CliPrinter.html#a93910aafeb560f0674f6d7e517cc2c7c">   59</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1CliPrinter.html#a93910aafeb560f0674f6d7e517cc2c7c">m_quiet</a>;  </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>};</div>
+</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#endif  </span><span class="comment">// CLIPRINTER_H</span></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html">EasyKiConverter::CliPrinter</a></div><div class="ttdoc">CLI 输出工具</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8h_source.html#l00013">CliPrinter.h:13</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_a3720744022b7b6cd1a360edcb6d187d8"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#a3720744022b7b6cd1a360edcb6d187d8">EasyKiConverter::CliPrinter::isQuiet</a></div><div class="ttdeci">bool isQuiet() const</div><div class="ttdoc">是否为安静模式</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8h_source.html#l00054">CliPrinter.h:54</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_a4fb29222c233a82311db0f1b168987c8"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#a4fb29222c233a82311db0f1b168987c8">EasyKiConverter::CliPrinter::print</a></div><div class="ttdeci">void print(const QString &amp;message) const</div><div class="ttdoc">输出消息</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8cpp_source.html#l00017">CliPrinter.cpp:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_a729f51be61c7c077d43f914beb7ca645"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#a729f51be61c7c077d43f914beb7ca645">EasyKiConverter::CliPrinter::clearLine</a></div><div class="ttdeci">void clearLine() const</div><div class="ttdoc">清除当前行</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8cpp_source.html#l00071">CliPrinter.cpp:71</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_a93910aafeb560f0674f6d7e517cc2c7c"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#a93910aafeb560f0674f6d7e517cc2c7c">EasyKiConverter::CliPrinter::m_quiet</a></div><div class="ttdeci">bool m_quiet</div><div class="ttdoc">标记是否抑制普通 CLI 输出。</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8h_source.html#l00059">CliPrinter.h:59</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_ab11f5c824880d62dfdf0c92edc3cdc3b"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#ab11f5c824880d62dfdf0c92edc3cdc3b">EasyKiConverter::CliPrinter::printProgressBar</a></div><div class="ttdeci">void printProgressBar(int progress) const</div><div class="ttdoc">输出进度条</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8cpp_source.html#l00045">CliPrinter.cpp:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_abedaefb9fd77744fa191480e0f942adb"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#abedaefb9fd77744fa191480e0f942adb">EasyKiConverter::CliPrinter::println</a></div><div class="ttdeci">void println(const QString &amp;message) const</div><div class="ttdoc">输出消息并换行</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8cpp_source.html#l00027">CliPrinter.cpp:27</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CliPrinter_html_aeb12b41e79e1739c42f543a277462671"><div class="ttname"><a href="classEasyKiConverter_1_1CliPrinter.html#aeb12b41e79e1739c42f543a277462671">EasyKiConverter::CliPrinter::printError</a></div><div class="ttdeci">void printError(const QString &amp;message) const</div><div class="ttdoc">输出错误消息</div><div class="ttdef"><b>Definition</b> <a href="CliPrinter_8cpp_source.html#l00037">CliPrinter.cpp:37</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_cbdb8362360e11eafe2fa3bc74cf0ffd.html">utils</a></li><li class="navelem"><a class="el" href="dir_c802a52f71a9867085062b6c590fa632.html">cli</a></li><li class="navelem"><a class="el" href="CliPrinter_8h.html">CliPrinter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

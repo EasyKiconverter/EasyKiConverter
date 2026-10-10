@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::CacheDirectoryMigrator类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1CacheDirectoryMigrator.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-static-methods">静态 Public 成员函数</a> &#124;
+<a href="#pri-static-methods">静态 Private 成员函数</a> &#124;
+<a href="classEasyKiConverter_1_1CacheDirectoryMigrator-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::CacheDirectoryMigrator类 参考<span class="mlabels"><span class="mlabel">final</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>在缓存目录切换时迁移已有缓存内容。  
+ <a href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="CacheDirectoryMigrator_8h_source.html">CacheDirectoryMigrator.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::CacheDirectoryMigrator 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1CacheDirectoryMigrator__coll__graph.svg" width="242" height="131"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+静态 Public 成员函数</h2></td></tr>
+<tr class="memitem:aed482988f526df809c06349f85445b4d" id="r_aed482988f526df809c06349f85445b4d"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#aed482988f526df809c06349f85445b4d">migrate</a> (const QString &amp;oldCacheDir, const QString &amp;newCacheDir, QString *error=nullptr)</td></tr>
+<tr class="memdesc:aed482988f526df809c06349f85445b4d"><td class="mdescLeft">&#160;</td><td class="mdescRight">将旧缓存目录内容迁移到新目录。  <br /></td></tr>
+<tr class="separator:aed482988f526df809c06349f85445b4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
+静态 Private 成员函数</h2></td></tr>
+<tr class="memitem:a57a42a9e27a15b66e56602c46983f74c" id="r_a57a42a9e27a15b66e56602c46983f74c"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#a57a42a9e27a15b66e56602c46983f74c">moveDirectoryContents</a> (const QString &amp;sourceRoot, const QString &amp;sourceDir, const QString &amp;targetRoot, const QString &amp;targetDir, bool legacySource)</td></tr>
+<tr class="memdesc:a57a42a9e27a15b66e56602c46983f74c"><td class="mdescLeft">&#160;</td><td class="mdescRight">迁移目录中的全部缓存条目。  <br /></td></tr>
+<tr class="separator:a57a42a9e27a15b66e56602c46983f74c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a40bff3a08322613374a64958d0fedfa8" id="r_a40bff3a08322613374a64958d0fedfa8"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#a40bff3a08322613374a64958d0fedfa8">moveCacheEntry</a> (const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#a17887ef34e6d0bd9a7d362e17aa74e27">sourcePath</a>, const QString &amp;<a class="el" href="CacheDirectoryMigrator_8cpp.html#ad7e504be9c160222c2e52e17415b9960">targetPath</a>)</td></tr>
+<tr class="memdesc:a40bff3a08322613374a64958d0fedfa8"><td class="mdescLeft">&#160;</td><td class="mdescRight">迁移单个缓存文件或目录条目。  <br /></td></tr>
+<tr class="separator:a40bff3a08322613374a64958d0fedfa8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>在缓存目录切换时迁移已有缓存内容。 </p>
+<p>该类只处理文件系统迁移，不持有 <a class="el" href="classEasyKiConverter_1_1ComponentCacheService.html" title="元器件缓存服务类（两层缓存架构）">ComponentCacheService</a> 的缓存锁，也不修改 缓存服务状态。调用方应在适当的写锁范围内调用 <a class="el" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html#aed482988f526df809c06349f85445b4d" title="将旧缓存目录内容迁移到新目录。">migrate()</a>。 </p>
+
+<p class="definition">在文件 <a class="el" href="CacheDirectoryMigrator_8h_source.html">CacheDirectoryMigrator.h</a> 第 <a class="el" href="CacheDirectoryMigrator_8h_source.html#l00014">14</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="aed482988f526df809c06349f85445b4d" name="aed482988f526df809c06349f85445b4d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed482988f526df809c06349f85445b4d">&#9670;&#160;</a></span>migrate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheDirectoryMigrator::migrate </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>oldCacheDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>newCacheDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">QString *&#160;</td>
+          <td class="paramname"><em>error</em> = <code>nullptr</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>将旧缓存目录内容迁移到新目录。 </p>
+<p>按预检结果事务性迁移旧缓存并在失败时保留源目录。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oldCacheDir</td><td>旧缓存目录。 </td></tr>
+    <tr><td class="paramname">newCacheDir</td><td>新缓存目录。 </td></tr>
+    <tr><td class="paramname">error</td><td>输出具体的预检、冲突或迁移失败原因。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>所有条目均迁移成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">oldCacheDir</td><td>旧缓存根目录。 </td></tr>
+    <tr><td class="paramname">newCacheDir</td><td>新缓存根目录。 </td></tr>
+    <tr><td class="paramname">error</td><td>输出迁移错误信息。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>迁移成功或无需迁移时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html">CacheDirectoryMigrator.cpp</a> 第 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00215">215</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheSafety_8cpp_source.html#l00500">EasyKiConverter::CacheSafety::canAdoptLegacyRoot()</a>, <a class="el" href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04fa83168e6cb289d732cc78427b51f93153">EasyKiConverter::Core</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00413">EasyKiConverter::CacheSafety::isOwnedComponentDirectory()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00348">EasyKiConverter::CacheSafety::isOwnedRoot()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00483">EasyKiConverter::CacheSafety::legacyComponentDirectories()</a>, <a class="el" href="LogMacros_8h_source.html#l00048">LOG_DEBUG</a>, <a class="el" href="LogMacros_8h_source.html#l00072">LOG_WARN</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00535">EasyKiConverter::CacheSafety::ownedComponentDirectories()</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00553">EasyKiConverter::CacheSafety::ownedModel3DFiles()</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00018">sourcePath</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00019">targetPath</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheDirectoryCoordinator_8cpp_source.html#l00027">EasyKiConverter::CacheDirectoryCoordinator::setDirectory()</a>.</p>
+
+</div>
+</div>
+<a id="a40bff3a08322613374a64958d0fedfa8" name="a40bff3a08322613374a64958d0fedfa8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a40bff3a08322613374a64958d0fedfa8">&#9670;&#160;</a></span>moveCacheEntry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheDirectoryMigrator::moveCacheEntry </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>sourcePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>targetPath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>迁移单个缓存文件或目录条目。 </p>
+<p>迁移单个缓存条目并拒绝覆盖已有目标。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourcePath</td><td>源条目路径。 </td></tr>
+    <tr><td class="paramname">targetPath</td><td>目标条目路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>条目迁移成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourcePath</td><td>缓存条目源路径。 </td></tr>
+    <tr><td class="paramname">targetPath</td><td>缓存条目目标路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>条目不存在或移动成功时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html">CacheDirectoryMigrator.cpp</a> 第 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00383">383</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04fa83168e6cb289d732cc78427b51f93153">EasyKiConverter::Core</a>, <a class="el" href="LogMacros_8h_source.html#l00072">LOG_WARN</a>, <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00018">sourcePath</a> , 以及 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00019">targetPath</a>.</p>
+
+</div>
+</div>
+<a id="a57a42a9e27a15b66e56602c46983f74c" name="a57a42a9e27a15b66e56602c46983f74c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57a42a9e27a15b66e56602c46983f74c">&#9670;&#160;</a></span>moveDirectoryContents()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheDirectoryMigrator::moveDirectoryContents </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>sourceRoot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>sourceDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>targetRoot</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>targetDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>legacySource</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>迁移目录中的全部缓存条目。 </p>
+<p>迁移组件目录内容并验证源、目标所有权。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourceRoot</td><td>源缓存根目录。 </td></tr>
+    <tr><td class="paramname">sourceDir</td><td>当前源组件目录。 </td></tr>
+    <tr><td class="paramname">targetRoot</td><td>目标缓存根目录。 </td></tr>
+    <tr><td class="paramname">targetDir</td><td>当前目标组件目录。 </td></tr>
+    <tr><td class="paramname">legacySource</td><td>是否按旧版未标记缓存规则迁移。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>目录内容全部迁移成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sourceRoot</td><td>源缓存根目录。 </td></tr>
+    <tr><td class="paramname">sourceDir</td><td>源组件目录。 </td></tr>
+    <tr><td class="paramname">targetRoot</td><td>目标缓存根目录。 </td></tr>
+    <tr><td class="paramname">targetDir</td><td>目标组件目录。 </td></tr>
+    <tr><td class="paramname">legacySource</td><td>源目录是否为旧版本缓存。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>目录内容迁移成功时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html">CacheDirectoryMigrator.cpp</a> 第 <a class="el" href="CacheDirectoryMigrator_8cpp_source.html#l00330">330</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="namespaceEasyKiConverter.html#aff134bbe6cc1ac962014dd264d0ee04fa83168e6cb289d732cc78427b51f93153">EasyKiConverter::Core</a>, <a class="el" href="CacheSafety_8cpp_source.html#l00413">EasyKiConverter::CacheSafety::isOwnedComponentDirectory()</a> , 以及 <a class="el" href="LogMacros_8h_source.html#l00072">LOG_WARN</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>services/<a class="el" href="CacheDirectoryMigrator_8h_source.html">CacheDirectoryMigrator.h</a></li>
+<li>services/<a class="el" href="CacheDirectoryMigrator_8cpp_source.html">CacheDirectoryMigrator.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1CacheDirectoryMigrator.html">CacheDirectoryMigrator</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

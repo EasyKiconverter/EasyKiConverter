@@ -1,0 +1,837 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::ExporterLibrePcbLibrary类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1ExporterLibrePcbLibrary.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::ExporterLibrePcbLibrary类 参考<span class="mlabels"><span class="mlabel">final</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>将统一 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 写入 LibrePCB 2.1.x 原生库目录。  
+ <a href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ExporterLibrePcbLibrary_8h_source.html">ExporterLibrePcbLibrary.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> 类 EasyKiConverter::ExporterLibrePcbLibrary 继承关系图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1ExporterLibrePcbLibrary__inherit__graph.svg" width="419" height="519"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-1-trigger" src="closed.png" alt="+"/> EasyKiConverter::ExporterLibrePcbLibrary 的协作图:</div>
+<div id="dynsection-1-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-1-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1ExporterLibrePcbLibrary__coll__graph.svg" width="419" height="519"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a630a15b78d3fbac36a806765d74bc291" id="r_a630a15b78d3fbac36a806765d74bc291"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a630a15b78d3fbac36a806765d74bc291">libraryFileExtension</a> () const override</td></tr>
+<tr class="memdesc:a630a15b78d3fbac36a806765d74bc291"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回 LibrePCB 库目录后缀。  <br /></td></tr>
+<tr class="separator:a630a15b78d3fbac36a806765d74bc291"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0392f9cf26c1fab76dad4f8fa86a4e19" id="r_a0392f9cf26c1fab76dad4f8fa86a4e19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a0392f9cf26c1fab76dad4f8fa86a4e19">isDirectoryOutput</a> () const override</td></tr>
+<tr class="memdesc:a0392f9cf26c1fab76dad4f8fa86a4e19"><td class="mdescLeft">&#160;</td><td class="mdescRight">LibrePCB 库使用目录输出。  <br /></td></tr>
+<tr class="separator:a0392f9cf26c1fab76dad4f8fa86a4e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad893ea861e2f31382759433aeb5a2b42" id="r_ad893ea861e2f31382759433aeb5a2b42"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#ad893ea861e2f31382759433aeb5a2b42">exportFootprint</a> (const <a class="el" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a> &amp;footprint, const QString &amp;filePath, const QString &amp;model3DPath=QString()) override</td></tr>
+<tr class="memdesc:ad893ea861e2f31382759433aeb5a2b42"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出单个封装库元素。  <br /></td></tr>
+<tr class="separator:ad893ea861e2f31382759433aeb5a2b42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c5730136056b59a2be9ad4961231230" id="r_a5c5730136056b59a2be9ad4961231230"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a5c5730136056b59a2be9ad4961231230">exportFootprintLibrary</a> (const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a> &gt; &amp;footprints, const QString &amp;libName, const QString &amp;filePath, bool preferWrl=true, bool exportStep=false, const QString &amp;libraryDescription=QString(), const QString &amp;libraryKeywords=QString(), bool useAbsolutePaths=false, const QString &amp;model3DBaseDir=QString()) override</td></tr>
+<tr class="memdesc:a5c5730136056b59a2be9ad4961231230"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出多个封装为 LibrePCB 原生库。  <br /></td></tr>
+<tr class="separator:a5c5730136056b59a2be9ad4961231230"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad498d5c696800c9e6790ca6b952055a4" id="r_ad498d5c696800c9e6790ca6b952055a4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#ad498d5c696800c9e6790ca6b952055a4">exportSymbolLibrary</a> (const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath) override</td></tr>
+<tr class="memdesc:ad498d5c696800c9e6790ca6b952055a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出仅包含符号元素的 LibrePCB 原生库。  <br /></td></tr>
+<tr class="separator:ad498d5c696800c9e6790ca6b952055a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd8c86a3063ba77538cd736441b93a19" id="r_abd8c86a3063ba77538cd736441b93a19"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#abd8c86a3063ba77538cd736441b93a19">exportSymbolLibrary</a> (const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath, bool appendMode, bool updateMode, const QString &amp;libraryDescription=QString()) override</td></tr>
+<tr class="memdesc:abd8c86a3063ba77538cd736441b93a19"><td class="mdescLeft">&#160;</td><td class="mdescRight">通过统一符号接口导出 LibrePCB 符号库。  <br /></td></tr>
+<tr class="separator:abd8c86a3063ba77538cd736441b93a19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a558d95e80b8222d34ce53d801fcc3b6b" id="r_a558d95e80b8222d34ce53d801fcc3b6b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a558d95e80b8222d34ce53d801fcc3b6b">exportSymbol</a> (const <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &amp;symbol, const QString &amp;filePath) override</td></tr>
+<tr class="memdesc:a558d95e80b8222d34ce53d801fcc3b6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出单个符号元素。  <br /></td></tr>
+<tr class="separator:a558d95e80b8222d34ce53d801fcc3b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a532bf00e4acbe269a1eb7cd211a29a9d" id="r_a532bf00e4acbe269a1eb7cd211a29a9d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a532bf00e4acbe269a1eb7cd211a29a9d">exportComponentLibrary</a> (const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html">IR::ComponentIR</a> &gt; &amp;components, const QString &amp;libName, const QString &amp;filePath, bool exportModel3D=false, const QString &amp;model3DBaseDir=QString()) override</td></tr>
+<tr class="memdesc:a532bf00e4acbe269a1eb7cd211a29a9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">导出包含符号、封装、器件关联和三维引用的完整库。  <br /></td></tr>
+<tr class="separator:a532bf00e4acbe269a1eb7cd211a29a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f866a2583e2e95523b4c6e42ac289b7" id="r_a1f866a2583e2e95523b4c6e42ac289b7"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#a1f866a2583e2e95523b4c6e42ac289b7">diagnostics</a> () const override</td></tr>
+<tr class="memdesc:a1f866a2583e2e95523b4c6e42ac289b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回最近一次导出的诊断信息。  <br /></td></tr>
+<tr class="separator:a1f866a2583e2e95523b4c6e42ac289b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classEasyKiConverter_1_1IFootprintExporter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classEasyKiConverter_1_1IFootprintExporter')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html">EasyKiConverter::IFootprintExporter</a></td></tr>
+<tr class="memitem:ac4ea499e3cd1db2c84b2cfd7c2d228d7 inherit pub_methods_classEasyKiConverter_1_1IFootprintExporter" id="r_ac4ea499e3cd1db2c84b2cfd7c2d228d7"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html#ac4ea499e3cd1db2c84b2cfd7c2d228d7">~IFootprintExporter</a> ()=default</td></tr>
+<tr class="separator:ac4ea499e3cd1db2c84b2cfd7c2d228d7 inherit pub_methods_classEasyKiConverter_1_1IFootprintExporter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classEasyKiConverter_1_1ISymbolExporter"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classEasyKiConverter_1_1ISymbolExporter')"><img src="closed.png" alt="-"/>&#160;Public 成员函数 继承自 <a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html">EasyKiConverter::ISymbolExporter</a></td></tr>
+<tr class="memitem:aad4f37547ee3cc492d3596f4ac1aa7c7 inherit pub_methods_classEasyKiConverter_1_1ISymbolExporter" id="r_aad4f37547ee3cc492d3596f4ac1aa7c7"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#aad4f37547ee3cc492d3596f4ac1aa7c7">~ISymbolExporter</a> ()=default</td></tr>
+<tr class="separator:aad4f37547ee3cc492d3596f4ac1aa7c7 inherit pub_methods_classEasyKiConverter_1_1ISymbolExporter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af91373af09e20fc130d3f45cd14f1bb0 inherit pub_methods_classEasyKiConverter_1_1ISymbolExporter" id="r_af91373af09e20fc130d3f45cd14f1bb0"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a850ebde6577999046948b8fb481c25ea">CompanionFiles</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#af91373af09e20fc130d3f45cd14f1bb0">companionFiles</a> () const</td></tr>
+<tr class="memdesc:af91373af09e20fc130d3f45cd14f1bb0 inherit pub_methods_classEasyKiConverter_1_1ISymbolExporter"><td class="mdescLeft">&#160;</td><td class="mdescRight">获取最近一次导出的伴随文件。  <br /></td></tr>
+<tr class="separator:af91373af09e20fc130d3f45cd14f1bb0 inherit pub_methods_classEasyKiConverter_1_1ISymbolExporter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:af94cd29910f5c1ab0edd899dc221af05" id="r_af94cd29910f5c1ab0edd899dc221af05"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html#af94cd29910f5c1ab0edd899dc221af05">m_diagnostics</a></td></tr>
+<tr class="memdesc:af94cd29910f5c1ab0edd899dc221af05"><td class="mdescLeft">&#160;</td><td class="mdescRight">最近一次导出的诊断信息。  <br /></td></tr>
+<tr class="separator:af94cd29910f5c1ab0edd899dc221af05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+额外继承的成员函数</h2></td></tr>
+<tr class="inherit_header pub_types_classEasyKiConverter_1_1ISymbolExporter"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classEasyKiConverter_1_1ISymbolExporter')"><img src="closed.png" alt="-"/>&#160;Public 类型 继承自 <a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html">EasyKiConverter::ISymbolExporter</a></td></tr>
+<tr class="memitem:a850ebde6577999046948b8fb481c25ea inherit pub_types_classEasyKiConverter_1_1ISymbolExporter" id="r_a850ebde6577999046948b8fb481c25ea"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#a850ebde6577999046948b8fb481c25ea">CompanionFiles</a> = QMap&lt; QString, QByteArray &gt;</td></tr>
+<tr class="memdesc:a850ebde6577999046948b8fb481c25ea inherit pub_types_classEasyKiConverter_1_1ISymbolExporter"><td class="mdescLeft">&#160;</td><td class="mdescRight">符号库导出的伴随文件内容。  <br /></td></tr>
+<tr class="separator:a850ebde6577999046948b8fb481c25ea inherit pub_types_classEasyKiConverter_1_1ISymbolExporter"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>将统一 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 写入 LibrePCB 2.1.x 原生库目录。 </p>
+<p>LibrePCB 使用目录型库而非单一库文件。本导出器负责同时生成 Symbol、Package、Component 和 Device 元素，以及它们之间的 UUID 引用。 目标格式特有的转换只存在于本类，不扩展通用 IR。 </p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8h_source.html">ExporterLibrePcbLibrary.h</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8h_source.html#l00020">20</a> 行定义.</p>
+</div><h2 class="groupheader">成员函数说明</h2>
+<a id="a1f866a2583e2e95523b4c6e42ac289b7" name="a1f866a2583e2e95523b4c6e42ac289b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1f866a2583e2e95523b4c6e42ac289b7">&#9670;&#160;</a></span>diagnostics()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::ExporterLibrePcbLibrary::diagnostics </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回最近一次导出的诊断信息。 </p>
+<p>返回本次导出的结构化诊断信息。</p>
+<dl class="section return"><dt>返回</dt><dd>诊断信息列表。</dd>
+<dd>
+导出诊断列表。 </dd></dl>
+
+<p>重载 <a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html#a554548522da5e21f9a5b7f97ae5c1fce">EasyKiConverter::IFootprintExporter</a> .</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01913">1913</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExporterLibrePcbLibrary_8h_source.html#l00126">m_diagnostics</a>.</p>
+
+</div>
+</div>
+<a id="a532bf00e4acbe269a1eb7cd211a29a9d" name="a532bf00e4acbe269a1eb7cd211a29a9d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a532bf00e4acbe269a1eb7cd211a29a9d">&#9670;&#160;</a></span>exportComponentLibrary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::ExporterLibrePcbLibrary::exportComponentLibrary </td>
+          <td>(</td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1ComponentIR.html">IR::ComponentIR</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>components</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>exportModel3D</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>model3DBaseDir</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出包含符号、封装、器件关联和三维引用的完整库。 </p>
+<p>批量导出 LibrePCB 组件、器件及其关联。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">components</td><td>待导出的器件列表。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出目录路径。 </td></tr>
+    <tr><td class="paramname">exportModel3D</td><td>是否导出 3D 模型。 </td></tr>
+    <tr><td class="paramname">model3DBaseDir</td><td>3D 模型基础目录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">components</td><td>待导出的组件 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 列表。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>库输出路径。 </td></tr>
+    <tr><td class="paramname">exportModel3D</td><td>是否导出三维模型。 </td></tr>
+    <tr><td class="paramname">model3DBaseDir</td><td>外部三维模型根目录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功返回 true，否则返回 false。 </dd></dl>
+<p>&lt; 已使用的清理后符号名称。</p>
+<p>&lt; 已使用的清理后封装名称。</p>
+<p>&lt; 已使用的清理后组件名称。</p>
+<p>&lt; 清理后的符号名称。</p>
+<p>&lt; 清理后的封装名称。</p>
+<p>&lt; 清理后的组件名称。</p>
+
+<p>重载 <a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html#a423732652ac46bb2e7e76e5bafea69fc">EasyKiConverter::IFootprintExporter</a> .</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01875">1875</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExporterLibrePcbLibrary_8h_source.html#l00126">m_diagnostics</a>.</p>
+
+</div>
+</div>
+<a id="ad893ea861e2f31382759433aeb5a2b42" name="ad893ea861e2f31382759433aeb5a2b42"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad893ea861e2f31382759433aeb5a2b42">&#9670;&#160;</a></span>exportFootprint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::ExporterLibrePcbLibrary::exportFootprint </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a> &amp;&#160;</td>
+          <td class="paramname"><em>footprint</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>model3DPath</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出单个封装库元素。 </p>
+<p>导出单个 LibrePCB 封装库。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">footprint</td><td>待导出的封装 IR。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出目录路径。 </td></tr>
+    <tr><td class="paramname">model3DPath</td><td>可选 3D 模型路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">footprint</td><td>待导出的封装 IR。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>库输出路径。 </td></tr>
+    <tr><td class="paramname">model3DPath</td><td>外部三维模型路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功返回 true，否则返回 false。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html#a418a4ca8c9068a609478f07f3b7b0315">EasyKiConverter::IFootprintExporter</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01766">1766</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="FootprintIR_8h_source.html#l00198">EasyKiConverter::IR::FootprintComponentIR::description</a>, <a class="el" href="ExporterLibrePcbLibrary_8h_source.html#l00126">m_diagnostics</a> , 以及 <a class="el" href="FootprintIR_8h_source.html#l00197">EasyKiConverter::IR::FootprintComponentIR::name</a>.</p>
+
+</div>
+</div>
+<a id="a5c5730136056b59a2be9ad4961231230" name="a5c5730136056b59a2be9ad4961231230"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c5730136056b59a2be9ad4961231230">&#9670;&#160;</a></span>exportFootprintLibrary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::ExporterLibrePcbLibrary::exportFootprintLibrary </td>
+          <td>(</td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1FootprintComponentIR.html">IR::FootprintComponentIR</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>footprints</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>preferWrl</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>exportStep</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryDescription</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryKeywords</em> = <code>QString()</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useAbsolutePaths</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>model3DBaseDir</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出多个封装为 LibrePCB 原生库。 </p>
+<p>批量导出 LibrePCB 封装库。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">footprints</td><td>待导出的封装列表。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出目录路径。 </td></tr>
+    <tr><td class="paramname">preferWrl</td><td>是否优先使用 WRL 模型。 </td></tr>
+    <tr><td class="paramname">exportStep</td><td>是否导出 STEP 模型。 </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述。 </td></tr>
+    <tr><td class="paramname">libraryKeywords</td><td>库关键词。 </td></tr>
+    <tr><td class="paramname">useAbsolutePaths</td><td>是否使用绝对模型路径。 </td></tr>
+    <tr><td class="paramname">model3DBaseDir</td><td>3D 模型基础目录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">footprints</td><td>待导出的封装 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 列表。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>库输出路径。 </td></tr>
+    <tr><td class="paramname">preferWrl</td><td>是否优先使用 VRML 模型。 </td></tr>
+    <tr><td class="paramname">exportStep</td><td>是否导出 STEP 模型。 </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述。 </td></tr>
+    <tr><td class="paramname">libraryKeywords</td><td>库关键词。 </td></tr>
+    <tr><td class="paramname">useAbsolutePaths</td><td>是否使用绝对模型路径。 </td></tr>
+    <tr><td class="paramname">model3DBaseDir</td><td>外部三维模型根目录。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功返回 true，否则返回 false。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html#ad1052ffb501568d5b5f222962113faab">EasyKiConverter::IFootprintExporter</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01790">1790</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExporterLibrePcbLibrary_8h_source.html#l00126">m_diagnostics</a>.</p>
+
+</div>
+</div>
+<a id="a558d95e80b8222d34ce53d801fcc3b6b" name="a558d95e80b8222d34ce53d801fcc3b6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a558d95e80b8222d34ce53d801fcc3b6b">&#9670;&#160;</a></span>exportSymbol()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::ExporterLibrePcbLibrary::exportSymbol </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &amp;&#160;</td>
+          <td class="paramname"><em>symbol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出单个符号元素。 </p>
+<p>导出单个 LibrePCB 符号。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbol</td><td>待导出的符号 IR。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbol</td><td>待导出的符号 IR。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>库输出路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功返回 true，否则返回 false。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#ab86be9ed1c09069f5618d1b78c6355c1">EasyKiConverter::ISymbolExporter</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01862">1862</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01821">exportSymbolLibrary()</a> , 以及 <a class="el" href="SymbolIR_8h_source.html#l00419">EasyKiConverter::IR::SymbolComponentIR::name</a>.</p>
+
+</div>
+</div>
+<a id="ad498d5c696800c9e6790ca6b952055a4" name="ad498d5c696800c9e6790ca6b952055a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad498d5c696800c9e6790ca6b952055a4">&#9670;&#160;</a></span>exportSymbolLibrary() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::ExporterLibrePcbLibrary::exportSymbolLibrary </td>
+          <td>(</td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>symbols</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>导出仅包含符号元素的 LibrePCB 原生库。 </p>
+<p>导出单个模式的 LibrePCB 符号库。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbols</td><td>待导出的符号列表。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出目录路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbols</td><td>待导出的符号 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 列表。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>库输出路径。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功返回 true，否则返回 false。 </dd></dl>
+
+<p>重载 <a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html#ae85ba2e5f0175f3ee52a6863120f6e81">EasyKiConverter::IFootprintExporter</a> .</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01821">1821</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01821">exportSymbolLibrary()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01862">exportSymbol()</a> , 以及 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01821">exportSymbolLibrary()</a>.</p>
+
+</div>
+</div>
+<a id="abd8c86a3063ba77538cd736441b93a19" name="abd8c86a3063ba77538cd736441b93a19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd8c86a3063ba77538cd736441b93a19">&#9670;&#160;</a></span>exportSymbolLibrary() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::ExporterLibrePcbLibrary::exportSymbolLibrary </td>
+          <td>(</td>
+          <td class="paramtype">const QList&lt; <a class="el" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>symbols</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libName</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filePath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>appendMode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>updateMode</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>libraryDescription</em> = <code>QString()</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>通过统一符号接口导出 LibrePCB 符号库。 </p>
+<p>按指定运行模式导出 LibrePCB 符号库。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbols</td><td>待导出的符号列表。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>输出目录路径。 </td></tr>
+    <tr><td class="paramname">appendMode</td><td>是否追加已有内容。 </td></tr>
+    <tr><td class="paramname">updateMode</td><td>是否更新已有内容。 </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功时返回 true。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">symbols</td><td>待导出的符号 <a class="el" href="namespaceEasyKiConverter_1_1IR.html">IR</a> 列表。 </td></tr>
+    <tr><td class="paramname">libName</td><td>库名称。 </td></tr>
+    <tr><td class="paramname">filePath</td><td>库输出路径。 </td></tr>
+    <tr><td class="paramname">appendMode</td><td>是否追加已有库内容。 </td></tr>
+    <tr><td class="paramname">updateMode</td><td>是否更新已有库内容。 </td></tr>
+    <tr><td class="paramname">libraryDescription</td><td>库描述。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>导出成功返回 true，否则返回 false。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1ISymbolExporter.html#ae3e7e965184c23ef02f7bfeae201d1de">EasyKiConverter::ISymbolExporter</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01837">1837</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="ExporterLibrePcbLibrary_8h_source.html#l00126">m_diagnostics</a>.</p>
+
+</div>
+</div>
+<a id="a0392f9cf26c1fab76dad4f8fa86a4e19" name="a0392f9cf26c1fab76dad4f8fa86a4e19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0392f9cf26c1fab76dad4f8fa86a4e19">&#9670;&#160;</a></span>isDirectoryOutput()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::ExporterLibrePcbLibrary::isDirectoryOutput </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>LibrePCB 库使用目录输出。 </p>
+<p>指示 LibrePCB 导出结果是否为目录。</p>
+<dl class="section return"><dt>返回</dt><dd>始终返回 true。</dd>
+<dd>
+LibrePCB 原生库使用目录结构时返回 true。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html#a3b7770a0d79ca44527343d06039abc8f">EasyKiConverter::IFootprintExporter</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01755">1755</a> 行定义.</p>
+
+</div>
+</div>
+<a id="a630a15b78d3fbac36a806765d74bc291" name="a630a15b78d3fbac36a806765d74bc291"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a630a15b78d3fbac36a806765d74bc291">&#9670;&#160;</a></span>libraryFileExtension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QString EasyKiConverter::ExporterLibrePcbLibrary::libraryFileExtension </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>返回 LibrePCB 库目录后缀。 </p>
+<p>返回 LibrePCB 原生库的目录后缀。</p>
+<dl class="section return"><dt>返回</dt><dd>目标库目录后缀。</dd>
+<dd>
+LibrePCB 库目录后缀。 </dd></dl>
+
+<p>实现了 <a class="el" href="classEasyKiConverter_1_1IFootprintExporter.html#aeb25d41d60eefb47244b293d68a3272a">EasyKiConverter::IFootprintExporter</a>.</p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01747">1747</a> 行定义.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="af94cd29910f5c1ab0edd899dc221af05" name="af94cd29910f5c1ab0edd899dc221af05"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af94cd29910f5c1ab0edd899dc221af05">&#9670;&#160;</a></span>m_diagnostics</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QStringList EasyKiConverter::ExporterLibrePcbLibrary::m_diagnostics</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>最近一次导出的诊断信息。 </p>
+
+<p class="definition">在文件 <a class="el" href="ExporterLibrePcbLibrary_8h_source.html">ExporterLibrePcbLibrary.h</a> 第 <a class="el" href="ExporterLibrePcbLibrary_8h_source.html#l00126">126</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01913">diagnostics()</a>, <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01875">exportComponentLibrary()</a>, <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01766">exportFootprint()</a>, <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01790">exportFootprintLibrary()</a> , 以及 <a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html#l01837">exportSymbolLibrary()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>core/librepcb/<a class="el" href="ExporterLibrePcbLibrary_8h_source.html">ExporterLibrePcbLibrary.h</a></li>
+<li>core/librepcb/<a class="el" href="ExporterLibrePcbLibrary_8cpp_source.html">ExporterLibrePcbLibrary.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1ExporterLibrePcbLibrary.html">ExporterLibrePcbLibrary</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

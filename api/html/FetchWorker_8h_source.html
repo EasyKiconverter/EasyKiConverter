@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: workers/FetchWorker.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('FetchWorker_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">FetchWorker.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="FetchWorker_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef FETCHWORKER_H</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define FETCHWORKER_H</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="BaseWorker_8h.html">BaseWorker.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="INetworkClient_8h.html">core/network/INetworkClient.h</a>&quot;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentExportStatus_8h.html">models/ComponentExportStatus.h</a>&quot;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;QAtomicInt&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;QMutex&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QRandomGenerator&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">class </span>AsyncNetworkRequest;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="foldopen" id="foldopen00021" data-start="{" data-end="};">
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html">   21</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1FetchWorker.html">FetchWorker</a> : <span class="keyword">public</span> <a class="code hl_class" href="classEasyKiConverter_1_1BaseWorker.html">BaseWorker</a> {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    Q_OBJECT</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="classEasyKiConverter_1_1FetchWorker.html">FetchWorker</a>(<span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>                         <span class="keywordtype">bool</span> need3DModel,</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>                         <span class="keywordtype">bool</span> fetch3DOnly = <span class="keyword">false</span>,</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>                         <span class="keyword">const</span> QString&amp; existing3DUuid = QString(),</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>                         <a class="code hl_class" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a>* networkClient = <span class="keyword">nullptr</span>,</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>                         QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#af2b981364de1afa1bb66a52285a60b74">   45</a></span>    <a class="code hl_function" href="classEasyKiConverter_1_1FetchWorker.html#af2b981364de1afa1bb66a52285a60b74">~FetchWorker</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FetchWorker.html#a9f24232d2847626de24cd56333032bef">run</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FetchWorker.html#ab758553df031e8206cb2064174f10d9a">abort</a>();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>signals:</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#acc6b6e328401b887da6659e88c7c0e96">   62</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1FetchWorker.html#acc6b6e328401b887da6659e88c7c0e96">fetchCompleted</a>(QSharedPointer&lt;ComponentExportStatus&gt; status);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1FetchWorker.html#a1db2b719e2c86d416ebc268c91155565">httpGet</a>(<span class="keyword">const</span> QString&amp; url,</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>                       <span class="keywordtype">int</span> timeoutMs = 30000,</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>                       QSharedPointer&lt;ComponentExportStatus&gt; status = <span class="keyword">nullptr</span>,</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                       <a class="code hl_enumeration" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">ResourceType</a> resourceType = <a class="code hl_enumvalue" href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66aa37cd108964334a29fba352c3fb4cc2e">ResourceType::WorkerRequest</a>);</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    QByteArray <a class="code hl_function" href="classEasyKiConverter_1_1FetchWorker.html#a605451e6eb6dcc0f104d41df9be17935">decompressZip</a>(<span class="keyword">const</span> QByteArray&amp; zipData);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1FetchWorker.html#a91e6fe73f5849cb92e2960fe67e51840">fetch3DModelData</a>(QSharedPointer&lt;ComponentExportStatus&gt; status);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1FetchWorker.html#a6e390a48235200017fb2994e24259aa8">calculateRetryDelay</a>(<span class="keywordtype">int</span> retryCount);</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#aa07ba72e2c80a3b1e0a04a2740ab7320">  100</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#aa07ba72e2c80a3b1e0a04a2740ab7320">m_componentId</a>;  </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a17e4df541d23706623b589c15fd15753">  101</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a17e4df541d23706623b589c15fd15753">m_need3DModel</a>;  </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#aaeaa80bd5a9b635b831c9937f1db8b73">  102</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#aaeaa80bd5a9b635b831c9937f1db8b73">m_fetch3DOnly</a>;  <span class="comment">// 是否只获取3D模型</span></div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a925f497a797225c8c3038a3d7b6dfaea">  103</a></span>    QString <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a925f497a797225c8c3038a3d7b6dfaea">m_existing3DUuid</a>;  <span class="comment">// 已有的3D模型UUID</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span> </div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a1dafe5f7f1d85c21d5684cdf8f4e0ad8">  105</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1INetworkClient.html">INetworkClient</a>* <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a1dafe5f7f1d85c21d5684cdf8f4e0ad8">m_networkClient</a>;  </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a82098e4a2b611f022ca116076a3fe982">  106</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1AsyncNetworkRequest.html">AsyncNetworkRequest</a>* <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a82098e4a2b611f022ca116076a3fe982">m_currentRequest</a>;  </div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a4374cff69fb67c4b76731519a27d525b">  107</a></span>    QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a4374cff69fb67c4b76731519a27d525b">m_replyMutex</a>;  </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#aafd8a2aca3b57b184b4503e0bc571ec8">  108</a></span>    QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#aafd8a2aca3b57b184b4503e0bc571ec8">m_isAborted</a>;  </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    <span class="comment">// 超时配置（静态常量，可配置）</span></div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a94c623a361e455091d0a862d248c5fea">  111</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a94c623a361e455091d0a862d248c5fea">COMPONENT_INFO_TIMEOUT_MS</a> = 15000;  </div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a9f473d41e955e2530acadfc439f8f7a6">  112</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a9f473d41e955e2530acadfc439f8f7a6">MODEL_3D_TIMEOUT_MS</a> = 30000;  </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a3e34e115f7906a08d8b6ac7852f2ed40">  113</a></span>    <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a3e34e115f7906a08d8b6ac7852f2ed40">MAX_HTTP_RETRIES</a> = 3;  </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="comment">// 递增重试延迟（毫秒），对应第1/2/3次重试</span></div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a9a173f34b321894fc15ae903db32597a">  116</a></span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a9a173f34b321894fc15ae903db32597a">RETRY_DELAYS_MS</a>[] = {3000, 5000, 10000};  </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="comment">// 速率限制检测（静态成员，所有 FetchWorker 共享）</span></div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#ae07786ed90acf678796e711d93620476">  119</a></span>    <span class="keyword">static</span> QAtomicInt <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#ae07786ed90acf678796e711d93620476">s_activeRequests</a>;  <span class="comment">// 活跃请求计数</span></div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#add09b9b98681aa0c7708ae197bc7586c">  120</a></span>    <span class="keyword">static</span> QMutex <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#add09b9b98681aa0c7708ae197bc7586c">s_rateLimitMutex</a>;  <span class="comment">// 速率限制互斥锁</span></div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a1b4d7cb9c7e258e7c1f94cbdbef7cebd">  121</a></span>    <span class="keyword">static</span> QDateTime <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a1b4d7cb9c7e258e7c1f94cbdbef7cebd">s_lastRateLimitTime</a>;  <span class="comment">// 上次触发速率限制的时间</span></div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1FetchWorker.html#a6be91708f476bb3a32257f20536e2f77">  122</a></span>    <span class="keyword">static</span> <span class="keywordtype">int</span> <a class="code hl_variable" href="classEasyKiConverter_1_1FetchWorker.html#a6be91708f476bb3a32257f20536e2f77">s_backoffMs</a>;  <span class="comment">// 退避延迟（毫秒）</span></div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>};</div>
+</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span> </div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span><span class="preprocessor">#endif  </span><span class="comment">// FETCHWORKER_H</span></div>
+<div class="ttc" id="aBaseWorker_8h_html"><div class="ttname"><a href="BaseWorker_8h.html">BaseWorker.h</a></div></div>
+<div class="ttc" id="aComponentExportStatus_8h_html"><div class="ttname"><a href="ComponentExportStatus_8h.html">ComponentExportStatus.h</a></div></div>
+<div class="ttc" id="aINetworkClient_8h_html"><div class="ttname"><a href="INetworkClient_8h.html">INetworkClient.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AsyncNetworkRequest_html"><div class="ttname"><a href="classEasyKiConverter_1_1AsyncNetworkRequest.html">EasyKiConverter::AsyncNetworkRequest</a></div><div class="ttdoc">异步网络请求，支持取消</div><div class="ttdef"><b>Definition</b> <a href="AsyncNetworkRequest_8h_source.html#l00045">AsyncNetworkRequest.h:45</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1BaseWorker_html"><div class="ttname"><a href="classEasyKiConverter_1_1BaseWorker.html">EasyKiConverter::BaseWorker</a></div><div class="ttdoc">Base class for all workers with unified lifecycle management</div><div class="ttdef"><b>Definition</b> <a href="BaseWorker_8h_source.html#l00027">BaseWorker.h:27</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html">EasyKiConverter::FetchWorker</a></div><div class="ttdoc">抓取工作线程</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00021">FetchWorker.h:21</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a17e4df541d23706623b589c15fd15753"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a17e4df541d23706623b589c15fd15753">EasyKiConverter::FetchWorker::m_need3DModel</a></div><div class="ttdeci">bool m_need3DModel</div><div class="ttdoc">模型。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00101">FetchWorker.h:101</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a1b4d7cb9c7e258e7c1f94cbdbef7cebd"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a1b4d7cb9c7e258e7c1f94cbdbef7cebd">EasyKiConverter::FetchWorker::s_lastRateLimitTime</a></div><div class="ttdeci">static QDateTime s_lastRateLimitTime</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00121">FetchWorker.h:121</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a1dafe5f7f1d85c21d5684cdf8f4e0ad8"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a1dafe5f7f1d85c21d5684cdf8f4e0ad8">EasyKiConverter::FetchWorker::m_networkClient</a></div><div class="ttdeci">INetworkClient * m_networkClient</div><div class="ttdoc">网络客户端。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00105">FetchWorker.h:105</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a1db2b719e2c86d416ebc268c91155565"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a1db2b719e2c86d416ebc268c91155565">EasyKiConverter::FetchWorker::httpGet</a></div><div class="ttdeci">QByteArray httpGet(const QString &amp;url, int timeoutMs=30000, QSharedPointer&lt; ComponentExportStatus &gt; status=nullptr, ResourceType resourceType=ResourceType::WorkerRequest)</div><div class="ttdoc">执行HTTP GET请求</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8cpp_source.html#l00267">FetchWorker.cpp:267</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a3e34e115f7906a08d8b6ac7852f2ed40"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a3e34e115f7906a08d8b6ac7852f2ed40">EasyKiConverter::FetchWorker::MAX_HTTP_RETRIES</a></div><div class="ttdeci">static const int MAX_HTTP_RETRIES</div><div class="ttdoc">HTTP 请求最大重试次数。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00113">FetchWorker.h:113</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a4374cff69fb67c4b76731519a27d525b"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a4374cff69fb67c4b76731519a27d525b">EasyKiConverter::FetchWorker::m_replyMutex</a></div><div class="ttdeci">QMutex m_replyMutex</div><div class="ttdoc">网络响应互斥量。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00107">FetchWorker.h:107</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a605451e6eb6dcc0f104d41df9be17935"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a605451e6eb6dcc0f104d41df9be17935">EasyKiConverter::FetchWorker::decompressZip</a></div><div class="ttdeci">QByteArray decompressZip(const QByteArray &amp;zipData)</div><div class="ttdoc">解压ZIP数据</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8cpp_source.html#l00382">FetchWorker.cpp:382</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a6be91708f476bb3a32257f20536e2f77"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a6be91708f476bb3a32257f20536e2f77">EasyKiConverter::FetchWorker::s_backoffMs</a></div><div class="ttdeci">static int s_backoffMs</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00122">FetchWorker.h:122</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a6e390a48235200017fb2994e24259aa8"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a6e390a48235200017fb2994e24259aa8">EasyKiConverter::FetchWorker::calculateRetryDelay</a></div><div class="ttdeci">static int calculateRetryDelay(int retryCount)</div><div class="ttdoc">计算重试延迟（含随机抖动）</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8cpp_source.html#l00610">FetchWorker.cpp:610</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a82098e4a2b611f022ca116076a3fe982"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a82098e4a2b611f022ca116076a3fe982">EasyKiConverter::FetchWorker::m_currentRequest</a></div><div class="ttdeci">AsyncNetworkRequest * m_currentRequest</div><div class="ttdoc">请求。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00106">FetchWorker.h:106</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a91e6fe73f5849cb92e2960fe67e51840"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a91e6fe73f5849cb92e2960fe67e51840">EasyKiConverter::FetchWorker::fetch3DModelData</a></div><div class="ttdeci">bool fetch3DModelData(QSharedPointer&lt; ComponentExportStatus &gt; status)</div><div class="ttdoc">下载3D模型数据</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8cpp_source.html#l00440">FetchWorker.cpp:440</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a925f497a797225c8c3038a3d7b6dfaea"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a925f497a797225c8c3038a3d7b6dfaea">EasyKiConverter::FetchWorker::m_existing3DUuid</a></div><div class="ttdeci">QString m_existing3DUuid</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00103">FetchWorker.h:103</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a94c623a361e455091d0a862d248c5fea"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a94c623a361e455091d0a862d248c5fea">EasyKiConverter::FetchWorker::COMPONENT_INFO_TIMEOUT_MS</a></div><div class="ttdeci">static const int COMPONENT_INFO_TIMEOUT_MS</div><div class="ttdoc">组件信息超时时间（毫秒）。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00111">FetchWorker.h:111</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a9a173f34b321894fc15ae903db32597a"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a9a173f34b321894fc15ae903db32597a">EasyKiConverter::FetchWorker::RETRY_DELAYS_MS</a></div><div class="ttdeci">static constexpr int RETRY_DELAYS_MS[]</div><div class="ttdoc">各次重试的等待时间（毫秒）。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00116">FetchWorker.h:116</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a9f24232d2847626de24cd56333032bef"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a9f24232d2847626de24cd56333032bef">EasyKiConverter::FetchWorker::run</a></div><div class="ttdeci">void run() override</div><div class="ttdoc">执行抓取任务</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8cpp_source.html#l00061">FetchWorker.cpp:61</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_a9f473d41e955e2530acadfc439f8f7a6"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#a9f473d41e955e2530acadfc439f8f7a6">EasyKiConverter::FetchWorker::MODEL_3D_TIMEOUT_MS</a></div><div class="ttdeci">static const int MODEL_3D_TIMEOUT_MS</div><div class="ttdoc">三维模型请求超时时间（毫秒）。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00112">FetchWorker.h:112</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_aa07ba72e2c80a3b1e0a04a2740ab7320"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#aa07ba72e2c80a3b1e0a04a2740ab7320">EasyKiConverter::FetchWorker::m_componentId</a></div><div class="ttdeci">QString m_componentId</div><div class="ttdoc">标识符。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00100">FetchWorker.h:100</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_aaeaa80bd5a9b635b831c9937f1db8b73"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#aaeaa80bd5a9b635b831c9937f1db8b73">EasyKiConverter::FetchWorker::m_fetch3DOnly</a></div><div class="ttdeci">bool m_fetch3DOnly</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00102">FetchWorker.h:102</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_aafd8a2aca3b57b184b4503e0bc571ec8"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#aafd8a2aca3b57b184b4503e0bc571ec8">EasyKiConverter::FetchWorker::m_isAborted</a></div><div class="ttdeci">QAtomicInt m_isAborted</div><div class="ttdoc">是否已中止。</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00108">FetchWorker.h:108</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_ab758553df031e8206cb2064174f10d9a"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#ab758553df031e8206cb2064174f10d9a">EasyKiConverter::FetchWorker::abort</a></div><div class="ttdeci">void abort()</div><div class="ttdoc">中断当前正在执行的网络请求</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8cpp_source.html#l00594">FetchWorker.cpp:594</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_acc6b6e328401b887da6659e88c7c0e96"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#acc6b6e328401b887da6659e88c7c0e96">EasyKiConverter::FetchWorker::fetchCompleted</a></div><div class="ttdeci">void fetchCompleted(QSharedPointer&lt; ComponentExportStatus &gt; status)</div><div class="ttdoc">抓取完成信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_add09b9b98681aa0c7708ae197bc7586c"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#add09b9b98681aa0c7708ae197bc7586c">EasyKiConverter::FetchWorker::s_rateLimitMutex</a></div><div class="ttdeci">static QMutex s_rateLimitMutex</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00120">FetchWorker.h:120</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_ae07786ed90acf678796e711d93620476"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#ae07786ed90acf678796e711d93620476">EasyKiConverter::FetchWorker::s_activeRequests</a></div><div class="ttdeci">static QAtomicInt s_activeRequests</div><div class="ttdef"><b>Definition</b> <a href="FetchWorker_8h_source.html#l00119">FetchWorker.h:119</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1FetchWorker_html_af2b981364de1afa1bb66a52285a60b74"><div class="ttname"><a href="classEasyKiConverter_1_1FetchWorker.html#af2b981364de1afa1bb66a52285a60b74">EasyKiConverter::FetchWorker::~FetchWorker</a></div><div class="ttdeci">~FetchWorker() override</div><div class="ttdoc">析构函数</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1INetworkClient_html"><div class="ttname"><a href="classEasyKiConverter_1_1INetworkClient.html">EasyKiConverter::INetworkClient</a></div><div class="ttdoc">网络客户端接口</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00470">INetworkClient.h:470</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_ab181dbbf82acb26de2e9a29a77e21a66"><div class="ttname"><a href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66">EasyKiConverter::ResourceType</a></div><div class="ttdeci">ResourceType</div><div class="ttdoc">网络请求资源类型</div><div class="ttdef"><b>Definition</b> <a href="INetworkClient_8h_source.html#l00019">INetworkClient.h:19</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html_ab181dbbf82acb26de2e9a29a77e21a66aa37cd108964334a29fba352c3fb4cc2e"><div class="ttname"><a href="namespaceEasyKiConverter.html#ab181dbbf82acb26de2e9a29a77e21a66aa37cd108964334a29fba352c3fb4cc2e">EasyKiConverter::ResourceType::WorkerRequest</a></div><div class="ttdeci">@ WorkerRequest</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_16b488fbba2495673abe79f720aebac4.html">workers</a></li><li class="navelem"><a class="el" href="FetchWorker_8h.html">FetchWorker.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

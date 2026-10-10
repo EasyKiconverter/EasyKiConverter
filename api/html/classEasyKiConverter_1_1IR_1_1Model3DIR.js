@@ -1,0 +1,26 @@
+var classEasyKiConverter_1_1IR_1_1Model3DIR =
+[
+    [ "Model3DIR", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#acc974e7eba1ec1af770bc48e1dc6dce7", null ],
+    [ "clear", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a641488e5375c57286ed65261e7c3cc71", null ],
+    [ "hasObjData", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#aac089ef281b52231656c99157eb30292", null ],
+    [ "hasStepData", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#aa0dc82a3ccdd98ccf52b8196bc70f48d", null ],
+    [ "isValid", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a5baa73541801a0279e302d2342a270ed", null ],
+    [ "name", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a9b8093e27a7035f0ffdc736fd0a451de", null ],
+    [ "rawObj", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#ae8885c9b37f30b4e173e27b520fa346c", null ],
+    [ "rotation", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a193497e6817c98ddbeaf792ff871d04f", null ],
+    [ "setName", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a79be28963384d18fb627cdc87899eea3", null ],
+    [ "setRawObj", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#aaa7df58c5c73c1f40f091b34590c4d32", null ],
+    [ "setRotation", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a2a59d26e6af2e867888dfcdff5a647f5", null ],
+    [ "setStepData", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a7b173d764eb1d19f5e3cdba41e0bedb1", null ],
+    [ "setStepOffsetMm", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a89f4a1926f9722ee7c70bfd6160bb40c", null ],
+    [ "setTranslation", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a72250952081f0b7b41b96e1a945e9c36", null ],
+    [ "stepData", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#ae734362ba3de29f0dec107ab1e1ee376", null ],
+    [ "stepOffsetMm", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a6c48bf1209e8f4cce8106f5c28d02c1b", null ],
+    [ "translation", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a15792a7a73c271916b5ca472412827f3", null ],
+    [ "m_name", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a55079eca9e5029ec3f95c6477f1aa567", null ],
+    [ "m_rawObj", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a43b68e4e9555296849f1f0c0911bc9ec", null ],
+    [ "m_rotation", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a2ce1e1b7a7265da4f921c0dfe232946b", null ],
+    [ "m_step", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a99a9faa98901eacc81447bbb4b5a429e", null ],
+    [ "m_stepOffsetMm", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#ac365daa1996db3e3d00110319459f1d8", null ],
+    [ "m_translation", "classEasyKiConverter_1_1IR_1_1Model3DIR.html#a8529c88ede16e05806104f94a0dcdcaf", null ]
+];

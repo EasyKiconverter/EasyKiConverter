@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/CachePruner.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('CachePruner_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">CachePruner.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="CachePruner_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="CachePruner_8h.html">CachePruner.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QDir&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QPair&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>qint64 _calculateDirSize(<span class="keyword">const</span> QString&amp; dirPath) {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    qint64 size = 0;  <span class="comment">// 当前目录及其子目录的累计大小。</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    QDir dir(dirPath);  <span class="comment">// 待统计的目录对象。</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordflow">if</span> (!dir.exists()) {</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordflow">return</span> size;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    }</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QFileInfo&amp; info : dir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot)) {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">if</span> (!info.isSymLink())</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            size += info.size();</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QFileInfo&amp; info : dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot)) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        <span class="keywordflow">if</span> (!info.isSymLink())</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            size += _calculateDirSize(info.absoluteFilePath());</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    }</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keywordflow">return</span> size;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>}</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="}">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CachePruner.html#ac717c7ac25570c63aed4a58cfbd20d33">   44</a></span><a class="code hl_function" href="classEasyKiConverter_1_1CachePruner.html#ac717c7ac25570c63aed4a58cfbd20d33">CachePruner::CachePruner</a>(<span class="keyword">const</span> QString&amp; cacheRoot, <span class="keyword">const</span> <a class="code hl_typedef" href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">CacheSafety::TrashFunction</a>&amp; trash)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    : m_cacheRoot(cacheRoot), m_trash(trash) {}</div>
+</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="foldopen" id="foldopen00052" data-start="{" data-end="}">
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CachePruner.html#a84ab3cc8c18cf862b8ca5fdc43037234">   52</a></span>qint64 <a class="code hl_function" href="classEasyKiConverter_1_1CachePruner.html#a84ab3cc8c18cf862b8ca5fdc43037234">CachePruner::calculateDirSize</a>(<span class="keyword">const</span> QString&amp; dirPath)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> _calculateDirSize(dirPath);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}</div>
+</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="foldopen" id="foldopen00060" data-start="{" data-end="}">
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CachePruner.html#a67d2e424d00aaa586dd5746c191b91ef">   60</a></span>qint64 <a class="code hl_function" href="classEasyKiConverter_1_1CachePruner.html#a67d2e424d00aaa586dd5746c191b91ef">CachePruner::currentCacheSize</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    qint64 totalSize = 0;  <span class="comment">// 可验证缓存条目的累计大小。</span></div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; componentPath : <a class="code hl_function" href="classEasyKiConverter_1_1CacheSafety.html#ad73f7c813ce55245ce8181dbe728ed2d">CacheSafety::ownedComponentDirectories</a>(<a class="code hl_variable" href="classEasyKiConverter_1_1CachePruner.html#a0b58c7e38cd56e1b41518a9909a73c13">m_cacheRoot</a>)) {</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; filePath : <a class="code hl_function" href="classEasyKiConverter_1_1CacheSafety.html#a8c07a61c1f1b899b38f8f2a33abaaf9c">CacheSafety::ownedComponentFiles</a>(<a class="code hl_variable" href="classEasyKiConverter_1_1CachePruner.html#a0b58c7e38cd56e1b41518a9909a73c13">m_cacheRoot</a>, componentPath))</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>            totalSize += QFileInfo(filePath).size();</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordflow">return</span> totalSize;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
+</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1CachePruner.html#ad9dee6bdeaf3ec7cc1187753327843e2">   74</a></span>qint64 <a class="code hl_function" href="classEasyKiConverter_1_1CachePruner.html#ad9dee6bdeaf3ec7cc1187753327843e2">CachePruner::pruneTo</a>(qint64 targetSizeBytes) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keyword">struct </span>CacheEntry {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>;  </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        QDateTime lastModified;  </div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        qint64 size;  </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    };</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span> </div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="comment">// 第一阶段：按文件收集可验证的缓存条目（排除 model3d 和未知文件）。</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>    QList&lt;CacheEntry&gt; cacheList;  <span class="comment">// 按文件记录的可验证缓存条目。</span></div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    qint64 currentSize = 0;  <span class="comment">// 当前可维护缓存总大小。</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span> </div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; componentPath : <a class="code hl_function" href="classEasyKiConverter_1_1CacheSafety.html#ad73f7c813ce55245ce8181dbe728ed2d">CacheSafety::ownedComponentDirectories</a>(<a class="code hl_variable" href="classEasyKiConverter_1_1CachePruner.html#a0b58c7e38cd56e1b41518a9909a73c13">m_cacheRoot</a>)) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a> : <a class="code hl_function" href="classEasyKiConverter_1_1CacheSafety.html#a8c07a61c1f1b899b38f8f2a33abaaf9c">CacheSafety::ownedComponentFiles</a>(<a class="code hl_variable" href="classEasyKiConverter_1_1CachePruner.html#a0b58c7e38cd56e1b41518a9909a73c13">m_cacheRoot</a>, componentPath)) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keyword">const</span> QFileInfo info(<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>);  <span class="comment">// 当前缓存文件信息。</span></div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>            <span class="keyword">const</span> qint64 entrySize = info.size();  <span class="comment">// 当前缓存文件大小。</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            cacheList.append({<a class="code hl_variable" href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a>, info.lastModified(), entrySize});</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            currentSize += entrySize;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">if</span> (currentSize &lt;= targetSizeBytes) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">return</span> currentSize;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="comment">// 按最后修改时间排序，最早修改的条目优先裁剪。</span></div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    std::sort(cacheList.begin(), cacheList.end(), [](<span class="keyword">const</span> CacheEntry&amp; a, <span class="keyword">const</span> CacheEntry&amp; b) {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        return a.lastModified &lt; b.lastModified;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    });</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="comment">// 第二阶段：将经过所有权验证的条目移入回收站。</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; entry : cacheList) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>        <span class="keywordflow">if</span> (currentSize &lt;= targetSizeBytes) {</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        QString error;  <span class="comment">// 当前回收站操作的错误信息。</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="classEasyKiConverter_1_1CacheSafety.html#a3dc028a0206a0d9b6d73f24ce6c989ad">CacheSafety::moveToTrash</a>(entry.name, &amp;error, <a class="code hl_variable" href="classEasyKiConverter_1_1CachePruner.html#a9e2ff907ef0a6e152f7e5b02bd9853ca">m_trash</a>)) {</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>            currentSize -= entry.size;</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        }</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    }</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keywordflow">return</span> currentSize;</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>}</div>
+</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span> </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aCacheDirectoryMigrator_8cpp_html_a34b772573db9a14b1acb61b24709ae73"><div class="ttname"><a href="CacheDirectoryMigrator_8cpp.html#a34b772573db9a14b1acb61b24709ae73">path</a></div><div class="ttdeci">QString path</div><div class="ttdoc">旧缓存元数据文件路径。</div><div class="ttdef"><b>Definition</b> <a href="CacheDirectoryMigrator_8cpp_source.html#l00023">CacheDirectoryMigrator.cpp:23</a></div></div>
+<div class="ttc" id="aCachePruner_8h_html"><div class="ttname"><a href="CachePruner_8h.html">CachePruner.h</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_a0b58c7e38cd56e1b41518a9909a73c13"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#a0b58c7e38cd56e1b41518a9909a73c13">EasyKiConverter::CachePruner::m_cacheRoot</a></div><div class="ttdeci">QString m_cacheRoot</div><div class="ttdoc">待维护的缓存根目录。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8h_source.html#l00042">CachePruner.h:42</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_a67d2e424d00aaa586dd5746c191b91ef"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#a67d2e424d00aaa586dd5746c191b91ef">EasyKiConverter::CachePruner::currentCacheSize</a></div><div class="ttdeci">qint64 currentCacheSize() const</div><div class="ttdoc">获取当前缓存总大小。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8cpp_source.html#l00060">CachePruner.cpp:60</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_a84ab3cc8c18cf862b8ca5fdc43037234"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#a84ab3cc8c18cf862b8ca5fdc43037234">EasyKiConverter::CachePruner::calculateDirSize</a></div><div class="ttdeci">qint64 calculateDirSize(const QString &amp;dirPath) const</div><div class="ttdoc">计算目录大小。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8cpp_source.html#l00052">CachePruner.cpp:52</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_a9e2ff907ef0a6e152f7e5b02bd9853ca"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#a9e2ff907ef0a6e152f7e5b02bd9853ca">EasyKiConverter::CachePruner::m_trash</a></div><div class="ttdeci">CacheSafety::TrashFunction m_trash</div><div class="ttdoc">可注入的系统回收站操作。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8h_source.html#l00043">CachePruner.h:43</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_ac717c7ac25570c63aed4a58cfbd20d33"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#ac717c7ac25570c63aed4a58cfbd20d33">EasyKiConverter::CachePruner::CachePruner</a></div><div class="ttdeci">CachePruner(const QString &amp;cacheRoot, const CacheSafety::TrashFunction &amp;trash=CacheSafety::TrashFunction())</div><div class="ttdoc">创建缓存配额裁剪器。</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8cpp_source.html#l00044">CachePruner.cpp:44</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CachePruner_html_ad9dee6bdeaf3ec7cc1187753327843e2"><div class="ttname"><a href="classEasyKiConverter_1_1CachePruner.html#ad9dee6bdeaf3ec7cc1187753327843e2">EasyKiConverter::CachePruner::pruneTo</a></div><div class="ttdeci">qint64 pruneTo(qint64 targetSizeBytes)</div><div class="ttdoc">执行LRU缓存淘汰</div><div class="ttdef"><b>Definition</b> <a href="CachePruner_8cpp_source.html#l00074">CachePruner.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheSafety_html_a3dc028a0206a0d9b6d73f24ce6c989ad"><div class="ttname"><a href="classEasyKiConverter_1_1CacheSafety.html#a3dc028a0206a0d9b6d73f24ce6c989ad">EasyKiConverter::CacheSafety::moveToTrash</a></div><div class="ttdeci">static bool moveToTrash(const QString &amp;path, QString *error=nullptr, const TrashFunction &amp;trash=TrashFunction())</div><div class="ttdoc">将已验证条目移入系统回收站。</div><div class="ttdef"><b>Definition</b> <a href="CacheSafety_8cpp_source.html#l00572">CacheSafety.cpp:572</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheSafety_html_a8c07a61c1f1b899b38f8f2a33abaaf9c"><div class="ttname"><a href="classEasyKiConverter_1_1CacheSafety.html#a8c07a61c1f1b899b38f8f2a33abaaf9c">EasyKiConverter::CacheSafety::ownedComponentFiles</a></div><div class="ttdeci">static QStringList ownedComponentFiles(const QString &amp;rootPath, const QString &amp;componentPath)</div><div class="ttdoc">列出指定元器件目录中所有可验证归属的缓存文件。</div><div class="ttdef"><b>Definition</b> <a href="CacheSafety_8cpp_source.html#l00452">CacheSafety.cpp:452</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheSafety_html_ad73f7c813ce55245ce8181dbe728ed2d"><div class="ttname"><a href="classEasyKiConverter_1_1CacheSafety.html#ad73f7c813ce55245ce8181dbe728ed2d">EasyKiConverter::CacheSafety::ownedComponentDirectories</a></div><div class="ttdeci">static QStringList ownedComponentDirectories(const QString &amp;rootPath)</div><div class="ttdoc">列出所有权可验证的元器件缓存目录。</div><div class="ttdef"><b>Definition</b> <a href="CacheSafety_8cpp_source.html#l00535">CacheSafety.cpp:535</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1CacheSafety_html_adeea4f0c0a9e998015b8a2f82e6a55d5"><div class="ttname"><a href="classEasyKiConverter_1_1CacheSafety.html#adeea4f0c0a9e998015b8a2f82e6a55d5">EasyKiConverter::CacheSafety::TrashFunction</a></div><div class="ttdeci">std::function&lt; bool(const QString &amp;, QString *)&gt; TrashFunction</div><div class="ttdoc">系统回收站操作的可替换函数类型。</div><div class="ttdef"><b>Definition</b> <a href="CacheSafety_8h_source.html#l00022">CacheSafety.h:22</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="CachePruner_8cpp.html">CachePruner.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

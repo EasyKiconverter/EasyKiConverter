@@ -1,0 +1,246 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/ComponentParallelFetchCoordinator.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentParallelFetchCoordinator_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentParallelFetchCoordinator.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentParallelFetchCoordinator_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentParallelFetchCoordinator_8h.html">ComponentParallelFetchCoordinator.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentQueueManager_8h.html">ComponentQueueManager.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentService_8h.html">ComponentService.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QDebug&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QMutexLocker&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00017" data-start="{" data-end="}">
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a9a6661e9bf377cbb5a85226dcb91ee35">   17</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a9a6661e9bf377cbb5a85226dcb91ee35">ComponentParallelFetchCoordinator::handleDataCollected</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; service,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>                                                            <span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>                                                            <span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a>&amp; data) {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    Q_UNUSED(data);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Parallel data collected for:&quot;</span> &lt;&lt; componentId;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <a class="code hl_class" href="classEasyKiConverter_1_1ComponentData.html">ComponentData</a> completedData;  <span class="comment">// 从活动请求状态复制的完整组件数据。</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        QMutexLocker locker(&amp;service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">m_fetchingComponentsMutex</a>);</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">if</span> (service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>.contains(componentId)) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            completedData = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">m_fetchingComponents</a>[componentId].data;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        }</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <a class="code hl_class" href="classEasyKiConverter_1_1ParallelFetchContext.html">ParallelFetchContext</a>* parallelContext = <span class="keyword">nullptr</span>;  <span class="comment">// 当前并行获取上下文。</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        QMutexLocker locker(&amp;service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a96dc80df31ecee809dd7f7a6e3744de2">m_parallelContextMutex</a>);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        parallelContext = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordflow">if</span> (parallelContext != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        parallelContext-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelFetchContext.html#a92054e2f211b0106168959278b1caf6b">markCompleted</a>(componentId, completedData);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">if</span> (service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a4e8774d3f75858fef8f6972b11b400fa">m_queueManager</a> != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>        service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a4e8774d3f75858fef8f6972b11b400fa">m_queueManager</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a3aadbabdaac0680f73288f53467a0c2a">requestCompleted</a>(componentId);</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    }</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
+</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="foldopen" id="foldopen00051" data-start="{" data-end="}">
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a631bde6b771ce187a15fc48c6f762f65">   51</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a631bde6b771ce187a15fc48c6f762f65">ComponentParallelFetchCoordinator::handleFetchError</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; service,</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>                                                         <span class="keyword">const</span> QString&amp; componentId,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                                                         <span class="keyword">const</span> QString&amp; error) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Parallel fetch error for:&quot;</span> &lt;&lt; componentId &lt;&lt; error;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_class" href="classEasyKiConverter_1_1ParallelFetchContext.html">ParallelFetchContext</a>* parallelContext = <span class="keyword">nullptr</span>;  <span class="comment">// 当前并行获取上下文。</span></div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    {</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        QMutexLocker locker(&amp;service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a96dc80df31ecee809dd7f7a6e3744de2">m_parallelContextMutex</a>);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        parallelContext = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    }</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">if</span> (parallelContext != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        parallelContext-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelFetchContext.html#abcea032ba6e48f3c903bf3219732da84">markFailed</a>(componentId, error);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">if</span> (service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a4e8774d3f75858fef8f6972b11b400fa">m_queueManager</a> != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a4e8774d3f75858fef8f6972b11b400fa">m_queueManager</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#a3aadbabdaac0680f73288f53467a0c2a">requestCompleted</a>(componentId);</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>}</div>
+</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="foldopen" id="foldopen00074" data-start="{" data-end="}">
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a6ade4899d3b05b9670ba72b5ff1778af">   74</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a6ade4899d3b05b9670ba72b5ff1778af">ComponentParallelFetchCoordinator::handleQueueTimeout</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; service) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    qWarning() &lt;&lt; <span class="stringliteral">&quot;Queue timeout reached&quot;</span>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">if</span> (service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a> != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> completedCount = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelFetchContext.html#a77874e7b4cf2e6ce9bdb3451b342542a">completedCount</a>();  <span class="comment">// 已完成的组件数量。</span></div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        <span class="keyword">const</span> <span class="keywordtype">int</span> totalCount = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelFetchContext.html#abf7bb3c5fe2d57f1dd2c09ef4194a67c">totalCount</a>();  <span class="comment">// 批量请求总数量。</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        qWarning() &lt;&lt; <span class="stringliteral">&quot;Queue timeout - Completed:&quot;</span> &lt;&lt; completedCount &lt;&lt; <span class="stringliteral">&quot;Total:&quot;</span> &lt;&lt; totalCount;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        <span class="keywordflow">if</span> (completedCount &gt; 0) {</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            <span class="keyword">const</span> QList&lt;ComponentData&gt; allData = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelFetchContext.html#a40bc15d58f1afa65ba89f880394dd664">collectedData</a>();  <span class="comment">// 已收集的数据。</span></div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>            <span class="comment">// 保存失败组件及其原因，供错误信号一并发布。</span></div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>            <span class="keyword">const</span> QMap&lt;QString, QString&gt; failedComponents = service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ParallelFetchContext.html#afb1c433deea549368bc34d95469a6bac">failedComponents</a>();</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>            emit service.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#aa2926e7a8318370ab7d80bb195c89ec7">allComponentsDataCollected</a>(allData);</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            emit service.<a class="code hl_function" href="classEasyKiConverter_1_1ComponentService.html#a931991bb8de68771646017dbec5ffbf2">allComponentsDataCollectedWithErrors</a>(allData, failedComponents);</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        }</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <a class="code hl_function" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a543233d14c647374cc00c8192239042e">reset</a>(service);</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>}</div>
+</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="foldopen" id="foldopen00098" data-start="{" data-end="}">
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a543233d14c647374cc00c8192239042e">   98</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a543233d14c647374cc00c8192239042e">ComponentParallelFetchCoordinator::reset</a>(<a class="code hl_class" href="classEasyKiConverter_1_1ComponentService.html">ComponentService</a>&amp; service) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a4e8774d3f75858fef8f6972b11b400fa">m_queueManager</a>-&gt;<a class="code hl_function" href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">stop</a>();</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a1ab5ec8d6fc0d932169162d76681bf2e">m_activeRequestCount</a> = 0;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        QMutexLocker locker(&amp;service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#a96dc80df31ecee809dd7f7a6e3744de2">m_parallelContextMutex</a>);</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">if</span> (service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a> != <span class="keyword">nullptr</span>) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a>-&gt;deleteLater();</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            service.<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">m_parallelContext</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    }</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span> </div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    qDebug() &lt;&lt; <span class="stringliteral">&quot;Queue state reset completed&quot;</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>}</div>
+</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentParallelFetchCoordinator_8h_html"><div class="ttname"><a href="ComponentParallelFetchCoordinator_8h.html">ComponentParallelFetchCoordinator.h</a></div></div>
+<div class="ttc" id="aComponentQueueManager_8h_html"><div class="ttname"><a href="ComponentQueueManager_8h.html">ComponentQueueManager.h</a></div></div>
+<div class="ttc" id="aComponentService_8h_html"><div class="ttname"><a href="ComponentService_8h.html">ComponentService.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentData_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentData.html">EasyKiConverter::ComponentData</a></div><div class="ttdoc">元件数据</div><div class="ttdef"><b>Definition</b> <a href="ComponentData_8h_source.html#l00020">ComponentData.h:20</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentParallelFetchCoordinator_html_a543233d14c647374cc00c8192239042e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a543233d14c647374cc00c8192239042e">EasyKiConverter::ComponentParallelFetchCoordinator::reset</a></div><div class="ttdeci">static void reset(ComponentService &amp;service)</div><div class="ttdoc">停止队列并清理并行请求上下文。</div><div class="ttdef"><b>Definition</b> <a href="ComponentParallelFetchCoordinator_8cpp_source.html#l00098">ComponentParallelFetchCoordinator.cpp:98</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentParallelFetchCoordinator_html_a631bde6b771ce187a15fc48c6f762f65"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a631bde6b771ce187a15fc48c6f762f65">EasyKiConverter::ComponentParallelFetchCoordinator::handleFetchError</a></div><div class="ttdeci">static void handleFetchError(ComponentService &amp;service, const QString &amp;componentId, const QString &amp;error)</div><div class="ttdoc">记录失败结果并释放一个并行请求槽位。</div><div class="ttdef"><b>Definition</b> <a href="ComponentParallelFetchCoordinator_8cpp_source.html#l00051">ComponentParallelFetchCoordinator.cpp:51</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentParallelFetchCoordinator_html_a6ade4899d3b05b9670ba72b5ff1778af"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a6ade4899d3b05b9670ba72b5ff1778af">EasyKiConverter::ComponentParallelFetchCoordinator::handleQueueTimeout</a></div><div class="ttdeci">static void handleQueueTimeout(ComponentService &amp;service)</div><div class="ttdoc">处理批量请求超时并发布已经收集的数据。</div><div class="ttdef"><b>Definition</b> <a href="ComponentParallelFetchCoordinator_8cpp_source.html#l00074">ComponentParallelFetchCoordinator.cpp:74</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentParallelFetchCoordinator_html_a9a6661e9bf377cbb5a85226dcb91ee35"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentParallelFetchCoordinator.html#a9a6661e9bf377cbb5a85226dcb91ee35">EasyKiConverter::ComponentParallelFetchCoordinator::handleDataCollected</a></div><div class="ttdeci">static void handleDataCollected(ComponentService &amp;service, const QString &amp;componentId, const ComponentData &amp;data)</div><div class="ttdoc">记录成功结果并释放一个并行请求槽位。</div><div class="ttdef"><b>Definition</b> <a href="ComponentParallelFetchCoordinator_8cpp_source.html#l00017">ComponentParallelFetchCoordinator.cpp:17</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_a3aadbabdaac0680f73288f53467a0c2a"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#a3aadbabdaac0680f73288f53467a0c2a">EasyKiConverter::ComponentQueueManager::requestCompleted</a></div><div class="ttdeci">void requestCompleted(const QString &amp;componentId)</div><div class="ttdoc">标记一个元器件请求已完成并继续调度队列。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00146">ComponentQueueManager.cpp:146</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentQueueManager_html_aa4d2857e7b8faa843178da58feb1ef63"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentQueueManager.html#aa4d2857e7b8faa843178da58feb1ef63">EasyKiConverter::ComponentQueueManager::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdoc">停止队列并清理未开始的请求。</div><div class="ttdef"><b>Definition</b> <a href="ComponentQueueManager_8cpp_source.html#l00060">ComponentQueueManager.cpp:60</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html">EasyKiConverter::ComponentService</a></div><div class="ttdoc">元件服务类</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00042">ComponentService.h:42</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a1ab5ec8d6fc0d932169162d76681bf2e"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a1ab5ec8d6fc0d932169162d76681bf2e">EasyKiConverter::ComponentService::m_activeRequestCount</a></div><div class="ttdeci">int m_activeRequestCount</div><div class="ttdoc">当前活动请求数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00509">ComponentService.h:509</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a4e8774d3f75858fef8f6972b11b400fa"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a4e8774d3f75858fef8f6972b11b400fa">EasyKiConverter::ComponentService::m_queueManager</a></div><div class="ttdeci">class ComponentQueueManager * m_queueManager</div><div class="ttdoc">动态请求队列管理器。</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00508">ComponentService.h:508</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a826dd469280d397146b77a94711be4a6"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a826dd469280d397146b77a94711be4a6">EasyKiConverter::ComponentService::m_fetchingComponents</a></div><div class="ttdeci">QMap&lt; QString, FetchingComponent &gt; m_fetchingComponents</div><div class="ttdoc">按元件编号索引的活动请求状态。</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00498">ComponentService.h:498</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a931991bb8de68771646017dbec5ffbf2"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a931991bb8de68771646017dbec5ffbf2">EasyKiConverter::ComponentService::allComponentsDataCollectedWithErrors</a></div><div class="ttdeci">void allComponentsDataCollectedWithErrors(const QList&lt; ComponentData &gt; &amp;componentDataList, const QMap&lt; QString, QString &gt; &amp;failedComponents)</div><div class="ttdoc">所有元件数据收集完成并包含失败原因的信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_a96dc80df31ecee809dd7f7a6e3744de2"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#a96dc80df31ecee809dd7f7a6e3744de2">EasyKiConverter::ComponentService::m_parallelContextMutex</a></div><div class="ttdeci">QMutex m_parallelContextMutex</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00505">ComponentService.h:505</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_aa2926e7a8318370ab7d80bb195c89ec7"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#aa2926e7a8318370ab7d80bb195c89ec7">EasyKiConverter::ComponentService::allComponentsDataCollected</a></div><div class="ttdeci">void allComponentsDataCollected(const QList&lt; ComponentData &gt; &amp;componentDataList)</div><div class="ttdoc">所有元件数据收集完成信号</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_ab9d210a3d5b9f3d12b0981c0f2de41e3"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#ab9d210a3d5b9f3d12b0981c0f2de41e3">EasyKiConverter::ComponentService::m_parallelContext</a></div><div class="ttdeci">ParallelFetchContext * m_parallelContext</div><div class="ttdoc">当前并行数据收集上下文。</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00504">ComponentService.h:504</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentService_html_acc15c69ce1e5289491e7c5e5bc09bd17"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentService.html#acc15c69ce1e5289491e7c5e5bc09bd17">EasyKiConverter::ComponentService::m_fetchingComponentsMutex</a></div><div class="ttdeci">QMutex m_fetchingComponentsMutex</div><div class="ttdef"><b>Definition</b> <a href="ComponentService_8h_source.html#l00478">ComponentService.h:478</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelFetchContext_html"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelFetchContext.html">EasyKiConverter::ParallelFetchContext</a></div><div class="ttdef"><b>Definition</b> <a href="ParallelFetchContext_8h_source.html#l00015">ParallelFetchContext.h:15</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelFetchContext_html_a40bc15d58f1afa65ba89f880394dd664"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelFetchContext.html#a40bc15d58f1afa65ba89f880394dd664">EasyKiConverter::ParallelFetchContext::collectedData</a></div><div class="ttdeci">QList&lt; ComponentData &gt; collectedData() const</div><div class="ttdoc">返回已成功收集的元器件数据。</div><div class="ttdef"><b>Definition</b> <a href="ParallelFetchContext_8cpp_source.html#l00115">ParallelFetchContext.cpp:115</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelFetchContext_html_a77874e7b4cf2e6ce9bdb3451b342542a"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelFetchContext.html#a77874e7b4cf2e6ce9bdb3451b342542a">EasyKiConverter::ParallelFetchContext::completedCount</a></div><div class="ttdeci">int completedCount() const</div><div class="ttdoc">返回已完成的元器件数量。</div><div class="ttdef"><b>Definition</b> <a href="ParallelFetchContext_8cpp_source.html#l00097">ParallelFetchContext.cpp:97</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelFetchContext_html_a92054e2f211b0106168959278b1caf6b"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelFetchContext.html#a92054e2f211b0106168959278b1caf6b">EasyKiConverter::ParallelFetchContext::markCompleted</a></div><div class="ttdeci">void markCompleted(const QString &amp;componentId, const ComponentData &amp;data)</div><div class="ttdoc">记录一个元器件获取成功。</div><div class="ttdef"><b>Definition</b> <a href="ParallelFetchContext_8cpp_source.html#l00051">ParallelFetchContext.cpp:51</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelFetchContext_html_abcea032ba6e48f3c903bf3219732da84"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelFetchContext.html#abcea032ba6e48f3c903bf3219732da84">EasyKiConverter::ParallelFetchContext::markFailed</a></div><div class="ttdeci">void markFailed(const QString &amp;componentId, const QString &amp;error)</div><div class="ttdoc">记录一个元器件获取失败。</div><div class="ttdef"><b>Definition</b> <a href="ParallelFetchContext_8cpp_source.html#l00070">ParallelFetchContext.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelFetchContext_html_abf7bb3c5fe2d57f1dd2c09ef4194a67c"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelFetchContext.html#abf7bb3c5fe2d57f1dd2c09ef4194a67c">EasyKiConverter::ParallelFetchContext::totalCount</a></div><div class="ttdeci">int totalCount() const</div><div class="ttdoc">返回本轮预期获取的元器件数量。</div><div class="ttdef"><b>Definition</b> <a href="ParallelFetchContext_8cpp_source.html#l00106">ParallelFetchContext.cpp:106</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ParallelFetchContext_html_afb1c433deea549368bc34d95469a6bac"><div class="ttname"><a href="classEasyKiConverter_1_1ParallelFetchContext.html#afb1c433deea549368bc34d95469a6bac">EasyKiConverter::ParallelFetchContext::failedComponents</a></div><div class="ttdeci">QMap&lt; QString, QString &gt; failedComponents() const</div><div class="ttdoc">返回元器件编号到失败原因的映射。</div><div class="ttdef"><b>Definition</b> <a href="ParallelFetchContext_8cpp_source.html#l00124">ParallelFetchContext.cpp:124</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="ComponentParallelFetchCoordinator_8cpp.html">ComponentParallelFetchCoordinator.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: services/export/IExportWorker.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('IExportWorker_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">IExportWorker.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="IExportWorker_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QRunnable&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="keyword">class </span>ComponentData;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="foldopen" id="foldopen00039" data-start="{" data-end="};">
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1IExportWorker.html">   39</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1IExportWorker.html">IExportWorker</a> {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1IExportWorker.html#a851ab48bb3399dea99a9e73f10d16579">   41</a></span>    <span class="keyword">virtual</span> <a class="code hl_function" href="classEasyKiConverter_1_1IExportWorker.html#a851ab48bb3399dea99a9e73f10d16579">~IExportWorker</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1IExportWorker.html#a6a6bdb9edd900ed1c9904362d8d84f53">   49</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1IExportWorker.html#a6a6bdb9edd900ed1c9904362d8d84f53">setData</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_function" href="classEasyKiConverter_1_1IExportWorker.html#aefa6ffda467599969dda9de4b6cfd19b">componentId</a>,</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>                         <span class="keyword">const</span> QSharedPointer&lt;ComponentData&gt;&amp; data,</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>                         <span class="keyword">const</span> <span class="keyword">struct</span> <a class="code hl_struct" href="structEasyKiConverter_1_1ExportOptions.html">ExportOptions</a>&amp; options) = 0;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1IExportWorker.html#ad42bdb6f282e5b91b3c56a115337fac3">   59</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1IExportWorker.html#ad42bdb6f282e5b91b3c56a115337fac3">cancel</a>() = 0;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1IExportWorker.html#aefa6ffda467599969dda9de4b6cfd19b">   65</a></span>    <span class="keyword">virtual</span> QString <a class="code hl_function" href="classEasyKiConverter_1_1IExportWorker.html#aefa6ffda467599969dda9de4b6cfd19b">componentId</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1IExportWorker.html#aa6084c398fabaf00dbf0261d407e6782">   73</a></span>    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1IExportWorker.html#aa6084c398fabaf00dbf0261d407e6782">run</a>() = 0;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>};</div>
+</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IExportWorker_html"><div class="ttname"><a href="classEasyKiConverter_1_1IExportWorker.html">EasyKiConverter::IExportWorker</a></div><div class="ttdoc">导出Worker接口</div><div class="ttdef"><b>Definition</b> <a href="IExportWorker_8h_source.html#l00039">IExportWorker.h:39</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IExportWorker_html_a6a6bdb9edd900ed1c9904362d8d84f53"><div class="ttname"><a href="classEasyKiConverter_1_1IExportWorker.html#a6a6bdb9edd900ed1c9904362d8d84f53">EasyKiConverter::IExportWorker::setData</a></div><div class="ttdeci">virtual void setData(const QString &amp;componentId, const QSharedPointer&lt; ComponentData &gt; &amp;data, const struct ExportOptions &amp;options)=0</div><div class="ttdoc">设置导出所需的数据</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IExportWorker_html_a851ab48bb3399dea99a9e73f10d16579"><div class="ttname"><a href="classEasyKiConverter_1_1IExportWorker.html#a851ab48bb3399dea99a9e73f10d16579">EasyKiConverter::IExportWorker::~IExportWorker</a></div><div class="ttdeci">virtual ~IExportWorker()=default</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IExportWorker_html_aa6084c398fabaf00dbf0261d407e6782"><div class="ttname"><a href="classEasyKiConverter_1_1IExportWorker.html#aa6084c398fabaf00dbf0261d407e6782">EasyKiConverter::IExportWorker::run</a></div><div class="ttdeci">virtual void run()=0</div><div class="ttdoc">执行导出任务</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IExportWorker_html_ad42bdb6f282e5b91b3c56a115337fac3"><div class="ttname"><a href="classEasyKiConverter_1_1IExportWorker.html#ad42bdb6f282e5b91b3c56a115337fac3">EasyKiConverter::IExportWorker::cancel</a></div><div class="ttdeci">virtual void cancel()=0</div><div class="ttdoc">请求取消导出任务</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1IExportWorker_html_aefa6ffda467599969dda9de4b6cfd19b"><div class="ttname"><a href="classEasyKiConverter_1_1IExportWorker.html#aefa6ffda467599969dda9de4b6cfd19b">EasyKiConverter::IExportWorker::componentId</a></div><div class="ttdeci">virtual QString componentId() const =0</div><div class="ttdoc">获取关联的元器件ID</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1ExportOptions_html"><div class="ttname"><a href="structEasyKiConverter_1_1ExportOptions.html">EasyKiConverter::ExportOptions</a></div><div class="ttdoc">导出选项配置</div><div class="ttdef"><b>Definition</b> <a href="ExportProgress_8h_source.html#l00042">ExportProgress.h:42</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_056ec8f0377ddc4293192cbc6b19c99c.html">services</a></li><li class="navelem"><a class="el" href="dir_a384dc2a66e9a2b9e112fff859fd4142.html">export</a></li><li class="navelem"><a class="el" href="IExportWorker_8h.html">IExportWorker.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

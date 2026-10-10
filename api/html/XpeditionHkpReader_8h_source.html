@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/parser/XpeditionHkpReader.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('XpeditionHkpReader_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">XpeditionHkpReader.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="XpeditionHkpReader_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="GeometryTransforms_8h.html">GeometryTransforms.h</a>&quot;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &quot;<a class="code" href="TextParsers_8h.html">TextParsers.h</a>&quot;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &quot;<a class="code" href="XpeditionHkpModel_8h.html">XpeditionHkpModel.h</a>&quot;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter_1_1Parser.html">EasyKiConverter::Parser</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359f">   19</a></span><span class="keyword">enum class</span> <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359f">XpeditionHkpType</a> { <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#af52f68a8d34fb246c2a688e91f3b8a1aa88183b946cc5f0e8c96b2e66e1c74a7e">Unknown</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa86b27efc3ffa1d6877c845a49620d4d6">PadstackLibrary</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa9be97f7d45ae7b57b4f0a9853a26f68b">CellLibrary</a>, <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa0ae610d3843672f69832dc97f59a80f6">PartsDatabase</a> };</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="foldopen" id="foldopen00025" data-start="{" data-end="};">
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html">   25</a></span><span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html">XpeditionHkpDocument</a> {</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#aefd70cccf2cfe4352aea8311880bbbf0">   26</a></span>    <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359f">XpeditionHkpType</a> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#aefd70cccf2cfe4352aea8311880bbbf0">type</a> = <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa88183b946cc5f0e8c96b2e66e1c74a7e">XpeditionHkpType::Unknown</a>;  </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a325985ed0d46c5195ab39c71ab6ab353">   27</a></span>    <a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5">LengthUnit</a> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a325985ed0d46c5195ab39c71ab6ab353">unit</a> = <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5a88183b946cc5f0e8c96b2e66e1c74a7e">LengthUnit::Unknown</a>;  </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a59c6b5aad955b42830ef30fb90ed2167">   28</a></span>    QList&lt;SectionNode&gt; <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a59c6b5aad955b42830ef30fb90ed2167">sections</a>;  </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a9f00ccface6cf253eb4928d6c2b534ac">   29</a></span>    <a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpModel.html">XpeditionHkpModel</a> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a9f00ccface6cf253eb4928d6c2b534ac">model</a>;  </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#af09553ccfa24ad3590ea95736bc6aef2">   30</a></span>    <a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">ParseDiagnostics</a> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#af09553ccfa24ad3590ea95736bc6aef2">diagnostics</a>;  </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="foldopen" id="foldopen00036" data-start="{" data-end="}">
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a2dd62cc85b278683962abd53c176fdd1">   36</a></span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a2dd62cc85b278683962abd53c176fdd1">isRecognized</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#aefd70cccf2cfe4352aea8311880bbbf0">type</a> != <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa88183b946cc5f0e8c96b2e66e1c74a7e">XpeditionHkpType::Unknown</a>;</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    }</div>
+</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>};</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="foldopen" id="foldopen00044" data-start="{" data-end="};">
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpReader.html">   44</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpReader.html">XpeditionHkpReader</a> {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html">XpeditionHkpDocument</a> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpReader.html#abae054b5f3258d70242c81355befcde8">parse</a>(<span class="keyword">const</span> QString&amp; content, <span class="keyword">const</span> QString&amp; filePath = QString());</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html">XpeditionHkpDocument</a> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpReader.html#acc10a367b314912e1be97f7da764a2b2">parseBytes</a>(<span class="keyword">const</span> QByteArray&amp; data, <span class="keyword">const</span> QString&amp; filePath = QString());</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>};</div>
+</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="foldopen" id="foldopen00067" data-start="{" data-end="};">
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpMerger.html">   67</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpMerger.html">XpeditionHkpMerger</a> {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html">XpeditionHkpDocument</a> <a class="code hl_function" href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpMerger.html#a8609b9bc1d1c6144f6898060052ab4f0">merge</a>(<span class="keyword">const</span> QList&lt;XpeditionHkpDocument&gt;&amp; documents,</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>                                      <span class="keyword">const</span> QString&amp; filePath = QString());</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>};</div>
+</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span> </div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>}  <span class="comment">// namespace EasyKiConverter::Parser</span></div>
+<div class="ttc" id="aGeometryTransforms_8h_html"><div class="ttname"><a href="GeometryTransforms_8h.html">GeometryTransforms.h</a></div><div class="ttdoc">格式解析阶段通用的单位和坐标变换。</div></div>
+<div class="ttc" id="aTextParsers_8h_html"><div class="ttname"><a href="TextParsers_8h.html">TextParsers.h</a></div><div class="ttdoc">供多种 EDA 文本格式复用的结构解析基础设施。</div></div>
+<div class="ttc" id="aXpeditionHkpModel_8h_html"><div class="ttname"><a href="XpeditionHkpModel_8h.html">XpeditionHkpModel.h</a></div><div class="ttdoc">Xpedition HKP 格式专用模型。</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1ParseDiagnostics_html"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1ParseDiagnostics.html">EasyKiConverter::Parser::ParseDiagnostics</a></div><div class="ttdoc">收集解析过程中的信息、警告、错误和跳过记录。</div><div class="ttdef"><b>Definition</b> <a href="ParseDiagnostics_8h_source.html#l00040">ParseDiagnostics.h:40</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1XpeditionHkpMerger_html"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpMerger.html">EasyKiConverter::Parser::XpeditionHkpMerger</a></div><div class="ttdoc">合并多个 HKP 文件的格式模型并检查跨文件关联歧义。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00067">XpeditionHkpReader.h:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1XpeditionHkpMerger_html_a8609b9bc1d1c6144f6898060052ab4f0"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpMerger.html#a8609b9bc1d1c6144f6898060052ab4f0">EasyKiConverter::Parser::XpeditionHkpMerger::merge</a></div><div class="ttdeci">static XpeditionHkpDocument merge(const QList&lt; XpeditionHkpDocument &gt; &amp;documents, const QString &amp;filePath=QString())</div><div class="ttdoc">合并多个已经解析的 HKP 文档。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8cpp_source.html#l00198">XpeditionHkpReader.cpp:198</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1XpeditionHkpReader_html"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpReader.html">EasyKiConverter::Parser::XpeditionHkpReader</a></div><div class="ttdoc">解析 Xpedition HKP 文件头和分层结构。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00044">XpeditionHkpReader.h:44</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1XpeditionHkpReader_html_abae054b5f3258d70242c81355befcde8"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpReader.html#abae054b5f3258d70242c81355befcde8">EasyKiConverter::Parser::XpeditionHkpReader::parse</a></div><div class="ttdeci">static XpeditionHkpDocument parse(const QString &amp;content, const QString &amp;filePath=QString())</div><div class="ttdoc">从内存文本解析 HKP 文档。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8cpp_source.html#l00047">XpeditionHkpReader.cpp:47</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1Parser_1_1XpeditionHkpReader_html_acc10a367b314912e1be97f7da764a2b2"><div class="ttname"><a href="classEasyKiConverter_1_1Parser_1_1XpeditionHkpReader.html#acc10a367b314912e1be97f7da764a2b2">EasyKiConverter::Parser::XpeditionHkpReader::parseBytes</a></div><div class="ttdeci">static XpeditionHkpDocument parseBytes(const QByteArray &amp;data, const QString &amp;filePath=QString())</div><div class="ttdoc">从原始字节检测编码后解析 HKP 文档。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8cpp_source.html#l00096">XpeditionHkpReader.cpp:96</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html">EasyKiConverter::Parser</a></div><div class="ttdef"><b>Definition</b> <a href="ArchiveInspector_8cpp_source.html#l00005">ArchiveInspector.cpp:5</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a6533d81d93faebec1da5e154dfe263c5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5">EasyKiConverter::Parser::LengthUnit</a></div><div class="ttdeci">LengthUnit</div><div class="ttdoc">解析源文件中常见的长度单位。</div><div class="ttdef"><b>Definition</b> <a href="GeometryTransforms_8h_source.html#l00017">GeometryTransforms.h:17</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a6533d81d93faebec1da5e154dfe263c5a88183b946cc5f0e8c96b2e66e1c74a7e"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a6533d81d93faebec1da5e154dfe263c5a88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Parser::LengthUnit::Unknown</a></div><div class="ttdeci">@ Unknown</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a66936cb0c6edb613bfbc013834ed359f"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359f">EasyKiConverter::Parser::XpeditionHkpType</a></div><div class="ttdeci">XpeditionHkpType</div><div class="ttdoc">Xpedition HKP 文件类型。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00019">XpeditionHkpReader.h:19</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a66936cb0c6edb613bfbc013834ed359fa0ae610d3843672f69832dc97f59a80f6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa0ae610d3843672f69832dc97f59a80f6">EasyKiConverter::Parser::XpeditionHkpType::PartsDatabase</a></div><div class="ttdeci">@ PartsDatabase</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a66936cb0c6edb613bfbc013834ed359fa86b27efc3ffa1d6877c845a49620d4d6"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa86b27efc3ffa1d6877c845a49620d4d6">EasyKiConverter::Parser::XpeditionHkpType::PadstackLibrary</a></div><div class="ttdeci">@ PadstackLibrary</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a66936cb0c6edb613bfbc013834ed359fa88183b946cc5f0e8c96b2e66e1c74a7e"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Parser::XpeditionHkpType::Unknown</a></div><div class="ttdeci">@ Unknown</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_a66936cb0c6edb613bfbc013834ed359fa9be97f7d45ae7b57b4f0a9853a26f68b"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#a66936cb0c6edb613bfbc013834ed359fa9be97f7d45ae7b57b4f0a9853a26f68b">EasyKiConverter::Parser::XpeditionHkpType::CellLibrary</a></div><div class="ttdeci">@ CellLibrary</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1Parser_html_af52f68a8d34fb246c2a688e91f3b8a1aa88183b946cc5f0e8c96b2e66e1c74a7e"><div class="ttname"><a href="namespaceEasyKiConverter_1_1Parser.html#af52f68a8d34fb246c2a688e91f3b8a1aa88183b946cc5f0e8c96b2e66e1c74a7e">EasyKiConverter::Parser::CadstarPadShape::Unknown</a></div><div class="ttdeci">@ Unknown</div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument_html"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html">EasyKiConverter::Parser::XpeditionHkpDocument</a></div><div class="ttdoc">已完成语法层解析的 Xpedition HKP 文档。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00025">XpeditionHkpReader.h:25</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument_html_a2dd62cc85b278683962abd53c176fdd1"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a2dd62cc85b278683962abd53c176fdd1">EasyKiConverter::Parser::XpeditionHkpDocument::isRecognized</a></div><div class="ttdeci">bool isRecognized() const</div><div class="ttdoc">判断文档是否具备可继续映射的文件类型。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00036">XpeditionHkpReader.h:36</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument_html_a325985ed0d46c5195ab39c71ab6ab353"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a325985ed0d46c5195ab39c71ab6ab353">EasyKiConverter::Parser::XpeditionHkpDocument::unit</a></div><div class="ttdeci">LengthUnit unit</div><div class="ttdoc">文件声明的长度单位。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00027">XpeditionHkpReader.h:27</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument_html_a59c6b5aad955b42830ef30fb90ed2167"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a59c6b5aad955b42830ef30fb90ed2167">EasyKiConverter::Parser::XpeditionHkpDocument::sections</a></div><div class="ttdeci">QList&lt; SectionNode &gt; sections</div><div class="ttdoc">解析得到的分层节点。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00028">XpeditionHkpReader.h:28</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument_html_a9f00ccface6cf253eb4928d6c2b534ac"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#a9f00ccface6cf253eb4928d6c2b534ac">EasyKiConverter::Parser::XpeditionHkpDocument::model</a></div><div class="ttdeci">XpeditionHkpModel model</div><div class="ttdoc">格式专用模型。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00029">XpeditionHkpReader.h:29</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument_html_aefd70cccf2cfe4352aea8311880bbbf0"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#aefd70cccf2cfe4352aea8311880bbbf0">EasyKiConverter::Parser::XpeditionHkpDocument::type</a></div><div class="ttdeci">XpeditionHkpType type</div><div class="ttdoc">HKP 文件类型。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00026">XpeditionHkpReader.h:26</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument_html_af09553ccfa24ad3590ea95736bc6aef2"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpDocument.html#af09553ccfa24ad3590ea95736bc6aef2">EasyKiConverter::Parser::XpeditionHkpDocument::diagnostics</a></div><div class="ttdeci">ParseDiagnostics diagnostics</div><div class="ttdoc">解析过程中的结构化诊断。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpReader_8h_source.html#l00030">XpeditionHkpReader.h:30</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1Parser_1_1XpeditionHkpModel_html"><div class="ttname"><a href="structEasyKiConverter_1_1Parser_1_1XpeditionHkpModel.html">EasyKiConverter::Parser::XpeditionHkpModel</a></div><div class="ttdoc">解析后的 Xpedition HKP 格式模型。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionHkpModel_8h_source.html#l00119">XpeditionHkpModel.h:119</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_8eceb17de733a8c5303e86d0c9deb6e5.html">parser</a></li><li class="navelem"><a class="el" href="XpeditionHkpReader_8h.html">XpeditionHkpReader.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

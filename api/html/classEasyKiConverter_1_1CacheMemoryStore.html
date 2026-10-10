@@ -1,0 +1,561 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: EasyKiConverter::CacheMemoryStore类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('classEasyKiConverter_1_1CacheMemoryStore.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="#pri-attribs">Private 属性</a> &#124;
+<a href="classEasyKiConverter_1_1CacheMemoryStore-members.html">所有成员列表</a>  </div>
+  <div class="headertitle"><div class="title">EasyKiConverter::CacheMemoryStore类 参考<span class="mlabels"><span class="mlabel">final</span></span></div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>提供线程安全的 L1 内存缓存存储。  
+ <a href="classEasyKiConverter_1_1CacheMemoryStore.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="CacheMemoryStore_8h_source.html">CacheMemoryStore.h</a>&gt;</code></p>
+<div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
+  <img id="dynsection-0-trigger" src="closed.png" alt="+"/> EasyKiConverter::CacheMemoryStore 的协作图:</div>
+<div id="dynsection-0-summary" class="dynsummary" style="display:block;">
+</div>
+<div id="dynsection-0-content" class="dyncontent" style="display:none;">
+<div class="center"><iframe scrolling="no" frameborder="0" src="classEasyKiConverter_1_1CacheMemoryStore__coll__graph.svg" width="235" height="271"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:af94fcd056c4ad8806dc86316ec08c645" id="r_af94fcd056c4ad8806dc86316ec08c645"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#af94fcd056c4ad8806dc86316ec08c645">CacheMemoryStore</a> (int <a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#a1028f21cdf05491b94e29e6f198433dd">maxCost</a>)</td></tr>
+<tr class="memdesc:af94fcd056c4ad8806dc86316ec08c645"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建带有指定容量的内存缓存。  <br /></td></tr>
+<tr class="separator:af94fcd056c4ad8806dc86316ec08c645"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abecda0855e63381d76eb08f9c29e397c" id="r_abecda0855e63381d76eb08f9c29e397c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#abecda0855e63381d76eb08f9c29e397c">clear</a> ()</td></tr>
+<tr class="memdesc:abecda0855e63381d76eb08f9c29e397c"><td class="mdescLeft">&#160;</td><td class="mdescRight">清空全部内存缓存。  <br /></td></tr>
+<tr class="separator:abecda0855e63381d76eb08f9c29e397c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78f4dd7d4dff8a7c235624dbc8c04ffc" id="r_a78f4dd7d4dff8a7c235624dbc8c04ffc"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#a78f4dd7d4dff8a7c235624dbc8c04ffc">contains</a> (const QString &amp;key) const</td></tr>
+<tr class="memdesc:a78f4dd7d4dff8a7c235624dbc8c04ffc"><td class="mdescLeft">&#160;</td><td class="mdescRight">判断缓存是否包含指定键。  <br /></td></tr>
+<tr class="separator:a78f4dd7d4dff8a7c235624dbc8c04ffc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa55879ec05b8cb0647865a53ebefb3e" id="r_afa55879ec05b8cb0647865a53ebefb3e"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#afa55879ec05b8cb0647865a53ebefb3e">value</a> (const QString &amp;key) const</td></tr>
+<tr class="memdesc:afa55879ec05b8cb0647865a53ebefb3e"><td class="mdescLeft">&#160;</td><td class="mdescRight">读取指定键的数据副本。  <br /></td></tr>
+<tr class="separator:afa55879ec05b8cb0647865a53ebefb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93c1d163076af4e513a7d24033705494" id="r_a93c1d163076af4e513a7d24033705494"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#a93c1d163076af4e513a7d24033705494">insert</a> (const QString &amp;key, const QByteArray &amp;data)</td></tr>
+<tr class="memdesc:a93c1d163076af4e513a7d24033705494"><td class="mdescLeft">&#160;</td><td class="mdescRight">写入指定键的数据。  <br /></td></tr>
+<tr class="separator:a93c1d163076af4e513a7d24033705494"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35b8530bd0a5e9cc1171872a502e4ed6" id="r_a35b8530bd0a5e9cc1171872a502e4ed6"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#a35b8530bd0a5e9cc1171872a502e4ed6">remove</a> (const QStringList &amp;keys)</td></tr>
+<tr class="memdesc:a35b8530bd0a5e9cc1171872a502e4ed6"><td class="mdescLeft">&#160;</td><td class="mdescRight">删除指定键集合。  <br /></td></tr>
+<tr class="separator:a35b8530bd0a5e9cc1171872a502e4ed6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8485ef99c8e99207c32af83ca75f9af" id="r_af8485ef99c8e99207c32af83ca75f9af"><td class="memItemLeft" align="right" valign="top">qint64&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#af8485ef99c8e99207c32af83ca75f9af">totalCost</a> () const</td></tr>
+<tr class="memdesc:af8485ef99c8e99207c32af83ca75f9af"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回当前缓存总成本。  <br /></td></tr>
+<tr class="separator:af8485ef99c8e99207c32af83ca75f9af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0dca01e72c0b4e27e477caa6d8637726" id="r_a0dca01e72c0b4e27e477caa6d8637726"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#a0dca01e72c0b4e27e477caa6d8637726">setMaxCost</a> (int <a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#a1028f21cdf05491b94e29e6f198433dd">maxCost</a>)</td></tr>
+<tr class="memdesc:a0dca01e72c0b4e27e477caa6d8637726"><td class="mdescLeft">&#160;</td><td class="mdescRight">设置缓存最大成本。  <br /></td></tr>
+<tr class="separator:a0dca01e72c0b4e27e477caa6d8637726"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1028f21cdf05491b94e29e6f198433dd" id="r_a1028f21cdf05491b94e29e6f198433dd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#a1028f21cdf05491b94e29e6f198433dd">maxCost</a> () const</td></tr>
+<tr class="memdesc:a1028f21cdf05491b94e29e6f198433dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">返回缓存最大成本。  <br /></td></tr>
+<tr class="separator:a1028f21cdf05491b94e29e6f198433dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private 属性</h2></td></tr>
+<tr class="memitem:aa18d8db58999ad98c60718a992107248" id="r_aa18d8db58999ad98c60718a992107248"><td class="memItemLeft" align="right" valign="top">QMutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#aa18d8db58999ad98c60718a992107248">m_mutex</a></td></tr>
+<tr class="memdesc:aa18d8db58999ad98c60718a992107248"><td class="mdescLeft">&#160;</td><td class="mdescRight">保护内存缓存读写的互斥锁。  <br /></td></tr>
+<tr class="separator:aa18d8db58999ad98c60718a992107248"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae95f0cd5f35f6b49fcba9ecb7149541b" id="r_ae95f0cd5f35f6b49fcba9ecb7149541b"><td class="memItemLeft" align="right" valign="top">QCache&lt; QString, QByteArray &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html#ae95f0cd5f35f6b49fcba9ecb7149541b">m_cache</a></td></tr>
+<tr class="memdesc:ae95f0cd5f35f6b49fcba9ecb7149541b"><td class="mdescLeft">&#160;</td><td class="mdescRight">按缓存键管理数据并负责 LRU 淘汰的 Qt 缓存。  <br /></td></tr>
+<tr class="separator:ae95f0cd5f35f6b49fcba9ecb7149541b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><p>提供线程安全的 L1 内存缓存存储。 </p>
+<p>该类封装 QCache 的所有权、LRU 淘汰和成本统计，调用方只需要处理缓存键及数据校验。 </p>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8h_source.html">CacheMemoryStore.h</a> 第 <a class="el" href="CacheMemoryStore_8h_source.html#l00017">17</a> 行定义.</p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="af94fcd056c4ad8806dc86316ec08c645" name="af94fcd056c4ad8806dc86316ec08c645"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af94fcd056c4ad8806dc86316ec08c645">&#9670;&#160;</a></span>CacheMemoryStore()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">EasyKiConverter::CacheMemoryStore::CacheMemoryStore </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxCost</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>创建带有指定容量的内存缓存。 </p>
+<p>初始化 QCache 的最大成本，成本由调用方按数据字节数传入。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxCost</td><td>最大成本，通常以字节数表示。</td></tr>
+    <tr><td class="paramname">maxCost</td><td>内存缓存最大成本。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00011">11</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a> , 以及 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00091">maxCost()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="abecda0855e63381d76eb08f9c29e397c" name="abecda0855e63381d76eb08f9c29e397c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abecda0855e63381d76eb08f9c29e397c">&#9670;&#160;</a></span>clear()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::CacheMemoryStore::clear </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>清空全部内存缓存。 </p>
+<p>清空 LRU 缓存并释放其拥有的数据。 </p>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00018">18</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a> , 以及 <a class="el" href="CacheMemoryStore_8h_source.html#l00075">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00108">EasyKiConverter::ComponentCacheMemoryStore::clear()</a>.</p>
+
+</div>
+</div>
+<a id="a78f4dd7d4dff8a7c235624dbc8c04ffc" name="a78f4dd7d4dff8a7c235624dbc8c04ffc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78f4dd7d4dff8a7c235624dbc8c04ffc">&#9670;&#160;</a></span>contains()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool EasyKiConverter::CacheMemoryStore::contains </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>判断缓存是否包含指定键。 </p>
+<p>在线程安全地读取键是否存在。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>缓存键。</td></tr>
+    <tr><td class="paramname">key</td><td>缓存键。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>键存在时返回 true。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00028">28</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a> , 以及 <a class="el" href="CacheMemoryStore_8h_source.html#l00075">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00020">EasyKiConverter::ComponentCacheMemoryStore::containsMetadata()</a>.</p>
+
+</div>
+</div>
+<a id="a93c1d163076af4e513a7d24033705494" name="a93c1d163076af4e513a7d24033705494"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a93c1d163076af4e513a7d24033705494">&#9670;&#160;</a></span>insert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">qint64 EasyKiConverter::CacheMemoryStore::insert </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>写入指定键的数据。 </p>
+<p>写入数据并返回写入后的成本统计。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>缓存键。 </td></tr>
+    <tr><td class="paramname">data</td><td>缓存数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>写入后的当前总成本。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>缓存键。 </td></tr>
+    <tr><td class="paramname">data</td><td>待缓存的数据。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>写入后的缓存总成本。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00050">50</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a> , 以及 <a class="el" href="CacheMemoryStore_8h_source.html#l00075">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00088">EasyKiConverter::ComponentCacheMemoryStore::saveFootprint()</a>, <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00047">EasyKiConverter::ComponentCacheMemoryStore::saveMetadata()</a> , 以及 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00067">EasyKiConverter::ComponentCacheMemoryStore::saveSymbol()</a>.</p>
+
+</div>
+</div>
+<a id="a1028f21cdf05491b94e29e6f198433dd" name="a1028f21cdf05491b94e29e6f198433dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1028f21cdf05491b94e29e6f198433dd">&#9670;&#160;</a></span>maxCost()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int EasyKiConverter::CacheMemoryStore::maxCost </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回缓存最大成本。 </p>
+<p>返回当前最大成本限制。</p>
+<dl class="section return"><dt>返回</dt><dd>当前最大成本。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00091">91</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a> , 以及 <a class="el" href="CacheMemoryStore_8h_source.html#l00075">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00011">CacheMemoryStore()</a>, <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00132">EasyKiConverter::ComponentCacheMemoryStore::maxCost()</a> , 以及 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00082">setMaxCost()</a>.</p>
+
+</div>
+</div>
+<a id="a35b8530bd0a5e9cc1171872a502e4ed6" name="a35b8530bd0a5e9cc1171872a502e4ed6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a35b8530bd0a5e9cc1171872a502e4ed6">&#9670;&#160;</a></span>remove()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">qint64 EasyKiConverter::CacheMemoryStore::remove </td>
+          <td>(</td>
+          <td class="paramtype">const QStringList &amp;&#160;</td>
+          <td class="paramname"><em>keys</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>删除指定键集合。 </p>
+<p>删除键集合并返回删除后的成本统计。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keys</td><td>待删除的缓存键。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>删除后的当前总成本。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">keys</td><td>待删除的缓存键列表。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>删除后的缓存总成本。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00061">61</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a> , 以及 <a class="el" href="CacheMemoryStore_8h_source.html#l00075">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00099">EasyKiConverter::ComponentCacheMemoryStore::removeComponent()</a>.</p>
+
+</div>
+</div>
+<a id="a0dca01e72c0b4e27e477caa6d8637726" name="a0dca01e72c0b4e27e477caa6d8637726"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0dca01e72c0b4e27e477caa6d8637726">&#9670;&#160;</a></span>setMaxCost()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void EasyKiConverter::CacheMemoryStore::setMaxCost </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>maxCost</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>设置缓存最大成本。 </p>
+<p>更新最大成本，QCache 会自动淘汰超出限制的旧数据。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">maxCost</td><td>最大成本。</td></tr>
+    <tr><td class="paramname">maxCost</td><td>新的最大成本。 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00082">82</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a>, <a class="el" href="CacheMemoryStore_8h_source.html#l00075">m_mutex</a> , 以及 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00091">maxCost()</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00124">EasyKiConverter::ComponentCacheMemoryStore::setMaxCost()</a>.</p>
+
+</div>
+</div>
+<a id="af8485ef99c8e99207c32af83ca75f9af" name="af8485ef99c8e99207c32af83ca75f9af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8485ef99c8e99207c32af83ca75f9af">&#9670;&#160;</a></span>totalCost()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">qint64 EasyKiConverter::CacheMemoryStore::totalCost </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>返回当前缓存总成本。 </p>
+<p>读取当前缓存占用成本。</p>
+<dl class="section return"><dt>返回</dt><dd>当前缓存总成本。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00073">73</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a> , 以及 <a class="el" href="CacheMemoryStore_8h_source.html#l00075">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00116">EasyKiConverter::ComponentCacheMemoryStore::totalCost()</a>.</p>
+
+</div>
+</div>
+<a id="afa55879ec05b8cb0647865a53ebefb3e" name="afa55879ec05b8cb0647865a53ebefb3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa55879ec05b8cb0647865a53ebefb3e">&#9670;&#160;</a></span>value()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray EasyKiConverter::CacheMemoryStore::value </td>
+          <td>(</td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>key</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>读取指定键的数据副本。 </p>
+<p>返回缓存数据副本，避免把 QCache 内部指针暴露给调用方。</p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>缓存键。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>缓存数据，未命中时为空数组。</dd></dl>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>缓存键。 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>缓存数据副本，未命中时返回空数组。 </dd></dl>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a> 第 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00038">38</a> 行定义.</p>
+
+<p class="reference">引用了 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">m_cache</a> , 以及 <a class="el" href="CacheMemoryStore_8h_source.html#l00075">m_mutex</a>.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00078">EasyKiConverter::ComponentCacheMemoryStore::loadFootprint()</a>, <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00029">EasyKiConverter::ComponentCacheMemoryStore::loadMetadata()</a> , 以及 <a class="el" href="ComponentCacheMemoryStore_8cpp_source.html#l00057">EasyKiConverter::ComponentCacheMemoryStore::loadSymbol()</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">类成员变量说明</h2>
+<a id="ae95f0cd5f35f6b49fcba9ecb7149541b" name="ae95f0cd5f35f6b49fcba9ecb7149541b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae95f0cd5f35f6b49fcba9ecb7149541b">&#9670;&#160;</a></span>m_cache</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QCache&lt;QString, QByteArray&gt; EasyKiConverter::CacheMemoryStore::m_cache</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>按缓存键管理数据并负责 LRU 淘汰的 Qt 缓存。 </p>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8h_source.html">CacheMemoryStore.h</a> 第 <a class="el" href="CacheMemoryStore_8h_source.html#l00076">76</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00011">CacheMemoryStore()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00018">clear()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00028">contains()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00050">insert()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00091">maxCost()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00061">remove()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00082">setMaxCost()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00073">totalCost()</a> , 以及 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00038">value()</a>.</p>
+
+</div>
+</div>
+<a id="aa18d8db58999ad98c60718a992107248" name="aa18d8db58999ad98c60718a992107248"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa18d8db58999ad98c60718a992107248">&#9670;&#160;</a></span>m_mutex</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QMutex EasyKiConverter::CacheMemoryStore::m_mutex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">mutable</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>保护内存缓存读写的互斥锁。 </p>
+
+<p class="definition">在文件 <a class="el" href="CacheMemoryStore_8h_source.html">CacheMemoryStore.h</a> 第 <a class="el" href="CacheMemoryStore_8h_source.html#l00075">75</a> 行定义.</p>
+
+<p class="reference">被这些函数引用 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00018">clear()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00028">contains()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00050">insert()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00091">maxCost()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00061">remove()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00082">setMaxCost()</a>, <a class="el" href="CacheMemoryStore_8cpp_source.html#l00073">totalCost()</a> , 以及 <a class="el" href="CacheMemoryStore_8cpp_source.html#l00038">value()</a>.</p>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>services/<a class="el" href="CacheMemoryStore_8h_source.html">CacheMemoryStore.h</a></li>
+<li>services/<a class="el" href="CacheMemoryStore_8cpp_source.html">CacheMemoryStore.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespaceEasyKiConverter.html">EasyKiConverter</a></li><li class="navelem"><a class="el" href="classEasyKiConverter_1_1CacheMemoryStore.html">CacheMemoryStore</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/orcad/ExporterOrcadSymbol.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ExporterOrcadSymbol_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ExporterOrcadSymbol.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ExporterOrcadSymbol_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ExporterOrcadSymbol_8h.html">ExporterOrcadSymbol.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QFile&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QFileInfo&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QHash&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QSet&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QXmlStreamWriter&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">namespace </span>{</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">constexpr</span> <span class="keywordtype">double</span> kMilPerMm = 1.0 / 0.0254;  </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>QString mil(<span class="keywordtype">double</span> millimeters) {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordflow">return</span> QString::number(qRound64(millimeters * kMilPerMm));</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>}</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span><span class="keywordtype">bool</span> finitePoint(<span class="keyword">const</span> QPointF&amp; point) {</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">return</span> std::isfinite(point.x()) &amp;&amp; std::isfinite(point.y());</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="keywordtype">int</span> orcadPinType(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714">IR::PinElectricalType</a> <a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="comment">// Capture XML 使用固定整数表示电气类型，未知类型按无源引脚处理并由调用方保留原始诊断。</span></div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">switch</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a>) {</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5">IR::PinElectricalType::Input</a>:</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54">IR::PinElectricalType::Output</a>:</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40">IR::PinElectricalType::Bidirectional</a>:</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="keywordflow">return</span> 2;</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c">IR::PinElectricalType::OpenCollector</a>:</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            <span class="keywordflow">return</span> 3;</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85">IR::PinElectricalType::Passive</a>:</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            <span class="keywordflow">return</span> 4;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de">IR::PinElectricalType::Power</a>:</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            <span class="keywordflow">return</span> 5;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90">IR::PinElectricalType::OpenEmitter</a>:</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            <span class="keywordflow">return</span> 6;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5">IR::PinElectricalType::Unspecified</a>:</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>            <span class="keywordflow">return</span> 4;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">return</span> 4;</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>}</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span> </div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>QPair&lt;int, int&gt; pinVector(<a class="code hl_enumeration" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065cae">IR::PinDirection</a> direction, <span class="keywordtype">double</span> length) {</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="comment">// Capture 的 hot point 位于引脚末端，因此这里把统一 IR 的方向和长度转换为 mil 偏移。</span></div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">switch</span> (direction) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">IR::PinDirection::Left</a>:</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <span class="keywordflow">return</span> {-qRound64(length * kMilPerMm), 0};</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">IR::PinDirection::Up</a>:</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>            <span class="keywordflow">return</span> {0, qRound64(length * kMilPerMm)};</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">IR::PinDirection::Down</a>:</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="keywordflow">return</span> {0, -qRound64(length * kMilPerMm)};</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">case</span> <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">IR::PinDirection::Right</a>:</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            <span class="keywordflow">return</span> {qRound64(length * kMilPerMm), 0};</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    }</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">return</span> {0, 0};</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>}</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>QString definitionName(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>) {</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.trimmed();</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>}</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>QRectF symbolBounds(<span class="keyword">const</span> IR::SymbolComponentIR&amp; symbol) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    QRectF bounds;  </div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    <span class="keywordtype">bool</span> initialized = <span class="keyword">false</span>;  </div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keyword">const</span> <span class="keyword">auto</span> include = [&amp;](<span class="keyword">const</span> QPointF&amp; point) {</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        <span class="keywordflow">if</span> (!finitePoint(point))</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        <span class="keywordflow">if</span> (!initialized) {</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            bounds = QRectF(point, QSizeF(0, 0));</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            initialized = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>            bounds = bounds.united(QRectF(point, QSizeF(0, 0)));</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    };</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; rectangle : symbol.rectangles) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        include({rectangle.x0, rectangle.y0});</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        include({rectangle.x1, rectangle.y1});</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    }</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pin : symbol.pins) {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        include(pin.position);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>        <span class="keyword">const</span> <span class="keyword">auto</span> vector = pinVector(pin.direction, pin.length);  </div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        include({pin.position.x() + vector.first / kMilPerMm, pin.position.y() + vector.second / kMilPerMm});</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    }</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; polyline : symbol.polylines)</div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>        for (const QPointF&amp; point : polyline.points)</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            include(point);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; polygon : symbol.polygons)</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        for (const QPointF&amp; point : polygon.points)</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>            include(point);</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <span class="keywordflow">return</span> initialized ? bounds : QRectF(-1.27, -1.27, 2.54, 2.54);</div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>}</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="keywordtype">void</span> writeDefaultValues(QXmlStreamWriter&amp; xml) {</div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;DefaultValues&quot;</span>));</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;DefaultFont&quot;</span>));</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;escapement&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;height&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;-9&quot;</span>));</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;index&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;italic&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;Arial&quot;</span>));</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;orientation&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;weight&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;400&quot;</span>));</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;width&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;4&quot;</span>));</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;DefaultPartFieldMapping&quot;</span>));</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;index&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;8&quot;</span>));</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;val&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;PCB Footprint&quot;</span>));</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>}</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span><span class="keywordtype">void</span> writeDisplayProperty(QXmlStreamWriter&amp; xml, <span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, qint64 x, qint64 y) {</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;SymbolDisplayProp&quot;</span>));</div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>    xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;locX&quot;</span>), QString::number(x));</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;locY&quot;</span>), QString::number(y));</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>), <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;rotation&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;textJustification&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;1&quot;</span>));</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;PropFont&quot;</span>));</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;escapement&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;height&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;-9&quot;</span>));</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;index&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;italic&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;Arial&quot;</span>));</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;orientation&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;weight&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;400&quot;</span>));</div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;width&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;4&quot;</span>));</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;PropColor&quot;</span>));</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;val&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;48&quot;</span>));</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;PropDispType&quot;</span>));</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;ValueIfValueExist&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;val&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;1&quot;</span>));</div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>}</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span> </div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span><span class="keywordtype">void</span> writeRectangle(QXmlStreamWriter&amp; xml, <span class="keyword">const</span> IR::SymbolRectangleIR&amp; rectangle) {</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>    <span class="keyword">const</span> <span class="keyword">auto</span> line = [&amp;](<span class="keywordtype">double</span> x1, <span class="keywordtype">double</span> y1, <span class="keywordtype">double</span> x2, <span class="keywordtype">double</span> y2) {</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Line&quot;</span>));</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>        xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;lineStyle&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;lineWidth&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;x1&quot;</span>), mil(x1));</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;x2&quot;</span>), mil(x2));</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;y1&quot;</span>), mil(y1));</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;y2&quot;</span>), mil(y2));</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    };</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    line(rectangle.x0, rectangle.y0, rectangle.x1, rectangle.y0);</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    line(rectangle.x1, rectangle.y0, rectangle.x1, rectangle.y1);</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    line(rectangle.x1, rectangle.y1, rectangle.x0, rectangle.y1);</div>
+<div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    line(rectangle.x0, rectangle.y1, rectangle.x0, rectangle.y0);</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>}</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span><span class="keywordtype">void</span> writePin(QXmlStreamWriter&amp; xml, <span class="keyword">const</span> IR::SymbolPinIR&amp; pin, <span class="keywordtype">int</span> position) {</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keyword">const</span> <span class="keyword">auto</span> vector = pinVector(pin.direction, pin.length);  </div>
+<div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>    <span class="keyword">const</span> qint64 startX = qRound64(pin.position.x() * kMilPerMm);  </div>
+<div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span>    <span class="keyword">const</span> qint64 startY = qRound64(pin.position.y() * kMilPerMm);  </div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno">  226</span>    <span class="keyword">const</span> qint64 hotX = startX + vector.first;  </div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    <span class="keyword">const</span> qint64 hotY = startY + vector.second;  </div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;SymbolPinScalar&quot;</span>));</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;hotptX&quot;</span>), QString::number(hotX));</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;hotptY&quot;</span>), QString::number(hotY));</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>), pin.name);</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;position&quot;</span>), QString::number(position));</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;startX&quot;</span>), QString::number(startX));</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;startY&quot;</span>), QString::number(startY));</div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno">  236</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;type&quot;</span>), QString::number(orcadPinType(pin.electricalType)));</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;visible&quot;</span>), pin.display.showName ? QStringLiteral(<span class="stringliteral">&quot;1&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>    <span class="keyword">const</span> <span class="keyword">auto</span> flag = [&amp;](<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, <span class="keywordtype">bool</span> <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a>) {</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>        xml.writeStartElement(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>        xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;val&quot;</span>), <a class="code hl_variable" href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a> ? QStringLiteral(<span class="stringliteral">&quot;1&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>    };</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsLong&quot;</span>), <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno">  246</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsClock&quot;</span>), pin.style.clock || pin.hasClock);</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsDot&quot;</span>), pin.style.inverted || pin.hasDot);</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsLeftPointing&quot;</span>), pin.direction == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">IR::PinDirection::Left</a>);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsRightPointing&quot;</span>), pin.direction == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">IR::PinDirection::Right</a>);</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsNetStyle&quot;</span>), <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsNoConnect&quot;</span>), pin.style.decoration == <a class="code hl_enumvalue" href="namespaceEasyKiConverter_1_1IR.html#ae2ebcbc87fff2de2c5b2c6bbb4b52326a04e62aec126654b4f53d2fb434610ec5">IR::PinDecoration::NoConnect</a>);</div>
+<div class="line"><a id="l00252" name="l00252"></a><span class="lineno">  252</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsGlobal&quot;</span>), <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00253" name="l00253"></a><span class="lineno">  253</span>    flag(QStringLiteral(<span class="stringliteral">&quot;IsNumberVisible&quot;</span>), pin.display.showDesignator);</div>
+<div class="line"><a id="l00254" name="l00254"></a><span class="lineno">  254</span>}</div>
+<div class="line"><a id="l00255" name="l00255"></a><span class="lineno">  255</span> </div>
+<div class="line"><a id="l00256" name="l00256"></a><span class="lineno">  256</span>}  <span class="comment">// namespace</span></div>
+<div class="line"><a id="l00257" name="l00257"></a><span class="lineno">  257</span> </div>
+<div class="foldopen" id="foldopen00262" data-start="{" data-end="}">
+<div class="line"><a id="l00262" name="l00262"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a0cf3a501c7ad73bf4596b45831ed4098">  262</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a0cf3a501c7ad73bf4596b45831ed4098">ExporterOrcadSymbol::libraryFileExtension</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00263" name="l00263"></a><span class="lineno">  263</span>    <span class="keywordflow">return</span> QStringLiteral(<span class="stringliteral">&quot;.xml&quot;</span>);</div>
+<div class="line"><a id="l00264" name="l00264"></a><span class="lineno">  264</span>}</div>
+</div>
+<div class="line"><a id="l00265" name="l00265"></a><span class="lineno">  265</span> </div>
+<div class="foldopen" id="foldopen00272" data-start="{" data-end="}">
+<div class="line"><a id="l00272" name="l00272"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#ac5f35a1499ae509c85af6697d16cb841">  272</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#ac5f35a1499ae509c85af6697d16cb841">ExporterOrcadSymbol::exportSymbol</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">IR::SymbolComponentIR</a>&amp; symbol, <span class="keyword">const</span> QString&amp; filePath) {</div>
+<div class="line"><a id="l00273" name="l00273"></a><span class="lineno">  273</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a1fb595919a5f05b44de010f11a193630">exportSymbolLibrary</a>({symbol}, symbol.<a class="code hl_variable" href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">name</a>, filePath, <span class="keyword">false</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span>}</div>
+</div>
+<div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span> </div>
+<div class="foldopen" id="foldopen00286" data-start="{" data-end="}">
+<div class="line"><a id="l00286" name="l00286"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a1fb595919a5f05b44de010f11a193630">  286</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a1fb595919a5f05b44de010f11a193630">ExporterOrcadSymbol::exportSymbolLibrary</a>(<span class="keyword">const</span> QList&lt;IR::SymbolComponentIR&gt;&amp; symbols,</div>
+<div class="line"><a id="l00287" name="l00287"></a><span class="lineno">  287</span>                                              <span class="keyword">const</span> QString&amp; libName,</div>
+<div class="line"><a id="l00288" name="l00288"></a><span class="lineno">  288</span>                                              <span class="keyword">const</span> QString&amp; filePath,</div>
+<div class="line"><a id="l00289" name="l00289"></a><span class="lineno">  289</span>                                              <span class="keywordtype">bool</span> appendMode,</div>
+<div class="line"><a id="l00290" name="l00290"></a><span class="lineno">  290</span>                                              <span class="keywordtype">bool</span> updateMode,</div>
+<div class="line"><a id="l00291" name="l00291"></a><span class="lineno">  291</span>                                              <span class="keyword">const</span> QString&amp; libraryDescription) {</div>
+<div class="line"><a id="l00292" name="l00292"></a><span class="lineno">  292</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.clear();</div>
+<div class="line"><a id="l00293" name="l00293"></a><span class="lineno">  293</span>    <span class="comment">// XML writer 没有安全的原生 OLB 合并语义，任何追加或更新请求都必须显式拒绝。</span></div>
+<div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span>    <span class="keywordflow">if</span> (appendMode || updateMode) {</div>
+<div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(</div>
+<div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span>            QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 当前只支持完整重写，不支持追加或更新：%1&quot;</span>).arg(filePath));</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span>    }</div>
+<div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    <span class="keywordflow">if</span> (symbols.isEmpty()) {</div>
+<div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 没有可导出的符号&quot;</span>));</div>
+<div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span>    }</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span> </div>
+<div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span>    QSet&lt;QString&gt; names;  </div>
+<div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; symbol : symbols) {</div>
+<div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span>        <span class="keyword">const</span> QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> = definitionName(symbol.name);  </div>
+<div class="line"><a id="l00307" name="l00307"></a><span class="lineno">  307</span>        <span class="keywordflow">if</span> (<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.isEmpty()) {</div>
+<div class="line"><a id="l00308" name="l00308"></a><span class="lineno">  308</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 符号名称为空&quot;</span>));</div>
+<div class="line"><a id="l00309" name="l00309"></a><span class="lineno">  309</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00310" name="l00310"></a><span class="lineno">  310</span>        }</div>
+<div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>        <span class="keyword">const</span> QString key = <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>.toCaseFolded();  </div>
+<div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span>        <span class="keywordflow">if</span> (names.contains(key)) {</div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 符号名称冲突：%1&quot;</span>).arg(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>));</div>
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>        }</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>        names.insert(key);</div>
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno">  317</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; pin : symbol.pins) {</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>            <span class="keywordflow">if</span> (!finitePoint(pin.position) || !std::isfinite(pin.length) || pin.length &lt; 0.0 || pin.name.isEmpty() ||</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>                pin.designator.isEmpty()) {</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>                <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span>                    QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 符号 %1 存在非法引脚字段：%2&quot;</span>).arg(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, pin.name));</div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span>            }</div>
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno">  324</span>        }</div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span>        <span class="keywordflow">if</span> (!symbol.ellipses.isEmpty() || !symbol.arcs.isEmpty() || !symbol.pies.isEmpty() ||</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>            !symbol.ellipticalArcs.isEmpty() || !symbol.paths.isEmpty() || !symbol.beziers.isEmpty() ||</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>            !symbol.textFrames.isEmpty() || !symbol.images.isEmpty() || !symbol.circles.isEmpty() ||</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span>            !symbol.texts.isEmpty()) {</div>
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno">  329</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(</div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span>                QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 符号 %1 含当前 writer 未实现的图元，已拒绝静默丢失&quot;</span>).arg(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>));</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        }</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; polyline : symbol.polylines) {</div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>            <span class="keywordflow">if</span> (polyline.points.size() &lt; 2) {</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno">  335</span>                <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 符号 %1 的折线点数不足&quot;</span>).arg(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>));</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno">  336</span>                <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno">  337</span>            }</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 符号 %1 的折线当前降级为线段&quot;</span>).arg(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>));</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span>        }</div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span>        <span class="keywordflow">if</span> (!symbol.polygons.isEmpty()) {</div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span>            <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 暂不写入多边形填充，符号 %1 已拒绝导出&quot;</span>).arg(<a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>));</div>
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno">  342</span>            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>        }</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>    }</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span> </div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span>    QFile file(filePath);</div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span>    <span class="keywordflow">if</span> (!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {</div>
+<div class="line"><a id="l00348" name="l00348"></a><span class="lineno">  348</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 无法写入文件：%1&quot;</span>).arg(filePath));</div>
+<div class="line"><a id="l00349" name="l00349"></a><span class="lineno">  349</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00350" name="l00350"></a><span class="lineno">  350</span>    }</div>
+<div class="line"><a id="l00351" name="l00351"></a><span class="lineno">  351</span>    QXmlStreamWriter xml(&amp;file);</div>
+<div class="line"><a id="l00352" name="l00352"></a><span class="lineno">  352</span>    xml.setAutoFormatting(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00353" name="l00353"></a><span class="lineno">  353</span>    xml.writeStartDocument(QStringLiteral(<span class="stringliteral">&quot;1.0&quot;</span>), <span class="keyword">true</span>);</div>
+<div class="line"><a id="l00354" name="l00354"></a><span class="lineno">  354</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Lib&quot;</span>));</div>
+<div class="line"><a id="l00355" name="l00355"></a><span class="lineno">  355</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;xmlns:xsd&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;http://www.w3.org/2001/XMLSchema&quot;</span>));</div>
+<div class="line"><a id="l00356" name="l00356"></a><span class="lineno">  356</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;xmlns:xsi&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>));</div>
+<div class="line"><a id="l00357" name="l00357"></a><span class="lineno">  357</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;xsi:noNamespaceSchemaLocation&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;olb.xsd&quot;</span>));</div>
+<div class="line"><a id="l00358" name="l00358"></a><span class="lineno">  358</span>    xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00359" name="l00359"></a><span class="lineno">  359</span>    xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>), libraryDescription.isEmpty() ? libName : libraryDescription);</div>
+<div class="line"><a id="l00360" name="l00360"></a><span class="lineno">  360</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00361" name="l00361"></a><span class="lineno">  361</span>    writeDefaultValues(xml);</div>
+<div class="line"><a id="l00362" name="l00362"></a><span class="lineno">  362</span> </div>
+<div class="line"><a id="l00363" name="l00363"></a><span class="lineno">  363</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; symbol : symbols) {</div>
+<div class="line"><a id="l00364" name="l00364"></a><span class="lineno">  364</span>        <span class="keyword">const</span> QString <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a> = definitionName(symbol.name);  </div>
+<div class="line"><a id="l00365" name="l00365"></a><span class="lineno">  365</span>        <span class="keyword">const</span> QRectF bounds = symbolBounds(symbol);  </div>
+<div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Package&quot;</span>));</div>
+<div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;alphabeticNumbering&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;1&quot;</span>));</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;isHomogeneous&quot;</span>),</div>
+<div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span>                           symbol.partCount &gt; 1 ? QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>) : QStringLiteral(<span class="stringliteral">&quot;1&quot;</span>));</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>), <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;pcbFootprint&quot;</span>), symbol.footprintName);</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;pcbLib&quot;</span>), QString());</div>
+<div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;refdesPrefix&quot;</span>), symbol.designatorPrefix);</div>
+<div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;LibPart&quot;</span>));</div>
+<div class="line"><a id="l00377" name="l00377"></a><span class="lineno">  377</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00378" name="l00378"></a><span class="lineno">  378</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;CellName&quot;</span>), <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00379" name="l00379"></a><span class="lineno">  379</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00380" name="l00380"></a><span class="lineno">  380</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;NormalView&quot;</span>));</div>
+<div class="line"><a id="l00381" name="l00381"></a><span class="lineno">  381</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00382" name="l00382"></a><span class="lineno">  382</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;suffix&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;.Normal&quot;</span>));</div>
+<div class="line"><a id="l00383" name="l00383"></a><span class="lineno">  383</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00384" name="l00384"></a><span class="lineno">  384</span>        writeDisplayProperty(xml,</div>
+<div class="line"><a id="l00385" name="l00385"></a><span class="lineno">  385</span>                             QStringLiteral(<span class="stringliteral">&quot;Part Reference&quot;</span>),</div>
+<div class="line"><a id="l00386" name="l00386"></a><span class="lineno">  386</span>                             qRound64(bounds.center().x() * kMilPerMm),</div>
+<div class="line"><a id="l00387" name="l00387"></a><span class="lineno">  387</span>                             qRound64((bounds.bottom() + 2.54) * kMilPerMm));</div>
+<div class="line"><a id="l00388" name="l00388"></a><span class="lineno">  388</span>        writeDisplayProperty(xml,</div>
+<div class="line"><a id="l00389" name="l00389"></a><span class="lineno">  389</span>                             QStringLiteral(<span class="stringliteral">&quot;Value&quot;</span>),</div>
+<div class="line"><a id="l00390" name="l00390"></a><span class="lineno">  390</span>                             qRound64(bounds.center().x() * kMilPerMm),</div>
+<div class="line"><a id="l00391" name="l00391"></a><span class="lineno">  391</span>                             qRound64((bounds.top() - 2.54) * kMilPerMm));</div>
+<div class="line"><a id="l00392" name="l00392"></a><span class="lineno">  392</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;SymbolBBox&quot;</span>));</div>
+<div class="line"><a id="l00393" name="l00393"></a><span class="lineno">  393</span>        xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00394" name="l00394"></a><span class="lineno">  394</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;x1&quot;</span>), mil(bounds.left()));</div>
+<div class="line"><a id="l00395" name="l00395"></a><span class="lineno">  395</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;x2&quot;</span>), mil(bounds.right()));</div>
+<div class="line"><a id="l00396" name="l00396"></a><span class="lineno">  396</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;y1&quot;</span>), mil(bounds.top()));</div>
+<div class="line"><a id="l00397" name="l00397"></a><span class="lineno">  397</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;y2&quot;</span>), mil(bounds.bottom()));</div>
+<div class="line"><a id="l00398" name="l00398"></a><span class="lineno">  398</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00399" name="l00399"></a><span class="lineno">  399</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;IsPinNumbersVisible&quot;</span>));</div>
+<div class="line"><a id="l00400" name="l00400"></a><span class="lineno">  400</span>        xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00401" name="l00401"></a><span class="lineno">  401</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;val&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;1&quot;</span>));</div>
+<div class="line"><a id="l00402" name="l00402"></a><span class="lineno">  402</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00403" name="l00403"></a><span class="lineno">  403</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;IsPinNamesVisible&quot;</span>));</div>
+<div class="line"><a id="l00404" name="l00404"></a><span class="lineno">  404</span>        xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00405" name="l00405"></a><span class="lineno">  405</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;val&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;1&quot;</span>));</div>
+<div class="line"><a id="l00406" name="l00406"></a><span class="lineno">  406</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00407" name="l00407"></a><span class="lineno">  407</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;PartValue&quot;</span>));</div>
+<div class="line"><a id="l00408" name="l00408"></a><span class="lineno">  408</span>        xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00409" name="l00409"></a><span class="lineno">  409</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>), <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>);</div>
+<div class="line"><a id="l00410" name="l00410"></a><span class="lineno">  410</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00411" name="l00411"></a><span class="lineno">  411</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Reference&quot;</span>));</div>
+<div class="line"><a id="l00412" name="l00412"></a><span class="lineno">  412</span>        xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00413" name="l00413"></a><span class="lineno">  413</span>        xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;name&quot;</span>), symbol.designatorPrefix);</div>
+<div class="line"><a id="l00414" name="l00414"></a><span class="lineno">  414</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00415" name="l00415"></a><span class="lineno">  415</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; rectangle : symbol.rectangles)</div>
+<div class="line"><a id="l00416" name="l00416"></a><span class="lineno">  416</span>            writeRectangle(xml, rectangle);</div>
+<div class="line"><a id="l00417" name="l00417"></a><span class="lineno">  417</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; polyline : symbol.polylines) {</div>
+<div class="line"><a id="l00418" name="l00418"></a><span class="lineno">  418</span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt; polyline.points.size(); ++i) {</div>
+<div class="line"><a id="l00419" name="l00419"></a><span class="lineno">  419</span>                <span class="keyword">const</span> QPointF&amp; first = polyline.points.at(i - 1);  </div>
+<div class="line"><a id="l00420" name="l00420"></a><span class="lineno">  420</span>                <span class="keyword">const</span> QPointF&amp; second = polyline.points.at(i);  </div>
+<div class="line"><a id="l00421" name="l00421"></a><span class="lineno">  421</span>                xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;Line&quot;</span>));</div>
+<div class="line"><a id="l00422" name="l00422"></a><span class="lineno">  422</span>                xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00423" name="l00423"></a><span class="lineno">  423</span>                xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;lineStyle&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00424" name="l00424"></a><span class="lineno">  424</span>                xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;lineWidth&quot;</span>), QStringLiteral(<span class="stringliteral">&quot;0&quot;</span>));</div>
+<div class="line"><a id="l00425" name="l00425"></a><span class="lineno">  425</span>                xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;x1&quot;</span>), mil(first.x()));</div>
+<div class="line"><a id="l00426" name="l00426"></a><span class="lineno">  426</span>                xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;x2&quot;</span>), mil(second.x()));</div>
+<div class="line"><a id="l00427" name="l00427"></a><span class="lineno">  427</span>                xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;y1&quot;</span>), mil(first.y()));</div>
+<div class="line"><a id="l00428" name="l00428"></a><span class="lineno">  428</span>                xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;y2&quot;</span>), mil(second.y()));</div>
+<div class="line"><a id="l00429" name="l00429"></a><span class="lineno">  429</span>                xml.writeEndElement();</div>
+<div class="line"><a id="l00430" name="l00430"></a><span class="lineno">  430</span>            }</div>
+<div class="line"><a id="l00431" name="l00431"></a><span class="lineno">  431</span>        }</div>
+<div class="line"><a id="l00432" name="l00432"></a><span class="lineno">  432</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; symbol.pins.size(); ++i)</div>
+<div class="line"><a id="l00433" name="l00433"></a><span class="lineno">  433</span>            writePin(xml, symbol.pins.at(i), i);</div>
+<div class="line"><a id="l00434" name="l00434"></a><span class="lineno">  434</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00435" name="l00435"></a><span class="lineno">  435</span>        xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;PhysicalPart&quot;</span>));</div>
+<div class="line"><a id="l00436" name="l00436"></a><span class="lineno">  436</span>        xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00437" name="l00437"></a><span class="lineno">  437</span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; symbol.pins.size(); ++i) {</div>
+<div class="line"><a id="l00438" name="l00438"></a><span class="lineno">  438</span>            xml.writeStartElement(QStringLiteral(<span class="stringliteral">&quot;PinNumber&quot;</span>));</div>
+<div class="line"><a id="l00439" name="l00439"></a><span class="lineno">  439</span>            xml.writeEmptyElement(QStringLiteral(<span class="stringliteral">&quot;Defn&quot;</span>));</div>
+<div class="line"><a id="l00440" name="l00440"></a><span class="lineno">  440</span>            xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;number&quot;</span>), symbol.pins.at(i).designator);</div>
+<div class="line"><a id="l00441" name="l00441"></a><span class="lineno">  441</span>            xml.writeAttribute(QStringLiteral(<span class="stringliteral">&quot;position&quot;</span>), QString::number(i));</div>
+<div class="line"><a id="l00442" name="l00442"></a><span class="lineno">  442</span>            xml.writeEndElement();</div>
+<div class="line"><a id="l00443" name="l00443"></a><span class="lineno">  443</span>        }</div>
+<div class="line"><a id="l00444" name="l00444"></a><span class="lineno">  444</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00445" name="l00445"></a><span class="lineno">  445</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00446" name="l00446"></a><span class="lineno">  446</span>        xml.writeEndElement();</div>
+<div class="line"><a id="l00447" name="l00447"></a><span class="lineno">  447</span>    }</div>
+<div class="line"><a id="l00448" name="l00448"></a><span class="lineno">  448</span>    xml.writeEndElement();</div>
+<div class="line"><a id="l00449" name="l00449"></a><span class="lineno">  449</span>    xml.writeEndDocument();</div>
+<div class="line"><a id="l00450" name="l00450"></a><span class="lineno">  450</span>    file.close();</div>
+<div class="line"><a id="l00451" name="l00451"></a><span class="lineno">  451</span>    <span class="keywordflow">if</span> (xml.hasError()) {</div>
+<div class="line"><a id="l00452" name="l00452"></a><span class="lineno">  452</span>        <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>.append(QStringLiteral(<span class="stringliteral">&quot;OrCAD Capture XML 写入过程中发生错误：%1&quot;</span>).arg(filePath));</div>
+<div class="line"><a id="l00453" name="l00453"></a><span class="lineno">  453</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00454" name="l00454"></a><span class="lineno">  454</span>    }</div>
+<div class="line"><a id="l00455" name="l00455"></a><span class="lineno">  455</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00456" name="l00456"></a><span class="lineno">  456</span>}</div>
+</div>
+<div class="line"><a id="l00457" name="l00457"></a><span class="lineno">  457</span> </div>
+<div class="foldopen" id="foldopen00462" data-start="{" data-end="}">
+<div class="line"><a id="l00462" name="l00462"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a99742b39924b1dc69e90f2a1f7de3ce7">  462</a></span>QStringList <a class="code hl_function" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a99742b39924b1dc69e90f2a1f7de3ce7">ExporterOrcadSymbol::diagnostics</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00463" name="l00463"></a><span class="lineno">  463</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">m_diagnostics</a>;</div>
+<div class="line"><a id="l00464" name="l00464"></a><span class="lineno">  464</span>}</div>
+</div>
+<div class="line"><a id="l00465" name="l00465"></a><span class="lineno">  465</span> </div>
+<div class="line"><a id="l00466" name="l00466"></a><span class="lineno">  466</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponentRecordWriter_8cpp_html_a0c0d1b18d3033cb858562e5e8636c18f"><div class="ttname"><a href="AltiumSchComponentRecordWriter_8cpp.html#a0c0d1b18d3033cb858562e5e8636c18f">value</a></div><div class="ttdeci">QString value</div><div class="ttdoc">参数显示值。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponentRecordWriter_8cpp_source.html#l00019">AltiumSchComponentRecordWriter.cpp:19</a></div></div>
+<div class="ttc" id="aExporterOrcadSymbol_8h_html"><div class="ttname"><a href="ExporterOrcadSymbol_8h.html">ExporterOrcadSymbol.h</a></div><div class="ttdoc">OrCAD Capture XML 符号库导出器。</div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_a515c02d1ed2c32753cd4e2cd7140acdd"><div class="ttname"><a href="OLECompoundReader_8cpp.html#a515c02d1ed2c32753cd4e2cd7140acdd">type</a></div><div class="ttdeci">quint8 type</div><div class="ttdoc">类型。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00064">OLECompoundReader.cpp:64</a></div></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterOrcadSymbol_html_a0cf3a501c7ad73bf4596b45831ed4098"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a0cf3a501c7ad73bf4596b45831ed4098">EasyKiConverter::ExporterOrcadSymbol::libraryFileExtension</a></div><div class="ttdeci">QString libraryFileExtension() const override</div><div class="ttdoc">返回 OrCAD Capture XML 符号库扩展名。</div><div class="ttdef"><b>Definition</b> <a href="ExporterOrcadSymbol_8cpp_source.html#l00262">ExporterOrcadSymbol.cpp:262</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterOrcadSymbol_html_a1fb595919a5f05b44de010f11a193630"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a1fb595919a5f05b44de010f11a193630">EasyKiConverter::ExporterOrcadSymbol::exportSymbolLibrary</a></div><div class="ttdeci">bool exportSymbolLibrary(const QList&lt; IR::SymbolComponentIR &gt; &amp;symbols, const QString &amp;libName, const QString &amp;filePath, bool appendMode=true, bool updateMode=false, const QString &amp;libraryDescription=QString()) override</div><div class="ttdoc">导出多个符号组成的 OrCAD Capture XML 符号库。</div><div class="ttdef"><b>Definition</b> <a href="ExporterOrcadSymbol_8cpp_source.html#l00286">ExporterOrcadSymbol.cpp:286</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterOrcadSymbol_html_a3e47c4a03be88752e6531561cfaa70de"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a3e47c4a03be88752e6531561cfaa70de">EasyKiConverter::ExporterOrcadSymbol::m_diagnostics</a></div><div class="ttdeci">QStringList m_diagnostics</div><div class="ttdoc">最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterOrcadSymbol_8h_source.html#l00056">ExporterOrcadSymbol.h:56</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterOrcadSymbol_html_a99742b39924b1dc69e90f2a1f7de3ce7"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#a99742b39924b1dc69e90f2a1f7de3ce7">EasyKiConverter::ExporterOrcadSymbol::diagnostics</a></div><div class="ttdeci">QStringList diagnostics() const override</div><div class="ttdoc">返回最近一次导出的诊断信息。</div><div class="ttdef"><b>Definition</b> <a href="ExporterOrcadSymbol_8cpp_source.html#l00462">ExporterOrcadSymbol.cpp:462</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ExporterOrcadSymbol_html_ac5f35a1499ae509c85af6697d16cb841"><div class="ttname"><a href="classEasyKiConverter_1_1ExporterOrcadSymbol.html#ac5f35a1499ae509c85af6697d16cb841">EasyKiConverter::ExporterOrcadSymbol::exportSymbol</a></div><div class="ttdeci">bool exportSymbol(const IR::SymbolComponentIR &amp;symbol, const QString &amp;filePath) override</div><div class="ttdoc">导出一个 OrCAD Capture XML 符号文件。</div><div class="ttdef"><b>Definition</b> <a href="ExporterOrcadSymbol_8cpp_source.html#l00272">ExporterOrcadSymbol.cpp:272</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714">EasyKiConverter::IR::PinElectricalType</a></div><div class="ttdeci">PinElectricalType</div><div class="ttdoc">引脚电气类型枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00055">IRTypes.h:55</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a29c2c02a361c9d7028472e5d92cd4a54">EasyKiConverter::IR::PinElectricalType::Output</a></div><div class="ttdeci">@ Output</div><div class="ttdoc">输出</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a324118a6721dd6b8a9b9f4e327df2bf5">EasyKiConverter::IR::PinElectricalType::Input</a></div><div class="ttdeci">@ Input</div><div class="ttdoc">输入</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a66ff3fbc34440398658cf2fa4e7f704c">EasyKiConverter::IR::PinElectricalType::OpenCollector</a></div><div class="ttdeci">@ OpenCollector</div><div class="ttdoc">集电极开路</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714a6fcdc090caeade09d0efd6253932b6f5">EasyKiConverter::IR::PinElectricalType::Unspecified</a></div><div class="ttdeci">@ Unspecified</div><div class="ttdoc">未指定</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714aabd4328c725637aabedbd02d3b7ffd40">EasyKiConverter::IR::PinElectricalType::Bidirectional</a></div><div class="ttdeci">@ Bidirectional</div><div class="ttdoc">双向</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714add4fe0cc913f704600b97d1f5dd285de">EasyKiConverter::IR::PinElectricalType::Power</a></div><div class="ttdeci">@ Power</div><div class="ttdoc">电源引脚</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714ae1d9b85cc316bbd2a6447d25ff0edc90">EasyKiConverter::IR::PinElectricalType::OpenEmitter</a></div><div class="ttdeci">@ OpenEmitter</div><div class="ttdoc">发射极开路</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#a9cdca54fa4c27176caab809c96869714af80bc338b6146b566004a046f8137c85">EasyKiConverter::IR::PinElectricalType::Passive</a></div><div class="ttdeci">@ Passive</div><div class="ttdoc">无源（电阻、电容等）</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065cae"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065cae">EasyKiConverter::IR::PinDirection</a></div><div class="ttdeci">PinDirection</div><div class="ttdoc">引脚方向枚举</div><div class="ttdef"><b>Definition</b> <a href="IRTypes_8h_source.html#l00070">IRTypes.h:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea08a38277b0309070706f6652eeae9a53">EasyKiConverter::IR::PinDirection::Down</a></div><div class="ttdeci">@ Down</div><div class="ttdoc">向下</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea258f49887ef8d14ac268c92b02503aaa">EasyKiConverter::IR::PinDirection::Up</a></div><div class="ttdeci">@ Up</div><div class="ttdoc">向上</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea92b09c7c48c520c3c55e497875da437c">EasyKiConverter::IR::PinDirection::Right</a></div><div class="ttdeci">@ Right</div><div class="ttdoc">向右</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ab04d33846a3fcb60d1fbe64574065caea945d5e233cf7d6240f6b783b36a374ff">EasyKiConverter::IR::PinDirection::Left</a></div><div class="ttdeci">@ Left</div><div class="ttdoc">向左</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_1_1IR_html_ae2ebcbc87fff2de2c5b2c6bbb4b52326a04e62aec126654b4f53d2fb434610ec5"><div class="ttname"><a href="namespaceEasyKiConverter_1_1IR.html#ae2ebcbc87fff2de2c5b2c6bbb4b52326a04e62aec126654b4f53d2fb434610ec5">EasyKiConverter::IR::PinDecoration::NoConnect</a></div><div class="ttdeci">@ NoConnect</div><div class="ttdoc">无连接</div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html">EasyKiConverter::IR::SymbolComponentIR</a></div><div class="ttdoc">通用符号组件</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00418">SymbolIR.h:418</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolComponentIR_html_aa71be9bd1e94d77e9816289f4b867689"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolComponentIR.html#aa71be9bd1e94d77e9816289f4b867689">EasyKiConverter::IR::SymbolComponentIR::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">组件名称</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00419">SymbolIR.h:419</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_3d3031f572f70adfed2a807d74a1512d.html">orcad</a></li><li class="navelem"><a class="el" href="ExporterOrcadSymbol_8cpp.html">ExporterOrcadSymbol.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

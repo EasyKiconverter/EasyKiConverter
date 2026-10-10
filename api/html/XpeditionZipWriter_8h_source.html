@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/xpedition/XpeditionZipWriter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('XpeditionZipWriter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">XpeditionZipWriter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="XpeditionZipWriter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QVector&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="foldopen" id="foldopen00015" data-start="{" data-end="};">
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1XpeditionZipWriter.html">   15</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1XpeditionZipWriter.html">XpeditionZipWriter</a> {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1XpeditionZipWriter.html#aa224d85184dd5c0246b969aab1edf6b3">addFile</a>(<span class="keyword">const</span> QString&amp; <a class="code hl_variable" href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a>, <span class="keyword">const</span> QByteArray&amp; data);</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1XpeditionZipWriter.html#a35c0a80cdb1fc6201ee6e29a4fcc0567">write</a>(<span class="keyword">const</span> QString&amp; filePath) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span><span class="keyword">private</span>:</div>
+<div class="foldopen" id="foldopen00033" data-start="{" data-end="};">
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html">   33</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html">Entry</a> {</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html#a807bc33e55dd531d9b4a678e31de59d8">   34</a></span>        QString <a class="code hl_variable" href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html#a807bc33e55dd531d9b4a678e31de59d8">name</a>;  </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html#a9d9bc5f0ee213261a772cc225e1efa8c">   35</a></span>        QByteArray <a class="code hl_variable" href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html#a9d9bc5f0ee213261a772cc225e1efa8c">data</a>;  </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    };</div>
+</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1XpeditionZipWriter.html#a6f97f11a640ffa5669ef980167fd1b55">   38</a></span>    QVector&lt;Entry&gt; <a class="code hl_variable" href="classEasyKiConverter_1_1XpeditionZipWriter.html#a6f97f11a640ffa5669ef980167fd1b55">m_entries</a>;  </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>};</div>
+</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aOLECompoundReader_8cpp_html_abc29e461e01cc0c712944f8f47f91331"><div class="ttname"><a href="OLECompoundReader_8cpp.html#abc29e461e01cc0c712944f8f47f91331">name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">名称。</div><div class="ttdef"><b>Definition</b> <a href="OLECompoundReader_8cpp_source.html#l00070">OLECompoundReader.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html">EasyKiConverter::XpeditionZipWriter</a></div><div class="ttdoc">写入不压缩的 ZIP 文件</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8h_source.html#l00015">XpeditionZipWriter.h:15</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html_a35c0a80cdb1fc6201ee6e29a4fcc0567"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html#a35c0a80cdb1fc6201ee6e29a4fcc0567">EasyKiConverter::XpeditionZipWriter::write</a></div><div class="ttdeci">bool write(const QString &amp;filePath) const</div><div class="ttdoc">将当前条目写入 ZIP 文件。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8cpp_source.html#l00087">XpeditionZipWriter.cpp:87</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html_a6f97f11a640ffa5669ef980167fd1b55"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html#a6f97f11a640ffa5669ef980167fd1b55">EasyKiConverter::XpeditionZipWriter::m_entries</a></div><div class="ttdeci">QVector&lt; Entry &gt; m_entries</div><div class="ttdoc">待写入 ZIP 的条目列表。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8h_source.html#l00038">XpeditionZipWriter.h:38</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1XpeditionZipWriter_html_aa224d85184dd5c0246b969aab1edf6b3"><div class="ttname"><a href="classEasyKiConverter_1_1XpeditionZipWriter.html#aa224d85184dd5c0246b969aab1edf6b3">EasyKiConverter::XpeditionZipWriter::addFile</a></div><div class="ttdeci">bool addFile(const QString &amp;name, const QByteArray &amp;data)</div><div class="ttdoc">添加一个文本或二进制文件条目。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8cpp_source.html#l00070">XpeditionZipWriter.cpp:70</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1XpeditionZipWriter_1_1Entry_html"><div class="ttname"><a href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html">EasyKiConverter::XpeditionZipWriter::Entry</a></div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8h_source.html#l00033">XpeditionZipWriter.h:33</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1XpeditionZipWriter_1_1Entry_html_a807bc33e55dd531d9b4a678e31de59d8"><div class="ttname"><a href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html#a807bc33e55dd531d9b4a678e31de59d8">EasyKiConverter::XpeditionZipWriter::Entry::name</a></div><div class="ttdeci">QString name</div><div class="ttdoc">ZIP 内的相对条目名称。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8h_source.html#l00034">XpeditionZipWriter.h:34</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1XpeditionZipWriter_1_1Entry_html_a9d9bc5f0ee213261a772cc225e1efa8c"><div class="ttname"><a href="structEasyKiConverter_1_1XpeditionZipWriter_1_1Entry.html#a9d9bc5f0ee213261a772cc225e1efa8c">EasyKiConverter::XpeditionZipWriter::Entry::data</a></div><div class="ttdeci">QByteArray data</div><div class="ttdoc">条目内容。</div><div class="ttdef"><b>Definition</b> <a href="XpeditionZipWriter_8h_source.html#l00035">XpeditionZipWriter.h:35</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_d44c96e403fcd62098fb028546faf1dd.html">xpedition</a></li><li class="navelem"><a class="el" href="XpeditionZipWriter_8h.html">XpeditionZipWriter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

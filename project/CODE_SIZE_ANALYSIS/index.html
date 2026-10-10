@@ -1,0 +1,3170 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for EasyKiConverter - LCSC and EasyEDA component converter for KiCad, Altium, and Xpedition libraries">
+      
+      
+        <meta name="author" content="tangsangsimida">
+      
+      
+        <link rel="canonical" href="https://easykiconverter.github.io/EasyKiConverter/project/CODE_SIZE_ANALYSIS/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.18">
+    
+    
+      
+        <title>代码文件规模分析报告 - EasyKiConverter Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.7e37652d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="EasyKiConverter Documentation" class="md-header__button md-logo" aria-label="EasyKiConverter Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EasyKiConverter Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              代码文件规模分析报告
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="deep-purple"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="deep-purple"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/EasyKiconverter/EasyKiConverter" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user/GETTING_STARTED/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  用户指南
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../developer/ai-development/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  开发者指南
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../ROADMAP/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  项目信息
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API 参考
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="EasyKiConverter Documentation" class="md-nav__button md-logo" aria-label="EasyKiConverter Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EasyKiConverter Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/EasyKiconverter/EasyKiConverter" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    首页
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    用户指南
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            用户指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/GETTING_STARTED/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    快速入门
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/USER_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    用户手册
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/FEATURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    功能特性
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/DEBUG_MODE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    调试模式
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/PRIVACY_POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    隐私政策
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/INSTALLATION_CODES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    安装程序返回代码
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    开发者指南
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            开发者指南
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../developer/ai-development/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    AI 协作开发
+    
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_1" id="__nav_3_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            AI 协作开发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/PROJECT_CONTEXT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    项目上下文
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/DEVELOPMENT_WORKFLOW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    开发工作流
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/TESTING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    测试选择指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/SKILLS_CATALOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Skills 目录
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/policy/AI_POLICY/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI 协作政策
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/EVIDENCE_REPORT_TEMPLATE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Evidence Report 模板
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/AGENT_EVAL/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    AI Agent 回归评测
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/ADAPTERS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent 适配层说明
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ai-development/AGENT_TOOLS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Agent JSON 工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    贡献指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/CACHE_SAFETY_ACCEPTANCE_3.1.13/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.1.13 缓存安全验收
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    架构设计
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/PARSER_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    格式解析架构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ALLEGRO_NATIVE_FORMAT_RESEARCH/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Allegro Native 格式研究
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/PADS_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    PADS 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/EAGLE_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Eagle 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/LIBREPCB_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    LibrePCB 原生库导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/PCAD_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    P-CAD 封装导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/ORCAD_EXPORT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    OrCAD Capture XML 符号导出
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/BUILD/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    构建指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/VSCODE_SETUP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    VS Code 配置
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/CODING_STYLE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    代码风格
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/TESTING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    测试指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/BOM_PARSING_GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    BOM 解析指南
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/FAQ/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    开发者常见问题
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_18" id="__nav_3_18_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    变更日志
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_18">
+            <span class="md-nav__icon md-icon"></span>
+            变更日志
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/CHANGELOG/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    变更日志
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/changelog/3.1.4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.1.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/changelog/3.0.14/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v3.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/changelog/2.0.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v2.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/changelog/1.0.0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    v1.0.x
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    项目信息
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            项目信息
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ROADMAP/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    路线图
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LOGGING_ARCHITECTURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    日志架构
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../api/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    API 参考
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API 参考
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      概述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      一、头文件问题清单
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、头文件问题清单">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#500" class="md-nav__link">
+    <span class="md-ellipsis">
+      过长（&gt;500 行）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#300-500" class="md-nav__link">
+    <span class="md-ellipsis">
+      偏长（300-500 行）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理建议
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      二、源文件问题清单
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、源文件问题清单">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      服务与格式写入拆分追踪
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      当前仍偏长的文件与已提取职责
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理建议
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#qml" class="md-nav__link">
+    <span class="md-ellipsis">
+      三、QML 文件问题清单（问题最集中）
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、QML 文件问题清单（问题最集中）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      已完成拆分的列表组件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#300-500_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      偏长（300-500 行）
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      处理建议
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cmake" class="md-nav__link">
+    <span class="md-ellipsis">
+      四、工具脚本和 CMake
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、工具脚本和 CMake">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python 工具脚本
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cmake_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CMake 文件
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adr-012" class="md-nav__link">
+    <span class="md-ellipsis">
+      五、与 ADR 012 的关联
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      六、推荐实施顺序
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      附录：目录行数分布
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter/edit/master/docs/project/CODE_SIZE_ANALYSIS.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter/raw/master/docs/project/CODE_SIZE_ANALYSIS.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0 8a5 5 0 0 1-5-5 5 5 0 0 1 5-5 5 5 0 0 1 5 5 5 5 0 0 1-5 5m0-12.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">代码文件规模分析报告<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>分析日期：2026-09-18 | 工具：<code>python3 tools/python/analyze_project.py</code></p>
+</blockquote>
+<h2 id="_2">概述<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>本报告基于行数分析项目源码文件的规模分布，识别需要拆分或重构的过长文件。为后续 <a href="../adr/012-intermediate-representation-refactor/">ADR 012: IR 架构重构</a> 和代码质量改进提供依据。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>文件数</th>
+<th>过长</th>
+<th>偏长</th>
+<th>健康率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>产品源码与资源</td>
+<td>569</td>
+<td>47</td>
+<td>46</td>
+<td>--</td>
+</tr>
+<tr>
+<td>Python 工具</td>
+<td>13</td>
+<td>5</td>
+<td>4</td>
+<td>--</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td><strong>582</strong></td>
+<td><strong>52</strong></td>
+<td><strong>50</strong></td>
+<td>--</td>
+</tr>
+</tbody>
+</table>
+<p>当前统计工具按文件总行数使用统一阈值：高风险 &gt;500 行，中风险 300-500 行，低风险 200-300 行。类型分项和代码/注释行数需要额外脚本才能精确拆分，因此本报告不再保留旧的推算健康率。</p>
+<p>当前基线：<code>src</code> 509 个文件、78,488 行；<code>tests</code> 58 个文件、18,782 行；翻译资源 2 个文件、3,303 行；<code>tools/python</code> 13 个文件、6,642 行。项目工具的 <code>--all</code> 统计覆盖产品源码、测试和翻译资源，工具目录单独统计后合计 582 个文件、107,215 行。产品源码与资源的高风险文件 47 个、中风险文件 46 个、低风险文件 51 个；Python 工具分别为 5、4、1 个。</p>
+<p>本轮重构已将批量转换器和 BOM 转换器重复的导出服务配置、信号连接、预加载等待、导出等待和结果汇总流程下沉到 <code>BaseConverter</code>，两个具体转换器仅保留输入文件解析和场景提示。该调整不改变 CLI 入口、选项配置、等待边界或导出结果语义。</p>
+<p>已清理 <code>src/ui/qml/components/deprecated/ExportSettingsCard.qml</code>。核对结果显示运行时使用 <code>ExportSettingsBaseCard</code>，测试和 <code>qmldir</code> 仅依赖根目录下保留的 7 行兼容包装 <code>ExportSettingsCard.qml</code>，废弃目录文件无源码、构建或资源引用。</p>
+<p>本轮还将 <code>NetworkClient</code>、<code>FetchWorker</code> 和 <code>NetworkWorker</code> 中同构的 <code>BlockingRequestContext</code> 合并为共享实现，保留请求方原有的取消、超时、回调线程和请求对象回收边界。</p>
+<p>导出阶段审查暂不合并 <code>FootprintExportStage</code> 与 <code>SymbolExportStage</code>：前者包含缓存代次、嵌入 STEP、重复封装重命名、已有库合并和回滚，后者包含符号兼容转换与调试导出；两者的生命周期相似但业务分支不同，继续按行数抽象会扩大行为回归风险。</p>
+<p>本轮将 <code>ComponentListItem.qml</code> 和 <code>ResultListItem.qml</code> 的复制、外链点击和悬停判定提取到 <code>ListItemInteraction.qml</code>；预览图、导出徽标、验证状态、提示动画和按钮布局仍由各自列表项维护。</p>
+<p>Worker 审计结论：<code>DatasheetExportWorker</code> 和 <code>PreviewImagesExportWorker</code> 主要执行同步文件写入，<code>Model3DExportWorker</code> 还负责异步模型下载、网络错误回调、WRL/STEP 双路径和取消收敛；三者仅共享现有 <code>IExportWorker</code> 接口，不新增公共基类。</p>
+<hr />
+<h2 id="_3">一、头文件问题清单<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="500">过长（&gt;500 行）<a class="headerlink" href="#500" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>总行数</th>
+<th>代码行</th>
+<th>注释行</th>
+<th>问题分析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/services/ComponentCacheService.h</code></td>
+<td>584</td>
+<td>122</td>
+<td>366</td>
+<td>注释占比 63%，Doxygen 文档过重或接口声明过多</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentService.h</code></td>
+<td>571</td>
+<td>--</td>
+<td>--</td>
+<td>服务接口和异步请求状态定义仍较集中</td>
+</tr>
+<tr>
+<td><code>src/core/network/INetworkClient.h</code></td>
+<td>523</td>
+<td>386</td>
+<td>90</td>
+<td>纯代码行过多，接口定义臃肿</td>
+</tr>
+</tbody>
+</table>
+<h3 id="300-500">偏长（300-500 行）<a class="headerlink" href="#300-500" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>总行数</th>
+<th>代码行</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/models/SymbolData.h</code></td>
+<td>491</td>
+<td>323</td>
+<td>结构体过多，IR 重构后自动拆分</td>
+</tr>
+<tr>
+<td><code>src/services/ConfigService.h</code></td>
+<td>406</td>
+<td>77</td>
+<td>注释 266 行，文档比代码重</td>
+</tr>
+<tr>
+<td><code>src/models/FootprintData.h</code></td>
+<td>403</td>
+<td>278</td>
+<td>IR 重构后自动拆分</td>
+</tr>
+<tr>
+<td><code>src/utils/CommandLineParser.h</code></td>
+<td>390</td>
+<td>101</td>
+<td>注释 228 行</td>
+</tr>
+<tr>
+<td><code>src/services/export/ExportProgress.h</code></td>
+<td>320</td>
+<td>171</td>
+<td>含 ExportOptions 等多个结构体</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">处理建议<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>SymbolData.h</code>、<code>FootprintData.h</code>：ADR 012 IR 重构时自然解决，无需单独处理</li>
+<li><code>ComponentCacheService.h</code>、<code>ComponentService.h</code>：拆分接口，提取子服务或使用 Pimpl 隐藏实现细节</li>
+<li><code>INetworkClient.h</code>：接口过大，考虑按功能分组（同步/异步/资源类型）拆分为多个接口</li>
+<li>注释过重的文件：审查 Doxygen 注释是否重复了代码本身已表达的信息</li>
+</ul>
+<hr />
+<h2 id="_5">二、源文件问题清单<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="_6">服务与格式写入拆分追踪<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>总行数</th>
+<th>代码行</th>
+<th>注释行</th>
+<th>问题分析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/services/ComponentCacheService.cpp</code></td>
+<td>565</td>
+<td>--</td>
+<td>--</td>
+<td>缓存生命周期和二级缓存接口仍集中，缓存路径、目录切换、读取校验、文件读取、预览图下载、元数据、3D 文件、CAD 数据、预览图写入、数据手册文件存储、数据手册下载、缓存维护、配额清理和一级内存缓存语义已提取</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheFileReadCoordinator.cpp</code></td>
+<td>70</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调符号、封装、CAD JSON、预览图和元数据的二级文件读取，保持一级缓存优先级及目录迁移锁边界</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheReadCoordinator.cpp</code></td>
+<td>105</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调完整缓存校验、元器件数据读取和符号封装 CAD 缓存验证，保持目录迁移锁与 L1 锁顺序</td>
+</tr>
+<tr>
+<td><code>src/services/CacheDirectoryCoordinator.cpp</code></td>
+<td>71</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调缓存目录切换、旧目录迁移、缓存代次失效、目录初始化和自修复，保持 ComponentCacheService 的公开接口与锁顺序</td>
+</tr>
+<tr>
+<td><code>src/services/CachePathResolver.cpp</code></td>
+<td>66</td>
+<td>--</td>
+<td>--</td>
+<td>独立解析组件目录、元数据、预览图、数据手册和三维模型路径，并执行输入校验</td>
+</tr>
+<tr>
+<td><code>src/services/PreviewImageDownloadService.cpp</code></td>
+<td>119</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调预览图缓存命中、网络请求、取消、诊断和代次保护写入</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheMetadataWriter.cpp</code></td>
+<td>51</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调元数据快照合并、代次校验和 L1/L2 提交</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheCadDataWriter.cpp</code></td>
+<td>86</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调符号、封装和 CAD JSON 的校验、原子写入、配额维护及 L1 同步</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCachePreviewImageWriter.cpp</code></td>
+<td>52</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调预览图校验、代次/tombstone 检查、原子写入和配额维护</td>
+</tr>
+<tr>
+<td><code>src/services/DatasheetCacheFileStore.cpp</code></td>
+<td>88</td>
+<td>--</td>
+<td>--</td>
+<td>独立承载数据手册缓存读取、格式校验、格式切换、旧文件清理和原子写入</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheMaintenance.cpp</code></td>
+<td>130</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调缓存删除、全量清理、L1 清理、有效组件枚举和磁盘大小统计</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheQuotaEnforcer.cpp</code></td>
+<td>40</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调磁盘缓存限制、冷却策略、目录清理和缓存大小信号</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheMemoryStore.cpp</code></td>
+<td>92</td>
+<td>--</td>
+<td>--</td>
+<td>独立承载一级缓存复合键、元数据 JSON、CAD 数据校验、LRU 数据访问和容量统计</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheModel3DCoordinator.cpp</code></td>
+<td>91</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调三维模型缓存的锁边界、代次校验、文件读写、导出复制和磁盘配额触发</td>
+</tr>
+<tr>
+<td><code>src/services/LcscImageService.cpp</code></td>
+<td>560</td>
+<td>--</td>
+<td>--</td>
+<td>LCSC 预览图和数据手册请求服务；产品搜索响应解析、精确匹配和媒体字段提取已提取</td>
+</tr>
+<tr>
+<td><code>src/services/LcscProductParser.cpp</code></td>
+<td>115</td>
+<td>--</td>
+<td>--</td>
+<td>独立解析 LCSC 产品搜索响应，执行元件精确匹配、图片地址规范化和媒体字段提取</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListViewModel.cpp</code></td>
+<td>445</td>
+<td>--</td>
+<td>--</td>
+<td>ViewModel 仍包含列表模型接口、搜索选择、状态统计、导出状态和公开槽转发；批量导入、列表生命周期、剪贴板处理、失败项重试、列表数据回调、预览图协调、预览更新缓冲、列表项更新缓冲、验证队列状态、验证错误分类、定时器初始化和服务信号连接已提取</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListMutationCoordinator.cpp</code></td>
+<td>185</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调列表添加、删除、清空、请求取消、验证队列移除和模型状态重置</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListClipboardCoordinator.cpp</code></td>
+<td>64</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调剪贴板文本读取、元件编号提取、列表去重、批量添加和全量编号复制</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListRetryCoordinator.cpp</code></td>
+<td>46</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调可重试失败项筛选、状态重置、服务请求和验证计数更新</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListPreviewCoordinator.cpp</code></td>
+<td>117</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调预览图缓存更新、批量请求、完成状态和界面提示，保持公开槽接口及异步信号顺序</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListTimerCoordinator.cpp</code></td>
+<td>73</td>
+<td>--</td>
+<td>--</td>
+<td>独立创建并连接预览图、批处理、列表统计和延迟获取定时器，保持防抖窗口及原有回调顺序</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListServiceConnectionCoordinator.cpp</code></td>
+<td>91</td>
+<td>--</td>
+<td>--</td>
+<td>独立连接验证完成、组件数据、预览图成功/失败和批量预览完成信号，保持图片编码、缓存更新和验证状态推进顺序</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentValidationCoordinator.cpp</code></td>
+<td>81</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调验证队列的启动、并发调度、完成回调和 BOM 导入状态推进</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListDataCoordinator.cpp</code></td>
+<td>166</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调组件基础信息、CAD、LCSC、数据手册和错误回调到列表项状态的转换</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ComponentListBatchCoordinator.cpp</code></td>
+<td>189</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调批量添加、模型行插入、BOM 解析回调和验证启动时序</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentService.cpp</code></td>
+<td>399</td>
+<td>--</td>
+<td>--</td>
+<td>数据获取和服务编排仍在服务内，基础信息字段解析、BOM 文本编号提取、缓存加载任务、预览图文件编码、CAD 结果收敛、媒体回调、API 回调、队列初始化、并行批量协调、CAD 响应协调、请求取消和单请求启动已提取</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentRequestCoordinator.cpp</code></td>
+<td>109</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调单请求去重、缓存命中、缓存代次读取和 CAD 后台获取，保持 ComponentService 的公开请求接口与旧回调链路不变</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentRequestCancellationCoordinator.cpp</code></td>
+<td>58</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调全量请求和单器件请求的 API、网络客户端、图片服务取消及状态清理顺序</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentMediaCallbackCoordinator.cpp</code></td>
+<td>274</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调预览图、LCSC 数据和数据手册回调，保持缓存代次校验、异步写入、并行队列完成通知和服务信号转发顺序</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentApiCallbackCoordinator.cpp</code></td>
+<td>85</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调 EasyEDA API 基础信息和错误回调，保持缓存代次校验、失败状态清理、并行错误通知和服务信号转发顺序</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCacheLoadCoordinator.cpp</code></td>
+<td>145</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调后台缓存读取、缓存代次校验、网络回退、结果合并和缓存结果信号转发</td>
+</tr>
+<tr>
+<td><code>src/services/ComponentCadFetchCoordinator.cpp</code></td>
+<td>93</td>
+<td>--</td>
+<td>--</td>
+<td>独立协调 CAD 响应的后台解析、缓存代次校验、结果提交和并行批处理通知</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">当前仍偏长的文件与已提取职责<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>行数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/ui/viewmodels/ExportProgressViewModel.cpp</code></td>
+<td>685</td>
+<td>导出进度管理；结果列表统计、失败重试和阶段进度计算已提取</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ExportProgressStageCoordinator.cpp</code></td>
+<td>135</td>
+<td>独立承载预加载进度、阶段权重和三段式进度依赖计算</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ExportProgressStageCoordinator.h</code></td>
+<td>33</td>
+<td>阶段进度协调接口</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ExportProgressResultsCoordinator.cpp</code></td>
+<td>179</td>
+<td>独立协调导出结果列表的状态计算、过滤、类型成功统计和重试重置</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ExportProgressRetryCoordinator.cpp</code></td>
+<td>84</td>
+<td>独立协调单个组件和批量失败结果的重试状态重置、请求启动和刷新节流</td>
+</tr>
+<tr>
+<td><code>src/services/export/ParallelExportService.cpp</code></td>
+<td>561</td>
+<td>并行导出生命周期协调；导出计划、进度状态聚合、导出阶段启动和预加载批次处理已提取</td>
+</tr>
+<tr>
+<td><code>src/services/export/ParallelExportPreloadCoordinator.cpp</code></td>
+<td>147</td>
+<td>独立协调磁盘缓存回退、网络批量结果合并、严格数据校验和预加载进度收敛</td>
+</tr>
+<tr>
+<td><code>src/services/export/ParallelExportPreloadCoordinator.h</code></td>
+<td>29</td>
+<td>预加载批次和网络结果合并协调接口</td>
+</tr>
+<tr>
+<td><code>src/services/export/ExportStageLaunchCoordinator.cpp</code></td>
+<td>164</td>
+<td>独立协调导出阶段进度初始化、缺失数据标记、目标格式分支和阶段启动</td>
+</tr>
+<tr>
+<td><code>src/services/export/ExportRunPlan.cpp</code></td>
+<td>57</td>
+<td>独立计算导出类型、可导出元件和缺失缓存数据，保持服务启动阶段无副作用</td>
+</tr>
+<tr>
+<td><code>src/services/export/ExportProgressAggregator.cpp</code></td>
+<td>65</td>
+<td>独立合并阶段状态、重算阶段计数和汇总最终元件结果</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ExportSettingsViewModel.cpp</code></td>
+<td>617</td>
+<td>导出设置状态管理；选项组装和输出路径解析已提取</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ExportOptionsBuilder.cpp</code></td>
+<td>81</td>
+<td>独立承载导出选项组装、默认目录解析、目标格式映射和诊断日志</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ExportOptionsBuilder.h</code></td>
+<td>22</td>
+<td>导出选项构建接口</td>
+</tr>
+<tr>
+<td><code>src/main.cpp</code></td>
+<td>859</td>
+<td>入口文件混入了 CLI/GUI 切换逻辑</td>
+</tr>
+<tr>
+<td><code>src/workers/WriteWorker.cpp</code></td>
+<td>612</td>
+<td>文件写入工作线程；调试数据导出已提取</td>
+</tr>
+<tr>
+<td><code>src/workers/WriteWorkerDebugExporter.cpp</code></td>
+<td>267</td>
+<td>独立承载原始响应、模型数据和结构化调试摘要的文件写入</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumPcbLibWriter.cpp</code></td>
+<td>610</td>
+<td>PcbLib 文件级写入与元件记录编排；图元记录写入和输入校验已提取</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumPcbPrimitiveWriter.cpp</code></td>
+<td>384</td>
+<td>独立承载 PcbLib 焊盘、走线、弧线、文本、填充、区域和组件实体图元记录写入</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumPcbInputValidator.cpp</code></td>
+<td>243</td>
+<td>独立承载 PcbLib 封装名称、图元属性、三维模型和扩展记录的写入前校验</td>
+</tr>
+<tr>
+<td><code>src/core/altium/ExporterAltiumFootprint.cpp</code></td>
+<td>425</td>
+<td>Altium 封装 IR 转换和导出编排；几何包围盒与原点平移已提取</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumFootprintGeometryNormalizer.cpp</code></td>
+<td>110</td>
+<td>独立承载 PcbLib 图元包围盒计算、区域坐标边界处理和统一平移</td>
+</tr>
+<tr>
+<td><code>src/core/altium/compound/OLECompoundWriter.cpp</code></td>
+<td>736</td>
+<td>OLE 存储树、流数据和扇区分配；目录条目与文件头序列化已提取</td>
+</tr>
+<tr>
+<td><code>src/core/altium/compound/OLECompoundSerializer.cpp</code></td>
+<td>153</td>
+<td>独立承载 OLE 目录条目和 512 字节文件头的 CFB V3 字节序列化</td>
+</tr>
+<tr>
+<td><code>src/core/altium/ExporterAltiumSymbol.cpp</code></td>
+<td>501</td>
+<td>SchLib 符号转换；引脚、参数、引脚文本、路径与曲线图元、基础图元、标注图元、实现关系、几何归一化、部件 ID/方向/颜色/线型和坐标量化共享规则已提取</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSchSymbolGeometryNormalizer.cpp</code></td>
+<td>348</td>
+<td>独立承载符号包围盒归一化、引脚连接端网格量化、主体边界投影和重合文本布局</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSymbolPinConverter.cpp</code></td>
+<td>190</td>
+<td>独立承载 IR 引脚到 Altium 引脚记录的电气类型、显示标志、IEEE 装饰和电源引脚识别</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSymbolCurveConverter.cpp</code></td>
+<td>155</td>
+<td>独立承载圆弧、多边形、折线、路径、Bezier、椭圆、扇形和椭圆弧图元转换</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSymbolAnnotationConverter.cpp</code></td>
+<td>91</td>
+<td>独立承载符号文本、文本框和图片的字体、样式、嵌入数据及部件归属转换</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSymbolPrimitiveConverter.cpp</code></td>
+<td>84</td>
+<td>独立承载矩形、圆角矩形、圆和 IEEE 图元的几何、样式、颜色及部件归属转换</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSymbolImplementationConverter.cpp</code></td>
+<td>65</td>
+<td>独立承载候选封装、显式模型和来源元数据模型的实现关系转换与封装去重</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSymbolParameterConverter.cpp</code></td>
+<td>24</td>
+<td>独立承载已校验符号参数的字段、坐标、颜色、方向和部件归属转换</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSymbolPinTextConverter.cpp</code></td>
+<td>105</td>
+<td>独立承载引脚名称/编号文本校验后的记录转换、锚点回退诊断和部件归属映射</td>
+</tr>
+<tr>
+<td><code>src/core/altium/AltiumSymbolPathConverter.cpp</code></td>
+<td>199</td>
+<td>独立承载路径分段校验、线段与曲线映射、填充路径转换、来源索引和诊断顺序维护</td>
+</tr>
+<tr>
+<td><code>src/core/altium/utils/AltiumSymbolConversionUtils.h</code></td>
+<td>71</td>
+<td>独立承载符号部件 ID、方向、颜色、线型和坐标量化等共享转换规则</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchLibWriter.cpp</code></td>
+<td>437</td>
+<td>SchLib 主记录写入；文本记录、图片记录、引脚记录、几何图元、文件级头部、字体表、图片 Storage、组件 Data 流、输入校验、几何校验、部件归属校验和来源顺序校验已提取</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchInputValidator.cpp</code></td>
+<td>177</td>
+<td>独立协调组件名称、参数字段、字符串编码、重复名称、实现映射、几何和部件归属的写入前校验</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchGraphicOrderValidator.cpp</code></td>
+<td>203</td>
+<td>独立校验来源图元顺序、引脚映射、路径分段、重复引用和未解析来源索引</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchPinRecordWriter.cpp</code></td>
+<td>61</td>
+<td>独立承载 SchLib <code>RECORD=2</code> 二进制引脚记录编码，并复用主写入器的 Owner 校验与内容序号状态</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchPrimitiveRecordWriter.cpp</code></td>
+<td>273</td>
+<td>独立承载矩形、弧线、多边形、折线、Bezier 和 IEEE 等文本参数图元记录编码</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchComponentRecordWriter.cpp</code></td>
+<td>265</td>
+<td>独立承载 Designator、参数字段、实现关系、引脚映射和实现参数记录编码</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchTextRecordWriter.cpp</code></td>
+<td>142</td>
+<td>独立承载 SchLib 文本与文本框记录编码</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchImageRecordWriter.cpp</code></td>
+<td>54</td>
+<td>独立承载 SchLib 图片记录编码</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchLibraryHeaderWriter.cpp</code></td>
+<td>105</td>
+<td>独立承载 SchLib FileHeader 和 SectionKeys 文件级流编码</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchImageStorageWriter.cpp</code></td>
+<td>101</td>
+<td>独立承载嵌入图片名称校验、重复命名消解和 Storage 流编码</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchComponentStorageWriter.cpp</code></td>
+<td>145</td>
+<td>独立承载单个组件 Data 流的记录顺序协调和 OLE 存储写入</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchOwnershipValidator.cpp</code></td>
+<td>48</td>
+<td>独立承载 SchLib 图元和参数记录的 OWNERPARTID 范围校验与诊断</td>
+</tr>
+<tr>
+<td><code>src/core/altium/writers/AltiumSchGeometryValidator.cpp</code></td>
+<td>192</td>
+<td>独立承载 SchLib 图元的坐标、尺寸、方向、字符串和控制点约束校验</td>
+</tr>
+<tr>
+<td><code>src/models/SymbolDataSerializer.cpp</code></td>
+<td>742</td>
+<td>图形类型兼容转发已提取到独立实现，剩余主体序列化逻辑待 IR 重构收敛</td>
+</tr>
+<tr>
+<td><code>src/models/SymbolDataShapeCompatibility.cpp</code></td>
+<td>106</td>
+<td>独立承载旧 SymbolDataSerializer 图形类型接口到 SymbolShapeSerializer 的兼容转发</td>
+</tr>
+<tr>
+<td><code>src/services/export/TempFileManager.cpp</code></td>
+<td>632</td>
+<td>临时文件管理；备份事务路径操作已提取，保留共享目录引用保护</td>
+</tr>
+<tr>
+<td><code>src/services/export/TempFileTransactionUtils.cpp</code></td>
+<td>204</td>
+<td>独立承载备份事务路径移动、清单序列化和恢复数据解析</td>
+</tr>
+<tr>
+<td><code>src/services/export/TempFileTransactionUtils.h</code></td>
+<td>48</td>
+<td>备份事务工具的数据结构和路径操作接口</td>
+</tr>
+<tr>
+<td><code>src/core/kicad/SymbolGraphicsGenerator.cpp</code></td>
+<td>443</td>
+<td>KiCad 符号图形生成</td>
+</tr>
+<tr>
+<td><code>src/core/kicad/ExporterSymbol.cpp</code></td>
+<td>768</td>
+<td>KiCad 符号导出</td>
+</tr>
+<tr>
+<td><code>src/core/kicad/Exporter3DModel.cpp</code></td>
+<td>702</td>
+<td>3D 模型导出</td>
+</tr>
+<tr>
+<td><code>src/models/FootprintDataSerializer.cpp</code></td>
+<td>379</td>
+<td>封装基本信息和顶层数组聚合；图形、层定义和对象可见性序列化已提取</td>
+</tr>
+<tr>
+<td><code>src/models/FootprintShapeSerializer.cpp</code></td>
+<td>284</td>
+<td>独立承载封装边界框、焊盘、走线、孔、图形、文本、区域、轮廓、层定义和对象可见性的 JSON 映射</td>
+</tr>
+<tr>
+<td><code>src/models/FootprintDataShapeCompatibility.cpp</code></td>
+<td>126</td>
+<td>独立承载旧 <code>FootprintDataSerializer</code> 图形类型接口到 <code>FootprintShapeSerializer</code> 的兼容转发</td>
+</tr>
+<tr>
+<td><code>src/models/FootprintShapeSerializer.h</code></td>
+<td>53</td>
+<td>封装图形序列化接口</td>
+</tr>
+<tr>
+<td><code>src/core/kicad/FootprintGraphicsGenerator.cpp</code></td>
+<td>543</td>
+<td>KiCad 封装图形生成</td>
+</tr>
+<tr>
+<td><code>src/ui/viewmodels/ExportSettingsViewModel.cpp</code></td>
+<td>617</td>
+<td>导出设置状态管理；选项组装和输出路径解析已提取</td>
+</tr>
+<tr>
+<td><code>src/core/altium/compound/OLECompoundWriter.cpp</code></td>
+<td>736</td>
+<td>OLE 存储树、流数据、扇区分配和文件落盘；固定结构序列化已提取</td>
+</tr>
+<tr>
+<td><code>src/core/altium/compound/OLECompoundSerializer.cpp</code></td>
+<td>153</td>
+<td>独立承载 OLE 目录条目和文件头的固定字节布局编码</td>
+</tr>
+<tr>
+<td><code>src/core/network/AsyncNetworkRequest.cpp</code></td>
+<td>669</td>
+<td>异步网络请求</td>
+</tr>
+<tr>
+<td><code>src/services/export/FootprintExportStage.cpp</code></td>
+<td>437</td>
+<td>封装导出阶段；3D 模型缓存准备和坐标偏移已提取</td>
+</tr>
+<tr>
+<td><code>src/services/export/FootprintModel3DPreparation.cpp</code></td>
+<td>291</td>
+<td>独立承载 STEP、OBJ、WRL 缓存读取、校验、回写和坐标偏移准备</td>
+</tr>
+<tr>
+<td><code>src/services/export/FootprintModel3DPreparation.h</code></td>
+<td>31</td>
+<td>封装 3D 模型准备接口</td>
+</tr>
+<tr>
+<td>其余高风险文件</td>
+<td>--</td>
+<td>请以 <code>analyze_project.py --all --json</code> 的当前输出为准</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_8">处理建议<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p><strong>ADR 012 IR 重构自动解决的</strong>（6 个文件）：
+- <code>SymbolDataSerializer.cpp</code>、<code>FootprintDataSerializer.cpp</code> -- 序列化逻辑合并到 IR 层
+- <code>SymbolData.h</code> 相关的模型文件 -- 拆分为 IR + Importer</p>
+<p><strong>需要独立拆分的</strong>：
+- <code>ComponentCacheService.cpp</code>（565 行）：已提取缓存文件布局、目录迁移、目录切换、元数据存储、组件数据读取、完整缓存校验、符号封装 CAD 缓存验证、二级文件读取、CAD 数据写入、预览图下载/写入、数据手册文件存储、数据手册下载、缓存维护、磁盘配额清理、写入代次策略、数据校验、tombstone、L1 内存缓存语义、元数据写入协调和三维模型缓存协调职责，后续继续按锁边界拆分管理流程
+- <code>ComponentCacheFileReadCoordinator.cpp</code>（70 行）：独立承载符号、封装、CAD JSON、预览图和元数据的二级文件读取，保留一级缓存优先级、文件校验、目录迁移锁和 ComponentCacheService 的公开接口
+- <code>ComponentCacheReadCoordinator.cpp</code>（105 行）：独立承载完整缓存校验、磁盘元器件数据读取和符号封装 CAD 缓存验证，保持目录迁移锁覆盖路径快照与文件读取，并复用缓存服务的 L1 锁边界
+- <code>CacheDirectoryCoordinator.cpp</code>（71 行）：独立承载缓存目录切换、旧目录迁移、缓存代次失效、目录初始化和自修复，ComponentCacheService 继续负责公开接口、信号转发和协调器生命周期
+- <code>PreviewImageDownloadService.cpp</code>（119 行）：独立承载预览图缓存命中、网络重试、取消检查、诊断回写和代次保护写入，ComponentCacheService 继续保留公开接口
+- <code>CachePathResolver.cpp</code>（66 行）：独立承载缓存路径构造、旧目录大小写兼容和模型路径安全校验，ComponentCacheService 继续负责锁和目录生命周期
+- <code>ComponentCacheCadDataWriter.cpp</code>（86 行）：统一承载符号、封装和 CAD JSON 的磁盘写入流程，保持目录迁移锁、代次校验、配额维护和内存缓存同步顺序
+- <code>Model3DCacheFileStore.cpp</code>（64 行）：独立承载三维模型文件的校验读取、原子写入和导出复制，ComponentCacheService 继续负责锁、路径、代次和配额策略
+- <code>ComponentCacheModel3DCoordinator.cpp</code>（91 行）：独立协调三维模型缓存的锁边界、代次校验、文件读写、导出复制和磁盘配额触发，ComponentCacheService 继续保留公开接口和路径策略
+- <code>ComponentListViewModel.cpp</code>（445 行）：已提取列表状态统计、编号索引、批量导入、列表生命周期、剪贴板处理、失败项重试、组件服务数据回调、预览图协调、预览更新缓冲、列表项更新缓冲、验证队列状态、验证错误分类、定时器初始化、服务信号连接和验证队列协调职责，并移除失效的预览图编码线程池，后续继续拆分搜索和选择
+- <code>ComponentListMutationCoordinator.cpp</code>（185 行）：独立承载列表添加、删除、清空及其模型行、编号索引、请求取消、验证队列和状态计数同步，ComponentListViewModel 继续保留公开槽接口和信号
+- <code>ComponentListClipboardCoordinator.cpp</code>（64 行）：独立承载剪贴板文本读取、元件编号提取、列表去重、批量添加和全量编号复制，ComponentListViewModel 继续保留公开槽接口和信号
+- <code>ComponentListRetryCoordinator.cpp</code>（46 行）：独立承载可重试失败项筛选、列表项验证状态重置、服务请求和验证计数更新，ComponentListViewModel 继续保留公开槽接口和信号
+- <code>ComponentListPreviewCoordinator.cpp</code>（117 行）：独立承载预览图缓存批量更新、有效元件筛选、批量请求、完成状态和验证/预览提示清理，ComponentListViewModel 继续保留公开槽接口、定时器入口和服务信号边界
+- <code>LcscImageService.cpp</code>（560 行）：已提取 LCSC 产品搜索响应解析和媒体字段提取，服务继续负责网络请求、缓存读取、下载状态、取消和代次保护
+- <code>LcscProductParser.cpp</code>（115 行）：独立承载产品搜索 JSON 解析、元件编号精确匹配、预览图 URL 规范化以及制造商和数据手册字段提取
+- <code>ExporterAltiumSymbol.cpp</code>（501 行）：已提取符号引脚、参数、引脚名称/编号文本、路径与曲线图元、矩形/圆/IEEE 基础图元、文本/文本框/图片图元、实现关系、几何归一化、部件 ID/方向/颜色/线型和坐标量化共享规则，主文件继续负责符号记录编排、参数诊断和模型关联编排
+- <code>AltiumSchSymbolGeometryNormalizer.cpp</code>（348 行）：独立承载符号原点归一化、引脚连接端吸附、主体边界投影和重合文本布局，保持 Altium 符号输出坐标规则不变
+- <code>AltiumSymbolPinConverter.cpp</code>（190 行）：独立承载 IR 引脚到 Altium 引脚记录的电气类型、显示标志、IEEE 装饰和电源引脚识别，保持主导出器的公开接口不变
+- <code>AltiumSymbolCurveConverter.cpp</code>（155 行）：独立承载圆弧、多边形、折线、路径、Bezier、椭圆、扇形和椭圆弧转换，保持坐标单位、线型、颜色和部件归属映射不变
+- <code>AltiumSymbolAnnotationConverter.cpp</code>（91 行）：独立承载符号文本、文本框和图片转换，保持字体、颜色、方向、边框、图片嵌入和部件归属映射不变
+- <code>AltiumSymbolPrimitiveConverter.cpp</code>（84 行）：独立承载矩形、圆角矩形、圆和 IEEE 图元转换，保持边界、半径归一化、颜色、线型和部件归属映射不变
+- <code>AltiumSymbolImplementationConverter.cpp</code>（65 行）：独立承载候选封装去重、显式模型和来源元数据模型的实现记录转换，保持模型类型、文件字段、参数及引脚映射不变
+- <code>AltiumSymbolParameterConverter.cpp</code>（24 行）：独立承载已通过校验的符号参数字段映射，保持坐标、字体大小、可见性、只读标志、方向、颜色和部件归属不变
+- <code>AltiumSymbolPinTextConverter.cpp</code>（105 行）：独立承载引脚名称和编号文本的有效性判断、锚点规范化、诊断回退及部件归属映射，保持公共部件和显示标志行为不变
+- <code>AltiumSymbolPathConverter.cpp</code>（199 行）：独立承载路径分段参数校验、线段、二次与三次 Bézier、圆弧、椭圆弧和填充路径转换，保持来源索引、诊断顺序和目标记录语义不变
+- <code>AltiumSymbolConversionUtils.h</code>（71 行）：集中维护 Altium 符号转换中跨参数、引脚和图元复用的部件 ID、方向、颜色、线型及坐标量化规则
+- <code>ComponentListTimerCoordinator.cpp</code>（73 行）：独立创建并连接预览图、批处理、列表统计和延迟获取定时器，保持防抖窗口及原有回调顺序
+- <code>ComponentListServiceConnectionCoordinator.cpp</code>（91 行）：独立连接验证完成、组件数据、预览图成功/失败和批量预览完成信号，保持图片编码、缓存更新和验证状态推进顺序
+- <code>ComponentValidationCoordinator.cpp</code>（81 行）：独立协调验证队列启动、并发调度、完成回调和 BOM 导入状态推进，保持 ViewModel 的状态更新与服务请求顺序
+- <code>ComponentListDataCoordinator.cpp</code>（166 行）：独立协调基础信息、CAD、LCSC、数据手册和错误回调，保持列表项状态更新、验证完成通知和批量刷新顺序
+- <code>ComponentListBatchCoordinator.cpp</code>（189 行）：独立协调批量编号去重、分批插入、BOM 异步解析和验证启动，保持模型通知与状态计数顺序
+- <code>ComponentListItemUpdateBuffer.cpp</code>（约 31 行）：独立收集异步基础信息更新涉及的列表项，负责去重、线程安全转移和清理
+- <code>ComponentCachePreviewImageWriter.cpp</code>（52 行）：独立承载预览图二级缓存写入，保持校验、目录迁移锁、代次策略、原子替换和配额维护顺序
+- <code>DatasheetCacheFileStore.cpp</code>（88 行）：独立承载数据手册缓存读取、格式校验、格式切换、旧文件清理和原子写入
+- <code>DatasheetDownloadService.cpp</code>（约 150 行）：独立承载数据手册缓存命中、同步网络下载、取消处理、网络诊断和代次保护写入
+- <code>ComponentCacheMaintenance.cpp</code>（130 行）：独立承载缓存删除、全量清理、L1 清理、有效组件枚举和磁盘大小统计，保持代次、tombstone、锁和信号顺序</p>
+<p><strong>CLI 重复逻辑收敛</strong>：
+- <code>CliExportWaiter.cpp</code>：统一 BatchConverter 和 BomConverter 的预加载/导出事件循环等待逻辑，转换器自身继续负责输入读取、结果统计和错误处理
+- <code>ComponentCacheQuotaEnforcer.cpp</code>（40 行）：独立承载磁盘缓存配额的冷却判断、目标容量计算、清理执行和大小变化通知
+- <code>ComponentCacheMemoryStore.cpp</code>（92 行）：独立承载一级缓存复合键、JSON 编解码、CAD 数据校验、LRU 访问和容量统计；ComponentCacheService 继续负责信号、代次和磁盘流程
+- <code>ComponentValidationErrorPolicy.cpp</code>（65 行）：集中维护 CAD 数据失败、不可重试错误和预览图错误分类规则，保持 ViewModel 的验证状态与界面提示行为一致
+- <code>ComponentService.cpp</code>（399 行）：已提取组件数据内存缓存、基础信息字段解析、BOM 文本编号提取、后台缓存加载、预览图文件编码、CAD 结果收敛、媒体回调、API 回调、队列初始化、并行批量协调、CAD 响应协调、请求取消和单请求启动职责，后续继续按异步请求状态边界拆分获取与错误处理
+- <code>ComponentRequestCoordinator.cpp</code>（109 行）：独立承载单请求去重、可复用数据判断、符号封装缓存命中、缓存代次读取和 CAD 后台获取，ComponentService 继续保留公开请求接口与回调信号
+- <code>ComponentRequestCancellationCoordinator.cpp</code>（58 行）：独立协调全量请求和单器件请求的 API、网络客户端、图片服务取消及状态清理顺序，保持 ComponentService 的公开取消接口不变
+- <code>ComponentMediaCallbackCoordinator.cpp</code>（274 行）：独立协调预览图、LCSC 数据和数据手册的异步回调，保持缓存代次校验、异步写入、并行队列完成通知和服务信号转发顺序
+- <code>ComponentApiCallbackCoordinator.cpp</code>（85 行）：独立协调 EasyEDA API 基础信息和错误回调，保持缓存代次校验、失败状态清理、并行错误通知和服务信号转发顺序
+- <code>ComponentCacheLoadCoordinator.cpp</code>（145 行）：独立协调后台缓存读取、缓存代次校验、网络回退、结果合并和缓存结果信号转发
+- <code>ComponentParallelFetchCoordinator.cpp</code>（约 100 行）：独立协调并行上下文完成/失败回调、队列槽位释放、超时通知和批量状态重置
+- <code>ComponentValidationCoordinator.cpp</code>（81 行）：独立协调列表验证队列的并发调度、完成状态、BOM 导入更新和后续队列推进
+- <code>ComponentCadFetchCoordinator.cpp</code>（93 行）：独立协调 CAD 响应解析、请求代次校验、缓存提交和并行批处理通知
+- <code>PreviewImageDataEncoder.cpp</code>（47 行）：独立承载预览图文件序号解析、文件读取和 Base64 编码，避免 ComponentService 同时承担文件处理细节
+- <code>main.cpp</code>（859 行）：CLI 入口逻辑已迁移到 <code>CliConverter</code>，剩余 GUI 初始化可提取为 <code>ApplicationSetup</code> 类</p>
+<p><strong>可接受但需关注的</strong>（导出器和写入器）：
+- <code>AltiumSchLibWriter.cpp</code>（437 行）：二进制格式写入天然较长，文本记录、图片记录、引脚记录、几何图元、文件级头部、字体表、图片 Storage、组件 Data 流、输入校验、几何校验、部件归属校验和来源顺序校验已提取，后续可按组件级文件流程继续拆分
+- <code>AltiumSchInputValidator.cpp</code>（177 行）：独立承载 SchLib 组件文本、参数、名称、编码、实现映射、几何和部件归属的写入前校验，保持主写入器的诊断信息和拒绝时序
+- <code>AltiumSchGraphicOrderValidator.cpp</code>（203 行）：独立承载来源图元顺序的完整性、重复引用、引脚覆盖、路径分段和未解析索引校验，保持组件存储写入器的默认顺序回退行为
+- <code>AltiumSchPinRecordWriter.cpp</code>（61 行）：独立编码二进制引脚记录，保持引脚方向、可见性、名称/编号和连接属性的原有写入顺序
+- <code>AltiumSchPrimitiveRecordWriter.cpp</code>（273 行）：独立编码几何图元文本参数，复用主写入器的坐标、Owner、唯一标识和诊断策略
+- <code>AltiumSchComponentRecordWriter.cpp</code>（265 行）：独立编码参数和实现关系记录，复用主写入器的字体、编号、库名和诊断状态
+- <code>AltiumSchLibraryHeaderWriter.cpp</code>（105 行）：独立承载 SchLib FileHeader 和 SectionKeys 流，保持字体表、组件计数、记录权重和存储键映射的一致性
+- <code>AltiumSchImageStorageWriter.cpp</code>（101 行）：独立承载嵌入图片名称校验、大小写不敏感的重复命名消解、255 字节限制和 OLE Storage 流编码
+- <code>AltiumSchComponentStorageWriter.cpp</code>（145 行）：独立承载单个组件 Data 流的默认/来源顺序选择、补充图元以及参数和实现记录的协调
+- <code>AltiumSchOwnershipValidator.cpp</code>（48 行）：独立校验所有 SchLib 记录的 OWNERPARTID 范围并复用主写入器诊断通道，保持拒绝写入行为不变
+- <code>AltiumSchGeometryValidator.cpp</code>（192 行）：独立校验图元几何边界、编码字符串和枚举范围，并复用主写入器诊断通道，保持拒绝写入行为不变
+- <code>AltiumPcbLibWriter.cpp</code>（610 行）：已提取焊盘、走线、弧线、文本、填充、区域和组件实体图元记录以及输入校验，主写入器继续负责文件级状态、封装数据、唯一标识表和元件记录编排
+- <code>AltiumPcbPrimitiveWriter.cpp</code>（384 行）：独立承载 PcbLib 图元记录编码，复用主写入器的层映射、标志编码、有限值归一化、广字符串和公共图元头部规则
+- <code>AltiumPcbInputValidator.cpp</code>（243 行）：独立承载封装名称、焊盘/走线/文本/区域属性、三维模型、三维实体和扩展记录的输入校验，复用主写入器诊断通道并保持拒绝写入行为不变
+- <code>ExporterAltiumFootprint.cpp</code>（425 行）：已提取封装图元包围盒、区域坐标边界处理和原点平移，主导出器继续负责 IR 转换、3D 模型关联和 ComponentBody 生成
+- <code>AltiumFootprintGeometryNormalizer.cpp</code>（110 行）：独立承载 PcbLib 图元包围盒计算和统一平移，分别保留原点归一化与三维轮廓生成所需的区域坐标策略
+- <code>OLECompoundWriter.cpp</code>（736 行）：继续负责 OLE 存储树、流登记、mini stream、FAT/DIFAT 扇区分配和文件落盘，固定结构编码已移出
+- <code>OLECompoundSerializer.cpp</code>（153 行）：独立承载目录条目、版本字段、FAT/DIFAT 索引和扇区布局的 CFB V3 序列化，保持 OLE 写入器的只读状态边界
+- <code>WriteWorker.cpp</code>（612 行）：继续负责写入任务调度、符号/封装/三维模型/预览图/数据手册写入和状态汇总，调试数据输出已提取
+- <code>WriteWorkerDebugExporter.cpp</code>（267 行）：独立承载调试原始文件、结构化 JSON 摘要和调试目录创建，复用 WriteWorker 的路径安全边界
+- KiCad 导出器系列（各 660-690 行）：与 IR 重构后的导出器接口调整一并处理</p>
+<hr />
+<h2 id="qml">三、QML 文件问题清单（问题最集中）<a class="headerlink" href="#qml" title="Permanent link">&para;</a></h2>
+<h3 id="_9">已完成拆分的列表组件<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>总行数</th>
+<th>代码行</th>
+<th>问题分析</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/ui/qml/components/ComponentListCard.qml</code></td>
+<td>371</td>
+<td>--</td>
+<td>卡片状态协调、过滤触发和弹窗定位；预览弹窗、工具栏和列表视图已提取</td>
+</tr>
+<tr>
+<td><code>src/ui/qml/components/ComponentToolbar.qml</code></td>
+<td>427</td>
+<td>--</td>
+<td>独立承载数量、筛选、搜索和批量操作</td>
+</tr>
+<tr>
+<td><code>src/ui/qml/components/ComponentListView.qml</code></td>
+<td>187</td>
+<td>--</td>
+<td>独立承载 DelegateModel、网格委托和可见区域预取</td>
+</tr>
+<tr>
+<td><code>src/ui/qml/components/ComponentPreviewPopup.qml</code></td>
+<td>320</td>
+<td>--</td>
+<td>独立承载预览图展示、缩略图切换和延迟隐藏</td>
+</tr>
+<tr>
+<td><code>src/ui/qml/MainWindow.qml</code></td>
+<td>911</td>
+<td>--</td>
+<td>主窗口布局+状态管理+对话框逻辑</td>
+</tr>
+<tr>
+<td><code>src/ui/qml/components/SidebarSettingsView.qml</code></td>
+<td>724</td>
+<td>--</td>
+<td>侧边栏设置面板</td>
+</tr>
+<tr>
+<td><code>src/ui/qml/components/ComponentListItem.qml</code></td>
+<td>615</td>
+<td>--</td>
+<td>已提取复制、外链和悬停交互，预览图与验证状态仍集中</td>
+</tr>
+<tr>
+<td><code>src/ui/qml/components/SliderDialogBase.qml</code></td>
+<td>608</td>
+<td>530</td>
+<td>滑动对话框基类</td>
+</tr>
+<tr>
+<td><code>src/ui/qml/components/ExportSettingsBaseCard.qml</code></td>
+<td>533</td>
+<td>483</td>
+<td>导出设置卡片基类</td>
+</tr>
+</tbody>
+</table>
+<h3 id="300-500_1">偏长（300-500 行）<a class="headerlink" href="#300-500_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>行数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HeaderSection.qml</code></td>
+<td>402</td>
+<td></td>
+</tr>
+<tr>
+<td><code>ExitDialog.qml</code></td>
+<td>400</td>
+<td></td>
+</tr>
+<tr>
+<td><code>ResultListItem.qml</code></td>
+<td>370</td>
+<td></td>
+</tr>
+<tr>
+<td><code>tst_ExportFlow.qml</code></td>
+<td>341</td>
+<td>测试文件</td>
+</tr>
+<tr>
+<td><code>ExportResultsCard.qml</code></td>
+<td>306</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_10">处理建议<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>QML 文件过长是当前最严重的问题区域，建议按以下优先级处理：</p>
+<ol>
+<li><strong><code>ComponentListCard.qml</code>（371 行）</strong>：已提取预览弹窗、工具栏和列表视图，后续重点转向 ViewModel 与服务层拆分</li>
+<li><strong><code>MainWindow.qml</code>（911 行）</strong>：提取 <code>MenuBar</code>、<code>StatusBar</code>、<code>DialogManager</code> 等独立 QML 组件</li>
+<li><strong><code>ComponentListItem.qml</code>（615 行）</strong>：已提取共享交互层，后续仅在预览和验证职责出现明确边界时继续拆分</li>
+<li><strong><code>SidebarSettingsView.qml</code>（724 行）</strong>：各设置区块提取为独立组件</li>
+</ol>
+<hr />
+<h2 id="cmake">四、工具脚本和 CMake<a class="headerlink" href="#cmake" title="Permanent link">&para;</a></h2>
+<h3 id="python">Python 工具脚本<a class="headerlink" href="#python" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>行数</th>
+<th>优先级</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tools/python/manage_version.py</code></td>
+<td>1,190</td>
+<td>低（开发工具，不影响产品）</td>
+</tr>
+<tr>
+<td><code>tools/python/build_project.py</code></td>
+<td>1,092</td>
+<td>低</td>
+</tr>
+<tr>
+<td><code>tools/python/format_code.py</code></td>
+<td>926</td>
+<td>低</td>
+</tr>
+</tbody>
+</table>
+<p>工具脚本过长但不影响产品质量，可在空闲时逐步拆分为子模块。</p>
+<h3 id="cmake_1">CMake 文件<a class="headerlink" href="#cmake_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>行数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tests/unit/CMakeLists.txt</code></td>
+<td>536</td>
+<td>测试目标过多，可按模块拆分为子 CMakeLists</td>
+</tr>
+<tr>
+<td><code>CMakeLists.txt</code> (根)</td>
+<td>424</td>
+<td>项目配置复杂度所致，可接受</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="adr-012">五、与 ADR 012 的关联<a class="headerlink" href="#adr-012" title="Permanent link">&para;</a></h2>
+<p>以下文件在 IR 重构中会被自然处理，无需单独拆分：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>行数</th>
+<th>IR 重构后的去向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src/models/SymbolData.h</code></td>
+<td>491</td>
+<td>拆分到 <code>ir/SymbolIR.h</code> + <code>importers/easyeda/EasyedaMetadata.h</code></td>
+</tr>
+<tr>
+<td><code>src/models/FootprintData.h</code></td>
+<td>403</td>
+<td>拆分到 <code>ir/FootprintIR.h</code> + <code>importers/easyeda/EasyedaMetadata.h</code></td>
+</tr>
+<tr>
+<td><code>src/models/SymbolDataSerializer.cpp</code></td>
+<td>742</td>
+<td>逻辑合并到 IR 层或删除</td>
+</tr>
+<tr>
+<td><code>src/models/FootprintDataSerializer.cpp</code></td>
+<td>677</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>src/models/ComponentData.h</code></td>
+<td>234</td>
+<td>合并到 <code>ir/ComponentIR.h</code></td>
+</tr>
+<tr>
+<td><code>src/models/Model3DData.h</code></td>
+<td>124</td>
+<td>合并到 <code>ir/Model3DIR.h</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_11">六、推荐实施顺序<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>内容</th>
+<th>文件数</th>
+<th>预估工时</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>ADR 012 IR 重构（解决 6 个模型文件）</td>
+<td>~20</td>
+<td>3 周</td>
+</tr>
+<tr>
+<td>2</td>
+<td>QML 组件拆分（解决 7 个过长 QML）</td>
+<td>~15</td>
+<td>1-2 周</td>
+</tr>
+<tr>
+<td>3</td>
+<td>服务层拆分（CacheService/ComponentService/ViewModel）</td>
+<td>~6</td>
+<td>1 周</td>
+</tr>
+<tr>
+<td>4</td>
+<td>main.cpp 瘦身</td>
+<td>1</td>
+<td>0.5 周</td>
+</tr>
+<tr>
+<td>5</td>
+<td>工具脚本模块化（可选）</td>
+<td>3</td>
+<td>空闲时</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_12">附录：目录行数分布<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>总行数</th>
+<th>文件数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>src</code></td>
+<td>78,488</td>
+<td>509</td>
+</tr>
+<tr>
+<td><code>tests</code></td>
+<td>18,782</td>
+<td>58</td>
+</tr>
+<tr>
+<td><code>resources/translations</code></td>
+<td>3,303</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>tools/python</code></td>
+<td>6,642</td>
+<td>13</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>目录级统计以上述项目工具的当前输出为准；旧版按子目录手工估算的数据已移除，避免与总量不一致。产品目录数据由 <code>python3 tools/python/analyze_project.py --all --analyze --top 100</code> 生成，工具目录数据由 <code>python3 tools/python/analyze_project.py tools/python --analyze --top 30</code> 生成。</p>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+    <a href="https://github.com/EasyKiconverter/EasyKiConverter" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path fill="currentColor" d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.indexes", "navigation.top", "navigation.footer", "content.code.copy", "content.action.edit", "content.action.view", "search.suggest", "search.highlight", "toc.follow"], "search": "../../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": "3.1.13"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.92b07e13.min.js"></script>
+      
+    
+  </body>
+</html>

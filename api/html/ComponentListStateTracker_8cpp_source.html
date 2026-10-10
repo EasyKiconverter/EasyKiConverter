@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: ui/viewmodels/ComponentListStateTracker.cpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('ComponentListStateTracker_8cpp_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">ComponentListStateTracker.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="ComponentListStateTracker_8cpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &quot;<a class="code" href="ComponentListStateTracker_8h.html">ComponentListStateTracker.h</a>&quot;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="foldopen" id="foldopen00009" data-start="{" data-end="}">
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListStateTracker.html#aa8c02f16b50eece5b0d8f4b55aae10a9">    9</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#aa8c02f16b50eece5b0d8f4b55aae10a9">ComponentListStateTracker::recompute</a>(<span class="keyword">const</span> QList&lt;ComponentListItemData*&gt;&amp; items) {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="comment">// 统计正在验证的元件数量。</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a6d3dceab72078054eb31b9eec24ac28d">validatingCount</a> = 0;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="comment">// 统计验证成功的元件数量。</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#aed12a974afdc3ec8af3efabe9b6798c7">validCount</a> = 0;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="comment">// 统计验证失败的元件数量。</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8d5173859022c3763c40a33b5a8d8c73">invalidCount</a> = 0;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="comment">// 统计可以重试的失败元件数量。</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordtype">int</span> retryableInvalidCount = 0;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_class" href="classEasyKiConverter_1_1ComponentListItemData.html">ComponentListItemData</a>* item : items) {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordflow">if</span> (!item) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        }</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="comment">// 获取当前元件的验证阶段。</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">const</span> QString phase = item-&gt;validationPhase();</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordflow">if</span> (phase == QStringLiteral(<span class="stringliteral">&quot;validating&quot;</span>)) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            ++<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a6d3dceab72078054eb31b9eec24ac28d">validatingCount</a>;</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (phase == QStringLiteral(<span class="stringliteral">&quot;completed&quot;</span>) || phase == QStringLiteral(<span class="stringliteral">&quot;fetching_preview&quot;</span>)) {</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            ++<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#aed12a974afdc3ec8af3efabe9b6798c7">validCount</a>;</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (phase == QStringLiteral(<span class="stringliteral">&quot;failed&quot;</span>)) {</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>            ++<a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8d5173859022c3763c40a33b5a8d8c73">invalidCount</a>;</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>            <span class="keywordflow">if</span> (item-&gt;retryable()) {</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>                ++retryableInvalidCount;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>            }</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    }</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a0b5d5e26898d2547a9ddb8dbd6f81bc1">m_validatingCount</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a6d3dceab72078054eb31b9eec24ac28d">validatingCount</a>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#ad5e02c30bff68a34df0edbd4c77fcad3">m_validCount</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#aed12a974afdc3ec8af3efabe9b6798c7">validCount</a>;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8460e7a37414f032a42b91921a4c4288">m_invalidCount</a> = <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8d5173859022c3763c40a33b5a8d8c73">invalidCount</a>;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a0f1d3b7d659bc42ffea1b2854847708c">m_retryableInvalidCount</a> = retryableInvalidCount;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
+</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a865770eee455724ad39f78fb646a2e2a">   49</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a865770eee455724ad39f78fb646a2e2a">ComponentListStateTracker::setFilterMode</a>(<span class="keyword">const</span> QString&amp; mode) {</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a4b5587b16d4b704497592d92dc3159f5">m_filterMode</a> == mode) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    }</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a4b5587b16d4b704497592d92dc3159f5">m_filterMode</a> = mode;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="foldopen" id="foldopen00061" data-start="{" data-end="}">
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a40bc7036fe4ab4ca7cac1c6c3b7048e7">   61</a></span>QString <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a40bc7036fe4ab4ca7cac1c6c3b7048e7">ComponentListStateTracker::filterMode</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a4b5587b16d4b704497592d92dc3159f5">m_filterMode</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}</div>
+</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="foldopen" id="foldopen00070" data-start="{" data-end="}">
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a456916d9f50f23a130c7d1df559235bd">   70</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a456916d9f50f23a130c7d1df559235bd">ComponentListStateTracker::filteredCount</a>(<span class="keywordtype">int</span> totalCount)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a4b5587b16d4b704497592d92dc3159f5">m_filterMode</a> == QStringLiteral(<span class="stringliteral">&quot;validating&quot;</span>)) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a0b5d5e26898d2547a9ddb8dbd6f81bc1">m_validatingCount</a>;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>    }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a4b5587b16d4b704497592d92dc3159f5">m_filterMode</a> == QStringLiteral(<span class="stringliteral">&quot;valid&quot;</span>)) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#ad5e02c30bff68a34df0edbd4c77fcad3">m_validCount</a>;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">if</span> (<a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a4b5587b16d4b704497592d92dc3159f5">m_filterMode</a> == QStringLiteral(<span class="stringliteral">&quot;invalid&quot;</span>)) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8460e7a37414f032a42b91921a4c4288">m_invalidCount</a>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">return</span> totalCount;</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}</div>
+</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="foldopen" id="foldopen00087" data-start="{" data-end="}">
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a6d3dceab72078054eb31b9eec24ac28d">   87</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a6d3dceab72078054eb31b9eec24ac28d">ComponentListStateTracker::validatingCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a0b5d5e26898d2547a9ddb8dbd6f81bc1">m_validatingCount</a>;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>}</div>
+</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
+<div class="foldopen" id="foldopen00095" data-start="{" data-end="}">
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListStateTracker.html#aed12a974afdc3ec8af3efabe9b6798c7">   95</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#aed12a974afdc3ec8af3efabe9b6798c7">ComponentListStateTracker::validCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#ad5e02c30bff68a34df0edbd4c77fcad3">m_validCount</a>;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>}</div>
+</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span> </div>
+<div class="foldopen" id="foldopen00103" data-start="{" data-end="}">
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8d5173859022c3763c40a33b5a8d8c73">  103</a></span><span class="keywordtype">int</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8d5173859022c3763c40a33b5a8d8c73">ComponentListStateTracker::invalidCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8460e7a37414f032a42b91921a4c4288">m_invalidCount</a>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
+</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
+<div class="foldopen" id="foldopen00111" data-start="{" data-end="}">
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a23442b0f14ee3f8b4dab150da6e37d93">  111</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a23442b0f14ee3f8b4dab150da6e37d93">ComponentListStateTracker::hasRetryableInvalidComponents</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">return</span> <a class="code hl_variable" href="classEasyKiConverter_1_1ComponentListStateTracker.html#a0f1d3b7d659bc42ffea1b2854847708c">m_retryableInvalidCount</a> &gt; 0;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
+</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aComponentListStateTracker_8h_html"><div class="ttname"><a href="ComponentListStateTracker_8h.html">ComponentListStateTracker.h</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListItemData_html"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListItemData.html">EasyKiConverter::ComponentListItemData</a></div><div class="ttdoc">元器件列表项数据模型</div><div class="ttdef"><b>Definition</b> <a href="ComponentListItemData_8h_source.html#l00019">ComponentListItemData.h:19</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a0b5d5e26898d2547a9ddb8dbd6f81bc1"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a0b5d5e26898d2547a9ddb8dbd6f81bc1">EasyKiConverter::ComponentListStateTracker::m_validatingCount</a></div><div class="ttdeci">int m_validatingCount</div><div class="ttdoc">保存正在验证的元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8h_source.html#l00064">ComponentListStateTracker.h:64</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a0f1d3b7d659bc42ffea1b2854847708c"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a0f1d3b7d659bc42ffea1b2854847708c">EasyKiConverter::ComponentListStateTracker::m_retryableInvalidCount</a></div><div class="ttdeci">int m_retryableInvalidCount</div><div class="ttdoc">保存可重试失败元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8h_source.html#l00067">ComponentListStateTracker.h:67</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a23442b0f14ee3f8b4dab150da6e37d93"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a23442b0f14ee3f8b4dab150da6e37d93">EasyKiConverter::ComponentListStateTracker::hasRetryableInvalidComponents</a></div><div class="ttdeci">bool hasRetryableInvalidComponents() const</div><div class="ttdoc">判断是否存在可重试的失败元件。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8cpp_source.html#l00111">ComponentListStateTracker.cpp:111</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a40bc7036fe4ab4ca7cac1c6c3b7048e7"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a40bc7036fe4ab4ca7cac1c6c3b7048e7">EasyKiConverter::ComponentListStateTracker::filterMode</a></div><div class="ttdeci">QString filterMode() const</div><div class="ttdoc">返回当前过滤模式。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8cpp_source.html#l00061">ComponentListStateTracker.cpp:61</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a456916d9f50f23a130c7d1df559235bd"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a456916d9f50f23a130c7d1df559235bd">EasyKiConverter::ComponentListStateTracker::filteredCount</a></div><div class="ttdeci">int filteredCount(int totalCount) const</div><div class="ttdoc">返回当前过滤模式下的列表数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8cpp_source.html#l00070">ComponentListStateTracker.cpp:70</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a4b5587b16d4b704497592d92dc3159f5"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a4b5587b16d4b704497592d92dc3159f5">EasyKiConverter::ComponentListStateTracker::m_filterMode</a></div><div class="ttdeci">QString m_filterMode</div><div class="ttdoc">保存当前过滤模式。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8h_source.html#l00063">ComponentListStateTracker.h:63</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a6d3dceab72078054eb31b9eec24ac28d"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a6d3dceab72078054eb31b9eec24ac28d">EasyKiConverter::ComponentListStateTracker::validatingCount</a></div><div class="ttdeci">int validatingCount() const</div><div class="ttdoc">返回验证中的元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8cpp_source.html#l00087">ComponentListStateTracker.cpp:87</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a8460e7a37414f032a42b91921a4c4288"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8460e7a37414f032a42b91921a4c4288">EasyKiConverter::ComponentListStateTracker::m_invalidCount</a></div><div class="ttdeci">int m_invalidCount</div><div class="ttdoc">保存验证失败的元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8h_source.html#l00066">ComponentListStateTracker.h:66</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a865770eee455724ad39f78fb646a2e2a"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a865770eee455724ad39f78fb646a2e2a">EasyKiConverter::ComponentListStateTracker::setFilterMode</a></div><div class="ttdeci">bool setFilterMode(const QString &amp;mode)</div><div class="ttdoc">设置过滤模式。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8cpp_source.html#l00049">ComponentListStateTracker.cpp:49</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_a8d5173859022c3763c40a33b5a8d8c73"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#a8d5173859022c3763c40a33b5a8d8c73">EasyKiConverter::ComponentListStateTracker::invalidCount</a></div><div class="ttdeci">int invalidCount() const</div><div class="ttdoc">返回验证失败的元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8cpp_source.html#l00103">ComponentListStateTracker.cpp:103</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_aa8c02f16b50eece5b0d8f4b55aae10a9"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#aa8c02f16b50eece5b0d8f4b55aae10a9">EasyKiConverter::ComponentListStateTracker::recompute</a></div><div class="ttdeci">void recompute(const QList&lt; ComponentListItemData * &gt; &amp;items)</div><div class="ttdoc">根据当前列表重新计算验证状态计数。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8cpp_source.html#l00009">ComponentListStateTracker.cpp:9</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_ad5e02c30bff68a34df0edbd4c77fcad3"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#ad5e02c30bff68a34df0edbd4c77fcad3">EasyKiConverter::ComponentListStateTracker::m_validCount</a></div><div class="ttdeci">int m_validCount</div><div class="ttdoc">保存验证成功的元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8h_source.html#l00065">ComponentListStateTracker.h:65</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1ComponentListStateTracker_html_aed12a974afdc3ec8af3efabe9b6798c7"><div class="ttname"><a href="classEasyKiConverter_1_1ComponentListStateTracker.html#aed12a974afdc3ec8af3efabe9b6798c7">EasyKiConverter::ComponentListStateTracker::validCount</a></div><div class="ttdeci">int validCount() const</div><div class="ttdoc">返回验证成功的元件数量。</div><div class="ttdef"><b>Definition</b> <a href="ComponentListStateTracker_8cpp_source.html#l00095">ComponentListStateTracker.cpp:95</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_1788f8309b1a812dcb800a185471cf6c.html">ui</a></li><li class="navelem"><a class="el" href="dir_fea4d5651ef76d72b143e7607c90e565.html">viewmodels</a></li><li class="navelem"><a class="el" href="ComponentListStateTracker_8cpp.html">ComponentListStateTracker.cpp</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>

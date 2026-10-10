@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>EasyKiConverter: core/altium/AltiumSymbolPrimitiveConverter.h 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/MathJax.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">EasyKiConverter<span id="projectnumber">&#160;3.0.5</span>
+   </div>
+   <div id="projectbrief">LCSC/EasyEDA 元件转 KiCad 库文件转换器</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.9.8 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function() { init_codefold(0); });
+/* @license-end */
+</script>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('AltiumSymbolPrimitiveConverter_8h_source.html',''); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">载入中...</div>
+<div class="SRStatus" id="Searching">搜索中...</div>
+<div class="SRStatus" id="NoMatches">未找到</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">AltiumSymbolPrimitiveConverter.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="AltiumSymbolPrimitiveConverter_8h.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;<a class="code" href="SymbolIR_8h.html">core/ir/SymbolIR.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="AltiumSchComponent_8h.html">models/AltiumSchComponent.h</a>&quot;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceEasyKiConverter.html">EasyKiConverter</a> {</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="foldopen" id="foldopen00012" data-start="{" data-end="};">
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html">   12</a></span><span class="keyword">class </span><a class="code hl_class" href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html">AltiumSymbolPrimitiveConverter</a> final {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchRectangle.html">AltiumSchRectangle</a> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html#a748482e42d31b1c335b01b3200190cb8">convertRectangle</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html">IR::SymbolRectangleIR</a>&amp; rect);</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchRoundRectangle.html">AltiumSchRoundRectangle</a> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html#a1cbf4e4c2a362df86f0e1076b81f9fc3">convertRoundRectangle</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html">IR::SymbolRectangleIR</a>&amp; rect);</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchEllipse.html">AltiumSchEllipse</a> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html#a483ba45f431400c37a441863f6025c8c">convertCircle</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolCircleIR.html">IR::SymbolCircleIR</a>&amp; circle);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">static</span> <a class="code hl_struct" href="structEasyKiConverter_1_1AltiumSchIeee.html">AltiumSchIeee</a> <a class="code hl_function" href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html#ab3554d8b0ebe2b1db679c18e0ce9e72f">convertIeee</a>(<span class="keyword">const</span> <a class="code hl_struct" href="structEasyKiConverter_1_1IR_1_1SymbolIeeeIR.html">IR::SymbolIeeeIR</a>&amp; ieee);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>};</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}  <span class="comment">// namespace EasyKiConverter</span></div>
+<div class="ttc" id="aAltiumSchComponent_8h_html"><div class="ttname"><a href="AltiumSchComponent_8h.html">AltiumSchComponent.h</a></div></div>
+<div class="ttc" id="aSymbolIR_8h_html"><div class="ttname"><a href="SymbolIR_8h.html">SymbolIR.h</a></div><div class="ttdoc">原理图符号的通用中间表示</div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolPrimitiveConverter_html"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html">EasyKiConverter::AltiumSymbolPrimitiveConverter</a></div><div class="ttdoc">将符号基础图元转换为 Altium SchLib 记录。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolPrimitiveConverter_8h_source.html#l00012">AltiumSymbolPrimitiveConverter.h:12</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolPrimitiveConverter_html_a1cbf4e4c2a362df86f0e1076b81f9fc3"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html#a1cbf4e4c2a362df86f0e1076b81f9fc3">EasyKiConverter::AltiumSymbolPrimitiveConverter::convertRoundRectangle</a></div><div class="ttdeci">static AltiumSchRoundRectangle convertRoundRectangle(const IR::SymbolRectangleIR &amp;rect)</div><div class="ttdoc">转换圆角矩形。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolPrimitiveConverter_8cpp_source.html#l00044">AltiumSymbolPrimitiveConverter.cpp:44</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolPrimitiveConverter_html_a483ba45f431400c37a441863f6025c8c"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html#a483ba45f431400c37a441863f6025c8c">EasyKiConverter::AltiumSymbolPrimitiveConverter::convertCircle</a></div><div class="ttdeci">static AltiumSchEllipse convertCircle(const IR::SymbolCircleIR &amp;circle)</div><div class="ttdoc">转换圆形。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolPrimitiveConverter_8cpp_source.html#l00066">AltiumSymbolPrimitiveConverter.cpp:66</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolPrimitiveConverter_html_a748482e42d31b1c335b01b3200190cb8"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html#a748482e42d31b1c335b01b3200190cb8">EasyKiConverter::AltiumSymbolPrimitiveConverter::convertRectangle</a></div><div class="ttdeci">static AltiumSchRectangle convertRectangle(const IR::SymbolRectangleIR &amp;rect)</div><div class="ttdoc">转换矩形。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolPrimitiveConverter_8cpp_source.html#l00024">AltiumSymbolPrimitiveConverter.cpp:24</a></div></div>
+<div class="ttc" id="aclassEasyKiConverter_1_1AltiumSymbolPrimitiveConverter_html_ab3554d8b0ebe2b1db679c18e0ce9e72f"><div class="ttname"><a href="classEasyKiConverter_1_1AltiumSymbolPrimitiveConverter.html#ab3554d8b0ebe2b1db679c18e0ce9e72f">EasyKiConverter::AltiumSymbolPrimitiveConverter::convertIeee</a></div><div class="ttdeci">static AltiumSchIeee convertIeee(const IR::SymbolIeeeIR &amp;ieee)</div><div class="ttdoc">转换 IEEE 图元。</div><div class="ttdef"><b>Definition</b> <a href="AltiumSymbolPrimitiveConverter_8cpp_source.html#l00087">AltiumSymbolPrimitiveConverter.cpp:87</a></div></div>
+<div class="ttc" id="anamespaceEasyKiConverter_html"><div class="ttname"><a href="namespaceEasyKiConverter.html">EasyKiConverter</a></div><div class="ttdef"><b>Definition</b> <a href="AllegroFootprintModel_8h_source.html#l00015">AllegroFootprintModel.h:15</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchEllipse_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchEllipse.html">EasyKiConverter::AltiumSchEllipse</a></div><div class="ttdoc">Altium 符号椭圆/圆</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00118">AltiumSchComponent.h:118</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchIeee_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchIeee.html">EasyKiConverter::AltiumSchIeee</a></div><div class="ttdoc">Altium 符号 IEEE 图形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00214">AltiumSchComponent.h:214</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchRectangle_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchRectangle.html">EasyKiConverter::AltiumSchRectangle</a></div><div class="ttdoc">Altium 符号矩形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00040">AltiumSchComponent.h:40</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1AltiumSchRoundRectangle_html"><div class="ttname"><a href="structEasyKiConverter_1_1AltiumSchRoundRectangle.html">EasyKiConverter::AltiumSchRoundRectangle</a></div><div class="ttdoc">Altium 符号圆角矩形</div><div class="ttdef"><b>Definition</b> <a href="AltiumSchComponent_8h_source.html#l00056">AltiumSchComponent.h:56</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolCircleIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolCircleIR.html">EasyKiConverter::IR::SymbolCircleIR</a></div><div class="ttdoc">通用符号圆形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00135">SymbolIR.h:135</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolIeeeIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolIeeeIR.html">EasyKiConverter::IR::SymbolIeeeIR</a></div><div class="ttdoc">通用 Altium IEEE 图形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00294">SymbolIR.h:294</a></div></div>
+<div class="ttc" id="astructEasyKiConverter_1_1IR_1_1SymbolRectangleIR_html"><div class="ttname"><a href="structEasyKiConverter_1_1IR_1_1SymbolRectangleIR.html">EasyKiConverter::IR::SymbolRectangleIR</a></div><div class="ttdoc">通用符号矩形</div><div class="ttdef"><b>Definition</b> <a href="SymbolIR_8h_source.html#l00117">SymbolIR.h:117</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="dir_4270bfced15e0e73154b13468c7c9ad9.html">core</a></li><li class="navelem"><a class="el" href="dir_1333824a0f8f59d34138c3c3865a5a2e.html">altium</a></li><li class="navelem"><a class="el" href="AltiumSymbolPrimitiveConverter_8h.html">AltiumSymbolPrimitiveConverter.h</a></li>
+    <li class="footer">制作者 <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8 </li>
+  </ul>
+</div>
+</body>
+</html>
