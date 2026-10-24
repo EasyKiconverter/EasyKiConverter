@@ -2026,11 +2026,11 @@ private slots:
         QCOMPARE(result.readAll(), originalData);
     }
 
-    // 验证已有三维关联清单时，禁止覆盖会阻止模型文件与清单被拆开更新。
+    // 验证追加新模型时会合并已有三维关联清单，而不会丢失历史组件条目。
     /**
-     * @brief 验证 model3DNoOverwriteRejectsStaleManifestUpdate 测试场景。
+     * @brief 验证 model3DAppendMergesExistingManifest 测试场景。
      */
-    void model3DNoOverwriteRejectsStaleManifestUpdate() {
+    void model3DAppendMergesExistingManifest() {
         // tempDir：测试使用的文件系统路径。
         QTemporaryDir tempDir;
         QVERIFY(tempDir.isValid());
@@ -2039,10 +2039,20 @@ private slots:
         QVERIFY(QDir().mkpath(outputDir));
         // manifestPath：测试使用的文件系统路径。
         const QString manifestPath = QDir(outputDir).filePath(QStringLiteral("manifest.json"));
+        // oldModelPath：已有历史组件的模型文件路径。
+        const QString oldModelPath = QDir(outputDir).filePath(QStringLiteral("Old Model.wrl"));
+        QFile oldModel(oldModelPath);
+        QVERIFY(oldModel.open(QIODevice::WriteOnly | QIODevice::Text));
+        QVERIFY(oldModel.write("old model\n") > 0);
+        oldModel.close();
+
         QFile manifest(manifestPath);
         QVERIFY(manifest.open(QIODevice::WriteOnly | QIODevice::Text));
-        // originalManifest：导出前保存的原始清单。
-        const QByteArray originalManifest = QByteArrayLiteral("{\"version\":0}\n");
+        // originalManifest：包含未参与本轮导出的历史组件条目。
+        const QByteArray originalManifest = QByteArrayLiteral(
+            "{\"format\":\"EasyKiConverter.3d-model-manifest\",\"version\":1,"
+            "\"components\":[{\"componentId\":\"C_OLD\",\"modelStem\":\"Old Model\","
+            "\"status\":\"success\",\"files\":{\"wrl\":\"Old Model.wrl\"}}]}\n");
         QVERIFY(manifest.write(originalManifest) == originalManifest.size());
         manifest.close();
 
@@ -2071,16 +2081,327 @@ private slots:
         QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
         stage.start({QStringLiteral("C_MANIFEST_CONFLICT")}, cachedData);
         if (completedSpy.count() == 0)
-            QVERIFY2(completedSpy.wait(3000), "Manifest conflict should complete");
+            QVERIFY2(completedSpy.wait(3000), "Manifest merge should complete");
         QCOMPARE(completedSpy.count(), 1);
-        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
-        QCOMPARE(completedSpy.at(0).at(1).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
         QCOMPARE(completedSpy.at(0).at(2).toInt(), 0);
-        QVERIFY(!QFile::exists(QDir(outputDir).filePath(QStringLiteral("New Model.wrl"))));
+        QVERIFY(QFile::exists(QDir(outputDir).filePath(QStringLiteral("New Model.wrl"))));
 
         QFile result(manifestPath);
         QVERIFY(result.open(QIODevice::ReadOnly | QIODevice::Text));
-        QCOMPARE(result.readAll(), originalManifest);
+        // mergedManifest：追加导出后的合并清单。
+        const QJsonObject mergedManifest = QJsonDocument::fromJson(result.readAll()).object();
+        const QJsonArray mergedComponents =
+            mergedManifest.value(QStringLiteral("components")).toArray();  // mergedComponents：合并后的组件条目。
+        QCOMPARE(mergedComponents.size(), 2);
+        bool foundOld = false;  // foundOld：是否保留历史组件条目。
+        bool foundNew = false;  // foundNew：是否写入本轮成功组件条目。
+        for (const QJsonValue& value : mergedComponents) {
+            const QJsonObject componentObject = value.toObject();  // componentObject：当前合并组件对象。
+            const QString componentId =
+                componentObject.value(QStringLiteral("componentId")).toString();  // componentId：当前组件编号。
+            foundOld = foundOld || componentId == QStringLiteral("C_OLD");
+            if (componentId == QStringLiteral("C_MANIFEST_CONFLICT")) {
+                foundNew = true;
+                QCOMPARE(
+                    componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("wrl")).toString(),
+                    QStringLiteral("New Model.wrl"));
+            }
+        }
+        QVERIFY(foundOld);
+        QVERIFY(foundNew);
+    }
+
+    // 验证追加模式只生成缺失的 STEP，并保留已存在的 WRL 与其他组件条目。
+    /**
+     * @brief 验证 model3DAppendCompletesPartialWrlStepPair 测试场景。
+     */
+    void model3DAppendCompletesPartialWrlStepPair() {
+        // tempDir：测试使用的文件系统路径。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        // outputDir：测试使用的文件系统路径。
+        const QString outputDir = tempDir.filePath(QStringLiteral("PartialModels.3dmodels"));
+        QVERIFY(QDir().mkpath(outputDir));
+        // existingWrlPath：追加前已经存在的 WRL 文件路径。
+        const QString existingWrlPath = QDir(outputDir).filePath(QStringLiteral("Partial Model.wrl"));
+        QFile existingWrl(existingWrlPath);
+        QVERIFY(existingWrl.open(QIODevice::WriteOnly | QIODevice::Text));
+        QVERIFY(existingWrl.write("existing wrl\n") > 0);
+        existingWrl.close();
+
+        // manifest：追加前的历史关联清单文件对象。
+        QFile manifest(QDir(outputDir).filePath(QStringLiteral("manifest.json")));
+        QVERIFY(manifest.open(QIODevice::WriteOnly | QIODevice::Text));
+        const QByteArray originalManifest = QByteArrayLiteral(
+            "{\"format\":\"EasyKiConverter.3d-model-manifest\",\"version\":1,"
+            "\"components\":[{\"componentId\":\"C_OTHER\",\"status\":\"success\","
+            "\"files\":{\"wrl\":\"Other.wrl\"}},{\"componentId\":\"C_PARTIAL\","
+            "\"status\":\"success\",\"files\":{\"wrl\":\"Partial Model.wrl\"}}]}\n");
+        QVERIFY(manifest.write(originalManifest) == originalManifest.size());
+        manifest.close();
+
+        // stage：测试用导出阶段。
+        Model3DExportStage stage;
+        // options：追加模式下同时请求 WRL 和 STEP 的导出选项。
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("PartialModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_BOTH;
+        options.overwriteExistingFiles = false;
+        options.updateMode = false;
+        stage.setOptions(options);
+
+        // component：拥有已存在 WRL 和缺失 STEP 的测试组件。
+        auto component = QSharedPointer<ComponentData>::create();
+        // model：测试组件的三维模型元数据。
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("partial-model-uuid"));
+        model->setName(QStringLiteral("Partial Model"));
+        model->setStep(QByteArrayLiteral("ISO-10303-21;\nDATA;\nENDSEC;\nEND-ISO-10303-21;\n"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        // cachedData：待导出的组件缓存。
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_PARTIAL"), component);
+        // completedSpy：阶段完成信号监听器。
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_PARTIAL")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "Partial WRL/STEP append should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QVERIFY(QFile::exists(existingWrlPath));
+        QVERIFY(QFile::exists(QDir(outputDir).filePath(QStringLiteral("Partial Model.step"))));
+
+        // result：读取追加后的关联清单。
+        QFile result(QDir(outputDir).filePath(QStringLiteral("manifest.json")));
+        QVERIFY(result.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QJsonArray components =
+            QJsonDocument::fromJson(result.readAll()).object().value(QStringLiteral("components")).toArray();
+        QCOMPARE(components.size(), 2);
+        for (const QJsonValue& value : components) {
+            const QJsonObject componentObject = value.toObject();  // componentObject：当前合并组件对象。
+            if (componentObject.value(QStringLiteral("componentId")).toString() == QStringLiteral("C_PARTIAL")) {
+                const QJsonObject files =
+                    componentObject.value(QStringLiteral("files")).toObject();  // files：当前组件文件映射。
+                QCOMPARE(files.value(QStringLiteral("wrl")).toString(), QStringLiteral("Partial Model.wrl"));
+                QCOMPARE(files.value(QStringLiteral("step")).toString(), QStringLiteral("Partial Model.step"));
+            }
+        }
+    }
+
+    // 验证更新模式只替换当前组件条目，不会丢失其他历史组件。
+    /**
+     * @brief 验证 model3DUpdatePreservesOtherManifestEntries 测试场景。
+     */
+    void model3DUpdatePreservesOtherManifestEntries() {
+        // tempDir：测试使用的文件系统路径。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        // outputDir：测试使用的文件系统路径。
+        const QString outputDir = tempDir.filePath(QStringLiteral("UpdateModels.3dmodels"));
+        QVERIFY(QDir().mkpath(outputDir));
+        // manifest：更新前的历史关联清单文件对象。
+        QFile manifest(QDir(outputDir).filePath(QStringLiteral("manifest.json")));
+        QVERIFY(manifest.open(QIODevice::WriteOnly | QIODevice::Text));
+        const QByteArray originalManifest = QByteArrayLiteral(
+            "{\"format\":\"EasyKiConverter.3d-model-manifest\",\"version\":1,"
+            "\"components\":[{\"componentId\":\"C_KEEP\",\"status\":\"success\","
+            "\"files\":{\"wrl\":\"Keep.wrl\"}},{\"componentId\":\"C_UPDATE\","
+            "\"status\":\"success\",\"files\":{\"wrl\":\"Update.wrl\"}}]}\n");
+        QVERIFY(manifest.write(originalManifest) == originalManifest.size());
+        manifest.close();
+
+        // stage：测试用导出阶段。
+        Model3DExportStage stage;
+        // options：允许更新当前组件但不启用完整覆盖的导出选项。
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("UpdateModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        options.overwriteExistingFiles = false;
+        options.updateMode = true;
+        stage.setOptions(options);
+
+        // component：需要更新三维模型的测试组件。
+        auto component = QSharedPointer<ComponentData>::create();
+        // model：更新后的三维模型元数据。
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("update-model-uuid"));
+        model->setName(QStringLiteral("Update"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        // cachedData：待更新的组件缓存。
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_UPDATE"), component);
+        // completedSpy：阶段完成信号监听器。
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_UPDATE")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "3D model update should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        // result：读取更新后的关联清单。
+        QFile result(QDir(outputDir).filePath(QStringLiteral("manifest.json")));
+        QVERIFY(result.open(QIODevice::ReadOnly | QIODevice::Text));
+        const QJsonArray components =
+            QJsonDocument::fromJson(result.readAll()).object().value(QStringLiteral("components")).toArray();
+        QCOMPARE(components.size(), 2);
+        bool foundKeep = false;  // foundKeep：是否保留未参与更新的历史组件。
+        bool foundUpdate = false;  // foundUpdate：是否更新当前组件条目。
+        for (const QJsonValue& value : components) {
+            const QJsonObject componentObject = value.toObject();  // componentObject：当前合并组件对象。
+            const QString componentId =
+                componentObject.value(QStringLiteral("componentId")).toString();  // componentId：当前组件编号。
+            foundKeep = foundKeep || componentId == QStringLiteral("C_KEEP");
+            if (componentId == QStringLiteral("C_UPDATE")) {
+                foundUpdate = true;
+                QCOMPARE(
+                    componentObject.value(QStringLiteral("files")).toObject().value(QStringLiteral("wrl")).toString(),
+                    QStringLiteral("Update.wrl"));
+            }
+        }
+        QVERIFY(foundKeep);
+        QVERIFY(foundUpdate);
+    }
+
+    // 验证追加模式跳过已有模型时不会改写关联清单。
+    /**
+     * @brief 验证 model3DAppendSkipPreservesManifest 测试场景。
+     */
+    void model3DAppendSkipPreservesManifest() {
+        // tempDir：测试使用的文件系统路径。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        // outputDir：测试用三维模型输出目录。
+        const QString outputDir = tempDir.filePath(QStringLiteral("SkipModels.3dmodels"));
+        QVERIFY(QDir().mkpath(outputDir));
+        // modelPath：追加前已经存在的模型文件路径。
+        const QString modelPath = QDir(outputDir).filePath(QStringLiteral("Skip.wrl"));
+        QFile modelFile(modelPath);
+        QVERIFY(modelFile.open(QIODevice::WriteOnly | QIODevice::Text));
+        // originalModel：追加前已有模型文件的原始内容。
+        const QByteArray originalModel = QByteArrayLiteral("existing model\n");
+        QVERIFY(modelFile.write(originalModel) == originalModel.size());
+        modelFile.close();
+
+        // manifestPath：已有关联清单路径。
+        const QString manifestPath = QDir(outputDir).filePath(QStringLiteral("manifest.json"));
+        const QByteArray originalManifest = QByteArrayLiteral(
+            "{\"format\":\"EasyKiConverter.3d-model-manifest\",\"version\":1,"
+            "\"components\":[{\"componentId\":\"C_SKIP\",\"modelStem\":\"Skip\","
+            "\"status\":\"success\",\"files\":{\"wrl\":\"Skip.wrl\"}}]}\n");
+        QFile manifestFile(manifestPath);
+        QVERIFY(manifestFile.open(QIODevice::WriteOnly | QIODevice::Text));
+        QVERIFY(manifestFile.write(originalManifest) == originalManifest.size());
+        manifestFile.close();
+
+        // stage：测试用导出阶段。
+        Model3DExportStage stage;
+        // options：追加模式下只请求 WRL 且不覆盖已有文件的导出选项。
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("SkipModels");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        options.overwriteExistingFiles = false;
+        options.updateMode = false;
+        stage.setOptions(options);
+
+        // component：模型文件已存在的测试组件。
+        auto component = QSharedPointer<ComponentData>::create();
+        // model：测试组件的三维模型元数据。
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("skip-model-uuid"));
+        model->setName(QStringLiteral("Skip"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        // cachedData：待追加的组件缓存。
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_SKIP"), component);
+        // completedSpy：阶段完成信号监听器。
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_SKIP")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "Skipped 3D model append should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+        QCOMPARE(completedSpy.at(0).at(2).toInt(), 1);
+
+        // resultManifest：跳过后读取的关联清单内容。
+        QFile resultManifest(manifestPath);
+        QVERIFY(resultManifest.open(QIODevice::ReadOnly | QIODevice::Text));
+        QCOMPARE(resultManifest.readAll(), originalManifest);
+        // resultModel：跳过后读取的模型内容。
+        QFile resultModel(modelPath);
+        QVERIFY(resultModel.open(QIODevice::ReadOnly | QIODevice::Text));
+        QCOMPARE(resultModel.readAll(), originalModel);
+    }
+
+    // 验证关联清单无法解析时不会覆盖原始清单。
+    /**
+     * @brief 验证 model3DInvalidManifestPreservesOriginal 测试场景。
+     */
+    void model3DInvalidManifestPreservesOriginal() {
+        // tempDir：测试使用的文件系统路径。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        // outputDir：测试用三维模型输出目录。
+        const QString outputDir = tempDir.filePath(QStringLiteral("InvalidManifest.3dmodels"));
+        QVERIFY(QDir().mkpath(outputDir));
+        // manifestPath：格式无效的旧关联清单路径。
+        const QString manifestPath = QDir(outputDir).filePath(QStringLiteral("manifest.json"));
+        // originalManifest：格式无效清单的原始内容。
+        const QByteArray originalManifest = QByteArrayLiteral("not-json\n");
+        QFile manifestFile(manifestPath);
+        QVERIFY(manifestFile.open(QIODevice::WriteOnly | QIODevice::Text));
+        QVERIFY(manifestFile.write(originalManifest) == originalManifest.size());
+        manifestFile.close();
+
+        // stage：测试用导出阶段。
+        Model3DExportStage stage;
+        // options：追加模式下导出 WRL 的选项。
+        ExportOptions options;
+        options.outputPath = tempDir.path();
+        options.libName = QStringLiteral("InvalidManifest");
+        options.exportModel3DFormat = ExportOptions::MODEL_3D_FORMAT_WRL;
+        options.overwriteExistingFiles = false;
+        options.updateMode = false;
+        stage.setOptions(options);
+
+        // component：用于触发清单处理的测试组件。
+        auto component = QSharedPointer<ComponentData>::create();
+        // model：测试组件的三维模型元数据。
+        auto model = QSharedPointer<Model3DData>::create();
+        model->setUuid(QStringLiteral("invalid-manifest-model-uuid"));
+        model->setName(QStringLiteral("Invalid Manifest"));
+        component->setModel3DData(model);
+        component->setModel3DObjRaw(QByteArrayLiteral("v 0 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3\n"));
+
+        // cachedData：待导出的组件缓存。
+        QMap<QString, QSharedPointer<ComponentData>> cachedData;
+        cachedData.insert(QStringLiteral("C_INVALID_MANIFEST"), component);
+        // completedSpy：阶段完成信号监听器。
+        QSignalSpy completedSpy(&stage, &ExportTypeStage::completed);
+        stage.start({QStringLiteral("C_INVALID_MANIFEST")}, cachedData);
+        if (completedSpy.count() == 0)
+            QVERIFY2(completedSpy.wait(3000), "Invalid manifest export should complete");
+        QCOMPARE(completedSpy.count(), 1);
+        QCOMPARE(completedSpy.at(0).at(0).toInt(), 1);
+        QCOMPARE(completedSpy.at(0).at(1).toInt(), 0);
+
+        // resultManifest：清单解析失败后保留的原始内容。
+        QFile resultManifest(manifestPath);
+        QVERIFY(resultManifest.open(QIODevice::ReadOnly | QIODevice::Text));
+        QCOMPARE(resultManifest.readAll(), originalManifest);
     }
 
     // 验证运行中的阶段会拒绝重复启动请求。

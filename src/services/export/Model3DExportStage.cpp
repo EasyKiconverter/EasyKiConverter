@@ -13,6 +13,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonParseError>
 #include <QPointer>
 #include <QSaveFile>
 
@@ -166,27 +167,6 @@ void Model3DExportStage::start(const QStringList& componentIds,
         }
     }
 
-    // 旧清单与新模型文件不能拆开更新，否则清单可能继续引用已经不存在或不匹配的文件。
-    const QString manifestPath = outputDir + QDir::separator() + QStringLiteral("manifest.json");
-    if (QFileInfo::exists(manifestPath) && !m_options.overwriteExistingFiles) {
-        for (auto it = m_componentPaths.cbegin(); it != m_componentPaths.cend(); ++it) {  // 当前组件路径记录。
-            const QString componentId = it.key();  ///< 当前元器件编号。
-            const QString modelName = m_modelFileStems.value(componentId);  ///< 当前模型文件主体名。
-            const QString wrlPath =  // WRL 最终文件路径。
-                needWrl ? outputDir + QDir::separator() + modelName + QStringLiteral(".wrl") : QString();
-            const QString stepPath =  // STEP 最终文件路径。
-                needStep ? outputDir + QDir::separator() + modelName + QStringLiteral(".step") : QString();
-            const bool wrlExists = !needWrl || QFileInfo::exists(wrlPath);  ///< WRL 文件是否存在。
-            const bool stepExists = !needStep || QFileInfo::exists(stepPath);  ///< STEP 文件是否存在。
-            if (!wrlExists || !stepExists) {
-                m_preflightErrors.insert(
-                    componentId,
-                    QStringLiteral("3D model manifest exists and overwrite is disabled; model files and manifest "
-                                   "must be updated together"));
-            }
-        }
-    }
-
     m_isExporting.store(true);
 
     /**
@@ -257,9 +237,6 @@ void Model3DExportStage::startWorker(QObject* worker,
         return;
     }
 
-    exportWorker->setOptions(m_options);
-    exportWorker->setData(componentId, data, m_options);
-
     const QString modelName =
         m_modelFileStems.value(componentId, PathSecurity::sanitizeFilename(componentId));  ///< 当前模型文件主体名。
 
@@ -274,6 +251,8 @@ void Model3DExportStage::startWorker(QObject* worker,
     QString outputDir =
         baseOutputDir + QDir::separator() + libName + QStringLiteral(".3dmodels");  ///< 三维模型输出目录。
 
+    // workerOptions：当前元器件实际执行的三维模型导出选项。
+    ExportOptions workerOptions = m_options;
     if (m_componentPaths.contains(componentId)) {
         TempFilePaths& paths = m_componentPaths[componentId];  ///< 当前元器件的可写临时路径记录。
         paths.wrlFinalPath = needWrl ? (outputDir + QDir::separator() + modelName + QStringLiteral(".wrl")) : QString();
@@ -286,23 +265,38 @@ void Model3DExportStage::startWorker(QObject* worker,
         const bool stepExists =
             !paths.stepFinalPath.isEmpty() && QFile::exists(paths.stepFinalPath);  ///< STEP 最终文件是否存在。
         const bool anyExisting = wrlExists || stepExists;  ///< 是否已有任一模型文件。
-        if (!m_options.overwriteExistingFiles && anyExisting) {
+        const bool allowOverwrite =
+            m_options.overwriteExistingFiles || m_options.updateMode;  ///< 当前是否允许更新已有文件。
+        if (!allowOverwrite && anyExisting) {
             const bool allRequestedExist =
                 (!needWrl || wrlExists) && (!needStep || stepExists);  ///< 所有请求模型是否均已存在。
-            m_componentPaths.remove(componentId);
             if (allRequestedExist) {
+                m_componentPaths.remove(componentId);
                 completeSkippedItemProgress(exportWorker, componentId, QStringLiteral("3D model file already exists"));
-            } else {
-                completeItemProgress(exportWorker,
-                                     componentId,
-                                     false,
-                                     QStringLiteral("3D model output partially exists and overwrite is disabled"));
+                delete exportWorker;
+                return;
             }
-            delete exportWorker;
-            return;
+            if (needWrl && wrlExists) {
+                paths.wrlTempPath.clear();
+                paths.wrlFinalPath.clear();
+                workerOptions.exportModel3DFormat &= ~ExportOptions::MODEL_3D_FORMAT_WRL;
+            }
+            if (needStep && stepExists) {
+                paths.stepTempPath.clear();
+                paths.stepFinalPath.clear();
+                workerOptions.exportModel3DFormat &= ~ExportOptions::MODEL_3D_FORMAT_STEP;
+            }
+            if (workerOptions.exportModel3DFormat == ExportOptions::MODEL_3D_FORMAT_NONE) {
+                m_componentPaths.remove(componentId);
+                completeSkippedItemProgress(exportWorker, componentId, QStringLiteral("3D model file already exists"));
+                delete exportWorker;
+                return;
+            }
         }
         exportWorker->setOutputPaths({paths.wrlTempPath, paths.stepTempPath});
     }
+    exportWorker->setOptions(workerOptions);
+    exportWorker->setData(componentId, data, workerOptions);
 
     QPointer<Model3DExportStage> stagePtr(this);  ///< 防止异步回调访问已销毁的阶段对象。
     qInfo() << "Model3DExportStage: Connecting worker completed signal for" << componentId;
@@ -325,13 +319,13 @@ void Model3DExportStage::startWorker(QObject* worker,
                 const bool needStep = stagePtr->m_options.needsModel3DStep();  ///< 回调时是否需要 STEP。
 
                 QVector<TempFileManager::CommitItem> commitItems;  ///< 待提交的三维模型事务项。
-                if (needWrl) {
+                if (needWrl && !paths.wrlTempPath.isEmpty()) {
                     commitItems.append({paths.wrlTempPath, paths.wrlFinalPath, false});
                 }
-                if (needStep) {
+                if (needStep && !paths.stepTempPath.isEmpty()) {
                     commitItems.append({paths.stepTempPath, paths.stepFinalPath, false});
                 }
-                if (!stagePtr->m_tempManager.commitBatch(commitItems)) {
+                if (!commitItems.isEmpty() && !stagePtr->m_tempManager.commitBatch(commitItems)) {
                     success = false;
                 }
             }
@@ -351,6 +345,16 @@ void Model3DExportStage::writeAssociationManifest() {
     if (m_componentIds.isEmpty())
         return;
 
+    // reportManifestDiagnostic：向当前导出进度追加清单处理诊断并通知界面。
+    const auto reportManifestDiagnostic = [this](const QString& diagnostic) {
+        QMutexLocker locker(&m_progressMutex);
+        if (!m_progress.diagnostics.contains(diagnostic))
+            m_progress.diagnostics.append(diagnostic);
+        const ExportTypeProgress snapshot = m_progress;  // snapshot：发送给界面的清单诊断进度快照。
+        locker.unlock();
+        emit progressChanged(snapshot);
+    };
+
     const QString libName =
         m_options.libName.isEmpty() ? QStringLiteral("EasyKiConverter") : m_options.libName;  ///< 输出库名称。
     QString outputDir = m_options.outputPath;  ///< 三维模型输出目录。
@@ -359,25 +363,40 @@ void Model3DExportStage::writeAssociationManifest() {
     outputDir += QDir::separator() + libName + QStringLiteral(".3dmodels");
 
     const QString manifestPath = outputDir + QDir::separator() + QStringLiteral("manifest.json");  ///< 关联清单路径。
-    if (QFileInfo::exists(manifestPath) && !m_options.overwriteExistingFiles) {
-        QMutexLocker locker(&m_progressMutex);
-        const QString diagnostic =
-            QStringLiteral("3D 关联清单已存在且禁止覆盖：%1").arg(manifestPath);  ///< 清单冲突诊断。
-        if (!m_progress.diagnostics.contains(diagnostic))
-            m_progress.diagnostics.append(diagnostic);
-        const ExportTypeProgress snapshot = m_progress;  ///< 清单冲突后的进度快照。
-        locker.unlock();
-        emit progressChanged(snapshot);
-        return;
+    const bool manifestExists = QFileInfo::exists(manifestPath);  ///< 旧清单是否存在。
+    QJsonObject root;  ///< 关联清单根 JSON 对象。
+    if (manifestExists) {
+        // existingManifestFile：读取旧清单的文件对象。
+        QFile existingManifestFile(manifestPath);
+        if (!existingManifestFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            reportManifestDiagnostic(QStringLiteral("无法读取已有 3D 关联清单：%1").arg(manifestPath));
+            return;
+        }
+        // parseError：旧清单 JSON 解析错误信息。
+        QJsonParseError parseError;
+        // existingManifestDocument：解析后的旧清单文档。
+        const QJsonDocument existingManifestDocument =
+            QJsonDocument::fromJson(existingManifestFile.readAll(), &parseError);
+        if (parseError.error != QJsonParseError::NoError || !existingManifestDocument.isObject()) {
+            reportManifestDiagnostic(QStringLiteral("已有 3D 关联清单格式无效，已保留原文件：%1").arg(manifestPath));
+            return;
+        }
+        root = existingManifestDocument.object();
     }
 
-    QJsonObject root;  ///< 关联清单根 JSON 对象。
-    root.insert(QStringLiteral("format"), QStringLiteral("EasyKiConverter.3d-model-manifest"));
-    root.insert(QStringLiteral("version"), 1);
-    root.insert(QStringLiteral("library"), libName);
-    root.insert(QStringLiteral("targetFormat"), static_cast<int>(m_options.targetFormat));
+    // components：合并后的组件关联信息数组。
+    QJsonArray components = root.value(QStringLiteral("components")).toArray();
+    // componentIndexes：已有组件编号到清单数组位置的映射。
+    QHash<QString, int> componentIndexes;
+    for (int index = 0; index < components.size(); ++index) {
+        // existingComponent：旧清单中的当前组件对象。
+        const QJsonObject existingComponent = components.at(index).toObject();
+        const QString componentId =
+            existingComponent.value(QStringLiteral("componentId")).toString();  // componentId：旧组件编号。
+        if (!componentId.isEmpty() && !componentIndexes.contains(componentId))
+            componentIndexes.insert(componentId, index);
+    }
 
-    QJsonArray components;  ///< 组件关联信息数组。
     const ExportTypeProgress progress = getProgress();  ///< 当前导出进度快照。
     const auto vectorToJson = [](const IR::Model3DVec3& vector) {
         QJsonObject value;  ///< 三维向量 JSON 对象。
@@ -386,10 +405,43 @@ void Model3DExportStage::writeAssociationManifest() {
         value.insert(QStringLiteral("z"), vector.z);
         return value;
     };
+    // hasSuccessfulUpdate：本轮是否至少有一个组件成功生成并需要更新清单。
+    bool hasSuccessfulUpdate = false;
     for (const QString& componentId : m_componentIds) {  // 当前元器件编号。
+        // status：当前组件的导出状态。
+        const ExportItemStatus status = progress.itemStatus.value(componentId);
+        if (status.status != ExportItemStatus::Status::Success)
+            continue;
+
+        // modelStem：当前成功组件的模型文件主体名。
+        const QString modelStem = m_modelFileStems.value(componentId);
+        // files：当前成功生成且实际存在的模型文件映射。
+        QJsonObject files;
+        // allFilesPresent：当前清单要求的模型文件是否全部已经落盘。
+        bool allFilesPresent = true;
+        if (m_options.needsModel3DWrl()) {
+            const QString relativePath = modelStem + QStringLiteral(".wrl");  ///< WRL 相对路径。
+            if (QFileInfo::exists(outputDir + QDir::separator() + relativePath))
+                files.insert(QStringLiteral("wrl"), relativePath);
+            else
+                allFilesPresent = false;
+        }
+        if (m_options.needsModel3DStep()) {
+            const QString relativePath = modelStem + QStringLiteral(".step");  ///< STEP 相对路径。
+            if (QFileInfo::exists(outputDir + QDir::separator() + relativePath))
+                files.insert(QStringLiteral("step"), relativePath);
+            else
+                allFilesPresent = false;
+        }
+        if (!allFilesPresent) {
+            reportManifestDiagnostic(
+                QStringLiteral("组件 %1 导出成功但模型文件不完整，未更新 3D 关联清单").arg(componentId));
+            continue;
+        }
+
         QJsonObject componentObject;  ///< 当前元器件关联信息对象。
         componentObject.insert(QStringLiteral("componentId"), componentId);
-        componentObject.insert(QStringLiteral("modelStem"), m_modelFileStems.value(componentId));
+        componentObject.insert(QStringLiteral("modelStem"), modelStem);
 
         const auto data = m_cachedData.value(componentId);  ///< 当前元器件缓存数据。
         if (data) {
@@ -415,49 +467,32 @@ void Model3DExportStage::writeAssociationManifest() {
             }
         }
 
-        const ExportItemStatus status = progress.itemStatus.value(componentId);  ///< 当前元器件导出状态。
-        QString statusName = QStringLiteral("pending");  ///< 清单中的状态名称。
-        if (status.status == ExportItemStatus::Status::Success)
-            statusName = QStringLiteral("success");
-        else if (status.status == ExportItemStatus::Status::Failed)
-            statusName = QStringLiteral("failed");
-        else if (status.status == ExportItemStatus::Status::Skipped)
-            statusName = QStringLiteral("skipped");
-        else if (status.status == ExportItemStatus::Status::InProgress)
-            statusName = QStringLiteral("in-progress");
-        componentObject.insert(QStringLiteral("status"), statusName);
-        if (!status.errorMessage.isEmpty())
-            componentObject.insert(QStringLiteral("diagnostic"), status.errorMessage);
-
-        const QString modelStem = m_modelFileStems.value(componentId);  ///< 当前模型文件主体名。
-        QJsonObject files;  ///< 当前元器件生成的模型文件映射。
-        if (m_options.needsModel3DWrl()) {
-            const QString relativePath = modelStem + QStringLiteral(".wrl");  ///< WRL 相对路径。
-            if (QFileInfo::exists(outputDir + QDir::separator() + relativePath))
-                files.insert(QStringLiteral("wrl"), relativePath);
-        }
-        if (m_options.needsModel3DStep()) {
-            const QString relativePath = modelStem + QStringLiteral(".step");  ///< STEP 相对路径。
-            if (QFileInfo::exists(outputDir + QDir::separator() + relativePath))
-                files.insert(QStringLiteral("step"), relativePath);
-        }
+        componentObject.insert(QStringLiteral("status"), QStringLiteral("success"));
         componentObject.insert(QStringLiteral("files"), files);
-        components.append(componentObject);
+        if (componentIndexes.contains(componentId))
+            components.replace(componentIndexes.value(componentId), componentObject);
+        else {
+            componentIndexes.insert(componentId, components.size());
+            components.append(componentObject);
+        }
+        hasSuccessfulUpdate = true;
     }
+
+    if (!hasSuccessfulUpdate)
+        return;
+
+    root.insert(QStringLiteral("format"), QStringLiteral("EasyKiConverter.3d-model-manifest"));
+    root.insert(QStringLiteral("version"), 1);
+    root.insert(QStringLiteral("library"), libName);
+    root.insert(QStringLiteral("targetFormat"), static_cast<int>(m_options.targetFormat));
     root.insert(QStringLiteral("components"), components);
 
     QSaveFile manifest(manifestPath);  ///< 原子写入关联清单的文件对象。
+    // serializedManifest：待原子提交的清单 JSON 内容。
+    const QByteArray serializedManifest = QJsonDocument(root).toJson(QJsonDocument::Indented);
     if (!manifest.open(QIODevice::WriteOnly | QIODevice::Text) ||
-        manifest.write(QJsonDocument(root).toJson(QJsonDocument::Indented)) < 0 || !manifest.commit()) {
-        QMutexLocker locker(&m_progressMutex);
-        const QString diagnostic =
-            QStringLiteral("无法写入 3D 关联清单：%1").arg(manifestPath);  ///< 清单写入失败诊断。
-        if (!m_progress.diagnostics.contains(diagnostic))
-            m_progress.diagnostics.append(diagnostic);
-        const ExportTypeProgress snapshot = m_progress;  ///< 清单写入失败后的进度快照。
-        locker.unlock();
-        emit progressChanged(snapshot);
-    }
+        manifest.write(serializedManifest) != serializedManifest.size() || !manifest.commit())
+        reportManifestDiagnostic(QStringLiteral("无法写入 3D 关联清单，原文件保持不变：%1").arg(manifestPath));
 }
 
 }  // namespace EasyKiConverter

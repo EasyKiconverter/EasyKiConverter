@@ -4,6 +4,7 @@ This document records the additions, fixes, and changes in each version of EasyK
 
 All versions:
 
+- [3.1.14] - 2026-10-24 — see [changelog/3.1.14_en.md](changelog/3.1.14_en.md)
 - [3.1.10] - 2026-06-01 — see [changelog/3.1.10.md](changelog/3.1.10.md)
 - [3.1.9] - 2026-05-26 — see [changelog/3.1.9.md](changelog/3.1.9.md)
 - [3.1.8] - 2026-05-16 — see [changelog/3.1.8.md](changelog/3.1.8.md)
