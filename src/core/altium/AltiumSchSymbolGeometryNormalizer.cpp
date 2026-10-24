@@ -79,19 +79,70 @@ void quantizePinConnectionPoint(AltiumSchPin& pin) {
 }
 
 /**
+ * @brief 计算当前部件同侧引脚的自适应间距。
+ * @details 引脚较多时优先使用 50/75 mil；如果引脚文字高度更大，则按文字安全间距扩展。
+ * @param component 待布局的 Altium 符号组件。
+ * @param ownerPartId 当前部件编号。
+ * @return 同侧引脚使用的原始坐标间距。
+ */
+int adaptivePinSpacing(const AltiumSchComponent& component, int ownerPartId) {
+    constexpr int kCompactPinSpacing = 500000;  // 高密度部件的 50 mil 基础间距。
+    constexpr int kMediumPinSpacing = 750000;  // 中等密度部件的 75 mil 基础间距。
+    constexpr int kDefaultPinSpacing = 1000000;  // 普通部件的 100 mil 基础间距。
+    constexpr int kHighDensityThreshold = 32;  // 进入高密度间距策略的单侧引脚数量。
+    constexpr int kMediumDensityThreshold = 16;  // 进入中等密度间距策略的单侧引脚数量。
+    constexpr int kTextClearance = 100000;  // 相邻引脚文字之间保留的 10 mil 安全间距。
+    constexpr double kDefaultFontSizeMm = 1.27;  // 无效字号使用的 50 mil 默认字号。
+
+    int sideCounts[4] = {0, 0, 0, 0};  // 当前部件四个方向的引脚数量。
+    for (const AltiumSchPin& pin : component.pins) {
+        if (pin.ownerPartId != ownerPartId)
+            continue;
+        const int side = static_cast<int>(pin.orientation);  // 当前引脚的方向编号。
+        if (side >= 0 && side < 4)
+            ++sideCounts[side];
+    }
+    const int maxSideCount =
+        qMax(qMax(sideCounts[0], sideCounts[1]), qMax(sideCounts[2], sideCounts[3]));  // 单侧最大引脚数。
+    // spacing：当前部件根据引脚密度计算出的规范化间距。
+    int spacing = maxSideCount >= kHighDensityThreshold
+                      ? kCompactPinSpacing
+                      : (maxSideCount >= kMediumDensityThreshold ? kMediumPinSpacing
+                                                                 : kDefaultPinSpacing);  // 当前部件的规范化引脚间距。
+
+    int maximumTextHeight = 0;  // 当前部件引脚文字的最大估算高度。
+    for (const AltiumSchText& text : component.texts) {
+        if (!text.isPinLabel || text.sourcePinIndex < 0 || text.sourcePinIndex >= component.pins.size())
+            continue;
+        const AltiumSchPin& pin = component.pins.at(text.sourcePinIndex);  // 当前文字对应的引脚。
+        if (pin.ownerPartId != ownerPartId || !text.isDisplayed || text.isHidden)
+            continue;
+        // fontSizeMm：当前引脚文字使用的有效字号。
+        const double fontSizeMm = std::isfinite(text.fontSizeMm) && text.fontSizeMm > 0.0
+                                      ? text.fontSizeMm
+                                      : kDefaultFontSizeMm;  // 当前文字使用的有效字号。
+        const int textHeight = static_cast<int>(std::ceil(fontSizeMm / 0.0254 * 10000.0));  // 文字估算高度。
+        maximumTextHeight = qMax(maximumTextHeight, textHeight);
+    }
+    if (maximumTextHeight > 0)
+        spacing = qMax(spacing, quantizeToSnapGrid(maximumTextHeight + kTextClearance));
+    return spacing;
+}
+
+/**
  * @brief 按引脚侧分组量化连接端。
  * @details 同侧连接端重合时沿切线方向逐格错开，避免多个引脚占用同一连接点。
  * @param pins 待量化的符号引脚列表。
  * @param ownerPartId 当前部件编号。
  * @param preferredCenterX 可选的垂直侧引脚切线中心。
  * @param preferredCenterY 可选的水平侧引脚切线中心。
+ * @param pinSpacing 同侧引脚之间的原始坐标间距。
  */
 void quantizePinConnectionGroups(QList<AltiumSchPin>& pins,
                                  int ownerPartId,
                                  std::optional<int> preferredCenterX = std::nullopt,
-                                 std::optional<int> preferredCenterY = std::nullopt) {
-    constexpr int kSnapGrid = 100000;  // 引脚连接端使用的 10 mil 基础网格。
-    constexpr int kPinSpacing = 1000000;  // 同侧引脚之间使用的 100 mil 可读间距。
+                                 std::optional<int> preferredCenterY = std::nullopt,
+                                 int pinSpacing = 1000000) {
     for (int side = 0; side < 4; ++side) {
         QList<int> indices;  // 当前方向对应的引脚索引。
         // 判断当前引脚组是否沿水平方向排列。
@@ -119,12 +170,14 @@ void quantizePinConnectionGroups(QList<AltiumSchPin>& pins,
         // 以原始连接端或调用方指定的主体中心为基准扩展间距，避免只向一侧推移。
         const int originalCenter =
             std::accumulate(tangents.cbegin(), tangents.cend(), 0LL) / static_cast<long long>(tangents.size());
-        const std::optional<int>& preferredCenter = horizontal ? preferredCenterY : preferredCenterX;
+        const std::optional<int>& preferredCenter =
+            horizontal ? preferredCenterY : preferredCenterX;  // 当前侧的首选中心。
         const int tangentCenter = preferredCenter.value_or(originalCenter);  // 当前侧引脚的规范化切线中心。
-        const int firstTangent = quantizeToSnapGrid(
-            static_cast<int>(tangentCenter - static_cast<long long>(kPinSpacing) * (tangents.size() - 1) / 2));
+        // firstTangent：当前引脚组按规范间距排列后的首个切线坐标。
+        const int firstTangent = quantizeToSnapGrid(static_cast<int>(
+            tangentCenter - static_cast<long long>(pinSpacing) * (tangents.size() - 1) / 2));  // 当前组的首个切线坐标。
         for (int order = 0; order < indices.size(); ++order) {
-            const int tangent = firstTangent + order * kPinSpacing;  // 当前引脚的规范化切线坐标。
+            const int tangent = firstTangent + order * pinSpacing;  // 当前引脚的规范化切线坐标。
             AltiumSchPin& pin = pins[indices.at(order)];  // 当前待布局的引脚。
             // 按引脚方向更新与主体平行的切线坐标。
             switch (pin.orientation) {
@@ -150,6 +203,7 @@ void quantizePinConnectionGroups(QList<AltiumSchPin>& pins,
 int estimatePinLabelWidth(const AltiumSchText& text) {
     constexpr double kDefaultFontSizeMm = 1.27;  // 未提供有效字号时使用的 50 mil 字号。
     constexpr double kAverageGlyphWidth = 0.58;  // 拉丁字符平均宽度占字号高度的比例。
+    // fontSizeMm：用于估算引脚名称宽度的规范化字号。
     const double fontSizeMm = std::isfinite(text.fontSizeMm) && text.fontSizeMm > 0.0
                                   ? qMin(text.fontSizeMm, kDefaultFontSizeMm)
                                   : kDefaultFontSizeMm;  // 用于布局的规范化字号。
@@ -204,11 +258,18 @@ QPair<int, int> expandBodyForPinLabels(AltiumSchComponent& component,
  * @details 仅调整矩形和圆角矩形的外侧边界；其他图元会扩大保护范围，避免调整主体时裁剪有效几何。
  * @param component 待调整的 Altium 符号组件。
  * @param ownerPartId 当前部件编号。
+ * @param bodyMinX 当前部件主体的最小 X 坐标。
  * @param bodyMinY 当前部件主体的最小 Y 坐标。
  * @param bodyMaxY 当前部件主体的最大 Y 坐标。
+ * @param pinBodyMargin 引脚范围与主体边界之间的安全间距。
  * @return 调整后的主体垂直边界。
  */
-QPair<int, int> fitBodyHeightToPins(AltiumSchComponent& component, int ownerPartId, int bodyMinY, int bodyMaxY) {
+QPair<int, int> fitBodyHeightToPins(AltiumSchComponent& component,
+                                    int ownerPartId,
+                                    int bodyMinX,
+                                    int bodyMinY,
+                                    int bodyMaxY,
+                                    int pinBodyMargin) {
     QList<int> horizontalPinYs;  // 当前部件左右引脚的主体端纵坐标。
     for (const AltiumSchPin& pin : component.pins) {
         if (pin.ownerPartId != ownerPartId)
@@ -222,9 +283,8 @@ QPair<int, int> fitBodyHeightToPins(AltiumSchComponent& component, int ownerPart
 
     const int pinMinY = *std::min_element(horizontalPinYs.cbegin(), horizontalPinYs.cend());  // 引脚范围下边界。
     const int pinMaxY = *std::max_element(horizontalPinYs.cbegin(), horizontalPinYs.cend());  // 引脚范围上边界。
-    constexpr int kPinBodyMargin = 1000000;  // 引脚范围与主体边界之间的 100 mil 安全间距。
-    int fittedMinY = pinMinY - kPinBodyMargin;  // 按引脚范围计算的主体下边界。
-    int fittedMaxY = pinMaxY + kPinBodyMargin;  // 按引脚范围计算的主体上边界。
+    int fittedMinY = pinMinY - pinBodyMargin;  // 按引脚范围计算的主体下边界。
+    int fittedMaxY = pinMaxY + pinBodyMargin;  // 按引脚范围计算的主体上边界。
 
     // 非矩形图元属于不可裁剪的保护几何，主体边界必须覆盖它们。
     const auto includeProtectedY = [&fittedMinY, &fittedMaxY](int minY, int maxY) {
@@ -235,6 +295,12 @@ QPair<int, int> fitBodyHeightToPins(AltiumSchComponent& component, int ownerPart
         const int y = static_cast<int>(std::lround(point.y() * 1000.0));  // Schematic Units 转换后的 Y 坐标。
         includeProtectedY(y, y);
     };
+    const auto isPinOneMarker = [bodyMinX, bodyMaxY](const AltiumSchEllipse& ellipse) {
+        constexpr int kMarkerRadiusLimit = 300000;  // Pin-1 小圆标记的最大 30 mil 半径。
+        constexpr int kMarkerTolerance = 2000000;  // Pin-1 标记相对主体左上角允许的 200 mil 范围。
+        return ellipse.radiusX <= kMarkerRadiusLimit && ellipse.radiusY <= kMarkerRadiusLimit &&
+               ellipse.centerX <= bodyMinX + kMarkerTolerance && ellipse.centerY >= bodyMaxY - kMarkerTolerance;
+    };
     for (const AltiumSchLine& line : component.lines) {
         if (line.ownerPartId == ownerPartId)
             includeProtectedY(qMin(line.locationY, line.cornerY), qMax(line.locationY, line.cornerY));
@@ -244,7 +310,7 @@ QPair<int, int> fitBodyHeightToPins(AltiumSchComponent& component, int ownerPart
             includeProtectedY(arc.centerY - arc.radius, arc.centerY + arc.radius);
     }
     for (const AltiumSchEllipse& ellipse : component.ellipses) {
-        if (ellipse.ownerPartId == ownerPartId)
+        if (ellipse.ownerPartId == ownerPartId && !isPinOneMarker(ellipse))
             includeProtectedY(ellipse.centerY - ellipse.radiusY, ellipse.centerY + ellipse.radiusY);
     }
     for (const AltiumSchPie& pie : component.pies) {
@@ -344,6 +410,12 @@ QPair<int, int> fitBodyHeightToPins(AltiumSchComponent& component, int ownerPart
  * @param component 待归一化的 Altium 符号组件。
  */
 void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component) {
+    constexpr int kMinimumPinLength = 100000;  // 可走线引脚的最小 10 mil 长度。
+    for (AltiumSchPin& pin : component.pins) {
+        if (pin.length < kMinimumPinLength)
+            pin.length = kMinimumPinLength;
+    }
+
     int minX = INT_MAX, minY = INT_MAX, maxX = INT_MIN, maxY = INT_MIN;  // 所有图元的原始包围盒边界。
     const auto include = [&](int x, int y) {
         minX = qMin(minX, x);
@@ -540,15 +612,18 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
                 longestPinLabelWidth = qMax(longestPinLabelWidth, estimatePinLabelWidth(text));
         }
         if (longestPinLabelWidth > 0) {
-            const int requiredHalfWidth = longestPinLabelWidth + kPinTextGap + kCenterTextGap;
+            const int requiredHalfWidth =
+                longestPinLabelWidth + kPinTextGap + kCenterTextGap;  // 主体为引脚文字预留的半宽。
             const QPair<int, int> expandedBounds =
                 expandBodyForPinLabels(component, bodyMinX, bodyMaxX, requiredHalfWidth, ownerPartId);
             bodyMinX = expandedBounds.first;
             bodyMaxX = expandedBounds.second;
         }
+        const int pinSpacing = adaptivePinSpacing(component, ownerPartId);  // 当前部件的自适应引脚间距。
         // 先按最终引脚间距量化连接端，确保主体高度覆盖规范化后的完整引脚范围。
-        quantizePinConnectionGroups(component.pins, ownerPartId);
-        const QPair<int, int> fittedYBounds = fitBodyHeightToPins(component, ownerPartId, bodyMinY, bodyMaxY);
+        quantizePinConnectionGroups(component.pins, ownerPartId, std::nullopt, std::nullopt, pinSpacing);
+        const QPair<int, int> fittedYBounds =
+            fitBodyHeightToPins(component, ownerPartId, bodyMinX, bodyMinY, bodyMaxY, qMax(750000, pinSpacing));
         bodyMinY = fittedYBounds.first;
         bodyMaxY = fittedYBounds.second;
         for (auto& pin : component.pins) {
@@ -571,18 +646,125 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
             }
         }
         // 投影主体端后以主体中心再次量化，使高引脚数部件在主体内保持上下平衡。
-        quantizePinConnectionGroups(component.pins, ownerPartId, (bodyMinX + bodyMaxX) / 2, (bodyMinY + bodyMaxY) / 2);
+        quantizePinConnectionGroups(
+            component.pins, ownerPartId, (bodyMinX + bodyMaxX) / 2, (bodyMinY + bodyMaxY) / 2, pinSpacing);
         // 重新覆盖居中后的引脚范围，避免最终量化把引脚推到主体边界之外。
-        const QPair<int, int> finalFittedYBounds = fitBodyHeightToPins(component, ownerPartId, bodyMinY, bodyMaxY);
+        const QPair<int, int> finalFittedYBounds =
+            fitBodyHeightToPins(component, ownerPartId, bodyMinX, bodyMinY, bodyMaxY, qMax(750000, pinSpacing));
         bodyMinY = finalFittedYBounds.first;
         bodyMaxY = finalFittedYBounds.second;
+        for (AltiumSchPin& pin : component.pins) {
+            if (pin.ownerPartId != ownerPartId)
+                continue;
+            // 主体重新收紧后再次投影垂直引脚，防止连接端随旧边界残留在主体内部或外部。
+            if (pin.orientation == AltiumModels::PinOrientation::Up)
+                pin.locationY = bodyMaxY;
+            else if (pin.orientation == AltiumModels::PinOrientation::Down)
+                pin.locationY = bodyMinY;
+        }
+        constexpr int kPinOneMarkerRadiusLimit = 300000;  // 识别 Pin-1 小圆标记的最大 30 mil 半径。
+        constexpr int kPinOneMarkerTolerance = 2000000;  // Pin-1 标记相对主体左上角允许的 200 mil 范围。
+        constexpr int kPinOneMarkerInset = 1250000;  // Pin-1 标记相对主体左上角的 125 mil 内缩，避开顶部引脚。
+        for (AltiumSchEllipse& ellipse : component.ellipses) {
+            if (ellipse.ownerPartId != ownerPartId || ellipse.radiusX > kPinOneMarkerRadiusLimit ||
+                ellipse.radiusY > kPinOneMarkerRadiusLimit)
+                continue;
+            // nearTopLeft：判断小椭圆是否仍位于主体左上角附近。
+            const bool nearTopLeft = ellipse.centerX <= bodyMinX + kPinOneMarkerTolerance &&
+                                     ellipse.centerY >= bodyMaxY - kPinOneMarkerTolerance;  // 是否接近主体左上角。
+            if (!nearTopLeft)
+                continue;
+            // 将 Pin-1 标记重新锚定到最终主体左上角，避免主体收紧后标记漂移。
+            ellipse.centerX = bodyMinX + kPinOneMarkerInset;
+            ellipse.centerY = bodyMaxY - kPinOneMarkerInset;
+        }
         // 主体扩展后再次以最终主体中心量化，消除单侧保护几何造成的视觉偏移。
-        quantizePinConnectionGroups(component.pins, ownerPartId, (bodyMinX + bodyMaxX) / 2, (bodyMinY + bodyMaxY) / 2);
+        quantizePinConnectionGroups(
+            component.pins, ownerPartId, (bodyMinX + bodyMaxX) / 2, (bodyMinY + bodyMaxY) / 2, pinSpacing);
     };
     const int partCount = qMax(1, component.partCount);  // 当前符号的有效部件数量。
     normalizePartBody(-1);
     for (int part = 1; part <= partCount; ++part)
         normalizePartBody(part);
+
+    // 位号只归属第一个部件，并固定放在第一个部件主体的左上方。
+    int firstPartMinX = INT_MAX, firstPartMaxY = INT_MIN;  // 第一个部件主体的左边界和上边界。
+    // ownerPartId：图元所属部件；location/corner：图元的两个边界坐标。
+    const auto includeFirstPartBounds = [&](int ownerPartId, int locationX, int locationY, int cornerX, int cornerY) {
+        if (ownerPartId != 1)
+            return;
+        firstPartMinX = qMin(firstPartMinX, qMin(locationX, cornerX));
+        firstPartMaxY = qMax(firstPartMaxY, qMax(locationY, cornerY));
+    };
+    for (const AltiumSchRectangle& rectangle : component.rectangles)
+        includeFirstPartBounds(
+            rectangle.ownerPartId, rectangle.locationX, rectangle.locationY, rectangle.cornerX, rectangle.cornerY);
+    for (const AltiumSchRoundRectangle& rectangle : component.roundRectangles)
+        includeFirstPartBounds(
+            rectangle.ownerPartId, rectangle.locationX, rectangle.locationY, rectangle.cornerX, rectangle.cornerY);
+    if (firstPartMinX == INT_MAX) {
+        // 没有主体图形时，以第一个部件的引脚范围作为位号锚点。
+        for (const AltiumSchPin& pin : component.pins) {
+            if (pin.ownerPartId != 1)
+                continue;
+            const QPointF connection = computePinConnectionPoint(pin);  // 当前引脚的外部连接端。
+            firstPartMinX = qMin(firstPartMinX, qMin(pin.locationX, static_cast<int>(connection.x())));
+            firstPartMaxY = qMax(firstPartMaxY, qMax(pin.locationY, static_cast<int>(connection.y())));
+        }
+    }
+    if (firstPartMinX != INT_MAX) {
+        constexpr int kDesignatorLeftInset = 500000;  // 位号相对主体左边界的 50 mil 内缩。
+        constexpr int kDesignatorTopGap = 300000;  // 位号与主体上边界之间的 30 mil 间距。
+        component.designatorLocationX = firstPartMinX + kDesignatorLeftInset;
+        component.designatorLocationY = firstPartMaxY + kDesignatorTopGap;
+        component.hasDesignatorLocation = true;
+    }
+
+    // 源符号可能同时包含值文本和由 SchLib 生成的 Comment 字段；相同内容只保留一份可见记录。
+    const auto comparableCommentValue = [](const QString& value) {
+        QString normalized = value.trimmed();  // 去除空白后的待比较文本。
+        const int suffixStart = normalized.lastIndexOf(QChar('('));  // 末尾部件后缀的起始位置。
+        const int suffixLength = normalized.size() - suffixStart - 2;  // 括号内后缀字符数量。
+        if (suffixStart > 0 && normalized.endsWith(QChar(')')) && suffixLength == 1 &&
+            normalized.at(suffixStart + 1).isLetter()) {
+            normalized = normalized.left(suffixStart).trimmed();  // 忽略末尾的部件后缀，例如 "(A)" 或 " (A)"。
+        }
+        return normalized;
+    };
+    // generatedCommentValue：写入器将生成的 Comment 字段内容。
+    QString generatedCommentValue = component.sourceMetadata.value(QStringLiteral("value")).trimmed();
+    if (generatedCommentValue.isEmpty())
+        generatedCommentValue = component.name.trimmed();
+    generatedCommentValue = comparableCommentValue(generatedCommentValue);
+    for (AltiumSchParameter& parameter : component.parameters) {
+        if (parameter.isHidden || generatedCommentValue.isEmpty())
+            continue;
+        // 来源参数即使名称不是 Value/Comment，只要内容等于器件值也不能参与部件字段布局。
+        if (comparableCommentValue(parameter.value) == generatedCommentValue) {
+            parameter.isHidden = true;
+        }
+    }
+    for (AltiumSchText& text : component.texts) {
+        if (text.isPinLabel || !text.isDisplayed || text.isHidden || text.text.trimmed().isEmpty())
+            continue;
+        const QString textValue = comparableCommentValue(text.text);  // 当前源文本的规范化内容。
+        // duplicatesComment：当前源文本是否与语义化 Comment 字段重复。
+        bool duplicatesComment = !generatedCommentValue.isEmpty() && textValue == generatedCommentValue;
+        for (const AltiumSchParameter& parameter : component.parameters) {
+            // samePart：参数是否作用于当前文本所属的部件。
+            const bool samePart = parameter.ownerPartId == -1 || parameter.ownerPartId == text.ownerPartId;
+            if (samePart && parameter.name.compare(QStringLiteral("Comment"), Qt::CaseInsensitive) == 0 &&
+                !parameter.isHidden && textValue == comparableCommentValue(parameter.value)) {
+                duplicatesComment = true;
+                break;
+            }
+        }
+        if (duplicatesComment) {
+            // 语义化 Comment 字段由写入器保留，隐藏重复的源文本图元。
+            text.isDisplayed = false;
+            text.isHidden = true;
+        }
+    }
 
     // 引脚文本必须在投影和连接点量化后重新布局，避免沿用源坐标造成文本与引脚分离。
     constexpr int kPinTextGap = 200000;  // 引脚主体端或连接端与文字之间的 20 mil 间距。

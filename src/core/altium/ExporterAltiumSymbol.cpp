@@ -97,6 +97,13 @@ AltiumSchComponent ExporterAltiumSymbol::convertSymbol(const IR::SymbolComponent
     component.designatorPrefix = data.designatorPrefix;
     component.partCount = data.partCount;
     component.sourceMetadata = data.sourceMetadata;
+    const QString normalizedDescription = component.description.trimmed();  // 当前符号描述文本。
+    const QString normalizedValue =
+        component.sourceMetadata.value(QStringLiteral("value")).trimmed();  // 当前器件值文本。
+    if (normalizedDescription.compare(component.name.trimmed(), Qt::CaseInsensitive) == 0 ||
+        (!normalizedValue.isEmpty() && normalizedDescription.compare(normalizedValue, Qt::CaseInsensitive) == 0)) {
+        component.description.clear();  // 描述与器件标识相同时不重复写入，避免 Altium 自动显示重复文本。
+    }
     component.aliases = data.aliases;
     for (const IR::SymbolGraphicOrderIR& order : data.graphicOrder)
         component.graphicOrder.append({order.type, order.index, order.partIndex});

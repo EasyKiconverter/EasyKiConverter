@@ -709,7 +709,8 @@ private slots:
             if (record.recordType == 30 && record.ownerPartId == 1)
                 ++partOneImageCount;
             if (record.recordType == 34) {
-                QCOMPARE(record.ownerPartId, -1);
+                // 多部件符号的 Designator 只显示在第一个部件上。
+                QCOMPARE(record.ownerPartId, 1);
                 ++commonParameterCount;
             }
             if (record.recordType == 41 &&
@@ -718,7 +719,11 @@ private slots:
                 QCOMPARE(record.ownerPartDisplayMode, -1);
                 ++partTwoParameterCount;
             } else if (record.recordType == 41) {
-                QCOMPARE(record.ownerPartId, -1);
+                // 多部件符号的 Comment 只显示在第一个部件上，其他参数仍属于公共部件。
+                if (record.parameters.value(QStringLiteral("NAME")) == QStringLiteral("Comment"))
+                    QCOMPARE(record.ownerPartId, 1);
+                else
+                    QCOMPARE(record.ownerPartId, -1);
                 ++commonParameterCount;
             }
         }
