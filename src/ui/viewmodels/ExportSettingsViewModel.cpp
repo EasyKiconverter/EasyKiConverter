@@ -317,9 +317,9 @@ bool ExportSettingsViewModel::requiresFullReplacement() const {
 
     const auto target =  // 当前目标格式枚举值。
         static_cast<TargetEdaFormat>(m_targetModel->currentTargetFormat());
-    return target == TargetEdaFormat::Xpedition || target == TargetEdaFormat::Allegro ||
-           target == TargetEdaFormat::Pads || target == TargetEdaFormat::Eagle || target == TargetEdaFormat::Pcad ||
-           target == TargetEdaFormat::Cadstar || target == TargetEdaFormat::Orcad ||
+    return target == TargetEdaFormat::Altium || target == TargetEdaFormat::Xpedition ||
+           target == TargetEdaFormat::Allegro || target == TargetEdaFormat::Pads || target == TargetEdaFormat::Eagle ||
+           target == TargetEdaFormat::Pcad || target == TargetEdaFormat::Cadstar || target == TargetEdaFormat::Orcad ||
            target == TargetEdaFormat::LibrePcb;
 }
 
