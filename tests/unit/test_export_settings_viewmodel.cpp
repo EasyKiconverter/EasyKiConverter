@@ -36,7 +36,7 @@ private slots:
     void testNormalizePathMode();
     void testConfigServiceModel3DPathMode();
     void testFullReplacementTargetDisablesAppendMode();
-    void testHorizonAllowsAppendAndUpdateModes();
+    void testHorizonDisablesAppendAndUpdateModes();
 
 private:
     // m_tempDir：测试使用的文件系统路径。
@@ -369,11 +369,11 @@ void TestExportSettingsViewModel::testFullReplacementTargetDisablesAppendMode() 
     QCOMPARE(viewModel.exportMode(), 2);
 }
 
-// 验证 Horizon Pool 的临时重建策略允许追加和更新模式。
+// 验证 Horizon Pool 当前只允许完整覆盖模式。
 /**
- * @brief 验证 testHorizonAllowsAppendAndUpdateModes 测试场景。
+ * @brief 验证 testHorizonDisablesAppendAndUpdateModes 测试场景。
  */
-void TestExportSettingsViewModel::testHorizonAllowsAppendAndUpdateModes() {
+void TestExportSettingsViewModel::testHorizonDisablesAppendAndUpdateModes() {
     // targetModel：测试使用的配置值或状态。
     ExportTargetModel targetModel;
     // pluginConfigPath：测试使用的文件系统路径。
@@ -401,11 +401,11 @@ void TestExportSettingsViewModel::testHorizonAllowsAppendAndUpdateModes() {
     viewModel.setTargetModel(&targetModel);
     targetModel.setCurrentIndex(horizonIndex);
 
-    QVERIFY(!viewModel.requiresFullReplacement());
+    QVERIFY(viewModel.requiresFullReplacement());
     viewModel.setExportMode(0);
-    QCOMPARE(viewModel.exportMode(), 0);
+    QCOMPARE(viewModel.exportMode(), 2);
     viewModel.setExportMode(1);
-    QCOMPARE(viewModel.exportMode(), 1);
+    QCOMPARE(viewModel.exportMode(), 2);
 }
 
 QTEST_GUILESS_MAIN(TestExportSettingsViewModel)

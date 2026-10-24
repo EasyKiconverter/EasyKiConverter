@@ -320,7 +320,7 @@ bool ExportSettingsViewModel::requiresFullReplacement() const {
     return target == TargetEdaFormat::Altium || target == TargetEdaFormat::Xpedition ||
            target == TargetEdaFormat::Allegro || target == TargetEdaFormat::Pads || target == TargetEdaFormat::Eagle ||
            target == TargetEdaFormat::Pcad || target == TargetEdaFormat::Cadstar || target == TargetEdaFormat::Orcad ||
-           target == TargetEdaFormat::LibrePcb;
+           target == TargetEdaFormat::LibrePcb || target == TargetEdaFormat::Horizon;
 }
 
 /**
