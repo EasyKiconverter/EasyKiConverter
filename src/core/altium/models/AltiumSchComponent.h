@@ -240,6 +240,7 @@ struct AltiumSchText {
     int orientation = 0;  ///< 0-3，表示 0°/90°/180°/270°
     int ownerPartId = 1;  ///< 所属部件编号。
     bool isPinLabel = false;  ///< 是否为引脚标签文本。
+    bool isPinNumber = false;  ///< 是否为独立的引脚编号文本。
     bool isFallbackPinNumber = false;  ///< 是否需要跟随归一化后的引脚主体端
     int sourcePinIndex = -1;  ///< 来源引脚索引，用于同步归一化坐标
     int sourceGraphicIndex = -1;  ///< 来源图元索引。

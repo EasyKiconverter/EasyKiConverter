@@ -3,6 +3,7 @@
 #include "AltiumSchLibWriter.h"
 #include "utils/AltiumCoord.h"
 
+#include <QPoint>
 #include <QSet>
 
 #include <cmath>
@@ -93,23 +94,23 @@ QList<ParameterField> componentParameterFields(const AltiumSchComponent& compone
     if (value.isEmpty())
         value = component.name.trimmed();
     if (!value.isEmpty())
-        appendField(QStringLiteral("Comment"), value);
+        appendField(QStringLiteral("Comment"), value, false, 0, 0, true, false);
 
     QString description = component.sourceMetadata.value(QStringLiteral("description")).trimmed();  // 元件描述。
     if (description.isEmpty())
         description = component.description.trimmed();
     if (!description.isEmpty())
-        appendField(QStringLiteral("Description"), description);
+        appendField(QStringLiteral("Description"), description, false, 0, 0, true, true);
 
     for (auto it = component.sourceMetadata.constBegin(); it != component.sourceMetadata.constEnd(); ++it) {
         const QString metadataValue = it.value().trimmed();  // 当前元数据值。
         if (metadataValue.isEmpty() || it.key() == QStringLiteral("value") || it.key() == QStringLiteral("description"))
             continue;
-        appendField(knownNames.value(it.key(), it.key()), metadataValue);
+        appendField(knownNames.value(it.key(), it.key()), metadataValue, false, 0, 0, true, true);
     }
 
     if (!component.aliases.isEmpty())
-        appendField(QStringLiteral("Aliases"), component.aliases.join(QStringLiteral(", ")));
+        appendField(QStringLiteral("Aliases"), component.aliases.join(QStringLiteral(", ")), false, 0, 0, true, true);
 
     for (const AltiumSchParameter& parameter : component.parameters) {
         QString name = parameter.name.trimmed();  // 当前参数名称。
@@ -130,6 +131,46 @@ QList<ParameterField> componentParameterFields(const AltiumSchComponent& compone
                     parameter.fontSizeMm);
     }
     return fields;
+}
+
+/**
+ * @brief 计算默认可见 Comment 字段的位置。
+ * @details 将器件值放在主体正下方，避免使用固定原点导致其与引脚或图形重叠。
+ * @param component 待计算的 SchLib 元件。
+ * @return Comment 字段的默认坐标。
+ */
+QPoint defaultCommentPosition(const AltiumSchComponent& component) {
+    int minX = 0;  // 可见主体的最小 X 坐标。
+    int minY = 0;  // 可见主体的最小 Y 坐标。
+    int maxX = 0;  // 可见主体的最大 X 坐标。
+    bool hasBounds = false;  // 是否已经找到主体边界。
+    const auto include = [&](int x, int y) {
+        if (!hasBounds) {
+            minX = maxX = x;
+            minY = y;
+            hasBounds = true;
+            return;
+        }
+        minX = qMin(minX, x);
+        minY = qMin(minY, y);
+        maxX = qMax(maxX, x);
+    };
+    for (const AltiumSchRectangle& rectangle : component.rectangles) {
+        include(qMin(rectangle.locationX, rectangle.cornerX), qMin(rectangle.locationY, rectangle.cornerY));
+        include(qMax(rectangle.locationX, rectangle.cornerX), qMax(rectangle.locationY, rectangle.cornerY));
+    }
+    for (const AltiumSchRoundRectangle& rectangle : component.roundRectangles) {
+        include(qMin(rectangle.locationX, rectangle.cornerX), qMin(rectangle.locationY, rectangle.cornerY));
+        include(qMax(rectangle.locationX, rectangle.cornerX), qMax(rectangle.locationY, rectangle.cornerY));
+    }
+    if (!hasBounds) {
+        for (const AltiumSchPin& pin : component.pins)
+            include(pin.locationX, pin.locationY);
+    }
+    if (!hasBounds)
+        return QPoint(0, -1500000);
+    constexpr int kCommentGap = 400000;  // 主体底部与器件值之间的 40 mil 间距。
+    return QPoint((minX + maxX) / 2, minY - kCommentGap);
 }
 
 }  // namespace
@@ -171,13 +212,15 @@ void AltiumSchComponentRecordWriter::writeParameters(AltiumBinaryWriter& writer,
         const int ownerPartId =
             m_owner.normalizeOwnerPartId(field.ownerPartId, QStringLiteral("参数"));  // 规范化后的部件编号。
         parameterParams["OWNERPARTID"] = QString::number(ownerPartId);
-        if (ownerPartId >= 1) {
-            parameterParams["OWNERPARTDISPLAYMODE"] = "1";
+        if (ownerPartId >= 1)
             m_owner.addContentIndex(parameterParams);
-        }
         if (field.hasLocation) {
             m_owner.addCoordParam(parameterParams, "LOCATION.X", field.locationX);
             m_owner.addCoordParam(parameterParams, "LOCATION.Y", field.locationY);
+        } else if (field.name == QStringLiteral("Comment") && !field.isHidden) {
+            const QPoint commentPosition = defaultCommentPosition(component);  // 器件值的默认下置位置。
+            m_owner.addCoordParam(parameterParams, "LOCATION.X", commentPosition.x());
+            m_owner.addCoordParam(parameterParams, "LOCATION.Y", commentPosition.y());
         } else {
             parameterParams["LOCATION.X_FRAC"] = "-5";
             parameterParams["LOCATION.Y_FRAC"] = "-15";

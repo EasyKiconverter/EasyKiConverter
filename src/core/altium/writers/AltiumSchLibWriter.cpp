@@ -510,15 +510,14 @@ double AltiumSchLibWriter::normalizeFiniteAngle(double angle, double fallback, c
 }
 
 /**
- * @brief 写入图元通用的可见性、内容索引、显示模式和部件归属参数。
+ * @brief 写入图元通用的可见性、内容索引和部件归属参数。
  * @param params 参数映射（输出）。
  * @param ownerPartId 所属部件 ID。
  */
 void AltiumSchLibWriter::addOwnerParams(QMap<QString, QString>& params, int ownerPartId) {
     params["ISNOTACCESIBLE"] = "T";
     addContentIndex(params);
-    // 当前每个符号只有一个显示模式；真实 SchLib 样本使用从 1 开始的显示模式编号。
-    params["OWNERPARTDISPLAYMODE"] = "1";
+    // 单显示模式省略该可选字段，使 Altium 使用默认显示模式 0。
     params["OWNERPARTID"] = QString::number(normalizeOwnerPartId(ownerPartId, QStringLiteral("图元")));
 }
 
