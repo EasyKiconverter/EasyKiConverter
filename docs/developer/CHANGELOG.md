@@ -4,6 +4,7 @@
 
 各版本详细更新日志请查看：
 
+- [3.1.14] - 2026-10-24 — 见 [changelog/3.1.14.md](changelog/3.1.14.md)
 - [3.1.10] - 2026-06-01 — 见 [changelog/3.1.10.md](changelog/3.1.10.md)
 - [3.1.9] - 2026-05-26 — 见 [changelog/3.1.9.md](changelog/3.1.9.md)
 - [3.1.8] - 2026-05-16 — 见 [changelog/3.1.8.md](changelog/3.1.8.md)
