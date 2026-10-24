@@ -8,6 +8,7 @@
 #include <climits>
 #include <cmath>
 #include <numeric>
+#include <optional>
 
 namespace EasyKiConverter {
 
@@ -81,12 +82,21 @@ void quantizePinConnectionPoint(AltiumSchPin& pin) {
  * @brief 按引脚侧分组量化连接端。
  * @details 同侧连接端重合时沿切线方向逐格错开，避免多个引脚占用同一连接点。
  * @param pins 待量化的符号引脚列表。
+ * @param ownerPartId 当前部件编号。
+ * @param preferredCenterX 可选的垂直侧引脚切线中心。
+ * @param preferredCenterY 可选的水平侧引脚切线中心。
  */
-void quantizePinConnectionGroups(QList<AltiumSchPin>& pins, int ownerPartId) {
+void quantizePinConnectionGroups(QList<AltiumSchPin>& pins,
+                                 int ownerPartId,
+                                 std::optional<int> preferredCenterX = std::nullopt,
+                                 std::optional<int> preferredCenterY = std::nullopt) {
     constexpr int kSnapGrid = 100000;  // 引脚连接端使用的 10 mil 基础网格。
     constexpr int kPinSpacing = 1000000;  // 同侧引脚之间使用的 100 mil 可读间距。
     for (int side = 0; side < 4; ++side) {
         QList<int> indices;  // 当前方向对应的引脚索引。
+        // 判断当前引脚组是否沿水平方向排列。
+        const bool horizontal = side == static_cast<int>(AltiumModels::PinOrientation::Right) ||
+                                side == static_cast<int>(AltiumModels::PinOrientation::Left);
         for (int i = 0; i < pins.size(); ++i) {
             if (pins[i].ownerPartId == ownerPartId && static_cast<int>(pins[i].orientation) == side)
                 indices.append(i);
@@ -94,9 +104,6 @@ void quantizePinConnectionGroups(QList<AltiumSchPin>& pins, int ownerPartId) {
         std::sort(indices.begin(), indices.end(), [&](int lhs, int rhs) {
             const QPointF left = computePinConnectionPoint(pins[lhs]);  // 左侧排序元素的连接端。
             const QPointF right = computePinConnectionPoint(pins[rhs]);  // 右侧排序元素的连接端。
-            // 判断排序方向是否沿水平引脚的切线方向。
-            const bool horizontal = side == static_cast<int>(AltiumModels::PinOrientation::Right) ||
-                                    side == static_cast<int>(AltiumModels::PinOrientation::Left);
             return horizontal ? (left.y() < right.y()) : (left.x() < right.x());
         });
 
@@ -104,22 +111,22 @@ void quantizePinConnectionGroups(QList<AltiumSchPin>& pins, int ownerPartId) {
         for (int index : indices) {
             quantizePinConnectionPoint(pins[index]);
             const QPointF connection = computePinConnectionPoint(pins[index]);  // 当前引脚的连接端。
-            // 判断当前引脚是否沿水平侧排列。
-            const bool horizontal = side == static_cast<int>(AltiumModels::PinOrientation::Right) ||
-                                    side == static_cast<int>(AltiumModels::PinOrientation::Left);
             tangents.append(horizontal ? static_cast<int>(connection.y()) : static_cast<int>(connection.x()));
         }
         if (tangents.isEmpty())
             continue;
 
-        // 以原始连接端的中心为基准扩展间距，避免只向一侧推移导致符号失去平衡。
+        // 以原始连接端或调用方指定的主体中心为基准扩展间距，避免只向一侧推移。
         const int originalCenter =
             std::accumulate(tangents.cbegin(), tangents.cend(), 0LL) / static_cast<long long>(tangents.size());
+        const std::optional<int>& preferredCenter = horizontal ? preferredCenterY : preferredCenterX;
+        const int tangentCenter = preferredCenter.value_or(originalCenter);  // 当前侧引脚的规范化切线中心。
         const int firstTangent = quantizeToSnapGrid(
-            static_cast<int>(originalCenter - static_cast<long long>(kPinSpacing) * (tangents.size() - 1) / 2));
+            static_cast<int>(tangentCenter - static_cast<long long>(kPinSpacing) * (tangents.size() - 1) / 2));
         for (int order = 0; order < indices.size(); ++order) {
             const int tangent = firstTangent + order * kPinSpacing;  // 当前引脚的规范化切线坐标。
             AltiumSchPin& pin = pins[indices.at(order)];  // 当前待布局的引脚。
+            // 按引脚方向更新与主体平行的切线坐标。
             switch (pin.orientation) {
                 case AltiumModels::PinOrientation::Right:
                 case AltiumModels::PinOrientation::Left:
@@ -190,6 +197,143 @@ QPair<int, int> expandBodyForPinLabels(AltiumSchComponent& component,
         }
     }
     return {expandedMinX, expandedMaxX};
+}
+
+/**
+ * @brief 根据当前部件的水平引脚范围调整主体的垂直边界。
+ * @details 仅调整矩形和圆角矩形的外侧边界；其他图元会扩大保护范围，避免调整主体时裁剪有效几何。
+ * @param component 待调整的 Altium 符号组件。
+ * @param ownerPartId 当前部件编号。
+ * @param bodyMinY 当前部件主体的最小 Y 坐标。
+ * @param bodyMaxY 当前部件主体的最大 Y 坐标。
+ * @return 调整后的主体垂直边界。
+ */
+QPair<int, int> fitBodyHeightToPins(AltiumSchComponent& component, int ownerPartId, int bodyMinY, int bodyMaxY) {
+    QList<int> horizontalPinYs;  // 当前部件左右引脚的主体端纵坐标。
+    for (const AltiumSchPin& pin : component.pins) {
+        if (pin.ownerPartId != ownerPartId)
+            continue;
+        if (pin.orientation == AltiumModels::PinOrientation::Left ||
+            pin.orientation == AltiumModels::PinOrientation::Right)
+            horizontalPinYs.append(pin.locationY);
+    }
+    if (horizontalPinYs.isEmpty())
+        return {bodyMinY, bodyMaxY};
+
+    const int pinMinY = *std::min_element(horizontalPinYs.cbegin(), horizontalPinYs.cend());  // 引脚范围下边界。
+    const int pinMaxY = *std::max_element(horizontalPinYs.cbegin(), horizontalPinYs.cend());  // 引脚范围上边界。
+    constexpr int kPinBodyMargin = 1000000;  // 引脚范围与主体边界之间的 100 mil 安全间距。
+    int fittedMinY = pinMinY - kPinBodyMargin;  // 按引脚范围计算的主体下边界。
+    int fittedMaxY = pinMaxY + kPinBodyMargin;  // 按引脚范围计算的主体上边界。
+
+    // 非矩形图元属于不可裁剪的保护几何，主体边界必须覆盖它们。
+    const auto includeProtectedY = [&fittedMinY, &fittedMaxY](int minY, int maxY) {
+        fittedMinY = qMin(fittedMinY, minY);
+        fittedMaxY = qMax(fittedMaxY, maxY);
+    };
+    const auto includeProtectedPoint = [&includeProtectedY](const QPointF& point) {
+        const int y = static_cast<int>(std::lround(point.y() * 1000.0));  // Schematic Units 转换后的 Y 坐标。
+        includeProtectedY(y, y);
+    };
+    for (const AltiumSchLine& line : component.lines) {
+        if (line.ownerPartId == ownerPartId)
+            includeProtectedY(qMin(line.locationY, line.cornerY), qMax(line.locationY, line.cornerY));
+    }
+    for (const AltiumSchArc& arc : component.arcs) {
+        if (arc.ownerPartId == ownerPartId)
+            includeProtectedY(arc.centerY - arc.radius, arc.centerY + arc.radius);
+    }
+    for (const AltiumSchEllipse& ellipse : component.ellipses) {
+        if (ellipse.ownerPartId == ownerPartId)
+            includeProtectedY(ellipse.centerY - ellipse.radiusY, ellipse.centerY + ellipse.radiusY);
+    }
+    for (const AltiumSchPie& pie : component.pies) {
+        if (pie.ownerPartId == ownerPartId)
+            includeProtectedY(pie.centerY - pie.radius, pie.centerY + pie.radius);
+    }
+    for (const AltiumSchEllipticalArc& arc : component.ellipticalArcs) {
+        if (arc.ownerPartId == ownerPartId)
+            includeProtectedY(arc.centerY - arc.radiusY, arc.centerY + arc.radiusY);
+    }
+    for (const AltiumSchPolygon& polygon : component.polygons) {
+        if (polygon.ownerPartId != ownerPartId)
+            continue;
+        for (const QPointF& point : polygon.vertices)
+            includeProtectedPoint(point);
+    }
+    for (const AltiumSchPolyline& polyline : component.polylines) {
+        if (polyline.ownerPartId != ownerPartId)
+            continue;
+        for (const QPointF& point : polyline.vertices)
+            includeProtectedPoint(point);
+    }
+    for (const AltiumSchPath& path : component.paths) {
+        if (path.ownerPartId != ownerPartId)
+            continue;
+        for (const QPointF& point : path.vertices)
+            includeProtectedPoint(point);
+    }
+    for (const AltiumSchBezier& bezier : component.beziers) {
+        if (bezier.ownerPartId != ownerPartId)
+            continue;
+        for (const QPointF& point : bezier.controlPoints)
+            includeProtectedPoint(point);
+    }
+    for (const AltiumSchIeee& ieee : component.ieeeSymbols) {
+        if (ieee.ownerPartId == ownerPartId)
+            includeProtectedY(ieee.locationY, ieee.locationY);
+    }
+    for (const AltiumSchTextFrame& frame : component.textFrames) {
+        if (frame.ownerPartId == ownerPartId)
+            includeProtectedY(qMin(frame.locationY, frame.cornerY), qMax(frame.locationY, frame.cornerY));
+    }
+    for (const AltiumSchImage& image : component.images) {
+        if (image.ownerPartId == ownerPartId)
+            includeProtectedY(qMin(image.locationY, image.cornerY), qMax(image.locationY, image.cornerY));
+    }
+
+    if (fittedMinY < fittedMaxY) {
+        for (AltiumSchRectangle& rectangle : component.rectangles) {
+            if (rectangle.ownerPartId != ownerPartId)
+                continue;
+            const int rectangleMinY = qMin(rectangle.locationY, rectangle.cornerY);  // 当前矩形下边界。
+            const int rectangleMaxY = qMax(rectangle.locationY, rectangle.cornerY);  // 当前矩形上边界。
+            if (rectangleMinY != bodyMinY && rectangleMaxY != bodyMaxY)
+                continue;
+            if (rectangle.locationY <= rectangle.cornerY) {
+                if (rectangleMinY == bodyMinY)
+                    rectangle.locationY = fittedMinY;
+                if (rectangleMaxY == bodyMaxY)
+                    rectangle.cornerY = fittedMaxY;
+            } else {
+                if (rectangleMinY == bodyMinY)
+                    rectangle.cornerY = fittedMinY;
+                if (rectangleMaxY == bodyMaxY)
+                    rectangle.locationY = fittedMaxY;
+            }
+        }
+        for (AltiumSchRoundRectangle& rectangle : component.roundRectangles) {
+            if (rectangle.ownerPartId != ownerPartId)
+                continue;
+            const int rectangleMinY = qMin(rectangle.locationY, rectangle.cornerY);  // 当前圆角矩形下边界。
+            const int rectangleMaxY = qMax(rectangle.locationY, rectangle.cornerY);  // 当前圆角矩形上边界。
+            if (rectangleMinY != bodyMinY && rectangleMaxY != bodyMaxY)
+                continue;
+            if (rectangle.locationY <= rectangle.cornerY) {
+                if (rectangleMinY == bodyMinY)
+                    rectangle.locationY = fittedMinY;
+                if (rectangleMaxY == bodyMaxY)
+                    rectangle.cornerY = fittedMaxY;
+            } else {
+                if (rectangleMinY == bodyMinY)
+                    rectangle.cornerY = fittedMinY;
+                if (rectangleMaxY == bodyMaxY)
+                    rectangle.locationY = fittedMaxY;
+            }
+        }
+        return {fittedMinY, fittedMaxY};
+    }
+    return {bodyMinY, bodyMaxY};
 }
 
 }  // namespace
@@ -402,6 +546,11 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
             bodyMinX = expandedBounds.first;
             bodyMaxX = expandedBounds.second;
         }
+        // 先按最终引脚间距量化连接端，确保主体高度覆盖规范化后的完整引脚范围。
+        quantizePinConnectionGroups(component.pins, ownerPartId);
+        const QPair<int, int> fittedYBounds = fitBodyHeightToPins(component, ownerPartId, bodyMinY, bodyMaxY);
+        bodyMinY = fittedYBounds.first;
+        bodyMaxY = fittedYBounds.second;
         for (auto& pin : component.pins) {
             if (pin.ownerPartId != ownerPartId)
                 continue;
@@ -421,7 +570,14 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
                     break;
             }
         }
-        quantizePinConnectionGroups(component.pins, ownerPartId);
+        // 投影主体端后以主体中心再次量化，使高引脚数部件在主体内保持上下平衡。
+        quantizePinConnectionGroups(component.pins, ownerPartId, (bodyMinX + bodyMaxX) / 2, (bodyMinY + bodyMaxY) / 2);
+        // 重新覆盖居中后的引脚范围，避免最终量化把引脚推到主体边界之外。
+        const QPair<int, int> finalFittedYBounds = fitBodyHeightToPins(component, ownerPartId, bodyMinY, bodyMaxY);
+        bodyMinY = finalFittedYBounds.first;
+        bodyMaxY = finalFittedYBounds.second;
+        // 主体扩展后再次以最终主体中心量化，消除单侧保护几何造成的视觉偏移。
+        quantizePinConnectionGroups(component.pins, ownerPartId, (bodyMinX + bodyMaxX) / 2, (bodyMinY + bodyMaxY) / 2);
     };
     const int partCount = qMax(1, component.partCount);  // 当前符号的有效部件数量。
     normalizePartBody(-1);

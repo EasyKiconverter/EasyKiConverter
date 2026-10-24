@@ -1021,15 +1021,27 @@ private slots:
         const AltiumSchRectangle& normalizedFirstBody = component.rectangles.at(0);
         // normalizedSecondBody：归一化后的第二个部件主体。
         const AltiumSchRectangle& normalizedSecondBody = component.rectangles.at(1);
+        // firstBodyMinY：第一个部件归一化主体的最小 Y 坐标。
+        const int firstBodyMinY = qMin(normalizedFirstBody.locationY, normalizedFirstBody.cornerY);
+        // firstBodyMaxY：第一个部件归一化主体的最大 Y 坐标。
+        const int firstBodyMaxY = qMax(normalizedFirstBody.locationY, normalizedFirstBody.cornerY);
+        // secondBodyMinY：第二个部件归一化主体的最小 Y 坐标。
+        const int secondBodyMinY = qMin(normalizedSecondBody.locationY, normalizedSecondBody.cornerY);
+        // secondBodyMaxY：第二个部件归一化主体的最大 Y 坐标。
+        const int secondBodyMaxY = qMax(normalizedSecondBody.locationY, normalizedSecondBody.cornerY);
         for (const AltiumSchPin& pin : component.pins) {
             if (pin.ownerPartId == 1) {
                 firstPartDesignators.insert(pin.designator);
                 QCOMPARE(pin.orientation, AltiumModels::PinOrientation::Right);
                 QCOMPARE(pin.locationX, qMax(normalizedFirstBody.locationX, normalizedFirstBody.cornerX));
+                QVERIFY(pin.locationY >= firstBodyMinY);
+                QVERIFY(pin.locationY <= firstBodyMaxY);
             } else if (pin.ownerPartId == 2) {
                 secondPartDesignators.insert(pin.designator);
                 QCOMPARE(pin.orientation, AltiumModels::PinOrientation::Right);
                 QCOMPARE(pin.locationX, qMax(normalizedSecondBody.locationX, normalizedSecondBody.cornerX));
+                QVERIFY(pin.locationY >= secondBodyMinY);
+                QVERIFY(pin.locationY <= secondBodyMaxY);
             } else {
                 QFAIL("高引脚数测试发现未知部件归属");
             }
@@ -1037,6 +1049,91 @@ private slots:
         QCOMPARE(firstPartDesignators.size(), firstPartPinCount);
         QCOMPARE(secondPartDesignators.size(), secondPartPinCount);
         QCOMPARE(firstPartDesignators.size() + secondPartDesignators.size(), component.pins.size());
+    }
+
+    /**
+     * @brief 验证高引脚数部件会收紧过大的主体垂直空白。
+     * @details 主体边界应围绕本部件的水平引脚范围调整，不能保留源数据带来的无意义大段空白。
+     */
+    void multipartBodyHeightFollowsIndependentPinRanges() {
+        // component：包含两个垂直空白明显不同的部件。
+        AltiumSchComponent component;
+        component.partCount = 2;
+
+        // firstBody：第一个部件的过高主体。
+        AltiumSchRectangle firstBody;
+        firstBody.locationX = -2000000;
+        firstBody.locationY = -100000000;
+        firstBody.cornerX = 2000000;
+        firstBody.cornerY = -50000000;
+        firstBody.ownerPartId = 1;
+        component.rectangles.append(firstBody);
+
+        // secondBody：第二个部件的过高主体。
+        AltiumSchRectangle secondBody = firstBody;
+        secondBody.locationY = 300000000;
+        secondBody.cornerY = 350000000;
+        secondBody.ownerPartId = 2;
+        component.rectangles.append(secondBody);
+
+        // firstPinIndex：第一个部件引脚的循环索引。
+        for (int firstPinIndex = 0; firstPinIndex < 3; ++firstPinIndex) {
+            // firstPin：第一个部件的右侧引脚。
+            AltiumSchPin firstPin;
+            firstPin.ownerPartId = 1;
+            firstPin.locationX = 3000000;
+            firstPin.locationY = -1000000 + firstPinIndex * 1000000;
+            firstPin.length = 500000;
+            firstPin.orientation = AltiumModels::PinOrientation::Right;
+            component.pins.append(firstPin);
+        }
+
+        // secondPinIndex：第二个部件引脚的循环索引。
+        for (int secondPinIndex = 0; secondPinIndex < 3; ++secondPinIndex) {
+            // secondPin：第二个部件的右侧引脚。
+            AltiumSchPin secondPin;
+            secondPin.ownerPartId = 2;
+            secondPin.locationX = 3000000;
+            secondPin.locationY = 399000000 + secondPinIndex * 1000000;
+            secondPin.length = 500000;
+            secondPin.orientation = AltiumModels::PinOrientation::Right;
+            component.pins.append(secondPin);
+        }
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // normalizedFirstBody：归一化后的第一个部件主体。
+        const AltiumSchRectangle& normalizedFirstBody = component.rectangles.at(0);
+        // normalizedSecondBody：归一化后的第二个部件主体。
+        const AltiumSchRectangle& normalizedSecondBody = component.rectangles.at(1);
+        // firstHeight：第一个部件的归一化主体高度。
+        const int firstHeight = qAbs(normalizedFirstBody.cornerY - normalizedFirstBody.locationY);
+        // secondHeight：第二个部件的归一化主体高度。
+        const int secondHeight = qAbs(normalizedSecondBody.cornerY - normalizedSecondBody.locationY);
+        QCOMPARE(firstHeight, 4000000);
+        QCOMPARE(secondHeight, 4000000);
+        QVERIFY(component.pins.at(0).locationY >= qMin(normalizedFirstBody.locationY, normalizedFirstBody.cornerY));
+        QVERIFY(component.pins.at(0).locationY <= qMax(normalizedFirstBody.locationY, normalizedFirstBody.cornerY));
+        QVERIFY(component.pins.at(3).locationY >= qMin(normalizedSecondBody.locationY, normalizedSecondBody.cornerY));
+        QVERIFY(component.pins.at(3).locationY <= qMax(normalizedSecondBody.locationY, normalizedSecondBody.cornerY));
+        // firstBodyCenterY：第一个部件主体的垂直中心。
+        const int firstBodyCenterY = (normalizedFirstBody.locationY + normalizedFirstBody.cornerY) / 2;
+        // secondBodyCenterY：第二个部件主体的垂直中心。
+        const int secondBodyCenterY = (normalizedSecondBody.locationY + normalizedSecondBody.cornerY) / 2;
+        // firstPinCenterY：第一个部件两端引脚的垂直中心。
+        const int firstPinCenterY = (component.pins.at(0).locationY + component.pins.at(2).locationY) / 2;
+        // secondPinCenterY：第二个部件两端引脚的垂直中心。
+        const int secondPinCenterY = (component.pins.at(3).locationY + component.pins.at(5).locationY) / 2;
+        QVERIFY(qAbs(firstPinCenterY - firstBodyCenterY) <= 100000);
+        QVERIFY(qAbs(secondPinCenterY - secondBodyCenterY) <= 100000);
+        // firstPinEdgeDelta：第一个部件引脚主体端与主体右边界的吸附误差。
+        const int firstPinEdgeDelta =
+            qAbs(component.pins.at(0).locationX - qMax(normalizedFirstBody.locationX, normalizedFirstBody.cornerX));
+        // secondPinEdgeDelta：第二个部件引脚主体端与主体右边界的吸附误差。
+        const int secondPinEdgeDelta =
+            qAbs(component.pins.at(3).locationX - qMax(normalizedSecondBody.locationX, normalizedSecondBody.cornerX));
+        QVERIFY(firstPinEdgeDelta <= 100000);
+        QVERIFY(secondPinEdgeDelta <= 100000);
     }
 
     /**
