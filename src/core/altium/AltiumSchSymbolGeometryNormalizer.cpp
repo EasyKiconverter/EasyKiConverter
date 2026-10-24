@@ -134,6 +134,61 @@ void quantizePinConnectionGroups(QList<AltiumSchPin>& pins) {
     }
 }
 
+/**
+ * @brief 估算引脚名称在 SchLib 中占用的水平宽度。
+ * @details 该估算用于确定主体最小宽度，避免长名称侵入符号中心；实际字体仍由 SchLib 字体表渲染。
+ * @param text 待估算的引脚名称文本。
+ * @return 估算后的原始坐标宽度。
+ */
+int estimatePinLabelWidth(const AltiumSchText& text) {
+    constexpr double kDefaultFontSizeMm = 1.27;  // 未提供有效字号时使用的 50 mil 字号。
+    constexpr double kAverageGlyphWidth = 0.58;  // 拉丁字符平均宽度占字号高度的比例。
+    const double fontSizeMm = std::isfinite(text.fontSizeMm) && text.fontSizeMm > 0.0
+                                  ? qMin(text.fontSizeMm, kDefaultFontSizeMm)
+                                  : kDefaultFontSizeMm;  // 用于布局的规范化字号。
+    const double widthMm = fontSizeMm * kAverageGlyphWidth * qMax(1, text.text.size());  // 估算的文本宽度。
+    return static_cast<int>(std::ceil(widthMm / 0.0254 * 10000.0));
+}
+
+/**
+ * @brief 根据引脚名称扩展矩形主体的水平边界。
+ * @param component 待调整的 Altium 符号组件。
+ * @param bodyMinX 主体原始最小 X 坐标。
+ * @param bodyMaxX 主体原始最大 X 坐标。
+ * @param requiredHalfWidth 引脚名称所需的主体半宽。
+ * @return 扩展后的主体边界。
+ */
+QPair<int, int> expandBodyForPinLabels(AltiumSchComponent& component,
+                                       int bodyMinX,
+                                       int bodyMaxX,
+                                       int requiredHalfWidth) {
+    const int centerX = (bodyMinX + bodyMaxX) / 2;  // 主体水平中心。
+    const int currentHalfWidth = (bodyMaxX - bodyMinX) / 2;  // 当前主体半宽。
+    if (requiredHalfWidth <= currentHalfWidth)
+        return {bodyMinX, bodyMaxX};
+
+    const int expandedMinX = centerX - requiredHalfWidth;  // 扩展后的主体最小 X 坐标。
+    const int expandedMaxX = centerX + requiredHalfWidth;  // 扩展后的主体最大 X 坐标。
+    for (AltiumSchRectangle& rectangle : component.rectangles) {
+        const int rectangleMinX = qMin(rectangle.locationX, rectangle.cornerX);  // 当前矩形最小 X 坐标。
+        const int rectangleMaxX = qMax(rectangle.locationX, rectangle.cornerX);  // 当前矩形最大 X 坐标。
+        if (rectangleMinX != bodyMinX && rectangleMaxX != bodyMaxX)
+            continue;
+        if (rectangle.locationX <= rectangle.cornerX) {
+            if (rectangleMinX == bodyMinX)
+                rectangle.locationX = expandedMinX;
+            if (rectangleMaxX == bodyMaxX)
+                rectangle.cornerX = expandedMaxX;
+        } else {
+            if (rectangleMinX == bodyMinX)
+                rectangle.cornerX = expandedMinX;
+            if (rectangleMaxX == bodyMaxX)
+                rectangle.locationX = expandedMaxX;
+        }
+    }
+    return {expandedMinX, expandedMaxX};
+}
+
 }  // namespace
 
 /**
@@ -316,6 +371,25 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
         bodyMaxY = qMax(bodyMaxY, qMax(rect.locationY, rect.cornerY));
     }
     if (bodyMinX != INT_MAX) {
+        constexpr int kPinTextGap = 200000;  // 引脚主体端与名称之间的 20 mil 间距。
+        constexpr int kCenterTextGap = 200000;  // 左右名称列与主体中心之间的 20 mil 间距。
+        int longestPinLabelWidth = 0;  // 当前符号中最长引脚名称的估算宽度。
+        for (const AltiumSchText& text : component.texts) {
+            if (!text.isPinLabel || text.isPinNumber || text.sourcePinIndex < 0 ||
+                text.sourcePinIndex >= component.pins.size())
+                continue;
+            const AltiumSchPin& pin = component.pins.at(text.sourcePinIndex);  // 当前名称对应的引脚。
+            if (pin.orientation == AltiumModels::PinOrientation::Left ||
+                pin.orientation == AltiumModels::PinOrientation::Right)
+                longestPinLabelWidth = qMax(longestPinLabelWidth, estimatePinLabelWidth(text));
+        }
+        if (longestPinLabelWidth > 0) {
+            const int requiredHalfWidth = longestPinLabelWidth + kPinTextGap + kCenterTextGap;
+            const QPair<int, int> expandedBounds =
+                expandBodyForPinLabels(component, bodyMinX, bodyMaxX, requiredHalfWidth);
+            bodyMinX = expandedBounds.first;
+            bodyMaxX = expandedBounds.second;
+        }
         for (auto& pin : component.pins) {
             // 将引脚主体端投影到对应的矩形边界，保持引脚方向和主体连接一致。
             switch (pin.orientation) {
@@ -338,10 +412,13 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
 
     // 引脚文本必须在投影和连接点量化后重新布局，避免沿用源坐标造成文本与引脚分离。
     constexpr int kPinTextGap = 200000;  // 引脚主体端或连接端与文字之间的 20 mil 间距。
+    constexpr double kPinLabelFontSizeMm = 1.27;  // 引脚名称和编号使用的最大 50 mil 字号。
     for (AltiumSchText& text : component.texts) {
         if (!text.isPinLabel || text.sourcePinIndex < 0 || text.sourcePinIndex >= component.pins.size())
             continue;
         const AltiumSchPin& pin = component.pins.at(text.sourcePinIndex);  // 当前文本对应的规范化引脚。
+        if (!std::isfinite(text.fontSizeMm) || text.fontSizeMm <= 0.0 || text.fontSizeMm > kPinLabelFontSizeMm)
+            text.fontSizeMm = kPinLabelFontSizeMm;
         const QPointF connection = computePinConnectionPoint(pin);  // 当前引脚的外部连接端。
         // 名称位于主体内侧，编号位于连接端外侧；两者均保持水平正向显示。
         switch (pin.orientation) {

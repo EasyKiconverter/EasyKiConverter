@@ -812,6 +812,58 @@ private slots:
     }
 
     /**
+     * @brief 验证长引脚名称不会侵入符号主体中心。
+     * @details 通过扩展主体宽度并限制引脚文本字号，覆盖 EN/UVLO、PGOOD 等常见长名称布局。
+     */
+    void longPinLabelsStayInsideExpandedBody() {
+        // component：包含左右引脚和主体轮廓的测试符号。
+        AltiumSchComponent component;
+        // body：初始较窄的主体矩形，归一化时应按长名称扩展。
+        AltiumSchRectangle body;
+        body.locationX = -1000000;
+        body.locationY = -1000000;
+        body.cornerX = 1000000;
+        body.cornerY = 1000000;
+        component.rectangles.append(body);
+
+        // leftPin：左侧测试引脚。
+        AltiumSchPin leftPin;
+        leftPin.locationX = -2000000;
+        leftPin.locationY = 0;
+        leftPin.length = 350000;
+        leftPin.orientation = AltiumModels::PinOrientation::Left;
+        component.pins.append(leftPin);
+        // rightPin：右侧测试引脚。
+        AltiumSchPin rightPin = leftPin;
+        rightPin.locationX = 2000000;
+        rightPin.orientation = AltiumModels::PinOrientation::Right;
+        component.pins.append(rightPin);
+
+        // leftLabel：左侧长引脚名称。
+        AltiumSchText leftLabel;
+        leftLabel.text = QStringLiteral("EN/UVLO");
+        leftLabel.fontSizeMm = 2.0;
+        leftLabel.isPinLabel = true;
+        leftLabel.sourcePinIndex = 0;
+        component.texts.append(leftLabel);
+        // rightLabel：右侧长引脚名称。
+        AltiumSchText rightLabel = leftLabel;
+        rightLabel.text = QStringLiteral("PGOOD");
+        rightLabel.sourcePinIndex = 1;
+        component.texts.append(rightLabel);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        const AltiumSchRectangle& normalizedBody = component.rectangles.first();  // 扩展后的主体矩形。
+        const int bodyWidth = qAbs(normalizedBody.cornerX - normalizedBody.locationX);  // 主体宽度。
+        QVERIFY(bodyWidth > 2000000);
+        QCOMPARE(component.texts.at(0).fontSizeMm, 1.27);
+        QCOMPARE(component.texts.at(1).fontSizeMm, 1.27);
+        QVERIFY(component.texts.at(0).locationX > qMin(normalizedBody.locationX, normalizedBody.cornerX));
+        QVERIFY(component.texts.at(1).locationX < qMax(normalizedBody.locationX, normalizedBody.cornerX));
+    }
+
+    /**
      * @brief 验证包含迷你流和常规流的 CFB 文件可被正确解析
      * @details 写入多种大小的流，验证红黑树平衡性，以及嵌套存储路径的读取
      */
