@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <climits>
 #include <cmath>
+#include <numeric>
 
 namespace EasyKiConverter {
 
@@ -82,7 +83,8 @@ void quantizePinConnectionPoint(AltiumSchPin& pin) {
  * @param pins 待量化的符号引脚列表。
  */
 void quantizePinConnectionGroups(QList<AltiumSchPin>& pins) {
-    constexpr int kSnapGrid = 100000;  // 同侧引脚连接端之间的最小间距。
+    constexpr int kSnapGrid = 100000;  // 引脚连接端使用的 10 mil 基础网格。
+    constexpr int kPinSpacing = 1000000;  // 同侧引脚之间使用的 100 mil 可读间距。
     for (int side = 0; side < 4; ++side) {
         QList<int> indices;  // 当前方向对应的引脚索引。
         for (int i = 0; i < pins.size(); ++i) {
@@ -98,30 +100,36 @@ void quantizePinConnectionGroups(QList<AltiumSchPin>& pins) {
             return horizontal ? (left.y() < right.y()) : (left.x() < right.x());
         });
 
-        int previousTangent = INT_MIN;  // 上一个连接端的切线方向坐标。
+        QList<int> tangents;  // 当前侧引脚连接端的量化切线坐标。
         for (int index : indices) {
             quantizePinConnectionPoint(pins[index]);
             const QPointF connection = computePinConnectionPoint(pins[index]);  // 当前引脚的连接端。
             // 判断当前引脚是否沿水平侧排列。
             const bool horizontal = side == static_cast<int>(AltiumModels::PinOrientation::Right) ||
                                     side == static_cast<int>(AltiumModels::PinOrientation::Left);
-            // 当前连接端沿同侧切线方向的坐标。
-            int tangent = horizontal ? static_cast<int>(connection.y()) : static_cast<int>(connection.x());
-            if (previousTangent != INT_MIN && tangent <= previousTangent) {
-                tangent = previousTangent + kSnapGrid;
-                // 水平引脚沿 Y 方向、垂直引脚沿 X 方向错开连接端。
-                switch (pins[index].orientation) {
-                    case AltiumModels::PinOrientation::Right:
-                    case AltiumModels::PinOrientation::Left:
-                        pins[index].locationY = tangent;
-                        break;
-                    case AltiumModels::PinOrientation::Up:
-                    case AltiumModels::PinOrientation::Down:
-                        pins[index].locationX = tangent;
-                        break;
-                }
+            tangents.append(horizontal ? static_cast<int>(connection.y()) : static_cast<int>(connection.x()));
+        }
+        if (tangents.isEmpty())
+            continue;
+
+        // 以原始连接端的中心为基准扩展间距，避免只向一侧推移导致符号失去平衡。
+        const int originalCenter =
+            std::accumulate(tangents.cbegin(), tangents.cend(), 0LL) / static_cast<long long>(tangents.size());
+        const int firstTangent = quantizeToSnapGrid(
+            static_cast<int>(originalCenter - static_cast<long long>(kPinSpacing) * (tangents.size() - 1) / 2));
+        for (int order = 0; order < indices.size(); ++order) {
+            const int tangent = firstTangent + order * kPinSpacing;  // 当前引脚的规范化切线坐标。
+            AltiumSchPin& pin = pins[indices.at(order)];  // 当前待布局的引脚。
+            switch (pin.orientation) {
+                case AltiumModels::PinOrientation::Right:
+                case AltiumModels::PinOrientation::Left:
+                    pin.locationY = tangent;
+                    break;
+                case AltiumModels::PinOrientation::Up:
+                case AltiumModels::PinOrientation::Down:
+                    pin.locationX = tangent;
+                    break;
             }
-            previousTangent = tangent;
         }
     }
 }
@@ -328,13 +336,49 @@ void AltiumSchSymbolGeometryNormalizer::normalize(AltiumSchComponent& component)
         quantizePinConnectionGroups(component.pins);
     }
 
-    // 回退编号原先使用源引脚位置，必须在投影和连接点量化后同步到引脚主体端。
+    // 引脚文本必须在投影和连接点量化后重新布局，避免沿用源坐标造成文本与引脚分离。
+    constexpr int kPinTextGap = 200000;  // 引脚主体端或连接端与文字之间的 20 mil 间距。
     for (AltiumSchText& text : component.texts) {
-        if (!text.isFallbackPinNumber || text.sourcePinIndex < 0 || text.sourcePinIndex >= component.pins.size())
+        if (!text.isPinLabel || text.sourcePinIndex < 0 || text.sourcePinIndex >= component.pins.size())
             continue;
-        const AltiumSchPin& pin = component.pins.at(text.sourcePinIndex);  // 回退编号对应的规范化引脚。
-        text.locationX = pin.locationX;
-        text.locationY = pin.locationY;
+        const AltiumSchPin& pin = component.pins.at(text.sourcePinIndex);  // 当前文本对应的规范化引脚。
+        const QPointF connection = computePinConnectionPoint(pin);  // 当前引脚的外部连接端。
+        // 名称位于主体内侧，编号位于连接端外侧；两者均保持水平正向显示。
+        switch (pin.orientation) {
+            case AltiumModels::PinOrientation::Right:
+                if (text.isPinNumber) {
+                    text.locationX = static_cast<int>(connection.x()) + kPinTextGap;
+                    text.anchor = QStringLiteral("start");
+                } else {
+                    text.locationX = pin.locationX - kPinTextGap;
+                    text.anchor = QStringLiteral("end");
+                }
+                text.locationY = pin.locationY;
+                break;
+            case AltiumModels::PinOrientation::Left:
+                if (text.isPinNumber) {
+                    text.locationX = static_cast<int>(connection.x()) - kPinTextGap;
+                    text.anchor = QStringLiteral("end");
+                } else {
+                    text.locationX = pin.locationX + kPinTextGap;
+                    text.anchor = QStringLiteral("start");
+                }
+                text.locationY = pin.locationY;
+                break;
+            case AltiumModels::PinOrientation::Up:
+                text.locationX = pin.locationX;
+                text.locationY =
+                    text.isPinNumber ? static_cast<int>(connection.y()) + kPinTextGap : pin.locationY - kPinTextGap;
+                text.anchor = QStringLiteral("middle");
+                break;
+            case AltiumModels::PinOrientation::Down:
+                text.locationX = pin.locationX;
+                text.locationY =
+                    text.isPinNumber ? static_cast<int>(connection.y()) - kPinTextGap : pin.locationY + kPinTextGap;
+                text.anchor = QStringLiteral("middle");
+                break;
+        }
+        text.orientation = 0;
     }
 
     // 汇总平移后的图形边界，文本和参数字段必须以此边界为基准布局。

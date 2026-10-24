@@ -23,8 +23,8 @@ void AltiumSchPinRecordWriter::write(AltiumBinaryWriter& writer, const AltiumSch
     writer.writeInt32(2);  // Record type = 2
     writer.writeUInt8(0);  // Unknown
     writer.writeInt16(static_cast<int16_t>(m_owner.normalizeOwnerPartId(pin.ownerPartId, QStringLiteral("引脚"))));
-    // OwnerPartId 为 -1 表示公共 Part Zero；当前符号只有一个显示模式。
-    writer.writeUInt8(1);  // OwnerPartDisplayMode
+    // OwnerPartId 为 -1 表示公共 Part Zero；单显示模式使用 Altium 的默认模式 0。
+    writer.writeUInt8(0);  // OwnerPartDisplayMode
 
     // Symbol edges / IEEE 装饰必须位于描述字符串之前。
     writer.writeUInt8(pin.symbolInnerEdge);

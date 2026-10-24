@@ -13,7 +13,7 @@
 - 参数控制：参数值、名称、显示/隐藏、只读、位置、旋转角度、字体编号、字体大小和所属部件。
 - 文本字体：普通文本支持字体族、字号、粗体和斜体，并在 SchLib `FileHeader` 中动态登记字体表；参数的 `fontSizeMm` 会映射到参数记录的 `FONTID`；无法解析到当前字体表的显式编号回退到默认字体 1；旋转角度按最近的 90° 方向归一化为 Altium `Orientation=0..3`。
 - 多部件符号：图形、文本、参数和引脚按 `partIndex` 写入对应部件；同名参数按 `OWNERPARTID` 分开保留，不会因名称去重而丢失部件参数。读取器同时解析 `OWNERPARTID` 和 `OWNERPARTDISPLAYMODE`，二进制 Pin 记录也会保留显示模式字段。
-- 公共图元：`SymbolPart::commonToAllParts` 会在缓存序列化和 `IrBuilder` 阶段保留，转换为 IR 的负 `partIndex`；最终写入 Altium Part Zero（`OWNERPARTID=-1`）。公共部件中的引脚会设置 `SymbolPinIR::commonToAllParts`，其名称、编号文字也会继承该归属。文本图元同时写出 `OWNERPARTDISPLAYMODE=1`，与当前单显示模式的引脚记录保持一致。
+- 公共图元：`SymbolPart::commonToAllParts` 会在缓存序列化和 `IrBuilder` 阶段保留，转换为 IR 的负 `partIndex`；最终写入 Altium Part Zero（`OWNERPARTID=-1`）。公共部件中的引脚会设置 `SymbolPinIR::commonToAllParts`，其名称、编号文字也会继承该归属。当前输出仅声明一个显示模式：二进制引脚使用默认模式 `0`，普通图元和参数省略可选的 `OWNERPARTDISPLAYMODE` 字段，避免被 Altium 误解释为未激活的替代显示模式。
 - `IndexInSheet`：图元、二进制引脚和归属于具体部件的用户参数共享组件内从 `0` 开始的内容记录计数；首条内容记录隐含索引 `0`，后续文本记录和用户参数写出 `IndexInSheet`。二进制引脚虽然没有文本字段，但会推进同一计数器；组件记录、Designator、公共参数和实现记录不占用该计数。
 - 多候选封装：每个封装生成一个 SchLib implementation，并自动去重。
 - 通用模型关联：支持通过 IR 或来源元数据写入 SPICE、SIM、STEP、VRML 等模型类型、数据文件实体、参数和引脚映射。
@@ -63,6 +63,7 @@ SchLib OLE/Data
 - `sourceMetadata["value"]` 优先作为 Altium `Comment` 字段；未提供时使用符号名称。
 - `sourceMetadata["description"]` 优先作为 Description；未提供时使用 `SymbolComponentIR::description`。
 - `sourceMetadata` 中的标准键使用稳定的 AD 显示名称。
+- 来源元数据字段默认保留在参数记录中但隐藏；仅器件值写入可见的 `Comment` 字段，并自动放在符号主体正下方，避免 Datasheet URL、供应商和料号等机器字段遮挡图形。
 - 未知键原样作为自定义参数名称写入。
 - `SymbolParameterIR` 适用于需要显式控制显示、只读、位置和旋转的参数。
 - 空名称或空值字段不会写入 SchLib。

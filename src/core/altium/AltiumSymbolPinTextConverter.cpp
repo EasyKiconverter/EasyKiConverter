@@ -131,6 +131,7 @@ QList<AltiumSchText> AltiumSymbolPinTextConverter::convert(const IR::SymbolPinIR
                                                    QStringLiteral("引脚 %1 编号文本").arg(pin.designator),
                                                    pin,
                                                    diagnostics);
+            numberText.isPinNumber = true;
             numberText.isFallbackPinNumber = !pin.hasNumberPosition;
             texts.append(numberText);
         }

@@ -516,6 +516,62 @@ private slots:
     }
 
     /**
+     * @brief 验证 Issue 227 脱敏样本经过导入、IR 和 SchLib 回读后保留九个引脚及主体图形。
+     * @details 样本不访问网络，仅验证与 C477928 相同的九引脚和矩形主体结构。
+     */
+    void testIssue227SyntheticFixtureExportsNinePins() {
+        // error：测试期间收集的 fixture 错误信息。
+        QString error;
+        // fixture：Issue 227 的本地脱敏符号样本。
+        const QJsonObject fixture = loadFixtureObject(QStringLiteral("easyeda/symbol_issue227_9pin.json"), &error);
+        QVERIFY2(error.isEmpty(), qPrintable(error));
+
+        // importer：负责将 EasyEDA JSON 转换为符号模型的导入器。
+        EasyedaSymbolImporter importer;
+        // symbol：导入后的符号模型。
+        const QSharedPointer<SymbolData> symbol = importer.importSymbolData(fixture);
+        QVERIFY(symbol);
+        QCOMPARE(symbol->pins().size(), 9);
+        QCOMPARE(symbol->rectangles().size(), 1);
+
+        // symbolIr：由符号模型生成的统一中间表示。
+        const IR::SymbolComponentIR symbolIr = IR::toSymbolIR(*symbol);
+        QCOMPARE(symbolIr.pins.size(), 9);
+        QCOMPARE(symbolIr.rectangles.size(), 1);
+
+        // tempDir：测试输出所在的临时目录。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        // outputPath：生成的 SchLib 文件路径。
+        const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("issue227.SchLib"));
+        // exporter：负责将 IR 写入 Altium SchLib 的导出器。
+        ExporterAltiumSymbol exporter;
+        QVERIFY(exporter.exportSymbolLibrary({symbolIr}, QStringLiteral("issue227"), outputPath, false, false));
+
+        // reader：负责回读生成的 SchLib 文件。
+        AltiumSchLibReader reader;
+        QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
+        // records：Reader 解析出的记录集合。
+        QVector<AltiumSchLibReader::Record> records;
+        QVERIFY(reader.readComponentRecords(QStringLiteral("ISSUE227_SAMPLE"), &records));
+        // pinCount：回读到的二进制引脚记录数量。
+        int pinCount = 0;
+        // outlineCount：回读到的主体矩形记录数量。
+        int outlineCount = 0;
+        for (const AltiumSchLibReader::Record& record : records) {  // record：当前回读的 SchLib 记录。
+            if (!record.hasParameters && record.recordType == 2) {
+                QCOMPARE(record.ownerPartDisplayMode, 0);
+                ++pinCount;
+            } else if (record.recordType == 14 || record.recordType == 10) {
+                QCOMPARE(record.ownerPartDisplayMode, -1);
+                ++outlineCount;
+            }
+        }
+        QCOMPARE(pinCount, 9);
+        QCOMPARE(outlineCount, 1);
+    }
+
+    /**
      * @brief 验证真实 EasyEDA 多部件符号的公共部件归属能够完整写入 SchLib
      * @details 覆盖公共 Part 0、两个普通部件、图形和引脚的 OWNERPARTID 映射。
      */
@@ -643,7 +699,7 @@ private slots:
                 ++partTwoRecordCount;
             if (!record.hasParameters && record.payload.size() >= 4 &&
                 static_cast<unsigned char>(record.payload.at(0)) == static_cast<unsigned char>(2)) {
-                QCOMPARE(record.ownerPartDisplayMode, 1);
+                QCOMPARE(record.ownerPartDisplayMode, 0);
                 ++binaryPinCount;
             }
             if ((record.recordType == 10 || record.recordType == 14) && record.ownerPartId == 1)
@@ -659,7 +715,7 @@ private slots:
             if (record.recordType == 41 &&
                 record.parameters.value(QStringLiteral("NAME")) == QStringLiteral("PART_PARAMETER")) {
                 QCOMPARE(record.ownerPartId, 2);
-                QCOMPARE(record.ownerPartDisplayMode, 1);
+                QCOMPARE(record.ownerPartDisplayMode, -1);
                 ++partTwoParameterCount;
             } else if (record.recordType == 41) {
                 QCOMPARE(record.ownerPartId, -1);

@@ -693,6 +693,70 @@ private slots:
     }
 
     /**
+     * @brief 验证来源元数据默认隐藏，器件值位于符号主体下方。
+     * @details 保留 Datasheet、供应商和料号字段供参数编辑器使用，但避免长 URL 和机器字段污染符号画面。
+     */
+    void sourceMetadataFieldsUseReadableVisibility() {
+        // tempDir：测试生成文件所在的临时目录。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        // component：包含来源元数据和主体轮廓的测试元件。
+        AltiumSchComponent component;
+        component.name = QStringLiteral("LM5164DDAR");
+        component.designatorPrefix = QStringLiteral("U");
+        component.sourceMetadata.insert(QStringLiteral("datasheet"),
+                                        QStringLiteral("https://example.com/LM5164DDAR_C477928.html"));
+        component.sourceMetadata.insert(QStringLiteral("manufacturerPart"), QStringLiteral("LM5164DDAR"));
+        component.sourceMetadata.insert(QStringLiteral("lcscId"), QStringLiteral("C477928"));
+        // body：测试用主体矩形。
+        AltiumSchRectangle body;
+        body.locationX = -1000000;
+        body.locationY = -1000000;
+        body.cornerX = 1000000;
+        body.cornerY = 1000000;
+        component.rectangles.append(body);
+
+        // outputPath：测试生成的 SchLib 文件路径。
+        const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("metadata-visibility.SchLib"));
+        // writer：负责写入测试 SchLib 的写入器。
+        AltiumSchLibWriter writer;
+        QVERIFY(writer.write({component}, outputPath, QStringLiteral("metadata-visibility")));
+
+        // reader：负责读取生成文件的记录读取器。
+        AltiumSchLibReader reader;
+        QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
+        // records：读取到的元件记录。
+        QVector<AltiumSchLibReader::Record> records;
+        QVERIFY(reader.readComponentRecords(QStringLiteral("LM5164DDAR"), &records));
+        // foundComment：是否找到可见的器件值字段。
+        bool foundComment = false;
+        // foundHiddenDatasheet：是否找到隐藏的数据手册字段。
+        bool foundHiddenDatasheet = false;
+        // foundHiddenManufacturerPart：是否找到隐藏的制造商料号字段。
+        bool foundHiddenManufacturerPart = false;
+        for (const AltiumSchLibReader::Record& record : records) {
+            if (record.recordType != 41)
+                continue;
+            const QString name = record.parameters.value(QStringLiteral("NAME"));  // 当前参数的名称。
+            if (name == QStringLiteral("Comment")) {
+                foundComment = true;
+                QVERIFY(!record.parameters.contains(QStringLiteral("IsHidden")));
+                QVERIFY(record.parameters.contains(QStringLiteral("LOCATION.X")));
+                QVERIFY(record.parameters.contains(QStringLiteral("LOCATION.Y")));
+            } else if (name == QStringLiteral("Datasheet")) {
+                foundHiddenDatasheet = record.parameters.value(QStringLiteral("IsHidden")) == QStringLiteral("T");
+            } else if (name == QStringLiteral("Manufacturer Part Number")) {
+                foundHiddenManufacturerPart =
+                    record.parameters.value(QStringLiteral("IsHidden")) == QStringLiteral("T");
+            }
+        }
+        QVERIFY(foundComment);
+        QVERIFY(foundHiddenDatasheet);
+        QVERIFY(foundHiddenManufacturerPart);
+    }
+
+    /**
      * @brief 验证缺少源编号坐标时编号文本跟随投影后的引脚主体端。
      * @details 覆盖水平和垂直引脚，确保主体边界投影及连接点量化不会造成编号错位。
      */
@@ -719,6 +783,7 @@ private slots:
         horizontalNumber.locationX = 4500000;
         horizontalNumber.locationY = 250000;
         horizontalNumber.isPinLabel = true;
+        horizontalNumber.isPinNumber = true;
         horizontalNumber.isFallbackPinNumber = true;
         horizontalNumber.sourcePinIndex = 0;
         component.texts.append(horizontalNumber);
@@ -735,14 +800,15 @@ private slots:
         verticalNumber.locationX = -250000;
         verticalNumber.locationY = 4500000;
         verticalNumber.sourcePinIndex = 1;
+        verticalNumber.isPinNumber = true;
         component.texts.append(verticalNumber);
 
         AltiumSchSymbolGeometryNormalizer::normalize(component);
 
-        QCOMPARE(component.texts.at(0).locationX, component.pins.at(0).locationX);
+        QCOMPARE(component.texts.at(0).locationX, component.pins.at(0).locationX + 350000 + 200000);
         QCOMPARE(component.texts.at(0).locationY, component.pins.at(0).locationY);
         QCOMPARE(component.texts.at(1).locationX, component.pins.at(1).locationX);
-        QCOMPARE(component.texts.at(1).locationY, component.pins.at(1).locationY);
+        QCOMPARE(component.texts.at(1).locationY, component.pins.at(1).locationY + 350000 + 200000);
     }
 
     /**
@@ -1969,7 +2035,7 @@ private slots:
         QVERIFY(schData.contains("LibReference=C2040"));
         QVERIFY(schData.contains("RECORD=14"));
         QVERIFY(!schData.contains("|IndexInSheet=0|"));
-        QVERIFY(schData.contains("OWNERPARTDISPLAYMODE=1"));
+        QVERIFY(!schData.contains("OWNERPARTDISPLAYMODE="));
         QVERIFY(schData.contains("LineStyleExt=1"));
         QVERIFY(schData.contains("RECORD=10"));
         QVERIFY(schData.contains("CornerXRadius=1"));
@@ -4208,7 +4274,7 @@ private slots:
         const QByteArray partParameterRecord =
             symbolData.mid(partParameterRecordOffset, nextParameterRecordOffset - partParameterRecordOffset);
         QVERIFY(partParameterRecord.contains("OWNERPARTID=2"));
-        QVERIFY(partParameterRecord.contains("OWNERPARTDISPLAYMODE=1"));
+        QVERIFY(!partParameterRecord.contains("OWNERPARTDISPLAYMODE="));
 
         // multipartReader：测试使用的元器件标识或名称。
         AltiumSchLibReader multipartReader;
@@ -4228,12 +4294,12 @@ private slots:
         bool sawPartPin = false;
         for (const auto& record : multipartRecords) {
             if (record.recordType == 2) {
-                QCOMPARE(record.ownerPartDisplayMode, 1);
+                QCOMPARE(record.ownerPartDisplayMode, 0);
                 sawCommonPin |= record.ownerPartId == -1;
                 sawPartPin |= record.ownerPartId == 1 || record.ownerPartId == 2;
             } else if (record.hasParameters && (record.recordType == 14 || record.recordType == 4) &&
                        record.ownerPartId == -1) {
-                QCOMPARE(record.ownerPartDisplayMode, 1);
+                QCOMPARE(record.ownerPartDisplayMode, -1);
                 sawCommonRectangle |= record.recordType == 14;
                 sawCommonText |= record.recordType == 4;
             }
@@ -5341,7 +5407,7 @@ private slots:
         QVERIFY(!data.contains("IndexInSheet=0"));
         QVERIFY(data.contains("RECORD=14"));
         QVERIFY(data.contains("IndexInSheet=1"));
-        QVERIFY(data.contains("OWNERPARTDISPLAYMODE=1"));
+        QVERIFY(!data.contains("OWNERPARTDISPLAYMODE="));
         QVERIFY(data.contains("OWNERPARTID=1"));
         QVERIFY(data.contains("RECORD=41"));
         QVERIFY(data.contains("IndexInSheet=2"));
@@ -5407,12 +5473,12 @@ private slots:
                 continue;
             if (record.recordType == 14) {
                 QCOMPARE(record.ownerPartId, 1);
-                QCOMPARE(record.ownerPartDisplayMode, 1);
+                QCOMPARE(record.ownerPartDisplayMode, -1);
                 foundGraphic = true;
             } else if (record.recordType == 41 &&
                        record.parameters.value(QStringLiteral("NAME")) == QStringLiteral("Custom")) {
                 QCOMPARE(record.ownerPartId, 1);
-                QCOMPARE(record.ownerPartDisplayMode, 1);
+                QCOMPARE(record.ownerPartDisplayMode, -1);
                 foundParameter = true;
             } else if (record.recordType == 41 &&
                        record.parameters.value(QStringLiteral("NAME")) == QStringLiteral("Common")) {
@@ -5430,6 +5496,86 @@ private slots:
         QVERIFY(foundParameter);
         QVERIFY(foundCommonParameter);
         QVERIFY(foundPartSpecificParameter);
+    }
+
+    /**
+     * @brief 验证 C477928 类单显示模式符号使用 Altium 默认显示模式。
+     * @details 使用从 C477928 导出结果提取的九引脚和矩形轮廓结构，避免测试访问网络。
+     */
+    void issue227SingleDisplayModeUsesDefault() {
+        // tempDir：测试输出所在的临时目录。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        // component：C477928 类单部件符号模型。
+        AltiumSchComponent component;
+        component.name = QStringLiteral("LM5164DDAR");
+        component.designatorPrefix = QStringLiteral("U");
+        // pinNames：用于覆盖 C477928 结构的九个引脚名称。
+        const QStringList pinNames = {QStringLiteral("GND"),
+                                      QStringLiteral("VIN"),
+                                      QStringLiteral("EN/UVLO"),
+                                      QStringLiteral("RON"),
+                                      QStringLiteral("FB"),
+                                      QStringLiteral("PGOOD"),
+                                      QStringLiteral("BST"),
+                                      QStringLiteral("SW"),
+                                      QStringLiteral("EP")};
+        for (int index = 0; index < pinNames.size(); ++index) {  // index：当前引脚在结构样本中的序号。
+            // pin：当前符号引脚模型。
+            AltiumSchPin pin;
+            pin.name = pinNames.at(index);
+            pin.designator = QString::number(index + 1);
+            pin.ownerPartId = 1;
+            pin.locationX = -450000 + index * 100000;
+            pin.locationY = 290000;
+            pin.length = 100000;
+            component.pins.append(pin);
+        }
+        // outline：表示器件主体的矩形轮廓。
+        AltiumSchRectangle outline;
+        outline.locationX = -450000;
+        outline.locationY = 400000;
+        outline.cornerX = 450000;
+        outline.cornerY = -200000;
+        outline.ownerPartId = 1;
+        component.rectangles.append(outline);
+
+        // outputPath：测试生成的 SchLib 文件路径。
+        const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("C477928.SchLib"));
+        // writer：负责生成 SchLib 的写入器。
+        AltiumSchLibWriter writer;
+        QVERIFY(writer.write({component}, outputPath, QStringLiteral("C477928")));
+
+        // data：生成的符号数据流。
+        QByteArray data;
+        QVERIFY(readCfbStream(outputPath, QStringLiteral("LM5164DDAR/Data"), data));
+        QVERIFY(data.contains("DisplayModeCount=1"));
+        QVERIFY(!data.contains("OWNERPARTDISPLAYMODE="));
+
+        // reader：负责验证生成文件的记录级结构。
+        AltiumSchLibReader reader;
+        QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
+        // records：读取到的 SchLib 记录集合。
+        QVector<AltiumSchLibReader::Record> records;
+        QVERIFY2(reader.readComponentRecords(QStringLiteral("LM5164DDAR"), &records), qPrintable(reader.errorString()));
+        // pinCount：读取到的引脚记录数量。
+        int pinCount = 0;
+        // foundOutline：是否读取到主体矩形记录。
+        bool foundOutline = false;
+        for (const AltiumSchLibReader::Record& record : records) {  // record：当前读取到的 SchLib 记录。
+            if (record.recordType == 2) {
+                QCOMPARE(record.ownerPartId, 1);
+                QCOMPARE(record.ownerPartDisplayMode, 0);
+                ++pinCount;
+            } else if (record.recordType == 14) {
+                QCOMPARE(record.ownerPartId, 1);
+                QCOMPARE(record.ownerPartDisplayMode, -1);
+                foundOutline = true;
+            }
+        }
+        QCOMPARE(pinCount, pinNames.size());
+        QVERIFY(foundOutline);
     }
 
     /**
