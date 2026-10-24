@@ -864,6 +864,95 @@ private slots:
     }
 
     /**
+     * @brief 验证多部件符号按部件独立计算主体、引脚和字段布局。
+     * @details 一个部件的主体宽度、引脚间距和字段位置不得推动另一个部件，公共部件仍保持独立归属。
+     */
+    void multipartGeometryUsesIndependentPartBounds() {
+        // component：包含两个几何尺寸不同部件的测试符号。
+        AltiumSchComponent component;
+        component.partCount = 2;
+
+        // firstBody：第一个部件的窄主体。
+        AltiumSchRectangle firstBody;
+        firstBody.locationX = -1000000;
+        firstBody.locationY = -1000000;
+        firstBody.cornerX = 1000000;
+        firstBody.cornerY = 1000000;
+        firstBody.ownerPartId = 1;
+        component.rectangles.append(firstBody);
+
+        // secondBody：第二个部件的宽主体，故意使用不同的源位置。
+        AltiumSchRectangle secondBody;
+        secondBody.locationX = -5000000;
+        secondBody.locationY = 2000000;
+        secondBody.cornerX = 5000000;
+        secondBody.cornerY = 4000000;
+        secondBody.ownerPartId = 2;
+        component.rectangles.append(secondBody);
+
+        // firstPin：第一个部件的右侧引脚。
+        AltiumSchPin firstPin;
+        firstPin.ownerPartId = 1;
+        firstPin.locationX = 3000000;
+        firstPin.locationY = 0;
+        firstPin.length = 500000;
+        firstPin.orientation = AltiumModels::PinOrientation::Right;
+        component.pins.append(firstPin);
+
+        // secondPin：第二个部件的右侧引脚。
+        AltiumSchPin secondPin = firstPin;
+        secondPin.ownerPartId = 2;
+        secondPin.locationY = 3000000;
+        component.pins.append(secondPin);
+
+        // firstLabel：第一个部件的引脚名称。
+        AltiumSchText firstLabel;
+        firstLabel.text = QStringLiteral("P1");
+        firstLabel.isPinLabel = true;
+        firstLabel.sourcePinIndex = 0;
+        firstLabel.ownerPartId = 1;
+        component.texts.append(firstLabel);
+
+        // secondLabel：第二个部件的引脚名称。
+        AltiumSchText secondLabel = firstLabel;
+        secondLabel.text = QStringLiteral("P2");
+        secondLabel.sourcePinIndex = 1;
+        secondLabel.ownerPartId = 2;
+        component.texts.append(secondLabel);
+
+        // firstField：第一个部件的可见参数字段。
+        AltiumSchParameter firstField;
+        firstField.name = QStringLiteral("Comment");
+        firstField.value = QStringLiteral("PART1");
+        firstField.ownerPartId = 1;
+        firstField.isHidden = false;
+        component.parameters.append(firstField);
+
+        // secondField：第二个部件的可见参数字段。
+        AltiumSchParameter secondField = firstField;
+        secondField.value = QStringLiteral("PART2");
+        secondField.ownerPartId = 2;
+        component.parameters.append(secondField);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // normalizedFirstBody：归一化后的第一个部件主体。
+        const AltiumSchRectangle& normalizedFirstBody = component.rectangles.at(0);
+        // normalizedSecondBody：归一化后的第二个部件主体。
+        const AltiumSchRectangle& normalizedSecondBody = component.rectangles.at(1);
+        QCOMPARE(qAbs(normalizedFirstBody.cornerX - normalizedFirstBody.locationX), 2000000);
+        QCOMPARE(qAbs(normalizedSecondBody.cornerX - normalizedSecondBody.locationX), 10000000);
+        QCOMPARE(component.pins.at(0).locationX, qMax(normalizedFirstBody.locationX, normalizedFirstBody.cornerX));
+        QCOMPARE(component.pins.at(1).locationX, qMax(normalizedSecondBody.locationX, normalizedSecondBody.cornerX));
+        QCOMPARE(component.texts.at(0).locationY, component.pins.at(0).locationY);
+        QCOMPARE(component.texts.at(1).locationY, component.pins.at(1).locationY);
+        QVERIFY(component.parameters.at(0).locationY <
+                qMin(normalizedFirstBody.locationY, normalizedFirstBody.cornerY));
+        QVERIFY(component.parameters.at(1).locationY <
+                qMin(normalizedSecondBody.locationY, normalizedSecondBody.cornerY));
+    }
+
+    /**
      * @brief 验证包含迷你流和常规流的 CFB 文件可被正确解析
      * @details 写入多种大小的流，验证红黑树平衡性，以及嵌套存储路径的读取
      */
