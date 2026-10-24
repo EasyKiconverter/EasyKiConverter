@@ -953,6 +953,93 @@ private slots:
     }
 
     /**
+     * @brief 验证高引脚数多部件符号不会跨部件混合引脚布局。
+     * @details 使用接近 C114407 的 134/131 引脚规模，检查引脚数量、归属、编号、方向和主体连接边界均保持独立。
+     */
+    void highPinCountMultipartGeometryKeepsPartOwnership() {
+        // component：包含两个高引脚数部件的合成测试符号。
+        AltiumSchComponent component;
+        component.partCount = 2;
+
+        // firstBody：第一个部件的主体边界。
+        AltiumSchRectangle firstBody;
+        firstBody.locationX = -5000000;
+        firstBody.locationY = -70000000;
+        firstBody.cornerX = 5000000;
+        firstBody.cornerY = 70000000;
+        firstBody.ownerPartId = 1;
+        component.rectangles.append(firstBody);
+
+        // secondBody：第二个部件的主体边界，使用不同宽度和垂直位置。
+        AltiumSchRectangle secondBody;
+        secondBody.locationX = -8000000;
+        secondBody.locationY = 300000000;
+        secondBody.cornerX = 8000000;
+        secondBody.cornerY = 440000000;
+        secondBody.ownerPartId = 2;
+        component.rectangles.append(secondBody);
+
+        // firstPartPinCount：第一个部件的高引脚数规模。
+        constexpr int firstPartPinCount = 134;
+        // secondPartPinCount：第二个部件的高引脚数规模。
+        constexpr int secondPartPinCount = 131;
+        // firstPartPinIndex：第一个部件的引脚循环索引。
+        for (int firstPartPinIndex = 0; firstPartPinIndex < firstPartPinCount; ++firstPartPinIndex) {
+            // firstPartPin：当前第一个部件的右侧引脚。
+            AltiumSchPin firstPartPin;
+            firstPartPin.name = QStringLiteral("A%1").arg(firstPartPinIndex);
+            firstPartPin.designator = QString::number(firstPartPinIndex + 1);
+            firstPartPin.locationX = 15000000;
+            firstPartPin.locationY = -66000000 + firstPartPinIndex * 1000000;
+            firstPartPin.length = 500000;
+            firstPartPin.orientation = AltiumModels::PinOrientation::Right;
+            firstPartPin.ownerPartId = 1;
+            component.pins.append(firstPartPin);
+        }
+
+        // secondPartPinIndex：第二个部件的引脚循环索引。
+        for (int secondPartPinIndex = 0; secondPartPinIndex < secondPartPinCount; ++secondPartPinIndex) {
+            // secondPartPin：当前第二个部件的右侧引脚。
+            AltiumSchPin secondPartPin;
+            secondPartPin.name = QStringLiteral("B%1").arg(secondPartPinIndex);
+            secondPartPin.designator = QString::number(200 + secondPartPinIndex);
+            secondPartPin.locationX = 17900000;
+            secondPartPin.locationY = 304000000 + secondPartPinIndex * 1000000;
+            secondPartPin.length = 500000;
+            secondPartPin.orientation = AltiumModels::PinOrientation::Right;
+            secondPartPin.ownerPartId = 2;
+            component.pins.append(secondPartPin);
+        }
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // firstPartDesignators：收集第一个部件的编号，检查导出过程中没有丢失或重复。
+        QSet<QString> firstPartDesignators;
+        // secondPartDesignators：收集第二个部件的编号，检查导出过程中没有丢失或重复。
+        QSet<QString> secondPartDesignators;
+        // normalizedFirstBody：归一化后的第一个部件主体。
+        const AltiumSchRectangle& normalizedFirstBody = component.rectangles.at(0);
+        // normalizedSecondBody：归一化后的第二个部件主体。
+        const AltiumSchRectangle& normalizedSecondBody = component.rectangles.at(1);
+        for (const AltiumSchPin& pin : component.pins) {
+            if (pin.ownerPartId == 1) {
+                firstPartDesignators.insert(pin.designator);
+                QCOMPARE(pin.orientation, AltiumModels::PinOrientation::Right);
+                QCOMPARE(pin.locationX, qMax(normalizedFirstBody.locationX, normalizedFirstBody.cornerX));
+            } else if (pin.ownerPartId == 2) {
+                secondPartDesignators.insert(pin.designator);
+                QCOMPARE(pin.orientation, AltiumModels::PinOrientation::Right);
+                QCOMPARE(pin.locationX, qMax(normalizedSecondBody.locationX, normalizedSecondBody.cornerX));
+            } else {
+                QFAIL("高引脚数测试发现未知部件归属");
+            }
+        }
+        QCOMPARE(firstPartDesignators.size(), firstPartPinCount);
+        QCOMPARE(secondPartDesignators.size(), secondPartPinCount);
+        QCOMPARE(firstPartDesignators.size() + secondPartDesignators.size(), component.pins.size());
+    }
+
+    /**
      * @brief 验证包含迷你流和常规流的 CFB 文件可被正确解析
      * @details 写入多种大小的流，验证红黑树平衡性，以及嵌套存储路径的读取
      */
