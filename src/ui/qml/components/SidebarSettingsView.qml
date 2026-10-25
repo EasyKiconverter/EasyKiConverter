@@ -323,6 +323,8 @@ Item {
                                 Layout.leftMargin: AppStyle.spacing.sm
                                 Layout.rightMargin: AppStyle.spacing.sm
                                 spacing: 2
+                                // 3D 模型路径模式只对 KiCad 的外部模型引用有效，其他格式不得显示该选项。
+                                visible: model3dToggle.checked && (!root.exportTargetModel || root.exportTargetModel.currentTargetId === "kicad")
                                 opacity: model3dToggle.checked ? 1 : 0
                                 x: model3dToggle.checked ? 0 : 12
                                 Behavior on opacity {

@@ -36,7 +36,7 @@ private slots:
     void testNormalizePathMode();
     void testConfigServiceModel3DPathMode();
     void testFullReplacementTargetDisablesAppendMode();
-    void testHorizonAllowsAppendAndUpdateModes();
+    void testHorizonDisablesAppendAndUpdateModes();
 
 private:
     // m_tempDir：测试使用的文件系统路径。
@@ -326,22 +326,28 @@ void TestExportSettingsViewModel::testFullReplacementTargetDisablesAppendMode() 
     const QString pluginConfigPath = m_tempDir.filePath(QStringLiteral("export_plugins.json"));
     QFile pluginConfig(pluginConfigPath);
     QVERIFY(pluginConfig.open(QIODevice::WriteOnly | QIODevice::Text));
-    QVERIFY(pluginConfig.write(QByteArrayLiteral(
-                R"({"plugins":[{"id":"kicad","displayName":"KiCad"},{"id":"librepcb","displayName":"LibrePCB"}]})")) >
-            0);
+    QVERIFY(
+        pluginConfig.write(QByteArrayLiteral(
+            R"({"plugins":[{"id":"kicad","displayName":"KiCad"},{"id":"altium","displayName":"Altium Designer"},{"id":"librepcb","displayName":"LibrePCB"}]})")) >
+        0);
     pluginConfig.close();
     targetModel.loadPlugins(pluginConfigPath);
     // targets：测试目标格式集合。
     const QVariantList targets = targetModel.availableTargets();
-    // librePcbIndex：测试使用的数量或索引值。
+    // librePcbIndex：LibrePCB 目标格式在测试目标列表中的索引。
     int librePcbIndex = -1;
+    // altiumIndex：Altium 目标格式在测试目标列表中的索引。
+    int altiumIndex = -1;
     for (int i = 0; i < targets.size(); ++i) {
-        if (targets.at(i).toMap().value(QStringLiteral("id")).toString() == QStringLiteral("librepcb")) {
+        const QString targetId = targets.at(i).toMap().value(QStringLiteral("id")).toString();  // 当前目标格式 ID。
+        if (targetId == QStringLiteral("librepcb")) {
             librePcbIndex = i;
-            break;
+        } else if (targetId == QStringLiteral("altium")) {
+            altiumIndex = i;
         }
     }
     QVERIFY(librePcbIndex >= 0);
+    QVERIFY(altiumIndex >= 0);
 
     ExportSettingsViewModel viewModel(nullptr);
     viewModel.setTargetModel(&targetModel);
@@ -353,13 +359,21 @@ void TestExportSettingsViewModel::testFullReplacementTargetDisablesAppendMode() 
     QCOMPARE(viewModel.exportMode(), 2);
     viewModel.setExportMode(1);
     QCOMPARE(viewModel.exportMode(), 2);
+
+    targetModel.setCurrentIndex(altiumIndex);
+    QVERIFY(viewModel.requiresFullReplacement());
+    QCOMPARE(viewModel.exportMode(), 2);
+    viewModel.setExportMode(0);
+    QCOMPARE(viewModel.exportMode(), 2);
+    viewModel.setExportMode(1);
+    QCOMPARE(viewModel.exportMode(), 2);
 }
 
-// 验证 Horizon Pool 的临时重建策略允许追加和更新模式。
+// 验证 Horizon Pool 当前只允许完整覆盖模式。
 /**
- * @brief 验证 testHorizonAllowsAppendAndUpdateModes 测试场景。
+ * @brief 验证 testHorizonDisablesAppendAndUpdateModes 测试场景。
  */
-void TestExportSettingsViewModel::testHorizonAllowsAppendAndUpdateModes() {
+void TestExportSettingsViewModel::testHorizonDisablesAppendAndUpdateModes() {
     // targetModel：测试使用的配置值或状态。
     ExportTargetModel targetModel;
     // pluginConfigPath：测试使用的文件系统路径。
@@ -387,11 +401,11 @@ void TestExportSettingsViewModel::testHorizonAllowsAppendAndUpdateModes() {
     viewModel.setTargetModel(&targetModel);
     targetModel.setCurrentIndex(horizonIndex);
 
-    QVERIFY(!viewModel.requiresFullReplacement());
+    QVERIFY(viewModel.requiresFullReplacement());
     viewModel.setExportMode(0);
-    QCOMPARE(viewModel.exportMode(), 0);
+    QCOMPARE(viewModel.exportMode(), 2);
     viewModel.setExportMode(1);
-    QCOMPARE(viewModel.exportMode(), 1);
+    QCOMPARE(viewModel.exportMode(), 2);
 }
 
 QTEST_GUILESS_MAIN(TestExportSettingsViewModel)

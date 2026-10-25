@@ -11,6 +11,8 @@ ColumnLayout {
     id: kiCadCard
     /** @brief 导出设置控制器 */
     property var exportSettingsController
+    /** @brief 当前导出目标模型，用于隐藏不适用的外部模型路径设置 */
+    property var exportTargetModel
     spacing: AppStyle.spacing.md
     Flow {
         Layout.fillWidth: true
@@ -120,7 +122,7 @@ ColumnLayout {
 
             // 3D模型路径模式
             RowLayout {
-                visible: model3dCheckbox.checked
+                visible: model3dCheckbox.checked && (!kiCadCard.exportTargetModel || (kiCadCard.exportTargetModel.currentTargetId !== "altium" && kiCadCard.exportTargetModel.currentTargetId !== "allegro" && kiCadCard.exportTargetModel.currentTargetId !== "librepcb" && kiCadCard.exportTargetModel.currentTargetId !== "horizon"))
                 spacing: AppStyle.spacing.xs
                 Rectangle {
                     width: 56

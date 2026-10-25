@@ -55,6 +55,17 @@ QList<ParameterField> componentParameterFields(const AltiumSchComponent& compone
 
     QList<ParameterField> fields;  // 按输出顺序收集的参数字段。
     QSet<QString> names;  // 已写入参数的去重键集合。
+    const auto comparableCommentValue = [](const QString& rawValue) {
+        QString normalizedValue = rawValue.trimmed();  // 去除空白后的待比较器件值。
+        const int suffixStart = normalizedValue.lastIndexOf(QChar('('));  // 末尾部件后缀的起始位置。
+        const int suffixLength = normalizedValue.size() - suffixStart - 2;  // 括号内后缀字符数量。
+        if (suffixStart > 0 && normalizedValue.endsWith(QChar(')')) && suffixLength == 1 &&
+            normalizedValue.at(suffixStart + 1).isLetter()) {
+            normalizedValue =
+                normalizedValue.left(suffixStart).trimmed();  // 忽略末尾的部件后缀，例如 "(A)" 或 " (A)"。
+        }
+        return normalizedValue;
+    };
     const auto appendField = [&](const QString& name,
                                  const QString& value,
                                  bool hasLocation = false,
@@ -93,13 +104,16 @@ QList<ParameterField> componentParameterFields(const AltiumSchComponent& compone
     QString value = component.sourceMetadata.value(QStringLiteral("value")).trimmed();  // 来源元数据中的器件值。
     if (value.isEmpty())
         value = component.name.trimmed();
-    if (!value.isEmpty())
+    if (!value.isEmpty() && component.partCount <= 1) {
         appendField(QStringLiteral("Comment"), value, false, 0, 0, true, false);
+    }
 
     QString description = component.sourceMetadata.value(QStringLiteral("description")).trimmed();  // 元件描述。
     if (description.isEmpty())
         description = component.description.trimmed();
-    if (!description.isEmpty())
+    const bool duplicatesGeneratedDescription =
+        component.partCount > 1 && comparableCommentValue(description) == comparableCommentValue(value);
+    if (!description.isEmpty() && !duplicatesGeneratedDescription)
         appendField(QStringLiteral("Description"), description, false, 0, 0, true, true);
 
     for (auto it = component.sourceMetadata.constBegin(); it != component.sourceMetadata.constEnd(); ++it) {
@@ -116,6 +130,11 @@ QList<ParameterField> componentParameterFields(const AltiumSchComponent& compone
         QString name = parameter.name.trimmed();  // 当前参数名称。
         if (name.compare(QStringLiteral("Value"), Qt::CaseInsensitive) == 0)
             name = QStringLiteral("Comment");
+        // 多部件符号中，跳过所有与器件值相同的参数，避免 Altium 将隐藏字段再次投影到各部件。
+        const bool duplicatesGeneratedValue =
+            component.partCount > 1 && comparableCommentValue(parameter.value) == comparableCommentValue(value);
+        if (duplicatesGeneratedValue)
+            continue;
         appendField(name,
                     parameter.value,
                     parameter.locationX != 0 || parameter.locationY != 0,
@@ -195,9 +214,14 @@ void AltiumSchComponentRecordWriter::writeParameters(AltiumBinaryWriter& writer,
 
     QMap<QString, QString> designatorParams;  // Designator RECORD=34 字段。
     designatorParams["RECORD"] = "34";
-    designatorParams["OWNERPARTID"] = "-1";
-    designatorParams["LOCATION.X_FRAC"] = "-5";
-    designatorParams["LOCATION.Y_FRAC"] = "5";
+    designatorParams["OWNERPARTID"] = component.partCount > 1 ? "1" : "-1";  // 多部件位号只属于第一个部件。
+    if (component.hasDesignatorLocation) {
+        m_owner.addCoordParam(designatorParams, "LOCATION.X", component.designatorLocationX);
+        m_owner.addCoordParam(designatorParams, "LOCATION.Y", component.designatorLocationY);
+    } else {
+        designatorParams["LOCATION.X_FRAC"] = "-5";
+        designatorParams["LOCATION.Y_FRAC"] = "5";
+    }
     designatorParams["COLOR"] = "8388608";
     designatorParams["FONTID"] = "1";
     designatorParams["TEXT"] = designator;

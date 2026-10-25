@@ -295,6 +295,13 @@ Card {
                     value: baseCard.exportSettingsController
                     when: targetOptionsLoader.status === Loader.Ready
                 }
+
+                Binding {
+                    target: targetOptionsLoader.item
+                    property: "exportTargetModel"
+                    value: baseCard.exportTargetModel
+                    when: targetOptionsLoader.status === Loader.Ready && baseCard.exportTargetModel && baseCard.exportTargetModel.currentOptionsComponent === "KiCadSettingsCard.qml"
+                }
             }
 
             // 入场动画：淡入 + 上滑 + 缩放恢复

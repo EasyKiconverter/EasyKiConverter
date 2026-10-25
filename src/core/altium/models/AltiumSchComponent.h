@@ -335,6 +335,9 @@ struct AltiumSchComponent {
     QString description;  ///< 元件描述
     QString designatorPrefix = "?";  ///< 位号前缀（如 "R", "C", "U"）
     int partCount = 1;  ///< 部件数量
+    int designatorLocationX = 0;  ///< 规范化后位号的 X 坐标（原始单位）。
+    int designatorLocationY = 0;  ///< 规范化后位号的 Y 坐标（原始单位）。
+    bool hasDesignatorLocation = false;  ///< 是否已经计算出规范化后的位号位置。
 
     /**
      * @brief 符号参数（如制造商、料号、Datasheet 和来源元数据）

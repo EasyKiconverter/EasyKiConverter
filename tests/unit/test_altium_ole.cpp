@@ -693,6 +693,173 @@ private slots:
     }
 
     /**
+     * @brief 验证多部件符号的位号位于第一个部件主体的左上方。
+     * @details 位号由 SchLib 写入器独立生成，因此必须由几何归一化器显式提供位置，不能落到第二个部件或主体下方。
+     */
+    void multipartDesignatorIsPlacedAboveFirstPart() {
+        // component：测试使用的多部件符号。
+        AltiumSchComponent component;
+        component.name = QStringLiteral("MULTIPART_DESIGNATOR");
+        component.partCount = 2;
+        component.designatorPrefix = QStringLiteral("U");
+        // duplicateValueParameter：模拟来源数据重复提供的 Value 参数。
+        AltiumSchParameter duplicateValueParameter;
+        duplicateValueParameter.name = QStringLiteral("Value");
+        duplicateValueParameter.value = component.name + QStringLiteral(" (A)");
+        component.parameters.append(duplicateValueParameter);
+        // duplicateSecondPartValue：模拟第二部件带有后缀的重复 Value 参数。
+        AltiumSchParameter duplicateSecondPartValue;
+        duplicateSecondPartValue.name = QStringLiteral("Value");
+        duplicateSecondPartValue.value = component.name + QStringLiteral("(B)");
+        duplicateSecondPartValue.ownerPartId = 2;
+        component.parameters.append(duplicateSecondPartValue);
+        // firstPartBody：第一个部件的主体矩形。
+        AltiumSchRectangle firstPartBody;
+        firstPartBody.ownerPartId = 1;
+        firstPartBody.locationX = -2000000;
+        firstPartBody.locationY = -1000000;
+        firstPartBody.cornerX = 2000000;
+        firstPartBody.cornerY = 1000000;
+        component.rectangles.append(firstPartBody);
+        // secondPartBody：第二个部件的主体矩形。
+        AltiumSchRectangle secondPartBody = firstPartBody;
+        secondPartBody.ownerPartId = 2;
+        secondPartBody.locationX = 5000000;
+        secondPartBody.cornerX = 9000000;
+        component.rectangles.append(secondPartBody);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // normalizedFirstPartBody：归一化后的第一个部件主体。
+        const AltiumSchRectangle& normalizedFirstPartBody = component.rectangles.first();
+        const int firstPartMinX =
+            qMin(normalizedFirstPartBody.locationX, normalizedFirstPartBody.cornerX);  // 第一个部件主体的左边界。
+        const int firstPartMaxY =
+            qMax(normalizedFirstPartBody.locationY, normalizedFirstPartBody.cornerY);  // 第一个部件主体的上边界。
+        QVERIFY(component.hasDesignatorLocation);
+        QCOMPARE(component.designatorLocationX, firstPartMinX + 500000);
+        QCOMPARE(component.designatorLocationY, firstPartMaxY + 300000);
+
+        // tempDir：测试生成的 SchLib 临时目录。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        // outputPath：测试生成的多部件 SchLib 路径。
+        const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("multipart-designator.SchLib"));
+        // writer：负责验证参数字段归属的 SchLib 写入器。
+        AltiumSchLibWriter writer;
+        QVERIFY(writer.write({component}, outputPath, QStringLiteral("multipart-designator")));
+        // reader：负责读取生成的 SchLib 记录。
+        AltiumSchLibReader reader;
+        QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
+        // records：读取到的多部件记录。
+        QVector<AltiumSchLibReader::Record> records;
+        QVERIFY(reader.readComponentRecords(component.name, &records));
+        // designatorCount：读取到的位号记录数量。
+        int designatorCount = 0;
+        for (const AltiumSchLibReader::Record& record : records) {
+            if (record.recordType == 34) {
+                ++designatorCount;
+                QCOMPARE(record.ownerPartId, 1);
+            }
+        }
+        QCOMPARE(designatorCount, 1);
+    }
+
+    /**
+     * @brief 验证多部件符号不写入额外的器件值几何文本。
+     * @details Altium 编辑器会自动显示各部件标题，库文件不再追加同值文本造成重复显示。
+     */
+    void multipartValueIsDisplayedOnlyOnFirstPart() {
+        // component：包含两个主体部件的测试符号。
+        AltiumSchComponent component;
+        component.name = QStringLiteral("MULTIPART_VALUE");
+        component.description = QStringLiteral("MULTIPART_VALUE");
+        component.sourceMetadata.insert(QStringLiteral("value"), QStringLiteral("MULTIPART_VALUE (A)"));
+        component.sourceMetadata.insert(QStringLiteral("description"), QStringLiteral("MULTIPART_VALUE"));
+        component.partCount = 2;
+        // firstBody：第一个部件的主体。
+        AltiumSchRectangle firstBody;
+        firstBody.locationX = -2000000;
+        firstBody.locationY = -2000000;
+        firstBody.cornerX = 2000000;
+        firstBody.cornerY = 2000000;
+        firstBody.ownerPartId = 1;
+        component.rectangles.append(firstBody);
+        // secondBody：第二个部件的主体。
+        AltiumSchRectangle secondBody = firstBody;
+        secondBody.ownerPartId = 2;
+        component.rectangles.append(secondBody);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // visibleValueTexts：归一化后可见的器件值普通文本。
+        int visibleValueTexts = 0;
+        for (const AltiumSchText& text : component.texts) {
+            if (text.isDisplayed && !text.isHidden && text.text == QStringLiteral("MULTIPART_VALUE")) {
+                ++visibleValueTexts;
+                QCOMPARE(text.ownerPartId, 1);
+            }
+        }
+        QCOMPARE(visibleValueTexts, 0);
+
+        // tempDir：测试生成的 SchLib 临时目录。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+        // outputPath：测试生成的 SchLib 文件路径。
+        const QString outputPath = QDir(tempDir.path()).filePath(QStringLiteral("multipart-value.SchLib"));
+        // writer：负责写入测试 SchLib 的写入器。
+        AltiumSchLibWriter writer;
+        QVERIFY(writer.write({component}, outputPath, QStringLiteral("multipart-value")));
+        // reader：负责读取生成 SchLib 记录的读取器。
+        AltiumSchLibReader reader;
+        QVERIFY2(reader.open(outputPath), qPrintable(reader.errorString()));
+        // records：读取到的多部件记录。
+        QVector<AltiumSchLibReader::Record> records;
+        QVERIFY(reader.readComponentRecords(component.name, &records));
+        // visibleRecordCount：SchLib 中器件值普通文本记录数量。
+        int visibleRecordCount = 0;
+        for (const auto& record : records) {
+            if (record.recordType == 4 &&
+                record.parameters.value(QStringLiteral("Text")) == QStringLiteral("MULTIPART_VALUE")) {
+                ++visibleRecordCount;
+            }
+            if (record.recordType == 41 &&
+                record.parameters.value(QStringLiteral("TEXT")) == QStringLiteral("MULTIPART_VALUE"))
+                QFAIL("多部件符号不应写入与器件值相同的参数字段");
+        }
+        QCOMPARE(visibleRecordCount, 0);
+    }
+
+    /**
+     * @brief 验证源值文本与生成的 Comment 字段不会重复显示。
+     * @details 保留 SchLib 的语义化 Comment 字段，并隐藏内容完全相同的普通文本图元。
+     */
+    void duplicateCommentTextIsHidden() {
+        // component：包含重复值文本的测试符号。
+        AltiumSchComponent component;
+        component.name = QStringLiteral("STM32H743XI");
+        component.sourceMetadata.insert(QStringLiteral("value"), QStringLiteral("STM32H743XI (A)"));
+        // body：测试使用的主体矩形。
+        AltiumSchRectangle body;
+        body.locationX = -2000000;
+        body.locationY = -2000000;
+        body.cornerX = 2000000;
+        body.cornerY = 2000000;
+        component.rectangles.append(body);
+        // sourceValueText：来源符号中与 Comment 相同的普通文本。
+        AltiumSchText sourceValueText;
+        sourceValueText.text = QStringLiteral("STM32H743XI(A)");
+        sourceValueText.isDisplayed = true;
+        sourceValueText.ownerPartId = 1;
+        component.texts.append(sourceValueText);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        QVERIFY(component.texts.first().isHidden);
+        QVERIFY(!component.texts.first().isDisplayed);
+    }
+
+    /**
      * @brief 验证来源元数据默认隐藏，器件值位于符号主体下方。
      * @details 保留 Datasheet、供应商和料号字段供参数编辑器使用，但避免长 URL 和机器字段污染符号画面。
      */
@@ -812,6 +979,84 @@ private slots:
     }
 
     /**
+     * @brief 验证四个方向的引脚连接端均位于主体外侧。
+     * @details 异常长度会被提升到最小可走线长度，主体端和连接端仍保持明确的方向关系。
+     */
+    void pinsRemainRoutableOutsideBodyForAllOrientations() {
+        // component：包含四个方向引脚的测试符号。
+        AltiumSchComponent component;
+        // body：四方向引脚共用的主体矩形。
+        AltiumSchRectangle body;
+        body.locationX = -2000000;
+        body.locationY = -2000000;
+        body.cornerX = 2000000;
+        body.cornerY = 2000000;
+        component.rectangles.append(body);
+
+        // rightPin：长度为零的右侧引脚，验证会被修正为最小长度。
+        AltiumSchPin rightPin;
+        rightPin.locationX = 3000000;
+        rightPin.locationY = 0;
+        rightPin.length = 0;
+        rightPin.orientation = AltiumModels::PinOrientation::Right;
+        component.pins.append(rightPin);
+        // leftPin：负长度的左侧引脚，验证不会反向侵入主体。
+        AltiumSchPin leftPin = rightPin;
+        leftPin.locationX = -3000000;
+        leftPin.locationY = 1000000;
+        leftPin.length = -100000;
+        leftPin.orientation = AltiumModels::PinOrientation::Left;
+        component.pins.append(leftPin);
+        // upPin：长度为零的上侧引脚。
+        AltiumSchPin upPin = rightPin;
+        upPin.locationX = 0;
+        upPin.locationY = 3000000;
+        upPin.orientation = AltiumModels::PinOrientation::Up;
+        component.pins.append(upPin);
+        // downPin：负长度的下侧引脚。
+        AltiumSchPin downPin = rightPin;
+        downPin.locationX = 1000000;
+        downPin.locationY = -3000000;
+        downPin.length = -100000;
+        downPin.orientation = AltiumModels::PinOrientation::Down;
+        component.pins.append(downPin);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // normalizedBody：归一化后的主体边界。
+        const AltiumSchRectangle& normalizedBody = component.rectangles.first();
+        // bodyMinX：主体左边界。
+        const int bodyMinX = qMin(normalizedBody.locationX, normalizedBody.cornerX);
+        // bodyMaxX：主体右边界。
+        const int bodyMaxX = qMax(normalizedBody.locationX, normalizedBody.cornerX);
+        // bodyMinY：主体下边界。
+        const int bodyMinY = qMin(normalizedBody.locationY, normalizedBody.cornerY);
+        // bodyMaxY：主体上边界。
+        const int bodyMaxY = qMax(normalizedBody.locationY, normalizedBody.cornerY);
+        // minimumLength：归一化器保证的最小引脚长度。
+        constexpr int minimumLength = 100000;
+        for (const AltiumSchPin& pin : component.pins)
+            QCOMPARE(pin.length, minimumLength);
+
+        // rightConnectionX：右侧引脚连接端 X 坐标。
+        const int rightConnectionX = component.pins.at(0).locationX + component.pins.at(0).length;
+        // leftConnectionX：左侧引脚连接端 X 坐标。
+        const int leftConnectionX = component.pins.at(1).locationX - component.pins.at(1).length;
+        // upConnectionY：上侧引脚连接端 Y 坐标。
+        const int upConnectionY = component.pins.at(2).locationY + component.pins.at(2).length;
+        // downConnectionY：下侧引脚连接端 Y 坐标。
+        const int downConnectionY = component.pins.at(3).locationY - component.pins.at(3).length;
+        QCOMPARE(component.pins.at(0).locationX, bodyMaxX);
+        QCOMPARE(component.pins.at(1).locationX, bodyMinX);
+        QCOMPARE(component.pins.at(2).locationY, bodyMaxY);
+        QCOMPARE(component.pins.at(3).locationY, bodyMinY);
+        QVERIFY(rightConnectionX > bodyMaxX);
+        QVERIFY(leftConnectionX < bodyMinX);
+        QVERIFY(upConnectionY > bodyMaxY);
+        QVERIFY(downConnectionY < bodyMinY);
+    }
+
+    /**
      * @brief 验证长引脚名称不会侵入符号主体中心。
      * @details 通过扩展主体宽度并限制引脚文本字号，覆盖 EN/UVLO、PGOOD 等常见长名称布局。
      */
@@ -861,6 +1106,349 @@ private slots:
         QCOMPARE(component.texts.at(1).fontSizeMm, 1.27);
         QVERIFY(component.texts.at(0).locationX > qMin(normalizedBody.locationX, normalizedBody.cornerX));
         QVERIFY(component.texts.at(1).locationX < qMax(normalizedBody.locationX, normalizedBody.cornerX));
+    }
+
+    /**
+     * @brief 验证多部件符号按部件独立计算主体、引脚和字段布局。
+     * @details 一个部件的主体宽度、引脚间距和字段位置不得推动另一个部件，公共部件仍保持独立归属。
+     */
+    void multipartGeometryUsesIndependentPartBounds() {
+        // component：包含两个几何尺寸不同部件的测试符号。
+        AltiumSchComponent component;
+        component.partCount = 2;
+
+        // firstBody：第一个部件的窄主体。
+        AltiumSchRectangle firstBody;
+        firstBody.locationX = -1000000;
+        firstBody.locationY = -1000000;
+        firstBody.cornerX = 1000000;
+        firstBody.cornerY = 1000000;
+        firstBody.ownerPartId = 1;
+        component.rectangles.append(firstBody);
+
+        // secondBody：第二个部件的宽主体，故意使用不同的源位置。
+        AltiumSchRectangle secondBody;
+        secondBody.locationX = -5000000;
+        secondBody.locationY = 2000000;
+        secondBody.cornerX = 5000000;
+        secondBody.cornerY = 4000000;
+        secondBody.ownerPartId = 2;
+        component.rectangles.append(secondBody);
+
+        // firstPin：第一个部件的右侧引脚。
+        AltiumSchPin firstPin;
+        firstPin.ownerPartId = 1;
+        firstPin.locationX = 3000000;
+        firstPin.locationY = 0;
+        firstPin.length = 500000;
+        firstPin.orientation = AltiumModels::PinOrientation::Right;
+        component.pins.append(firstPin);
+
+        // secondPin：第二个部件的右侧引脚。
+        AltiumSchPin secondPin = firstPin;
+        secondPin.ownerPartId = 2;
+        secondPin.locationY = 3000000;
+        component.pins.append(secondPin);
+
+        // firstLabel：第一个部件的引脚名称。
+        AltiumSchText firstLabel;
+        firstLabel.text = QStringLiteral("P1");
+        firstLabel.isPinLabel = true;
+        firstLabel.sourcePinIndex = 0;
+        firstLabel.ownerPartId = 1;
+        component.texts.append(firstLabel);
+
+        // secondLabel：第二个部件的引脚名称。
+        AltiumSchText secondLabel = firstLabel;
+        secondLabel.text = QStringLiteral("P2");
+        secondLabel.sourcePinIndex = 1;
+        secondLabel.ownerPartId = 2;
+        component.texts.append(secondLabel);
+
+        // firstField：第一个部件的可见参数字段。
+        AltiumSchParameter firstField;
+        firstField.name = QStringLiteral("Comment");
+        firstField.value = QStringLiteral("PART1");
+        firstField.ownerPartId = 1;
+        firstField.isHidden = false;
+        component.parameters.append(firstField);
+
+        // secondField：第二个部件的可见参数字段。
+        AltiumSchParameter secondField = firstField;
+        secondField.value = QStringLiteral("PART2");
+        secondField.ownerPartId = 2;
+        component.parameters.append(secondField);
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // normalizedFirstBody：归一化后的第一个部件主体。
+        const AltiumSchRectangle& normalizedFirstBody = component.rectangles.at(0);
+        // normalizedSecondBody：归一化后的第二个部件主体。
+        const AltiumSchRectangle& normalizedSecondBody = component.rectangles.at(1);
+        QCOMPARE(qAbs(normalizedFirstBody.cornerX - normalizedFirstBody.locationX), 2000000);
+        QCOMPARE(qAbs(normalizedSecondBody.cornerX - normalizedSecondBody.locationX), 10000000);
+        QCOMPARE(component.pins.at(0).locationX, qMax(normalizedFirstBody.locationX, normalizedFirstBody.cornerX));
+        QCOMPARE(component.pins.at(1).locationX, qMax(normalizedSecondBody.locationX, normalizedSecondBody.cornerX));
+        QCOMPARE(component.texts.at(0).locationY, component.pins.at(0).locationY);
+        QCOMPARE(component.texts.at(1).locationY, component.pins.at(1).locationY);
+        QVERIFY(component.parameters.at(0).locationY <
+                qMin(normalizedFirstBody.locationY, normalizedFirstBody.cornerY));
+        QVERIFY(component.parameters.at(1).locationY <
+                qMin(normalizedSecondBody.locationY, normalizedSecondBody.cornerY));
+    }
+
+    /**
+     * @brief 验证高引脚数多部件符号不会跨部件混合引脚布局。
+     * @details 使用接近 C114407 的 134/131 引脚规模，检查引脚数量、归属、编号、方向和主体连接边界均保持独立。
+     */
+    void highPinCountMultipartGeometryKeepsPartOwnership() {
+        // component：包含两个高引脚数部件的合成测试符号。
+        AltiumSchComponent component;
+        component.partCount = 2;
+
+        // firstBody：第一个部件的主体边界。
+        AltiumSchRectangle firstBody;
+        firstBody.locationX = -5000000;
+        firstBody.locationY = -70000000;
+        firstBody.cornerX = 5000000;
+        firstBody.cornerY = 70000000;
+        firstBody.ownerPartId = 1;
+        component.rectangles.append(firstBody);
+
+        // secondBody：第二个部件的主体边界，使用不同宽度和垂直位置。
+        AltiumSchRectangle secondBody;
+        secondBody.locationX = -8000000;
+        secondBody.locationY = 300000000;
+        secondBody.cornerX = 8000000;
+        secondBody.cornerY = 440000000;
+        secondBody.ownerPartId = 2;
+        component.rectangles.append(secondBody);
+
+        // firstPartPinCount：第一个部件的高引脚数规模。
+        constexpr int firstPartPinCount = 134;
+        // secondPartPinCount：第二个部件的高引脚数规模。
+        constexpr int secondPartPinCount = 131;
+        // firstPartPinIndex：第一个部件的引脚循环索引。
+        for (int firstPartPinIndex = 0; firstPartPinIndex < firstPartPinCount; ++firstPartPinIndex) {
+            // firstPartPin：当前第一个部件的右侧引脚。
+            AltiumSchPin firstPartPin;
+            firstPartPin.name = QStringLiteral("A%1").arg(firstPartPinIndex);
+            firstPartPin.designator = QString::number(firstPartPinIndex + 1);
+            firstPartPin.locationX = 15000000;
+            firstPartPin.locationY = -66000000 + firstPartPinIndex * 1000000;
+            firstPartPin.length = 500000;
+            firstPartPin.orientation = AltiumModels::PinOrientation::Right;
+            firstPartPin.ownerPartId = 1;
+            component.pins.append(firstPartPin);
+        }
+
+        // secondPartPinIndex：第二个部件的引脚循环索引。
+        for (int secondPartPinIndex = 0; secondPartPinIndex < secondPartPinCount; ++secondPartPinIndex) {
+            // secondPartPin：当前第二个部件的右侧引脚。
+            AltiumSchPin secondPartPin;
+            secondPartPin.name = QStringLiteral("B%1").arg(secondPartPinIndex);
+            secondPartPin.designator = QString::number(200 + secondPartPinIndex);
+            secondPartPin.locationX = 17900000;
+            secondPartPin.locationY = 304000000 + secondPartPinIndex * 1000000;
+            secondPartPin.length = 500000;
+            secondPartPin.orientation = AltiumModels::PinOrientation::Right;
+            secondPartPin.ownerPartId = 2;
+            component.pins.append(secondPartPin);
+        }
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // firstPartDesignators：收集第一个部件的编号，检查导出过程中没有丢失或重复。
+        QSet<QString> firstPartDesignators;
+        // secondPartDesignators：收集第二个部件的编号，检查导出过程中没有丢失或重复。
+        QSet<QString> secondPartDesignators;
+        // normalizedFirstBody：归一化后的第一个部件主体。
+        const AltiumSchRectangle& normalizedFirstBody = component.rectangles.at(0);
+        // normalizedSecondBody：归一化后的第二个部件主体。
+        const AltiumSchRectangle& normalizedSecondBody = component.rectangles.at(1);
+        // firstBodyMinY：第一个部件归一化主体的最小 Y 坐标。
+        const int firstBodyMinY = qMin(normalizedFirstBody.locationY, normalizedFirstBody.cornerY);
+        // firstBodyMaxY：第一个部件归一化主体的最大 Y 坐标。
+        const int firstBodyMaxY = qMax(normalizedFirstBody.locationY, normalizedFirstBody.cornerY);
+        // secondBodyMinY：第二个部件归一化主体的最小 Y 坐标。
+        const int secondBodyMinY = qMin(normalizedSecondBody.locationY, normalizedSecondBody.cornerY);
+        // secondBodyMaxY：第二个部件归一化主体的最大 Y 坐标。
+        const int secondBodyMaxY = qMax(normalizedSecondBody.locationY, normalizedSecondBody.cornerY);
+        for (const AltiumSchPin& pin : component.pins) {
+            if (pin.ownerPartId == 1) {
+                firstPartDesignators.insert(pin.designator);
+                QCOMPARE(pin.orientation, AltiumModels::PinOrientation::Right);
+                QCOMPARE(pin.locationX, qMax(normalizedFirstBody.locationX, normalizedFirstBody.cornerX));
+                QVERIFY(pin.locationY >= firstBodyMinY);
+                QVERIFY(pin.locationY <= firstBodyMaxY);
+            } else if (pin.ownerPartId == 2) {
+                secondPartDesignators.insert(pin.designator);
+                QCOMPARE(pin.orientation, AltiumModels::PinOrientation::Right);
+                QCOMPARE(pin.locationX, qMax(normalizedSecondBody.locationX, normalizedSecondBody.cornerX));
+                QVERIFY(pin.locationY >= secondBodyMinY);
+                QVERIFY(pin.locationY <= secondBodyMaxY);
+            } else {
+                QFAIL("高引脚数测试发现未知部件归属");
+            }
+        }
+        QCOMPARE(firstPartDesignators.size(), firstPartPinCount);
+        QCOMPARE(secondPartDesignators.size(), secondPartPinCount);
+        QCOMPARE(firstPartDesignators.size() + secondPartDesignators.size(), component.pins.size());
+        // firstCompactSpacing：高密度第一个部件使用的 50 mil 引脚间距。
+        const int firstCompactSpacing = qAbs(component.pins.at(1).locationY - component.pins.at(0).locationY);
+        // secondCompactSpacing：高密度第二个部件使用的 50 mil 引脚间距。
+        const int secondCompactSpacing =
+            qAbs(component.pins.at(firstPartPinCount + 1).locationY - component.pins.at(firstPartPinCount).locationY);
+        QCOMPARE(firstCompactSpacing, 500000);
+        QCOMPARE(secondCompactSpacing, 500000);
+    }
+
+    /**
+     * @brief 验证中等密度部件和大字号引脚文字会选择安全间距。
+     * @details 16 个同侧引脚使用 75 mil 基础间距；大字号文字碰撞风险会进一步扩大到 90 mil。
+     */
+    void adaptivePinSpacingRespectsDensityAndTextClearance() {
+        // component：包含中等密度引脚和大字号名称文本的测试符号。
+        AltiumSchComponent component;
+        // body：覆盖测试引脚范围的主体矩形。
+        AltiumSchRectangle body;
+        body.locationX = -5000000;
+        body.locationY = -10000000;
+        body.cornerX = 5000000;
+        body.cornerY = 10000000;
+        body.ownerPartId = -1;
+        component.rectangles.append(body);
+        // pinOneMarker：位于主体左上角的 Pin-1 小圆标记。
+        AltiumSchEllipse pinOneMarker;
+        pinOneMarker.centerX = -4900000;
+        pinOneMarker.centerY = 9900000;
+        pinOneMarker.radiusX = 100000;
+        pinOneMarker.radiusY = 100000;
+        pinOneMarker.ownerPartId = -1;
+        component.ellipses.append(pinOneMarker);
+
+        // pinIndex：中等密度部件的引脚循环索引。
+        for (int pinIndex = 0; pinIndex < 16; ++pinIndex) {
+            // pin：当前测试引脚。
+            AltiumSchPin pin;
+            pin.ownerPartId = -1;
+            pin.locationX = 7000000;
+            pin.locationY = -7000000 + pinIndex * 1000000;
+            pin.length = 500000;
+            pin.orientation = AltiumModels::PinOrientation::Right;
+            pin.name = QStringLiteral("PIN_%1").arg(pinIndex);
+            component.pins.append(pin);
+
+            // label：当前引脚的大字号名称文本。
+            AltiumSchText label;
+            label.text = pin.name;
+            label.fontSizeMm = 2.0;
+            label.isDisplayed = true;
+            label.isPinLabel = true;
+            label.sourcePinIndex = pinIndex;
+            label.ownerPartId = -1;
+            component.texts.append(label);
+        }
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // actualSpacing：归一化后相邻引脚的实际切线间距。
+        const int actualSpacing = qAbs(component.pins.at(1).locationY - component.pins.at(0).locationY);
+        QCOMPARE(actualSpacing, 900000);
+        // normalizedBody：归一化后的主体边界。
+        const AltiumSchRectangle& normalizedBody = component.rectangles.first();
+        // normalizedMarker：重新锚定后的 Pin-1 标记。
+        const AltiumSchEllipse& normalizedMarker = component.ellipses.first();
+        QCOMPARE(normalizedMarker.centerX, qMin(normalizedBody.locationX, normalizedBody.cornerX) + 1250000);
+        QCOMPARE(normalizedMarker.centerY, qMax(normalizedBody.locationY, normalizedBody.cornerY) - 1250000);
+    }
+
+    /**
+     * @brief 验证高引脚数部件会收紧过大的主体垂直空白。
+     * @details 主体边界应围绕本部件的水平引脚范围调整，不能保留源数据带来的无意义大段空白。
+     */
+    void multipartBodyHeightFollowsIndependentPinRanges() {
+        // component：包含两个垂直空白明显不同的部件。
+        AltiumSchComponent component;
+        component.partCount = 2;
+
+        // firstBody：第一个部件的过高主体。
+        AltiumSchRectangle firstBody;
+        firstBody.locationX = -2000000;
+        firstBody.locationY = -100000000;
+        firstBody.cornerX = 2000000;
+        firstBody.cornerY = -50000000;
+        firstBody.ownerPartId = 1;
+        component.rectangles.append(firstBody);
+
+        // secondBody：第二个部件的过高主体。
+        AltiumSchRectangle secondBody = firstBody;
+        secondBody.locationY = 300000000;
+        secondBody.cornerY = 350000000;
+        secondBody.ownerPartId = 2;
+        component.rectangles.append(secondBody);
+
+        // firstPinIndex：第一个部件引脚的循环索引。
+        for (int firstPinIndex = 0; firstPinIndex < 3; ++firstPinIndex) {
+            // firstPin：第一个部件的右侧引脚。
+            AltiumSchPin firstPin;
+            firstPin.ownerPartId = 1;
+            firstPin.locationX = 3000000;
+            firstPin.locationY = -1000000 + firstPinIndex * 1000000;
+            firstPin.length = 500000;
+            firstPin.orientation = AltiumModels::PinOrientation::Right;
+            component.pins.append(firstPin);
+        }
+
+        // secondPinIndex：第二个部件引脚的循环索引。
+        for (int secondPinIndex = 0; secondPinIndex < 3; ++secondPinIndex) {
+            // secondPin：第二个部件的右侧引脚。
+            AltiumSchPin secondPin;
+            secondPin.ownerPartId = 2;
+            secondPin.locationX = 3000000;
+            secondPin.locationY = 399000000 + secondPinIndex * 1000000;
+            secondPin.length = 500000;
+            secondPin.orientation = AltiumModels::PinOrientation::Right;
+            component.pins.append(secondPin);
+        }
+
+        AltiumSchSymbolGeometryNormalizer::normalize(component);
+
+        // normalizedFirstBody：归一化后的第一个部件主体。
+        const AltiumSchRectangle& normalizedFirstBody = component.rectangles.at(0);
+        // normalizedSecondBody：归一化后的第二个部件主体。
+        const AltiumSchRectangle& normalizedSecondBody = component.rectangles.at(1);
+        // firstHeight：第一个部件的归一化主体高度。
+        const int firstHeight = qAbs(normalizedFirstBody.cornerY - normalizedFirstBody.locationY);
+        // secondHeight：第二个部件的归一化主体高度。
+        const int secondHeight = qAbs(normalizedSecondBody.cornerY - normalizedSecondBody.locationY);
+        QCOMPARE(firstHeight, 4000000);
+        QCOMPARE(secondHeight, 4000000);
+        QVERIFY(component.pins.at(0).locationY >= qMin(normalizedFirstBody.locationY, normalizedFirstBody.cornerY));
+        QVERIFY(component.pins.at(0).locationY <= qMax(normalizedFirstBody.locationY, normalizedFirstBody.cornerY));
+        QVERIFY(component.pins.at(3).locationY >= qMin(normalizedSecondBody.locationY, normalizedSecondBody.cornerY));
+        QVERIFY(component.pins.at(3).locationY <= qMax(normalizedSecondBody.locationY, normalizedSecondBody.cornerY));
+        // firstBodyCenterY：第一个部件主体的垂直中心。
+        const int firstBodyCenterY = (normalizedFirstBody.locationY + normalizedFirstBody.cornerY) / 2;
+        // secondBodyCenterY：第二个部件主体的垂直中心。
+        const int secondBodyCenterY = (normalizedSecondBody.locationY + normalizedSecondBody.cornerY) / 2;
+        // firstPinCenterY：第一个部件两端引脚的垂直中心。
+        const int firstPinCenterY = (component.pins.at(0).locationY + component.pins.at(2).locationY) / 2;
+        // secondPinCenterY：第二个部件两端引脚的垂直中心。
+        const int secondPinCenterY = (component.pins.at(3).locationY + component.pins.at(5).locationY) / 2;
+        QVERIFY(qAbs(firstPinCenterY - firstBodyCenterY) <= 100000);
+        QVERIFY(qAbs(secondPinCenterY - secondBodyCenterY) <= 100000);
+        // defaultPinSpacing：普通部件仍使用 100 mil 默认间距。
+        const int defaultPinSpacing = qAbs(component.pins.at(1).locationY - component.pins.at(0).locationY);
+        QCOMPARE(defaultPinSpacing, 1000000);
+        // firstPinEdgeDelta：第一个部件引脚主体端与主体右边界的吸附误差。
+        const int firstPinEdgeDelta =
+            qAbs(component.pins.at(0).locationX - qMax(normalizedFirstBody.locationX, normalizedFirstBody.cornerX));
+        // secondPinEdgeDelta：第二个部件引脚主体端与主体右边界的吸附误差。
+        const int secondPinEdgeDelta =
+            qAbs(component.pins.at(3).locationX - qMax(normalizedSecondBody.locationX, normalizedSecondBody.cornerX));
+        QVERIFY(firstPinEdgeDelta <= 100000);
+        QVERIFY(secondPinEdgeDelta <= 100000);
     }
 
     /**
