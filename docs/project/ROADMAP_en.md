@@ -4,9 +4,14 @@ This document separates released capabilities, development-branch capabilities, 
 
 ## Current Status
 
-- **Latest stable release**: v3.1.13
+- **Latest stable release**: v3.1.13 (unchanged until the v3.1.14 Release is published)
+- **Release preparation version**: v3.1.14
+- **Release target commit**: after PR #232 is merged, use the final HEAD of `v3.1.14`.
+- **Release branch**: `v3.1.14`
 - **Current development branch**: `master` (source version 3.1.13)
 - **Development status**: Continued work on the shared intermediate representation and multi-target export
+
+The Chinese and English v3.1.14 changelogs, application metadata, and cross-platform CI validation are prepared. The stable-release status is determined by the `v3.1.14` tag and published Release created from this commit; before the tag exists, v3.1.14 must not be described as a published stable release.
 
 The stable release currently focuses on KiCad export. The `master` branch contains the shared intermediate
 representation (IR), Altium Designer library export, and Xpedition ASCII library export implementations,
