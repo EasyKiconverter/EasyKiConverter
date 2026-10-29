@@ -6,7 +6,7 @@ This document separates released capabilities, development-branch capabilities, 
 
 - **Latest stable release**: v3.1.13 (unchanged until the v3.1.14 Release is published)
 - **Release preparation version**: v3.1.14
-- **Release target commit**: `4ceeec67892e0427e5bd2ad5b1e11a816d9650c0`
+- **Release target commit**: after PR #232 is merged, use the final HEAD of `v3.1.14`.
 - **Release branch**: `v3.1.14`
 - **Current development branch**: `master` (source version 3.1.13)
 - **Development status**: Continued work on the shared intermediate representation and multi-target export
