@@ -113,6 +113,8 @@ void DatasheetExportWorker::run() {
             // 使用内存中的数据写入文件
             QFile file(filePath);  ///< 内存数据写入文件对象。
             if (!file.open(QIODevice::WriteOnly)) {
+                qWarning() << "DatasheetExportWorker: Failed to open file for writing:" << filePath
+                           << "error:" << file.errorString();
                 emit completed(m_componentId, false, QStringLiteral("Failed to open file for writing"));
                 return;
             }

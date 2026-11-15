@@ -702,6 +702,16 @@ bool TempFileManager::cleanupEmptyTempDirectoryLocked() const {
         return false;
     }
 
+    /**
+     * @brief 本实例仍有未提交的临时路径时同样不能删除。
+     * @details createTempFilePath()/createSymbolTempPath() 只登记路径而不创建文件，同一阶段的多个
+     * @details 元器件会先批量登记、再逐个写入并提交。首个元器件提交后目录会暂时为空，此时删除
+     * @details .tmp 会让其余元器件后续写入因父目录缺失而失败。
+     */
+    if (!m_tempFiles.isEmpty()) {
+        return false;
+    }
+
     const QFileInfoList entries =
         dir.entryInfoList(QDir::NoDotAndDotDot | QDir::AllEntries | QDir::Hidden | QDir::System);
     if (!entries.isEmpty()) {
