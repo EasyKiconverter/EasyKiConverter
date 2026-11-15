@@ -302,6 +302,7 @@ qt_add_translations(appEasyKiconverter_Cpp_Version
 qt_add_qml_module(appEasyKiconverter_Cpp_Version
     URI EasyKiconverter_Cpp_Version
     VERSION 3.1
+    NO_GENERATE_EXTRA_QMLDIRS
     QML_FILES
         ${QML_FILES}
     RESOURCES
