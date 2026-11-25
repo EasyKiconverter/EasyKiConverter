@@ -54,7 +54,7 @@ makepkg -s
 6. 提交并推送：
    ```bash
    git add PKGBUILD .SRCINFO
-   git commit -m "Update to version 3.1.12"
+   git commit -m "Update to version 3.1.15"
    git push
    ```
 
