@@ -708,7 +708,9 @@ private slots:
         delete request;
     }
 
-    /** @brief 验证挂起请求取消时会在不持有回复锁的情况下完成。 */
+    /**
+     * @brief 验证挂起请求取消时会在不持有回复锁的情况下完成。
+     */
     void testAsyncRequest_Cancel_PendingReplyCompletes() {
         QTcpServer server;  ///< 接受连接但不发送响应的本地测试服务器。
         QVERIFY(server.listen(QHostAddress::LocalHost));
@@ -727,7 +729,9 @@ private slots:
         delete request;
     }
 
-    /** @brief 验证挂起请求超时中止后会发布最终结果并退出。 */
+    /**
+     * @brief 验证挂起请求超时中止后会发布最终结果并退出。
+     */
     void testAsyncRequest_Timeout_PendingReplyCompletes() {
         QTcpServer server;  ///< 接受连接但不发送响应的本地测试服务器。
         QVERIFY(server.listen(QHostAddress::LocalHost));
@@ -746,7 +750,9 @@ private slots:
         delete request;
     }
 
-    /** @brief 验证析构挂起请求时会安全中止底层回复。 */
+    /**
+     * @brief 验证析构挂起请求时会安全中止底层回复。
+     */
     void testAsyncRequest_Destructor_PendingReplyCompletes() {
         QTcpServer server;  ///< 接受连接但不发送响应的本地测试服务器。
         QVERIFY(server.listen(QHostAddress::LocalHost));
