@@ -7,6 +7,7 @@
 #include <QHash>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QNetworkAccessManager>
 #include <QString>
 #include <QTimer>
 
@@ -103,6 +104,17 @@ public:
         return request;
     }
 
+    /** 创建一个由本地网络管理器驱动且不会自动完成的请求。 */
+    AsyncNetworkRequest* createPending(const QUrl& url, int timeoutMs = 0) {
+        RetryPolicy policy;  ///< 待测请求使用的重试和超时策略。
+        policy.maxRetries = 0;
+        policy.baseTimeoutMs = timeoutMs;
+        auto* request =
+            new AsyncNetworkRequest(url, &m_networkManager, ResourceType::Unknown, policy, QByteArray(), nullptr);
+        request->start();
+        return request;
+    }
+
     AsyncNetworkRequest* postAsync(const QUrl& url,
                                    const QByteArray& body,
                                    ResourceType resourceType,
@@ -120,9 +132,10 @@ public:
     }
 
 private:
-    QHash<QString, NetworkResult> m_getResponses;
-    QHash<QString, NetworkResult> m_postResponses;
-    QString m_lastUrl;
+    QNetworkAccessManager m_networkManager;  ///< 为挂起请求提供事件循环所属的网络管理器。
+    QHash<QString, NetworkResult> m_getResponses;  ///< 按 URL 保存的模拟 GET 响应。
+    QHash<QString, NetworkResult> m_postResponses;  ///< 按 URL 保存的模拟 POST 响应。
+    QString m_lastUrl;  ///< 最近一次访问的 URL。
 };
 
 }  // namespace EasyKiConverter::Test

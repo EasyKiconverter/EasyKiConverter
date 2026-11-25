@@ -130,16 +130,15 @@ private slots:
         QVERIFY(!secondTempPath.isEmpty());
 
         QVERIFY(writeFile(firstTempPath, QByteArrayLiteral("first datasheet")));
-        QVERIFY(manager.commitWithBackup(firstTempPath,
-                                         QDir(tempDir.path()).filePath(QStringLiteral("C3014349.pdf"))));
+        QVERIFY(manager.commitWithBackup(firstTempPath, QDir(tempDir.path()).filePath(QStringLiteral("C3014349.pdf"))));
 
         // 第二个元器件随后才落盘，临时目录必须仍然存在。
         QVERIFY2(QDir(manager.tempDirectory()).exists(),
                  "Shared temp directory must survive while a registered temp file is still pending");
         QVERIFY2(writeFile(secondTempPath, QByteArrayLiteral("second datasheet")),
                  "Pending component must still be able to write its temp file");
-        QVERIFY(manager.commitWithBackup(secondTempPath,
-                                         QDir(tempDir.path()).filePath(QStringLiteral("C3014350.pdf"))));
+        QVERIFY(
+            manager.commitWithBackup(secondTempPath, QDir(tempDir.path()).filePath(QStringLiteral("C3014350.pdf"))));
 
         // 全部临时路径提交完成后才回收空目录。
         QVERIFY(!QDir(QDir(tempDir.path()).filePath(QStringLiteral(".tmp"))).exists());

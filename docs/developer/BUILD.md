@@ -16,7 +16,7 @@ VS Code 用户请先阅读 [VS Code 配置指南](VSCODE_SETUP.md)，了解仓�
 
 ### Qt 版本
 
-- Qt 6.6 或更高版本
+- Qt 6.8 或更高版本
 - 推荐 Qt 6.10.2（CI 使用版本）
 
 ### CMake 版本

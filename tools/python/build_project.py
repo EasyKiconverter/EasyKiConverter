@@ -21,7 +21,7 @@ EasyKiConverter 项目构建管理工具
 环境要求:
     - Python: 3.6+
     - CMake: 3.16+
-    - Qt6: 6.6+ (推荐 6.10.2)
+    - Qt6: 6.8+ (推荐 6.10.2)
     - 编译器: MSVC 2019/2022 (Windows), GCC/Clang (Linux/macOS)
 
 =========================================================================
@@ -151,6 +151,9 @@ import hashlib
 from datetime import datetime
 from pathlib import Path, PurePath
 from typing import Optional, Dict, Any, List, Tuple
+
+# Qt 6.8 引入项目使用的 QTP0004 配置行为，是当前支持的最低版本。
+MIN_QT_VERSION = (6, 8, 0)
 
 # ============================================================================
 # 进度条显示
@@ -499,6 +502,35 @@ class BuildManager:
 
         return False, None
 
+    def _get_qt_version(self, qt_path: Optional[str]) -> Optional[Tuple[int, int, int]]:
+        """读取 Qt 安装的实际版本。"""
+        qmake_candidates = []  # 待检测的 qmake 可执行文件候选路径。
+        if qt_path:
+            qmake_name = "qmake.exe" if platform.system() == "Windows" else "qmake"  # 当前平台的 qmake 文件名。
+            qmake_candidates.append(Path(qt_path) / "bin" / qmake_name)
+        qmake_path = shutil.which("qmake")  # PATH 中可用的 qmake 路径。
+        if qmake_path:
+            qmake_candidates.append(Path(qmake_path))
+
+        for candidate in qmake_candidates:  # 当前尝试读取版本的 qmake 路径。
+            if not candidate.exists():
+                continue
+            try:
+                result = subprocess.run(  # qmake 查询命令的执行结果。
+                    [str(candidate), "-query", "QT_VERSION"],
+                    capture_output=True,
+                    text=True,
+                    check=False,
+                )
+                match = re.search(  # 从 qmake 输出中提取的版本号匹配结果。
+                    r"(\d+)\.(\d+)(?:\.(\d+))?", result.stdout
+                )
+                if match:
+                    return tuple(int(part or 0) for part in match.groups())
+            except OSError:
+                continue
+        return None
+
     def _get_file_hash(self, file_path: Path) -> str:
         """计算文件 MD5 哈希"""
         try:
@@ -665,10 +697,18 @@ class BuildManager:
                 except:
                     pass
 
-        checks.append(("Qt6", bool(qt_path)))
+        qt_version = self._get_qt_version(qt_path)  # 环境中实际安装的 Qt 版本。
+        qt_supported = bool(qt_version and qt_version >= MIN_QT_VERSION)  # 是否满足项目最低 Qt 版本。
+        checks.append(("Qt6", bool(qt_path) and qt_supported))
         if qt_path:
-            if is_matched:
-                self.logger.info(f"  ✓ Qt6: {qt_path}")
+            if qt_version and not qt_supported:
+                self.logger.error(
+                    f"  ✗ Qt6: {qt_path} (检测到 {'.'.join(map(str, qt_version))}，最低要求为 6.8.0)"
+                )
+            elif is_matched and qt_version:
+                self.logger.info(f"  ✓ Qt6: {qt_path} ({'.'.join(map(str, qt_version))})")
+            elif is_matched:
+                self.logger.info(f"  ✓ Qt6: {qt_path} (版本信息未能读取，配置阶段仍会校验最低版本)")
             else:
                 self.logger.info(f"  ✓ Qt6: {qt_path} (版本可能不匹配)")
         else:

@@ -179,11 +179,14 @@ void AsyncNetworkRequest::cancel() {
         m_timeoutTimer->stop();
     }
 
+    QNetworkReply* replyToAbort = nullptr;  ///< 需要在释放回复锁后中止的当前网络回复。
     {
         QMutexLocker locker(&m_repliesMutex);
-        if (m_currentReply && !m_currentReply->isFinished()) {
-            m_currentReply->abort();
-        }
+        replyToAbort = m_currentReply;
+    }
+    if (replyToAbort && !replyToAbort->isFinished()) {
+        // abort() 可能同步触发 finished，必须在释放 m_repliesMutex 后调用。
+        replyToAbort->abort();
     }
 
     completeWithResult(cancelledResult());

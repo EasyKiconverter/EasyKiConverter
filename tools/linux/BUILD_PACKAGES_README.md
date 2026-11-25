@@ -46,7 +46,7 @@ cd /workspace
 sudo apt install -y cmake ninja-build
 
 # 或使用系统已有的 Qt
-# 确保 Qt 6.6+ 已安装并设置 CMAKE_PREFIX_PATH
+# 确保 Qt 6.8+ 已安装并设置 CMAKE_PREFIX_PATH
 ```
 
 #### 2. 安装 linuxdeploy（从 AppImage 提取）

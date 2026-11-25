@@ -16,7 +16,7 @@ EasyKiConverter 可将 LCSC 和 EasyEDA 元件数据转换为多种 EDA 库输�
 
 ### Qt 版本
 
-- Qt 6.6 或更高版本
+- Qt 6.8 或更高版本
 - 推荐 Qt 6.10.1
 
 ### CMake 版本

@@ -3,7 +3,9 @@
 #include "core/utils/GzipUtils.h"
 #include "tests/common/MockNetworkClient.hpp"
 
+#include <QHostAddress>
 #include <QSignalSpy>
+#include <QTcpServer>
 #include <QtTest>
 
 #include <memory>
@@ -703,6 +705,56 @@ private slots:
         QVERIFY(request->isFinished());
 
         // 删除已完成的请求不应崩溃
+        delete request;
+    }
+
+    /** @brief 验证挂起请求取消时会在不持有回复锁的情况下完成。 */
+    void testAsyncRequest_Cancel_PendingReplyCompletes() {
+        QTcpServer server;  ///< 接受连接但不发送响应的本地测试服务器。
+        QVERIFY(server.listen(QHostAddress::LocalHost));
+        const QUrl url(QStringLiteral("http://127.0.0.1:%1/pending").arg(server.serverPort()));  // 挂起请求地址。
+
+        AsyncNetworkRequest* request = m_mockClient->createPending(url);  // 等待服务端响应的异步请求。
+        QSignalSpy finishedSpy(request, &AsyncNetworkRequest::finished);  // 请求完成信号监视器。
+        QTRY_VERIFY_WITH_TIMEOUT(server.hasPendingConnections(), 1000);
+
+        request->cancel();
+
+        QCOMPARE(finishedSpy.count(), 1);
+        QVERIFY(request->isCancelled());
+        QVERIFY(request->isFinished());
+        QVERIFY(finishedSpy.at(0).at(0).value<NetworkResult>().wasCancelled);
+        delete request;
+    }
+
+    /** @brief 验证挂起请求超时中止后会发布最终结果并退出。 */
+    void testAsyncRequest_Timeout_PendingReplyCompletes() {
+        QTcpServer server;  ///< 接受连接但不发送响应的本地测试服务器。
+        QVERIFY(server.listen(QHostAddress::LocalHost));
+        const QUrl url(QStringLiteral("http://127.0.0.1:%1/timeout").arg(server.serverPort()));  // 超时请求地址。
+
+        AsyncNetworkRequest* request = m_mockClient->createPending(url, 50);  // 使用短超时的异步请求。
+        QSignalSpy timeoutSpy(request, &AsyncNetworkRequest::timeout);  // 超时信号监视器。
+        QSignalSpy finishedSpy(request, &AsyncNetworkRequest::finished);  // 请求完成信号监视器。
+        QTRY_VERIFY_WITH_TIMEOUT(server.hasPendingConnections(), 1000);
+        QTRY_VERIFY_WITH_TIMEOUT(request->isFinished(), 2000);
+
+        QCOMPARE(timeoutSpy.count(), 1);
+        QCOMPARE(finishedSpy.count(), 1);
+        QVERIFY(!request->isCancelled());
+        QVERIFY(!request->result().success);
+        delete request;
+    }
+
+    /** @brief 验证析构挂起请求时会安全中止底层回复。 */
+    void testAsyncRequest_Destructor_PendingReplyCompletes() {
+        QTcpServer server;  ///< 接受连接但不发送响应的本地测试服务器。
+        QVERIFY(server.listen(QHostAddress::LocalHost));
+        const QUrl url(
+            QStringLiteral("http://127.0.0.1:%1/destructor-pending").arg(server.serverPort()));  // 待析构请求地址。
+
+        AsyncNetworkRequest* request = m_mockClient->createPending(url);  // 尚未完成的异步请求。
+        QTRY_VERIFY_WITH_TIMEOUT(server.hasPendingConnections(), 1000);
         delete request;
     }
 

@@ -16,7 +16,7 @@ VS Code users should first read the [VS Code setup guide](VSCODE_SETUP_en.md) fo
 
 #### Qt Framework
 
-- **Version**: Qt 6.6 or higher (Recommended Qt 6.10.2)
+- **Version**: Qt 6.8 or higher (Recommended Qt 6.10.2)
 - **Required Modules**:
   - Qt Quick
   - Qt Network

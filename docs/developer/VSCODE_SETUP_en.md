@@ -22,7 +22,7 @@ This guide defines the boundary between shared VS Code settings and developer-sp
 ## From a clean clone
 
 1. Install VS Code and install the recommended CMake Tools, clangd, Qt QML, Python, YAML, GitHub Actions, and Markdown extensions.
-2. Follow the [local build guide](BUILD_en.md) to prepare the project `.venv`, Qt 6.6+, CMake, and a compiler.
+2. Follow the [local build guide](BUILD_en.md) to prepare the project `.venv`, Qt 6.8+, CMake, and a compiler.
 3. Open the repository root. CMake Tools will configure `build/` using the shared settings and request generation of the compilation database.
 4. Run the project-defined environment check and build:
 
