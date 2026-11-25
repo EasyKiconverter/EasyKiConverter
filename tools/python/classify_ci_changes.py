@@ -10,7 +10,8 @@ from pathlib import Path
 
 
 DOC_SUFFIXES = {".md", ".mdx", ".rst"}
-DOCUMENT_CONFIG_FILES = {"mkdocs.yml", "mkdocs.yaml"}
+DOCUMENT_CONFIG_FILES = {"Doxyfile", "mkdocs.yml", "mkdocs.yaml"}
+DOCUMENT_ROOT_FILES = {"LICENSE", "NOTICE"}
 STATIC_SUFFIXES = {".gif", ".ico", ".jpeg", ".jpg", ".png", ".svg", ".webp"}
 WORKFLOW_PREFIXES = (".github/workflows/", ".github/actions/")
 FULL_PREFIXES = ("src/", "tests/", "tools/", "deploy/")
@@ -53,16 +54,30 @@ def parse_name_status_z(raw: bytes) -> list[str]:
     return paths
 
 
+def is_workflow_document(path: str) -> bool:
+    """判断路径是否为工作流目录中的文档，而不是可执行配置。"""
+    normalized = path.replace("\\", "/")
+    return normalized.startswith(WORKFLOW_PREFIXES) and Path(normalized).suffix.lower() in DOC_SUFFIXES
+
+
+def is_workflow_change(path: str) -> bool:
+    """判断路径是否会影响 GitHub Actions 工作流或复合 Action 配置。"""
+    normalized = path.replace("\\", "/")
+    return normalized.startswith(WORKFLOW_PREFIXES) and not is_workflow_document(normalized)
+
+
 def is_document(path: str) -> bool:
-    """判断路径是否只属于文档内容，不把构建或工作流配置当作文档。"""
+    """判断路径是否只属于文档内容，不把可执行工作流配置当作文档。"""
     normalized = path.replace("\\", "/")
     name = Path(normalized).name
+    if is_workflow_document(normalized):
+        return True
     if normalized.startswith(WORKFLOW_PREFIXES):
         return False
-    if normalized in DOCUMENT_CONFIG_FILES:
+    if normalized in DOCUMENT_CONFIG_FILES or normalized in DOCUMENT_ROOT_FILES:
         return True
     if normalized.startswith("docs/") or normalized.startswith(".github/ISSUE_TEMPLATE/"):
-        return normalized.endswith(tuple(DOC_SUFFIXES)) or name in {"LICENSE", "NOTICE"}
+        return normalized.endswith(tuple(DOC_SUFFIXES)) or name in DOCUMENT_ROOT_FILES
     return Path(name).suffix in DOC_SUFFIXES
 
 
@@ -85,7 +100,9 @@ def is_full_validation(path: str) -> bool:
     normalized = path.replace("\\", "/")
     name = Path(normalized).name
     suffix = Path(normalized).suffix.lower()
-    if normalized.startswith(WORKFLOW_PREFIXES) or normalized.startswith(FULL_PREFIXES):
+    if is_workflow_document(normalized):
+        return False
+    if is_workflow_change(normalized) or normalized.startswith(FULL_PREFIXES):
         return True
     if name in BUILD_FILE_NAMES or name.startswith(("CMake", "Dockerfile")):
         return True
@@ -169,7 +186,7 @@ def classify_paths(paths: list[str]) -> dict[str, str | bool | int]:
         "run_ui": "qml" in categories,
         "run_resources": "resources" in categories,
         "run_classifier_tests": "classifier" in categories,
-        "run_workflow": any(path.replace("\\", "/").startswith(WORKFLOW_PREFIXES) for path in paths),
+        "run_workflow": any(is_workflow_change(path) for path in paths),
         "docs_changed": "docs" in categories,
         "safe_fallback": False,
         "changed_files": len(paths),

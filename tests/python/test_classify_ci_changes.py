@@ -40,8 +40,9 @@ class ClassifyCiChangesTest(unittest.TestCase):
             self.assertTrue(result["run_full"], path)
 
     def test_only_root_mkdocs_configuration_is_document_only(self):
-        self.assertEqual(classify_paths(["mkdocs.yml"])["classification"], "docs-only")
-        self.assertEqual(classify_paths(["mkdocs.yaml"])["classification"], "docs-only")
+        for path in ("Doxyfile", "mkdocs.yml", "mkdocs.yaml", "LICENSE", "NOTICE"):
+            self.assertEqual(classify_paths([path])["classification"], "docs-only")
+            self.assertFalse(classify_paths([path])["run_full"], path)
         for path in ("config/mkdocs.yml", "docs/mkdocs.yml", "mkdocs-prod.yml", ".github/mkdocs.yml"):
             self.assertTrue(classify_paths([path])["run_full"], path)
 
@@ -70,6 +71,19 @@ class ClassifyCiChangesTest(unittest.TestCase):
         self.assertTrue(mixed_ui_resources["run_ui"])
         self.assertTrue(mixed_ui_resources["run_resources"])
 
+    def test_required_check_entrypoint_categories(self):
+        readme = classify_paths(["README.md"])
+        self.assertEqual(readme["classification"], "docs-only")
+        self.assertFalse(readme["run_full"])
+
+        cpp = classify_paths(["src/core/ir/Footprint.cpp"])
+        self.assertEqual(cpp["classification"], "full")
+        self.assertTrue(cpp["run_full"])
+
+        fixture = classify_paths(["tests/fixtures/easyeda/cad_basic.json"])
+        self.assertEqual(fixture["classification"], "full")
+        self.assertTrue(fixture["run_full"])
+
     def test_deleted_and_renamed_files_are_kept_for_classification(self):
         raw = b"D\0docs/old.md\0R100\0README.md\0README_en.md\0"
         self.assertEqual(parse_name_status_z(raw), ["docs/old.md", "README.md", "README_en.md"])
@@ -78,7 +92,13 @@ class ClassifyCiChangesTest(unittest.TestCase):
     def test_workflow_changes_request_workflow_validation(self):
         result = classify_paths([".github/workflows/build.yml"])
         self.assertTrue(result["run_workflow"])
-        self.assertTrue(classify_paths([".github/workflows/WORKFLOW_DEPENDENCIES.md"])["run_full"])
+        workflow_document = classify_paths([".github/workflows/WORKFLOW_DEPENDENCIES.md"])
+        self.assertEqual(workflow_document["classification"], "docs-only")
+        self.assertFalse(workflow_document["run_full"])
+        self.assertFalse(workflow_document["run_workflow"])
+        action_document = classify_paths([".github/actions/setup-env/README.md"])
+        self.assertEqual(action_document["classification"], "docs-only")
+        self.assertFalse(action_document["run_workflow"])
 
     def test_unknown_path_and_empty_diff_fail_safe(self):
         self.assertTrue(classify_paths(["component.without.known.extension"])["run_full"])

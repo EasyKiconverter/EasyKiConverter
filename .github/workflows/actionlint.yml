@@ -4,8 +4,12 @@ on:
   push:
     branches: ['v*', 'ci_test']
     paths:
-      - '.github/workflows/**'
+      - '.github/workflows/*.yml'
+      - '.github/workflows/*.yaml'
       - '.github/actions/**'
+      - '!.github/actions/**/*.md'
+      - '!.github/actions/**/*.mdx'
+      - '!.github/actions/**/*.rst'
   pull_request:
     branches: ['master', 'dev', 'ci_test', 'v*']
   workflow_dispatch:

@@ -4,9 +4,17 @@ on:
   push:
     branches: ['v*', 'ci_test']
     paths-ignore:
-      - 'README.md'
+      - '*.md'
+      - '**/*.md'
+      - '*.mdx'
+      - '**/*.mdx'
+      - '*.rst'
+      - '**/*.rst'
       - 'LICENSE'
-      - 'docs/**'
+      - 'NOTICE'
+      - 'Doxyfile'
+      - 'mkdocs.yml'
+      - 'mkdocs.yaml'
   pull_request:
     branches: ['master', 'dev', 'ci_test', 'v*']
   workflow_dispatch:
