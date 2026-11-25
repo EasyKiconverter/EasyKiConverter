@@ -150,10 +150,18 @@ import re
 import hashlib
 from datetime import datetime
 from pathlib import Path, PurePath
-from typing import Optional, Dict, Any, List, Tuple
+from typing import Optional, Dict, Any, List, NamedTuple, Tuple
 
 # Qt 6.8 引入项目使用的 QTP0004 配置行为，是当前支持的最低版本。
 MIN_QT_VERSION = (6, 8, 0)
+
+
+class QtInstallation(NamedTuple):
+    """记录同一套 Qt 的安装前缀、CMake 配置目录和探测工具。"""
+
+    prefix: Path  # Qt 安装前缀，用于查找翻译等工具。
+    config_dir: Path  # 包含 Qt6Config.cmake 的目录。
+    qmake: Optional[Path] = None  # 从 PATH 确认此安装时使用的 qmake。
 
 # ============================================================================
 # 进度条显示
@@ -433,20 +441,20 @@ class BuildManager:
 
         return None
 
-    def _get_qt_prefix_path(self) -> Tuple[bool, Optional[str]]:
-        """检测 Qt 并验证版本匹配性"""
+    def _find_qt_installation(self) -> Optional[QtInstallation]:
+        """查找包含 Qt6 CMake 配置的安装。"""
         # 优先级：1. 命令行参数 2. 配置文件中的 qt_path 3. 环境变量/自动检测
         if self.qt_path:
             p = Path(self.qt_path)
             if (p / "lib" / "cmake" / "Qt6" / "Qt6Config.cmake").exists():
-                return True, self.qt_path
+                return QtInstallation(p, p / "lib" / "cmake" / "Qt6")
 
         # 配置文件中的平台特定 qt_path
         config_qt_path = self.config.get("qt_path")
         if config_qt_path:
             p = Path(config_qt_path)
             if (p / "lib" / "cmake" / "Qt6" / "Qt6Config.cmake").exists():
-                return True, str(p)
+                return QtInstallation(p, p / "lib" / "cmake" / "Qt6")
 
         qt_candidates = []
 
@@ -479,56 +487,72 @@ class BuildManager:
         else:
             qt_candidates.extend(["/usr/lib/qt6", "/usr/local/Qt-6.10.2", "/opt/Qt6"])
 
-        expected_version = str(self.config.get("qt_version", "6.10.2"))
-
-        # 2. 尝试从 PATH 中的 qmake 查找
-        qmake_path = shutil.which("qmake")
-        if qmake_path:
-            qmake_dir = Path(qmake_path).parent
-            qt_from_path = qmake_dir.parent
-            if (qt_from_path / "lib" / "cmake" / "Qt6" / "Qt6Config.cmake").exists():
-                qt_candidates.insert(0, str(qt_from_path))
+        # 2. 尝试从 PATH 中的 qmake 查询真实安装前缀。
+        for qmake_name in self._get_qmake_names():
+            qmake_path = shutil.which(qmake_name)  # PATH 中可用的 qmake 路径。
+            if not qmake_path:
+                continue
+            installation = self._get_qt_installation_from_qmake(Path(qmake_path))  # 此工具对应的 Qt 安装。
+            if installation:
+                return installation
 
         # 3. 检查候选路径
         for qt_path in qt_candidates:
             p = Path(qt_path)
-            # 更宽松的检查：只要包含 6. 就可以
             if (p / "lib" / "cmake" / "Qt6" / "Qt6Config.cmake").exists():
-                is_matched = (
-                    expected_version.split(".")[0:2]
-                    == str(p).split("/")[-1].split(".")[0:2]
-                )
-                return is_matched, qt_path
+                return QtInstallation(p, p / "lib" / "cmake" / "Qt6")
 
-        return False, None
+        return None
 
-    def _get_qt_version(self, qt_path: Optional[str]) -> Optional[Tuple[int, int, int]]:
-        """读取 Qt 安装的实际版本。"""
-        qmake_candidates = []  # 待检测的 qmake 可执行文件候选路径。
-        if qt_path:
-            qmake_name = "qmake.exe" if platform.system() == "Windows" else "qmake"  # 当前平台的 qmake 文件名。
-            qmake_candidates.append(Path(qt_path) / "bin" / qmake_name)
-        qmake_path = shutil.which("qmake")  # PATH 中可用的 qmake 路径。
-        if qmake_path:
-            qmake_candidates.append(Path(qmake_path))
+    def _get_qmake_names(self) -> List[str]:
+        """返回当前平台可用的 qmake 命令名称。"""
+        qmake_names = ["qmake6", "qmake"]  # Qt 版本查询工具名称，优先使用 Qt 6 专用命名。
+        if platform.system() == "Windows":
+            qmake_names = [f"{name}.exe" for name in qmake_names]
+        return qmake_names
 
+    def _query_qmake(self, qmake_path: Path, key: str) -> Optional[str]:
+        """返回 qmake 成功查询的属性值。"""
+        try:
+            result = subprocess.run(  # qmake 属性查询的执行结果。
+                [str(qmake_path), "-query", key],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if result.returncode == 0:
+                return result.stdout.strip() or None
+        except OSError:
+            return None
+        return None
+
+    def _get_qt_installation_from_qmake(self, qmake_path: Path) -> Optional[QtInstallation]:
+        """从 qmake 报告的库目录识别 Qt，兼容 Linux 多架构目录。"""
+        prefix_text = self._query_qmake(qmake_path, "QT_INSTALL_PREFIX")  # Qt 安装前缀。
+        if not prefix_text or not Path(prefix_text).is_absolute():
+            return None
+        prefix = Path(prefix_text)  # Qt 安装前缀对应的文件系统路径。
+        libs_text = self._query_qmake(qmake_path, "QT_INSTALL_LIBS")  # Qt 实际使用的库目录。
+        lib_dir = Path(libs_text) if libs_text else prefix / "lib"  # 用于定位 CMake 配置的库目录。
+        if not lib_dir.is_absolute():
+            return None
+        config_dir = lib_dir / "cmake" / "Qt6"  # Linux 发行版可能在 lib 下使用架构子目录。
+        if (config_dir / "Qt6Config.cmake").is_file():
+            return QtInstallation(prefix, config_dir, qmake_path)
+        return None
+
+    def _get_qt_version(self, installation: QtInstallation) -> Optional[Tuple[int, int, int]]:
+        """用所选安装对应的 qmake 读取版本。"""
+        qmake_candidates = (  # PATH 探测选中的工具或安装目录自带的工具。
+            [installation.qmake]
+            if installation.qmake
+            else [installation.prefix / "bin" / name for name in self._get_qmake_names()]
+        )
         for candidate in qmake_candidates:  # 当前尝试读取版本的 qmake 路径。
-            if not candidate.exists():
-                continue
-            try:
-                result = subprocess.run(  # qmake 查询命令的执行结果。
-                    [str(candidate), "-query", "QT_VERSION"],
-                    capture_output=True,
-                    text=True,
-                    check=False,
-                )
-                match = re.search(  # 从 qmake 输出中提取的版本号匹配结果。
-                    r"(\d+)\.(\d+)(?:\.(\d+))?", result.stdout
-                )
-                if match:
-                    return tuple(int(part or 0) for part in match.groups())
-            except OSError:
-                continue
+            version = self._query_qmake(candidate, "QT_VERSION") if candidate.is_file() else None  # Qt 版本文本。
+            match = re.fullmatch(r"(\d+)\.(\d+)(?:\.(\d+))?", version or "")  # 解析出的主、次和补丁版本。
+            if match:
+                return tuple(int(part or 0) for part in match.groups())
         return None
 
     def _get_file_hash(self, file_path: Path) -> str:
@@ -682,35 +706,21 @@ class BuildManager:
         self.logger.info("")
         self.logger.info("[Qt6 环境]")
         # 5. Qt6 检查
-        is_matched, qt_path = self._get_qt_prefix_path()
-        if not qt_path:
-            qmake_path = shutil.which("qmake")
-            if qmake_path:
-                try:
-                    res = subprocess.run(
-                        ["qmake", "-v"], capture_output=True, text=True
-                    )
-                    if "Qt version" in res.stdout:
-                        self.logger.debug(f"qmake: {res.stdout.splitlines()[-1]}")
-                        qt_path = str(Path(qmake_path).parent.parent)
-                        is_matched = True
-                except:
-                    pass
+        qt = self._find_qt_installation()  # 当前选中的 Qt 安装。
+        qt_path = str(qt.prefix) if qt else None  # 当前 Qt 安装前缀，用于日志和工具探测。
 
-        qt_version = self._get_qt_version(qt_path)  # 环境中实际安装的 Qt 版本。
-        qt_supported = bool(qt_version and qt_version >= MIN_QT_VERSION)  # 是否满足项目最低 Qt 版本。
+        qt_version = self._get_qt_version(qt) if qt else None  # 所选安装的实际 Qt 版本。
+        qt_supported = qt_version is None or qt_version >= MIN_QT_VERSION  # 是否满足项目最低 Qt 版本或交由 CMake 校验。
         checks.append(("Qt6", bool(qt_path) and qt_supported))
         if qt_path:
             if qt_version and not qt_supported:
                 self.logger.error(
                     f"  ✗ Qt6: {qt_path} (检测到 {'.'.join(map(str, qt_version))}，最低要求为 6.8.0)"
                 )
-            elif is_matched and qt_version:
+            elif qt_version:
                 self.logger.info(f"  ✓ Qt6: {qt_path} ({'.'.join(map(str, qt_version))})")
-            elif is_matched:
-                self.logger.info(f"  ✓ Qt6: {qt_path} (版本信息未能读取，配置阶段仍会校验最低版本)")
             else:
-                self.logger.info(f"  ✓ Qt6: {qt_path} (版本可能不匹配)")
+                self.logger.info(f"  ✓ Qt6: {qt_path} (版本信息未能读取，配置阶段仍会校验最低版本)")
         else:
             self.logger.error("  ✗ Qt6: 未找到")
 
@@ -831,11 +841,12 @@ class BuildManager:
         if "Visual Studio" in generator:
             cmake_cmd.extend(["-A", "x64"])
 
-        _, qt_prefix = self._get_qt_prefix_path()
-        if qt_prefix:
-            posix_qt = PurePath(qt_prefix).as_posix()
+        qt = self._find_qt_installation()  # 当前 CMake 配置所用的 Qt 安装。
+        if qt:
+            posix_qt = qt.prefix.as_posix()  # 供 CMake 搜索相关依赖的 Qt 安装前缀。
             cmake_cmd.append(f"-DCMAKE_PREFIX_PATH={posix_qt}")
-            self.logger.info(f"  关联 Qt6: {posix_qt}")
+            cmake_cmd.append(f"-DQt6_DIR={qt.config_dir.as_posix()}")
+            self.logger.info(f"  关联 Qt6: {qt.config_dir}")
 
         for opt, val in self.cmake_options.items():
             cmake_cmd.append(f"-D{opt}={'ON' if val else 'OFF'}")
