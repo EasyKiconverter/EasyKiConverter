@@ -13,6 +13,7 @@ private slots:
     void testCacheSettingsPersistAcrossLoad();
     void testDiskCacheLimitClamped();
     void testExportModePersistAcrossLoad();
+    void testTargetFormatIdPersistAcrossLoad();
 };
 
 /**
@@ -81,6 +82,30 @@ void TestConfigService::testExportModePersistAcrossLoad() {
 
     QVERIFY(config->loadConfig(configPath));
     QCOMPARE(config->getExportMode(), 1);
+}
+
+/**
+ * @brief 验证目标格式 ID 能够跨配置加载持久化。
+ */
+void TestConfigService::testTargetFormatIdPersistAcrossLoad() {
+    // tempDir：测试使用的隔离临时目录。
+    QTemporaryDir tempDir;
+    QVERIFY(tempDir.isValid());
+
+    // configPath：测试使用的隔离配置文件路径。
+    const QString configPath = QDir(tempDir.path()).filePath(QStringLiteral("config.json"));
+
+    // config：测试使用的配置服务实例。
+    ConfigService* config = ConfigService::instance();
+    QVERIFY(config->saveConfig(configPath));
+    QVERIFY(config->loadConfig(configPath));
+    config->resetToDefaults();
+    QCOMPARE(config->getTargetFormatId(), QStringLiteral("kicad"));
+
+    config->setTargetFormatId(QStringLiteral("altium"));
+    QVERIFY(config->saveConfig(configPath));
+    QVERIFY(config->loadConfig(configPath));
+    QCOMPARE(config->getTargetFormatId(), QStringLiteral("altium"));
 }
 
 QTEST_GUILESS_MAIN(TestConfigService)

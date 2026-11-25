@@ -1,3 +1,4 @@
+#include "services/ConfigService.h"
 #include "ui/viewmodels/ExportTargetModel.h"
 
 #include <QFile>
@@ -13,6 +14,8 @@ class TestExportTargetModel final : public QObject {
     Q_OBJECT
 
 private slots:
+    void initTestCase();
+    void cleanup();
 
     /**
      * @brief 验证 GUI 显示已通过当前验证门槛的目标格式。
@@ -103,7 +106,75 @@ private slots:
         QCOMPARE(model.currentTargetId(), QStringLiteral("librepcb"));
         QCOMPARE(model.currentTargetFormat(), 9);
     }
+
+    /**
+     * @brief 验证目标模型按稳定 ID 恢复上次选择的目标格式。
+     */
+    void restoresPersistedTargetByStableId() {
+        // configPath：测试使用的隔离配置文件路径。
+        const QString configPath = m_configDirectory.filePath(QStringLiteral("target-model-config.json"));
+        // config：测试使用的配置服务实例。
+        ConfigService* config = ConfigService::instance();
+        QVERIFY(config->saveConfig(configPath));
+        QVERIFY(config->loadConfig(configPath));
+        config->resetToDefaults();
+
+        // plugins：测试使用的目标格式配置集合。
+        const QJsonArray plugins = {
+            QJsonObject{{QStringLiteral("id"), QStringLiteral("kicad")},
+                        {QStringLiteral("displayName"), QStringLiteral("KiCad")}},
+            QJsonObject{{QStringLiteral("id"), QStringLiteral("altium")},
+                        {QStringLiteral("displayName"), QStringLiteral("Altium Designer")}},
+        };
+        // pluginsPath：测试使用的插件配置路径。
+        const QString pluginsPath = m_configDirectory.filePath(QStringLiteral("export_plugins.json"));
+        // pluginsFile：测试使用的插件配置文件。
+        QFile pluginsFile(pluginsPath);
+        QVERIFY(pluginsFile.open(QIODevice::WriteOnly));
+        QVERIFY(pluginsFile.write(QJsonDocument(QJsonObject{{QStringLiteral("plugins"), plugins}}).toJson()) > 0);
+        pluginsFile.close();
+
+        // firstModel：首次运行中用于保存 Altium 选择的目标模型。
+        ExportTargetModel firstModel;
+        firstModel.loadPlugins(pluginsPath);
+        firstModel.setCurrentIndex(1);
+        QCOMPARE(config->getTargetFormatId(), QStringLiteral("altium"));
+
+        // restoredModel：模拟下次启动时重新创建的目标模型。
+        ExportTargetModel restoredModel;
+        restoredModel.loadPlugins(pluginsPath);
+        QCOMPARE(restoredModel.currentTargetId(), QStringLiteral("altium"));
+        QCOMPARE(restoredModel.currentIndex(), 1);
+    }
+
+private:
+    // m_configDirectory：测试期间持久化配置使用的隔离目录。
+    QTemporaryDir m_configDirectory;
 };
+
+/**
+ * @brief 初始化目标格式模型测试使用的隔离配置。
+ */
+void TestExportTargetModel::initTestCase() {
+    QVERIFY(m_configDirectory.isValid());
+
+    // configPath：测试期间 ConfigService 使用的隔离配置文件路径。
+    const QString configPath = m_configDirectory.filePath(QStringLiteral("config.json"));
+    // config：测试使用的配置服务实例。
+    ConfigService* config = ConfigService::instance();
+    QVERIFY(config->saveConfig(configPath));
+    QVERIFY(config->loadConfig(configPath));
+    config->resetToDefaults();
+}
+
+/**
+ * @brief 恢复目标格式模型测试的默认配置状态。
+ */
+void TestExportTargetModel::cleanup() {
+    // config：测试使用的配置服务实例。
+    ConfigService* config = ConfigService::instance();
+    config->resetToDefaults();
+}
 
 QTEST_GUILESS_MAIN(TestExportTargetModel)
 #include "test_export_target_model.moc"

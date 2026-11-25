@@ -1,5 +1,7 @@
 #include "ExportTargetModel.h"
 
+#include "services/ConfigService.h"
+
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -64,6 +66,8 @@ void ExportTargetModel::setCurrentIndex(int index) {
         return;
     }
     m_currentIndex = index;
+    // 按稳定目标 ID 保存选择，避免插件列表顺序变化导致恢复错误。
+    ConfigService::instance()->setTargetFormatId(m_targets.at(index).id);
     emit currentTargetChanged();
 }
 
@@ -193,12 +197,18 @@ void ExportTargetModel::loadPlugins(const QString& configPath) {
         m_availableTargetsCache.append(map);
     }
 
-    // 确保索引有效
-    bool indexChanged = false;  // 当前选择索引是否因目标列表变化而调整。
-    if (m_currentIndex >= m_targets.size()) {
-        m_currentIndex = 0;
-        indexChanged = true;
+    // 根据稳定目标 ID 恢复上次选择，找不到时回退到第一个可用目标。
+    const QString savedTargetId = ConfigService::instance()->getTargetFormatId();
+    int restoredIndex = 0;  // 配置中目标 ID 对应的可见目标索引。
+    for (int i = 0; i < m_targets.size(); ++i) {  // i：当前遍历的目标列表索引。
+        if (m_targets.at(i).id == savedTargetId) {
+            restoredIndex = i;
+            break;
+        }
     }
+    // 确保索引有效，并在持久化选择发生变化时通知 QML。
+    bool indexChanged = m_currentIndex != restoredIndex;  // 当前选择索引是否发生变化。
+    m_currentIndex = restoredIndex;
 
     emit availableTargetsChanged();
     if (indexChanged) {

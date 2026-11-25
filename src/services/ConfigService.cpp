@@ -456,6 +456,30 @@ void ConfigService::setExportMode(int mode) {
 }
 
 /**
+ * @brief 读取上次选择的导出目标格式 ID。
+ */
+QString ConfigService::getTargetFormatId() const {
+    QMutexLocker locker(&m_configMutex);  ///< 保护目标格式配置读取的互斥锁。
+    return m_config["targetFormatId"].toString(QStringLiteral("kicad"));
+}
+
+/**
+ * @brief 保存当前选择的导出目标格式 ID。
+ * @param targetId 目标格式稳定 ID。
+ */
+void ConfigService::setTargetFormatId(const QString& targetId) {
+    if (targetId.isEmpty())
+        return;
+
+    QMutexLocker locker(&m_configMutex);  ///< 保护目标格式配置写入的互斥锁。
+    m_config["targetFormatId"] = targetId;
+    locker.unlock();
+
+    emit configChanged();
+    saveIfNotBatching();
+}
+
+/**
  * @brief 读取深色主题开关。
  */
 bool ConfigService::getDarkMode() const {
@@ -584,6 +608,7 @@ void ConfigService::initializeDefaultConfig() {
     m_config["exportDatasheet"] = false;
     m_config["overwriteExistingFiles"] = false;
     m_config["exportMode"] = 0;  // 默认 0=追加模式
+    m_config["targetFormatId"] = QStringLiteral("kicad");  // 默认目标格式为 KiCad。
     m_config["weakNetworkSupport"] = false;
     m_config["darkMode"] = false;
     // 注意：debugMode 不在这里设置，因为它不应该保存在配置文件中

@@ -232,6 +232,18 @@ public:
     void setExportMode(int mode);
 
     /**
+     * @brief 获取上次选择的导出目标格式 ID。
+     * @return QString 目标格式稳定 ID，例如 "kicad" 或 "altium"。
+     */
+    QString getTargetFormatId() const;
+
+    /**
+     * @brief 保存当前选择的导出目标格式 ID。
+     * @param targetId 目标格式稳定 ID。
+     */
+    void setTargetFormatId(const QString& targetId);
+
+    /**
      * @brief 获取验证阶段的并发数
      *
      * @return int 并发数
