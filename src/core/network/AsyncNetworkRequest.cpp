@@ -138,24 +138,25 @@ AsyncNetworkRequest::~AsyncNetworkRequest() {
     cancel();
 
     // Clean up any pending replies
-    QMutexLocker locker(&m_repliesMutex);
-    for (QNetworkReply* reply : m_pendingReplies) {
-        if (reply && !reply->isFinished()) {
+    QList<QNetworkReply*> repliesToAbort;  ///< 需要脱离锁再中止的回复集合。
+    {
+        QMutexLocker locker(&m_repliesMutex);
+        repliesToAbort = m_pendingReplies;
+        m_pendingReplies.clear();
+        if (m_currentReply) {
+            m_currentReply = nullptr;
+        }
+    }
+
+    // abort() 会同步发出 finished 信号，必须在释放锁之后执行，避免自死锁。
+    for (QNetworkReply* reply : repliesToAbort) {
+        if (!reply) {
+            continue;
+        }
+        if (!reply->isFinished()) {
             reply->abort();
         }
-        if (reply) {
-            reply->deleteLater();
-        }
-    }
-    m_pendingReplies.clear();
-
-    // Clean up current reply if still active
-    if (m_currentReply && !m_currentReply->isFinished()) {
-        m_currentReply->abort();
-    }
-    if (m_currentReply) {
-        m_currentReply->deleteLater();
-        m_currentReply = nullptr;
+        reply->deleteLater();
     }
 }
 
@@ -178,11 +179,14 @@ void AsyncNetworkRequest::cancel() {
         m_timeoutTimer->stop();
     }
 
+    QNetworkReply* replyToAbort = nullptr;  ///< 需要在释放回复锁后中止的当前网络回复。
     {
         QMutexLocker locker(&m_repliesMutex);
-        if (m_currentReply && !m_currentReply->isFinished()) {
-            m_currentReply->abort();
-        }
+        replyToAbort = m_currentReply;
+    }
+    if (replyToAbort && !replyToAbort->isFinished()) {
+        // abort() 可能同步触发 finished，必须在释放 m_repliesMutex 后调用。
+        replyToAbort->abort();
     }
 
     completeWithResult(cancelledResult());
@@ -360,11 +364,18 @@ void AsyncNetworkRequest::handleTimeout() {
     emit timeout();
     m_currentAttemptTimedOut.storeRelease(1);
 
+    /**
+     * @brief 把中止操作移出锁外执行。
+     * @details QNetworkReply::abort() 会同步发出 finished 信号，handleAttemptFinished() 随后会再次
+     * @details 申请 m_repliesMutex；该锁不可重入，持锁中止会让网络线程自死锁，同步调用方永久卡在等待上。
+     */
+    QNetworkReply* replyToAbort = nullptr;  ///< 需要在锁外中止的当前回复。
     {
         QMutexLocker locker(&m_repliesMutex);
-        if (m_currentReply) {
-            m_currentReply->abort();
-        }
+        replyToAbort = m_currentReply;
+    }
+    if (replyToAbort && !replyToAbort->isFinished()) {
+        replyToAbort->abort();
     }
 }
 
@@ -395,9 +406,14 @@ void AsyncNetworkRequest::handleDownloadProgress(qint64 bytesReceived, qint64 by
     if (checkSize > maxBytes) {
         qWarning() << "AsyncNetworkRequest: Response too large (" << checkSize << "bytes, limit" << maxBytes
                    << "), aborting:" << m_url;
-        QMutexLocker locker(&m_repliesMutex);
-        if (m_currentReply) {
-            m_currentReply->abort();
+        // abort() 会同步回调 handleAttemptFinished()，必须在释放锁之后调用以避免自死锁。
+        QNetworkReply* replyToAbort = nullptr;  ///< 需要在锁外中止的当前回复。
+        {
+            QMutexLocker locker(&m_repliesMutex);
+            replyToAbort = m_currentReply;
+        }
+        if (replyToAbort && !replyToAbort->isFinished()) {
+            replyToAbort->abort();
         }
     }
 }
@@ -651,21 +667,30 @@ bool AsyncNetworkRequest::shouldRetryInternal(int statusCode, QNetworkReply::Net
  * @brief 释放当前回复和计时器，为下一次尝试清理状态。
  */
 void AsyncNetworkRequest::cleanupAttempt() {
-    QMutexLocker locker(&m_repliesMutex);
+    QNetworkReply* replyToAbort = nullptr;  ///< 需要在锁外中止的上一轮回复。
 
-    if (m_currentReply) {
-        m_pendingReplies.removeAll(m_currentReply);
-        if (!m_currentReply->isFinished()) {
-            m_currentReply->abort();
+    {
+        QMutexLocker locker(&m_repliesMutex);
+
+        if (m_currentReply) {
+            m_pendingReplies.removeAll(m_currentReply);
+            replyToAbort = m_currentReply;
+            m_currentReply = nullptr;
         }
-        m_currentReply->deleteLater();
-        m_currentReply = nullptr;
+
+        if (m_timeoutTimer) {
+            m_timeoutTimer->stop();
+            m_timeoutTimer->deleteLater();
+            m_timeoutTimer = nullptr;
+        }
     }
 
-    if (m_timeoutTimer) {
-        m_timeoutTimer->stop();
-        m_timeoutTimer->deleteLater();
-        m_timeoutTimer = nullptr;
+    // abort() 会同步发出 finished 信号并回调 handleAttemptFinished()，必须在锁外执行。
+    if (replyToAbort) {
+        if (!replyToAbort->isFinished()) {
+            replyToAbort->abort();
+        }
+        replyToAbort->deleteLater();
     }
 
     m_currentAttemptTimedOut.storeRelease(0);

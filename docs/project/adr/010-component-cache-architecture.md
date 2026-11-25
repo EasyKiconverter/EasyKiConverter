@@ -80,7 +80,7 @@ flowchart TD
 - 缓存根目录使用 `.easykiconverter-cache.json` 标记，`model3d` 子目录使用独立标记。
 - 元器件条目必须同时满足目录层级、`lcscId`、`cacheOwner` 和版本字段校验，旧格式或不完整条目不自动接管。
 - 自愈、配额裁剪、迁移和清空只枚举可验证条目；未知文件、目录和符号链接保留。
-- 清理使用 Qt 6.6 可用的 `QFile::moveToTrash()`。回收站失败时保留原数据，不回退到永久删除。
+- 清理使用 Qt 6.6 已提供的 `QFile::moveToTrash()`。回收站失败时保留原数据，不回退到永久删除；项目当前最低 Qt 版本为 6.8。
 
 ```mermaid
 sequenceDiagram

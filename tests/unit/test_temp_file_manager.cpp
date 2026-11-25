@@ -109,6 +109,42 @@ private slots:
         QVERIFY(QFile::exists(tempPath));
     }
 
+    // 验证同一阶段的其余元器件尚未写入时，提交不会删除共享临时目录。
+    /**
+     * @brief 验证 commitKeepsTempDirectoryWhileOtherTempFilesPending 测试场景。
+     */
+    void commitKeepsTempDirectoryWhileOtherTempFilesPending() {
+        // tempDir：测试使用的文件系统路径。
+        QTemporaryDir tempDir;
+        QVERIFY(tempDir.isValid());
+
+        // manager：被测管理器实例。
+        TempFileManager manager;
+        manager.setOutputPath(tempDir.path());
+
+        // firstTempPath：首个元器件登记但尚未写入的临时路径。
+        const QString firstTempPath = manager.createTempFilePath(QStringLiteral("C3014349"), QStringLiteral(".pdf"));
+        // secondTempPath：第二个元器件登记但尚未写入的临时路径。
+        const QString secondTempPath = manager.createTempFilePath(QStringLiteral("C3014350"), QStringLiteral(".pdf"));
+        QVERIFY(!firstTempPath.isEmpty());
+        QVERIFY(!secondTempPath.isEmpty());
+
+        QVERIFY(writeFile(firstTempPath, QByteArrayLiteral("first datasheet")));
+        QVERIFY(manager.commitWithBackup(firstTempPath, QDir(tempDir.path()).filePath(QStringLiteral("C3014349.pdf"))));
+
+        // 第二个元器件随后才落盘，临时目录必须仍然存在。
+        QVERIFY2(QDir(manager.tempDirectory()).exists(),
+                 "Shared temp directory must survive while a registered temp file is still pending");
+        QVERIFY2(writeFile(secondTempPath, QByteArrayLiteral("second datasheet")),
+                 "Pending component must still be able to write its temp file");
+        QVERIFY(
+            manager.commitWithBackup(secondTempPath, QDir(tempDir.path()).filePath(QStringLiteral("C3014350.pdf"))));
+
+        // 全部临时路径提交完成后才回收空目录。
+        QVERIFY(!QDir(QDir(tempDir.path()).filePath(QStringLiteral(".tmp"))).exists());
+        QVERIFY(manager.registeredTempFiles().isEmpty());
+    }
+
     // 验证临时目录提交会替换已有目标目录。
     /**
      * @brief 验证 tempDirectoryCommitMovesDirectoryAndReplacesExistingTarget 测试场景。

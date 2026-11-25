@@ -80,7 +80,7 @@ flowchart TD
 - The cache root uses `.easykiconverter-cache.json`; the `model3d` directory has its own marker.
 - A component entry must pass directory, `lcscId`, `cacheOwner`, and version checks. Legacy or incomplete entries are not implicitly adopted.
 - Self-healing, quota pruning, migration, and clear-cache enumerate only verifiable entries. Unknown files, directories, and symbolic links are preserved.
-- Cleanup uses `QFile::moveToTrash()`, available in the Qt 6.6 baseline. If the system trash operation fails, the original data is preserved and no permanent-delete fallback is used.
+- Cleanup uses `QFile::moveToTrash()`, which was already available in Qt 6.6. If the system trash operation fails, the original data is preserved and no permanent-delete fallback is used; the project currently requires Qt 6.8 or newer.
 
 ```mermaid
 sequenceDiagram

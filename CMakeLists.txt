@@ -113,7 +113,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # 查找 Qt 6 组件
-find_package(Qt6 REQUIRED COMPONENTS Quick Network Core Gui GuiPrivate Widgets QuickControls2 Concurrent LinguistTools)
+find_package(Qt6 6.8 REQUIRED COMPONENTS Quick Network Core Gui GuiPrivate Widgets QuickControls2 Concurrent LinguistTools)
 find_package(Qt6 REQUIRED COMPONENTS Gui) # 再次确保 Gui
 
 # 尝试查找 zlib 库
@@ -140,9 +140,9 @@ message(STATUS "ZLIB_FOUND: ${ZLIB_FOUND}")
 message(STATUS "ZLIB_LIBRARY: ${ZLIB_LIBRARY}")
 message(STATUS "ZLIB_USE_QT: ${ZLIB_USE_QT}")
 
-qt_standard_project_setup(REQUIRES 6.6)
+qt_standard_project_setup(REQUIRES 6.8)
 
-# Qt 6.5+ 要求 QML 模块为包含额外 QML 子目录的路径提供 qmldir。
+# Qt 6.8+ 要求 QML 模块为包含额外 QML 子目录的路径提供 qmldir。
 # 显式启用新策略，尽早发现模块资源拓扑问题。
 if(COMMAND qt_policy)
     qt_policy(SET QTP0004 NEW)
@@ -286,7 +286,7 @@ else()
 endif()
 
 # ============================================
-# 翻译文件 (Qt 6.6+ LinguistTools)
+# 翻译文件 (Qt 6.8+ LinguistTools)
 # 使用 qt_add_translations 自动发现 .ts 文件并生成 .qm 文件
 # ============================================
 set(TS_FILES
@@ -302,6 +302,7 @@ qt_add_translations(appEasyKiconverter_Cpp_Version
 qt_add_qml_module(appEasyKiconverter_Cpp_Version
     URI EasyKiconverter_Cpp_Version
     VERSION 3.1
+    NO_GENERATE_EXTRA_QMLDIRS
     QML_FILES
         ${QML_FILES}
     RESOURCES

@@ -18,7 +18,7 @@ This page helps an AI Agent select verification. The machine-readable [verificat
 
 ## Common local flow
 
-Replace `PROJECT_QT_ROOT` with the project-specific Qt 6.6+ installation on this machine. See the [Build Guide](../BUILD_en.md) for Windows/macOS directory and environment details.
+Replace `PROJECT_QT_ROOT` with the project-specific Qt 6.8+ installation on this machine. See the [Build Guide](../BUILD_en.md) for Windows/macOS directory and environment details.
 
 ```bash
 export PROJECT_QT_ROOT=/path/to/Qt/6.10.2/gcc_64

@@ -18,7 +18,7 @@
 
 ## 通用本地流程
 
-将 `PROJECT_QT_ROOT` 替换为本机的项目专用 Qt 6.6+ 安装目录；Windows/macOS 的目录结构和环境变量配置请参阅[构建指南](../BUILD.md)。
+将 `PROJECT_QT_ROOT` 替换为本机的项目专用 Qt 6.8+ 安装目录；Windows/macOS 的目录结构和环境变量配置请参阅[构建指南](../BUILD.md)。
 
 ```bash
 export PROJECT_QT_ROOT=/path/to/Qt/6.10.2/gcc_64

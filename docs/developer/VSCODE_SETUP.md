@@ -22,7 +22,7 @@
 ## 从干净克隆开始
 
 1. 安装 VS Code，并在扩展推荐中安装 CMake Tools、clangd、Qt QML、Python、YAML、GitHub Actions 和 Markdown 工具。
-2. 按[本地编译指南](BUILD.md)准备项目 `.venv`、Qt 6.6+、CMake 和编译器。
+2. 按[本地编译指南](BUILD.md)准备项目 `.venv`、Qt 6.8+、CMake 和编译器。
 3. 打开仓库根目录。CMake Tools 会使用共享设置配置 `build/`，并请求生成编译数据库。
 4. 执行项目规定的环境检查和构建：
 
