@@ -746,7 +746,10 @@ private slots:
         QCOMPARE(timeoutSpy.count(), 1);
         QCOMPARE(finishedSpy.count(), 1);
         QVERIFY(!request->isCancelled());
-        QVERIFY(!request->result().success);
+        const NetworkResult result = finishedSpy.at(0).at(0).value<NetworkResult>();  ///< 超时信号携带的最终网络结果。
+        QCOMPARE(result.diagnostic.errorType, NetworkErrorType::Timeout);
+        QVERIFY(!result.wasCancelled);
+        QVERIFY(!result.success);
         delete request;
     }
 
